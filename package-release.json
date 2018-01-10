@@ -28,8 +28,8 @@
     "@angular/router": "^4.2.4",
     "ajv": "^5.5.2",
     "arlas-web-components": "^2.3.5",
-    "arlas-web-contributors": "^2.3.2",
-    "arlas-web-core": "^2.3.2",
+    "arlas-web-contributors": "^2.4.0",
+    "arlas-web-core": "^2.4.0",
     "core-js": "^2.4.1",
     "rxjs": "^5.4.2",
     "zone.js": "^0.8.14"
