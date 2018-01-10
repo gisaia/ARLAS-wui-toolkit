@@ -19,7 +19,7 @@ import 'rxjs/add/operator/catch';
 import { Configuration } from 'arlas-api';
 import { ExploreApi } from 'arlas-api';
 import * as ajv from 'ajv';
-import * as rootContributorConf from "../../../node_modules/arlas-web-contributors/jsonSchemas/rootContributorConf.schema.json";
+import * as rootContributorConf from '../../../node_modules/arlas-web-contributors/jsonSchemas/rootContributorConf.schema.json';
 import { ErrormodalComponent } from '../components/errormodal/errormodal.component';
 import { MatDialog } from '@angular/material';
 
@@ -41,7 +41,7 @@ export class ArlasCollaborativesearchService extends CollaborativesearchService 
 @Injectable()
 export class ArlasStartupService {
 
-    public contributorRegistry: Map<string,any> = new Map<string,any>();
+    public contributorRegistry: Map<string, any> = new Map<string, any>();
     public shouldRunApp = true;
 
     private config: Object;
@@ -50,7 +50,7 @@ export class ArlasStartupService {
         private configService: ArlasConfigService,
         private collaborativesearchService: ArlasCollaborativesearchService) {
     }
-    
+
 
     public load(configRessource: string): Promise<any> {
         this.config = {};
@@ -66,14 +66,17 @@ export class ArlasStartupService {
                 let validate;
                 const confErrorMessage: Array<String> = [];
                 Object.keys(this.configService.getValue('arlas.web.contributors')).forEach(key => {
-                    let contributorType = key.split('$')[0];
+                    const contributorType = key.split('$')[0];
                     validate = this.checkJsonWithSchema(contributorType);
-                    let configValue = this.configService.getValue('arlas.web.contributors')[key];
+                    const configValue = this.configService.getValue('arlas.web.contributors')[key];
                     if (validate(configValue) === false) {
                         this.shouldRunApp = false;
-                        confErrorMessage.push('arlas.web.contributors.' + key + '' + validate.errors[0].dataPath + ' ' + validate.errors[0].message)
+                        confErrorMessage.push('arlas.web.contributors.' + key + '' +
+                            validate.errors[0].dataPath + ' ' +
+                            validate.errors[0].message
+                        );
                     }
-                })
+                });
                 if (this.shouldRunApp) {
                     this.collaborativesearchService.setConfigService(this.configService);
                     const configuraiton: Configuration = new Configuration();
@@ -85,14 +88,16 @@ export class ArlasStartupService {
                     this.collaborativesearchService.collection = this.configService.getValue('arlas.server.collection$default.collection');
                     this.collaborativesearchService.max_age = this.configService.getValue('arlas.server.max_age$default.max_age');
                     Object.keys(this.configService.getValue('arlas.web.contributors')).forEach(key => {
-                        let contributorType = key.split('$')[0];
-                        let contributorIdentifier = key.split('$')[1];
-                        const contributor = ContributorBuilder.buildContributor(contributorType,contributorIdentifier,this.configService,this.collaborativesearchService);
-                        this.contributorRegistry.set(contributorIdentifier,contributor);
-
-                    })
+                        const contributorType = key.split('$')[0];
+                        const contributorIdentifier = key.split('$')[1];
+                        const contributor = ContributorBuilder.buildContributor(contributorType,
+                            contributorIdentifier,
+                            this.configService,
+                            this.collaborativesearchService);
+                        this.contributorRegistry.set(contributorIdentifier, contributor);
+                    });
                 } else {
-                    this.configService.setConfig({ "error": confErrorMessage });
+                    this.configService.setConfig({ error: confErrorMessage });
                 }
             })
             .catch((err: any) => {
@@ -104,8 +109,8 @@ export class ArlasStartupService {
 
 
     private checkJsonWithSchema(contributorType: string): Function {
-        const schema = this.getSchemaFileFromContributor(contributorType)
-        const validate = ajv().addSchema(rootContributorConf).compile(schema)
+        const schema = this.getSchemaFileFromContributor(contributorType);
+        const validate = ajv().addSchema(rootContributorConf).compile(schema);
         return validate;
 
     }

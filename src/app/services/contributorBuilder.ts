@@ -29,7 +29,7 @@ export class ContributorBuilder {
                     configService, isOneDimension);
                 break;
             case 'powerbars':
-                const title: string = config['title']
+                const title: string = config['title'];
                 contributor = new PowerbarsContributor(identifier,
                     collaborativesearchService,
                     configService,

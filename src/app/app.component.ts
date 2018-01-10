@@ -8,25 +8,15 @@ import { MatDialogRef, MatDialog } from '@angular/material';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit, AfterViewInit {
+export class AppComponent implements AfterViewInit {
   public dialogRef: MatDialogRef<any>;
-
-  constructor(public dialog: MatDialog,private configService: ArlasConfigService,
-    private collaborativeService: ArlasCollaborativesearchService) {
-
-
-  }
-
-  public ngOnInit() {
-
-
-  }
-
+  constructor(public dialog: MatDialog, private configService: ArlasConfigService,
+    private collaborativeService: ArlasCollaborativesearchService) { }
 
   public ngAfterViewInit(): void {
     if (this.configService.getConfig()['error'] !== undefined) {
-      this.configService.confErrorBus.next(this.configService.getConfig()['error'])
-    } 
+      this.configService.confErrorBus.next(this.configService.getConfig()['error']);
+    }
   }
 }
 

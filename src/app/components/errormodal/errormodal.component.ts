@@ -23,7 +23,7 @@ export class ErrormodalComponent implements OnInit {
           k.forEach(m => listError.push('Key configuration problem : \n' + m + ' missing'));
         } else {
           listError.push('Current configuration have some problems :');
-          (<any>k[0]).forEach(m => listError.push(m))
+          (<any>k[0]).forEach(m => listError.push(m));
         }
         this.dialogRef.componentInstance.messages = listError;
       });
