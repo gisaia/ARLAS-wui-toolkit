@@ -8,19 +8,26 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
+    "build-release": "ngc -p tsconfig-build.json && gulp",
     "e2e": "ng e2e"
   },
   "private": true,
   "dependencies": {
     "@angular/animations": "^4.2.4",
+    "@angular/cdk": "2.0.0-beta.12",
     "@angular/common": "^4.2.4",
     "@angular/compiler": "^4.2.4",
     "@angular/core": "^4.2.4",
     "@angular/forms": "^4.2.4",
     "@angular/http": "^4.2.4",
+    "@angular/material": "2.0.0-beta.12",
     "@angular/platform-browser": "^4.2.4",
     "@angular/platform-browser-dynamic": "^4.2.4",
     "@angular/router": "^4.2.4",
+    "ajv": "^5.5.2",
+    "arlas-web-components": "^2.3.5",
+    "arlas-web-contributors": "^2.3.2",
+    "arlas-web-core": "^2.3.2",
     "core-js": "^2.4.1",
     "rxjs": "^5.4.2",
     "zone.js": "^0.8.14"
@@ -34,6 +41,9 @@
     "@types/node": "~6.0.60",
     "codelyzer": "~3.1.1",
     "jasmine-core": "~2.6.2",
+    "gulp": "^3.9.1",
+    "gulp-clean": "^0.3.2",
+    "gulp-sourcemaps": "^2.6.0",
     "jasmine-spec-reporter": "~4.1.0",
     "karma": "~1.7.0",
     "karma-chrome-launcher": "~2.1.1",
@@ -42,8 +52,9 @@
     "karma-jasmine": "~1.1.0",
     "karma-jasmine-html-reporter": "^0.2.2",
     "protractor": "~5.1.2",
+    "run-sequence": "^2.0.0",
     "ts-node": "~3.2.0",
-    "tslint": "~5.3.2",
-    "typescript": "~2.3.3"
+    "tslint": "^5.7.0",
+    "typescript": "~2.4.2"
   }
 }

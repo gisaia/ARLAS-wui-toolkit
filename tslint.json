@@ -28,15 +28,17 @@
       true,
       140
     ],
-    "member-access": false,
+    "member-access": true,
     "member-ordering": [
       true,
       {
         "order": [
           "static-field",
           "instance-field",
-          "static-method",
-          "instance-method"
+          "constructor",
+          "public-instance-method",
+          "protected-instance-method",
+          "private-instance-method"
         ]
       }
     ],
@@ -62,14 +64,13 @@
     ],
     "no-misused-new": true,
     "no-non-null-assertion": true,
-    "no-shadowed-variable": true,
+    "no-shadowed-variable": false,
     "no-string-literal": false,
     "no-string-throw": true,
     "no-switch-case-fall-through": true,
     "no-trailing-whitespace": true,
     "no-unnecessary-initializer": true,
     "no-unused-expression": true,
-    "no-use-before-declare": true,
     "no-var-keyword": true,
     "object-literal-sort-keys": false,
     "one-line": [
@@ -85,10 +86,7 @@
       "single"
     ],
     "radix": true,
-    "semicolon": [
-      true,
-      "always"
-    ],
+    "semicolon": true,
     "triple-equals": [
       true,
       "allow-null-check"
@@ -117,13 +115,13 @@
     "directive-selector": [
       true,
       "attribute",
-      "arlas-tool",
+      "arlas",
       "camelCase"
     ],
     "component-selector": [
       true,
-      "element",
-      "arlas-tool",
+      ["attribute","element"],
+      "arlas",
       "kebab-case"
     ],
     "use-input-property-decorator": true,

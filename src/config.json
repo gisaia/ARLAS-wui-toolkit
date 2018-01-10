@@ -1,0 +1,518 @@
+{
+    "arlas": {
+        "web": {
+            "contributors": {
+                "powerbars$mission": {
+                    "aggregationmodel": [
+                        {
+                            "type": "term",
+                            "field": "acquisition.missionName"
+                        }
+                    ],
+                    "title": "Mission",
+                    "identifier": "mission",
+                    "name": "Mission"
+                },
+                "powerbars$reception": {
+                    "aggregationmodels": [
+                        {
+                            "type": "term",
+                            "field": "transmission.station"
+                        }
+                    ],
+                    "title": "Reception",
+                    "identifier": "reception",
+                    "name": "Reception"
+                },
+                "powerbars$archivage": {
+                    "aggregationmodels": [
+                        {
+                            "type": "term",
+                            "field": "archive.station"
+                        }
+                    ],
+                    "title": "Archivage",
+                    "identifier": "archivage",
+                    "name": "Archivage"
+                },
+                "swimlane$dropdown": {
+                    "identifier": "dropdown",
+                    "name": "Swimlane",
+                    "swimlanes": [
+                        {
+                            "id": 1,
+                            "name": "Reception",
+                            "field": "acquisition.centerViewingDate",
+                            "aggregationmodels": [
+                                {
+                                    "type": "term",
+                                    "field": "transmission.station"
+                                },
+                                {
+                                    "type": "datehistogram",
+                                    "field": "acquisition.centerViewingDate",
+                                    "interval": {
+                                        "value": 1,
+                                        "unit": "month"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "id": 2,
+                            "name": "Mission",
+                            "field": "acquisition.centerViewingDate",
+                            "aggregationmodels": [
+                                {
+                                    "type": "term",
+                                    "field": "acquisition.missionName"
+                                },
+                                {
+                                    "type": "datehistogram",
+                                    "field": "acquisition.centerViewingDate",
+                                    "interval": {
+                                        "value": 1,
+                                        "unit": "month"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "id": 3,
+                            "name": "Archivage",
+                            "field": "acquisition.centerViewingDate",
+                            "aggregationmodels": [
+                                {
+                                    "type": "term",
+                                    "field": "archive.station"
+                                },
+                                {
+                                    "type": "datehistogram",
+                                    "field": "acquisition.centerViewingDate",
+                                    "interval": {
+                                        "value": 1,
+                                        "unit": "month"
+                                    }
+                                }
+                            ]
+                        }
+                    ],
+                    "dateunit": "millisecond",
+                    "datatype": "time"
+                },
+                "histogram$timeline": {
+                    "identifier": "timeline",
+                    "aggregationmodels": [
+                        {
+                            "type": "datehistogram",
+                            "field": "acquisition.centerViewingDate",
+                            "interval": {
+                                "value": 1,
+                                "unit": "week"
+                            }
+                        }
+                    ],
+                    "name": "Timeline",
+                    "dateunit": "millisecond",
+                    "datatype": "time",
+                    "isOneDimension":false
+                },
+                "histogram$cloud": {
+                    "identifier": "cloud",
+                    "aggregationmodels": [
+                        {
+                            "type": "histogram",
+                            "field": "imageDescription.cloudCoverPercentage",
+                            "interval": {
+                                "value": 3
+                            }
+                        }
+                    ],
+                    "name": "Cloud %",
+                    "dateunit": "millisecond",
+                    "datatype": "numeric",
+                    "isOneDimension": false
+                },
+                "histogram$quality": {
+                    "identifier": "quality",
+                    "aggregationmodels": [
+                        {
+                            "type": "histogram",
+                            "field": "target.incidenceAngle",
+                            "interval": {
+                                "value": 3
+                            }
+                        }
+                    ],
+                    "name": "Incidence %",
+                    "dateunit": "millisecond",
+                    "datatype": "numeric",
+                    "isOneDimension": true
+                },
+                "histogram$azimut": {
+                    "identifier": "azimut",
+                    "aggregationmodels": [
+                        {
+                            "type": "histogram",
+                            "field": "illumination.azimuthAngle",
+                            "interval": {
+                                "value": 3
+                            }
+                        }
+                    ],
+                    "name": "Azimut",
+                    "dateunit": "millisecond",
+                    "datatype": "numeric",
+                    "isOneDimension": true
+                },
+                "map$mapbox": {
+                    "identifier": "mapbox",
+                    "idFieldName": "uid",
+                    "drawtype": "CIRCLE",
+                    "name": "Map",
+                    "initZoom": 2,
+                    "geometry": "geometry.geographicBoundingPolygon",
+                    "aggregationmodels": [
+                        {
+                            "type": "geohash",
+                            "field": "geometry.centerPoint",
+                            "interval": {
+                                "value": 1
+                            },
+                            "withGeoCentroid": true
+                        }
+                    ],
+                    "zoomLevelFullData": 1,
+                    "zoomLevelForTestCount": 4,
+                    "nbMaxDefautFeatureForCluster": 50,
+                    "zoomToNbMaxFeatureForCluster": [
+                        [
+                            4,
+                            2000
+                        ],
+                        [
+                            5,
+                            2000
+                        ],
+                        [
+                            6,
+                            1000
+                        ],
+                        [
+                            7,
+                            600
+                        ],
+                        [
+                            8,
+                            500
+                        ],
+                        [
+                            9,
+                            200
+                        ],
+                        [
+                            10,
+                            20
+                        ],
+                        [
+                            11,
+                            200
+                        ],
+                        [
+                            12,
+                            50
+                        ]
+                    ],
+                    "maxPrecision": [
+                        6,
+                        4
+                    ],
+                    "zoomToPrecisionCluster": [
+                        [
+                            0,
+                            1,
+                            1
+                        ],
+                        [
+                            1,
+                            1,
+                            1
+                        ],
+                        [
+                            2,
+                            1,
+                            1
+                        ],
+                        [
+                            3,
+                            2,
+                            2
+                        ],
+                        [
+                            4,
+                            2,
+                            2
+                        ],
+                        [
+                            5,
+                            3,
+                            1
+                        ],
+                        [
+                            6,
+                            3,
+                            1
+                        ],
+                        [
+                            7,
+                            4,
+                            2
+                        ],
+                        [
+                            8,
+                            4,
+                            2
+                        ],
+                        [
+                            9,
+                            4,
+                            2
+                        ],
+                        [
+                            10,
+                            5,
+                            3
+                        ]
+                    ]
+                },
+                "resultlist$table": {
+                    "identifier": "table",
+                    "fieldsConfiguration": {
+                        "idFieldName": "uid",
+                        "urlImageTemplate": "http://localhost/~barbet/{acquisition.mission}/{attachments$0$uri}",
+                        "urlThumbnailTemplate": "http://localhost/~barbet/{acquisition.mission}/{attachments$0$uri}",
+                        "titleFieldName": "acquisition.mission"
+                    },
+                    "columns": [
+                        {
+                            "columnName": "uid",
+                            "fieldName": "uid",
+                            "dataType": "",
+                            "process": ""
+                        },
+                        {
+                            "columnName": "Mission",
+                            "fieldName": "acquisition.missionName",
+                            "dataType": "",
+                            "process": ""
+                        },
+                        {
+                            "columnName": "Reception",
+                            "fieldName": "transmission.station",
+                            "dataType": "",
+                            "process": ""
+                        },
+                        {
+                            "columnName": "Archive",
+                            "fieldName": "archive.station",
+                            "dataType": "",
+                            "process": ""
+                        },
+                        {
+                            "columnName": "Date",
+                            "fieldName": "enrichment.naturallanguage.search_date_string",
+                            "dataType": "",
+                            "process": "result.split(':')[0] + ':00:00'"
+                        },
+                        {
+                            "columnName": "Cloud",
+                            "fieldName": "enrichment.naturallanguage.search_cloud_string",
+                            "dataType": "",
+                            "process": "result.split(':')[1]"
+                        }
+                    ],
+                    "process": {
+                        "urlImageTemplate": {
+                            "process": "v.replace('QUICKLOOK', 'THUMBNAIL').replace('//', '/')"
+                        },
+                        "urlThumbnailTemplate": {
+                            "process": "v.replace('QUICKLOOK', 'THUMBNAIL').replace('//', '/')"
+                        }
+                    },
+                    "details": [
+                        {
+                            "name": "Technical Informations",
+                            "order": 1,
+                            "fields": [
+                                {
+                                    "path": "enrichment.naturallanguage.search_incidence_angle_string",
+                                    "label": "Incidence ",
+                                    "process": "result.split(':')[1].trim()"
+                                },
+                                {
+                                    "path": "enrichment.naturallanguage.search_quality_string",
+                                    "label": "Quality ",
+                                    "process": "result.split(':')[1].trim()"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Geographical Informations",
+                            "order": 2,
+                            "fields": [
+                                {
+                                    "path": "enrichment.geonames.name",
+                                    "label": "Country ",
+                                    "process": ""
+                                },
+                                {
+                                    "path": "enrichment.geonames.states.name",
+                                    "label": "State ",
+                                    "process": ""
+                                },
+                                {
+                                    "path": "enrichment.geonames.states.counties.name",
+                                    "label": "Counties ",
+                                    "process": ""
+                                }
+                            ]
+                        }
+                    ],
+                    "search_size": 100,
+                    "name": "List"
+                }
+            }
+        },
+        "server": {
+            "server$default": {
+                "url": "http://localhost:9999/arlas"
+            },
+            "collection$default": {
+                "collection": "catalog"
+            },
+            "max_age$default": {
+                "max_age": 120
+            }
+        }
+    },
+    "effideo": {
+        "web": {
+            "app": {
+                "idFieldName": "uid",
+                "components": {
+                    "mapbox": {
+                        "idFieldName": "uid",
+                        "drawtype": "CIRCLE",
+                        "basemapUrl": "https://openmaptiles.github.io/osm-bright-gl-style/style-cdn.json",
+                        "fontClusterlabel": "Open Sans Bold",
+                        "margeExtendPctForLoad": 10,
+                        "margeExtendPctForTest": 2,
+                        "paintRuleGeoBox": {
+                            "line-color": "#FC9F28",
+                            "line-opacity": 1
+                        },
+                        "paintRuleCLusterFeatureFill": {
+                            "fill-color": "#56A7EE",
+                            "fill-opacity": 0.2
+                        },
+                        "paintRuleClusterFeatureLine": {
+                            "line-color": "#56A7EE",
+                            "line-opacity": 1,
+                            "line-width": 1
+                        },
+                        "paintRuleClusterCircle": {
+                            "circle-stroke-width": 2,
+                            "circle-stroke-color": "#D3D3D3",
+                            "circle-color": {
+                                "property": "point_count_normalize",
+                                "type": "interval",
+                                "stops": [
+                                    [
+                                        0,
+                                        "#f7fcf0"
+                                    ],
+                                    [
+                                        20,
+                                        "#e0f3db"
+                                    ],
+                                    [
+                                        30,
+                                        "#ccebc5"
+                                    ],
+                                    [
+                                        40,
+                                        "#a8ddb5"
+                                    ],
+                                    [
+                                        50,
+                                        "#7bccc4"
+                                    ],
+                                    [
+                                        60,
+                                        "#4eb3d3"
+                                    ],
+                                    [
+                                        70,
+                                        "#2b8cbe"
+                                    ],
+                                    [
+                                        90,
+                                        "#3690c0"
+                                    ]
+                                ]
+                            },
+                            "circle-radius": {
+                                "property": "point_count_normalize",
+                                "type": "interval",
+                                "stops": [
+                                    [
+                                        0,
+                                        22
+                                    ],
+                                    [
+                                        20,
+                                        24
+                                    ],
+                                    [
+                                        30,
+                                        26
+                                    ],
+                                    [
+                                        40,
+                                        28
+                                    ],
+                                    [
+                                        50,
+                                        30
+                                    ],
+                                    [
+                                        60,
+                                        32
+                                    ],
+                                    [
+                                        70,
+                                        34
+                                    ],
+                                    [
+                                        90,
+                                        36
+                                    ]
+                                ]
+                            },
+                            "circle-opacity": 1
+                        }
+                    },
+                    "chipssearch": {
+                        "search_size": 100,
+                        "name": "Search",
+                        "autocomplete_field": "relevant_terms",
+                        "autocomplete_size": "500"
+                    },
+                    "processlist": {
+                        "url": "process.json"
+                    }
+                }
+            }
+        }
+    }
+}
