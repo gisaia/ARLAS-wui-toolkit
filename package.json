@@ -10,7 +10,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "tslint": "tslint -c tslint.json 'src/**/*.ts?(x)'"
   },
-    "repository": {
+  "repository": {
     "type": "git",
     "url": "https://gitlab.com/GISAIA.ARLAS/wui/ARLAS-wui-toolkit.git"
   },

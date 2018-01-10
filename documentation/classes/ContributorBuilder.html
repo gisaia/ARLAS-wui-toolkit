@@ -535,7 +535,7 @@ export class ContributorBuilder {
                     configService, isOneDimension);
                 break;
             case &#x27;powerbars&#x27;:
-                const title: string &#x3D; config[&#x27;title&#x27;]
+                const title: string &#x3D; config[&#x27;title&#x27;];
                 contributor &#x3D; new PowerbarsContributor(identifier,
                     collaborativesearchService,
                     configService,
@@ -565,7 +565,8 @@ export class ContributorBuilder {
         }
         return contributor;
     }
-}</code></pre>
+}
+</code></pre>
     </div>
 </div>
 

@@ -591,7 +591,7 @@ export class ErrormodalComponent implements OnInit {
           k.forEach(m &#x3D;&gt; listError.push(&#x27;Key configuration problem : \n&#x27; + m + &#x27; missing&#x27;));
         } else {
           listError.push(&#x27;Current configuration have some problems :&#x27;);
-          (&lt;any&gt;k[0]).forEach(m &#x3D;&gt; listError.push(m))
+          (&lt;any&gt;k[0]).forEach(m &#x3D;&gt; listError.push(m));
         }
         this.dialogRef.componentInstance.messages &#x3D; listError;
       });
@@ -614,7 +614,8 @@ export class ErrormodalComponent implements OnInit {
 export class ErrorModalMsgComponent {
   public messages: Array&lt;string&gt;;
   constructor(public dialogRef: MatDialogRef&lt;ErrorModalMsgComponent&gt;) { }
-}</code></pre>
+}
+</code></pre>
     </div>
 
     <div class="tab-pane fade" id="c-templateData">

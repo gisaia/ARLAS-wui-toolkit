@@ -379,7 +379,7 @@
                             </tr>
                                     <tr>
                                         <td class="col-md-4">
-                                            <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/app/services/startup.services.ts:33</a></div>
+                                            <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/app/services/startup.services.ts:35</a></div>
                                         </td>
                                     </tr>
             
@@ -405,7 +405,7 @@ import {
 } from &#x27;arlas-web-contributors&#x27;;
 import { ConfigService, CollaborativesearchService } from &#x27;arlas-web-core&#x27;;
 import { contributors } from &#x27;arlas-web-contributors&#x27;;
-import { Injectable } from &#x27;@angular/core&#x27;;
+import { Injectable, OnInit } from &#x27;@angular/core&#x27;;
 import { Http, Response } from &#x27;@angular/http&#x27;;
 import { Observable } from &#x27;rxjs/Observable&#x27;;
 import &#x27;rxjs/add/operator/map&#x27;;
@@ -414,7 +414,9 @@ import &#x27;rxjs/add/operator/catch&#x27;;
 import { Configuration } from &#x27;arlas-api&#x27;;
 import { ExploreApi } from &#x27;arlas-api&#x27;;
 import * as ajv from &#x27;ajv&#x27;;
-import * as rootContributorConf from &quot;../../../node_modules/arlas-web-contributors/jsonSchemas/rootContributorConf.schema.json&quot;;
+import * as rootContributorConf from &#x27;../../../node_modules/arlas-web-contributors/jsonSchemas/rootContributorConf.schema.json&#x27;;
+import { ErrormodalComponent } from &#x27;../components/errormodal/errormodal.component&#x27;;
+import { MatDialog } from &#x27;@angular/material&#x27;;
 
 
 
@@ -434,14 +436,16 @@ export class ArlasCollaborativesearchService extends CollaborativesearchService 
 @Injectable()
 export class ArlasStartupService {
 
-    public contributorRegistry: Map&lt;string,any&gt; &#x3D; new Map&lt;string,any&gt;();
+    public contributorRegistry: Map&lt;string, any&gt; &#x3D; new Map&lt;string, any&gt;();
+    public shouldRunApp &#x3D; true;
+
     private config: Object;
-    private shouldRunApp &#x3D; true;
 
     constructor(private http: Http,
         private configService: ArlasConfigService,
         private collaborativesearchService: ArlasCollaborativesearchService) {
     }
+
 
     public load(configRessource: string): Promise&lt;any&gt; {
         this.config &#x3D; {};
@@ -457,14 +461,17 @@ export class ArlasStartupService {
                 let validate;
                 const confErrorMessage: Array&lt;String&gt; &#x3D; [];
                 Object.keys(this.configService.getValue(&#x27;arlas.web.contributors&#x27;)).forEach(key &#x3D;&gt; {
-                    let contributorType &#x3D; key.split(&#x27;$&#x27;)[0];
+                    const contributorType &#x3D; key.split(&#x27;$&#x27;)[0];
                     validate &#x3D; this.checkJsonWithSchema(contributorType);
-                    let configValue &#x3D; this.configService.getValue(&#x27;arlas.web.contributors&#x27;)[key];
+                    const configValue &#x3D; this.configService.getValue(&#x27;arlas.web.contributors&#x27;)[key];
                     if (validate(configValue) &#x3D;&#x3D;&#x3D; false) {
                         this.shouldRunApp &#x3D; false;
-                        confErrorMessage.push(&#x27;arlas.web.contributors.&#x27; + key + &#x27;&#x27; + validate.errors[0].dataPath + &#x27; &#x27; + validate.errors[0].message)
+                        confErrorMessage.push(&#x27;arlas.web.contributors.&#x27; + key + &#x27;&#x27; +
+                            validate.errors[0].dataPath + &#x27; &#x27; +
+                            validate.errors[0].message
+                        );
                     }
-                })
+                });
                 if (this.shouldRunApp) {
                     this.collaborativesearchService.setConfigService(this.configService);
                     const configuraiton: Configuration &#x3D; new Configuration();
@@ -476,14 +483,16 @@ export class ArlasStartupService {
                     this.collaborativesearchService.collection &#x3D; this.configService.getValue(&#x27;arlas.server.collection$default.collection&#x27;);
                     this.collaborativesearchService.max_age &#x3D; this.configService.getValue(&#x27;arlas.server.max_age$default.max_age&#x27;);
                     Object.keys(this.configService.getValue(&#x27;arlas.web.contributors&#x27;)).forEach(key &#x3D;&gt; {
-                        let contributorType &#x3D; key.split(&#x27;$&#x27;)[0];
-                        let contributorIdentifier &#x3D; key.split(&#x27;$&#x27;)[1];
-                        const contributor &#x3D; ContributorBuilder.buildContributor(contributorType,contributorIdentifier,this.configService,this.collaborativesearchService);
-                        this.contributorRegistry.set(contributorIdentifier,contributor);
-
-                    })
+                        const contributorType &#x3D; key.split(&#x27;$&#x27;)[0];
+                        const contributorIdentifier &#x3D; key.split(&#x27;$&#x27;)[1];
+                        const contributor &#x3D; ContributorBuilder.buildContributor(contributorType,
+                            contributorIdentifier,
+                            this.configService,
+                            this.collaborativesearchService);
+                        this.contributorRegistry.set(contributorIdentifier, contributor);
+                    });
                 } else {
-                    this.configService.setConfig({ &quot;error&quot;: confErrorMessage });
+                    this.configService.setConfig({ error: confErrorMessage });
                 }
             })
             .catch((err: any) &#x3D;&gt; {
@@ -495,8 +504,8 @@ export class ArlasStartupService {
 
 
     private checkJsonWithSchema(contributorType: string): Function {
-        const schema &#x3D; this.getSchemaFileFromContributor(contributorType)
-        const validate &#x3D; ajv().addSchema(rootContributorConf).compile(schema)
+        const schema &#x3D; this.getSchemaFileFromContributor(contributorType);
+        const validate &#x3D; ajv().addSchema(rootContributorConf).compile(schema);
         return validate;
 
     }
