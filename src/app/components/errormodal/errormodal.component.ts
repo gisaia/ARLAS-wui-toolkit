@@ -41,7 +41,9 @@ export class ErrormodalComponent implements OnInit {
 
 @Component({
   selector: 'arlas-tool-errormodal-msg',
-  templateUrl: './errormodalmsg.component.html',
+  template: '<h2>Application error</h2> ' +
+  '<ul> <div *ngFor=\"let message of messages\"> <li>{{message}}</li> </div> </ul>' +
+  '<button md-raised-button (click)=\"dialogRef.close()\">Close</button>',
 })
 export class ErrorModalMsgComponent {
   public messages: Array<string>;
