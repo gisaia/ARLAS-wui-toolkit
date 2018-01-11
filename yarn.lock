@@ -773,7 +773,7 @@ arlas-kv-api@~1.0.14:
   version "1.0.15"
   resolved "https://registry.yarnpkg.com/arlas-kv-api/-/arlas-kv-api-1.0.15.tgz#5222c694bc8c5e875f2815e5a20652d9d1b2a5d3"
 
-arlas-web-components@^2.3.5:
+arlas-web-components@latest:
   version "2.3.5"
   resolved "https://registry.yarnpkg.com/arlas-web-components/-/arlas-web-components-2.3.5.tgz#a0f523ffe8019a18ed872e45c400e97076c3132b"
   dependencies:
