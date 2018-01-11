@@ -1,16 +1,21 @@
 {
-  "name": "***update during release***/arlas-wui-toolkit",
-  "version": "***update during release***",
+  "name": "arlas-wui-toolkit",
+  "version": "*update by script*",
   "description": "Tool Kit Library for ARLAS wui web App",
   "author": "gisaia",
   "license": "Apache-2.0",
   "scripts": {
-    "build-release": "tsc -p tsconfig-build.json && gulp",
-    "clean": "npm cache clear && rimraf -- dist",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "tslint": "tslint -c tslint.json 'src/**/*.ts?(x)'"
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "test": "ng test",
+    "lint": "ng lint",
+    "tslint": "ng lint",
+    "gulp": "gulp",
+    "build-release": "ngc -p tsconfig-build.json && gulp",
+    "e2e": "ng e2e"
   },
-    "repository": {
+  "repository": {
     "type": "git",
     "url": "https://gitlab.com/GISAIA.ARLAS/wui/ARLAS-wui-toolkit.git"
   },
@@ -27,7 +32,7 @@
     "@angular/platform-browser-dynamic": "^4.2.4",
     "@angular/router": "^4.2.4",
     "ajv": "^5.5.2",
-    "arlas-web-components": "^2.3.5",
+    "arlas-web-components": "latest",
     "arlas-web-contributors": "^2.4.0",
     "arlas-web-core": "^2.4.0",
     "core-js": "^2.4.1",

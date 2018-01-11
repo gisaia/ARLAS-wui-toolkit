@@ -18,7 +18,7 @@ export function startupServiceFactory(startupService: ArlasStartupService) {
     ErrormodalComponent,
     ErrorModalMsgComponent
   ],
-  exports: [ErrormodalComponent, ErrorModalMsgComponent],
+  exports: [AppComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
