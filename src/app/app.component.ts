@@ -16,6 +16,8 @@ export class AppComponent implements AfterViewInit {
   public ngAfterViewInit(): void {
     if (this.configService.getConfig()['error'] !== undefined) {
       this.configService.confErrorBus.next(this.configService.getConfig()['error']);
+    }else{
+      this.collaborativeService.setCollaborations({});
     }
   }
 }

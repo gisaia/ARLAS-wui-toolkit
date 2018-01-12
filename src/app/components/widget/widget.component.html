@@ -1,11 +1,16 @@
 <div>
   <div *ngIf="componentType === 'histogram'">
-    <arlas-histogram #histogram></arlas-histogram>
+    <arlas-histogram #histogram [intervalListSelection]="contributor?.intervalListSelection"
+    [data]="contributor?.chartData" (valuesListChangedEvent)="contributor?.valueChanged($event)"
+    [intervalSelection]="contributor?.intervalSelection"></arlas-histogram>
+
   </div>
   <div *ngIf="componentType === 'swimlane'">
     <arlas-histogram #swimlane [chartType]="chartType.swimlane" ></arlas-histogram>
   </div>
   <div *ngIf="componentType === 'powerbars'">
-    <arlas-powerbars #powerbars></arlas-powerbars>
+    <arlas-powerbars #powerbars  [inputData]="contributor?.powerbarsData"
+    (selectedPowerBarEvent)="contributor?.selectedBarsChanged($event)" [selectedPowerbarsTerms]="contributor?.selectedBars">
+  </arlas-powerbars>
   </div>
 </div>
