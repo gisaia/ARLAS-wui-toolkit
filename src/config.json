@@ -3,7 +3,7 @@
         "web": {
             "contributors": {
                 "powerbars$mission": {
-                    "aggregationmodel": [
+                    "aggregationmodels": [
                         {
                             "type": "term",
                             "field": "acquisition.missionName"

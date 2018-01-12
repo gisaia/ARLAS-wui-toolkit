@@ -1,0 +1,11 @@
+<div>
+  <div *ngIf="componentType === 'histogram'">
+    <arlas-histogram #histogram></arlas-histogram>
+  </div>
+  <div *ngIf="componentType === 'swimlane'">
+    <arlas-histogram #swimlane [chartType]="chartType.swimlane" ></arlas-histogram>
+  </div>
+  <div *ngIf="componentType === 'powerbars'">
+    <arlas-powerbars #powerbars></arlas-powerbars>
+  </div>
+</div>
