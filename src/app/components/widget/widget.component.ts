@@ -2,7 +2,7 @@ import { Component, OnInit, Input, AfterViewInit, ViewChild, ChangeDetectorRef }
 import { ArlasStartupService } from '../../services/startup.services';
 import { Contributor } from 'arlas-web-core'
 import { contributors } from 'arlas-web-contributors';
-import { ChartType, HistogramComponent,Position } from 'arlas-web-components';
+import { ChartType, HistogramComponent, Position } from 'arlas-web-components';
 import { PowerbarsComponent } from 'arlas-web-components/powerbars/powerbars.component';
 import { DataType, DateUnit } from 'arlas-web-contributors/models/models';
 
@@ -14,9 +14,6 @@ import { DataType, DateUnit } from 'arlas-web-contributors/models/models';
 export class WidgetComponent implements OnInit, AfterViewInit {
 
   public chartType = ChartType;
-  public dataType = DataType;
-  public dateUnit = DateUnit;
-  public position = Position;
 
   public componentType;
   public contributor;
@@ -34,34 +31,19 @@ export class WidgetComponent implements OnInit, AfterViewInit {
   public ngOnInit() {
     this.componentType = this.getComponentType();
     this.contributor = this.arlasStartupService.contributorRegistry.get(this.contributorId);
-
   }
 
   public ngAfterViewInit() {
     if (this.histogramComponent) {
-      this.histogramComponent.chartTitle = 'Number of products over time per week';
-      this.histogramComponent.xTicks =7;
-      this.histogramComponent.barWeight=0.8;
-      this.histogramComponent.yTicks=2;
-      this.histogramComponent.xLabels=7;
-      this.histogramComponent.chartType=this.chartType.bars;
-      this.histogramComponent.dataType = this.dataType.time;
-      this.histogramComponent.customizedCssClass = 'custom-effideo-timeline';
-      this.histogramComponent.chartHeight =100;
-      this.histogramComponent.dataUnit = this.dateUnit.millisecond.toString();
-      this.histogramComponent.intervalListSelection = this.contributor.intervalListSelection;
-      this.histogramComponent.intervalSelection = this.contributor.intervalSelection;
-      this.histogramComponent.data = this.contributor.charData;
-      this.histogramComponent.multiselectable = true;
-      this.histogramComponent.xAxisPosition = this.position.top;
-      this.histogramComponent.descriptionPosition = this.position.top;
-      this.histogramComponent.valuesListChangedEvent.subscribe(event=>this.contributor.valueChanged(event));
-      this.cdr.detectChanges();
+      this.setComponentInput(this.histogramComponent);
+    }
+    if (this.swimlaneComponent) {
+      this.setComponentInput(this.swimlaneComponent);
+    }
+    if (this.powerbarsComponent) {
+      this.setComponentInput(this.powerbarsComponent);
     }
   }
-
-
-
 
   private getComponentType() {
     const contributor: Contributor = this.arlasStartupService.contributorRegistry.get(this.contributorId);
@@ -72,8 +54,27 @@ export class WidgetComponent implements OnInit, AfterViewInit {
     }
   }
 
+  private setComponentInput(component: any) {
+    if (this.componentParams) {
+      Object.keys(this.componentParams).forEach(key => {
 
+        if (key === 'chartType') {
+          component[key] = ChartType[this.componentParams[key]];
+        } else if (key === 'dataType') {
+          component[key] = DataType[this.componentParams[key]];
+        } else if (key === 'dateUnit') {
+          component[key] = DateUnit[this.componentParams[key]];
+        } else if (key === 'xAxisPosition') {
+          component[key] = Position[this.componentParams[key]];
+        } else if (key === 'descriptionPosition') {
+          component[key] = Position[this.componentParams[key]];
+        } else {
+        component[key] = this.componentParams[key];
 
-
+        }
+      })
+      this.cdr.detectChanges();
+    }
+  }
 }
 

@@ -3,10 +3,11 @@
     <arlas-histogram #histogram [intervalListSelection]="contributor?.intervalListSelection"
     [data]="contributor?.chartData" (valuesListChangedEvent)="contributor?.valueChanged($event)"
     [intervalSelection]="contributor?.intervalSelection"></arlas-histogram>
-
   </div>
   <div *ngIf="componentType === 'swimlane'">
-    <arlas-histogram #swimlane [chartType]="chartType.swimlane" ></arlas-histogram>
+    <arlas-histogram #swimlane [chartType]="chartType.swimlane" [intervalListSelection]="contributor?.intervalListSelection"
+    [data]="contributor?.chartData" (valuesListChangedEvent)="contributor?.valueChanged($event)"
+    [intervalSelection]="contributor?.intervalSelection" ></arlas-histogram>
   </div>
   <div *ngIf="componentType === 'powerbars'">
     <arlas-powerbars #powerbars  [inputData]="contributor?.powerbarsData"

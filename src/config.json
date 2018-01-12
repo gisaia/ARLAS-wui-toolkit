@@ -115,7 +115,7 @@
                     "name": "Timeline",
                     "dateunit": "millisecond",
                     "datatype": "time",
-                    "isOneDimension":false
+                    "isOneDimension": false
                 },
                 "histogram$cloud": {
                     "identifier": "cloud",
@@ -381,7 +381,86 @@
                     "search_size": 100,
                     "name": "List"
                 }
-            }
+            },
+            "analytics": [
+                {
+                    "contributorId": "mission",
+                    "inuput": {
+                        "customizedCssClass": ""
+                    }
+                },
+                {
+                    "contributorId": "reception",
+                    "inuput": {
+                        "customizedCssClass": ""
+                    }
+                },
+                {
+                    "contributorId": "archivage",
+                    "inuput": {
+                        "customizedCssClass": ""
+                    }
+                },
+                {
+                    "contributorId": "timeline",
+                    "input": {
+                        "dataType": "time",
+                        "dataUnit": "millisecond",
+                        "isHistogramSelectable": true,
+                        "multiselectable":  true,
+                        "topOffsetRemoveInterval": 40,
+                        "leftOffsetRemoveInterval": 18,
+                        "brushHandlesHeightWeight": 0.5,
+                        "chartType": "bars",
+                        "chartTitle": "AUTOMATIC HISTOGRAM",
+                        "chartWidth": null,
+                        "chartHeight": 100,
+                        "customizedCssClass": "",
+                        "xAxisPosition": "bottom",
+                        "descriptionPosition": "bottom",
+                        "xTicks": 7,
+                        "yTicks": 2,
+                        "xLabels": 7,
+                        "yLabels": 2,
+                        "showXTicks": true,
+                        "showYTicks": true,
+                        "showXLabels":true,
+                        "showYLabels":true,
+                        "showHorizontalLines":true,
+                        "isSmoothedCurve": false,
+                        "barWeight": 0.8
+                    }
+                },                {
+                    "contributorId": "cloud",
+                    "input": {
+                        "dataType": "numeric",
+                        "dataUnit": "millisecond",
+                        "isHistogramSelectable": true,
+                        "multiselectable":  true,
+                        "topOffsetRemoveInterval": 40,
+                        "leftOffsetRemoveInterval": 18,
+                        "brushHandlesHeightWeight": 0.5,
+                        "chartType": "bars",
+                        "chartTitle": "AUTOMATIC HISTOGRAM",
+                        "chartWidth": null,
+                        "chartHeight": 100,
+                        "customizedCssClass": "",
+                        "xAxisPosition": "bottom",
+                        "descriptionPosition": "bottom",
+                        "xTicks": 7,
+                        "yTicks": 2,
+                        "xLabels": 7,
+                        "yLabels": 2,
+                        "showXTicks": true,
+                        "showYTicks": true,
+                        "showXLabels":true,
+                        "showYLabels":true,
+                        "showHorizontalLines":true,
+                        "isSmoothedCurve": false,
+                        "barWeight": 0.8
+                    }
+                }
+            ]
         },
         "server": {
             "server$default": {
