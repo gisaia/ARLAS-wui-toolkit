@@ -1,7 +1,7 @@
 <div class="analytics-board-content">
   <div *ngFor="let group of groups" class="analytics-board-group">
       <mat-card *ngFor="let component of group.components" class="analytics-board-card">
-        <mat-card-title></mat-card-title>
+        <mat-card-title *ngIf="component?.title"></mat-card-title>
         <mat-card-content>
             <arlas-tool-widget  [contributorId]="component?.contributorId" [componentParams]="component?.input"></arlas-tool-widget>
         </mat-card-content>

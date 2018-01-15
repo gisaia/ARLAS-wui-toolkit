@@ -3,11 +3,13 @@
       (valuesListChangedEvent)="contributor?.valueChanged($event)" [intervalSelection]="contributor?.intervalSelection"></arlas-histogram>
   </div>
   <div *ngIf="componentType === 'swimlane'">
-    <mat-form-field *ngIf="showSwimlaneDropDown" class="dropdownSwimlane">
-      <mat-select panelClass="panelSwimlane" [(value)]="swimSelected.name" (change)="changeSwimlane($event)">
-        <mat-option *ngFor="let s of swimlanes" value="{{s?.name}}">{{s.name}}</mat-option>
-      </mat-select>
-    </mat-form-field>
+    <div *ngIf="showSwimlaneDropDown" class="dropdownSwimlane">
+      <mat-form-field>
+        <mat-select panelClass="panelSwimlane" [(value)]="swimSelected.name" (change)="changeSwimlane($event)" >
+          <mat-option *ngFor="let s of swimlanes" value="{{s?.name}}">{{s.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
     <arlas-histogram #swimlane [chartType]="chartType.swimlane" [intervalListSelection]="contributor?.intervalListSelection"
       [data]="contributor?.swimData" (valuesListChangedEvent)="contributor?.valueChanged($event)" [intervalSelection]="contributor?.intervalSelection"></arlas-histogram>
   </div>

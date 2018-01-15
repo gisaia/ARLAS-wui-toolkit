@@ -17,7 +17,7 @@
                     "aggregationmodels": [
                         {
                             "type": "term",
-                            "field": "transmission.station"
+                            "field": "acquisition.receivingStation"
                         }
                     ],
                     "title": "Reception",
@@ -28,7 +28,7 @@
                     "aggregationmodels": [
                         {
                             "type": "term",
-                            "field": "archive.station"
+                            "field": "acquisition.missionName"
                         }
                     ],
                     "title": "Archivage",
@@ -42,15 +42,15 @@
                         {
                             "id": 1,
                             "name": "Reception",
-                            "field": "acquisition.centerViewingDate",
+                            "field": "dateTimeStamp",
                             "aggregationmodels": [
                                 {
                                     "type": "term",
-                                    "field": "transmission.station"
+                                    "field": "acquisition.receivingStation"
                                 },
                                 {
                                     "type": "datehistogram",
-                                    "field": "acquisition.centerViewingDate",
+                                    "field": "dateTimeStamp",
                                     "interval": {
                                         "value": 1,
                                         "unit": "month"
@@ -61,7 +61,7 @@
                         {
                             "id": 2,
                             "name": "Mission",
-                            "field": "acquisition.centerViewingDate",
+                            "field": "dateTimeStamp",
                             "aggregationmodels": [
                                 {
                                     "type": "term",
@@ -69,7 +69,7 @@
                                 },
                                 {
                                     "type": "datehistogram",
-                                    "field": "acquisition.centerViewingDate",
+                                    "field": "dateTimeStamp",
                                     "interval": {
                                         "value": 1,
                                         "unit": "month"
@@ -80,7 +80,7 @@
                         {
                             "id": 3,
                             "name": "Archivage",
-                            "field": "acquisition.centerViewingDate",
+                            "field": "dateTimeStamp",
                             "aggregationmodels": [
                                 {
                                     "type": "term",
@@ -88,7 +88,7 @@
                                 },
                                 {
                                     "type": "datehistogram",
-                                    "field": "acquisition.centerViewingDate",
+                                    "field": "dateTimeStamp",
                                     "interval": {
                                         "value": 1,
                                         "unit": "month"
@@ -105,7 +105,7 @@
                     "aggregationmodels": [
                         {
                             "type": "datehistogram",
-                            "field": "acquisition.centerViewingDate",
+                            "field": "dateTimeStamp",
                             "interval": {
                                 "value": 1,
                                 "unit": "week"
@@ -322,13 +322,13 @@
                             "columnName": "Date",
                             "fieldName": "enrichment.naturallanguage.search_date_string",
                             "dataType": "",
-                            "process": "result.split(':')[0] + ':00:00'"
+                            "process": ""
                         },
                         {
                             "columnName": "Cloud",
                             "fieldName": "enrichment.naturallanguage.search_cloud_string",
                             "dataType": "",
-                            "process": "result.split(':')[1]"
+                            "process": ""
                         }
                     ],
                     "process": {
@@ -347,12 +347,12 @@
                                 {
                                     "path": "enrichment.naturallanguage.search_incidence_angle_string",
                                     "label": "Incidence ",
-                                    "process": "result.split(':')[1].trim()"
+                                    "process": ""
                                 },
                                 {
                                     "path": "enrichment.naturallanguage.search_quality_string",
                                     "label": "Quality ",
-                                    "process": "result.split(':')[1].trim()"
+                                    "process": ""
                                 }
                             ]
                         },
@@ -486,10 +486,10 @@
         },
         "server": {
             "server$default": {
-                "url": "http://localhost:9999/arlas"
+                "url": "http://fadas.local:9999/arlas"
             },
             "collection$default": {
-                "collection": "catalog"
+                "collection": "level0_enriched"
             },
             "max_age$default": {
                 "max_age": 120
