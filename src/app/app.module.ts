@@ -24,7 +24,7 @@ export function startupServiceFactory(startupService: ArlasStartupService) {
     WidgetComponent,
     AnalyticsBoardComponent
   ],
-  exports: [AppComponent,WidgetComponent],
+  exports: [AppComponent,WidgetComponent,AnalyticsBoardComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

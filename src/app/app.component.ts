@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
-import { ArlasConfigService, ArlasCollaborativesearchService } from './services/startup.services';
+import { ArlasConfigService, ArlasCollaborativesearchService, ArlasStartupService } from './services/startup.services';
 import { MatDialogRef, MatDialog } from '@angular/material';
 
 @Component({
@@ -11,6 +11,7 @@ import { MatDialogRef, MatDialog } from '@angular/material';
 export class AppComponent implements AfterViewInit {
   public analytics: Array<any>
   constructor(private configService: ArlasConfigService,
+    private arlasStartupService:ArlasStartupService,
     private collaborativeService: ArlasCollaborativesearchService, private cdr: ChangeDetectorRef) { }
 
   public ngAfterViewInit(): void {
@@ -18,7 +19,7 @@ export class AppComponent implements AfterViewInit {
       this.configService.confErrorBus.next(this.configService.getConfig()['error']);
     } else {
       this.collaborativeService.setCollaborations({});
-      this.analytics = this.configService.getValue('arlas.web.analytics');
+      this.analytics = this.arlasStartupService.analytics;
       this.cdr.detectChanges();
     }
   }
