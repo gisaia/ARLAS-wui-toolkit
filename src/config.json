@@ -384,88 +384,103 @@
             },
             "analytics": [
                 {
-                    "contributorId": "mission",
-                    "inuput": {
-                        "customizedCssClass": ""
-                    }
+                    "groupId": "1",
+                    "components": [
+                        {
+                            "contributorId": "mission",
+                            "inuput": {
+                                "customizedCssClass": ""
+                            }
+                        },
+                        {
+                            "contributorId": "reception",
+                            "inuput": {
+                                "customizedCssClass": ""
+                            }
+                        },
+                        {
+                            "contributorId": "archivage",
+                            "inuput": {
+                                "customizedCssClass": ""
+                            }
+                        }
+                    ]
                 },
                 {
-                    "contributorId": "reception",
-                    "inuput": {
-                        "customizedCssClass": ""
-                    }
+                    "groupId": "2",
+                    "components": [
+                        {
+                            "contributorId": "timeline",
+                            "input": {
+                                "dataType": "time",
+                                "dataUnit": "millisecond",
+                                "isHistogramSelectable": true,
+                                "multiselectable": true,
+                                "topOffsetRemoveInterval": 40,
+                                "leftOffsetRemoveInterval": 18,
+                                "brushHandlesHeightWeight": 0.5,
+                                "chartType": "bars",
+                                "chartTitle": "AUTOMATIC HISTOGRAM",
+                                "chartWidth": null,
+                                "chartHeight": 100,
+                                "customizedCssClass": "",
+                                "xAxisPosition": "bottom",
+                                "descriptionPosition": "bottom",
+                                "xTicks": 7,
+                                "yTicks": 2,
+                                "xLabels": 7,
+                                "yLabels": 2,
+                                "showXTicks": true,
+                                "showYTicks": true,
+                                "showXLabels": true,
+                                "showYLabels": true,
+                                "showHorizontalLines": true,
+                                "isSmoothedCurve": false,
+                                "barWeight": 0.8
+                            }
+                        }
+                    ]
                 },
                 {
-                    "contributorId": "archivage",
-                    "inuput": {
-                        "customizedCssClass": ""
-                    }
-                },
-                {
-                    "contributorId": "timeline",
-                    "input": {
-                        "dataType": "time",
-                        "dataUnit": "millisecond",
-                        "isHistogramSelectable": true,
-                        "multiselectable": true,
-                        "topOffsetRemoveInterval": 40,
-                        "leftOffsetRemoveInterval": 18,
-                        "brushHandlesHeightWeight": 0.5,
-                        "chartType": "bars",
-                        "chartTitle": "AUTOMATIC HISTOGRAM",
-                        "chartWidth": null,
-                        "chartHeight": 100,
-                        "customizedCssClass": "",
-                        "xAxisPosition": "bottom",
-                        "descriptionPosition": "bottom",
-                        "xTicks": 7,
-                        "yTicks": 2,
-                        "xLabels": 7,
-                        "yLabels": 2,
-                        "showXTicks": true,
-                        "showYTicks": true,
-                        "showXLabels": true,
-                        "showYLabels": true,
-                        "showHorizontalLines": true,
-                        "isSmoothedCurve": false,
-                        "barWeight": 0.8
-                    }
-                },
-                {
-                    "contributorId": "dropdown",
-                    "input": {
-                        "dataType": "time",
-                        "dataUnit": "millisecond",
-                        "isHistogramSelectable": true,
-                        "multiselectable": true,
-                        "topOffsetRemoveInterval": 40,
-                        "leftOffsetRemoveInterval": 18,
-                        "brushHandlesHeightWeight": 0.5,
-                        "chartTitle": "AUTOMATIC Swimlane",
-                        "chartWidth": null,
-                        "chartHeight": 100,
-                        "customizedCssClass": "",
-                        "xAxisPosition": "bottom",
-                        "descriptionPosition": "bottom",
-                        "xTicks": 7,
-                        "yTicks": 2,
-                        "xLabels": 7,
-                        "yLabels": 2,
-                        "showXTicks": true,
-                        "showYTicks": true,
-                        "showXLabels": true,
-                        "showYLabels": true,
-                        "showHorizontalLines": true,
-                        "isSmoothedCurve": false,
-                        "barWeight": 0.8,
-                        "swimLaneLabelsWidth": 50,
-                        "swimlaneHeight": 30,
-                        "swimlaneMode": "fixedHeight",
-                        "paletteColors": [
-                            0,
-                            170
-                        ]
-                    }
+                    "groupId": "3",
+                    "components": [
+                        {
+                            "contributorId": "dropdown",
+                            "input": {
+                                "dataType": "time",
+                                "dataUnit": "millisecond",
+                                "isHistogramSelectable": true,
+                                "multiselectable": true,
+                                "topOffsetRemoveInterval": 40,
+                                "leftOffsetRemoveInterval": 18,
+                                "brushHandlesHeightWeight": 0.5,
+                                "chartTitle": "AUTOMATIC Swimlane",
+                                "chartWidth": null,
+                                "chartHeight": 100,
+                                "customizedCssClass": "",
+                                "xAxisPosition": "bottom",
+                                "descriptionPosition": "bottom",
+                                "xTicks": 7,
+                                "yTicks": 2,
+                                "xLabels": 7,
+                                "yLabels": 2,
+                                "showXTicks": true,
+                                "showYTicks": true,
+                                "showXLabels": true,
+                                "showYLabels": true,
+                                "showHorizontalLines": true,
+                                "isSmoothedCurve": false,
+                                "barWeight": 0.8,
+                                "swimLaneLabelsWidth": 50,
+                                "swimlaneHeight": 30,
+                                "swimlaneMode": "fixedHeight",
+                                "paletteColors": [
+                                    0,
+                                    170
+                                ]
+                            }
+                        }
+                    ]
                 }
             ]
         },

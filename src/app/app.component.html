@@ -1,8 +1,3 @@
-
-
-
-<arlas-tool-widget *ngFor="let analytic of analytics"  
-
-[contributorId]="analytic?.contributorId" [componentParams]="analytic?.input" ></arlas-tool-widget>
+<arlas-analytics-board [groups]="this.analytics"></arlas-analytics-board>
 
 <arlas-tool-errormodal><arlas-tool-errormodal>

@@ -7,10 +7,11 @@ import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { ConfigService, CollaborativesearchService } from 'arlas-web-core';
 import { AppComponent } from './app.component';
 import { ErrormodalComponent, ErrorModalMsgComponent } from './components/errormodal/errormodal.component';
-import { MatDialogModule, MatSelectModule } from '@angular/material';
+import { MatDialogModule, MatSelectModule, MatCardModule } from '@angular/material';
 import { WidgetComponent } from './components/widget/widget.component';
 import { HistogramModule } from 'arlas-web-components/histogram/histogram.module';
 import { PowerbarsModule } from 'arlas-web-components/powerbars/powerbars.module';
+import { AnalyticsBoardComponent } from './components/analytics-board/analytics-board.component';
 export function startupServiceFactory(startupService: ArlasStartupService) {
   const load = () => startupService.load('config.json');
   return load;
@@ -20,7 +21,8 @@ export function startupServiceFactory(startupService: ArlasStartupService) {
     AppComponent,
     ErrormodalComponent,
     ErrorModalMsgComponent,
-    WidgetComponent
+    WidgetComponent,
+    AnalyticsBoardComponent
   ],
   exports: [AppComponent,WidgetComponent],
   imports: [
@@ -31,6 +33,7 @@ export function startupServiceFactory(startupService: ArlasStartupService) {
     HistogramModule,
     MatDialogModule,
     MatSelectModule,
+    MatCardModule,
     PowerbarsModule
   ],
   providers: [

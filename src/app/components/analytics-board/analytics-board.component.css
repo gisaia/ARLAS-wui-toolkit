@@ -1,0 +1,14 @@
+.analytics-board-content{
+  display: flex;
+  flex-direction: column;
+}
+
+.analytics-board-group{
+  flex:1;
+  display: flex;
+  flex-direction: row;
+}
+
+.analytics-board-card{
+  flex:1;
+}
