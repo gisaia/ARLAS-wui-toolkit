@@ -7,7 +7,7 @@ import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { ConfigService, CollaborativesearchService } from 'arlas-web-core';
 import { AppComponent } from './app.component';
 import { ErrormodalComponent, ErrorModalMsgComponent } from './components/errormodal/errormodal.component';
-import { MatDialogModule } from '@angular/material';
+import { MatDialogModule, MatCard, MatCardModule } from '@angular/material';
 import { WidgetComponent } from './components/widget/widget.component';
 import { HistogramModule } from 'arlas-web-components/histogram/histogram.module';
 import { PowerbarsModule } from 'arlas-web-components/powerbars/powerbars.module';
@@ -29,6 +29,7 @@ export function startupServiceFactory(startupService: ArlasStartupService) {
     BrowserModule,
     BrowserAnimationsModule,
     MatDialogModule,
+    MatCardModule,
     CommonModule,
     HttpModule,
     HistogramModule,
