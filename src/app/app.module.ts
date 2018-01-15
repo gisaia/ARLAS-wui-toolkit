@@ -11,6 +11,7 @@ import { MatDialogModule } from '@angular/material';
 import { WidgetComponent } from './components/widget/widget.component';
 import { HistogramModule } from 'arlas-web-components/histogram/histogram.module';
 import { PowerbarsModule } from 'arlas-web-components/powerbars/powerbars.module';
+import { AnalyticsBoardComponent } from './components/analytics-board/analytics-board.component';
 export function startupServiceFactory(startupService: ArlasStartupService) {
   const load = () => startupService.load('config.json');
   return load;
@@ -20,7 +21,8 @@ export function startupServiceFactory(startupService: ArlasStartupService) {
     AppComponent,
     ErrormodalComponent,
     ErrorModalMsgComponent,
-    WidgetComponent
+    WidgetComponent,
+    AnalyticsBoardComponent
   ],
   exports: [AppComponent,WidgetComponent],
   imports: [

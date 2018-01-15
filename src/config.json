@@ -17,7 +17,7 @@
                     "aggregationmodels": [
                         {
                             "type": "term",
-                            "field": "transmission.station"
+                            "field": "acquisition.receivingStation"
                         }
                     ],
                     "title": "Reception",
@@ -28,7 +28,7 @@
                     "aggregationmodels": [
                         {
                             "type": "term",
-                            "field": "archive.station"
+                            "field": "acquisition.receivingStation"
                         }
                     ],
                     "title": "Archivage",
@@ -105,7 +105,7 @@
                     "aggregationmodels": [
                         {
                             "type": "datehistogram",
-                            "field": "acquisition.centerViewingDate",
+                            "field": "dateTimeStamp",
                             "interval": {
                                 "value": 1,
                                 "unit": "week"
@@ -122,7 +122,7 @@
                     "aggregationmodels": [
                         {
                             "type": "histogram",
-                            "field": "imageDescription.cloudCoverPercentage",
+                            "field": "imageExtension.cloudCoverPercentage",
                             "interval": {
                                 "value": 3
                             }
@@ -322,13 +322,13 @@
                             "columnName": "Date",
                             "fieldName": "enrichment.naturallanguage.search_date_string",
                             "dataType": "",
-                            "process": "result.split(':')[0] + ':00:00'"
+                            "process": ""
                         },
                         {
                             "columnName": "Cloud",
                             "fieldName": "enrichment.naturallanguage.search_cloud_string",
                             "dataType": "",
-                            "process": "result.split(':')[1]"
+                            "process": ""
                         }
                     ],
                     "process": {
@@ -347,12 +347,12 @@
                                 {
                                     "path": "enrichment.naturallanguage.search_incidence_angle_string",
                                     "label": "Incidence ",
-                                    "process": "result.split(':')[1].trim()"
+                                    "process": ""
                                 },
                                 {
                                     "path": "enrichment.naturallanguage.search_quality_string",
                                     "label": "Quality ",
-                                    "process": "result.split(':')[1].trim()"
+                                    "process": ""
                                 }
                             ]
                         },
@@ -384,90 +384,101 @@
             },
             "analytics": [
                 {
-                    "contributorId": "mission",
-                    "inuput": {
-                        "customizedCssClass": ""
+                  "groupId": "1",
+                  "components": [
+                    {
+                      "contributorId": "mission",
+                      "inuput": {
+                          "customizedCssClass": ""
+                      }
+                    },
+                    {
+                        "contributorId": "reception",
+                        "inuput": {
+                            "customizedCssClass": ""
+                        }
+                    },
+                    {
+                        "contributorId": "archivage",
+                        "inuput": {
+                            "customizedCssClass": ""
+                        }
                     }
+                  ]
                 },
                 {
-                    "contributorId": "reception",
-                    "inuput": {
-                        "customizedCssClass": ""
-                    }
-                },
-                {
-                    "contributorId": "archivage",
-                    "inuput": {
-                        "customizedCssClass": ""
-                    }
-                },
-                {
-                    "contributorId": "timeline",
-                    "input": {
-                        "dataType": "time",
-                        "dataUnit": "millisecond",
-                        "isHistogramSelectable": true,
-                        "multiselectable":  true,
-                        "topOffsetRemoveInterval": 40,
-                        "leftOffsetRemoveInterval": 18,
-                        "brushHandlesHeightWeight": 0.5,
-                        "chartType": "bars",
-                        "chartTitle": "AUTOMATIC HISTOGRAM",
-                        "chartWidth": null,
-                        "chartHeight": 100,
-                        "customizedCssClass": "",
-                        "xAxisPosition": "bottom",
-                        "descriptionPosition": "bottom",
-                        "xTicks": 7,
-                        "yTicks": 2,
-                        "xLabels": 7,
-                        "yLabels": 2,
-                        "showXTicks": true,
-                        "showYTicks": true,
-                        "showXLabels":true,
-                        "showYLabels":true,
-                        "showHorizontalLines":true,
-                        "isSmoothedCurve": false,
-                        "barWeight": 0.8
-                    }
-                },                {
-                    "contributorId": "cloud",
-                    "input": {
-                        "dataType": "numeric",
-                        "dataUnit": "millisecond",
-                        "isHistogramSelectable": true,
-                        "multiselectable":  true,
-                        "topOffsetRemoveInterval": 40,
-                        "leftOffsetRemoveInterval": 18,
-                        "brushHandlesHeightWeight": 0.5,
-                        "chartType": "bars",
-                        "chartTitle": "AUTOMATIC HISTOGRAM",
-                        "chartWidth": null,
-                        "chartHeight": 100,
-                        "customizedCssClass": "",
-                        "xAxisPosition": "bottom",
-                        "descriptionPosition": "bottom",
-                        "xTicks": 7,
-                        "yTicks": 2,
-                        "xLabels": 7,
-                        "yLabels": 2,
-                        "showXTicks": true,
-                        "showYTicks": true,
-                        "showXLabels":true,
-                        "showYLabels":true,
-                        "showHorizontalLines":true,
-                        "isSmoothedCurve": false,
-                        "barWeight": 0.8
-                    }
-                }
+                  "groupId": "2",
+                  "components": [
+                    {
+                      "contributorId": "timeline",
+                      "input": {
+                          "dataType": "time",
+                          "dataUnit": "millisecond",
+                          "isHistogramSelectable": true,
+                          "multiselectable":  true,
+                          "topOffsetRemoveInterval": 40,
+                          "leftOffsetRemoveInterval": 18,
+                          "brushHandlesHeightWeight": 0.5,
+                          "chartType": "bars",
+                          "chartTitle": "AUTOMATIC HISTOGRAM",
+                          "chartWidth": null,
+                          "chartHeight": 100,
+                          "customizedCssClass": "",
+                          "xAxisPosition": "bottom",
+                          "descriptionPosition": "bottom",
+                          "xTicks": 7,
+                          "yTicks": 2,
+                          "xLabels": 7,
+                          "yLabels": 2,
+                          "showXTicks": true,
+                          "showYTicks": true,
+                          "showXLabels":true,
+                          "showYLabels":true,
+                          "showHorizontalLines":true,
+                          "isSmoothedCurve": false,
+                          "barWeight": 0.8
+                      }
+                  },
+                  {
+                      "contributorId": "cloud",
+                      "input": {
+                          "dataType": "numeric",
+                          "dataUnit": "millisecond",
+                          "isHistogramSelectable": true,
+                          "multiselectable":  true,
+                          "topOffsetRemoveInterval": 40,
+                          "leftOffsetRemoveInterval": 18,
+                          "brushHandlesHeightWeight": 0.5,
+                          "chartType": "bars",
+                          "chartTitle": "AUTOMATIC HISTOGRAM",
+                          "chartWidth": null,
+                          "chartHeight": 100,
+                          "customizedCssClass": "",
+                          "xAxisPosition": "bottom",
+                          "descriptionPosition": "bottom",
+                          "xTicks": 7,
+                          "yTicks": 2,
+                          "xLabels": 7,
+                          "yLabels": 2,
+                          "showXTicks": true,
+                          "showYTicks": true,
+                          "showXLabels":true,
+                          "showYLabels":true,
+                          "showHorizontalLines":true,
+                          "isSmoothedCurve": false,
+                          "barWeight": 0.8
+                      }
+                  }
+                ]
+              }
             ]
         },
         "server": {
             "server$default": {
-                "url": "http://localhost:9999/arlas"
+                "url": "http://fadas.local:9999/arlas"
             },
             "collection$default": {
-                "collection": "catalog"
+                "collection": "level0_enriched"
             },
             "max_age$default": {
                 "max_age": 120
