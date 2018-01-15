@@ -1,17 +1,21 @@
 <div>
   <div *ngIf="componentType === 'histogram'">
-    <arlas-histogram #histogram [intervalListSelection]="contributor?.intervalListSelection"
-    [data]="contributor?.chartData" (valuesListChangedEvent)="contributor?.valueChanged($event)"
-    [intervalSelection]="contributor?.intervalSelection"></arlas-histogram>
+    <arlas-histogram #histogram [intervalListSelection]="contributor?.intervalListSelection" [data]="contributor?.chartData"
+      (valuesListChangedEvent)="contributor?.valueChanged($event)" [intervalSelection]="contributor?.intervalSelection"></arlas-histogram>
   </div>
   <div *ngIf="componentType === 'swimlane'">
+    <mat-form-field *ngIf="showSwimlaneDropDown" class="dropdownSwimlane">
+      <mat-select panelClass="panelSwimlane" [(value)]="swimSelected.name" (change)="changeSwimlane($event)">
+        <mat-option *ngFor="let s of swimlanes" value="{{s?.name}}">{{s.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
     <arlas-histogram #swimlane [chartType]="chartType.swimlane" [intervalListSelection]="contributor?.intervalListSelection"
-    [data]="contributor?.chartData" (valuesListChangedEvent)="contributor?.valueChanged($event)"
-    [intervalSelection]="contributor?.intervalSelection" ></arlas-histogram>
+      [data]="contributor?.swimData" (valuesListChangedEvent)="contributor?.valueChanged($event)" [intervalSelection]="contributor?.intervalSelection"></arlas-histogram>
   </div>
   <div *ngIf="componentType === 'powerbars'">
-    <arlas-powerbars #powerbars  [inputData]="contributor?.powerbarsData"
-    (selectedPowerBarEvent)="contributor?.selectedBarsChanged($event)" [selectedPowerbarsTerms]="contributor?.selectedBars">
-  </arlas-powerbars>
+    <span class="powerbarTitle" >{{contributor?.getFilterDisplayName()}}</span>
+    <arlas-powerbars #powerbars [inputData]="contributor?.powerbarsData" (selectedPowerBarEvent)="contributor?.selectedBarsChanged($event)"
+      [selectedPowerbarsTerms]="contributor?.selectedBars">
+    </arlas-powerbars>
   </div>
 </div>

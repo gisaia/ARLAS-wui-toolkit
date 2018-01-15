@@ -407,7 +407,7 @@
                         "dataType": "time",
                         "dataUnit": "millisecond",
                         "isHistogramSelectable": true,
-                        "multiselectable":  true,
+                        "multiselectable": true,
                         "topOffsetRemoveInterval": 40,
                         "leftOffsetRemoveInterval": 18,
                         "brushHandlesHeightWeight": 0.5,
@@ -424,24 +424,24 @@
                         "yLabels": 2,
                         "showXTicks": true,
                         "showYTicks": true,
-                        "showXLabels":true,
-                        "showYLabels":true,
-                        "showHorizontalLines":true,
+                        "showXLabels": true,
+                        "showYLabels": true,
+                        "showHorizontalLines": true,
                         "isSmoothedCurve": false,
                         "barWeight": 0.8
                     }
-                },                {
-                    "contributorId": "cloud",
+                },
+                {
+                    "contributorId": "dropdown",
                     "input": {
-                        "dataType": "numeric",
+                        "dataType": "time",
                         "dataUnit": "millisecond",
                         "isHistogramSelectable": true,
-                        "multiselectable":  true,
+                        "multiselectable": true,
                         "topOffsetRemoveInterval": 40,
                         "leftOffsetRemoveInterval": 18,
                         "brushHandlesHeightWeight": 0.5,
-                        "chartType": "bars",
-                        "chartTitle": "AUTOMATIC HISTOGRAM",
+                        "chartTitle": "AUTOMATIC Swimlane",
                         "chartWidth": null,
                         "chartHeight": 100,
                         "customizedCssClass": "",
@@ -453,11 +453,18 @@
                         "yLabels": 2,
                         "showXTicks": true,
                         "showYTicks": true,
-                        "showXLabels":true,
-                        "showYLabels":true,
-                        "showHorizontalLines":true,
+                        "showXLabels": true,
+                        "showYLabels": true,
+                        "showHorizontalLines": true,
                         "isSmoothedCurve": false,
-                        "barWeight": 0.8
+                        "barWeight": 0.8,
+                        "swimLaneLabelsWidth": 50,
+                        "swimlaneHeight": 30,
+                        "swimlaneMode": "fixedHeight",
+                        "paletteColors": [
+                            0,
+                            170
+                        ]
                     }
                 }
             ]
