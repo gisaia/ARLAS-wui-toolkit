@@ -5,10 +5,12 @@
 
 .analytics-board-group{
   flex:1;
+  flex-wrap: wrap;
   display: flex;
   flex-direction: row;
 }
 
 .analytics-board-card{
   flex:1;
+  width: 100%;
 }
