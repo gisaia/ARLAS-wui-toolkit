@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, AfterViewInit, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit, ViewChild, ChangeDetectorRef, ComponentFactoryResolver } from '@angular/core';
 import { ArlasStartupService, ArlasConfigService, ArlasCollaborativesearchService } from '../../services/startup.services';
 import { Contributor, CollaborationEvent, OperationEnum } from 'arlas-web-core'
 import { contributors } from 'arlas-web-contributors';
@@ -12,7 +12,7 @@ import { SwimlaneMode } from 'arlas-web-components/histogram/histogram.utils';
   templateUrl: './widget.component.html',
   styleUrls: ['./widget.component.css']
 })
-export class WidgetComponent implements OnInit, AfterViewInit {
+export class WidgetComponent implements OnInit {
 
   public chartType = ChartType;
 
@@ -21,16 +21,18 @@ export class WidgetComponent implements OnInit, AfterViewInit {
   public swimSelected;
   public swimlanes = [];
   public showSwimlaneDropDown: boolean;
+  public histogramParam: any = {};
+  public swimlaneParam: any = {};
+  public powerBarParam: any = {};
+
   @Input() public contributorId: string;
-  @Input() public componentParams: Object;
-
-
-  @ViewChild('histogram') private histogramComponent: HistogramComponent;
-  @ViewChild('swimlane') private swimlaneComponent: HistogramComponent;
-  @ViewChild('powerbars') private powerbarsComponent: PowerbarsComponent;
+  @Input() public componentParams: any;
 
   constructor(private arlasStartupService: ArlasStartupService,
-    private cdr: ChangeDetectorRef, private arlasCollaborativesearchService: ArlasCollaborativesearchService) {
+    private cdr: ChangeDetectorRef, private componentFactoryResolver: ComponentFactoryResolver,
+    private arlasCollaborativesearchService: ArlasCollaborativesearchService) {
+
+
   }
 
   public ngOnInit() {
@@ -40,20 +42,10 @@ export class WidgetComponent implements OnInit, AfterViewInit {
       this.swimlanes = this.contributor.getConfigValue('swimlanes');
       this.showSwimlaneDropDown = this.swimlanes.length > 1;
       this.swimSelected = this.swimlanes[0];
-
     }
-  }
-
-  public ngAfterViewInit() {
-    if (this.histogramComponent) {
-      this.setComponentInput(this.histogramComponent);
-    }
-    if (this.swimlaneComponent) {
-      this.setComponentInput(this.swimlaneComponent);
-    }
-    if (this.powerbarsComponent) {
-      this.setComponentInput(this.powerbarsComponent);
-    }
+    this.setComponentInput(this.histogramParam);
+    this.setComponentInput(this.swimlaneParam);
+    this.setComponentInput(this.powerBarParam);
   }
 
   private getComponentType() {
@@ -81,10 +73,9 @@ export class WidgetComponent implements OnInit, AfterViewInit {
         } else if (key === 'swimlaneMode') {
           component[key] = SwimlaneMode[this.componentParams[key]];
         } else {
-        component[key] = this.componentParams[key];
+          component[key] = this.componentParams[key];
         }
       })
-      this.cdr.detectChanges();
     }
   }
 

@@ -18,9 +18,9 @@ export class AppComponent implements AfterViewInit {
     if (this.configService.getConfig()['error'] !== undefined) {
       this.configService.confErrorBus.next(this.configService.getConfig()['error']);
     } else {
-      this.collaborativeService.setCollaborations({});
-      this.analytics = this.arlasStartupService.analytics;
-      this.cdr.detectChanges();
+      //this.collaborativeService.setCollaborations({});
+      //this.analytics = this.arlasStartupService.analytics;
+      //this.cdr.detectChanges();
     }
   }
 }
