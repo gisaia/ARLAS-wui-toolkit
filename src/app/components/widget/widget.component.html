@@ -1,0 +1,86 @@
+<div *ngIf="componentType === 'histogram'">
+  <arlas-histogram  [intervalListSelection]="contributor?.intervalListSelection" [intervalSelection]="contributor?.intervalSelection"
+    [data]="contributor?.chartData" (valuesListChangedEvent)="contributor?.valueChanged($event)"
+    
+    [dataType]="histogramParam?.dataType"
+    [dateUnit]="histogramParam?.dateUnit"
+    [dataUnit]="histogramParam?.dataUnit"
+    [valuesDateFormat]="histogramParam?.valuesDateFormat"
+    [isHistogramSelectable]="histogramParam?.isHistogramSelectable"
+    [multiselectable]="histogramParam?.multiselectable"
+    [topOffsetRemoveInterval]="histogramParam?.topOffsetRemoveInterval"
+    [leftOffsetRemoveInterval]="histogramParam?.leftOffsetRemoveInterval"
+    [brushHandlesHeightWeight]="histogramParam?.brushHandlesHeightWeight"
+    [chartType]="histogramParam?.chartType"
+    [chartTitle]="histogramParam?.chartTitle"
+    [chartWidth]="histogramParam?.chartWidth"
+    [chartHeight]="histogramParam?.chartHeight"
+    [customizedCssClass]="histogramParam?.customizedCssClass"
+    [xAxisPosition]="histogramParam?.xAxisPosition"
+    [descriptionPosition]="histogramParam?.descriptionPosition"
+    [xTicks]="histogramParam?.xTicks"
+    [yTicks]="histogramParam?.yTicks"
+    [xLabels]="histogramParam?.xLabels"
+    [yLabels]="histogramParam?.yLabels"
+    [showXTicks]="histogramParam?.showXTicks"
+    [showYTicks]="histogramParam?.showYTicks"
+    [showXLabels]="histogramParam?.showXLabels"
+    [showYLabels]="histogramParam?.showYLabels"
+    [ticksDateFormat]="histogramParam?.ticksDateFormat"
+    [isSmoothedCurve]="histogramParam?.isSmoothedCurve"
+    [barWeight]="histogramParam?.barWeight"
+    [paletteColors]="histogramParam?.paletteColors"
+
+    ></arlas-histogram>
+</div>
+<div *ngIf="componentType === 'swimlane'">
+  <div *ngIf="showSwimlaneDropDown" class="dropdownSwimlane">
+    <mat-form-field>
+      <mat-select panelClass="panelSwimlane" [(value)]="swimSelected.name" (change)="changeSwimlane($event)">
+        <mat-option *ngFor="let s of swimlanes" value="{{s?.name}}">{{s.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <arlas-histogram [chartType]="chartType.swimlane" [intervalListSelection]="contributor?.intervalListSelection"
+    [data]="contributor?.swimData" (valuesListChangedEvent)="contributor?.valueChanged($event)" [intervalSelection]="contributor?.intervalSelection"
+    
+    [dataType]="swimlaneParam?.dataType"
+    [dateUnit]="swimlaneParam?.dateUnit"
+    [dataUnit]="swimlaneParam?.dataUnit"
+    [valuesDateFormat]="swimlaneParam?.valuesDateFormat"
+    [isHistogramSelectable]="swimlaneParam?.isHistogramSelectable"
+    [multiselectable]="swimlaneParam?.multiselectable"
+    [topOffsetRemoveInterval]="swimlaneParam?.topOffsetRemoveInterval"
+    [leftOffsetRemoveInterval]="swimlaneParam?.leftOffsetRemoveInterval"
+    [brushHandlesHeightWeight]="swimlaneParam?.brushHandlesHeightWeight"
+    [chartTitle]="swimlaneParam?.chartTitle"
+    [chartWidth]="swimlaneParam?.chartWidth"
+    [chartHeight]="swimlaneParam?.chartHeight"
+    [customizedCssClass]="swimlaneParam?.customizedCssClass"
+    [xAxisPosition]="swimlaneParam?.xAxisPosition"
+    [descriptionPosition]="swimlaneParam?.descriptionPosition"
+    [xTicks]="swimlaneParam?.xTicks"
+    [yTicks]="swimlaneParam?.yTicks"
+    [xLabels]="swimlaneParam?.xLabels"
+    [yLabels]="swimlaneParam?.yLabels"
+    [showXTicks]="swimlaneParam?.showXTicks"
+    [showYTicks]="swimlaneParam?.showYTicks"
+    [showXLabels]="swimlaneParam?.showXLabels"
+    [showYLabels]="swimlaneParam?.showYLabels"
+    [ticksDateFormat]="swimlaneParam?.ticksDateFormat"
+    [isSmoothedCurve]="swimlaneParam?.isSmoothedCurve"
+    [barWeight]="swimlaneParam?.barWeight"
+    [paletteColors]="swimlaneParam?.paletteColors"
+    [swimlaneMode]="swimlaneParam?.swimlaneMode"
+    [swimLaneLabelsWidth]="swimlaneParam?.swimLaneLabelsWidth"
+    [swimlaneBorderRadius]="swimlaneParam?.swimlaneBorderRadius"
+    [swimlaneHeight]="swimlaneParam?.swimlaneHeight"
+    
+    ></arlas-histogram>
+</div>
+<div *ngIf="componentType === 'powerbars'">
+  <div class="powerbarTitle">{{contributor?.getFilterDisplayName()}}</div>
+  <arlas-powerbars [customizedCssClass]="powerBarParam?.customizedCssClass" [inputData]="contributor?.powerbarsData" (selectedPowerBarEvent)="contributor?.selectedBarsChanged($event)"
+    [selectedPowerbarsTerms]="contributor?.selectedBars">
+  </arlas-powerbars>
+</div>

@@ -1,2 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+.dropdownSwimlane{
+  text-align: center;
+}
+
+.panelSwimlane{
+  color:black;
+}
+
+.powerbarTitle{
+  text-align: center;
+}
+.analytics-board-card{
+  margin: 3px;
+}

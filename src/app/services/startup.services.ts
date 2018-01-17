@@ -43,7 +43,7 @@ export class ArlasStartupService {
 
     public contributorRegistry: Map<string, any> = new Map<string, any>();
     public shouldRunApp = true;
-
+    public analytics : Array<{groupId:string,components:Array<any>}>
     private config: Object;
 
     constructor(private http: Http,
@@ -96,6 +96,8 @@ export class ArlasStartupService {
                             this.collaborativesearchService);
                         this.contributorRegistry.set(contributorIdentifier, contributor);
                     });
+                    this.analytics = this.configService.getValue('arlas.web.analytics');
+
                 } else {
                     this.configService.setConfig({ error: confErrorMessage });
                 }
