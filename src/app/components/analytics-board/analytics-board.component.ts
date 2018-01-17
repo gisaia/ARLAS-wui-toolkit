@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { MatCard } from "@angular/material";
+import { MatCard } from '@angular/material';
 @Component({
   selector: 'arlas-analytics-board',
   templateUrl: './analytics-board.component.html',
@@ -10,7 +10,7 @@ export class AnalyticsBoardComponent implements OnInit {
   @Input() public groups: Array<any>;
   constructor() { }
 
-  ngOnInit() {
+  public ngOnInit() {
   }
 
 }
