@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ArlasConfigService, ArlasCollaborativesearchService } from '../../services/startup.services';
+import { ArlasConfigService, ArlasCollaborativesearchService } from '../../services/startup.service';
 import { MatDialog, MatDialogRef } from '@angular/material';
 
 @Component({
