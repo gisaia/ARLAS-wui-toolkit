@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
-import { ArlasConfigService, ArlasCollaborativesearchService, ArlasStartupService } from './services/startup.service';
+import { ArlasConfigService, ArlasCollaborativesearchService, ArlasStartupService } from './services/startup/startup.service';
 import { MatDialogRef, MatDialog } from '@angular/material';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';

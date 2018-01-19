@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ArlasConfigService, ArlasCollaborativesearchService } from '../../services/startup.service';
+import { ArlasConfigService, ArlasCollaborativesearchService } from '../../services/startup/startup.service';
 import { MatDialog, MatDialogRef } from '@angular/material';
 
 @Component({
@@ -22,7 +22,7 @@ export class ErrormodalComponent implements OnInit {
         if (this.configService.getConfig()['error'] === undefined) {
           k.forEach(m => listError.push('Key configuration problem : \n' + m + ' missing'));
         } else {
-          listError.push('Current configuration have some problems :');
+          listError.push('Current configuration has some problems :');
           (<any>k[0]).forEach(m => listError.push(m));
         }
         this.dialogRef.componentInstance.messages = listError;
