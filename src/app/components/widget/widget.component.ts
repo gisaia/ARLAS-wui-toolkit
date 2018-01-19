@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, AfterViewInit, ViewChild, ChangeDetectorRef, ComponentFactoryResolver } from '@angular/core';
 import { ArlasStartupService, ArlasConfigService, ArlasCollaborativesearchService } from '../../services/startup.services';
-import { Contributor, CollaborationEvent, OperationEnum } from 'arlas-web-core'
+import { Contributor, CollaborationEvent, OperationEnum } from 'arlas-web-core';
 import { contributors } from 'arlas-web-contributors';
 import { ChartType, HistogramComponent, Position } from 'arlas-web-components';
 import { PowerbarsComponent } from 'arlas-web-components/powerbars/powerbars.component';
@@ -48,11 +48,25 @@ export class WidgetComponent implements OnInit {
     this.setComponentInput(this.powerBarParam);
   }
 
+  public changeSwimlane(event) {
+    const swimConf = this.swimlanes.filter(f => f.name === event.value)[0];
+    this.swimSelected = swimConf;
+    this.contributor.aggregations = swimConf.aggregationmodels;
+    this.contributor.field = swimConf.field;
+    const collaborationEvent: CollaborationEvent = {
+      id: 'changeSwimlane',
+      operation: OperationEnum.add,
+      all: true
+    };
+    this.arlasCollaborativesearchService.collaborationBus.next(collaborationEvent);
+
+  }
+
   private getComponentType() {
     const contributor: Contributor = this.arlasStartupService.contributorRegistry.get(this.contributorId);
     if (contributor) {
       const contributorPkgName: string = contributor.getPackageName();
-      const componenType: string = contributorPkgName.split(".")[contributorPkgName.split(".").length - 1];
+      const componenType: string = contributorPkgName.split('.')[contributorPkgName.split('.').length - 1];
       return componenType;
     }
   }
@@ -75,22 +89,8 @@ export class WidgetComponent implements OnInit {
         } else {
           component[key] = this.componentParams[key];
         }
-      })
+      });
     }
-  }
-
-  public changeSwimlane(event) {
-    const swimConf = this.swimlanes.filter(f => f.name === event.value)[0];
-    this.swimSelected = swimConf;
-    this.contributor.aggregations = swimConf.aggregationmodels;
-    this.contributor.field = swimConf.field;
-    const collaborationEvent: CollaborationEvent = {
-      id: 'changeSwimlane',
-      operation: OperationEnum.add,
-      all: true
-    };
-    this.arlasCollaborativesearchService.collaborationBus.next(collaborationEvent);
-
   }
 }
 
