@@ -10,7 +10,7 @@ export class AnalyticsBoardComponent implements OnInit {
   @Input() public groups: Array<any>;
   constructor() { }
 
-  ngOnInit() {
+  public ngOnInit() {
   }
 
 }

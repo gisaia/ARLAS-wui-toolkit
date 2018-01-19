@@ -43,7 +43,7 @@ export class ArlasStartupService {
 
     public contributorRegistry: Map<string, any> = new Map<string, any>();
     public shouldRunApp = true;
-    public analytics : Array<{groupId:string,components:Array<any>}>
+    public analytics: Array<{ groupId: string, components: Array<any> }>;
     private config: Object;
 
     constructor(private http: Http,
