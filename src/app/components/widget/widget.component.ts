@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, AfterViewInit, ViewChild, ChangeDetectorRef, ComponentFactoryResolver } from '@angular/core';
-import { ArlasStartupService, ArlasConfigService, ArlasCollaborativesearchService } from '../../services/startup.service';
+import { ArlasStartupService, ArlasConfigService, ArlasCollaborativesearchService } from '../../services/startup/startup.service';
 import { Contributor, CollaborationEvent, OperationEnum } from 'arlas-web-core';
 import { contributors } from 'arlas-web-contributors';
 import { ChartType, HistogramComponent, Position } from 'arlas-web-components';

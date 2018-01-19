@@ -19,9 +19,7 @@ import 'rxjs/add/operator/catch';
 import { Configuration } from 'arlas-api';
 import { ExploreApi } from 'arlas-api';
 import * as ajv from 'ajv';
-import * as rootContributorConf from '../../../node_modules/arlas-web-contributors/jsonSchemas/rootContributorConf.schema.json';
-import { ErrormodalComponent } from '../components/errormodal/errormodal.component';
-import { MatDialog } from '@angular/material';
+import * as rootContributorConf from '../../../../node_modules/arlas-web-contributors/jsonSchemas/rootContributorConf.schema.json';
 
 
 
