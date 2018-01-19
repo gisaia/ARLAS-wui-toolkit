@@ -19,10 +19,7 @@ export class ArlasBookmarkService {
   public dataBase: BookmarkDatabase;
   public dataSource: BookmarkDataSource | null;
   public bookMarkMap: Map<string, BookMark> = new Map<string, BookMark>();
-<<<<<<< HEAD
   public selectorById;
-=======
->>>>>>> b3374e62e3a90fe0d28ea78b0f30f65f0b4cc0a1
 
   constructor(private collaborativesearchService: ArlasCollaborativesearchService,
     private activatedRoute: ActivatedRoute, public snackBar: MatSnackBar,
@@ -31,10 +28,7 @@ export class ArlasBookmarkService {
     if (this.arlasStartupService.shouldRunApp) {
       this.dataBase = new BookmarkDatabase(this);
       this.bookMarkMap = this.dataBase.bookMarkMap;
-<<<<<<< HEAD
       this.selectorById = this.arlasStartupService.selectorById;
-=======
->>>>>>> b3374e62e3a90fe0d28ea78b0f30f65f0b4cc0a1
     }
   }
 
@@ -55,11 +49,7 @@ export class ArlasBookmarkService {
       const dataModel = this.collaborativesearchService.dataModelBuilder(decodeURI(url));
       const color = '#' + getKeyForColor(dataModel);
       let type: BookMarkType;
-<<<<<<< HEAD
       if (!this.isTemporalFilter(dataModel)) {
-=======
-      if (Object.keys(dataModel).indexOf('timeline') < 0 && Object.keys(dataModel).indexOf('swimlane')) {
->>>>>>> b3374e62e3a90fe0d28ea78b0f30f65f0b4cc0a1
         type = BookMarkType.filterWithoutTime;
       } else {
         type = BookMarkType.filterWithTime;
@@ -78,11 +68,7 @@ export class ArlasBookmarkService {
       const url = JSON.stringify(dataModel);
       const color = '#' + getKeyForColor(dataModel);
       let type: BookMarkType;
-<<<<<<< HEAD
       if (!this.isTemporalFilter(dataModel)) {
-=======
-      if (Object.keys(dataModel).indexOf('timeline') < 0 && Object.keys(dataModel).indexOf('swimlane')) {
->>>>>>> b3374e62e3a90fe0d28ea78b0f30f65f0b4cc0a1
         type = BookMarkType.filterWithoutTime;
       } else {
         type = BookMarkType.filterWithTime;
@@ -144,11 +130,7 @@ export class ArlasBookmarkService {
     selectedBookmark.forEach(id => {
       const bookmark: BookMark = this.bookMarkMap.get(id);
       const dataModel = this.collaborativesearchService.dataModelBuilder(bookmark.url.replace('filter=', ''));
-<<<<<<< HEAD
       dataModel[this.selectorById].filter.f[0].value.split(',').forEach(i => ids.push(i));
-=======
-      dataModel['table'].filter.f[0].value.split(',').forEach(i => ids.push(i));
->>>>>>> b3374e62e3a90fe0d28ea78b0f30f65f0b4cc0a1
     });
     return new Set(ids);
   }
@@ -230,16 +212,11 @@ export class ArlasBookmarkService {
       f: [f]
     };
     collaboration.filter = filters;
-<<<<<<< HEAD
     dataModel[this.selectorById] = collaboration;
-=======
-    dataModel['table'] = collaboration;
->>>>>>> b3374e62e3a90fe0d28ea78b0f30f65f0b4cc0a1
     const url = JSON.stringify(dataModel);
     return url;
 
   }
-<<<<<<< HEAD
 
   private isTemporalFilter(dataModel: Object): boolean {
     let isTemporalFilter = false;
@@ -250,6 +227,4 @@ export class ArlasBookmarkService {
     });
     return isTemporalFilter;
   }
-=======
->>>>>>> b3374e62e3a90fe0d28ea78b0f30f65f0b4cc0a1
 }
