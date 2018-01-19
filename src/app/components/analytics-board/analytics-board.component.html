@@ -1,10 +1,24 @@
 <div class="analytics-board-content">
-  <div *ngFor="let group of groups" class="analytics-board-group">
-      <mat-card *ngFor="let component of group.components" class="analytics-board-card">
-        <mat-card-title *ngIf="component?.title !== undefined">{{component.title}}</mat-card-title>
-        <mat-card-content>
-            <arlas-tool-widget [contributorId]="component?.contributorId" [componentParams]="component?.input"></arlas-tool-widget>
-        </mat-card-content>
-      </mat-card>
-  </div>
+  <mat-expansion-panel *ngFor="let group of groups" [expanded]="true" class="analytics-board-panel">
+      <mat-expansion-panel-header *ngIf="group?.title !== undefined" [expandedHeight]="'48px'" [collapsedHeight]="'32px'" color="primary">
+        <mat-panel-title class="analytics-board-panel-title">
+          <mat-icon *ngIf="group?.icon !== undefined" class="analytics-board-panel-icon">{{group.icon}}</mat-icon>
+          {{group.title}}
+        </mat-panel-title>
+        <mat-panel-description>
+            {{group.description}}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <div class="analytics-board-group">
+        <mat-card *ngFor="let component of group.components;let i = index" class="analytics-board-card">
+          <mat-card-title *ngIf="component?.title !== undefined" class="analytics-board-card-title">
+            <mat-icon *ngIf="component?.icon !== undefined" class="analytics-board-card-icon">{{component.icon}}</mat-icon>
+            {{component.title}}
+          </mat-card-title>
+          <mat-card-content>
+              <arlas-tool-widget [contributorId]="component?.contributorId" [componentParams]="component?.input"></arlas-tool-widget>
+          </mat-card-content>
+        </mat-card>
+      </div>
+  </mat-expansion-panel>
 </div>

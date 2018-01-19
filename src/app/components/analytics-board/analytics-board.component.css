@@ -8,9 +8,45 @@
   flex-wrap: wrap;
   display: flex;
   flex-direction: row;
+  padding-top: 3px;
 }
 
 .analytics-board-card{
   flex:1;
   width: 100%;
+  margin:0px;
+  padding: 0px !important;
+}
+
+.analytics-board-card .mat-card-title{
+  font-size: 15px;
+  margin-bottom: 5px;
+}
+
+.analytics-board-panel{
+  margin: 2px;
+}
+
+.analytics-board-panel-title{
+  align-items: center;
+}
+
+.analytics-board-panel-icon{
+  margin-right: 5px;
+  font-size: 20px;
+  height: 20px;
+  width: 20px;
+}
+
+.analytics-board-card-icon{
+  margin-right: 5px;
+  font-size: 20px;
+  height: 20px;
+  width: 20px;
+}
+
+.analytics-board-card-title{
+  display: flex;
+  align-items: center;
+  padding: 3px 0 0 25px;
 }
