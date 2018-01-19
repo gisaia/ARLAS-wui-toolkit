@@ -43,8 +43,11 @@ export class ArlasStartupService {
     public shouldRunApp = true;
     public analytics: Array<{ groupId: string, components: Array<any> }>;
     public collectionId: string;
+<<<<<<< HEAD:src/app/services/startup/startup.service.ts
     public selectorById: string;
     public temporalContributor: Array<string> = new Array<string>();
+=======
+>>>>>>> b3374e62e3a90fe0d28ea78b0f30f65f0b4cc0a1:src/app/services/startup/startup.service.ts
     private config: Object;
 
     constructor(private http: Http,

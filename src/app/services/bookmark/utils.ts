@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { BookMark } from './model';
+=======
+import { BookMark } from "./model";
+>>>>>>> b3374e62e3a90fe0d28ea78b0f30f65f0b4cc0a1
 import { Filter } from 'arlas-api';
 
 export function getKeyForColor(dataModel: Object): string {
@@ -51,7 +55,11 @@ export function getKeyForColor(dataModel: Object): string {
         }
         finalKeys.push(key.sort().join(','));
     });
+<<<<<<< HEAD
     return intToRGB(hashCode(finalKeys.sort().join(',')));
+=======
+    return this.intToRGB(this.hashCode(finalKeys.sort().join(',')));
+>>>>>>> b3374e62e3a90fe0d28ea78b0f30f65f0b4cc0a1
 }
 export function hashCode(str) { // java String#hashCode
     let hash = 0;
@@ -88,4 +96,8 @@ export function sortOnDate(data: BookMark[]): BookMark[] {
         return (valueA < valueB ? -1 : 1) * (-1);
     });
     return sortedData;
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> b3374e62e3a90fe0d28ea78b0f30f65f0b4cc0a1
