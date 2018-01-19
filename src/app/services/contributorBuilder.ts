@@ -5,7 +5,7 @@ import {
     ResultListContributor,
     SwimLaneContributor
 } from 'arlas-web-contributors';
-import { ArlasConfigService, ArlasCollaborativesearchService } from './startup.services';
+import { ArlasConfigService, ArlasCollaborativesearchService } from './startup.service';
 
 export class ContributorBuilder {
     public static buildContributor(contributorType: string,

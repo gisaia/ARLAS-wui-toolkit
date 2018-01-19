@@ -44,6 +44,7 @@ export class ArlasStartupService {
     public contributorRegistry: Map<string, any> = new Map<string, any>();
     public shouldRunApp = true;
     public analytics: Array<{ groupId: string, components: Array<any> }>;
+    public collectionId: string;
     private config: Object;
 
     constructor(private http: Http,
@@ -96,6 +97,7 @@ export class ArlasStartupService {
                             this.collaborativesearchService);
                         this.contributorRegistry.set(contributorIdentifier, contributor);
                     });
+                    this.collectionId = this.configService.getValue('arlas.server.collection$default.id');
                     this.analytics = this.configService.getValue('arlas.web.analytics');
 
                 } else {

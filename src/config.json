@@ -489,7 +489,8 @@
                 "url": "http://fadas.local:9999/arlas"
             },
             "collection$default": {
-                "collection": "level0_enriched"
+                "collection": "level0_enriched",
+                "id":"uid"
             },
             "max_age$default": {
                 "max_age": 120

@@ -1,0 +1,16 @@
+cache:
+  paths:
+  - node_modules/
+before_script:
+  - npm install
+lint:
+  script:
+  - npm run lint
+arlas-web-components-doc:
+  script:
+  - npm run build-release
+  artifacts:
+    paths:
+    - documentation
+    name: "arlas-wui-toolkit-doc"
+
