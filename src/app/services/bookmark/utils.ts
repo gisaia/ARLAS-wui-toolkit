@@ -1,4 +1,4 @@
-import { BookMark } from "./model";
+import { BookMark } from './model';
 import { Filter } from 'arlas-api';
 
 export function getKeyForColor(dataModel: Object): string {
@@ -51,7 +51,7 @@ export function getKeyForColor(dataModel: Object): string {
         }
         finalKeys.push(key.sort().join(','));
     });
-    return this.intToRGB(this.hashCode(finalKeys.sort().join(',')));
+    return intToRGB(hashCode(finalKeys.sort().join(',')));
 }
 export function hashCode(str) { // java String#hashCode
     let hash = 0;

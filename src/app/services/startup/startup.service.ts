@@ -2,11 +2,11 @@ import { ContributorBuilder } from './contributorBuilder';
 import { HistogramComponent } from 'arlas-web-components';
 import { HistogramData } from 'arlas-web-components/histogram/histogram.utils';
 import {
-  HistogramContributor,
-  MapContributor,
-  PowerbarsContributor,
-  ResultListContributor,
-  SwimLaneContributor
+    HistogramContributor,
+    MapContributor,
+    PowerbarsContributor,
+    ResultListContributor,
+    SwimLaneContributor
 } from 'arlas-web-contributors';
 import { ConfigService, CollaborativesearchService } from 'arlas-web-core';
 import { contributors } from 'arlas-web-contributors';
@@ -25,15 +25,15 @@ import * as rootContributorConf from '../../../../node_modules/arlas-web-contrib
 
 @Injectable()
 export class ArlasConfigService extends ConfigService {
-  constructor() {
-    super();
-  }
+    constructor() {
+        super();
+    }
 }
 @Injectable()
 export class ArlasCollaborativesearchService extends CollaborativesearchService {
-  constructor() {
-    super();
-  }
+    constructor() {
+        super();
+    }
 }
 
 @Injectable()
@@ -43,12 +43,14 @@ export class ArlasStartupService {
     public shouldRunApp = true;
     public analytics: Array<{ groupId: string, components: Array<any> }>;
     public collectionId: string;
+    public selectorById: string;
+    public temporalContributor: Array<string> = new Array<string>();
     private config: Object;
 
-  constructor(private http: Http,
-    private configService: ArlasConfigService,
-    private collaborativesearchService: ArlasCollaborativesearchService) {
-  }
+    constructor(private http: Http,
+        private configService: ArlasConfigService,
+        private collaborativesearchService: ArlasCollaborativesearchService) {
+    }
 
 
 
@@ -90,6 +92,35 @@ export class ArlasStartupService {
                     Object.keys(this.configService.getValue('arlas.web.contributors')).forEach(key => {
                         const contributorType = key.split('$')[0];
                         const contributorIdentifier = key.split('$')[1];
+                        if (contributorType === 'resultlist') {
+                            this.selectorById = contributorIdentifier;
+
+                        } else if (contributorType === 'histogram') {
+                            const aggregationmodels = this.configService.getValue('arlas.web.contributors')[key]['aggregationmodels'];
+                            aggregationmodels.forEach(
+                                agg => {
+                                    if (agg.type === 'datehistogram') {
+                                        if (this.temporalContributor.indexOf(contributorIdentifier)) {
+                                            this.temporalContributor.push(contributorIdentifier);
+                                        }
+                                    }
+                                }
+                            );
+                        } else if (contributorType === 'swimlane') {
+                            const swimlanes = this.configService.getValue('arlas.web.contributors')[key]['swimlanes'];
+                            swimlanes.forEach(swimlane => {
+                                swimlane.aggregationmodels.forEach(
+                                    agg => {
+                                        if (agg.type === 'datehistogram') {
+                                            if (this.temporalContributor.indexOf(contributorIdentifier)) {
+                                                this.temporalContributor.push(contributorIdentifier);
+                                            }
+                                        }
+                                    }
+                                );
+                            });
+
+                        }
                         const contributor = ContributorBuilder.buildContributor(contributorType,
                             contributorIdentifier,
                             this.configService,
@@ -108,17 +139,17 @@ export class ArlasStartupService {
             });
         return ret.then((x) => {
         });
-  }
+    }
 
 
-  private checkJsonWithSchema(contributorType: string): Function {
-    const schema = this.getSchemaFileFromContributor(contributorType);
-    const validate = ajv().addSchema(rootContributorConf).compile(schema);
-    return validate;
+    private checkJsonWithSchema(contributorType: string): Function {
+        const schema = this.getSchemaFileFromContributor(contributorType);
+        const validate = ajv().addSchema(rootContributorConf).compile(schema);
+        return validate;
 
-  }
+    }
 
-  private getSchemaFileFromContributor(contributorType: string): any {
-    return contributors.get(contributorType).getJsonSchema();
-  }
+    private getSchemaFileFromContributor(contributorType: string): any {
+        return contributors.get(contributorType).getJsonSchema();
+    }
 }
