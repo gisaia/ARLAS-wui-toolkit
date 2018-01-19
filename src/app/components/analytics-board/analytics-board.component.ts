@@ -1,5 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { MatCard, MatExpansionPanel, MatExpansionPanelHeader, MatExpansionPanelTitle, MatExpansionPanelDescription, MatExpansionPanelState, MatIcon } from "@angular/material";
+import {
+  MatCard, MatExpansionPanel, MatExpansionPanelHeader, MatExpansionPanelTitle,
+  MatExpansionPanelDescription, MatExpansionPanelState, MatIcon
+} from '@angular/material';
 @Component({
   selector: 'arlas-analytics-board',
   templateUrl: './analytics-board.component.html',
