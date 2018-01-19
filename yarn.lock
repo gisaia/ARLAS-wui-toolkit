@@ -769,9 +769,9 @@ arlas-kv-api@~1.0.14:
   version "1.0.15"
   resolved "https://registry.yarnpkg.com/arlas-kv-api/-/arlas-kv-api-1.0.15.tgz#5222c694bc8c5e875f2815e5a20652d9d1b2a5d3"
 
-arlas-web-components@latest:
-  version "2.3.5"
-  resolved "https://registry.yarnpkg.com/arlas-web-components/-/arlas-web-components-2.3.5.tgz#a0f523ffe8019a18ed872e45c400e97076c3132b"
+arlas-web-components@^2.4.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/arlas-web-components/-/arlas-web-components-2.4.0.tgz#ff19f5023490e196c604735ec9a0f3f343dede96"
   dependencies:
     "@angular/animations" "^4.0.0"
     "@angular/cdk" "2.0.0-beta.12"

@@ -59,7 +59,6 @@ export class WidgetComponent implements OnInit {
       all: true
     };
     this.arlasCollaborativesearchService.collaborationBus.next(collaborationEvent);
-
   }
 
   private getComponentType() {
