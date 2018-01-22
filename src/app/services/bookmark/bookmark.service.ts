@@ -221,7 +221,7 @@ export class ArlasBookmarkService {
   private isTemporalFilter(dataModel: Object): boolean {
     let isTemporalFilter = false;
     Object.keys(dataModel).forEach(key => {
-      if (this.arlasStartupService.temporalContributor.indexOf(key) > 0) {
+      if (this.arlasStartupService.temporalContributor.indexOf(key) >= 0) {
         isTemporalFilter = true;
       }
     });
