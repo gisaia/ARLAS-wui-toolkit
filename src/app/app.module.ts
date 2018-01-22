@@ -2,8 +2,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
-import { ArlasStartupService, ArlasConfigService, ArlasCollaborativesearchService } from './services/startup.services';
-import { NgModule, APP_INITIALIZER } from '@angular/core';
+import { ArlasStartupService, ArlasConfigService, ArlasCollaborativesearchService } from './services/startup/startup.service';
+import { NgModule, APP_INITIALIZER, forwardRef } from '@angular/core';
 import { ConfigService, CollaborativesearchService } from 'arlas-web-core';
 import { AppComponent } from './app.component';
 import { ErrormodalComponent, ErrorModalMsgComponent } from './components/errormodal/errormodal.component';
@@ -12,6 +12,9 @@ import { WidgetComponent } from './components/widget/widget.component';
 import { HistogramModule } from 'arlas-web-components/histogram/histogram.module';
 import { PowerbarsModule } from 'arlas-web-components/powerbars/powerbars.module';
 import { AnalyticsBoardComponent } from './components/analytics-board/analytics-board.component';
+import { ArlasBookmarkService } from './services/bookmark/bookmark.service';
+import { RouterModule } from '@angular/router';
+import { routing } from './app.routes';
 export function startupServiceFactory(startupService: ArlasStartupService) {
   const load = () => startupService.load('config.json');
   return load;
@@ -32,6 +35,8 @@ export function startupServiceFactory(startupService: ArlasStartupService) {
     MatCardModule,
     CommonModule,
     HttpModule,
+    RouterModule,
+    routing,
     HistogramModule,
     MatDialogModule,
     MatSelectModule,
@@ -41,9 +46,11 @@ export function startupServiceFactory(startupService: ArlasStartupService) {
     PowerbarsModule
   ],
   providers: [
-    ArlasConfigService,
-    ArlasCollaborativesearchService,
-    ArlasStartupService,
+    forwardRef(() => ArlasConfigService),
+    forwardRef(() => ArlasCollaborativesearchService),
+    forwardRef(() => ArlasStartupService),
+    forwardRef(() => ArlasBookmarkService),
+
     {
       provide: APP_INITIALIZER,
       useFactory: startupServiceFactory,
