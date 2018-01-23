@@ -465,7 +465,7 @@
                     {
                         "contributorId": "dropdown",
                         "componentType": "swimlane",
-                        "inputSwimlane": {
+                        "input": {
                             "dataType": "time",
                             "dataUnit": "millisecond",
                             "isHistogramSelectable": true,

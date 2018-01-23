@@ -89,7 +89,8 @@
                                                     "enum": [
                                                         "histogram",
                                                         "powerbars",
-                                                        "swimlane"
+                                                        "swimlane",
+                                                        "resultlist"
                                                     ]
                                                 }
                                             },
@@ -113,6 +114,20 @@
                                                                     "$ref": "histogram.schema.json#"
                                                                 }
                                                             ]
+                                                        }
+                                                    }
+                                                },
+                                                {
+                                                    "properties": {
+                                                        "componentType": {
+                                                            "enum": [
+                                                                "resultlist"
+                                                            ]
+                                                        },
+                                                        "input": {
+                                                            "description": "Input of resultlist component.",
+                                                            "type":"object"
+                     
                                                         }
                                                     }
                                                 },
