@@ -1,3 +1,18 @@
+.analytics-board-panel{
+  margin: 2px;
+}
+
+.analytics-board-panel-title{
+  align-items: center;
+}
+
+.analytics-board-panel-icon{
+  margin-right: 5px;
+  font-size: 20px;
+  height: 20px;
+  width: 20px;
+}
+
 .analytics-board-content{
   display: flex;
   flex-direction: column;
@@ -14,28 +29,13 @@
 .analytics-board-card{
   flex:1;
   width: 100%;
-  margin:0px;
-  padding: 0px !important;
+  margin: 3px;
+  padding: 3px;
 }
 
 .analytics-board-card .mat-card-title{
   font-size: 15px;
   margin-bottom: 5px;
-}
-
-.analytics-board-panel{
-  margin: 2px;
-}
-
-.analytics-board-panel-title{
-  align-items: center;
-}
-
-.analytics-board-panel-icon{
-  margin-right: 5px;
-  font-size: 20px;
-  height: 20px;
-  width: 20px;
 }
 
 .analytics-board-card-icon{

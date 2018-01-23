@@ -288,15 +288,12 @@
                 "resultlist$table": {
                     "identifier": "table",
                     "fieldsConfiguration": {
-                        "idFieldName": "uid",
-                        "urlImageTemplate": "http://localhost/~barbet/{acquisition.mission}/{attachments$0$uri}",
-                        "urlThumbnailTemplate": "http://localhost/~barbet/{acquisition.mission}/{attachments$0$uri}",
-                        "titleFieldName": "acquisition.mission"
+                        "idFieldName": "citationIdentifier"
                     },
                     "columns": [
                         {
-                            "columnName": "uid",
-                            "fieldName": "uid",
+                            "columnName": "citationIdentifier",
+                            "fieldName": "citationIdentifier",
                             "dataType": "",
                             "process": ""
                         },
@@ -308,35 +305,23 @@
                         },
                         {
                             "columnName": "Reception",
-                            "fieldName": "transmission.station",
+                            "fieldName": "acquisition.receivingStation",
                             "dataType": "",
                             "process": ""
                         },
                         {
                             "columnName": "Archive",
-                            "fieldName": "archive.station",
-                            "dataType": "",
-                            "process": ""
-                        },
-                        {
-                            "columnName": "Date",
-                            "fieldName": "enrichment.naturallanguage.search_date_string",
-                            "dataType": "",
-                            "process": ""
-                        },
-                        {
-                            "columnName": "Cloud",
-                            "fieldName": "enrichment.naturallanguage.search_cloud_string",
+                            "fieldName": "product.archiveInfo.archivingCenter",
                             "dataType": "",
                             "process": ""
                         }
                     ],
                     "process": {
                         "urlImageTemplate": {
-                            "process": "v.replace('QUICKLOOK', 'THUMBNAIL').replace('//', '/')"
+                            "process": ""
                         },
                         "urlThumbnailTemplate": {
-                            "process": "v.replace('QUICKLOOK', 'THUMBNAIL').replace('//', '/')"
+                            "process": ""
                         }
                     },
                     "details": [
@@ -345,12 +330,12 @@
                             "order": 1,
                             "fields": [
                                 {
-                                    "path": "enrichment.naturallanguage.search_incidence_angle_string",
+                                    "path": "search_incidence_angle_string",
                                     "label": "Incidence ",
                                     "process": ""
                                 },
                                 {
-                                    "path": "enrichment.naturallanguage.search_quality_string",
+                                    "path": "search_quality_string",
                                     "label": "Quality ",
                                     "process": ""
                                 }
@@ -410,33 +395,21 @@
                     "groupId": "2",
                     "components": [
                         {
-                            "contributorId": "timeline",
+                            "contributorId": "table",
                             "input": {
-                                "dataType": "time",
-                                "dataUnit": "millisecond",
-                                "isHistogramSelectable": true,
-                                "multiselectable": true,
-                                "topOffsetRemoveInterval": 40,
-                                "leftOffsetRemoveInterval": 18,
-                                "brushHandlesHeightWeight": 0.5,
-                                "chartType": "bars",
-                                "chartTitle": "AUTOMATIC HISTOGRAM",
-                                "chartWidth": null,
-                                "chartHeight": 100,
-                                "customizedCssClass": "",
-                                "xAxisPosition": "bottom",
-                                "descriptionPosition": "bottom",
-                                "xTicks": 7,
-                                "yTicks": 2,
-                                "xLabels": 7,
-                                "yLabels": 2,
-                                "showXTicks": true,
-                                "showYTicks": true,
-                                "showXLabels": true,
-                                "showYLabels": true,
-                                "showHorizontalLines": true,
-                                "isSmoothedCurve": false,
-                                "barWeight": 0.8
+                              "tableWidth":null,
+                              "globalActionsList":[{"id":"1","label":"test"},{"id":"2", "label":"Counties "}],
+                              "searchSize":30,
+                              "nLastLines":3,
+                              "detailedGridHeight":25,
+                              "nbGridColumns":3,
+                              "defautMode":"list",
+                              "isBodyHidden":false,
+                              "isGeoSortActived":false,
+                              "selectedItemsEvent":null,
+                              "consultedItemEvent":null,
+                              "actionOnItemEvent":null,
+                              "globalActionEvent":null
                             }
                         }
                     ]
@@ -467,7 +440,7 @@
                                 "showXTicks": true,
                                 "showYTicks": true,
                                 "showXLabels": true,
-                                "showYLabels": true,
+                                "showYLabels": false,
                                 "showHorizontalLines": true,
                                 "isSmoothedCurve": false,
                                 "barWeight": 0.8,
