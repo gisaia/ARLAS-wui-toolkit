@@ -374,21 +374,21 @@
                         {
                             "contributorId": "mission",
                             "componentType": "powerbars",
-                            "inputPowerBars": {
+                            "input": {
                                 "customizedCssClass": ""
                             }
                         },
                         {
                             "contributorId": "reception",
                             "componentType": "powerbars",
-                            "inputPowerBars": {
+                            "input": {
                                 "customizedCssClass": ""
                             }
                         },
                         {
                             "contributorId": "archivage",
                             "componentType": "powerbars",
-                            "inputPowerBars": {
+                            "input": {
                                 "customizedCssClass": ""
                             }
                         }

@@ -91,56 +91,66 @@
                                                         "powerbars",
                                                         "swimlane"
                                                     ]
-                                                },
-                                                "inputHistogram": {
-                                                    "description": "Input of histogram component.",
-                                                    "allOf": [
-                                                        {
-                                                            "$ref": "histogram.schema.json#"
-                                                        }
-                                                    ]
-                                                },
-                                                "inputPowerBars": {
-                                                    "description": "Input of powerbars component.",
-                                                    "allOf": [
-                                                        {
-                                                            "$ref": "powerbars.schema.json#"
-                                                        }
-                                                    ]
-                                                },
-                                                "inputSwimlane": {
-                                                    "description": "Input of swimlane component.",
-                                                    "allOf": [
-                                                        {
-                                                            "$ref": "swimlane.schema.json#"
-                                                        }
-                                                    ]
                                                 }
-                                               
                                             },
                                             "required": [
                                                 "contributorId",
-                                                "componentType"
-                                            ],  "anyOf": [
+                                                "componentType",
+                                                "input"
+                                            ],
+                                            "anyOf": [
                                                 {
-                                                  "properties": {
-                                                    "componentType": { "enum": ["histogram"] }
-                                                  },
-                                                  "required": ["inputHistogram"]
+                                                    "properties": {
+                                                        "componentType": {
+                                                            "enum": [
+                                                                "histogram"
+                                                            ]
+                                                        },
+                                                        "input": {
+                                                            "description": "Input of histogram component.",
+                                                            "allOf": [
+                                                                {
+                                                                    "$ref": "histogram.schema.json#"
+                                                                }
+                                                            ]
+                                                        }
+                                                    }
                                                 },
                                                 {
                                                     "properties": {
-                                                      "componentType": { "enum": ["powerbars"] }
-                                                    },
-                                                    "required": ["inputPowerBars"]
-                                                  },
-                                                  {
+                                                        "componentType": {
+                                                            "enum": [
+                                                                "powerbars"
+                                                            ]
+                                                        },
+                                                        "input": {
+                                                            "description": "Input of powerbars component.",
+                                                            "allOf": [
+                                                                {
+                                                                    "$ref": "powerbars.schema.json#"
+                                                                }
+                                                            ]
+                                                        }
+                                                    }
+                                                },
+                                                {
                                                     "properties": {
-                                                      "componentType": { "enum": ["swimlane"] }
-                                                    },
-                                                    "required": ["inputSwimlane"]
-                                                  }
-                                              ]
+                                                        "componentType": {
+                                                            "enum": [
+                                                                "swimlane"
+                                                            ]
+                                                        },
+                                                        "input": {
+                                                            "description": "Input of swimlane component.",
+                                                            "allOf": [
+                                                                {
+                                                                    "$ref": "swimlane.schema.json#"
+                                                                }
+                                                            ]
+                                                        }
+                                                    }
+                                                }
+                                            ]
                                         }
                                     },
                                     "title": {
