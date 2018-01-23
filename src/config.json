@@ -388,19 +388,22 @@
                     "components": [
                         {
                             "contributorId": "mission",
-                            "inuput": {
+                            "componentType": "powerbars",
+                            "inputPowerBars": {
                                 "customizedCssClass": ""
                             }
                         },
                         {
                             "contributorId": "reception",
-                            "inuput": {
+                            "componentType": "powerbars",
+                            "inputPowerBars": {
                                 "customizedCssClass": ""
                             }
                         },
                         {
                             "contributorId": "archivage",
-                            "inuput": {
+                            "componentType": "powerbars",
+                            "inputPowerBars": {
                                 "customizedCssClass": ""
                             }
                         }
@@ -411,7 +414,8 @@
                     "components": [
                         {
                             "contributorId": "timeline",
-                            "input": {
+                            "componentType": "histogram",
+                            "inputHistogram": {
                                 "dataType": "time",
                                 "dataUnit": "millisecond",
                                 "isHistogramSelectable": true,
@@ -446,7 +450,8 @@
                     "components": [
                         {
                             "contributorId": "dropdown",
-                            "input": {
+                            "componentType": "swimlane",
+                            "inputSwimlane": {
                                 "dataType": "time",
                                 "dataUnit": "millisecond",
                                 "isHistogramSelectable": true,
@@ -485,15 +490,11 @@
             ]
         },
         "server": {
-            "server$default": {
-                "url": "http://fadas.local:9999/arlas"
-            },
-            "collection$default": {
-                "collection": "level0_enriched",
-                "id":"uid"
-            },
-            "max_age$default": {
-                "max_age": 120
+            "url": "http://localhost:9999/arlas",
+            "max_age_cache": 120,
+            "collection": {
+                "id": "uid",
+                "name": "catalog"
             }
         }
     },
