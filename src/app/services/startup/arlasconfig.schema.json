@@ -89,7 +89,6 @@
                                                     "enum": [
                                                         "histogram",
                                                         "powerbars",
-<<<<<<< HEAD
                                                         "swimlane",
                                                         "resultlist"
                                                     ]
@@ -167,60 +166,6 @@
                                                     }
                                                 }
                                             ]
-=======
-                                                        "swimlane"
-                                                    ]
-                                                },
-                                                "inputHistogram": {
-                                                    "description": "Input of histogram component.",
-                                                    "allOf": [
-                                                        {
-                                                            "$ref": "histogram.schema.json#"
-                                                        }
-                                                    ]
-                                                },
-                                                "inputPowerBars": {
-                                                    "description": "Input of powerbars component.",
-                                                    "allOf": [
-                                                        {
-                                                            "$ref": "powerbars.schema.json#"
-                                                        }
-                                                    ]
-                                                },
-                                                "inputSwimlane": {
-                                                    "description": "Input of swimlane component.",
-                                                    "allOf": [
-                                                        {
-                                                            "$ref": "swimlane.schema.json#"
-                                                        }
-                                                    ]
-                                                }
-                                               
-                                            },
-                                            "required": [
-                                                "contributorId",
-                                                "componentType"
-                                            ],  "anyOf": [
-                                                {
-                                                  "properties": {
-                                                    "componentType": { "enum": ["histogram"] }
-                                                  },
-                                                  "required": ["inputHistogram"]
-                                                },
-                                                {
-                                                    "properties": {
-                                                      "componentType": { "enum": ["powerbars"] }
-                                                    },
-                                                    "required": ["inputPowerBars"]
-                                                  },
-                                                  {
-                                                    "properties": {
-                                                      "componentType": { "enum": ["swimlane"] }
-                                                    },
-                                                    "required": ["inputSwimlane"]
-                                                  }
-                                              ]
->>>>>>> 4f071d0a5df8a9fa45de429b8c40af7957c39f60
                                         }
                                     },
                                     "title": {
