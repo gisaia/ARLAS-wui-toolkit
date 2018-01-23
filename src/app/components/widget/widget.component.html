@@ -1,7 +1,7 @@
 <div *ngIf="componentType === 'histogram'">
   <arlas-histogram  [intervalListSelection]="contributor?.intervalListSelection" [intervalSelection]="contributor?.intervalSelection"
     [data]="contributor?.chartData" (valuesListChangedEvent)="contributor?.valueChanged($event)"
-    
+
     [dataType]="histogramParam?.dataType"
     [dateUnit]="histogramParam?.dateUnit"
     [dataUnit]="histogramParam?.dataUnit"
@@ -43,7 +43,7 @@
   </div>
   <arlas-histogram [chartType]="chartType.swimlane" [intervalListSelection]="contributor?.intervalListSelection"
     [data]="contributor?.swimData" (valuesListChangedEvent)="contributor?.valueChanged($event)" [intervalSelection]="contributor?.intervalSelection"
-    
+
     [dataType]="swimlaneParam?.dataType"
     [dateUnit]="swimlaneParam?.dateUnit"
     [dataUnit]="swimlaneParam?.dataUnit"
@@ -75,7 +75,7 @@
     [swimLaneLabelsWidth]="swimlaneParam?.swimLaneLabelsWidth"
     [swimlaneBorderRadius]="swimlaneParam?.swimlaneBorderRadius"
     [swimlaneHeight]="swimlaneParam?.swimlaneHeight"
-    
+
     ></arlas-histogram>
 </div>
 <div *ngIf="componentType === 'powerbars'">
@@ -83,4 +83,35 @@
   <arlas-powerbars [customizedCssClass]="powerBarParam?.customizedCssClass" [inputData]="contributor?.powerbarsData" (selectedPowerBarEvent)="contributor?.selectedBarsChanged($event)"
     [selectedPowerbarsTerms]="contributor?.selectedBars">
   </arlas-powerbars>
+</div>
+
+<div *ngIf="componentType === 'resultlist'">
+  <arlas-result-list style="height:100%"
+    [rowItemList]="contributor?.data"
+    [detailedDataRetriever]="contributor?.detailedDataRetriever"
+    [fieldsConfiguration]="contributor?.fieldsConfiguration"
+    [fieldsList]="contributor?.fieldsList"
+    [filtersMap]="contributor?.filtersMap"
+    (sortColumnEvent)="contributor?.sortColumn($event)"
+    (geoSortEvent)="contributor?.geoSort($event)"
+    (moreDataEvent)="contributor?.addMoreData($event)"
+    (setFiltersEvent)="contributor?.setFilters($event)"
+
+    [tableWidth]="resultListParam.tableWidth"
+    [globalActionsList]="resultListParam.globalActionsList"
+
+    [searchSize]="resultListParam.searchSize"
+    [nLastLines]="resultListParam.nLastLines"
+    [detailedGridHeight]="resultListParam.detailedGridHeight"
+    [nbGridColumns]="resultListParam.nbGridColumns"
+    [indeterminatedItems]="this.indeterminatedItems"
+    [highlightItems]="this.highlightItems"
+    [defautMode]="resultListParam.defautMode"
+    [isBodyHidden]="resultListParam.isBodyHidden"
+    [isGeoSortActived]="resultListParam.isGeoSortActived"
+    (selectedItemsEvent)="resultListParam.selectedItemsEvent"
+    (consultedItemEvent)="resultListParam.consultedItemEvent"
+    (actionOnItemEvent)="resultListParam.actionOnItemEvent"
+    (globalActionEvent)="resultListParam.globalActionEvent">
+  </arlas-result-list>
 </div>

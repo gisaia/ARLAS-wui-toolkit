@@ -15,6 +15,7 @@ import { AnalyticsBoardComponent } from './components/analytics-board/analytics-
 import { ArlasBookmarkService } from './services/bookmark/bookmark.service';
 import { RouterModule } from '@angular/router';
 import { routing } from './app.routes';
+import { ResultsModule } from 'arlas-web-components/results/results.module';
 export function startupServiceFactory(startupService: ArlasStartupService) {
   const load = () => startupService.load('config.json');
   return load;
@@ -43,7 +44,8 @@ export function startupServiceFactory(startupService: ArlasStartupService) {
     MatCardModule,
     MatExpansionModule,
     MatIconModule,
-    PowerbarsModule
+    PowerbarsModule,
+    ResultsModule
   ],
   providers: [
     forwardRef(() => ArlasConfigService),

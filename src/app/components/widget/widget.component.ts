@@ -20,10 +20,13 @@ export class WidgetComponent implements OnInit {
   public contributor;
   public swimSelected;
   public swimlanes = [];
+  public indeterminatedItems: Set<string> = new Set<string>();
+  public highlightItems: Set<string> = new Set<string>();
   public showSwimlaneDropDown: boolean;
   public histogramParam: any = {};
   public swimlaneParam: any = {};
   public powerBarParam: any = {};
+  public resultListParam: any = {};
 
   @Input() public contributorId: string;
   @Input() public componentParams: any;
@@ -31,8 +34,6 @@ export class WidgetComponent implements OnInit {
   constructor(private arlasStartupService: ArlasStartupService,
     private cdr: ChangeDetectorRef, private componentFactoryResolver: ComponentFactoryResolver,
     private arlasCollaborativesearchService: ArlasCollaborativesearchService) {
-
-
   }
 
   public ngOnInit() {
@@ -46,6 +47,7 @@ export class WidgetComponent implements OnInit {
     this.setComponentInput(this.histogramParam);
     this.setComponentInput(this.swimlaneParam);
     this.setComponentInput(this.powerBarParam);
+    this.setComponentInput(this.resultListParam);
   }
 
   public changeSwimlane(event) {
