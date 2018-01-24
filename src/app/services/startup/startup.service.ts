@@ -6,7 +6,7 @@ import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/catch';
 import * as ajv from 'ajv';
 
-import { HistogramComponent, PowerbarsComponent, MapglComponent } from 'arlas-web-components';
+import { HistogramComponent, PowerbarsComponent, MapglComponent, DonutComponent } from 'arlas-web-components';
 import { HistogramData } from 'arlas-web-components/histogram/histogram.utils';
 import {
     HistogramContributor,
@@ -15,6 +15,7 @@ import {
     ResultListContributor,
     SwimLaneContributor,
     ChipsSearchContributor,
+    DonutContributor,
     contributors
 } from 'arlas-web-contributors';
 import * as rootContributorConfSchema from 'arlas-web-contributors/jsonSchemas/rootContributorConf.schema.json';
@@ -97,11 +98,13 @@ export class ArlasStartupService {
                     .addSchema(PowerbarsContributor.getJsonSchema())
                     .addSchema(ResultListContributor.getJsonSchema())
                     .addSchema(MapContributor.getJsonSchema())
+                    .addSchema(DonutContributor.getJsonSchema())
                     .addSchema(ChipsSearchContributor.getJsonSchema())
                     .addSchema(HistogramComponent.getHistogramJsonSchema())
                     .addSchema(HistogramComponent.getSwimlaneJsonSchema())
                     .addSchema(PowerbarsComponent.getPowerbarsJsonSchema())
                     .addSchema(MapglComponent.getMapglJsonSchema())
+                    .addSchema(DonutComponent.getDonutJsonSchema())
                     .compile(arlasConfSchema);
                 if (validateConfig(configData) === false) {
                     this.shouldRunApp = false;
@@ -133,6 +136,7 @@ export class ArlasStartupService {
                 }
                 if (this.shouldRunApp) {
                     Object.keys(this.configService.getValue('arlas.web.contributors')).forEach(key => {
+
                         const contributorType = key.split('$')[0];
                         const contributorIdentifier = key.split('$')[1];
                         if (contributorType === 'resultlist') {

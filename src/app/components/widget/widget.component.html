@@ -85,6 +85,13 @@
   </arlas-powerbars>
 </div>
 
+<div *ngIf="componentType === 'donut'" style="height:500px;" >
+  <div class="donut">{{contributor?.getFilterDisplayName()}}</div>
+  <arlas-donut  [donutData]="contributor?.donutData"  [opacity]="donutParam.opacity" [multiselectable]="donutParam.multiselectable" [selectedArcsList]="contributor?.selectedArcsList"
+  (selectedNodesEvent)="contributor?.selectedArcsListChanged($event)">
+  </arlas-donut>
+</div>
+
 <div *ngIf="componentType === 'resultlist'">
   <arlas-result-list style="height:100%"
     [rowItemList]="contributor?.data"

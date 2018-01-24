@@ -6,6 +6,7 @@ import { ChartType, HistogramComponent, Position } from 'arlas-web-components';
 import { PowerbarsComponent } from 'arlas-web-components/powerbars/powerbars.component';
 import { DataType, DateUnit } from 'arlas-web-contributors/models/models';
 import { SwimlaneMode } from 'arlas-web-components/histogram/histogram.utils';
+import { DonutComponent } from 'arlas-web-components/donut/donut.component';
 
 @Component({
   selector: 'arlas-tool-widget',
@@ -27,6 +28,7 @@ export class WidgetComponent implements OnInit {
   public swimlaneParam: any = {};
   public powerBarParam: any = {};
   public resultListParam: any = {};
+  public donutParam: any = {};
 
   @Input() public contributorId: string;
   @Input() public componentParams: any;
@@ -48,6 +50,8 @@ export class WidgetComponent implements OnInit {
     this.setComponentInput(this.swimlaneParam);
     this.setComponentInput(this.powerBarParam);
     this.setComponentInput(this.resultListParam);
+    this.setComponentInput(this.donutParam);
+
   }
 
   public changeSwimlane(event) {
