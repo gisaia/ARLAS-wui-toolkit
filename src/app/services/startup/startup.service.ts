@@ -95,57 +95,56 @@ export class ArlasStartupService {
                     this.collaborativesearchService.setExploreApi(arlasExploreApi);
                     this.collaborativesearchService.collection = this.configService.getValue('arlas.server.collection.name');
                     this.collaborativesearchService.max_age = this.configService.getValue('arlas.server.max_age');
-                    this.collaborativesearchService.resolveHits([projType.count, {}]).finally(() => {
-                        if (this.shouldRunApp) {
-                            Object.keys(this.configService.getValue('arlas.web.contributors')).forEach(key => {
-                                const contributorType = key.split('$')[0];
-                                const contributorIdentifier = key.split('$')[1];
-                                if (contributorType === 'resultlist') {
-                                    this.selectorById = contributorIdentifier;
-                                } else if (contributorType === 'histogram') {
-                                    const aggregationmodels = this.configService
-                                        .getValue('arlas.web.contributors')[key]['aggregationmodels'];
-                                    aggregationmodels.forEach(
-                                        agg => {
-                                            if (agg.type === 'datehistogram') {
-                                                if (this.temporalContributor.indexOf(contributorIdentifier)) {
-                                                    this.temporalContributor.push(contributorIdentifier);
-                                                }
-                                            }
-                                        }
-                                    );
-                                } else if (contributorType === 'swimlane') {
-                                    const swimlanes = this.configService.getValue('arlas.web.contributors')[key]['swimlanes'];
-                                    swimlanes.forEach(swimlane => {
-                                        swimlane.aggregationmodels.forEach(
-                                            agg => {
-                                                if (agg.type === 'datehistogram') {
-                                                    if (this.temporalContributor.indexOf(contributorIdentifier)) {
-                                                        this.temporalContributor.push(contributorIdentifier);
-                                                    }
-                                                }
-                                            }
-                                        );
-                                    });
-                                }
-                                const contributor = ContributorBuilder.buildContributor(contributorType,
-                                    contributorIdentifier,
-                                    this.configService,
-                                    this.collaborativesearchService);
-                                this.contributorRegistry.set(contributorIdentifier, contributor);
-                            });
-                            this.collectionId = this.configService.getValue('arlas.server.collection.id');
-                            this.analytics = this.configService.getValue('arlas.web.analytics');
-                        }
-                    })
+                    this.collaborativesearchService.resolveHits([projType.count, {}])
                         .subscribe(
-                        result => this.shouldRunApp = true,
+                        result => { this.shouldRunApp = true; },
                         error => {
                             this.shouldRunApp = false;
                             alert('Unreachable ARLAS Server : ' + this.configService.getValue('arlas.server.url'));
-                        }
-                        );
+                        });
                 }
+                if (this.shouldRunApp) {
+                    Object.keys(this.configService.getValue('arlas.web.contributors')).forEach(key => {
+                        const contributorType = key.split('$')[0];
+                        const contributorIdentifier = key.split('$')[1];
+                        if (contributorType === 'resultlist') {
+                            this.selectorById = contributorIdentifier;
+                        } else if (contributorType === 'histogram') {
+                            const aggregationmodels = this.configService
+                                .getValue('arlas.web.contributors')[key]['aggregationmodels'];
+                            aggregationmodels.forEach(
+                                agg => {
+                                    if (agg.type === 'datehistogram') {
+                                        if (this.temporalContributor.indexOf(contributorIdentifier)) {
+                                            this.temporalContributor.push(contributorIdentifier);
+                                        }
+                                    }
+                                }
+                            );
+                        } else if (contributorType === 'swimlane') {
+                            const swimlanes = this.configService.getValue('arlas.web.contributors')[key]['swimlanes'];
+                            swimlanes.forEach(swimlane => {
+                                swimlane.aggregationmodels.forEach(
+                                    agg => {
+                                        if (agg.type === 'datehistogram') {
+                                            if (this.temporalContributor.indexOf(contributorIdentifier)) {
+                                                this.temporalContributor.push(contributorIdentifier);
+                                            }
+                                        }
+                                    }
+                                );
+                            });
+                        }
+                        const contributor = ContributorBuilder.buildContributor(contributorType,
+                            contributorIdentifier,
+                            this.configService,
+                            this.collaborativesearchService);
+                        this.contributorRegistry.set(contributorIdentifier, contributor);
+                    });
+                    this.collectionId = this.configService.getValue('arlas.server.collection.id');
+                    this.analytics = this.configService.getValue('arlas.web.analytics');
+                }
+
             })
             .catch((err: any) => {
                 console.log(err);
