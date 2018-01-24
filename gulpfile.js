@@ -21,6 +21,11 @@ function copyJS() {
         .pipe(gulp.dest('./dist')).on('end', copyAssets);
 }
 
+function copyscriptJS() {
+    gulp.src('src/script/*.js')
+        .pipe(gulp.dest('./dist')).on('end', copyAssets);
+}
+
 function copyAssets() {
     gulp.src('./src/assets/**/*')
         .pipe(gulp.dest('./dist/assets')).on('end', copyScss);
@@ -67,6 +72,8 @@ gulp.task('build:clean-dist-src', cleanDistSrc);
 gulp.task('build:copy-and-inline-resource', copyHtml);
 gulp.task('build:copy-and-inline-dts', copyDts);
 gulp.task('build:copy-and-inline-js', copyJS);
+gulp.task('build:copy-and-inline-script-js', copyscriptJS);
+
 gulp.task('build:copy-resources', ['copy-data']);
 
 gulp.task('build:generatedoc', generatedoc);
@@ -77,6 +84,7 @@ gulp.task('build:release', function (done) {
         'build:copy-and-inline-resource',
         'build:copy-and-inline-dts',
         'build:copy-and-inline-js',
+        'build:copy-and-inline-script-js',
         'build:clean-dist-node_modules',
         'build:clean-dist-src',
         'build:generatedoc',
