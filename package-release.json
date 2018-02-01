@@ -32,9 +32,10 @@
     "@angular/platform-browser-dynamic": "^4.2.4",
     "@angular/router": "^4.2.4",
     "ajv": "^5.5.2",
-    "arlas-web-components": "^2.5.0",
-    "arlas-web-contributors": "^2.4.0",
-    "arlas-web-core": "^2.4.0",
+    "arlas-web-components": "^2.6.0",
+    "arlas-web-contributors": "^2.6.0",
+    "arlas-web-core": "^2.6.0",
+    "cli-color": "^1.2.0",
     "core-js": "^2.4.1",
     "rxjs": "^5.4.2",
     "zone.js": "^0.8.14"
