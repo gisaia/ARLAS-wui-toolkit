@@ -194,15 +194,15 @@
                                   "type": "object",
                                   "properties": {
                                       "max_for_feature": {
-                                          "description": "Limit of elements return by server in feature mode",
+                                          "description": "Max number of elements returned by arlas-server in feature mode",
                                           "type": "number"
                                       },
                                       "max_for_cluster": {
-                                          "description": "Limit of elements return by server in cluster mode",
+                                          "description": "Max number of elements returned by arlas-server in cluster mode",
                                           "type": "number"
                                       },
                                       "sort_excluded_type": {
-                                          "description": "List of excluded field type in sort option",
+                                          "description": "List of excluded field's types in sort option",
                                           "type": "array"
                                       }
                                   },
