@@ -1,0 +1,52 @@
+.share-radio-group {
+  display: inline-flex;
+  flex-direction: row;
+  padding:10px;
+}
+
+.share-radio-button {
+  margin: 5px;
+}
+
+.share-url{
+  width: 100%;
+  flex:3;
+}
+
+.share-copy-url{
+  flex:1;
+  font-weight: 200;
+}
+
+.share-description{
+  font-size: 15px;
+  font-weight: 300;
+}
+
+.share-stepper-button:focus{
+  outline: none;
+}
+
+.share-form-field{
+  width:230px;
+}
+
+.btn-success{
+  background-color: #4CAF50;
+}
+
+.btn-success mat-icon{
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+.fields-additional-selection{
+  opacity: 0.75;
+  font-size: 0.75em;
+}
+
+.fields-form{
+  display: flex;
+  flex-direction: column;
+}

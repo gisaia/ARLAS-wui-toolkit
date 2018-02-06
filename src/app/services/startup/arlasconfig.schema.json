@@ -127,7 +127,7 @@
                                                         "input": {
                                                             "description": "Input of resultlist component.",
                                                             "type":"object"
-                     
+
                                                         }
                                                     }
                                                 },
@@ -182,6 +182,39 @@
                                     "components"
                                 ]
                             }
+                        },
+                        "components":{
+                          "description": "Configuration of arlas components",
+                          "type": "object",
+                          "patternProperties": {
+                            "^(share)$": {
+                              "patternProperties": {
+                                "^(geojson)$": {
+                                  "description": "Configuration of arlas share component",
+                                  "type": "object",
+                                  "properties": {
+                                      "max_for_feature": {
+                                          "description": "Limit of elements return by server in feature mode",
+                                          "type": "number"
+                                      },
+                                      "max_for_cluster": {
+                                          "description": "Limit of elements return by server in cluster mode",
+                                          "type": "number"
+                                      },
+                                      "sort_excluded_type": {
+                                          "description": "List of excluded field type in sort option",
+                                          "type": "array"
+                                      }
+                                  },
+                                  "required": [
+                                      "max_for_feature",
+                                      "max_for_cluster",
+                                      "sort_excluded_type"
+                                  ]
+                                }
+                              }
+                            }
+                          }
                         }
                     },
                     "required": [
