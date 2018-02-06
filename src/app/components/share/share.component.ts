@@ -19,6 +19,9 @@ import { ArlasSearchField } from 'app/components/share/model/field';
   styleUrls: ['./share.component.css']
 })
 export class ShareComponent {
+
+  @Input() public icon = 'share';
+
   constructor(
     public dialog: MatDialog
   ) { }
