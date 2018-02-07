@@ -22,6 +22,7 @@ import { ResultsModule } from 'arlas-web-components/results/results.module';
 import { ShareComponent, ShareDialogComponent } from './components/share/share.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ExcludeTypePipe } from './components/share/exclude-type.pipe';
+import { ClipboardModule } from 'ngx-clipboard';
 
 export function startupServiceFactory(startupService: ArlasStartupService) {
   const load = () => startupService.load('config.json');
@@ -42,6 +43,7 @@ export function startupServiceFactory(startupService: ArlasStartupService) {
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    ClipboardModule,
     CommonModule,
     FormsModule,
     HistogramModule,
