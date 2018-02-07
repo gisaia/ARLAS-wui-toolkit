@@ -63,8 +63,7 @@
     <ng-template matStepLabel>Get url</ng-template>
     <div style="display:flex;flex-direction:row">
       <input matInput value="{{displayedUrl}}" class="share-url" #url>
-      <button mat-raised-button color="accent" class="share-copy-url" [class.btn-success]="isCopied" (cbOnSuccess)="isCopied = true"
-        ngxClipboard [ngxClipboard]="url">
+      <button mat-raised-button color="accent" class="share-copy-url" [class.btn-success]="isCopied" (click)="copyTextToClipboard(url.value)">
         <mat-icon [hidden]="!isCopied">check</mat-icon>
         Copy URL
       </button>
