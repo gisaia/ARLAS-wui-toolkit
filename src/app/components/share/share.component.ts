@@ -168,4 +168,17 @@ export class ShareDialogComponent implements OnInit {
     }
   }
 
+  public copyTextToClipboard(text: string) {
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+    document.body.appendChild(textArea);
+    textArea.select();
+    try {
+      this.isCopied = document.execCommand('copy');
+    } catch (err) {
+      this.isCopied = false;
+    }
+    document.body.removeChild(textArea);
+  }
+
 }
