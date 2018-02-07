@@ -1,0 +1,7 @@
+.share-button{
+  padding: 0 5px;
+}
+
+.share-button:focus{
+  outline: none;
+}

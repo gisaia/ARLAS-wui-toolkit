@@ -1,634 +1,643 @@
 {
-    "arlas": {
-        "web": {
-            "contributors": {
-                "powerbars$mission": {
-                    "aggregationmodels": [
-                        {
-                            "type": "term",
-                            "field": "acquisition.missionName"
-                        }
-                    ],
-                    "title": "Mission",
-                    "identifier": "mission",
-                    "name": "Mission"
+  "arlas": {
+    "web": {
+      "contributors": {
+        "powerbars$mission": {
+          "aggregationmodels": [
+            {
+              "type": "term",
+              "field": "acquisition.missionName"
+            }
+          ],
+          "title": "Mission",
+          "identifier": "mission",
+          "name": "Mission"
+        },
+        "powerbars$reception": {
+          "aggregationmodels": [
+            {
+              "type": "term",
+              "field": "acquisition.receivingStation"
+            }
+          ],
+          "title": "Reception",
+          "identifier": "reception",
+          "name": "Reception"
+        },
+        "powerbars$archivage": {
+          "aggregationmodels": [
+            {
+              "type": "term",
+              "field": "acquisition.missionName"
+            }
+          ],
+          "title": "Archivage",
+          "identifier": "archivage",
+          "name": "Archivage"
+        },
+        "swimlane$dropdown": {
+          "identifier": "dropdown",
+          "name": "Swimlane",
+          "swimlanes": [
+            {
+              "id": 1,
+              "name": "Reception",
+              "field": "dateTimeStamp",
+              "aggregationmodels": [
+                {
+                  "type": "term",
+                  "field": "acquisition.receivingStation"
                 },
-                "powerbars$reception": {
-                    "aggregationmodels": [
-                        {
-                            "type": "term",
-                            "field": "acquisition.receivingStation"
-                        }
-                    ],
-                    "title": "Reception",
-                    "identifier": "reception",
-                    "name": "Reception"
-                },
-                "powerbars$archivage": {
-                    "aggregationmodels": [
-                        {
-                            "type": "term",
-                            "field": "acquisition.missionName"
-                        }
-                    ],
-                    "title": "Archivage",
-                    "identifier": "archivage",
-                    "name": "Archivage"
-                },
-                "swimlane$dropdown": {
-                    "identifier": "dropdown",
-                    "name": "Swimlane",
-                    "swimlanes": [
-                        {
-                            "id": 1,
-                            "name": "Reception",
-                            "field": "dateTimeStamp",
-                            "aggregationmodels": [
-                                {
-                                    "type": "term",
-                                    "field": "acquisition.receivingStation"
-                                },
-                                {
-                                    "type": "datehistogram",
-                                    "field": "dateTimeStamp",
-                                    "interval": {
-                                        "value": 1,
-                                        "unit": "month"
-                                    }
-                                }
-                            ]
-                        },
-                        {
-                            "id": 2,
-                            "name": "Mission",
-                            "field": "dateTimeStamp",
-                            "aggregationmodels": [
-                                {
-                                    "type": "term",
-                                    "field": "acquisition.missionName"
-                                },
-                                {
-                                    "type": "datehistogram",
-                                    "field": "dateTimeStamp",
-                                    "interval": {
-                                        "value": 1,
-                                        "unit": "month"
-                                    }
-                                }
-                            ]
-                        },
-                        {
-                            "id": 3,
-                            "name": "Archivage",
-                            "field": "dateTimeStamp",
-                            "aggregationmodels": [
-                                {
-                                    "type": "term",
-                                    "field": "archive.station"
-                                },
-                                {
-                                    "type": "datehistogram",
-                                    "field": "dateTimeStamp",
-                                    "interval": {
-                                        "value": 1,
-                                        "unit": "month"
-                                    }
-                                }
-                            ]
-                        }
-                    ],
-                    "dateunit": "millisecond",
-                    "datatype": "time"
-                },
-                "histogram$timeline": {
-                    "identifier": "timeline",
-                    "aggregationmodels": [
-                        {
-                            "type": "datehistogram",
-                            "field": "dateTimeStamp",
-                            "interval": {
-                                "value": 1,
-                                "unit": "week"
-                            }
-                        }
-                    ],
-                    "name": "Timeline",
-                    "dateunit": "millisecond",
-                    "datatype": "time",
-                    "isOneDimension": false
-                },
-                "histogram$cloud": {
-                    "identifier": "cloud",
-                    "aggregationmodels": [
-                        {
-                            "type": "histogram",
-                            "field": "imageDescription.cloudCoverPercentage",
-                            "interval": {
-                                "value": 3
-                            }
-                        }
-                    ],
-                    "name": "Cloud %",
-                    "dateunit": "millisecond",
-                    "datatype": "numeric",
-                    "isOneDimension": false
-                },
-                "histogram$quality": {
-                    "identifier": "quality",
-                    "aggregationmodels": [
-                        {
-                            "type": "histogram",
-                            "field": "target.incidenceAngle",
-                            "interval": {
-                                "value": 3
-                            }
-                        }
-                    ],
-                    "name": "Incidence %",
-                    "dateunit": "millisecond",
-                    "datatype": "numeric",
-                    "isOneDimension": true
-                },
-                "histogram$azimut": {
-                    "identifier": "azimut",
-                    "aggregationmodels": [
-                        {
-                            "type": "histogram",
-                            "field": "illumination.azimuthAngle",
-                            "interval": {
-                                "value": 3
-                            }
-                        }
-                    ],
-                    "name": "Azimut",
-                    "dateunit": "millisecond",
-                    "datatype": "numeric",
-                    "isOneDimension": true
-                },
-                "map$mapbox": {
-                    "identifier": "mapbox",
-                    "idFieldName": "uid",
-                    "drawtype": "CIRCLE",
-                    "name": "Map",
-                    "initZoom": 2,
-                    "geometry": "geometry.geographicBoundingPolygon",
-                    "aggregationmodels": [
-                        {
-                            "type": "geohash",
-                            "field": "geometry.centerPoint",
-                            "interval": {
-                                "value": 1
-                            },
-                            "withGeoCentroid": true
-                        }
-                    ],
-                    "zoomLevelFullData": 1,
-                    "zoomLevelForTestCount": 4,
-                    "nbMaxDefautFeatureForCluster": 50,
-                    "zoomToNbMaxFeatureForCluster": [
-                        [
-                            4,
-                            2000
-                        ],
-                        [
-                            5,
-                            2000
-                        ],
-                        [
-                            6,
-                            1000
-                        ],
-                        [
-                            7,
-                            600
-                        ],
-                        [
-                            8,
-                            500
-                        ],
-                        [
-                            9,
-                            200
-                        ],
-                        [
-                            10,
-                            20
-                        ],
-                        [
-                            11,
-                            200
-                        ],
-                        [
-                            12,
-                            50
-                        ]
-                    ],
-                    "maxPrecision": [
-                        6,
-                        4
-                    ],
-                    "zoomToPrecisionCluster": [
-                        [
-                            0,
-                            1,
-                            1
-                        ],
-                        [
-                            1,
-                            1,
-                            1
-                        ],
-                        [
-                            2,
-                            1,
-                            1
-                        ],
-                        [
-                            3,
-                            2,
-                            2
-                        ],
-                        [
-                            4,
-                            2,
-                            2
-                        ],
-                        [
-                            5,
-                            3,
-                            1
-                        ],
-                        [
-                            6,
-                            3,
-                            1
-                        ],
-                        [
-                            7,
-                            4,
-                            2
-                        ],
-                        [
-                            8,
-                            4,
-                            2
-                        ],
-                        [
-                            9,
-                            4,
-                            2
-                        ],
-                        [
-                            10,
-                            5,
-                            3
-                        ]
-                    ]
-                },
-                "resultlist$table": {
-                    "identifier": "table",
-                    "fieldsConfiguration": {
-                        "idFieldName": "citationIdentifier"
-                    },
-                    "columns": [
-                        {
-                            "columnName": "citationIdentifier",
-                            "fieldName": "citationIdentifier",
-                            "dataType": "",
-                            "process": ""
-                        },
-                        {
-                            "columnName": "Mission",
-                            "fieldName": "acquisition.missionName",
-                            "dataType": "",
-                            "process": ""
-                        },
-                        {
-                            "columnName": "Reception",
-                            "fieldName": "acquisition.receivingStation",
-                            "dataType": "",
-                            "process": ""
-                        },
-                        {
-                            "columnName": "Archive",
-                            "fieldName": "product.archiveInfo.archivingCenter",
-                            "dataType": "",
-                            "process": ""
-                        }
-                    ],
-                    "process": {
-                        "urlImageTemplate": {
-                            "process": ""
-                        },
-                        "urlThumbnailTemplate": {
-                            "process": ""
-                        }
-                    },
-                    "details": [
-                        {
-                            "name": "Technical Informations",
-                            "order": 1,
-                            "fields": [
-                                {
-                                    "path": "search_incidence_angle_string",
-                                    "label": "Incidence ",
-                                    "process": ""
-                                },
-                                {
-                                    "path": "search_quality_string",
-                                    "label": "Quality ",
-                                    "process": ""
-                                }
-                            ]
-                        },
-                        {
-                            "name": "Geographical Informations",
-                            "order": 2,
-                            "fields": [
-                                {
-                                    "path": "enrichment.geonames.name",
-                                    "label": "Country ",
-                                    "process": ""
-                                },
-                                {
-                                    "path": "enrichment.geonames.states.name",
-                                    "label": "State ",
-                                    "process": ""
-                                },
-                                {
-                                    "path": "enrichment.geonames.states.counties.name",
-                                    "label": "Counties ",
-                                    "process": ""
-                                }
-                            ]
-                        }
-                    ],
-                    "search_size": 100,
-                    "name": "List"
+                {
+                  "type": "datehistogram",
+                  "field": "dateTimeStamp",
+                  "interval": {
+                    "value": 1,
+                    "unit": "month"
+                  }
                 }
-            },
-            "analytics": [
-                {
-                    "groupId": "1",
-                    "components": [
-                        {
-                            "contributorId": "mission",
-                            "componentType": "powerbars",
-                            "input": {
-                                "customizedCssClass": ""
-                            }
-                        },
-                        {
-                            "contributorId": "reception",
-                            "componentType": "powerbars",
-                            "input": {
-                                "customizedCssClass": ""
-                            }
-                        },
-                        {
-                            "contributorId": "archivage",
-                            "componentType": "powerbars",
-                            "input": {
-                                "customizedCssClass": ""
-                            }
-                        }
-                    ]
-                },
-                {
-                    "groupId": "2",
-                    "components": [
-                        {
-                            "contributorId": "table",
-                            "componentType": "resultlist",
-
-                            "input": {
-                                "tableWidth": null,
-                                "globalActionsList": [
-                                    {
-                                        "id": "1",
-                                        "label": "test"
-                                    },
-                                    {
-                                        "id": "2",
-                                        "label": "Counties "
-                                    }
-                                ],
-                                "searchSize": 30,
-                                "nLastLines": 3,
-                                "detailedGridHeight": 25,
-                                "nbGridColumns": 3,
-                                "defautMode": "list",
-                                "isBodyHidden": false,
-                                "isGeoSortActived": false,
-                                "selectedItemsEvent": null,
-                                "consultedItemEvent": null,
-                                "actionOnItemEvent": null,
-                                "globalActionEvent": null
-                            }
-                        },
-                        {
-                            "contributorId": "timeline",
-                            "componentType": "histogram",
-                            "input": {
-                                "dataType": "time",
-                                "dataUnit": "millisecond",
-                                "isHistogramSelectable": true,
-                                "multiselectable": true,
-                                "topOffsetRemoveInterval": 40,
-                                "leftOffsetRemoveInterval": 18,
-                                "brushHandlesHeightWeight": 0.5,
-                                "chartType": "bars",
-                                "chartTitle": "AUTOMATIC HISTOGRAM",
-                                "chartWidth": null,
-                                "chartHeight": 100,
-                                "customizedCssClass": "",
-                                "xAxisPosition": "bottom",
-                                "descriptionPosition": "bottom",
-                                "xTicks": 7,
-                                "yTicks": 2,
-                                "xLabels": 7,
-                                "yLabels": 2,
-                                "showXTicks": true,
-                                "showYTicks": true,
-                                "showXLabels": true,
-                                "showYLabels": true,
-                                "showHorizontalLines": true,
-                                "isSmoothedCurve": false,
-                                "barWeight": 0.8
-                            }
-                        }
-                ]
+              ]
             },
             {
-                "groupId": "3",
-                "components": [
-                    {
-                        "contributorId": "dropdown",
-                        "componentType": "swimlane",
-                        "input": {
-                            "dataType": "time",
-                            "dataUnit": "millisecond",
-                            "isHistogramSelectable": true,
-                            "multiselectable": true,
-                            "topOffsetRemoveInterval": 40,
-                            "leftOffsetRemoveInterval": 18,
-                            "brushHandlesHeightWeight": 0.5,
-                            "chartTitle": "AUTOMATIC Swimlane",
-                            "chartWidth": null,
-                            "chartHeight": 100,
-                            "customizedCssClass": "",
-                            "xAxisPosition": "bottom",
-                            "descriptionPosition": "bottom",
-                            "xTicks": 7,
-                            "yTicks": 2,
-                            "xLabels": 7,
-                            "yLabels": 2,
-                            "showXTicks": true,
-                            "showYTicks": true,
-                            "showXLabels": true,
-                            "showYLabels": false,
-                            "showHorizontalLines": true,
-                            "isSmoothedCurve": false,
-                            "barWeight": 0.8,
-                            "swimLaneLabelsWidth": 50,
-                            "swimlaneHeight": 30,
-                            "swimlaneMode": "fixedHeight",
-                            "paletteColors": [
-                                0,
-                                170
-                            ]
-                        }
-                    }
-                ]
+              "id": 2,
+              "name": "Mission",
+              "field": "dateTimeStamp",
+              "aggregationmodels": [
+                {
+                  "type": "term",
+                  "field": "acquisition.missionName"
+                },
+                {
+                  "type": "datehistogram",
+                  "field": "dateTimeStamp",
+                  "interval": {
+                    "value": 1,
+                    "unit": "month"
+                  }
+                }
+              ]
+            },
+            {
+              "id": 3,
+              "name": "Archivage",
+              "field": "dateTimeStamp",
+              "aggregationmodels": [
+                {
+                  "type": "term",
+                  "field": "archive.station"
+                },
+                {
+                  "type": "datehistogram",
+                  "field": "dateTimeStamp",
+                  "interval": {
+                    "value": 1,
+                    "unit": "month"
+                  }
+                }
+              ]
             }
-        ]
+          ],
+          "dateunit": "millisecond",
+          "datatype": "time"
+        },
+        "histogram$timeline": {
+          "identifier": "timeline",
+          "aggregationmodels": [
+            {
+              "type": "datehistogram",
+              "field": "dateTimeStamp",
+              "interval": {
+                "value": 1,
+                "unit": "week"
+              }
+            }
+          ],
+          "name": "Timeline",
+          "dateunit": "millisecond",
+          "datatype": "time",
+          "isOneDimension": false
+        },
+        "histogram$cloud": {
+          "identifier": "cloud",
+          "aggregationmodels": [
+            {
+              "type": "histogram",
+              "field": "imageDescription.cloudCoverPercentage",
+              "interval": {
+                "value": 3
+              }
+            }
+          ],
+          "name": "Cloud %",
+          "dateunit": "millisecond",
+          "datatype": "numeric",
+          "isOneDimension": false
+        },
+        "histogram$quality": {
+          "identifier": "quality",
+          "aggregationmodels": [
+            {
+              "type": "histogram",
+              "field": "target.incidenceAngle",
+              "interval": {
+                "value": 3
+              }
+            }
+          ],
+          "name": "Incidence %",
+          "dateunit": "millisecond",
+          "datatype": "numeric",
+          "isOneDimension": true
+        },
+        "histogram$azimut": {
+          "identifier": "azimut",
+          "aggregationmodels": [
+            {
+              "type": "histogram",
+              "field": "illumination.azimuthAngle",
+              "interval": {
+                "value": 3
+              }
+            }
+          ],
+          "name": "Azimut",
+          "dateunit": "millisecond",
+          "datatype": "numeric",
+          "isOneDimension": true
+        },
+        "map$mapbox": {
+          "identifier": "mapbox",
+          "idFieldName": "uid",
+          "drawtype": "CIRCLE",
+          "name": "Map",
+          "initZoom": 2,
+          "geometry": "geometry.geographicBoundingPolygon",
+          "aggregationmodels": [
+            {
+              "type": "geohash",
+              "field": "geometry.centerPoint",
+              "interval": {
+                "value": 1
+              },
+              "withGeoCentroid": true
+            }
+          ],
+          "zoomLevelFullData": 1,
+          "zoomLevelForTestCount": 4,
+          "nbMaxDefautFeatureForCluster": 50,
+          "zoomToNbMaxFeatureForCluster": [
+            [
+              4,
+              2000
+            ],
+            [
+              5,
+              2000
+            ],
+            [
+              6,
+              1000
+            ],
+            [
+              7,
+              600
+            ],
+            [
+              8,
+              500
+            ],
+            [
+              9,
+              200
+            ],
+            [
+              10,
+              20
+            ],
+            [
+              11,
+              200
+            ],
+            [
+              12,
+              50
+            ]
+          ],
+          "maxPrecision": [
+            6,
+            4
+          ],
+          "zoomToPrecisionCluster": [
+            [
+              0,
+              1,
+              1
+            ],
+            [
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              1,
+              1
+            ],
+            [
+              3,
+              2,
+              2
+            ],
+            [
+              4,
+              2,
+              2
+            ],
+            [
+              5,
+              3,
+              1
+            ],
+            [
+              6,
+              3,
+              1
+            ],
+            [
+              7,
+              4,
+              2
+            ],
+            [
+              8,
+              4,
+              2
+            ],
+            [
+              9,
+              4,
+              2
+            ],
+            [
+              10,
+              5,
+              3
+            ]
+          ]
+        },
+        "resultlist$table": {
+          "identifier": "table",
+          "fieldsConfiguration": {
+            "idFieldName": "citationIdentifier"
+          },
+          "columns": [
+            {
+              "columnName": "citationIdentifier",
+              "fieldName": "citationIdentifier",
+              "dataType": "",
+              "process": ""
+            },
+            {
+              "columnName": "Mission",
+              "fieldName": "acquisition.missionName",
+              "dataType": "",
+              "process": ""
+            },
+            {
+              "columnName": "Reception",
+              "fieldName": "acquisition.receivingStation",
+              "dataType": "",
+              "process": ""
+            },
+            {
+              "columnName": "Archive",
+              "fieldName": "product.archiveInfo.archivingCenter",
+              "dataType": "",
+              "process": ""
+            }
+          ],
+          "process": {
+            "urlImageTemplate": {
+              "process": ""
+            },
+            "urlThumbnailTemplate": {
+              "process": ""
+            }
+          },
+          "details": [
+            {
+              "name": "Technical Informations",
+              "order": 1,
+              "fields": [
+                {
+                  "path": "search_incidence_angle_string",
+                  "label": "Incidence ",
+                  "process": ""
+                },
+                {
+                  "path": "search_quality_string",
+                  "label": "Quality ",
+                  "process": ""
+                }
+              ]
+            },
+            {
+              "name": "Geographical Informations",
+              "order": 2,
+              "fields": [
+                {
+                  "path": "enrichment.geonames.name",
+                  "label": "Country ",
+                  "process": ""
+                },
+                {
+                  "path": "enrichment.geonames.states.name",
+                  "label": "State ",
+                  "process": ""
+                },
+                {
+                  "path": "enrichment.geonames.states.counties.name",
+                  "label": "Counties ",
+                  "process": ""
+                }
+              ]
+            }
+          ],
+          "search_size": 100,
+          "name": "List"
+        }
+      },
+      "analytics": [
+        {
+          "groupId": "1",
+          "components": [
+            {
+              "contributorId": "mission",
+              "componentType": "powerbars",
+              "input": {
+                "customizedCssClass": ""
+              }
+            },
+            {
+              "contributorId": "reception",
+              "componentType": "powerbars",
+              "input": {
+                "customizedCssClass": ""
+              }
+            },
+            {
+              "contributorId": "archivage",
+              "componentType": "powerbars",
+              "input": {
+                "customizedCssClass": ""
+              }
+            }
+          ]
+        },
+        {
+          "groupId": "2",
+          "components": [
+            {
+              "contributorId": "table",
+              "componentType": "resultlist",
+              "input": {
+                "tableWidth": null,
+                "globalActionsList": [
+                  {
+                    "id": "1",
+                    "label": "test"
+                  },
+                  {
+                    "id": "2",
+                    "label": "Counties "
+                  }
+                ],
+                "searchSize": 30,
+                "nLastLines": 3,
+                "detailedGridHeight": 25,
+                "nbGridColumns": 3,
+                "defautMode": "list",
+                "isBodyHidden": false,
+                "isGeoSortActived": false,
+                "selectedItemsEvent": null,
+                "consultedItemEvent": null,
+                "actionOnItemEvent": null,
+                "globalActionEvent": null
+              }
+            },
+            {
+              "contributorId": "timeline",
+              "componentType": "histogram",
+              "input": {
+                "dataType": "time",
+                "dataUnit": "millisecond",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 0.5,
+                "chartType": "bars",
+                "chartTitle": "AUTOMATIC HISTOGRAM",
+                "chartWidth": null,
+                "chartHeight": 100,
+                "customizedCssClass": "",
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 7,
+                "yTicks": 2,
+                "xLabels": 7,
+                "yLabels": 2,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": true,
+                "isSmoothedCurve": false,
+                "barWeight": 0.8
+              }
+            }
+          ]
+        },
+        {
+          "groupId": "3",
+          "components": [
+            {
+              "contributorId": "dropdown",
+              "componentType": "swimlane",
+              "input": {
+                "dataType": "time",
+                "dataUnit": "millisecond",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 0.5,
+                "chartTitle": "AUTOMATIC Swimlane",
+                "chartWidth": null,
+                "chartHeight": 100,
+                "customizedCssClass": "",
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 7,
+                "yTicks": 2,
+                "xLabels": 7,
+                "yLabels": 2,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": false,
+                "showHorizontalLines": true,
+                "isSmoothedCurve": false,
+                "barWeight": 0.8,
+                "swimLaneLabelsWidth": 50,
+                "swimlaneHeight": 30,
+                "swimlaneMode": "fixedHeight",
+                "paletteColors": [
+                  0,
+                  170
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "components": {
+        "share": {
+          "geojson" : {
+            "max_for_feature": 10000,
+            "max_for_cluster": 100000,
+            "sort_excluded_type": ["TEXT","GEO_POINT"]
+          }
+        }
+      }
     },
     "server": {
-        "url": "http://localhost:9999/arlas",
-        "max_age_cache": 120,
-        "collection": {
-            "id": "uid",
-            "name": "catalog"
-        }
+      "url": "http://demo.arlas.io:9999/arlas",
+      "max_age_cache": 120,
+      "collection": {
+        "id": "uid",
+        "name": "opensky2"
+      }
     }
-},
-"effideo": {
+  },
+  "effideo": {
     "web": {
-        "app": {
+      "app": {
+        "idFieldName": "uid",
+        "components": {
+          "mapbox": {
             "idFieldName": "uid",
-            "components": {
-                "mapbox": {
-                    "idFieldName": "uid",
-                    "drawtype": "CIRCLE",
-                    "basemapUrl": "https://openmaptiles.github.io/osm-bright-gl-style/style-cdn.json",
-                    "fontClusterlabel": "Open Sans Bold",
-                    "margeExtendPctForLoad": 10,
-                    "margeExtendPctForTest": 2,
-                    "paintRuleGeoBox": {
-                        "line-color": "#FC9F28",
-                        "line-opacity": 1
-                    },
-                    "paintRuleCLusterFeatureFill": {
-                        "fill-color": "#56A7EE",
-                        "fill-opacity": 0.2
-                    },
-                    "paintRuleClusterFeatureLine": {
-                        "line-color": "#56A7EE",
-                        "line-opacity": 1,
-                        "line-width": 1
-                    },
-                    "paintRuleClusterCircle": {
-                        "circle-stroke-width": 2,
-                        "circle-stroke-color": "#D3D3D3",
-                        "circle-color": {
-                            "property": "point_count_normalize",
-                            "type": "interval",
-                            "stops": [
-                                [
-                                    0,
-                                    "#f7fcf0"
-                                ],
-                                [
-                                    20,
-                                    "#e0f3db"
-                                ],
-                                [
-                                    30,
-                                    "#ccebc5"
-                                ],
-                                [
-                                    40,
-                                    "#a8ddb5"
-                                ],
-                                [
-                                    50,
-                                    "#7bccc4"
-                                ],
-                                [
-                                    60,
-                                    "#4eb3d3"
-                                ],
-                                [
-                                    70,
-                                    "#2b8cbe"
-                                ],
-                                [
-                                    90,
-                                    "#3690c0"
-                                ]
-                            ]
-                        },
-                        "circle-radius": {
-                            "property": "point_count_normalize",
-                            "type": "interval",
-                            "stops": [
-                                [
-                                    0,
-                                    22
-                                ],
-                                [
-                                    20,
-                                    24
-                                ],
-                                [
-                                    30,
-                                    26
-                                ],
-                                [
-                                    40,
-                                    28
-                                ],
-                                [
-                                    50,
-                                    30
-                                ],
-                                [
-                                    60,
-                                    32
-                                ],
-                                [
-                                    70,
-                                    34
-                                ],
-                                [
-                                    90,
-                                    36
-                                ]
-                            ]
-                        },
-                        "circle-opacity": 1
-                    }
-                },
-                "chipssearch": {
-                    "search_size": 100,
-                    "name": "Search",
-                    "autocomplete_field": "relevant_terms",
-                    "autocomplete_size": "500"
-                },
-                "processlist": {
-                    "url": "process.json"
-                }
+            "drawtype": "CIRCLE",
+            "basemapUrl": "https://openmaptiles.github.io/osm-bright-gl-style/style-cdn.json",
+            "fontClusterlabel": "Open Sans Bold",
+            "margeExtendPctForLoad": 10,
+            "margeExtendPctForTest": 2,
+            "paintRuleGeoBox": {
+              "line-color": "#FC9F28",
+              "line-opacity": 1
+            },
+            "paintRuleCLusterFeatureFill": {
+              "fill-color": "#56A7EE",
+              "fill-opacity": 0.2
+            },
+            "paintRuleClusterFeatureLine": {
+              "line-color": "#56A7EE",
+              "line-opacity": 1,
+              "line-width": 1
+            },
+            "paintRuleClusterCircle": {
+              "circle-stroke-width": 2,
+              "circle-stroke-color": "#D3D3D3",
+              "circle-color": {
+                "property": "point_count_normalize",
+                "type": "interval",
+                "stops": [
+                  [
+                    0,
+                    "#f7fcf0"
+                  ],
+                  [
+                    20,
+                    "#e0f3db"
+                  ],
+                  [
+                    30,
+                    "#ccebc5"
+                  ],
+                  [
+                    40,
+                    "#a8ddb5"
+                  ],
+                  [
+                    50,
+                    "#7bccc4"
+                  ],
+                  [
+                    60,
+                    "#4eb3d3"
+                  ],
+                  [
+                    70,
+                    "#2b8cbe"
+                  ],
+                  [
+                    90,
+                    "#3690c0"
+                  ]
+                ]
+              },
+              "circle-radius": {
+                "property": "point_count_normalize",
+                "type": "interval",
+                "stops": [
+                  [
+                    0,
+                    22
+                  ],
+                  [
+                    20,
+                    24
+                  ],
+                  [
+                    30,
+                    26
+                  ],
+                  [
+                    40,
+                    28
+                  ],
+                  [
+                    50,
+                    30
+                  ],
+                  [
+                    60,
+                    32
+                  ],
+                  [
+                    70,
+                    34
+                  ],
+                  [
+                    90,
+                    36
+                  ]
+                ]
+              },
+              "circle-opacity": 1
             }
+          },
+          "chipssearch": {
+            "search_size": 100,
+            "name": "Search",
+            "autocomplete_field": "relevant_terms",
+            "autocomplete_size": "500"
+          },
+          "processlist": {
+            "url": "process.json"
+          }
         }
+      }
     }
+  }
 }

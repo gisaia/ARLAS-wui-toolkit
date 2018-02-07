@@ -1,0 +1,74 @@
+<mat-horizontal-stepper [linear]="true" (selectionChange)="changeStep($event)">
+  <mat-step [stepControl]="geojsonTypeGroup">
+    <form [formGroup]="geojsonTypeGroup">
+      <ng-template matStepLabel>Mode</ng-template>
+      <mat-radio-group class="share-radio-group" formControlName="geojsonType">
+        <mat-radio-button [value]="'cluster'" class="share-radio-button">Clusters</mat-radio-button>
+        <mat-radio-button [value]="'feature'" class="share-radio-button">Features</mat-radio-button>
+      </mat-radio-group>
+      <div>
+        <button mat-button matStepperNext class="share-stepper-button">Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="paramFormGroup">
+    <form [formGroup]="paramFormGroup">
+      <ng-template matStepLabel>Parameters</ng-template>
+      <div *ngIf="geojsonTypeGroup.get('geojsonType').value == 'cluster'">
+        <mat-form-field>
+          <mat-select placeholder="Desired precision" formControlName="precision" matInput required>
+            <mat-option *ngFor="let val of precisions" [value]="val[0]">
+              {{ val[0] }} -
+              <span class="share-description">({{val[1]}})</span>
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div *ngIf="geojsonTypeGroup.get('geojsonType').value == 'feature'" class="fields-form">
+        <mat-form-field class="share-form-field">
+          <mat-select placeholder="Exported fields" formControlName="availableFields" [(value)]="selectedFields" multiple required>
+            <mat-select-trigger>
+              {{paramFormGroup.get('availableFields').value ? paramFormGroup.get('availableFields').value[0]?.label : ''}}
+              <span *ngIf="paramFormGroup.get('availableFields').value?.length > 1" class="fields-additional-selection">
+                (+{{paramFormGroup.get('availableFields').value?.length - 1}} others)
+              </span>
+            </mat-select-trigger>
+            <mat-option *ngFor="let field of allFields" [value]="field">
+              {{ field.label }} -
+              <span class="share-description">{{field.type}}</span>
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="share-form-field">
+          <mat-select placeholder="Order by" formControlName="orderField" [(value)]="selectedOrderField">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let field of selectedFields | excludeType:excludedType" [value]="field">
+              {{ field.label }}
+            </mat-option>
+          </mat-select>
+          <mat-hint>Types {{excludedTypeString}} are excluded</mat-hint>
+        </mat-form-field>
+        <mat-radio-group class="share-radio-group" formControlName="orderDirection" [(ngModel)]="sortDirection">
+          <mat-radio-button [value]="'asc'" class="share-radio-button">ASC</mat-radio-button>
+          <mat-radio-button [value]="'desc'" class="share-radio-button">DESC</mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <div>
+        <button mat-button matStepperPrevious class="share-stepper-button">Back</button>
+        <button mat-button matStepperNext class="share-stepper-button">Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Get url</ng-template>
+    <div style="display:flex;flex-direction:row">
+      <input matInput value="{{displayedUrl}}" class="share-url" #url>
+      <button mat-raised-button color="accent" class="share-copy-url" [class.btn-success]="isCopied" (cbOnSuccess)="isCopied = true"
+        ngxClipboard [ngxClipboard]="url">
+        <mat-icon [hidden]="!isCopied">check</mat-icon>
+        Copy URL
+      </button>
+    </div>
+
+  </mat-step>
+</mat-horizontal-stepper>

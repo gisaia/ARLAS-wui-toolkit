@@ -7,7 +7,10 @@ import { NgModule, APP_INITIALIZER, forwardRef } from '@angular/core';
 import { ConfigService, CollaborativesearchService } from 'arlas-web-core';
 import { AppComponent } from './app.component';
 import { ErrormodalComponent, ErrorModalMsgComponent } from './components/errormodal/errormodal.component';
-import { MatDialogModule, MatCard, MatCardModule, MatSelectModule, MatExpansionModule, MatIconModule } from '@angular/material';
+import {
+  MatDialogModule, MatCard, MatCardModule, MatSelectModule,
+  MatExpansionModule, MatIconModule, MatRadioModule, MatStepperModule, MatButtonModule
+} from '@angular/material';
 import { WidgetComponent } from './components/widget/widget.component';
 import { HistogramModule } from 'arlas-web-components/histogram/histogram.module';
 import { PowerbarsModule } from 'arlas-web-components/powerbars/powerbars.module';
@@ -16,6 +19,11 @@ import { ArlasBookmarkService } from './services/bookmark/bookmark.service';
 import { RouterModule } from '@angular/router';
 import { routing } from './app.routes';
 import { ResultsModule } from 'arlas-web-components/results/results.module';
+import { ShareComponent, ShareDialogComponent } from './components/share/share.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ExcludeTypePipe } from './components/share/exclude-type.pipe';
+import { ClipboardModule } from 'ngx-clipboard';
+
 export function startupServiceFactory(startupService: ArlasStartupService) {
   const load = () => startupService.load('config.json');
   return load;
@@ -26,26 +34,33 @@ export function startupServiceFactory(startupService: ArlasStartupService) {
     ErrormodalComponent,
     ErrorModalMsgComponent,
     WidgetComponent,
-    AnalyticsBoardComponent
+    AnalyticsBoardComponent,
+    ShareComponent,
+    ShareDialogComponent,
+    ExcludeTypePipe
   ],
-  exports: [AppComponent, WidgetComponent, AnalyticsBoardComponent],
+  exports: [AppComponent, WidgetComponent, AnalyticsBoardComponent, ShareComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    MatDialogModule,
-    MatCardModule,
+    ClipboardModule,
     CommonModule,
-    HttpModule,
-    RouterModule,
-    routing,
+    FormsModule,
     HistogramModule,
-    MatDialogModule,
-    MatSelectModule,
+    HttpModule,
+    MatButtonModule,
     MatCardModule,
+    MatDialogModule,
     MatExpansionModule,
     MatIconModule,
+    MatSelectModule,
+    MatStepperModule,
+    MatRadioModule,
     PowerbarsModule,
-    ResultsModule
+    ReactiveFormsModule,
+    ResultsModule,
+    RouterModule,
+    routing,
   ],
   providers: [
     forwardRef(() => ArlasConfigService),
@@ -60,6 +75,6 @@ export function startupServiceFactory(startupService: ArlasStartupService) {
       multi: true
     }],
   bootstrap: [AppComponent],
-  entryComponents: [ErrorModalMsgComponent],
+  entryComponents: [ErrorModalMsgComponent, ShareDialogComponent],
 })
 export class ArlasToolKitModule { }
