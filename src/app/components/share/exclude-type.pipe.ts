@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { ArlasSearchField } from 'app/components/share/model/field';
+import { ArlasSearchField } from './model/field';
 
 @Pipe({ name: 'excludeType' })
 export class ExcludeTypePipe implements PipeTransform {
