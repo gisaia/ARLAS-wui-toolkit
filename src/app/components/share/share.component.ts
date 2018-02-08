@@ -11,7 +11,7 @@ import { Filter, Aggregation } from 'arlas-api';
 import { projType } from 'arlas-web-core';
 import { AfterViewInit } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Http } from '@angular/http';
-import { ArlasSearchField } from 'app/components/share/model/field';
+import { ArlasSearchField } from './model/field';
 
 @Component({
   selector: 'arlas-share',
@@ -149,6 +149,8 @@ export class ShareDialogComponent implements OnInit {
           value: this.paramFormGroup.get('precision').value
         }
       };
+      this.sort = '';
+      this.includeFields = '';
       if (this.geojsonTypeGroup.get('geojsonType').value === 'feature') {
         if (this.selectedFields.length > 0) {
           this.includeFields = '&include=';
