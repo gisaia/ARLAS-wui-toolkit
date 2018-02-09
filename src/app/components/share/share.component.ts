@@ -11,7 +11,7 @@ import { Filter, Aggregation } from 'arlas-api';
 import { projType } from 'arlas-web-core';
 import { AfterViewInit } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Http } from '@angular/http';
-import { ArlasSearchField } from './model/field';
+import { ArlasSearchField } from '../../components/share/model/field';
 
 @Component({
   selector: 'arlas-share',
