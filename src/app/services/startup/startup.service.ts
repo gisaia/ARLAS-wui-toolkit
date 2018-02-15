@@ -49,21 +49,48 @@ export class ArlasStartupService {
     public collectionId: string;
     public selectorById: string;
     public temporalContributor: Array<string> = new Array<string>();
+    private errorMessagesList = new Array<string>();
 
     constructor(private http: Http,
         private configService: ArlasConfigService,
         private collaborativesearchService: ArlasCollaborativesearchService) {
     }
+    public loadExtraConfig(extraConfig: ExtraConfig, data: Object): Promise<any> {
+          return this.http.get(extraConfig.configPath)
+              .map((res: Response) => res.json())
+              .toPromise()
+              .then((extraConfigData) => {
+                  if (extraConfigData[extraConfig.replacer] !== undefined) {
+                      this.setAttribute(extraConfig.replacedAttribute, extraConfigData[extraConfig.replacer], data);
+                  } else {
+                      this.shouldRunApp = false;
+                      this.errorMessagesList.push('The replacer : ' + extraConfig.replacer + ' does not exist in your '
+                        + extraConfig.configPath + ' file.' );
+                  }
+              })
+              .catch((err: any) => {
+                  console.log(err);
+                  return Promise.resolve(null);
+              });
+    }
 
     public load(configRessource: string): Promise<any> {
+        let configData;
         const ret = this.http
             .get(configRessource)
-            .map((res: Response) => {
-                return res.json();
+            .map((res: Response) => res.json())
+            .flatMap((response) => {
+              configData = response;
+              if (configData.extraConfigs !== undefined) {
+                const promises = new Array<Promise<any>>();
+                configData.extraConfigs.forEach(extraConfig => promises.push(this.loadExtraConfig(extraConfig, configData)));
+                return Promise.all(promises);
+              } else {
+                Promise.resolve(null);
+              }
             })
             .toPromise()
-            .then((data: any) => {
-                const confErrorMessage: Array<String> = [];
+            .then(() => {
                 const validateConfig = ajv()
                     .addSchema(rootContributorConfSchema)
                     .addSchema(HistogramContributor.getJsonSchema())
@@ -76,16 +103,17 @@ export class ArlasStartupService {
                     .addSchema(HistogramComponent.getSwimlaneJsonSchema())
                     .addSchema(PowerbarsComponent.getPowerbarsJsonSchema())
                     .compile(arlasConfSchema);
-                if (validateConfig(data) === false) {
+                if (validateConfig(configData) === false) {
                     this.shouldRunApp = false;
-                    confErrorMessage.push(
+                    this.errorMessagesList.push(
                         validateConfig.errors[0].dataPath + ' ' +
                         validateConfig.errors[0].message
                     );
-                    this.configService.setConfig({ error: confErrorMessage });
-
+                    this.configService.setConfig({ error: this.errorMessagesList });
+                } else if (!this.shouldRunApp) {
+                  this.configService.setConfig({ error: this.errorMessagesList });
                 } else {
-                    this.configService.setConfig(data);
+                    this.configService.setConfig(configData);
                     this.collaborativesearchService.setConfigService(this.configService);
                     const configuraiton: Configuration = new Configuration();
                     const arlasExploreApi: ExploreApi = new ExploreApi(this.http,
@@ -153,4 +181,26 @@ export class ArlasStartupService {
         return ret.then((x) => {
         });
     }
+
+    private setAttribute(path, value, object) {
+      const pathToList = path.split('.');
+      const pathLength = pathToList.length;
+      for (let i = 0; i < pathLength - 1; i++) {
+          const element = pathToList[i];
+          if ( !object[element] ) {
+            this.shouldRunApp = false;
+            this.errorMessagesList.push('The attribute : ' + path + ' does not exist in your main configuration.' );
+          }
+          object = object[element];
+      }
+      object[pathToList[pathLength - 1]] = value;
+    }
 }
+
+export interface ExtraConfig {
+  configPath: string;
+  replacedAttribute: string;
+  replacer: string;
+}
+
+
