@@ -34,6 +34,7 @@ function parseFilePath {
     echo ' ' >> target/generated-docs/schemas-doc/schemas.md
     echo '```json' >> target/generated-docs/schemas-doc/schemas.md
     cat ${1} >> target/generated-docs/schemas-doc/schemas.md
+    echo ' ' >> target/generated-docs/schemas-doc/schemas.md
     echo '```' >> target/generated-docs/schemas-doc/schemas.md
 }
 
