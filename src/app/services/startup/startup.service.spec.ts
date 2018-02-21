@@ -1,11 +1,15 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { ArlasStartupService } from './startup.service';
+import { ArlasStartupService, ArlasConfigService, ArlasCollaborativesearchService } from './startup.service';
+import { HttpModule } from '@angular/http';
 
 describe('ArlasStartupService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [ArlasStartupService]
+      providers: [ArlasStartupService, ArlasConfigService, ArlasCollaborativesearchService],
+      imports: [
+        HttpModule
+      ]
     });
   });
 
