@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 
 ## CREATE TARGET DIRECTORY ##
 rm -rf target
