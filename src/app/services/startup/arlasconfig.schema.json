@@ -213,6 +213,24 @@
                                   ]
                                 }
                               }
+                            },
+                            "mapgl": {
+                              "description": "Mapgl component configuration",
+                              "type": "object",
+                              "properties": {
+                                "input": {
+                                  "description": "Mapgl component inputs",
+                                  "type":"object",
+                                  "allOf": [
+                                    {
+                                      "$ref": "mapgl.schema.json#"
+                                    }
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "input"
+                              ]
                             }
                           }
                         }

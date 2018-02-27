@@ -1,30 +1,29 @@
-import { ContributorBuilder } from './contributorBuilder';
-import { HistogramComponent } from 'arlas-web-components';
-import { HistogramData } from 'arlas-web-components/histogram/histogram.utils';
-import {
-    HistogramContributor,
-    MapContributor,
-    PowerbarsContributor,
-    ResultListContributor,
-    SwimLaneContributor
-} from 'arlas-web-contributors';
-import { ConfigService, CollaborativesearchService } from 'arlas-web-core';
-import { contributors } from 'arlas-web-contributors';
 import { Injectable, OnInit } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/catch';
-import { Configuration } from 'arlas-api';
-import { ExploreApi } from 'arlas-api';
 import * as ajv from 'ajv';
-import * as rootContributorConfSchema from '../../../../node_modules/arlas-web-contributors/jsonSchemas/rootContributorConf.schema.json';
-import * as arlasConfSchema from './arlasconfig.schema.json';
-import { ChipsSearchContributor } from 'arlas-web-contributors/contributors/ChipsSearchContributor';
-import { PowerbarsComponent } from 'arlas-web-components/powerbars/powerbars.component';
-import { projType } from 'arlas-web-core/models/projections';
 
+import { HistogramComponent, PowerbarsComponent, MapglComponent } from 'arlas-web-components';
+import { HistogramData } from 'arlas-web-components/histogram/histogram.utils';
+import {
+    HistogramContributor,
+    MapContributor,
+    PowerbarsContributor,
+    ResultListContributor,
+    SwimLaneContributor,
+    ChipsSearchContributor,
+    contributors
+} from 'arlas-web-contributors';
+import * as rootContributorConfSchema from 'arlas-web-contributors/jsonSchemas/rootContributorConf.schema.json';
+import { ConfigService, CollaborativesearchService } from 'arlas-web-core';
+import { projType } from 'arlas-web-core/models/projections';
+import { Configuration, ExploreApi } from 'arlas-api';
+
+import * as arlasConfSchema from './arlasconfig.schema.json';
+import { ContributorBuilder } from './contributorBuilder';
 
 
 @Injectable()
@@ -102,6 +101,7 @@ export class ArlasStartupService {
                     .addSchema(HistogramComponent.getHistogramJsonSchema())
                     .addSchema(HistogramComponent.getSwimlaneJsonSchema())
                     .addSchema(PowerbarsComponent.getPowerbarsJsonSchema())
+                    .addSchema(MapglComponent.getMapglJsonSchema())
                     .compile(arlasConfSchema);
                 if (validateConfig(configData) === false) {
                     this.shouldRunApp = false;
