@@ -6,6 +6,7 @@ import {
     SwimLaneContributor
 } from 'arlas-web-contributors';
 import { ArlasConfigService, ArlasCollaborativesearchService } from './startup.service';
+import { DonutContributor } from 'arlas-web-contributors/contributors/DonutContributor';
 
 export class ContributorBuilder {
     public static buildContributor(contributorType: string,
@@ -17,6 +18,7 @@ export class ContributorBuilder {
         let dateunit: string;
         let datatype: string;
         let isOneDimension: boolean;
+
         switch (contributorType) {
             case 'histogram':
                 dateunit = config['dateunit'];
@@ -52,6 +54,14 @@ export class ContributorBuilder {
                     DataType[datatype],
                     collaborativesearchService,
                     configService);
+                break;
+            case 'donut':
+                const titleDonut: string = config['title'];
+                contributor = new DonutContributor(identifier,
+                    collaborativesearchService,
+                    configService,
+                    titleDonut
+                  );
                 break;
             case 'chipsearch':
                 // TO DO

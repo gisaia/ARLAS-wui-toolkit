@@ -22,6 +22,7 @@ import { ResultsModule } from 'arlas-web-components/results/results.module';
 import { ShareComponent, ShareDialogComponent } from './components/share/share.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ExcludeTypePipe } from './components/share/exclude-type.pipe';
+import { DonutModule } from 'arlas-web-components/donut/donut.module';
 
 export function startupServiceFactory(startupService: ArlasStartupService) {
   const load = () => startupService.load('config.json');
@@ -59,6 +60,7 @@ export function startupServiceFactory(startupService: ArlasStartupService) {
     ResultsModule,
     RouterModule,
     routing,
+    DonutModule
   ],
   providers: [
     forwardRef(() => ArlasConfigService),

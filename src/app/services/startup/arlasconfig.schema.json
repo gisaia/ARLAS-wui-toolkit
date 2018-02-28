@@ -31,6 +31,13 @@
                                         }
                                     ]
                                 },
+                                "^(donut\\$).*$": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "donutContributorConf.schema.json#"
+                                        }
+                                    ]
+                                },
                                 "^(resultlist\\$).*$": {
                                     "allOf": [
                                         {
@@ -90,7 +97,8 @@
                                                         "histogram",
                                                         "powerbars",
                                                         "swimlane",
-                                                        "resultlist"
+                                                        "resultlist",
+                                                        "donut"
                                                     ]
                                                 }
                                             },
@@ -148,6 +156,23 @@
                                                         }
                                                     }
                                                 },
+                                                {
+                                                  "properties": {
+                                                      "componentType": {
+                                                          "enum": [
+                                                              "donut"
+                                                          ]
+                                                      },
+                                                      "input": {
+                                                          "description": "Input of donut component.",
+                                                          "allOf": [
+                                                              {
+                                                                  "$ref": "donut.schema.json#"
+                                                              }
+                                                          ]
+                                                      }
+                                                  }
+                                              },
                                                 {
                                                     "properties": {
                                                         "componentType": {
