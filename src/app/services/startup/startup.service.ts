@@ -86,7 +86,7 @@ export class ArlasStartupService {
                 configData.extraConfigs.forEach(extraConfig => promises.push(this.loadExtraConfig(extraConfig, configData)));
                 return Promise.all(promises);
               } else {
-                Promise.resolve(null);
+                return Promise.resolve(null);
               }
             })
             .toPromise()
@@ -136,7 +136,6 @@ export class ArlasStartupService {
                 }
                 if (this.shouldRunApp) {
                     Object.keys(this.configService.getValue('arlas.web.contributors')).forEach(key => {
-
                         const contributorType = key.split('$')[0];
                         const contributorIdentifier = key.split('$')[1];
                         if (contributorType === 'resultlist') {
