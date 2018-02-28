@@ -17,7 +17,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://gitlab.com/GISAIA.ARLAS/wui/ARLAS-wui-toolkit.git"
+    "url": "https://github.com/gisaia/ARLAS-wui-toolkit.git"
   },
   "dependencies": {
     "@angular/animations": "^4.2.4",
