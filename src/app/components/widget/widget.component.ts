@@ -4,7 +4,7 @@ import { Contributor, CollaborationEvent, OperationEnum } from 'arlas-web-core';
 import { contributors } from 'arlas-web-contributors';
 import { ChartType, HistogramComponent, Position } from 'arlas-web-components';
 import { PowerbarsComponent } from 'arlas-web-components/powerbars/powerbars.component';
-import { DataType, DateUnit } from 'arlas-web-contributors/models/models';
+import { DataType } from 'arlas-web-contributors/models/models';
 import { SwimlaneMode } from 'arlas-web-components/histogram/histogram.utils';
 import { DonutComponent } from 'arlas-web-components/donut/donut.component';
 
@@ -83,8 +83,6 @@ export class WidgetComponent implements OnInit {
           component[key] = ChartType[this.componentParams[key]];
         } else if (key === 'dataType') {
           component[key] = DataType[this.componentParams[key]];
-        } else if (key === 'dateUnit') {
-          component[key] = DateUnit[this.componentParams[key]];
         } else if (key === 'xAxisPosition') {
           component[key] = Position[this.componentParams[key]];
         } else if (key === 'descriptionPosition') {

@@ -702,10 +702,6 @@ ansi-styles@^3.1.0:
   dependencies:
     color-convert "^1.9.0"
 
-ansi-styles@~1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/ansi-styles/-/ansi-styles-1.0.0.tgz#cb102df1c56f5123eab8b67cd7b98027a0279178"
-
 ansi-wrap@0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/ansi-wrap/-/ansi-wrap-0.1.0.tgz#a82250ddb0015e9a27ca82e82ea603bbfa45efaf"
@@ -758,17 +754,17 @@ argparse@^1.0.7:
   dependencies:
     sprintf-js "~1.0.2"
 
-arlas-api@2.0.5:
-  version "2.0.5"
-  resolved "https://registry.yarnpkg.com/arlas-api/-/arlas-api-2.0.5.tgz#65821844563e95f27d79ce4afcef086dbd3616f4"
+arlas-api@2.0.7:
+  version "2.0.7"
+  resolved "https://registry.yarnpkg.com/arlas-api/-/arlas-api-2.0.7.tgz#60ccae74ea1a74a1a97476e400b120aebe12318a"
 
 arlas-kv-api@~1.0.14:
   version "1.0.15"
   resolved "https://registry.yarnpkg.com/arlas-kv-api/-/arlas-kv-api-1.0.15.tgz#5222c694bc8c5e875f2815e5a20652d9d1b2a5d3"
 
-arlas-web-components@^2.7.0:
-  version "2.7.0"
-  resolved "https://registry.yarnpkg.com/arlas-web-components/-/arlas-web-components-2.7.0.tgz#831e6a8c61f98e3134b2bcd6acc5f16cc45a0a6e"
+arlas-web-components@2.8.*:
+  version "2.8.0"
+  resolved "https://registry.yarnpkg.com/arlas-web-components/-/arlas-web-components-2.8.0.tgz#b897c6a1ed9b5904dd05e69ca2e30455d97d88ba"
   dependencies:
     "@angular/animations" "^4.0.0"
     "@angular/cdk" "2.0.0-beta.12"
@@ -803,15 +799,15 @@ arlas-web-components@^2.7.0:
     tinycolor2 "^1.4.1"
     zone.js "^0.8.14"
 
-arlas-web-contributors@^2.7.0:
-  version "2.7.0"
-  resolved "https://registry.yarnpkg.com/arlas-web-contributors/-/arlas-web-contributors-2.7.0.tgz#b52004e64211c573e9da1fbde4cac7123f40f43f"
+arlas-web-contributors@2.8.*:
+  version "2.8.0"
+  resolved "https://registry.yarnpkg.com/arlas-web-contributors/-/arlas-web-contributors-2.8.0.tgz#732a2e570187c4a3f7f203431a06422512acbe05"
   dependencies:
     "@types/file-saver" "^0.0.1"
     "@types/jsonpath" "^0.2.0"
     "@types/tinycolor2" "^1.4.0"
     "@types/turf" "^3.5.32"
-    arlas-web-core "2.7.0"
+    arlas-web-core "2.8.0"
     file-saver "^1.3.3"
     jsonpath "^1.0.0"
     ngeohash "^0.6.0"
@@ -819,14 +815,14 @@ arlas-web-contributors@^2.7.0:
     tinycolor2 "^1.4.1"
     turf "^3.0.14"
 
-arlas-web-core@2.7.0, arlas-web-core@^2.7.0:
-  version "2.7.0"
-  resolved "https://registry.yarnpkg.com/arlas-web-core/-/arlas-web-core-2.7.0.tgz#020ea161913f3456c623bd4775b0cf06330c4780"
+arlas-web-core@2.8.*, arlas-web-core@2.8.0:
+  version "2.8.0"
+  resolved "https://registry.yarnpkg.com/arlas-web-core/-/arlas-web-core-2.8.0.tgz#f116d5a4f908c19c3cd6bb7c1f426a3ffa1ed038"
   dependencies:
     "@angular/core" "^4.0.0"
     "@angular/http" "^4.0.0"
     "@angular/platform-browser" "^4.0.0"
-    arlas-api "2.0.5"
+    arlas-api "2.0.7"
     arlas-kv-api "~1.0.14"
     rxjs "^5.4.2"
     zone.js "^0.8.14"
@@ -1515,14 +1511,6 @@ chalk@^2.0.0, chalk@^2.0.1, chalk@^2.3.0:
     ansi-styles "^3.1.0"
     escape-string-regexp "^1.0.5"
     supports-color "^4.0.0"
-
-chalk@~0.4.0:
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/chalk/-/chalk-0.4.0.tgz#5199a3ddcd0c1efe23bc08c1b027b06176e0c64f"
-  dependencies:
-    ansi-styles "~1.0.0"
-    has-color "~0.1.0"
-    strip-ansi "~0.1.0"
 
 charenc@~0.0.1:
   version "0.0.2"
@@ -3934,10 +3922,6 @@ has-binary@0.1.7:
   dependencies:
     isarray "0.0.1"
 
-has-color@~0.1.0:
-  version "0.1.7"
-  resolved "https://registry.yarnpkg.com/has-color/-/has-color-0.1.7.tgz#67144a5260c34fc3cca677d041daf52fe7b78b2f"
-
 has-cors@1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/has-cors/-/has-cors-1.1.0.tgz#5e474793f7ea9843d1bb99c23eef49ff126fff39"
@@ -5914,19 +5898,12 @@ node@^0.0.0:
   version "0.0.0"
   resolved "https://registry.yarnpkg.com/node/-/node-0.0.0.tgz#288d62f90530c763eff8d4831ee7343ab3d60793"
 
-nomnom@1.5.2:
+nomnom@1.5.2, "nomnom@>= 1.5.x":
   version "1.5.2"
   resolved "https://registry.yarnpkg.com/nomnom/-/nomnom-1.5.2.tgz#f4345448a853cfbd5c0d26320f2477ab0526fe2f"
   dependencies:
     colors "0.5.x"
     underscore "1.1.x"
-
-"nomnom@>= 1.5.x":
-  version "1.8.1"
-  resolved "https://registry.yarnpkg.com/nomnom/-/nomnom-1.8.1.tgz#2151f722472ba79e50a76fc125bb8c8f2e4dc2a7"
-  dependencies:
-    chalk "~0.4.0"
-    underscore "~1.6.0"
 
 "nopt@2 || 3":
   version "3.0.6"
@@ -8025,10 +8002,6 @@ strip-ansi@^4.0.0:
   dependencies:
     ansi-regex "^3.0.0"
 
-strip-ansi@~0.1.0:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/strip-ansi/-/strip-ansi-0.1.1.tgz#39e8a98d044d150660abe4a6808acf70bb7bc991"
-
 strip-bom-string@1.X, strip-bom-string@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/strip-bom-string/-/strip-bom-string-1.0.0.tgz#e5211e9224369fbb81d633a2f00044dc8cedad92"
@@ -8931,10 +8904,6 @@ underscore@1.1.x:
 underscore@1.7.0:
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/underscore/-/underscore-1.7.0.tgz#6bbaf0877500d36be34ecaa584e0db9fef035209"
-
-underscore@~1.6.0:
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/underscore/-/underscore-1.6.0.tgz#8b38b10cacdef63337b8b24e4ff86d45aea529a8"
 
 unflowify@^1.0.0:
   version "1.0.1"
