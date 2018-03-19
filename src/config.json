@@ -7,12 +7,12 @@
             {
               "type": "term",
               "field": "geonames.name",
-              "size": 15
+              "size": 10
             },
             {
               "type": "term",
               "field": "geonames.states.name",
-              "size": 2
+              "size": 10
             },
             {
               "type": "term",
@@ -189,7 +189,7 @@
         },
         "map$mapbox": {
           "identifier": "mapbox",
-          "idFieldName": "uid",
+          "idFieldName": "citationIdentifier",
           "drawtype": "CIRCLE",
           "name": "Map",
           "initZoom": 2,
@@ -385,15 +385,46 @@
               ]
             }
           ],
-          "search_size": 100,
+          "search_size": 10,
           "name": "List"
         }
       },
       "analytics": [
         {
           "groupId": "0",
+          "title": "GROUP-0.TITLE",
           "components": [
             {
+              "contributorId": "geonames",
+              "componentType": "donut",
+              "input": {
+                "opacity": 0.4,
+                "multiselectable": true
+              }
+            },
+            {
+              "contributorId": "geonames",
+              "componentType": "donut",
+              "input": {
+                "opacity": 0.4,
+                "multiselectable": true
+              }
+            },
+            {
+              "contributorId": "geonames",
+              "componentType": "donut",
+              "input": {
+                "opacity": 0.4,
+                "multiselectable": true
+              }
+            },{
+              "contributorId": "geonames",
+              "componentType": "donut",
+              "input": {
+                "opacity": 0.4,
+                "multiselectable": true
+              }
+            },{
               "contributorId": "geonames",
               "componentType": "donut",
               "input": {
@@ -447,7 +478,7 @@
                     "label": "Counties "
                   }
                 ],
-                "searchSize": 30,
+                "searchSize": 10,
                 "nLastLines": 3,
                 "detailedGridHeight": 25,
                 "nbGridColumns": 3,
@@ -472,7 +503,7 @@
                 "leftOffsetRemoveInterval": 18,
                 "brushHandlesHeightWeight": 0.5,
                 "chartType": "bars",
-                "chartTitle": "AUTOMATIC HISTOGRAM",
+                "chartTitle": "AUTOMATIC_HISTOGRAM",
                 "chartWidth": null,
                 "chartHeight": 100,
                 "customizedCssClass": "",
@@ -547,21 +578,21 @@
       }
     },
     "server": {
-      "url": "http://demo.arlas.io:9999/arlas",
+      "url": "http://localhost:9999/arlas",
       "max_age_cache": 120,
       "collection": {
-        "id": "uid",
-        "name": "opensky2"
+        "id": "citationIdentifier",
+        "name": "level0_enriched"
       }
     }
   },
   "effideo": {
     "web": {
       "app": {
-        "idFieldName": "uid",
+        "idFieldName": "citationIdentifier",
         "components": {
           "mapbox": {
-            "idFieldName": "uid",
+            "idFieldName": "citationIdentifier",
             "drawtype": "CIRCLE",
             "basemapUrl": "https://openmaptiles.github.io/osm-bright-gl-style/style-cdn.json",
             "fontClusterlabel": "Open Sans Bold",
@@ -667,9 +698,6 @@
             "name": "Search",
             "autocomplete_field": "relevant_terms",
             "autocomplete_size": "500"
-          },
-          "processlist": {
-            "url": "process.json"
           }
         }
       }

@@ -11,7 +11,7 @@
     [leftOffsetRemoveInterval]="histogramParam?.leftOffsetRemoveInterval"
     [brushHandlesHeightWeight]="histogramParam?.brushHandlesHeightWeight"
     [chartType]="histogramParam?.chartType"
-    [chartTitle]="histogramParam?.chartTitle"
+    attr.chartTitle="histogramChartTitle"
     [chartWidth]="histogramParam?.chartWidth"
     [chartHeight]="histogramParam?.chartHeight"
     [customizedCssClass]="histogramParam?.customizedCssClass"
@@ -83,7 +83,7 @@
   </arlas-powerbars>
 </div>
 
-<div *ngIf="componentType === 'donut'" style="height:500px;" >
+<div *ngIf="componentType==='donut'" style="height:500px;" >
   <div class="donut">{{contributor?.getFilterDisplayName()}}</div>
   <arlas-donut  [donutData]="contributor?.donutData"  [opacity]="donutParam.opacity" [multiselectable]="donutParam.multiselectable" [selectedArcsList]="contributor?.selectedArcsList"
   (selectedNodesEvent)="contributor?.selectedArcsListChanged($event)">

@@ -26,6 +26,7 @@ import { PowerbarsComponent } from 'arlas-web-components/powerbars/powerbars.com
 import { DataType } from 'arlas-web-contributors/models/models';
 import { SwimlaneMode } from 'arlas-web-components/histogram/histogram.utils';
 import { DonutComponent } from 'arlas-web-components/donut/donut.component';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'arlas-tool-widget',
@@ -33,6 +34,7 @@ import { DonutComponent } from 'arlas-web-components/donut/donut.component';
   styleUrls: ['./widget.component.css']
 })
 export class WidgetComponent implements OnInit {
+
 
   public chartType = ChartType;
 
@@ -49,12 +51,15 @@ export class WidgetComponent implements OnInit {
   public resultListParam: any = {};
   public donutParam: any = {};
 
+  public histogramChartTitle = '';
+
   @Input() public contributorId: string;
   @Input() public componentParams: any;
 
   constructor(private arlasStartupService: ArlasStartupService,
     private cdr: ChangeDetectorRef, private componentFactoryResolver: ComponentFactoryResolver,
-    private arlasCollaborativesearchService: ArlasCollaborativesearchService) {
+    private arlasCollaborativesearchService: ArlasCollaborativesearchService,
+    public translate: TranslateService) {
   }
 
   public ngOnInit() {
@@ -108,6 +113,12 @@ export class WidgetComponent implements OnInit {
           component[key] = Position[this.componentParams[key]];
         } else if (key === 'swimlaneMode') {
           component[key] = SwimlaneMode[this.componentParams[key]];
+        } else if (key === 'swimlaneMode') {
+          this.translate.get(this.componentParams[key]).subscribe(
+            exp => {
+              this.histogramChartTitle = exp;
+              console.log(this.histogramChartTitle);
+            });
         } else {
           component[key] = this.componentParams[key];
         }

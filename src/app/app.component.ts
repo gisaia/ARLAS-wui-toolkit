@@ -23,6 +23,7 @@ import { ArlasConfigService, ArlasCollaborativesearchService, ArlasStartupServic
 import { MatDialogRef, MatDialog } from '@angular/material';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
+import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 
 @Component({
@@ -33,12 +34,17 @@ import { Observable } from 'rxjs/Observable';
 })
 export class AppComponent implements AfterViewInit, OnInit {
 
-  // public analytics: Array<any>;
+  public analytics: Array<any>;
   constructor(private configService: ArlasConfigService,
     private arlasStartupService: ArlasStartupService,
     private collaborativeService: ArlasCollaborativesearchService,
     private cdr: ChangeDetectorRef, private activatedRoute: ActivatedRoute,
-    private router: Router, private location: Location) {
+    private router: Router, private location: Location,
+    private translate: TranslateService) {
+
+    // i18n
+    translate.setDefaultLang('en');
+    translate.use('en');
 
     // update url when filter are setted
     const queryParams: Params = Object.assign({}, this.activatedRoute.snapshot.queryParams);
@@ -77,9 +83,9 @@ export class AppComponent implements AfterViewInit, OnInit {
           }
         });
 
-        // this.collaborativeService.setCollaborations({});
-        // this.analytics = this.arlasStartupService.analytics;
-        // this.cdr.detectChanges();
+      this.collaborativeService.setCollaborations({});
+      this.analytics = this.arlasStartupService.analytics;
+      this.cdr.detectChanges();
     }
   }
 }

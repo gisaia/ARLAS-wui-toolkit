@@ -19,6 +19,7 @@
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpModule } from '@angular/http';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { ArlasStartupService, ArlasConfigService, ArlasCollaborativesearchService } from './services/startup/startup.service';
@@ -42,6 +43,12 @@ import { ShareComponent, ShareDialogComponent } from './components/share/share.c
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ExcludeTypePipe } from './components/share/exclude-type.pipe';
 import { DonutModule } from 'arlas-web-components/donut/donut.module';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
 
 export function startupServiceFactory(startupService: ArlasStartupService) {
   const load = () => startupService.load('config.json');
@@ -66,6 +73,7 @@ export function startupServiceFactory(startupService: ArlasStartupService) {
     FormsModule,
     HistogramModule,
     HttpModule,
+    HttpClientModule,
     MatButtonModule,
     MatCardModule,
     MatDialogModule,
@@ -79,7 +87,14 @@ export function startupServiceFactory(startupService: ArlasStartupService) {
     ResultsModule,
     RouterModule,
     routing,
-    DonutModule
+    DonutModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    })
   ],
   providers: [
     forwardRef(() => ArlasConfigService),
