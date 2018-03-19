@@ -1,4 +1,4 @@
-import { DataType, DateUnit } from 'arlas-web-contributors/models/models';
+import { DataType } from 'arlas-web-contributors/models/models';
 import {
     HistogramContributor,
     PowerbarsContributor,
@@ -15,17 +15,14 @@ export class ContributorBuilder {
         collaborativesearchService: ArlasCollaborativesearchService): any {
         const config: Object = configService.getValue('arlas.web.contributors')[contributorType + '$' + identifier];
         let contributor;
-        let dateunit: string;
         let datatype: string;
         let isOneDimension: boolean;
 
         switch (contributorType) {
             case 'histogram':
-                dateunit = config['dateunit'];
                 datatype = config['datatype'];
                 isOneDimension = config['isOneDimension'];
                 contributor = new HistogramContributor(identifier,
-                    DateUnit[dateunit],
                     DataType[datatype],
                     collaborativesearchService,
                     configService, isOneDimension);
@@ -46,11 +43,9 @@ export class ContributorBuilder {
                 // TO DO
                 break;
             case 'swimlane':
-                dateunit = config['dateunit'];
                 datatype = config['datatype'];
                 isOneDimension = config['isOneDimension'];
                 contributor = new SwimLaneContributor(identifier,
-                    DateUnit[dateunit],
                     DataType[datatype],
                     collaborativesearchService,
                     configService);
