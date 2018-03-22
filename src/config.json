@@ -391,6 +391,71 @@
       },
       "analytics": [
         {
+          "groupId": "2",
+          "components": [
+            {
+              "contributorId": "table",
+              "componentType": "resultlist",
+              "input": {
+                "tableWidth": null,
+                "globalActionsList": [
+                  {
+                    "id": "1",
+                    "label": "test"
+                  },
+                  {
+                    "id": "2",
+                    "label": "Counties "
+                  }
+                ],
+                "searchSize": 10,
+                "nLastLines": 3,
+                "detailedGridHeight": 25,
+                "nbGridColumns": 3,
+                "defautMode": "list",
+                "isBodyHidden": false,
+                "isGeoSortActived": false,
+                "selectedItemsEvent": null,
+                "consultedItemEvent": null,
+                "actionOnItemEvent": null,
+                "globalActionEvent": null
+              }
+            },
+            {
+              "contributorId": "timeline",
+              "componentType": "histogram",
+              "input": {
+                "dataType": "time",
+                "dataUnit": "millisecond",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 0.5,
+                "chartType": "bars",
+                "chartTitle": "AUTOMATIC_HISTOGRAM",
+                "chartWidth": null,
+                "chartHeight": 100,
+                "customizedCssClass": "",
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 7,
+                "yTicks": 2,
+                "xLabels": 7,
+                "yLabels": 2,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": true,
+                "isSmoothedCurve": false,
+                "barWeight": 0.8,
+                "valuesDateFormat": "HISTOGRAM_DATE_FORMAT"
+              }
+            }
+          ]
+        },
+        {
           "groupId": "0",
           "title": "GROUP-0.TITLE",
           "components": [
@@ -461,70 +526,6 @@
           ]
         },
         {
-          "groupId": "2",
-          "components": [
-            {
-              "contributorId": "table",
-              "componentType": "resultlist",
-              "input": {
-                "tableWidth": null,
-                "globalActionsList": [
-                  {
-                    "id": "1",
-                    "label": "test"
-                  },
-                  {
-                    "id": "2",
-                    "label": "Counties "
-                  }
-                ],
-                "searchSize": 10,
-                "nLastLines": 3,
-                "detailedGridHeight": 25,
-                "nbGridColumns": 3,
-                "defautMode": "list",
-                "isBodyHidden": false,
-                "isGeoSortActived": false,
-                "selectedItemsEvent": null,
-                "consultedItemEvent": null,
-                "actionOnItemEvent": null,
-                "globalActionEvent": null
-              }
-            },
-            {
-              "contributorId": "timeline",
-              "componentType": "histogram",
-              "input": {
-                "dataType": "time",
-                "dataUnit": "millisecond",
-                "isHistogramSelectable": true,
-                "multiselectable": true,
-                "topOffsetRemoveInterval": 40,
-                "leftOffsetRemoveInterval": 18,
-                "brushHandlesHeightWeight": 0.5,
-                "chartType": "bars",
-                "chartTitle": "AUTOMATIC_HISTOGRAM",
-                "chartWidth": null,
-                "chartHeight": 100,
-                "customizedCssClass": "",
-                "xAxisPosition": "bottom",
-                "descriptionPosition": "bottom",
-                "xTicks": 7,
-                "yTicks": 2,
-                "xLabels": 7,
-                "yLabels": 2,
-                "showXTicks": true,
-                "showYTicks": true,
-                "showXLabels": true,
-                "showYLabels": true,
-                "showHorizontalLines": true,
-                "isSmoothedCurve": false,
-                "barWeight": 0.8
-              }
-            }
-          ]
-        },
-        {
           "groupId": "3",
           "components": [
             {
@@ -538,7 +539,7 @@
                 "topOffsetRemoveInterval": 40,
                 "leftOffsetRemoveInterval": 18,
                 "brushHandlesHeightWeight": 0.5,
-                "chartTitle": "AUTOMATIC Swimlane",
+                "chartTitle": "AUTOMATIC_SWIMLANE",
                 "chartWidth": null,
                 "chartHeight": 100,
                 "customizedCssClass": "",

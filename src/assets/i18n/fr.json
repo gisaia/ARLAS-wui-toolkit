@@ -2,5 +2,7 @@
   "GROUP-0": {
     "TITLE": "Donuts FR"
   },
-  "AUTOMATIC_HISTOGRAM" : "Histogramme automatique"
+  "AUTOMATIC_HISTOGRAM" : "Histogramme automatique",
+  "AUTOMATIC_SWIMLANE" : "Swimlane",
+  "HISTOGRAM_DATE_FORMAT": "%d/%m/%Y"
 }

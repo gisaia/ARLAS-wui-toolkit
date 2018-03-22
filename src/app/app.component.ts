@@ -42,9 +42,12 @@ export class AppComponent implements AfterViewInit, OnInit {
     private router: Router, private location: Location,
     private translate: TranslateService) {
 
-    // i18n
-    translate.setDefaultLang('en');
-    translate.use('en');
+    // // i18n
+    // translate.setDefaultLang('en');
+    // translate.use('en').subscribe(
+    //   () => console.log('Translation loaded'),
+    //   err => console.log('Something wrong with translation'  + err)
+    //  );
 
     // update url when filter are setted
     const queryParams: Params = Object.assign({}, this.activatedRoute.snapshot.queryParams);

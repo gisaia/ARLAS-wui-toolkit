@@ -45,13 +45,7 @@ export class WidgetComponent implements OnInit {
   public indeterminatedItems: Set<string> = new Set<string>();
   public highlightItems: Set<string> = new Set<string>();
   public showSwimlaneDropDown: boolean;
-  public histogramParam: any = {};
-  public swimlaneParam: any = {};
-  public powerBarParam: any = {};
-  public resultListParam: any = {};
-  public donutParam: any = {};
-
-  public histogramChartTitle = '';
+  public graphParam: any = {};
 
   @Input() public contributorId: string;
   @Input() public componentParams: any;
@@ -70,12 +64,7 @@ export class WidgetComponent implements OnInit {
       this.showSwimlaneDropDown = this.swimlanes.length > 1;
       this.swimSelected = this.swimlanes[0];
     }
-    this.setComponentInput(this.histogramParam);
-    this.setComponentInput(this.swimlaneParam);
-    this.setComponentInput(this.powerBarParam);
-    this.setComponentInput(this.resultListParam);
-    this.setComponentInput(this.donutParam);
-
+    this.setComponentInput(this.graphParam);
   }
 
   public changeSwimlane(event) {
@@ -113,12 +102,8 @@ export class WidgetComponent implements OnInit {
           component[key] = Position[this.componentParams[key]];
         } else if (key === 'swimlaneMode') {
           component[key] = SwimlaneMode[this.componentParams[key]];
-        } else if (key === 'swimlaneMode') {
-          this.translate.get(this.componentParams[key]).subscribe(
-            exp => {
-              this.histogramChartTitle = exp;
-              console.log(this.histogramChartTitle);
-            });
+        } else if (key === 'chartTitle' || key === 'valuesDateFormat') {
+          component[key] = this.translate.instant(this.componentParams[key]);
         } else {
           component[key] = this.componentParams[key];
         }

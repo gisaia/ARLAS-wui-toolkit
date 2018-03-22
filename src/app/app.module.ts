@@ -21,9 +21,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
-import { CommonModule } from '@angular/common';
+import { CommonModule, LOCATION_INITIALIZED } from '@angular/common';
 import { ArlasStartupService, ArlasConfigService, ArlasCollaborativesearchService } from './services/startup/startup.service';
-import { NgModule, APP_INITIALIZER, forwardRef } from '@angular/core';
+import { NgModule, APP_INITIALIZER, forwardRef, Injector } from '@angular/core';
 import { ConfigService, CollaborativesearchService } from 'arlas-web-core';
 import { AppComponent } from './app.component';
 import { ErrormodalComponent, ErrorModalMsgComponent } from './components/errormodal/errormodal.component';
@@ -43,7 +43,7 @@ import { ShareComponent, ShareDialogComponent } from './components/share/share.c
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ExcludeTypePipe } from './components/share/exclude-type.pipe';
 import { DonutModule } from 'arlas-web-components/donut/donut.module';
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateModule, TranslateLoader, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -54,6 +54,24 @@ export function startupServiceFactory(startupService: ArlasStartupService) {
   const load = () => startupService.load('config.json');
   return load;
 }
+
+export function translationServiceFactory(translate: TranslateService, injector: Injector) {
+  return () => new Promise<any>((resolve: any) => {
+    const locationInitialized = injector.get(LOCATION_INITIALIZED, Promise.resolve(null));
+    locationInitialized.then(() => {
+      const langToSet = 'en';
+      translate.setDefaultLang('en');
+      translate.use(langToSet).subscribe(() => {
+        console.log(`Successfully initialized '${langToSet}' language.`);
+      }, err => {
+        console.error(`Problem with '${langToSet}' language initialization.'`);
+      }, () => {
+        resolve(null);
+      });
+    });
+  });
+}
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -106,6 +124,12 @@ export function startupServiceFactory(startupService: ArlasStartupService) {
       provide: APP_INITIALIZER,
       useFactory: startupServiceFactory,
       deps: [ArlasStartupService],
+      multi: true
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: translationServiceFactory,
+      deps: [TranslateService, Injector],
       multi: true
     }],
   bootstrap: [AppComponent],
