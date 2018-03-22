@@ -1,9 +1,29 @@
-import { Injectable, OnInit } from '@angular/core';
+/*
+ * Licensed to Gisaïa under one or more contributor
+ * license agreements. See the NOTICE.txt file distributed with
+ * this work for additional information regarding copyright
+ * ownership. Gisaïa licenses this file to you under
+ * the Apache License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
+import { Injectable, Inject, OnInit } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/catch';
+import * as portableFetch from 'portable-fetch';
 import * as ajv from 'ajv';
 
 import { HistogramComponent, PowerbarsComponent, MapglComponent, DonutComponent } from 'arlas-web-components';
@@ -26,13 +46,21 @@ import { Configuration, ExploreApi } from 'arlas-api';
 import * as arlasConfSchema from './arlasconfig.schema.json';
 import { ContributorBuilder } from './contributorBuilder';
 
-
 @Injectable()
 export class ArlasConfigService extends ConfigService {
     constructor() {
         super();
     }
 }
+
+@Injectable()
+export class ArlasExploreApi extends ExploreApi {
+  constructor(@Inject('CONF') conf: Configuration, @Inject('base_path') basePath: string,
+  @Inject('fetch') fetch) {
+    super(conf, basePath, fetch);
+}
+}
+
 @Injectable()
 export class ArlasCollaborativesearchService extends CollaborativesearchService {
     constructor() {
@@ -119,9 +147,10 @@ export class ArlasStartupService {
                     this.configService.setConfig(configData);
                     this.collaborativesearchService.setConfigService(this.configService);
                     const configuraiton: Configuration = new Configuration();
-                    const arlasExploreApi: ExploreApi = new ExploreApi(this.http,
+                    const arlasExploreApi: ArlasExploreApi = new ArlasExploreApi(
+                        configuraiton,
                         this.configService.getValue('arlas.server.url'),
-                        configuraiton
+                        portableFetch
                     );
                     this.collaborativesearchService.setExploreApi(arlasExploreApi);
                     this.collaborativesearchService.collection = this.configService.getValue('arlas.server.collection.name');
