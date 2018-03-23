@@ -24,7 +24,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule, LOCATION_INITIALIZED } from '@angular/common';
 import { ArlasStartupService, ArlasConfigService, ArlasCollaborativesearchService } from './services/startup/startup.service';
 import { NgModule, APP_INITIALIZER, forwardRef, Injector } from '@angular/core';
-import { ConfigService, CollaborativesearchService } from 'arlas-web-core';
+import { CollaborativesearchService } from 'arlas-web-core';
 import { AppComponent } from './app.component';
 import { ErrormodalComponent, ErrorModalMsgComponent } from './components/errormodal/errormodal.component';
 import {
@@ -45,9 +45,10 @@ import { ExcludeTypePipe } from './components/share/exclude-type.pipe';
 import { DonutModule } from 'arlas-web-components/donut/donut.module';
 import { TranslateModule, TranslateLoader, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { LanguageSwitcherComponent } from './components/language-switcher/language-switcher.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http);
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
 export function startupServiceFactory(startupService: ArlasStartupService) {
@@ -57,9 +58,17 @@ export function startupServiceFactory(startupService: ArlasStartupService) {
 
 export function translationServiceFactory(translate: TranslateService, injector: Injector) {
   return () => new Promise<any>((resolve: any) => {
+    const url = window.location.href;
+    const paramLangage = 'lg';
+    let langToSet = 'en';
+    const regex = new RegExp('[?&]' + paramLangage + '(=([^&#]*)|&|#|$)');
+    const results = regex.exec(url);
+    if (results && results[2]) {
+      langToSet = decodeURIComponent(results[2].replace(/\+/g, ' '));
+    }
+
     const locationInitialized = injector.get(LOCATION_INITIALIZED, Promise.resolve(null));
     locationInitialized.then(() => {
-      const langToSet = 'en';
       translate.setDefaultLang('en');
       translate.use(langToSet).subscribe(() => {
         console.log(`Successfully initialized '${langToSet}' language.`);
@@ -81,9 +90,10 @@ export function translationServiceFactory(translate: TranslateService, injector:
     AnalyticsBoardComponent,
     ShareComponent,
     ShareDialogComponent,
-    ExcludeTypePipe
+    ExcludeTypePipe,
+    LanguageSwitcherComponent
   ],
-  exports: [AppComponent, WidgetComponent, AnalyticsBoardComponent, ShareComponent],
+  exports: [AppComponent, WidgetComponent, AnalyticsBoardComponent, ShareComponent, LanguageSwitcherComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

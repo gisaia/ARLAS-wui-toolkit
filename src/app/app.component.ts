@@ -35,19 +35,13 @@ import { Observable } from 'rxjs/Observable';
 export class AppComponent implements AfterViewInit, OnInit {
 
   public analytics: Array<any>;
+  public languages: string[];
+
   constructor(private configService: ArlasConfigService,
     private arlasStartupService: ArlasStartupService,
     private collaborativeService: ArlasCollaborativesearchService,
     private cdr: ChangeDetectorRef, private activatedRoute: ActivatedRoute,
-    private router: Router, private location: Location,
-    private translate: TranslateService) {
-
-    // // i18n
-    // translate.setDefaultLang('en');
-    // translate.use('en').subscribe(
-    //   () => console.log('Translation loaded'),
-    //   err => console.log('Something wrong with translation'  + err)
-    //  );
+    private router: Router, private location: Location) {
 
     // update url when filter are setted
     const queryParams: Params = Object.assign({}, this.activatedRoute.snapshot.queryParams);
@@ -66,6 +60,7 @@ export class AppComponent implements AfterViewInit, OnInit {
       const dataModel = this.collaborativeService.dataModelBuilder(decodeURI(x.url.split('filter=')[1]));
       this.collaborativeService.setCollaborations(dataModel);
     });
+    this.languages = ['en', 'fr'];
   }
 
   public ngAfterViewInit(): void {
@@ -81,14 +76,16 @@ export class AppComponent implements AfterViewInit, OnInit {
           if (params.toString() === 'initWithoutFilter') {
             this.collaborativeService.setCollaborations({});
           } else {
-            const dataModel = this.collaborativeService.dataModelBuilder(params[1]['filter']);
-            this.collaborativeService.setCollaborations(dataModel);
+            if (params[1]['filter']) {
+              const dataModel = this.collaborativeService.dataModelBuilder(params[1]['filter']);
+              this.collaborativeService.setCollaborations(dataModel);
+            }
           }
         });
 
-      this.collaborativeService.setCollaborations({});
-      this.analytics = this.arlasStartupService.analytics;
-      this.cdr.detectChanges();
+      // this.collaborativeService.setCollaborations({});
+      // this.analytics = this.arlasStartupService.analytics;
+      // this.cdr.detectChanges();
     }
   }
 }
