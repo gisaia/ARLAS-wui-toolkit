@@ -57,7 +57,7 @@ export function startupServiceFactory(startupService: ArlasStartupService) {
 }
 
 export function translationServiceFactory(translate: TranslateService, injector: Injector) {
-  return () => new Promise<any>((resolve: any) => {
+  const translationLoaded = () => new Promise<any>((resolve: any) => {
     const url = window.location.href;
     const paramLangage = 'lg';
     let langToSet = 'en';
@@ -79,6 +79,7 @@ export function translationServiceFactory(translate: TranslateService, injector:
       });
     });
   });
+  return translationLoaded;
 }
 
 @NgModule({
