@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { WidgetComponent } from './widget.component';
 import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from '../../services/startup/startup.service';
-import { HistogramModule, ResultsModule } from 'arlas-web-components';
+import { HistogramModule, ResultsModule, DonutModule } from 'arlas-web-components';
 import { PowerbarsModule } from 'arlas-web-components/powerbars/powerbars.module';
 import { MatSelectModule } from '@angular/material';
 import { HttpModule } from '@angular/http';
@@ -19,6 +19,7 @@ describe('WidgetComponent', () => {
         HistogramModule,
         PowerbarsModule,
         ResultsModule,
+        DonutModule,
         MatSelectModule,
         HttpModule
       ]

@@ -11,7 +11,7 @@ import { AnalyticsBoardComponent } from './analytics-board.component';
 import { WidgetComponent } from '../widget/widget.component';
 import { BrowserModule } from '@angular/platform-browser';
 import {
-  HistogramModule, ResultsModule, PowerbarsModule
+  HistogramModule, ResultsModule, PowerbarsModule, DonutModule
 } from 'arlas-web-components';
 
 describe('AnalyticsBoardComponent', () => {
@@ -25,7 +25,7 @@ describe('AnalyticsBoardComponent', () => {
       ],
       imports: [
         MatCardModule, MatIconModule, MatExpansionModule, MatSelectModule, MatButtonModule,
-        MatTooltipModule, BrowserModule, HistogramModule, ResultsModule, PowerbarsModule
+        MatTooltipModule, BrowserModule, HistogramModule, ResultsModule, PowerbarsModule, DonutModule
       ]
     })
       .compileComponents();
