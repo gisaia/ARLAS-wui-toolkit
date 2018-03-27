@@ -103,7 +103,11 @@ export class WidgetComponent implements OnInit {
         } else if (key === 'swimlaneMode') {
           component[key] = SwimlaneMode[this.componentParams[key]];
         } else if (key === 'chartTitle' || key === 'valuesDateFormat') {
-          component[key] = this.translate.instant(this.componentParams[key]);
+          if (this.componentParams[key] !== '') {
+            component[key] = this.translate.instant(this.componentParams[key]);
+          } else {
+            component[key] = this.componentParams[key];
+          }
         } else {
           component[key] = this.componentParams[key];
         }
