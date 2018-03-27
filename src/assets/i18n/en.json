@@ -2,7 +2,20 @@
   "GROUP-0": {
     "TITLE": "Donuts EN"
   },
-  "AUTOMATIC_HISTOGRAM" : "Automatic histogram",
-  "AUTOMATIC_SWIMLANE" : "Swimlane",
-  "HISTOGRAM_DATE_FORMAT": "%m/%d/%Y"
+  "AUTOMATIC_HISTOGRAM": "Automatic histogram",
+  "AUTOMATIC_SWIMLANE": "Swimlane EN",
+  "HISTOGRAM_DATE_FORMAT": "%m/%d/%Y",
+  "Powerbars": {
+    "Mission": "Mission",
+    "Archivage": "Archivage",
+    "Reception": "Reception"
+  },
+  "Swimlane" : {
+    "Mission": "Mission",
+    "Archivage": "Archivage",
+    "Reception": "Reception"
+  },
+  "Donut": {
+    "title": "Geoname"
+  }
 }

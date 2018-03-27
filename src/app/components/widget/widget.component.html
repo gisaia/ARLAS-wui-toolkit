@@ -36,7 +36,7 @@
   <div *ngIf="showSwimlaneDropDown" class="dropdownSwimlane">
     <mat-form-field>
       <mat-select panelClass="panelSwimlane" [(value)]="swimSelected.name" (change)="changeSwimlane($event)">
-        <mat-option *ngFor="let s of swimlanes" value="{{s?.name}}">{{s.name}}</mat-option>
+        <mat-option *ngFor="let s of swimlanes" value="{{s?.name}}">{{s.name | translate}}</mat-option>
       </mat-select>
     </mat-form-field>
   </div>
@@ -77,14 +77,14 @@
     ></arlas-histogram>
 </div>
 <div *ngIf="componentType === 'powerbars'">
-  <div class="powerbarTitle">{{contributor?.getFilterDisplayName()}}</div>
+  <div class="powerbarTitle">{{contributor?.getFilterDisplayName() | translate}}</div>
   <arlas-powerbars [customizedCssClass]="graphParam?.customizedCssClass" [inputData]="contributor?.powerbarsData" (selectedPowerBarEvent)="contributor?.selectedBarsChanged($event)"
     [selectedPowerbarsTerms]="contributor?.selectedBars">
   </arlas-powerbars>
 </div>
 
 <div *ngIf="componentType==='donut'" style="height:500px;" >
-  <div class="donut">{{contributor?.getFilterDisplayName()}}</div>
+  <div class="donut">{{contributor?.getFilterDisplayName() | translate}}</div>
   <arlas-donut  [donutData]="contributor?.donutData"  [opacity]="graphParam.opacity" [multiselectable]="graphParam.multiselectable" [selectedArcsList]="contributor?.selectedArcsList"
   (selectedNodesEvent)="contributor?.selectedArcsListChanged($event)">
   </arlas-donut>

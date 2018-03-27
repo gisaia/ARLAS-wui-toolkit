@@ -19,8 +19,7 @@
               "field": "acquisition.missionName"
             }
           ],
-          "title": "geoname",
-          "donutTitle": "geoname",
+          "title": "Donut.title",
           "identifier": "geoname",
           "name": "geoname"
         },
@@ -31,7 +30,7 @@
               "field": "acquisition.missionName"
             }
           ],
-          "title": "Mission",
+          "title": "Powerbars.Mission",
           "identifier": "mission",
           "name": "Mission"
         },
@@ -42,7 +41,7 @@
               "field": "acquisition.receivingStation"
             }
           ],
-          "title": "Reception",
+          "title": "Powerbars.Reception",
           "identifier": "reception",
           "name": "Reception"
         },
@@ -53,7 +52,7 @@
               "field": "acquisition.missionName"
             }
           ],
-          "title": "Archivage",
+          "title": "Powerbars.Archivage",
           "identifier": "archivage",
           "name": "Archivage"
         },
@@ -63,7 +62,7 @@
           "swimlanes": [
             {
               "id": 1,
-              "name": "Reception",
+              "name": "Swimlane.Reception",
               "field": "dateTimeStamp",
               "aggregationmodels": [
                 {
@@ -82,7 +81,7 @@
             },
             {
               "id": 2,
-              "name": "Mission",
+              "name": "Swimlane.Mission",
               "field": "dateTimeStamp",
               "aggregationmodels": [
                 {
@@ -101,7 +100,7 @@
             },
             {
               "id": 3,
-              "name": "Archivage",
+              "name": "Swimlane.Archivage",
               "field": "dateTimeStamp",
               "aggregationmodels": [
                 {
@@ -559,6 +558,7 @@
                 "swimLaneLabelsWidth": 50,
                 "swimlaneHeight": 30,
                 "swimlaneMode": "fixedHeight",
+                "valuesDateFormat":"HISTOGRAM_DATE_FORMAT",
                 "paletteColors": [
                   0,
                   170

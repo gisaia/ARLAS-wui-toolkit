@@ -3,6 +3,19 @@
     "TITLE": "Donuts FR"
   },
   "AUTOMATIC_HISTOGRAM" : "Histogramme automatique",
-  "AUTOMATIC_SWIMLANE" : "Swimlane",
-  "HISTOGRAM_DATE_FORMAT": "%d/%m/%Y"
+  "AUTOMATIC_SWIMLANE" : "Swimlane FR",
+  "HISTOGRAM_DATE_FORMAT": "%d/%m/%Y",
+  "Powerbars": {
+    "Mission": "Mission",
+    "Archivage": "Archivage",
+    "Reception": "Réception"
+  },
+  "Swimlane" : {
+    "Mission": "Mission",
+    "Archivage": "Archivage",
+    "Reception": "Réception"
+  },
+  "Donut": {
+    "title": "Toponyme"
+  }
 }
