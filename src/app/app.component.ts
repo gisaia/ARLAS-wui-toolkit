@@ -68,7 +68,7 @@ export class AppComponent implements AfterViewInit, OnInit {
       });
       this.collaborativeService.setCollaborations(dataModel);
     });
-    this.languages = ['en', 'fr', 'it'];
+    // this.languages = ['en', 'fr', 'it'];
   }
 
   public ngAfterViewInit(): void {

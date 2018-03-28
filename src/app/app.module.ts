@@ -43,12 +43,34 @@ import { ShareComponent, ShareDialogComponent } from './components/share/share.c
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ExcludeTypePipe } from './components/share/exclude-type.pipe';
 import { DonutModule } from 'arlas-web-components/donut/donut.module';
-import { TranslateModule, TranslateLoader, TranslateService } from '@ngx-translate/core';
+import {
+  TranslateModule,
+  TranslateLoader,
+  TranslateService
+} from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { LanguageSwitcherComponent } from './components/language-switcher/language-switcher.component';
+import { Observable } from 'rxjs/Observable';
 
-export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+export class CustomTranslateLoader implements TranslateLoader {
+
+  constructor(private http: HttpClient) { }
+
+  public getTranslation(lang: string): Observable<any> {
+    const apiAddress = '/assets/i18n/' + lang + '.json';
+    return Observable.create(observer => {
+      this.http.get(apiAddress).subscribe(
+        res => {
+          observer.next(res);
+          observer.complete();
+        },
+        error => {
+          // failed to retrieve requested language file, use default
+          observer.complete(); // => Default language is already loaded
+        }
+      );
+    });
+  }
 }
 
 export function startupServiceFactory(startupService: ArlasStartupService) {
@@ -120,7 +142,7 @@ export function translationServiceFactory(translate: TranslateService, injector:
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
+        useClass: CustomTranslateLoader,
         deps: [HttpClient]
       }
     })
