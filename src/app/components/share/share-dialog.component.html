@@ -26,14 +26,22 @@
       </div>
       <div *ngIf="geojsonTypeGroup.get('geojsonType').value == 'feature'" class="fields-form">
         <mat-form-field class="share-form-field">
-          <mat-select placeholder="Exported fields" formControlName="availableFields" [(value)]="selectedFields" multiple required>
+          <mat-select placeholder="Exported fields" formControlName="availableFields" [(value)]="selectedFields" multiple required [(ngModel)]="selectedFields">
             <mat-select-trigger>
               {{paramFormGroup.get('availableFields').value ? paramFormGroup.get('availableFields').value[0]?.label : ''}}
               <span *ngIf="paramFormGroup.get('availableFields').value?.length > 1" class="fields-additional-selection">
                 (+{{paramFormGroup.get('availableFields').value?.length - 1}} others)
               </span>
             </mat-select-trigger>
-            <mat-option *ngFor="let field of allFields" [value]="field">
+            <mat-option disabled="disabled" class="share-option-check">
+              <button mat-raised-button class="mat-primary fill text-sm" (click)="selectedFields = allFields">
+                Select All
+              </button>
+              <button mat-raised-button class="mat-accent fill text-sm" (click)="selectedFields = []">
+                Unselect All
+              </button>
+            </mat-option>
+            <mat-option *ngFor="let field of allFields" [value]="field" >
               {{ field.label }} -
               <span class="share-description">{{field.type}}</span>
             </mat-option>
