@@ -6,6 +6,7 @@ import { HistogramModule, ResultsModule, DonutModule } from 'arlas-web-component
 import { PowerbarsModule } from 'arlas-web-components/powerbars/powerbars.module';
 import { MatSelectModule } from '@angular/material';
 import { HttpModule } from '@angular/http';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 describe('WidgetComponent', () => {
   let component: WidgetComponent;
@@ -14,14 +15,15 @@ describe('WidgetComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [WidgetComponent],
-      providers: [ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService],
+      providers: [ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService, TranslateService],
       imports: [
         HistogramModule,
         PowerbarsModule,
         ResultsModule,
         DonutModule,
         MatSelectModule,
-        HttpModule
+        HttpModule,
+        TranslateModule
       ]
     })
       .compileComponents();

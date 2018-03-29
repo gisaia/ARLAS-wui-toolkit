@@ -21,10 +21,9 @@ import { Component, OnInit, Input, AfterViewInit, ViewChild, ChangeDetectorRef, 
 import { ArlasStartupService, ArlasConfigService, ArlasCollaborativesearchService } from '../../services/startup/startup.service';
 import { Contributor, CollaborationEvent, OperationEnum } from 'arlas-web-core';
 import { contributors } from 'arlas-web-contributors';
-import { ChartType, HistogramComponent, Position } from 'arlas-web-components';
+import { ChartType, HistogramComponent, Position, SwimlaneMode } from 'arlas-web-components';
 import { PowerbarsComponent } from 'arlas-web-components/powerbars/powerbars.component';
 import { DataType } from 'arlas-web-contributors/models/models';
-import { SwimlaneMode } from 'arlas-web-components/histogram/histogram.utils';
 import { DonutComponent } from 'arlas-web-components/donut/donut.component';
 import { TranslateService } from '@ngx-translate/core';
 
