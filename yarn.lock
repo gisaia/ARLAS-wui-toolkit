@@ -296,6 +296,14 @@
     magic-string "^0.22.3"
     source-map "^0.5.6"
 
+"@ngx-translate/core@^7.2.2":
+  version "7.2.2"
+  resolved "https://registry.yarnpkg.com/@ngx-translate/core/-/core-7.2.2.tgz#e70069d5ef8e837ea336e6890773786f5efb5de5"
+
+"@ngx-translate/http-loader@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@ngx-translate/http-loader/-/http-loader-2.0.1.tgz#aa67788e64bfa8652691a77b022b3b4031209113"
+
 "@schematics/angular@~0.0.30":
   version "0.0.49"
   resolved "https://registry.yarnpkg.com/@schematics/angular/-/angular-0.0.49.tgz#c00ca573756d6a79ee518b05eab5fe6e7b73f341"

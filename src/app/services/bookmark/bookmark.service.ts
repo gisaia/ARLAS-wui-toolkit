@@ -113,8 +113,15 @@ export class ArlasBookmarkService {
     const name = this.getBookMatkNameFromUrl(url);
     const dataModel = this.collaborativesearchService.dataModelBuilder(decodeURI(url));
     this.collaborativesearchService.setCollaborations(dataModel);
+    let language = null;
+    if (this.activatedRoute.snapshot.queryParams['lg']) {
+      language = this.activatedRoute.snapshot.queryParams['lg'];
+    }
     const queryParams: Params = Object.assign({}, this.activatedRoute.snapshot.queryParams);
     queryParams['filter'] = url;
+    if (language) {
+      queryParams['lg'] = language;
+    }
     this.router.navigate(['.'], { queryParams: queryParams });
     this.openSnackBar(name + ' loading');
   }
@@ -138,8 +145,15 @@ export class ArlasBookmarkService {
     } else {
       const dataModel = this.combineBookmarkFromFilter(selectedBookmark);
       this.collaborativesearchService.setCollaborations(dataModel);
+      let language = null;
+      if (this.activatedRoute.snapshot.queryParams['lg']) {
+        language = this.activatedRoute.snapshot.queryParams['lg'];
+      }
       const queryParams: Params = Object.assign({}, this.activatedRoute.snapshot.queryParams);
       queryParams['filter'] = JSON.stringify(dataModel);
+      if (language) {
+        queryParams['lg'] = language;
+      }
       this.router.navigate(['.'], { queryParams: queryParams });
     }
   }

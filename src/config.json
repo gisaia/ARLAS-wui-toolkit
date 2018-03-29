@@ -7,20 +7,19 @@
             {
               "type": "term",
               "field": "geonames.name",
-              "size": 15
+              "size": 10
             },
             {
               "type": "term",
               "field": "geonames.states.name",
-              "size": 2
+              "size": 10
             },
             {
               "type": "term",
               "field": "acquisition.missionName"
             }
           ],
-          "title": "geoname",
-          "donutTitle": "geoname",
+          "title": "Donut.title",
           "identifier": "geoname",
           "name": "geoname"
         },
@@ -31,7 +30,7 @@
               "field": "acquisition.missionName"
             }
           ],
-          "title": "Mission",
+          "title": "Powerbars.Mission",
           "identifier": "mission",
           "name": "Mission"
         },
@@ -42,7 +41,7 @@
               "field": "acquisition.receivingStation"
             }
           ],
-          "title": "Reception",
+          "title": "Powerbars.Reception",
           "identifier": "reception",
           "name": "Reception"
         },
@@ -53,7 +52,7 @@
               "field": "acquisition.missionName"
             }
           ],
-          "title": "Archivage",
+          "title": "Powerbars.Archivage",
           "identifier": "archivage",
           "name": "Archivage"
         },
@@ -63,7 +62,7 @@
           "swimlanes": [
             {
               "id": 1,
-              "name": "Reception",
+              "name": "Swimlane.Reception",
               "field": "dateTimeStamp",
               "aggregationmodels": [
                 {
@@ -82,7 +81,7 @@
             },
             {
               "id": 2,
-              "name": "Mission",
+              "name": "Swimlane.Mission",
               "field": "dateTimeStamp",
               "aggregationmodels": [
                 {
@@ -101,7 +100,7 @@
             },
             {
               "id": 3,
-              "name": "Archivage",
+              "name": "Swimlane.Archivage",
               "field": "dateTimeStamp",
               "aggregationmodels": [
                 {
@@ -189,7 +188,7 @@
         },
         "map$mapbox": {
           "identifier": "mapbox",
-          "idFieldName": "uid",
+          "idFieldName": "citationIdentifier",
           "drawtype": "CIRCLE",
           "name": "Map",
           "initZoom": 2,
@@ -385,15 +384,111 @@
               ]
             }
           ],
-          "search_size": 100,
+          "search_size": 10,
           "name": "List"
         }
       },
       "analytics": [
         {
-          "groupId": "0",
+          "groupId": "2",
           "components": [
             {
+              "contributorId": "table",
+              "componentType": "resultlist",
+              "input": {
+                "tableWidth": null,
+                "globalActionsList": [
+                  {
+                    "id": "1",
+                    "label": "test"
+                  },
+                  {
+                    "id": "2",
+                    "label": "Counties "
+                  }
+                ],
+                "searchSize": 10,
+                "nLastLines": 3,
+                "detailedGridHeight": 25,
+                "nbGridColumns": 3,
+                "defautMode": "list",
+                "isBodyHidden": false,
+                "isGeoSortActived": false,
+                "selectedItemsEvent": null,
+                "consultedItemEvent": null,
+                "actionOnItemEvent": null,
+                "globalActionEvent": null
+              }
+            },
+            {
+              "contributorId": "timeline",
+              "componentType": "histogram",
+              "input": {
+                "dataType": "time",
+                "dataUnit": "millisecond",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 0.5,
+                "chartType": "bars",
+                "chartTitle": "AUTOMATIC_HISTOGRAM",
+                "chartWidth": null,
+                "chartHeight": 100,
+                "customizedCssClass": "",
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 7,
+                "yTicks": 2,
+                "xLabels": 7,
+                "yLabels": 2,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": true,
+                "isSmoothedCurve": false,
+                "barWeight": 0.8,
+                "valuesDateFormat": "HISTOGRAM_DATE_FORMAT"
+              }
+            }
+          ]
+        },
+        {
+          "groupId": "0",
+          "title": "GROUP-0.TITLE",
+          "components": [
+            {
+              "contributorId": "geonames",
+              "componentType": "donut",
+              "input": {
+                "opacity": 0.4,
+                "multiselectable": true
+              }
+            },
+            {
+              "contributorId": "geonames",
+              "componentType": "donut",
+              "input": {
+                "opacity": 0.4,
+                "multiselectable": true
+              }
+            },
+            {
+              "contributorId": "geonames",
+              "componentType": "donut",
+              "input": {
+                "opacity": 0.4,
+                "multiselectable": true
+              }
+            },{
+              "contributorId": "geonames",
+              "componentType": "donut",
+              "input": {
+                "opacity": 0.4,
+                "multiselectable": true
+              }
+            },{
               "contributorId": "geonames",
               "componentType": "donut",
               "input": {
@@ -430,70 +525,6 @@
           ]
         },
         {
-          "groupId": "2",
-          "components": [
-            {
-              "contributorId": "table",
-              "componentType": "resultlist",
-              "input": {
-                "tableWidth": null,
-                "globalActionsList": [
-                  {
-                    "id": "1",
-                    "label": "test"
-                  },
-                  {
-                    "id": "2",
-                    "label": "Counties "
-                  }
-                ],
-                "searchSize": 30,
-                "nLastLines": 3,
-                "detailedGridHeight": 25,
-                "nbGridColumns": 3,
-                "defautMode": "list",
-                "isBodyHidden": false,
-                "isGeoSortActived": false,
-                "selectedItemsEvent": null,
-                "consultedItemEvent": null,
-                "actionOnItemEvent": null,
-                "globalActionEvent": null
-              }
-            },
-            {
-              "contributorId": "timeline",
-              "componentType": "histogram",
-              "input": {
-                "dataType": "time",
-                "dataUnit": "millisecond",
-                "isHistogramSelectable": true,
-                "multiselectable": true,
-                "topOffsetRemoveInterval": 40,
-                "leftOffsetRemoveInterval": 18,
-                "brushHandlesHeightWeight": 0.5,
-                "chartType": "bars",
-                "chartTitle": "AUTOMATIC HISTOGRAM",
-                "chartWidth": null,
-                "chartHeight": 100,
-                "customizedCssClass": "",
-                "xAxisPosition": "bottom",
-                "descriptionPosition": "bottom",
-                "xTicks": 7,
-                "yTicks": 2,
-                "xLabels": 7,
-                "yLabels": 2,
-                "showXTicks": true,
-                "showYTicks": true,
-                "showXLabels": true,
-                "showYLabels": true,
-                "showHorizontalLines": true,
-                "isSmoothedCurve": false,
-                "barWeight": 0.8
-              }
-            }
-          ]
-        },
-        {
           "groupId": "3",
           "components": [
             {
@@ -507,7 +538,7 @@
                 "topOffsetRemoveInterval": 40,
                 "leftOffsetRemoveInterval": 18,
                 "brushHandlesHeightWeight": 0.5,
-                "chartTitle": "AUTOMATIC Swimlane",
+                "chartTitle": "AUTOMATIC_SWIMLANE",
                 "chartWidth": null,
                 "chartHeight": 100,
                 "customizedCssClass": "",
@@ -527,6 +558,7 @@
                 "swimLaneLabelsWidth": 50,
                 "swimlaneHeight": 30,
                 "swimlaneMode": "fixedHeight",
+                "valuesDateFormat":"HISTOGRAM_DATE_FORMAT",
                 "paletteColors": [
                   0,
                   170
@@ -547,21 +579,21 @@
       }
     },
     "server": {
-      "url": "http://demo.arlas.io:9999/arlas",
+      "url": "http://localhost:9999/arlas",
       "max_age_cache": 120,
       "collection": {
-        "id": "uid",
-        "name": "opensky2"
+        "id": "citationIdentifier",
+        "name": "level0_enriched"
       }
     }
   },
   "effideo": {
     "web": {
       "app": {
-        "idFieldName": "uid",
+        "idFieldName": "citationIdentifier",
         "components": {
           "mapbox": {
-            "idFieldName": "uid",
+            "idFieldName": "citationIdentifier",
             "drawtype": "CIRCLE",
             "basemapUrl": "https://openmaptiles.github.io/osm-bright-gl-style/style-cdn.json",
             "fontClusterlabel": "Open Sans Bold",
@@ -667,9 +699,6 @@
             "name": "Search",
             "autocomplete_field": "relevant_terms",
             "autocomplete_size": "500"
-          },
-          "processlist": {
-            "url": "process.json"
           }
         }
       }

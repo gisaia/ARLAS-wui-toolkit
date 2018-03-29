@@ -23,6 +23,7 @@ import { ArlasConfigService, ArlasCollaborativesearchService, ArlasStartupServic
 import { MatDialogRef, MatDialog } from '@angular/material';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
+import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 
 @Component({
@@ -33,7 +34,9 @@ import { Observable } from 'rxjs/Observable';
 })
 export class AppComponent implements AfterViewInit, OnInit {
 
-  // public analytics: Array<any>;
+  public analytics: Array<any>;
+  public languages: string[];
+
   constructor(private configService: ArlasConfigService,
     private arlasStartupService: ArlasStartupService,
     private collaborativeService: ArlasCollaborativesearchService,
@@ -43,7 +46,10 @@ export class AppComponent implements AfterViewInit, OnInit {
     // update url when filter are setted
     const queryParams: Params = Object.assign({}, this.activatedRoute.snapshot.queryParams);
     this.collaborativeService.collaborationBus.subscribe(collaborationEvent => {
-      queryParams['filter'] = this.collaborativeService.urlBuilder().split('=')[1];
+      queryParams['filter'] = this.collaborativeService.urlBuilder().split('filter=')[1];
+      if (this.activatedRoute.snapshot.queryParams['lg']) {
+        queryParams['lg'] = this.activatedRoute.snapshot.queryParams['lg'];
+      }
       if (collaborationEvent.id !== 'url') {
         this.router.navigate(['.'], { queryParams: queryParams });
       }
@@ -54,9 +60,15 @@ export class AppComponent implements AfterViewInit, OnInit {
   public ngOnInit(): void {
     // update app when user click on back/next browser button
     this.location.subscribe(x => {
-      const dataModel = this.collaborativeService.dataModelBuilder(decodeURI(x.url.split('filter=')[1]));
+      let dataModel = {};
+      x.url.split('&').forEach(param => {
+        if (param.split('filter=')[1]) {
+          dataModel = this.collaborativeService.dataModelBuilder(decodeURI(param.split('filter=')[1]));
+        }
+      });
       this.collaborativeService.setCollaborations(dataModel);
     });
+    // this.languages = ['en', 'fr', 'it'];
   }
 
   public ngAfterViewInit(): void {
@@ -72,14 +84,18 @@ export class AppComponent implements AfterViewInit, OnInit {
           if (params.toString() === 'initWithoutFilter') {
             this.collaborativeService.setCollaborations({});
           } else {
-            const dataModel = this.collaborativeService.dataModelBuilder(params[1]['filter']);
-            this.collaborativeService.setCollaborations(dataModel);
+            if (params[1]['filter']) {
+              const dataModel = this.collaborativeService.dataModelBuilder(params[1]['filter']);
+              this.collaborativeService.setCollaborations(dataModel);
+            } else {
+              this.collaborativeService.setCollaborations({});
+            }
           }
         });
 
-        // this.collaborativeService.setCollaborations({});
-        // this.analytics = this.arlasStartupService.analytics;
-        // this.cdr.detectChanges();
+      // this.collaborativeService.setCollaborations({});
+      // this.analytics = this.arlasStartupService.analytics;
+      // this.cdr.detectChanges();
     }
   }
 }

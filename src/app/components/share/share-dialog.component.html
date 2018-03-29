@@ -3,11 +3,11 @@
     <form [formGroup]="geojsonTypeGroup">
       <ng-template matStepLabel>Mode</ng-template>
       <mat-radio-group class="share-radio-group" formControlName="geojsonType">
-        <mat-radio-button [value]="'cluster'" class="share-radio-button">Clusters</mat-radio-button>
-        <mat-radio-button [value]="'feature'" class="share-radio-button">Features</mat-radio-button>
+        <mat-radio-button [value]="'cluster'" class="share-radio-button">{{ 'Clusters' | translate}}</mat-radio-button>
+        <mat-radio-button [value]="'feature'" class="share-radio-button">{{ 'Features' | translate}}</mat-radio-button>
       </mat-radio-group>
       <div>
-        <button mat-button matStepperNext class="share-stepper-button">Next</button>
+        <button mat-button matStepperNext class="share-stepper-button">{{ 'Next' | translate}}</button>
       </div>
     </form>
   </mat-step>
@@ -62,18 +62,18 @@
         </mat-radio-group>
       </div>
       <div>
-        <button mat-button matStepperPrevious class="share-stepper-button">Back</button>
-        <button mat-button matStepperNext class="share-stepper-button">Next</button>
+        <button mat-button matStepperPrevious class="share-stepper-button">{{ 'Back' | translate}}</button>
+        <button mat-button matStepperNext class="share-stepper-button">{{ 'Next' | translate}}</button>
       </div>
     </form>
   </mat-step>
   <mat-step>
-    <ng-template matStepLabel>Get url</ng-template>
+    <ng-template matStepLabel>{{ 'Get url' | translate}}</ng-template>
     <div style="display:flex;flex-direction:row">
       <input matInput value="{{displayedUrl}}" class="share-url" #url>
       <button mat-raised-button color="accent" class="share-copy-url" [class.btn-success]="isCopied" (click)="copyTextToClipboard(url.value)">
         <mat-icon [hidden]="!isCopied">check</mat-icon>
-        Copy URL
+        {{ 'Copy URL' | translate}}
       </button>
     </div>
 

@@ -2,33 +2,33 @@
   <arlas-histogram  [intervalListSelection]="contributor?.intervalListSelection" [intervalSelection]="contributor?.intervalSelection"
     [data]="contributor?.chartData" (valuesListChangedEvent)="contributor?.valueChanged($event)"
 
-    [dataType]="histogramParam?.dataType"
-    [dataUnit]="histogramParam?.dataUnit"
-    [valuesDateFormat]="histogramParam?.valuesDateFormat"
-    [isHistogramSelectable]="histogramParam?.isHistogramSelectable"
-    [multiselectable]="histogramParam?.multiselectable"
-    [topOffsetRemoveInterval]="histogramParam?.topOffsetRemoveInterval"
-    [leftOffsetRemoveInterval]="histogramParam?.leftOffsetRemoveInterval"
-    [brushHandlesHeightWeight]="histogramParam?.brushHandlesHeightWeight"
-    [chartType]="histogramParam?.chartType"
-    [chartTitle]="histogramParam?.chartTitle"
-    [chartWidth]="histogramParam?.chartWidth"
-    [chartHeight]="histogramParam?.chartHeight"
-    [customizedCssClass]="histogramParam?.customizedCssClass"
-    [xAxisPosition]="histogramParam?.xAxisPosition"
-    [descriptionPosition]="histogramParam?.descriptionPosition"
-    [xTicks]="histogramParam?.xTicks"
-    [yTicks]="histogramParam?.yTicks"
-    [xLabels]="histogramParam?.xLabels"
-    [yLabels]="histogramParam?.yLabels"
-    [showXTicks]="histogramParam?.showXTicks"
-    [showYTicks]="histogramParam?.showYTicks"
-    [showXLabels]="histogramParam?.showXLabels"
-    [showYLabels]="histogramParam?.showYLabels"
-    [ticksDateFormat]="histogramParam?.ticksDateFormat"
-    [isSmoothedCurve]="histogramParam?.isSmoothedCurve"
-    [barWeight]="histogramParam?.barWeight"
-    [paletteColors]="histogramParam?.paletteColors"
+    [dataType]="graphParam?.dataType"
+    [dataUnit]="graphParam?.dataUnit"
+    [valuesDateFormat]="graphParam?.valuesDateFormat"
+    [isHistogramSelectable]="graphParam?.isHistogramSelectable"
+    [multiselectable]="graphParam?.multiselectable"
+    [topOffsetRemoveInterval]="graphParam?.topOffsetRemoveInterval"
+    [leftOffsetRemoveInterval]="graphParam?.leftOffsetRemoveInterval"
+    [brushHandlesHeightWeight]="graphParam?.brushHandlesHeightWeight"
+    [chartType]="graphParam?.chartType"
+    [chartTitle]="graphParam?.chartTitle"
+    [chartWidth]="graphParam?.chartWidth"
+    [chartHeight]="graphParam?.chartHeight"
+    [customizedCssClass]="graphParam?.customizedCssClass"
+    [xAxisPosition]="graphParam?.xAxisPosition"
+    [descriptionPosition]="graphParam?.descriptionPosition"
+    [xTicks]="graphParam?.xTicks"
+    [yTicks]="graphParam?.yTicks"
+    [xLabels]="graphParam?.xLabels"
+    [yLabels]="graphParam?.yLabels"
+    [showXTicks]="graphParam?.showXTicks"
+    [showYTicks]="graphParam?.showYTicks"
+    [showXLabels]="graphParam?.showXLabels"
+    [showYLabels]="graphParam?.showYLabels"
+    [ticksDateFormat]="graphParam?.ticksDateFormat"
+    [isSmoothedCurve]="graphParam?.isSmoothedCurve"
+    [barWeight]="graphParam?.barWeight"
+    [paletteColors]="graphParam?.paletteColors"
 
     ></arlas-histogram>
 </div>
@@ -36,56 +36,56 @@
   <div *ngIf="showSwimlaneDropDown" class="dropdownSwimlane">
     <mat-form-field>
       <mat-select panelClass="panelSwimlane" [(value)]="swimSelected.name" (change)="changeSwimlane($event)">
-        <mat-option *ngFor="let s of swimlanes" value="{{s?.name}}">{{s.name}}</mat-option>
+        <mat-option *ngFor="let s of swimlanes" value="{{s?.name}}">{{s.name | translate}}</mat-option>
       </mat-select>
     </mat-form-field>
   </div>
   <arlas-histogram [chartType]="chartType.swimlane" [intervalListSelection]="contributor?.intervalListSelection"
     [data]="contributor?.swimData" (valuesListChangedEvent)="contributor?.valueChanged($event)" [intervalSelection]="contributor?.intervalSelection"
 
-    [dataType]="swimlaneParam?.dataType"
-    [dataUnit]="swimlaneParam?.dataUnit"
-    [valuesDateFormat]="swimlaneParam?.valuesDateFormat"
-    [isHistogramSelectable]="swimlaneParam?.isHistogramSelectable"
-    [multiselectable]="swimlaneParam?.multiselectable"
-    [topOffsetRemoveInterval]="swimlaneParam?.topOffsetRemoveInterval"
-    [leftOffsetRemoveInterval]="swimlaneParam?.leftOffsetRemoveInterval"
-    [brushHandlesHeightWeight]="swimlaneParam?.brushHandlesHeightWeight"
-    [chartTitle]="swimlaneParam?.chartTitle"
-    [chartWidth]="swimlaneParam?.chartWidth"
-    [chartHeight]="swimlaneParam?.chartHeight"
-    [customizedCssClass]="swimlaneParam?.customizedCssClass"
-    [xAxisPosition]="swimlaneParam?.xAxisPosition"
-    [descriptionPosition]="swimlaneParam?.descriptionPosition"
-    [xTicks]="swimlaneParam?.xTicks"
-    [yTicks]="swimlaneParam?.yTicks"
-    [xLabels]="swimlaneParam?.xLabels"
-    [yLabels]="swimlaneParam?.yLabels"
-    [showXTicks]="swimlaneParam?.showXTicks"
-    [showYTicks]="swimlaneParam?.showYTicks"
-    [showXLabels]="swimlaneParam?.showXLabels"
-    [showYLabels]="swimlaneParam?.showYLabels"
-    [ticksDateFormat]="swimlaneParam?.ticksDateFormat"
-    [isSmoothedCurve]="swimlaneParam?.isSmoothedCurve"
-    [barWeight]="swimlaneParam?.barWeight"
-    [paletteColors]="swimlaneParam?.paletteColors"
-    [swimlaneMode]="swimlaneParam?.swimlaneMode"
-    [swimLaneLabelsWidth]="swimlaneParam?.swimLaneLabelsWidth"
-    [swimlaneBorderRadius]="swimlaneParam?.swimlaneBorderRadius"
-    [swimlaneHeight]="swimlaneParam?.swimlaneHeight"
+    [dataType]="graphParam?.dataType"
+    [dataUnit]="graphParam?.dataUnit"
+    [valuesDateFormat]="graphParam?.valuesDateFormat"
+    [isHistogramSelectable]="graphParam?.isHistogramSelectable"
+    [multiselectable]="graphParam?.multiselectable"
+    [topOffsetRemoveInterval]="graphParam?.topOffsetRemoveInterval"
+    [leftOffsetRemoveInterval]="graphParam?.leftOffsetRemoveInterval"
+    [brushHandlesHeightWeight]="graphParam?.brushHandlesHeightWeight"
+    [chartTitle]="graphParam?.chartTitle"
+    [chartWidth]="graphParam?.chartWidth"
+    [chartHeight]="graphParam?.chartHeight"
+    [customizedCssClass]="graphParam?.customizedCssClass"
+    [xAxisPosition]="graphParam?.xAxisPosition"
+    [descriptionPosition]="graphParam?.descriptionPosition"
+    [xTicks]="graphParam?.xTicks"
+    [yTicks]="graphParam?.yTicks"
+    [xLabels]="graphParam?.xLabels"
+    [yLabels]="graphParam?.yLabels"
+    [showXTicks]="graphParam?.showXTicks"
+    [showYTicks]="graphParam?.showYTicks"
+    [showXLabels]="graphParam?.showXLabels"
+    [showYLabels]="graphParam?.showYLabels"
+    [ticksDateFormat]="graphParam?.ticksDateFormat"
+    [isSmoothedCurve]="graphParam?.isSmoothedCurve"
+    [barWeight]="graphParam?.barWeight"
+    [paletteColors]="graphParam?.paletteColors"
+    [swimlaneMode]="graphParam?.swimlaneMode"
+    [swimLaneLabelsWidth]="graphParam?.swimLaneLabelsWidth"
+    [swimlaneBorderRadius]="graphParam?.swimlaneBorderRadius"
+    [swimlaneHeight]="graphParam?.swimlaneHeight"
 
     ></arlas-histogram>
 </div>
 <div *ngIf="componentType === 'powerbars'">
-  <div class="powerbarTitle">{{contributor?.getFilterDisplayName()}}</div>
-  <arlas-powerbars [customizedCssClass]="powerBarParam?.customizedCssClass" [inputData]="contributor?.powerbarsData" (selectedPowerBarEvent)="contributor?.selectedBarsChanged($event)"
+  <div class="powerbarTitle">{{contributor?.getFilterDisplayName() | translate}}</div>
+  <arlas-powerbars [customizedCssClass]="graphParam?.customizedCssClass" [inputData]="contributor?.powerbarsData" (selectedPowerBarEvent)="contributor?.selectedBarsChanged($event)"
     [selectedPowerbarsTerms]="contributor?.selectedBars">
   </arlas-powerbars>
 </div>
 
-<div *ngIf="componentType === 'donut'" style="height:500px;" >
-  <div class="donut">{{contributor?.getFilterDisplayName()}}</div>
-  <arlas-donut  [donutData]="contributor?.donutData"  [opacity]="donutParam.opacity" [multiselectable]="donutParam.multiselectable" [selectedArcsList]="contributor?.selectedArcsList"
+<div *ngIf="componentType==='donut'" style="height:500px;" >
+  <div class="donut">{{contributor?.getFilterDisplayName() | translate}}</div>
+  <arlas-donut  [donutData]="contributor?.donutData"  [opacity]="graphParam.opacity" [multiselectable]="graphParam.multiselectable" [selectedArcsList]="contributor?.selectedArcsList"
   (selectedNodesEvent)="contributor?.selectedArcsListChanged($event)">
   </arlas-donut>
 </div>
@@ -102,22 +102,22 @@
     (moreDataEvent)="contributor?.getMoreData($event)"
     (setFiltersEvent)="contributor?.setFilters($event)"
 
-    [tableWidth]="resultListParam.tableWidth"
-    [globalActionsList]="resultListParam.globalActionsList"
+    [tableWidth]="graphParam.tableWidth"
+    [globalActionsList]="graphParam.globalActionsList"
 
-    [searchSize]="resultListParam.searchSize"
-    [nLastLines]="resultListParam.nLastLines"
-    [detailedGridHeight]="resultListParam.detailedGridHeight"
-    [nbGridColumns]="resultListParam.nbGridColumns"
+    [searchSize]="graphParam.searchSize"
+    [nLastLines]="graphParam.nLastLines"
+    [detailedGridHeight]="graphParam.detailedGridHeight"
+    [nbGridColumns]="graphParam.nbGridColumns"
     [indeterminatedItems]="this.indeterminatedItems"
     [highlightItems]="this.highlightItems"
-    [defautMode]="resultListParam.defautMode"
-    [displayFilters]="resultListParam.displayFilters"
-    [isBodyHidden]="resultListParam.isBodyHidden"
-    [isGeoSortActived]="resultListParam.isGeoSortActived"
-    (selectedItemsEvent)="resultListParam.selectedItemsEvent"
-    (consultedItemEvent)="resultListParam.consultedItemEvent"
-    (actionOnItemEvent)="resultListParam.actionOnItemEvent"
-    (globalActionEvent)="resultListParam.globalActionEvent">
+    [defautMode]="graphParam.defautMode"
+    [displayFilters]="graphParam.displayFilters"
+    [isBodyHidden]="graphParam.isBodyHidden"
+    [isGeoSortActived]="graphParam.isGeoSortActived"
+    (selectedItemsEvent)="graphParam.selectedItemsEvent"
+    (consultedItemEvent)="graphParam.consultedItemEvent"
+    (actionOnItemEvent)="graphParam.actionOnItemEvent"
+    (globalActionEvent)="graphParam.globalActionEvent">
   </arlas-result-list>
 </div>

@@ -3,17 +3,17 @@
       <mat-expansion-panel-header *ngIf="group?.title !== undefined" [expandedHeight]="'48px'" [collapsedHeight]="'32px'" color="primary">
         <mat-panel-title class="analytics-board-panel-title">
           <mat-icon *ngIf="group?.icon !== undefined" class="analytics-board-panel-icon">{{group.icon}}</mat-icon>
-          {{group.title}}
+          {{group.title | translate}}
         </mat-panel-title>
         <mat-panel-description>
-            {{group.description}}
+            {{group.description | translate}}
         </mat-panel-description>
       </mat-expansion-panel-header>
       <div class="analytics-board-group">
         <mat-card *ngFor="let component of group.components;let i = index" class="analytics-board-card">
           <mat-card-title *ngIf="component?.title !== undefined" class="analytics-board-card-title">
             <mat-icon *ngIf="component?.icon !== undefined" class="analytics-board-card-icon">{{component.icon}}</mat-icon>
-            {{component.title}}
+            {{component.title | translate}}
           </mat-card-title>
           <mat-card-content>
               <arlas-tool-widget [contributorId]="component?.contributorId" [componentParams]="component?.input"></arlas-tool-widget>

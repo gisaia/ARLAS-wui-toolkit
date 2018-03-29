@@ -26,6 +26,7 @@ import { PowerbarsComponent } from 'arlas-web-components/powerbars/powerbars.com
 import { DataType } from 'arlas-web-contributors/models/models';
 import { SwimlaneMode } from 'arlas-web-components/histogram/histogram.utils';
 import { DonutComponent } from 'arlas-web-components/donut/donut.component';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'arlas-tool-widget',
@@ -33,6 +34,7 @@ import { DonutComponent } from 'arlas-web-components/donut/donut.component';
   styleUrls: ['./widget.component.css']
 })
 export class WidgetComponent implements OnInit {
+
 
   public chartType = ChartType;
 
@@ -43,18 +45,15 @@ export class WidgetComponent implements OnInit {
   public indeterminatedItems: Set<string> = new Set<string>();
   public highlightItems: Set<string> = new Set<string>();
   public showSwimlaneDropDown: boolean;
-  public histogramParam: any = {};
-  public swimlaneParam: any = {};
-  public powerBarParam: any = {};
-  public resultListParam: any = {};
-  public donutParam: any = {};
+  public graphParam: any = {};
 
   @Input() public contributorId: string;
   @Input() public componentParams: any;
 
   constructor(private arlasStartupService: ArlasStartupService,
     private cdr: ChangeDetectorRef, private componentFactoryResolver: ComponentFactoryResolver,
-    private arlasCollaborativesearchService: ArlasCollaborativesearchService) {
+    private arlasCollaborativesearchService: ArlasCollaborativesearchService,
+    public translate: TranslateService) {
   }
 
   public ngOnInit() {
@@ -65,12 +64,7 @@ export class WidgetComponent implements OnInit {
       this.showSwimlaneDropDown = this.swimlanes.length > 1;
       this.swimSelected = this.swimlanes[0];
     }
-    this.setComponentInput(this.histogramParam);
-    this.setComponentInput(this.swimlaneParam);
-    this.setComponentInput(this.powerBarParam);
-    this.setComponentInput(this.resultListParam);
-    this.setComponentInput(this.donutParam);
-
+    this.setComponentInput(this.graphParam);
   }
 
   public changeSwimlane(event) {
@@ -108,6 +102,12 @@ export class WidgetComponent implements OnInit {
           component[key] = Position[this.componentParams[key]];
         } else if (key === 'swimlaneMode') {
           component[key] = SwimlaneMode[this.componentParams[key]];
+        } else if (key === 'chartTitle' || key === 'valuesDateFormat') {
+          if (this.componentParams[key] !== '') {
+            component[key] = this.translate.instant(this.componentParams[key]);
+          } else {
+            component[key] = this.componentParams[key];
+          }
         } else {
           component[key] = this.componentParams[key];
         }

@@ -19,11 +19,12 @@
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpModule } from '@angular/http';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
-import { CommonModule } from '@angular/common';
+import { CommonModule, LOCATION_INITIALIZED } from '@angular/common';
 import { ArlasStartupService, ArlasConfigService, ArlasCollaborativesearchService } from './services/startup/startup.service';
-import { NgModule, APP_INITIALIZER, forwardRef } from '@angular/core';
-import { ConfigService, CollaborativesearchService } from 'arlas-web-core';
+import { NgModule, APP_INITIALIZER, forwardRef, Injector } from '@angular/core';
+import { CollaborativesearchService } from 'arlas-web-core';
 import { AppComponent } from './app.component';
 import { ErrormodalComponent, ErrorModalMsgComponent } from './components/errormodal/errormodal.component';
 import {
@@ -42,11 +43,67 @@ import { ShareComponent, ShareDialogComponent } from './components/share/share.c
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ExcludeTypePipe } from './components/share/exclude-type.pipe';
 import { DonutModule } from 'arlas-web-components/donut/donut.module';
+import {
+  TranslateModule,
+  TranslateLoader,
+  TranslateService
+} from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { LanguageSwitcherComponent } from './components/language-switcher/language-switcher.component';
+import { Observable } from 'rxjs/Observable';
+
+export class CustomTranslateLoader implements TranslateLoader {
+
+  constructor(private http: HttpClient) { }
+
+  public getTranslation(lang: string): Observable<any> {
+    const apiAddress = '/assets/i18n/' + lang + '.json';
+    return Observable.create(observer => {
+      this.http.get(apiAddress).subscribe(
+        res => {
+          observer.next(res);
+          observer.complete();
+        },
+        error => {
+          // failed to retrieve requested language file, use default
+          observer.complete(); // => Default language is already loaded
+        }
+      );
+    });
+  }
+}
 
 export function startupServiceFactory(startupService: ArlasStartupService) {
   const load = () => startupService.load('config.json');
   return load;
 }
+
+export function translationServiceFactory(translate: TranslateService, injector: Injector) {
+  const translationLoaded = () => new Promise<any>((resolve: any) => {
+    const url = window.location.href;
+    const paramLangage = 'lg';
+    let langToSet = 'en';
+    const regex = new RegExp('[?&]' + paramLangage + '(=([^&#]*)|&|#|$)');
+    const results = regex.exec(url);
+    if (results && results[2]) {
+      langToSet = decodeURIComponent(results[2].replace(/\+/g, ' '));
+    }
+
+    const locationInitialized = injector.get(LOCATION_INITIALIZED, Promise.resolve(null));
+    locationInitialized.then(() => {
+      translate.setDefaultLang('en');
+      translate.use(langToSet).subscribe(() => {
+        console.log(`Successfully initialized '${langToSet}' language.`);
+      }, err => {
+        console.error(`Problem with '${langToSet}' language initialization.'`);
+      }, () => {
+        resolve(null);
+      });
+    });
+  });
+  return translationLoaded;
+}
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -56,9 +113,10 @@ export function startupServiceFactory(startupService: ArlasStartupService) {
     AnalyticsBoardComponent,
     ShareComponent,
     ShareDialogComponent,
-    ExcludeTypePipe
+    ExcludeTypePipe,
+    LanguageSwitcherComponent
   ],
-  exports: [AppComponent, WidgetComponent, AnalyticsBoardComponent, ShareComponent],
+  exports: [AppComponent, WidgetComponent, AnalyticsBoardComponent, ShareComponent, LanguageSwitcherComponent, TranslateModule],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -66,6 +124,7 @@ export function startupServiceFactory(startupService: ArlasStartupService) {
     FormsModule,
     HistogramModule,
     HttpModule,
+    HttpClientModule,
     MatButtonModule,
     MatCardModule,
     MatDialogModule,
@@ -79,7 +138,14 @@ export function startupServiceFactory(startupService: ArlasStartupService) {
     ResultsModule,
     RouterModule,
     routing,
-    DonutModule
+    DonutModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useClass: CustomTranslateLoader,
+        deps: [HttpClient]
+      }
+    })
   ],
   providers: [
     forwardRef(() => ArlasConfigService),
@@ -91,6 +157,12 @@ export function startupServiceFactory(startupService: ArlasStartupService) {
       provide: APP_INITIALIZER,
       useFactory: startupServiceFactory,
       deps: [ArlasStartupService],
+      multi: true
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: translationServiceFactory,
+      deps: [TranslateService, Injector],
       multi: true
     }],
   bootstrap: [AppComponent],
