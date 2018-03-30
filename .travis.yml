@@ -15,6 +15,7 @@ cache:
 jobs:
   include:
     - script: npm run lint
+    - script: npm run test
     - script:
       - npm install
       - npm run build-release
