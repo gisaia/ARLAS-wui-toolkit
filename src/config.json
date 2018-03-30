@@ -424,6 +424,7 @@
               "contributorId": "timeline",
               "componentType": "histogram",
               "input": {
+                "id": "timeline",
                 "dataType": "time",
                 "dataUnit": "millisecond",
                 "isHistogramSelectable": true,
@@ -462,6 +463,7 @@
               "contributorId": "geonames",
               "componentType": "donut",
               "input": {
+                "id": "donut-a",
                 "opacity": 0.4,
                 "multiselectable": true
               }
@@ -470,6 +472,7 @@
               "contributorId": "geonames",
               "componentType": "donut",
               "input": {
+                "id": "donut-b",
                 "opacity": 0.4,
                 "multiselectable": true
               }
@@ -478,6 +481,7 @@
               "contributorId": "geonames",
               "componentType": "donut",
               "input": {
+                "id": "donut-c",
                 "opacity": 0.4,
                 "multiselectable": true
               }
@@ -485,6 +489,8 @@
               "contributorId": "geonames",
               "componentType": "donut",
               "input": {
+                "id": "donut-d",
+
                 "opacity": 0.4,
                 "multiselectable": true
               }
@@ -492,6 +498,8 @@
               "contributorId": "geonames",
               "componentType": "donut",
               "input": {
+                "id": "donut-e",
+
                 "opacity": 0.4,
                 "multiselectable": true
               }
@@ -531,6 +539,7 @@
               "contributorId": "dropdown",
               "componentType": "swimlane",
               "input": {
+                "id": "swimlane",
                 "dataType": "time",
                 "dataUnit": "millisecond",
                 "isHistogramSelectable": true,

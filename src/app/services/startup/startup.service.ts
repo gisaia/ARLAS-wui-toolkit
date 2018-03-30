@@ -27,7 +27,6 @@ import * as portableFetch from 'portable-fetch';
 import * as ajv from 'ajv';
 
 import { HistogramComponent, PowerbarsComponent, MapglComponent, DonutComponent } from 'arlas-web-components';
-import { HistogramData } from 'arlas-web-components/histogram/histogram.utils';
 import {
     HistogramContributor,
     MapContributor,

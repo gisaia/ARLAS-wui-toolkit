@@ -1,7 +1,7 @@
 <div *ngIf="componentType === 'histogram'">
   <arlas-histogram  [intervalListSelection]="contributor?.intervalListSelection" [intervalSelection]="contributor?.intervalSelection"
     [data]="contributor?.chartData" (valuesListChangedEvent)="contributor?.valueChanged($event)"
-
+    [id]="graphParam?.id"
     [dataType]="graphParam?.dataType"
     [dataUnit]="graphParam?.dataUnit"
     [valuesDateFormat]="graphParam?.valuesDateFormat"
@@ -42,7 +42,7 @@
   </div>
   <arlas-histogram [chartType]="chartType.swimlane" [intervalListSelection]="contributor?.intervalListSelection"
     [data]="contributor?.swimData" (valuesListChangedEvent)="contributor?.valueChanged($event)" [intervalSelection]="contributor?.intervalSelection"
-
+    [id]="graphParam?.id"
     [dataType]="graphParam?.dataType"
     [dataUnit]="graphParam?.dataUnit"
     [valuesDateFormat]="graphParam?.valuesDateFormat"
@@ -85,8 +85,9 @@
 
 <div *ngIf="componentType==='donut'" style="height:500px;" >
   <div class="donut">{{contributor?.getFilterDisplayName() | translate}}</div>
-  <arlas-donut  [donutData]="contributor?.donutData"  [opacity]="graphParam.opacity" [multiselectable]="graphParam.multiselectable" [selectedArcsList]="contributor?.selectedArcsList"
-  (selectedNodesEvent)="contributor?.selectedArcsListChanged($event)">
+  <arlas-donut [id]="graphParam?.id"  [donutData]="contributor?.donutData"  [opacity]="graphParam.opacity"
+    [multiselectable]="graphParam.multiselectable" [selectedArcsList]="contributor?.selectedArcsList"
+    (selectedNodesEvent)="contributor?.selectedArcsListChanged($event)">
   </arlas-donut>
 </div>
 

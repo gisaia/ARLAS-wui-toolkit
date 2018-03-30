@@ -13,6 +13,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import {
   HistogramModule, ResultsModule, PowerbarsModule, DonutModule
 } from 'arlas-web-components';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 describe('AnalyticsBoardComponent', () => {
   let component: AnalyticsBoardComponent;
@@ -25,7 +26,10 @@ describe('AnalyticsBoardComponent', () => {
       ],
       imports: [
         MatCardModule, MatIconModule, MatExpansionModule, MatSelectModule, MatButtonModule,
-        MatTooltipModule, BrowserModule, HistogramModule, ResultsModule, PowerbarsModule, DonutModule
+        MatTooltipModule, BrowserModule, HistogramModule, ResultsModule, PowerbarsModule, DonutModule, TranslateModule
+      ],
+      providers: [
+        TranslateService
       ]
     })
       .compileComponents();
