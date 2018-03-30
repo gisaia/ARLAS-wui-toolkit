@@ -14,9 +14,17 @@ cache:
 
 jobs:
   include:
-    - script: npm run lint
-    - script: npm run test
-    - script:
+    - env:
+        - job=lint
+      script: npm run lint
+    - env:
+        - job=test
+      script: npm run test
+    - env:
+        - job=build_release
+      script:
       - npm install
       - npm run build-release
-    - script: ./mkDocs.sh
+    - env:
+        - job=generate_documentation
+      script: ./mkDocs.sh
