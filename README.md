@@ -1,6 +1,6 @@
 # ARLASWuiToolkit
 
-![Build Status](https://img.shields.io/travis/gisaia/ARLAS-wui-toolkit/develop.svg?label=develop)
+[![Build Status](https://travis-ci.org/gisaia/ARLAS-wui-toolkit.svg?branch=develop)](https://travis-ci.org/gisaia/ARLAS-wui-toolkit)
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.4.1.
 
