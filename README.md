@@ -1,6 +1,7 @@
 # ARLASWuiToolkit
 
 [![Build Status](https://travis-ci.org/gisaia/ARLAS-wui-toolkit.svg?branch=develop)](https://travis-ci.org/gisaia/ARLAS-wui-toolkit)
+[![npm version](https://badge.fury.io/js/arlas-wui-toolkit.svg)](https://badge.fury.io/js/arlas-wui-toolkit)
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.4.1.
 
