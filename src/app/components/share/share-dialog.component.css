@@ -31,11 +31,11 @@
   width:230px;
 }
 
-.btn-success{
+.share-block .btn-success{
   background-color: #4CAF50;
 }
 
-.btn-success mat-icon{
+.share-block .btn-success mat-icon{
   font-size: 20px;
   width: 20px;
   height: 20px;
@@ -49,4 +49,18 @@
 .fields-form{
   display: flex;
   flex-direction: column;
+}
+
+.share-exported-fields, .share-order-field{
+  min-width: fit-content !important;
+}
+
+.share-exported-fields .mat-select-content{
+  width: fit-content;
+  font-size: 13px;
+}
+
+.share-order-field .mat-select-content{
+  width: fit-content;
+  font-size: 13px;
 }

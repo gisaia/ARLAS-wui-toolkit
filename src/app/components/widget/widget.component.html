@@ -83,11 +83,11 @@
   </arlas-powerbars>
 </div>
 
-<div *ngIf="componentType==='donut'" style="height:500px;" >
+<div *ngIf="componentType==='donut'" class="donut-container">
   <div class="donut">{{contributor?.getFilterDisplayName() | translate}}</div>
   <arlas-donut [id]="graphParam?.id"  [donutData]="contributor?.donutData"  [opacity]="graphParam.opacity"
     [multiselectable]="graphParam.multiselectable" [selectedArcsList]="contributor?.selectedArcsList"
-    (selectedNodesEvent)="contributor?.selectedArcsListChanged($event)">
+    (selectedNodesEvent)="contributor?.selectedArcsListChanged($event)" [customizedCssClass]="graphParam?.customizedCssClass">
   </arlas-donut>
 </div>
 

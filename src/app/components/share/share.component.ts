@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 import {
   MatDialog, MatDialogRef, MatStepper,
   MatStep, MatStepLabel, MatStepperNext,
@@ -35,7 +35,8 @@ import { ArlasSearchField } from '../../components/share/model/ArlasSearchField'
 @Component({
   selector: 'arlas-share',
   templateUrl: './share.component.html',
-  styleUrls: ['./share.component.css']
+  styleUrls: ['./share.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class ShareComponent {
 
@@ -54,7 +55,8 @@ export class ShareComponent {
 @Component({
   selector: 'arlas-share-dialog',
   templateUrl: './share-dialog.component.html',
-  styleUrls: ['./share-dialog.component.css']
+  styleUrls: ['./share-dialog.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class ShareDialogComponent implements OnInit {
 
@@ -123,6 +125,8 @@ export class ShareDialogComponent implements OnInit {
     this.excludedTypeString = this.excludedTypeString.substr(0, this.excludedTypeString.length - 2);
   }
 
+
+
   public changeStep(event) {
     const server = this.configService.getValue('arlas.server');
 
@@ -133,19 +137,21 @@ export class ShareDialogComponent implements OnInit {
         this.aggTypeText = '_geosearch';
         this.aggType = projType.geosearch;
         this.searchSize = '&size=' + this.maxForFeature;
-        this.http.get(server.url + '/explore/' + server.collection.name + '/_describe?pretty=false').map(
-          response => {
-            const json = response.json();
-            this.fields = json.properties;
-            Object.keys(json.properties).forEach(fieldName =>
-              this.allFields.push({ label: fieldName, type: this.fields[fieldName].type })
+        if (this.allFields.length === 0) {
+          this.http.get(server.url + '/explore/' + server.collection.name + '/_describe?pretty=false').map(
+            response => {
+              const json = response.json();
+              this.fields = json.properties;
+              Object.keys(this.fields).forEach(fieldName => {
+                this.getFieldProperties(this.fields, fieldName);
+              });
+            }).subscribe(
+              response => { },
+              error => {
+                this.collaborativeService.collaborationErrorBus.next(error);
+              }
             );
-          }).subscribe(
-          response => { },
-          error => {
-            this.collaborativeService.collaborationErrorBus.next(error);
-          }
-          );
+        }
       } else {
         this.paramFormGroup.get('precision').enable();
         this.paramFormGroup.get('availableFields').disable();
@@ -200,6 +206,19 @@ export class ShareDialogComponent implements OnInit {
       this.isCopied = false;
     }
     document.body.removeChild(textArea);
+  }
+
+  private getFieldProperties(fieldList: any, fieldName: string, parentPrefix?: string) {
+    if (fieldList[fieldName].type === 'OBJECT') {
+      const subFields = fieldList[fieldName].properties;
+      if (subFields) {
+        Object.keys(subFields).forEach(subFieldName => {
+          this.getFieldProperties(subFields, subFieldName, (parentPrefix ? parentPrefix : '') + fieldName + '.');
+        });
+      }
+    } else {
+      this.allFields.push({ label: (parentPrefix ? parentPrefix : '') + fieldName, type: fieldList[fieldName].type });
+    }
   }
 
 }
