@@ -57,3 +57,8 @@
 .share-option-check .mat-pseudo-checkbox {
   display: none !important;
 }
+
+.donut-container{
+  height: 250px;
+  padding: 20px;
+}

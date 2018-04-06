@@ -465,7 +465,8 @@
               "input": {
                 "id": "donut-a",
                 "opacity": 0.4,
-                "multiselectable": true
+                "multiselectable": true,
+                "customizedCssClass": "custom-donut"
               }
             },
             {
@@ -582,7 +583,7 @@
           "geojson": {
             "max_for_feature": 10000,
             "max_for_cluster": 100000,
-            "sort_excluded_type": ["TEXT", "GEO_POINT"]
+            "sort_excluded_type": ["TEXT", "GEO_POINT", "OBJECT"]
           }
         }
       }
