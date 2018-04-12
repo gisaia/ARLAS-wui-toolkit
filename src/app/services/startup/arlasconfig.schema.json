@@ -59,7 +59,7 @@
                                         }
                                     ]
                                 },
-                                "^(chipsearch\\$).*$": {
+                                "^(chipssearch\\$).*$": {
                                     "allOf": [
                                         {
                                             "$ref": "chipssearchContributorConf.schema.json#"
