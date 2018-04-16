@@ -12,12 +12,12 @@ import {
 } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from '../../services/startup/startup.service';
-import { ShareComponent } from './share.component';
+import { TagComponent } from './tag.component';
 
 
 describe('ShareComponent', () => {
-  let component: ShareComponent;
-  let fixture: ComponentFixture<ShareComponent>;
+  let component: TagComponent;
+  let fixture: ComponentFixture<TagComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -27,14 +27,14 @@ describe('ShareComponent', () => {
         MatIconModule, HttpModule, MatDialogModule, MatStepperModule,
         MatRadioModule, MatSelectModule
       ],
-      declarations: [ShareComponent],
+      declarations: [TagComponent],
       providers: [ArlasConfigService, ArlasCollaborativesearchService, ArlasStartupService]
     })
       .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ShareComponent);
+    fixture = TestBed.createComponent(TagComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

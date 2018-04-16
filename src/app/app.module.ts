@@ -16,41 +16,36 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpModule } from '@angular/http';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule, LOCATION_INITIALIZED } from '@angular/common';
-import { ArlasStartupService, ArlasConfigService, ArlasCollaborativesearchService } from './services/startup/startup.service';
-import { NgModule, APP_INITIALIZER, forwardRef, Injector } from '@angular/core';
-import { CollaborativesearchService } from 'arlas-web-core';
-import { AppComponent } from './app.component';
-import { ErrormodalComponent, ErrorModalMsgComponent } from './components/errormodal/errormodal.component';
-import {
-  MatDialogModule, MatCard, MatCardModule, MatSelectModule,
-  MatExpansionModule, MatIconModule, MatRadioModule, MatStepperModule, MatButtonModule
-} from '@angular/material';
-import { WidgetComponent } from './components/widget/widget.component';
-import { HistogramModule } from 'arlas-web-components/histogram/histogram.module';
-import { PowerbarsModule } from 'arlas-web-components/powerbars/powerbars.module';
-import { AnalyticsBoardComponent } from './components/analytics-board/analytics-board.component';
-import { ArlasBookmarkService } from './services/bookmark/bookmark.service';
-import { RouterModule } from '@angular/router';
-import { routing } from './app.routes';
-import { ResultsModule } from 'arlas-web-components/results/results.module';
-import { ShareComponent, ShareDialogComponent } from './components/share/share.component';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { APP_INITIALIZER, Injector, NgModule, forwardRef } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ExcludeTypePipe } from './components/share/exclude-type.pipe';
-import { DonutModule } from 'arlas-web-components/donut/donut.module';
+import { HttpModule } from '@angular/http';
 import {
-  TranslateModule,
-  TranslateLoader,
-  TranslateService
-} from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { LanguageSwitcherComponent } from './components/language-switcher/language-switcher.component';
+  MatButtonModule, MatCardModule, MatDialogModule,
+  MatExpansionModule, MatIconModule, MatRadioModule,
+  MatSelectModule, MatStepperModule, MatSnackBarModule
+} from '@angular/material';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterModule } from '@angular/router';
+import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+
+import { DonutModule, HistogramModule, PowerbarsModule, ResultsModule } from 'arlas-web-components';
 import { Observable } from 'rxjs/Observable';
+
+import { AppComponent } from './app.component';
+import { routing } from './app.routes';
+import { AnalyticsBoardComponent } from './components/analytics-board/analytics-board.component';
+import { ErrorModalMsgComponent, ErrormodalComponent } from './components/errormodal/errormodal.component';
+import { LanguageSwitcherComponent } from './components/language-switcher/language-switcher.component';
+import { ExcludeTypePipe } from './components/share/exclude-type.pipe';
+import { ShareComponent, ShareDialogComponent } from './components/share/share.component';
+import { TagComponent, TagDialogComponent } from './components/tag/tag.component';
+import { WidgetComponent } from './components/widget/widget.component';
+import { ArlasBookmarkService } from './services/bookmark/bookmark.service';
+import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from './services/startup/startup.service';
+import { ArlasTagService } from './services/tag/tag.service';
 
 export class CustomTranslateLoader implements TranslateLoader {
 
@@ -113,6 +108,8 @@ export function translationServiceFactory(translate: TranslateService, injector:
     AnalyticsBoardComponent,
     ShareComponent,
     ShareDialogComponent,
+    TagComponent,
+    TagDialogComponent,
     ExcludeTypePipe,
     LanguageSwitcherComponent
   ],
@@ -121,6 +118,7 @@ export function translationServiceFactory(translate: TranslateService, injector:
     BrowserModule,
     BrowserAnimationsModule,
     CommonModule,
+    DonutModule,
     FormsModule,
     HistogramModule,
     HttpModule,
@@ -131,6 +129,7 @@ export function translationServiceFactory(translate: TranslateService, injector:
     MatExpansionModule,
     MatIconModule,
     MatSelectModule,
+    MatSnackBarModule,
     MatStepperModule,
     MatRadioModule,
     PowerbarsModule,
@@ -138,7 +137,6 @@ export function translationServiceFactory(translate: TranslateService, injector:
     ResultsModule,
     RouterModule,
     routing,
-    DonutModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -152,6 +150,7 @@ export function translationServiceFactory(translate: TranslateService, injector:
     forwardRef(() => ArlasCollaborativesearchService),
     forwardRef(() => ArlasStartupService),
     forwardRef(() => ArlasBookmarkService),
+    forwardRef(() => ArlasTagService),
 
     {
       provide: APP_INITIALIZER,
@@ -166,6 +165,6 @@ export function translationServiceFactory(translate: TranslateService, injector:
       multi: true
     }],
   bootstrap: [AppComponent],
-  entryComponents: [ErrorModalMsgComponent, ShareDialogComponent],
+  entryComponents: [ErrorModalMsgComponent, ShareDialogComponent, TagDialogComponent],
 })
 export class ArlasToolKitModule { }
