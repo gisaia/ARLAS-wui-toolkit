@@ -57,7 +57,7 @@ export class CustomTranslateLoader implements TranslateLoader {
   constructor(private http: HttpClient) { }
 
   public getTranslation(lang: string): Observable<any> {
-    const apiAddress = '/assets/i18n/' + lang + '.json';
+    const apiAddress = 'assets/i18n/' + lang + '.json';
     return Observable.create(observer => {
       this.http.get(apiAddress).subscribe(
         res => {
