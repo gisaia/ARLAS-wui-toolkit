@@ -20,11 +20,13 @@ import { Injectable } from '@angular/core';
 import { Headers, Http, RequestMethod, RequestOptions } from '@angular/http';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material';
 import { ArlasCollaborativesearchService, ArlasConfigService } from '../startup/startup.service';
+import { Observable } from 'rxjs/Observable';
 
 /** Constants used to fill up our data base. */
 @Injectable()
 export class ArlasTagService {
   private server: any;
+  public taggableFields: Array<any> = [];
 
   constructor(
     private collaborativeSearchService: ArlasCollaborativesearchService,
@@ -38,7 +40,7 @@ export class ArlasTagService {
   public addTag(path: string, value: string) {
     const search = this.getCurrentFilter();
     const data = this.createPayload(search, path, value);
-    console.log(data);
+    this.postTagData(data);
   }
 
   public removeTag(path: string, value: string) {
@@ -69,19 +71,6 @@ export class ArlasTagService {
     return data;
   }
 
-  public getTagableFields() {
-    this.http.get(this.server.url + '/explore/' + this.server.collection.name + '/_describe?pretty=false').map(
-      response => {
-        const json = response.json();
-        return  json.properties;
-      }).subscribe(
-        response => { },
-        error => {
-          this.collaborativeSearchService.collaborationErrorBus.next(error);
-        }
-      );
-  }
-
   public postTagData(data: any, mode: string = 'tag') {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
@@ -99,7 +88,7 @@ export class ArlasTagService {
     snackConfig.duration = 10000;
     snackConfig.verticalPosition = 'top';
 
-    this.http.post('url', JSON.stringify(data), requestOptions).map(
+    this.http.post(this.server.url + '/write/' + this.server.collection.name + '/_' + mode, JSON.stringify(data), requestOptions).map(
       response => {
         let snackBarRef;
 

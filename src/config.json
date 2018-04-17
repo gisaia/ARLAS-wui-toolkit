@@ -739,9 +739,9 @@
           }
       },
       "server": {
-          "url": "http://35.187.182.173:9999/arlas",
+          "url": "http://localhost:19999/arlas",
           "collection": {
-              "name": "ais-danmark",
+              "name": "geodata",
               "id": "id"
           },
           "max_age_cache": 120

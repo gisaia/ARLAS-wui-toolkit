@@ -18,7 +18,9 @@
  */
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Http } from '@angular/http';
 import { MatDialog } from '@angular/material';
+import { ArlasCollaborativesearchService, ArlasConfigService } from '../../services/startup/startup.service';
 import { ArlasTagService } from '../../services/tag/tag.service';
 
 @Component({
@@ -49,17 +51,54 @@ export class TagComponent {
 })
 export class TagDialogComponent implements OnInit {
 
+  private server: any;
   public tagFormGroup: FormGroup;
+  public taggableFields: Array<any> = [];
 
   constructor(
     private formBuilder: FormBuilder,
-    private tagService: ArlasTagService
-  ) { }
+    public tagService: ArlasTagService,
+    private configService: ArlasConfigService,
+    private collaborativeSearchService: ArlasCollaborativesearchService,
+    private http: Http
+  ) {
+    this.server = this.configService.getValue('arlas.server');
+  }
 
   public ngOnInit() {
+
+    this.http.get(this.server.url + '/explore/' + this.server.collection.name + '/_describe?pretty=false').map(
+      response => {
+        const json = response.json();
+        const fields = json.properties;
+        Object.keys(fields).forEach(fieldName => {
+          this.getFieldProperties(fields, fieldName);
+        });
+      }).subscribe(
+        response => { },
+        error => {
+          this.collaborativeSearchService.collaborationErrorBus.next(error);
+        }
+      );
+
     this.tagFormGroup = this.formBuilder.group({
       fieldToTag: ['', Validators.required],
+      valueOfTag: ['']
     });
   }
 
+  private getFieldProperties(fieldList: any, fieldName: string, parentPrefix?: string) {
+    if (fieldList[fieldName].type === 'OBJECT') {
+      const subFields = fieldList[fieldName].properties;
+      if (subFields) {
+        Object.keys(subFields).forEach(subFieldName => {
+          this.getFieldProperties(subFields, subFieldName, (parentPrefix ? parentPrefix : '') + fieldName + '.');
+        });
+      }
+    } else {
+      if (fieldList[fieldName].taggable) {
+        this.taggableFields.push({ label: (parentPrefix ? parentPrefix : '') + fieldName, type: fieldList[fieldName].type });
+      }
+    }
+  }
 }

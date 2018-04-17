@@ -16,21 +16,14 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
-import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
-import {
-  MatDialog, MatDialogRef, MatStepper,
-  MatStep, MatStepLabel, MatStepperNext,
-  MatStepperPrevious, MatRadioButton, MatRadioGroup,
-  MatSelect, MatOption, MatInput
-} from '@angular/material';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ArlasCollaborativesearchService, ArlasConfigService } from '../../services/startup/startup.service';
-import { Filter, Aggregation } from 'arlas-api';
-import { projType } from 'arlas-web-core';
-import { AfterViewInit } from '@angular/core/src/metadata/lifecycle_hooks';
+import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Http } from '@angular/http';
+import { MatDialog, MatDialogRef } from '@angular/material';
+import { Aggregation, Filter } from 'arlas-api';
+import { projType } from 'arlas-web-core';
 import { ArlasSearchField } from '../../components/share/model/ArlasSearchField';
+import { ArlasCollaborativesearchService, ArlasConfigService } from '../../services/startup/startup.service';
 
 @Component({
   selector: 'arlas-share',

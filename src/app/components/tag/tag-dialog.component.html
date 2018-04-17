@@ -1,12 +1,15 @@
 <div [formGroup]="tagFormGroup">
   <mat-form-field class="share-form-field">
-    <mat-select placeholder="Field to tag" formControlName="fieldToTag" panelClass="tag-fields">
-      <mat-option *ngFor="let field of tagableFields" [value]="field" >
+    <mat-select matInput placeholder="Field to tag" formControlName="fieldToTag" panelClass="tag-fields" #fieldtotag>
+      <mat-option *ngFor="let field of taggableFields" [value]="field" >
         {{ field.label }} -
         <span class="share-description">{{field.type}}</span>
       </mat-option>
     </mat-select>
   </mat-form-field>
-  <button (click)="this.tagService.addTag()">Add Tag</button>
+  <mat-form-field>
+    <input matInput placeholder="{{fieldtotag.label}}" formControlName="valueOfTag" type="{{fieldtotag.type}}" #valueoftag>
+  </mat-form-field>
+  <button (click)="this.tagService.addTag(fieldtotag.value.label, valueoftag.value)">Add Tag</button>
 </div>
 
