@@ -16,12 +16,14 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Http } from '@angular/http';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material';
+import { Subject } from 'rxjs/Subject';
 import { ArlasCollaborativesearchService, ArlasConfigService } from '../../services/startup/startup.service';
 import { ArlasTagService } from '../../services/tag/tag.service';
+import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
 
 @Component({
   selector: 'arlas-tag',
@@ -51,22 +53,35 @@ export class TagComponent {
 })
 export class TagDialogComponent implements OnInit {
 
+  @Output() public addTagEvent: Subject<string> = new Subject<string>();
+
   private server: any;
   public tagFormGroup: FormGroup;
   public taggableFields: Array<any> = [];
+
+  public confirmDialogRef: MatDialogRef<ConfirmModalComponent>;
 
   constructor(
     private formBuilder: FormBuilder,
     public tagService: ArlasTagService,
     private configService: ArlasConfigService,
     private collaborativeSearchService: ArlasCollaborativesearchService,
-    private http: Http
+    private http: Http,
+    private dialog: MatDialog,
+    public dialogRef: MatDialogRef<TagDialogComponent>
   ) {
     this.server = this.configService.getValue('arlas.server');
+    this.tagService.status.subscribe(status => {
+      status.forEach((v, k) => {
+        if (v) {
+          this.addTagEvent.next(k);
+          this.dialogRef.close();
+        }
+      });
+    });
   }
 
   public ngOnInit() {
-
     this.http.get(this.server.url + '/explore/' + this.server.collection.name + '/_describe?pretty=false').map(
       response => {
         const json = response.json();
@@ -82,9 +97,28 @@ export class TagDialogComponent implements OnInit {
       );
 
     this.tagFormGroup = this.formBuilder.group({
-      fieldToTag: ['', Validators.required],
+      fieldToTag: [''],
       valueOfTag: ['']
     });
+  }
+
+  public addTag(path: string, value: number | string) {
+    this.tagService.addTag(path, value);
+  }
+
+  public removeTag(path: string, value?: number | string) {
+    if (value) {
+      this.tagService.removeTag(path, value);
+    } else {
+      this.confirmDialogRef = this.dialog.open(ConfirmModalComponent);
+      this.confirmDialogRef.componentInstance.confirmMessage = 'Remove all tags from `' + path + '` ?';
+      this.confirmDialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          this.tagService.removeTag(path, value);
+        }
+        this.confirmDialogRef = null;
+      });
+    }
   }
 
   private getFieldProperties(fieldList: any, fieldName: string, parentPrefix?: string) {

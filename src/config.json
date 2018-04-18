@@ -112,7 +112,7 @@
                   "aggregationmodels": [
                       {
                           "type": "term",
-                          "field": "vessel.mmsi"
+                          "field": "params.job"
                       }
                   ],
                   "title": "MMSI",
@@ -124,7 +124,7 @@
                   "aggregationmodels": [
                       {
                           "type": "term",
-                          "field": "vessel.name"
+                          "field": "params.tags"
                       }
                   ],
                   "title": "Ship name",

@@ -24,7 +24,7 @@ import { HttpModule } from '@angular/http';
 import {
   MatButtonModule, MatCardModule, MatDialogModule,
   MatExpansionModule, MatIconModule, MatRadioModule,
-  MatSelectModule, MatStepperModule, MatSnackBarModule, MatInputModule
+  MatSelectModule, MatStepperModule, MatSnackBarModule, MatInputModule, MatProgressBarModule
 } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -46,6 +46,7 @@ import { WidgetComponent } from './components/widget/widget.component';
 import { ArlasBookmarkService } from './services/bookmark/bookmark.service';
 import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from './services/startup/startup.service';
 import { ArlasTagService } from './services/tag/tag.service';
+import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.component';
 
 export class CustomTranslateLoader implements TranslateLoader {
 
@@ -102,6 +103,7 @@ export function translationServiceFactory(translate: TranslateService, injector:
 @NgModule({
   declarations: [
     AppComponent,
+    ConfirmModalComponent,
     ErrormodalComponent,
     ErrorModalMsgComponent,
     WidgetComponent,
@@ -129,6 +131,7 @@ export function translationServiceFactory(translate: TranslateService, injector:
     MatExpansionModule,
     MatIconModule,
     MatInputModule,
+    MatProgressBarModule,
     MatSelectModule,
     MatSnackBarModule,
     MatStepperModule,
@@ -166,6 +169,6 @@ export function translationServiceFactory(translate: TranslateService, injector:
       multi: true
     }],
   bootstrap: [AppComponent],
-  entryComponents: [ErrorModalMsgComponent, ShareDialogComponent, TagDialogComponent],
+  entryComponents: [ErrorModalMsgComponent, ShareDialogComponent, TagDialogComponent, ConfirmModalComponent],
 })
 export class ArlasToolKitModule { }

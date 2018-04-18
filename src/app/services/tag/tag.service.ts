@@ -19,14 +19,17 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http, RequestMethod, RequestOptions } from '@angular/http';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material';
+import { Subject } from 'rxjs/Subject';
 import { ArlasCollaborativesearchService, ArlasConfigService } from '../startup/startup.service';
-import { Observable } from 'rxjs/Observable';
+import { Filter } from 'arlas-api';
 
 /** Constants used to fill up our data base. */
 @Injectable()
 export class ArlasTagService {
   private server: any;
   public taggableFields: Array<any> = [];
+  public isProcessing = false;
+  public status: Subject<Map<string, boolean>> = new Subject<Map<string, boolean>>();
 
   constructor(
     private collaborativeSearchService: ArlasCollaborativesearchService,
@@ -37,31 +40,26 @@ export class ArlasTagService {
     this.server = this.configService.getValue('arlas.server');
   }
 
-  public addTag(path: string, value: string) {
-    const search = this.getCurrentFilter();
-    const data = this.createPayload(search, path, value);
+  public addTag(path: string, value: string | number) {
+    const data = this.createPayload(path, value);
     this.postTagData(data);
   }
 
-  public removeTag(path: string, value: string) {
-    const search = this.getCurrentFilter();
-    const data = this.createPayload(search, path, value);
+  public removeTag(path: string, value?: string | number) {
+    const data = this.createPayload(path, value);
+    this.postTagData(data, 'untag');
   }
 
-  public removeAllTag(path: string) {
-    const search = this.getCurrentFilter();
-    const data = this.createPayload(search, path);
+  public createPayload(path: string, value?: string | number): Object {
 
-  }
+    const filters = new Array<Filter>();
+    this.collaborativeSearchService.collaborations.forEach(element =>
+      filters.push(element.filter)
+    );
+    const filter = this.collaborativeSearchService.getFinalFilter(filters);
 
-  public getCurrentFilter(): Object {
-    const url = this.collaborativeSearchService.urlBuilder().split('filter=')[1];
-    return this.collaborativeSearchService.dataModelBuilder(decodeURI(url));
-  }
-
-  public createPayload(search: any, path: string, value?: string | number): Object {
     const data: { search: any, tag?: any } = { search: {} };
-    data.search = search;
+    data.search = { filter: filter };
     const tag: { path: string, value?: string | number } = { path: '' };
     tag.path = path;
     if (value) {
@@ -84,26 +82,34 @@ export class ArlasTagService {
     );
 
     const snackConfig = new MatSnackBarConfig();
-    snackConfig.extraClasses = ['custom-class'];
-    snackConfig.duration = 10000;
+    snackConfig.duration = 5000;
     snackConfig.verticalPosition = 'top';
 
+    this.isProcessing = true;
     this.http.post(this.server.url + '/write/' + this.server.collection.name + '/_' + mode, JSON.stringify(data), requestOptions).map(
       response => {
-        let snackBarRef;
 
         switch (response.status) {
           case 200:
-            snackBarRef = this.snackBar.open('Job request successfully launched', 'Open jobs dashboard', snackConfig);
+            this.snackBar.open('Field successfully ' + mode, '', snackConfig);
             break;
           case 201:
-            snackBarRef = this.snackBar.open('Job request queued', 'Open jobs dashboard', snackConfig);
+            this.snackBar.open('Action in queue', '', snackConfig);
             break;
         }
+
+        this.status.next(new Map<string, boolean>().set(mode, true));
       }).subscribe(
         response => { },
         error => {
+          this.snackBar.open('Error : field was not ' + mode, '', snackConfig);
+          this.isProcessing = false;
           this.collaborativeSearchService.collaborationErrorBus.next(error);
+
+          this.status.next(new Map<string, boolean>().set(mode, false));
+        },
+        () => {
+          this.isProcessing = false;
         }
       );
   }
