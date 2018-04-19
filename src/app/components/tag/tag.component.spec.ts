@@ -15,7 +15,7 @@ import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupServic
 import { TagComponent } from './tag.component';
 
 
-describe('ShareComponent', () => {
+describe('TagComponent', () => {
   let component: TagComponent;
   let fixture: ComponentFixture<TagComponent>;
 
