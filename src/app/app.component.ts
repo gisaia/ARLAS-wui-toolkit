@@ -91,9 +91,9 @@ export class AppComponent implements AfterViewInit, OnInit {
           }
         });
 
-      this.collaborativeService.setCollaborations({});
-      this.analytics = this.arlasStartupService.analytics;
-      this.cdr.detectChanges();
+      // this.collaborativeService.setCollaborations({});
+      // this.analytics = this.arlasStartupService.analytics;
+      // this.cdr.detectChanges();
     }
   }
 }
