@@ -72,9 +72,9 @@ export class TagDialogComponent implements OnInit {
   ) {
     this.server = this.configService.getValue('arlas.server');
     this.tagService.status.subscribe(status => {
-      status.forEach((v, k) => {
-        if (v) {
-          this.addTagEvent.next(k);
+      status.forEach((success, mode) => {
+        if (success) {
+          this.addTagEvent.next(mode);
           this.dialogRef.close();
         }
       });
@@ -111,7 +111,7 @@ export class TagDialogComponent implements OnInit {
       this.tagService.removeTag(path, value);
     } else {
       this.confirmDialogRef = this.dialog.open(ConfirmModalComponent);
-      this.confirmDialogRef.componentInstance.confirmMessage = 'Remove all tags from `' + path + '` ?';
+      this.confirmDialogRef.componentInstance.confirmHTLMMessage = '<strong>Remove</strong> all tags from `' + path + '` ?';
       this.confirmDialogRef.afterClosed().subscribe(result => {
         if (result) {
           this.tagService.removeTag(path, value);

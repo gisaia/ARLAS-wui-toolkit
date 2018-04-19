@@ -8,5 +8,7 @@ import { MatDialogRef } from '@angular/material';
 })
 export class ConfirmModalComponent {
   public confirmMessage: string;
+  public confirmHTLMMessage: string;
+
   constructor(public dialogRef: MatDialogRef<ConfirmModalComponent>) { }
 }

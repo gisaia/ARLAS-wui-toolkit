@@ -19,9 +19,9 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http, RequestMethod, RequestOptions } from '@angular/http';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material';
+import { Filter } from 'arlas-api';
 import { Subject } from 'rxjs/Subject';
 import { ArlasCollaborativesearchService, ArlasConfigService } from '../startup/startup.service';
-import { Filter } from 'arlas-api';
 
 /** Constants used to fill up our data base. */
 @Injectable()
