@@ -163,7 +163,7 @@ export class ArlasBookmarkService {
     selectedBookmark.forEach(id => {
       const bookmark: BookMark = this.bookMarkMap.get(id);
       const dataModel = this.collaborativesearchService.dataModelBuilder(bookmark.url.replace('filter=', ''));
-      dataModel[this.selectorById].filter.f[0].value.split(',').forEach(i => ids.push(i));
+      dataModel[this.selectorById].filter.f[0][0].value.split(',').forEach(i => ids.push(i));
     });
     return new Set(ids);
   }
