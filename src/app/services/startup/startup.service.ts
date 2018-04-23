@@ -40,7 +40,7 @@ import {
 import * as rootContributorConfSchema from 'arlas-web-contributors/jsonSchemas/rootContributorConf.schema.json';
 import { ConfigService, CollaborativesearchService } from 'arlas-web-core';
 import { projType } from 'arlas-web-core/models/projections';
-import { Configuration, ExploreApi } from 'arlas-api';
+import { Configuration, ExploreApi, WriteApi } from 'arlas-api';
 
 import * as arlasConfSchema from './arlasconfig.schema.json';
 import { ContributorBuilder } from './contributorBuilder';
@@ -57,7 +57,15 @@ export class ArlasExploreApi extends ExploreApi {
   constructor(@Inject('CONF') conf: Configuration, @Inject('base_path') basePath: string,
   @Inject('fetch') fetch) {
     super(conf, basePath, fetch);
+  }
 }
+
+@Injectable()
+export class ArlasWriteApi extends WriteApi {
+  constructor(@Inject('CONF') conf: Configuration, @Inject('base_path') basePath: string,
+  @Inject('fetch') fetch) {
+    super(conf, basePath, fetch);
+  }
 }
 
 @Injectable()
@@ -152,6 +160,12 @@ export class ArlasStartupService {
                         portableFetch
                     );
                     this.collaborativesearchService.setExploreApi(arlasExploreApi);
+                    const arlasWriteApi = new ArlasWriteApi(
+                      configuraiton,
+                      this.configService.getValue('arlas.server.url'),
+                      portableFetch
+                    );
+                    this.collaborativesearchService.setWriteApi( arlasWriteApi);
                     this.collaborativesearchService.collection = this.configService.getValue('arlas.server.collection.name');
                     this.collaborativesearchService.max_age = this.configService.getValue('arlas.server.max_age');
                     this.collaborativesearchService.resolveHits([projType.count, {}])

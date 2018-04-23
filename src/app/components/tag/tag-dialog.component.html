@@ -1,0 +1,18 @@
+<div [formGroup]="tagFormGroup" style="display:flex;flex-direction: column;justify-content: space-around;min-width:300px;">
+  <mat-form-field class="tag-form-field">
+    <mat-select matInput placeholder="Field to tag" formControlName="fieldToTag" panelClass="tag-fields" #fieldtotag>
+      <mat-option *ngFor="let field of taggableFields" [value]="field">
+        {{ field.label }} -
+        <span class="tag-description">{{field.type}}</span>
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Value of tag" formControlName="valueOfTag" #valueoftag>
+  </mat-form-field>
+  <div style="display:flex;flex-direction:row;justify-content: space-around;">
+    <button mat-raised-button [disabled]="this.tagService.isProcessing || fieldtotag.empty || ! valueoftag.value" color="primary" (click)="addTag(fieldtotag.value?.label, valueoftag.value)">Add Tag</button>
+    <button mat-raised-button [disabled]="this.tagService.isProcessing || fieldtotag.empty" color="warn" (click)="removeTag(fieldtotag.value?.label, valueoftag.value)">Remove Tag</button>
+  </div>
+  <mat-progress-bar *ngIf="this.tagService.isProcessing" class="tag-progress" [color]="'accent'" [mode]="'indeterminate'"></mat-progress-bar>
+</div>

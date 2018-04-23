@@ -1,0 +1,7 @@
+.tag-button{
+  padding: 0 5px;
+}
+
+.tag-button:focus{
+  outline: none;
+}

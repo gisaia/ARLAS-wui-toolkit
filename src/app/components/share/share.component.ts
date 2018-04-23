@@ -16,21 +16,14 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
-import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
-import {
-  MatDialog, MatDialogRef, MatStepper,
-  MatStep, MatStepLabel, MatStepperNext,
-  MatStepperPrevious, MatRadioButton, MatRadioGroup,
-  MatSelect, MatOption, MatInput
-} from '@angular/material';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ArlasCollaborativesearchService, ArlasConfigService } from '../../services/startup/startup.service';
-import { Filter, Aggregation } from 'arlas-api';
-import { projType } from 'arlas-web-core';
-import { AfterViewInit } from '@angular/core/src/metadata/lifecycle_hooks';
+import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Http } from '@angular/http';
+import { MatDialog, MatDialogRef } from '@angular/material';
+import { Aggregation, Filter } from 'arlas-api';
+import { projType } from 'arlas-web-core';
 import { ArlasSearchField } from '../../components/share/model/ArlasSearchField';
+import { ArlasCollaborativesearchService, ArlasConfigService } from '../../services/startup/startup.service';
 
 @Component({
   selector: 'arlas-share',
@@ -68,7 +61,6 @@ export class ShareDialogComponent implements OnInit {
 
   private maxForCluster: number;
   private maxForFeature: number;
-  private fields: Array<any>;
 
   public displayedUrl: string;
   public precisions = [
@@ -138,19 +130,16 @@ export class ShareDialogComponent implements OnInit {
         this.aggType = projType.geosearch;
         this.searchSize = '&size=' + this.maxForFeature;
         if (this.allFields.length === 0) {
-          this.http.get(server.url + '/explore/' + server.collection.name + '/_describe?pretty=false').map(
-            response => {
-              const json = response.json();
-              this.fields = json.properties;
-              Object.keys(this.fields).forEach(fieldName => {
-                this.getFieldProperties(this.fields, fieldName);
+          this.collaborativeService.describe(server.collection.name).subscribe(
+            description => {
+              const fields = description.properties;
+              Object.keys(fields).forEach(fieldName => {
+                this.getFieldProperties(fields, fieldName);
               });
-            }).subscribe(
-              response => { },
-              error => {
-                this.collaborativeService.collaborationErrorBus.next(error);
-              }
-            );
+            },
+            error => {
+              this.collaborativeService.collaborationErrorBus.next(error);
+            });
         }
       } else {
         this.paramFormGroup.get('precision').enable();
