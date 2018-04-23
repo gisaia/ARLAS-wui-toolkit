@@ -82,19 +82,17 @@ export class TagDialogComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.http.get(this.server.url + '/explore/' + this.server.collection.name + '/_describe?pretty=false').map(
-      response => {
-        const json = response.json();
-        const fields = json.properties;
+    this.collaborativeSearchService.describe(this.server.collection.name).subscribe(
+      description => {
+        const fields = description.properties;
         Object.keys(fields).forEach(fieldName => {
+
           this.getFieldProperties(fields, fieldName);
         });
-      }).subscribe(
-        response => { },
-        error => {
-          this.collaborativeSearchService.collaborationErrorBus.next(error);
-        }
-      );
+      },
+      error => {
+        this.collaborativeSearchService.collaborationErrorBus.next(error);
+      });
 
     this.tagFormGroup = this.formBuilder.group({
       fieldToTag: [''],

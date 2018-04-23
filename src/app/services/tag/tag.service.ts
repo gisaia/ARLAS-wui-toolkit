@@ -70,37 +70,23 @@ export class ArlasTagService {
   }
 
   public postTagData(data: any, mode: string = 'tag') {
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-    headers.append('Accept', 'application/json');
 
-    const requestOptions = new RequestOptions(
-      {
-        method: RequestMethod.Post,
-        headers: headers
-      }
-    );
+    const requestOptions = {
+      method: 'POST'
+    };
 
     const snackConfig = new MatSnackBarConfig();
     snackConfig.duration = 5000;
     snackConfig.verticalPosition = 'top';
 
     this.isProcessing = true;
-    this.http.post(this.server.url + '/write/' + this.server.collection.name + '/_' + mode, JSON.stringify(data), requestOptions).map(
-      response => {
 
-        switch (response.status) {
-          case 200:
-            this.snackBar.open('Field successfully ' + mode, '', snackConfig);
-            break;
-          case 201:
-            this.snackBar.open('Action in queue', '', snackConfig);
-            break;
-        }
-
-        this.status.next(new Map<string, boolean>().set(mode, true));
-      }).subscribe(
-        response => { },
+    if (mode === 'tag') {
+      this.collaborativeSearchService.tag(this.server.collection.name, data, false, requestOptions).subscribe(
+        response => {
+          this.snackBar.open('Field successfully ' + mode, '', snackConfig);
+          this.status.next(new Map<string, boolean>().set(mode, true));
+        },
         error => {
           this.snackBar.open('Error : field was not ' + mode, '', snackConfig);
           this.isProcessing = false;
@@ -112,5 +98,23 @@ export class ArlasTagService {
           this.isProcessing = false;
         }
       );
+    } else {
+      this.collaborativeSearchService.untag(this.server.collection.name, data, false, requestOptions).subscribe(
+        response => {
+          this.snackBar.open('Field successfully ' + mode, '', snackConfig);
+          this.status.next(new Map<string, boolean>().set(mode, true));
+        },
+        error => {
+          this.snackBar.open('Error : field was not ' + mode, '', snackConfig);
+          this.isProcessing = false;
+          this.collaborativeSearchService.collaborationErrorBus.next(error);
+
+          this.status.next(new Map<string, boolean>().set(mode, false));
+        },
+        () => {
+          this.isProcessing = false;
+        }
+      );
+    }
   }
 }

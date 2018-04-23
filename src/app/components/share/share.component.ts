@@ -61,7 +61,6 @@ export class ShareDialogComponent implements OnInit {
 
   private maxForCluster: number;
   private maxForFeature: number;
-  private fields: Array<any>;
 
   public displayedUrl: string;
   public precisions = [
@@ -131,19 +130,16 @@ export class ShareDialogComponent implements OnInit {
         this.aggType = projType.geosearch;
         this.searchSize = '&size=' + this.maxForFeature;
         if (this.allFields.length === 0) {
-          this.http.get(server.url + '/explore/' + server.collection.name + '/_describe?pretty=false').map(
-            response => {
-              const json = response.json();
-              this.fields = json.properties;
-              Object.keys(this.fields).forEach(fieldName => {
-                this.getFieldProperties(this.fields, fieldName);
+          this.collaborativeService.describe(server.collection.name).subscribe(
+            description => {
+              const fields = description.properties;
+              Object.keys(fields).forEach(fieldName => {
+                this.getFieldProperties(fields, fieldName);
               });
-            }).subscribe(
-              response => { },
-              error => {
-                this.collaborativeService.collaborationErrorBus.next(error);
-              }
-            );
+            },
+            error => {
+              this.collaborativeService.collaborationErrorBus.next(error);
+            });
         }
       } else {
         this.paramFormGroup.get('precision').enable();
