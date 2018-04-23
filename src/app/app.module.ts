@@ -115,7 +115,15 @@ export function translationServiceFactory(translate: TranslateService, injector:
     ExcludeTypePipe,
     LanguageSwitcherComponent
   ],
-  exports: [AppComponent, WidgetComponent, AnalyticsBoardComponent, ShareComponent, LanguageSwitcherComponent, TranslateModule],
+  exports: [
+    AppComponent,
+    WidgetComponent,
+    AnalyticsBoardComponent,
+    ShareComponent,
+    TagComponent,
+    LanguageSwitcherComponent,
+    TranslateModule
+  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
