@@ -34,7 +34,7 @@
     "@ngx-translate/core": "^8.0.0",
     "@ngx-translate/http-loader": "^2.0.1",
     "ajv": "^5.5.2",
-    "arlas-web-components": "5.0.*",
+    "arlas-web-components": "5.1.0-beta.0",
     "arlas-web-contributors": "5.0.*",
     "cli-color": "^1.2.0",
     "core-js": "^2.4.1",
