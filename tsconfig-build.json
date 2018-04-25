@@ -41,6 +41,8 @@
   ],
   "angularCompilerOptions": {
     "genDir": "dist",
-    "strictMetadataEmit": true
+    "strictMetadataEmit": true,
+    "annotateForClosureCompiler": false,
+    "skipTemplateCodegen": true
   }
 }
