@@ -34,13 +34,17 @@ import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component'
 export class TagComponent {
 
   @Input() public icon = 'local_offer';
+  @Output() public tagEvent: Subject<string> = new Subject<string>();
+
+  public dialogRef: MatDialogRef<TagDialogComponent>;
 
   constructor(
     public dialog: MatDialog
   ) { }
 
   public openDialog() {
-    this.dialog.open(TagDialogComponent, { data: null });
+    this.dialogRef = this.dialog.open(TagDialogComponent, { data: null });
+    this.dialogRef.componentInstance.tagEvent.subscribe( value => this.tagEvent.next(value));
   }
 
 }
@@ -53,7 +57,7 @@ export class TagComponent {
 })
 export class TagDialogComponent implements OnInit {
 
-  @Output() public addTagEvent: Subject<string> = new Subject<string>();
+  @Output() public tagEvent: Subject<string> = new Subject<string>();
 
   private server: any;
   public tagFormGroup: FormGroup;
@@ -74,8 +78,8 @@ export class TagDialogComponent implements OnInit {
     this.tagService.status.subscribe(status => {
       status.forEach((success, mode) => {
         if (success) {
-          this.addTagEvent.next(mode);
           this.dialogRef.close();
+          this.tagEvent.next(mode);
         }
       });
     });
@@ -86,7 +90,6 @@ export class TagDialogComponent implements OnInit {
       description => {
         const fields = description.properties;
         Object.keys(fields).forEach(fieldName => {
-
           this.getFieldProperties(fields, fieldName);
         });
       },

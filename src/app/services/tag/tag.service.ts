@@ -84,11 +84,11 @@ export class ArlasTagService {
     if (mode === 'tag') {
       this.collaborativeSearchService.tag(this.server.collection.name, data, false, requestOptions).subscribe(
         response => {
-          this.snackBar.open('Field has been successfully ' + mode + 'ged', '', snackConfig);
+          this.snackBar.open(response.updated + ' hits have been successfully ' + mode + 'ged', '', snackConfig);
           this.status.next(new Map<string, boolean>().set(mode, true));
         },
         error => {
-          this.snackBar.open('Error : the field has not been ' + mode + 'ged', '', snackConfig);
+          this.snackBar.open('Error : the tag has not been added', '', snackConfig);
           this.isProcessing = false;
           this.collaborativeSearchService.collaborationErrorBus.next(error);
 
@@ -101,11 +101,11 @@ export class ArlasTagService {
     } else {
       this.collaborativeSearchService.untag(this.server.collection.name, data, false, requestOptions).subscribe(
         response => {
-          this.snackBar.open('Field has been successfully ' + mode + 'ged', '', snackConfig);
+          this.snackBar.open(response.updated + ' hits have been successfully ' + mode + 'ged', '', snackConfig);
           this.status.next(new Map<string, boolean>().set(mode, true));
         },
         error => {
-          this.snackBar.open('Error : the field has not been ' + mode + 'ged', '', snackConfig);
+          this.snackBar.open('Error : the tag has not been removed', '', snackConfig);
           this.isProcessing = false;
           this.collaborativeSearchService.collaborationErrorBus.next(error);
 
