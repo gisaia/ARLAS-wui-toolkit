@@ -2,12 +2,8 @@ import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import {
-  MatAutocompleteModule,
-  MatDialogModule,
-  MatIconModule,
-  MatInputModule,
-  MatRadioModule,
-  MatSelectModule,
+  MatAutocompleteModule, MatDialogModule, MatIconModule,
+  MatInputModule, MatRadioModule, MatSelectModule,
   MatStepperModule
 } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
