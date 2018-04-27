@@ -4,17 +4,6 @@
   "description": "Tool Kit Library for ARLAS wui web App",
   "author": "gisaia",
   "license": "Apache-2.0",
-  "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "test": "ng test",
-    "lint": "ng lint",
-    "tslint": "ng lint",
-    "gulp": "gulp",
-    "build-release": "ngc -p tsconfig-build.json && gulp",
-    "e2e": "ng e2e"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/gisaia/ARLAS-wui-toolkit.git"
@@ -34,8 +23,8 @@
     "@ngx-translate/core": "^8.0.0",
     "@ngx-translate/http-loader": "^2.0.1",
     "ajv": "^5.5.2",
-    "arlas-web-components": "5.1.0-beta.0",
-    "arlas-web-contributors": "5.0.*",
+    "arlas-web-components": "5.1.*",
+    "arlas-web-contributors": "5.1.*",
     "cli-color": "^1.2.0",
     "core-js": "^2.4.1",
     "rxjs": "^5.5.6",
@@ -47,7 +36,7 @@
     "@angular/language-service": "^5.2.0",
     "@types/jasmine": "~2.8.3",
     "@types/jasminewd2": "~2.0.2",
-    "@types/node": "~6.0.60",
+    "@types/node": "^8.0.15",
     "codelyzer": "^4.1.0",
     "gulp": "^3.9.1",
     "gulp-clean": "^0.3.2",
