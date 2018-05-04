@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { Component, OnInit, Input, AfterViewInit, ViewChild, ChangeDetectorRef, ComponentFactoryResolver } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit, ViewChild, ChangeDetectorRef, ComponentFactoryResolver, Output } from '@angular/core';
 import { ArlasStartupService, ArlasConfigService, ArlasCollaborativesearchService } from '../../services/startup/startup.service';
 import { Contributor, CollaborationEvent, OperationEnum } from 'arlas-web-core';
 import { contributors } from 'arlas-web-contributors';
@@ -25,6 +25,7 @@ import { ChartType, HistogramComponent, Position, SwimlaneMode, DonutComponent }
 import { PowerbarsComponent } from 'arlas-web-components/powerbars/powerbars.component';
 import { DataType } from 'arlas-web-contributors/models/models';
 import { TranslateService } from '@ngx-translate/core';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
   selector: 'arlas-tool-widget',
@@ -47,6 +48,8 @@ export class WidgetComponent implements OnInit {
 
   @Input() public contributorId: string;
   @Input() public componentParams: any;
+  @Output() public outEvents: Subject<{ origin: string, event: string, data?: any }>
+    = new Subject<{ origin: string, event: string, data?: any }>();
 
   constructor(private arlasStartupService: ArlasStartupService,
     private cdr: ChangeDetectorRef, private componentFactoryResolver: ComponentFactoryResolver,
@@ -111,6 +114,10 @@ export class WidgetComponent implements OnInit {
         }
       });
     }
+  }
+
+  private emitEvent(source: string, event: string, data: any) {
+    this.outEvents.next({ origin: source, event: event, data: data });
   }
 }
 
