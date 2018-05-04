@@ -116,9 +116,9 @@
     [displayFilters]="graphParam.displayFilters"
     [isBodyHidden]="graphParam.isBodyHidden"
     [isGeoSortActived]="graphParam.isGeoSortActived"
-    (selectedItemsEvent)="graphParam.selectedItemsEvent"
-    (consultedItemEvent)="graphParam.consultedItemEvent"
-    (actionOnItemEvent)="graphParam.actionOnItemEvent"
-    (globalActionEvent)="graphParam.globalActionEvent">
+    (selectedItemsEvent)="emitEvent(contributorId, 'selectedItemsEvent', $event)"
+    (consultedItemEvent)="emitEvent(contributorId, 'consultedItemEvent', $event)"
+    (actionOnItemEvent)="emitEvent(contributorId, 'actionOnItemEvent', $event)"
+    (globalActionEvent)="emitEvent(contributorId, 'globalActionEvent', $event)">
   </arlas-result-list>
 </div>

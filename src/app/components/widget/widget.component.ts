@@ -16,16 +16,13 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
-import { Component, OnInit, Input, AfterViewInit, ViewChild, ChangeDetectorRef, ComponentFactoryResolver } from '@angular/core';
-import { ArlasStartupService, ArlasConfigService, ArlasCollaborativesearchService } from '../../services/startup/startup.service';
-import { Contributor, CollaborationEvent, OperationEnum } from 'arlas-web-core';
-import { contributors } from 'arlas-web-contributors';
-import { ChartType, HistogramComponent, Position, SwimlaneMode } from 'arlas-web-components';
-import { PowerbarsComponent } from 'arlas-web-components/powerbars/powerbars.component';
-import { DataType } from 'arlas-web-contributors/models/models';
-import { DonutComponent } from 'arlas-web-components/donut/donut.component';
+import { ChangeDetectorRef, Component, ComponentFactoryResolver, Input, OnInit, Output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { ChartType, Position, SwimlaneMode } from 'arlas-web-components';
+import { DataType } from 'arlas-web-contributors/models/models';
+import { CollaborationEvent, Contributor, OperationEnum } from 'arlas-web-core';
+import { Subject } from 'rxjs/Subject';
+import { ArlasCollaborativesearchService, ArlasStartupService } from '../../services/startup/startup.service';
 
 @Component({
   selector: 'arlas-tool-widget',
@@ -48,6 +45,8 @@ export class WidgetComponent implements OnInit {
 
   @Input() public contributorId: string;
   @Input() public componentParams: any;
+  @Output() public outEvents: Subject<{ origin: string, event: string, data?: any }>
+    = new Subject<{ origin: string, event: string, data?: any }>();
 
   constructor(private arlasStartupService: ArlasStartupService,
     private cdr: ChangeDetectorRef, private componentFactoryResolver: ComponentFactoryResolver,
@@ -77,6 +76,10 @@ export class WidgetComponent implements OnInit {
       all: true
     };
     this.arlasCollaborativesearchService.collaborationBus.next(collaborationEvent);
+  }
+
+  public emitEvent(source: string, event: string, data: any) {
+    this.outEvents.next({ origin: source, event: event, data: data });
   }
 
   private getComponentType() {

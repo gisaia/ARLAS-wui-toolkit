@@ -17,14 +17,12 @@
  * under the License.
  */
 
-import { AfterViewInit, ChangeDetectorRef } from '@angular/core';
-import { Component, OnInit } from '@angular/core';
-import { ArlasConfigService, ArlasCollaborativesearchService, ArlasStartupService } from './services/startup/startup.service';
-import { MatDialogRef, MatDialog } from '@angular/material';
-import { Router, ActivatedRoute, Params } from '@angular/router';
-import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
-import { TranslateService } from '@ngx-translate/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
+import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from './services/startup/startup.service';
+
 
 @Component({
   selector: 'arlas-tool-root',

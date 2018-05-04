@@ -16,23 +16,23 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
-import { Component, OnInit, Input } from '@angular/core';
-import {
-  MatCard, MatExpansionPanel, MatExpansionPanelHeader, MatExpansionPanelTitle,
-  MatExpansionPanelDescription, MatExpansionPanelState, MatIcon
-} from '@angular/material';
+import { Component, Input, Output } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
 @Component({
   selector: 'arlas-analytics-board',
   templateUrl: './analytics-board.component.html',
   styleUrls: ['./analytics-board.component.css']
 })
-export class AnalyticsBoardComponent implements OnInit {
+export class AnalyticsBoardComponent {
 
   @Input() public groups: Array<any>;
+  @Output() public boardOutputs: Subject<{ origin: string, event: string, data?: any }>
+    = new Subject<{ origin: string, event: string, data?: any }>();
+
   constructor() { }
 
-  public ngOnInit() {
+  public listenOutput(event: { origin: string, event: string, data?: any }) {
+    this.boardOutputs.next(event);
   }
 
 }

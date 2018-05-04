@@ -16,7 +16,7 @@
             {{component.title | translate}}
           </mat-card-title>
           <mat-card-content>
-              <arlas-tool-widget [contributorId]="component?.contributorId" [componentParams]="component?.input"></arlas-tool-widget>
+              <arlas-tool-widget [contributorId]="component?.contributorId" [componentParams]="component?.input" (outEvents)="listenOutput($event)"></arlas-tool-widget>
           </mat-card-content>
         </mat-card>
       </div>
