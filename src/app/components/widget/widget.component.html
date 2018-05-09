@@ -87,6 +87,7 @@
   <div class="donut">{{contributor?.getFilterDisplayName() | translate}}</div>
   <arlas-donut [id]="graphParam?.id"  [donutData]="contributor?.donutData"  [opacity]="graphParam.opacity"
     [multiselectable]="graphParam.multiselectable" [selectedArcsList]="contributor?.selectedArcsList"
+    [donutNodeColorizer]="graphParam.donutNodeColorizer"
     (selectedNodesEvent)="contributor?.selectedArcsListChanged($event)" [customizedCssClass]="graphParam?.customizedCssClass">
   </arlas-donut>
 </div>

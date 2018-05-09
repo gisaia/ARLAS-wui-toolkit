@@ -26,6 +26,7 @@ import { PowerbarsComponent } from 'arlas-web-components/powerbars/powerbars.com
 import { DataType } from 'arlas-web-contributors/models/models';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs/Subject';
+import { DonutColorGenerator } from '../../utils/ColorGeneratorImpl';
 
 @Component({
   selector: 'arlas-tool-widget',
@@ -109,6 +110,14 @@ export class WidgetComponent implements OnInit {
           } else {
             component[key] = this.componentParams[key];
           }
+        } else if (key === 'nodesColors') {
+          const nodesColors = this.componentParams[key];
+          let donutNodeColorizer;
+          if (nodesColors) {
+            donutNodeColorizer = new DonutColorGenerator();
+            donutNodeColorizer.nodesColors = nodesColors;
+          }
+          component['donutNodeColorizer'] = donutNodeColorizer;
         } else {
           component[key] = this.componentParams[key];
         }
