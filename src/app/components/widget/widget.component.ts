@@ -1,3 +1,4 @@
+import { HistogramContributor } from 'arlas-web-contributors';
 /*
  * Licensed to Gisaïa under one or more contributor
  * license agreements. See the NOTICE.txt file distributed with
@@ -23,7 +24,7 @@ import { Contributor, CollaborationEvent, OperationEnum } from 'arlas-web-core';
 import { contributors } from 'arlas-web-contributors';
 import { ChartType, HistogramComponent, Position, SwimlaneMode, DonutComponent } from 'arlas-web-components';
 import { PowerbarsComponent } from 'arlas-web-components/powerbars/powerbars.component';
-import { DataType } from 'arlas-web-contributors/models/models';
+import { DataType, SelectedOutputValues } from 'arlas-web-contributors/models/models';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs/Subject';
 

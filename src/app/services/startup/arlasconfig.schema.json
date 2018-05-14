@@ -261,6 +261,24 @@
                               "required": [
                                 "input"
                               ]
+                            },
+                            "timeline": {
+                              "description": "Timeline component configuration",
+                              "type": "object",
+                              "properties": {
+                                "input": {
+                                  "description": "Histogram component inputs for timeline",
+                                  "type": "object",
+                                  "allOf": [
+                                    {
+                                      "$ref": "histogram.schema.json#"
+                                    }
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "input"
+                              ]
                             }
                           }
                         }
