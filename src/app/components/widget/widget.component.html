@@ -99,7 +99,6 @@
     [fieldsList]="contributor?.fieldsList"
     [filtersMap]="contributor?.filtersMap"
     (sortColumnEvent)="contributor?.sortColumn($event)"
-    (geoSortEvent)="contributor?.geoSort($event)"
     (moreDataEvent)="contributor?.getMoreData($event)"
     (setFiltersEvent)="contributor?.setFilters($event)"
 
@@ -116,6 +115,7 @@
     [displayFilters]="graphParam.displayFilters"
     [isBodyHidden]="graphParam.isBodyHidden"
     [isGeoSortActived]="graphParam.isGeoSortActived"
+    (geoSortEvent)="emitEvent(contributorId, 'geoSortEvent', $event)"
     (selectedItemsEvent)="emitEvent(contributorId, 'selectedItemsEvent', $event)"
     (consultedItemEvent)="emitEvent(contributorId, 'consultedItemEvent', $event)"
     (actionOnItemEvent)="emitEvent(contributorId, 'actionOnItemEvent', $event)"
