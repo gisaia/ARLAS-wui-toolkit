@@ -35,7 +35,7 @@
 <div *ngIf="componentType === 'swimlane'">
   <div *ngIf="showSwimlaneDropDown" class="dropdownSwimlane">
     <mat-form-field>
-      <mat-select panelClass="panelSwimlane" [(value)]="swimSelected.name" (change)="changeSwimlane($event)">
+      <mat-select panelClass="panelSwimlane" [value]="swimSelected.name" (change)="changeSwimlane($event)">
         <mat-option *ngFor="let s of swimlanes" value="{{s?.name}}">{{s.name | translate}}</mat-option>
       </mat-select>
     </mat-form-field>
