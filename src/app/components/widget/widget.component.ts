@@ -70,7 +70,6 @@ export class WidgetComponent implements OnInit {
 
   public changeSwimlane(event) {
     const swimConf = this.swimlanes.filter(f => f.name === event.value)[0];
-    this.swimSelected = swimConf;
     this.contributor.aggregations = swimConf.aggregationmodels;
     this.contributor.field = swimConf.field;
     const collaborationEvent: CollaborationEvent = {
