@@ -61,6 +61,7 @@ export class ShareDialogComponent implements OnInit {
 
   private maxForCluster: number;
   private maxForFeature: number;
+  private aggField: string;
 
   public displayedUrl: string;
   public precisions = [
@@ -110,6 +111,7 @@ export class ShareDialogComponent implements OnInit {
     });
     this.maxForCluster = this.configService.getValue('arlas.web.components.share.geojson.max_for_cluster');
     this.maxForFeature = this.configService.getValue('arlas.web.components.share.geojson.max_for_feature');
+    this.aggField = this.configService.getValue('arlas.web.components.share.geojson.agg_field');
     this.configService.getValue('arlas.web.components.share.geojson.sort_excluded_type').forEach(element => {
       this.excludedType.add(element);
       this.excludedTypeString += element + ', ';
@@ -158,7 +160,7 @@ export class ShareDialogComponent implements OnInit {
 
       const agg: Aggregation = {
         type: Aggregation.TypeEnum.Geohash,
-        field: 'location',
+        field: this.aggField,
         interval: {
           value: this.paramFormGroup.get('precision').value
         }
