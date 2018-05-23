@@ -1,85 +1,94 @@
 # Change Log
 
-## [v5.1.2](https://github.com/gisaia/ARLAS-WUI-toolkit/tree/v5.1.2) (2018-05-16)
+## [v6.0.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v6.0.0) (2018-05-23)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI-toolkit/compare/v3.1.2...v5.1.2)
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v5.1.2...v6.0.0)
+
+**New stuff:**
+
+- Add the possibility to define colors for donuts nodes [\#35](https://github.com/gisaia/ARLAS-wui-toolkit/issues/35)
+- Add a Time period component [\#23](https://github.com/gisaia/ARLAS-wui-toolkit/issues/23)
+
+**Fixed bugs:**
+
+- Share : agg field is not configurable [\#37](https://github.com/gisaia/ARLAS-wui-toolkit/issues/37)
+
+## [v5.1.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v5.1.2) (2018-05-16)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v3.1.2...v5.1.2)
 
 **New stuff:**
 
 - Expose geoSort event from resultlist into the AB [\#36](https://github.com/gisaia/ARLAS-wui-toolkit/pull/36) ([sebbousquet](https://github.com/sebbousquet))
 
-## [v3.1.2](https://github.com/gisaia/ARLAS-WUI-toolkit/tree/v3.1.2) (2018-05-04)
+## [v5.1.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v5.1.1) (2018-05-04)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI-toolkit/compare/v5.1.1...v3.1.2)
-
-## [v5.1.1](https://github.com/gisaia/ARLAS-WUI-toolkit/tree/v5.1.1) (2018-05-04)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI-toolkit/compare/v5.1.0...v5.1.1)
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v5.1.0...v5.1.1)
 
 **New stuff:**
 
 - Implement interception of events between widgets [\#14](https://github.com/gisaia/ARLAS-wui-toolkit/issues/14)
 
-## [v5.1.0](https://github.com/gisaia/ARLAS-WUI-toolkit/tree/v5.1.0) (2018-04-27)
+## [v5.1.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v5.1.0) (2018-04-27)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI-toolkit/compare/v5.0.2...v5.1.0)
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v5.0.2...v5.1.0)
 
 **Breaking changes:**
 
 - Feature/angular5 [\#32](https://github.com/gisaia/ARLAS-wui-toolkit/pull/32) ([sebbousquet](https://github.com/sebbousquet))
 
-## [v5.0.2](https://github.com/gisaia/ARLAS-WUI-toolkit/tree/v5.0.2) (2018-04-26)
+## [v5.0.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v5.0.2) (2018-04-26)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI-toolkit/compare/v5.0.1...v5.0.2)
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v5.0.1...v5.0.2)
 
 **New stuff:**
 
 - Boards : add an option to initialize boards to be closed [\#18](https://github.com/gisaia/ARLAS-wui-toolkit/issues/18)
 - Expose tagEvent & Add collaped option on Analytics [\#31](https://github.com/gisaia/ARLAS-wui-toolkit/pull/31) ([sebbousquet](https://github.com/sebbousquet))
 
-## [v5.0.1](https://github.com/gisaia/ARLAS-WUI-toolkit/tree/v5.0.1) (2018-04-23)
+## [v5.0.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v5.0.1) (2018-04-23)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI-toolkit/compare/v5.0.0...v5.0.1)
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v5.0.0...v5.0.1)
 
 **Fixed bugs:**
 
 - Export tag component [\#29](https://github.com/gisaia/ARLAS-wui-toolkit/pull/29) ([sebbousquet](https://github.com/sebbousquet))
 
-## [v5.0.0](https://github.com/gisaia/ARLAS-WUI-toolkit/tree/v5.0.0) (2018-04-23)
+## [v5.0.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v5.0.0) (2018-04-23)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI-toolkit/compare/v4.0.6...v5.0.0)
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v4.0.6...v5.0.0)
 
 **New stuff:**
 
 - Feature/tagManagement [\#26](https://github.com/gisaia/ARLAS-wui-toolkit/pull/26) ([sebbousquet](https://github.com/sebbousquet))
 
-## [v4.0.6](https://github.com/gisaia/ARLAS-WUI-toolkit/tree/v4.0.6) (2018-04-19)
+## [v4.0.6](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v4.0.6) (2018-04-19)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI-toolkit/compare/v4.0.5...v4.0.6)
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v4.0.5...v4.0.6)
 
 **Fixed bugs:**
 
 - Impossible to combine dataset [\#27](https://github.com/gisaia/ARLAS-wui-toolkit/issues/27)
 
-## [v4.0.5](https://github.com/gisaia/ARLAS-WUI-toolkit/tree/v4.0.5) (2018-04-17)
+## [v4.0.5](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v4.0.5) (2018-04-17)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI-toolkit/compare/v4.0.4...v4.0.5)
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v4.0.4...v4.0.5)
 
-## [v4.0.4](https://github.com/gisaia/ARLAS-WUI-toolkit/tree/v4.0.4) (2018-04-16)
+## [v4.0.4](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v4.0.4) (2018-04-16)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI-toolkit/compare/v4.0.3...v4.0.4)
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v4.0.3...v4.0.4)
 
 **Fixed bugs:**
 
 - Fix path to assets 'i18n' [\#25](https://github.com/gisaia/ARLAS-wui-toolkit/pull/25) ([sebbousquet](https://github.com/sebbousquet))
 
-## [v4.0.3](https://github.com/gisaia/ARLAS-WUI-toolkit/tree/v4.0.3) (2018-04-12)
+## [v4.0.3](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v4.0.3) (2018-04-12)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI-toolkit/compare/v4.0.1...v4.0.3)
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v4.0.1...v4.0.3)
 
-## [v4.0.1](https://github.com/gisaia/ARLAS-WUI-toolkit/tree/v4.0.1) (2018-04-12)
+## [v4.0.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v4.0.1) (2018-04-12)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-WUI-toolkit/compare/v4.0.0...v4.0.1)
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v4.0.0...v4.0.1)
 
 **Fixed bugs:**
 
