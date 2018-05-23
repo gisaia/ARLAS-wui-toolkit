@@ -47,6 +47,7 @@ import { ArlasBookmarkService } from './services/bookmark/bookmark.service';
 import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from './services/startup/startup.service';
 import { ArlasTagService } from './services/tag/tag.service';
 import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.component';
+import { TimelineComponent } from './components/timeline/timeline.component';
 
 export class CustomTranslateLoader implements TranslateLoader {
 
@@ -113,12 +114,14 @@ export function translationServiceFactory(translate: TranslateService, injector:
     TagComponent,
     TagDialogComponent,
     ExcludeTypePipe,
-    LanguageSwitcherComponent
+    LanguageSwitcherComponent,
+    TimelineComponent
   ],
   exports: [
     AppComponent,
     WidgetComponent,
     AnalyticsBoardComponent,
+    TimelineComponent,
     ShareComponent,
     TagComponent,
     LanguageSwitcherComponent,
