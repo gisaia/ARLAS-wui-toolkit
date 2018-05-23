@@ -82,7 +82,7 @@ export class ArlasTagService {
     this.isProcessing = true;
 
     if (mode === 'tag') {
-      this.collaborativeSearchService.tag(this.server.collection.name, data, false, requestOptions).subscribe(
+      this.collaborativeSearchService.tag(this.server.collection.name, data, false).subscribe(
         response => {
           this.snackBar.open(response.updated + ' hits have been successfully ' + mode + 'ged', '', snackConfig);
           this.status.next(new Map<string, boolean>().set(mode, true));
@@ -99,7 +99,7 @@ export class ArlasTagService {
         }
       );
     } else {
-      this.collaborativeSearchService.untag(this.server.collection.name, data, false, requestOptions).subscribe(
+      this.collaborativeSearchService.untag(this.server.collection.name, data, false).subscribe(
         response => {
           this.snackBar.open(response.updated + ' hits have been successfully ' + mode + 'ged', '', snackConfig);
           this.status.next(new Map<string, boolean>().set(mode, true));
