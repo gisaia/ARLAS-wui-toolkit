@@ -86,7 +86,8 @@
 <div *ngIf="componentType==='donut'" class="donut-container">
   <div class="donut">{{contributor?.getFilterDisplayName() | translate}}</div>
   <arlas-donut [id]="graphParam?.id"  [donutData]="contributor?.donutData"  [opacity]="graphParam.opacity"
-    [multiselectable]="graphParam.multiselectable" [selectedArcsList]="contributor?.selectedArcsList"
+    [multiselectable]="graphParam?.multiselectable" [selectedArcsList]="contributor?.selectedArcsList"
+    [keysToColors]="graphParam?.keysToColors" [colorsSaturationWeight]="graphParam?.colorsSaturationWeight"
     (selectedNodesEvent)="contributor?.selectedArcsListChanged($event)" [customizedCssClass]="graphParam?.customizedCssClass">
   </arlas-donut>
 </div>
