@@ -182,7 +182,7 @@ export class ShareDialogComponent implements OnInit {
 
       this.displayedUrl = server.url + '/explore/' + server.collection.name + '/'
         + this.aggTypeText + '/?' + this.collaborativeService.getUrl([this.aggType, [agg]], filters)
-        + this.searchSize + this.includeFields + this.sort;
+        + this.searchSize + this.includeFields + this.sort + '&flat=true';
     }
   }
 
