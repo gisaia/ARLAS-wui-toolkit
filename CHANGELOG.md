@@ -1,5 +1,9 @@
 # Change Log
 
+## [v7.0.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v7.0.1) (2018-06-21)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v6.0.0...v7.0.1)
+
 ## [v6.0.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v6.0.0) (2018-05-23)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v5.1.2...v6.0.0)
@@ -12,6 +16,7 @@
 **Fixed bugs:**
 
 - Share : agg field is not configurable [\#37](https://github.com/gisaia/ARLAS-wui-toolkit/issues/37)
+- Fix swimlanes dropdown list [\#39](https://github.com/gisaia/ARLAS-wui-toolkit/pull/39) ([sebbousquet](https://github.com/sebbousquet))
 
 ## [v5.1.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v5.1.2) (2018-05-16)
 
