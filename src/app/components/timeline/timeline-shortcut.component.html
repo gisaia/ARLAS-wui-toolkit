@@ -1,0 +1,14 @@
+<div class="arlas-time-shortcuts--container">
+  <div>
+      <mat-basic-chip class="shortcut-button">
+          <mat-icon class="shortcut-button__icon" [class.cursor]="timeShortcuts?.length > 0" (click)="showSortcuts()">access_time</mat-icon>
+          <span class="shortcut-button__label">{{shortcutLabel}}</span>
+          <mat-icon *ngIf="showRemoveIcon" (click)="removeTimelineCollaboration()" class="shortcut-remove-filter" >clear</mat-icon>
+      </mat-basic-chip>
+  </div>
+  <div *ngIf="showShortcuts" class="arlas-time-shortcuts__list--container">
+    <ul class="arlas-time-shortcuts__list" *ngFor="let shortcutType of getKeys(timeShortcutsMap)">
+      <li class="arlas-time-shortcut" *ngFor="let shortCut of timeShortcutsMap.get(shortcutType)" (click)="setShortcut(shortCut)">{{shortCut.label}}</li>
+    </ul>
+  </div>
+</div>

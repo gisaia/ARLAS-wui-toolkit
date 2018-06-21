@@ -1,5 +1,5 @@
 <div *ngIf="componentType === 'histogram'">
-  <arlas-histogram  [intervalListSelection]="contributor?.intervalListSelection" [intervalSelection]="contributor?.intervalSelection"
+  <arlas-histogram  #histogram [intervalListSelection]="contributor?.intervalListSelection" [intervalSelection]="contributor?.intervalSelection"
     [data]="contributor?.chartData" (valuesListChangedEvent)="contributor?.valueChanged($event)"
     [id]="graphParam?.id"
     [dataType]="graphParam?.dataType"

@@ -18,12 +18,13 @@
  */
 
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
-import { MatButtonModule, MatCardModule, MatExpansionModule, MatIconModule, MatSelectModule, MatTooltipModule } from '@angular/material';
+import { MatButtonModule, MatCardModule, MatExpansionModule, MatIconModule, MatSelectModule,
+   MatTooltipModule, MatChipsModule } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { DonutModule, HistogramModule, PowerbarsModule, ResultsModule } from 'arlas-web-components';
 import { ArlasCollaborativesearchService, ArlasStartupService, ArlasConfigService } from '../../services/startup/startup.service';
 import { WidgetComponent } from '../widget/widget.component';
-import { TimelineComponent } from './timeline.component';
+import { TimelineComponent, TimelineShortcutComponent } from './timeline.component';
 import { TranslateModule, TranslateService, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
 import { HttpModule } from '@angular/http';
 
@@ -33,9 +34,9 @@ describe('TimelineComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TimelineComponent, WidgetComponent ],
+      declarations: [ TimelineComponent, WidgetComponent, TimelineShortcutComponent ],
       imports: [
-        MatCardModule, MatIconModule, MatExpansionModule, MatSelectModule, MatButtonModule,
+        MatCardModule, MatIconModule, MatExpansionModule, MatSelectModule, MatButtonModule, MatChipsModule,
         MatTooltipModule, BrowserModule, HistogramModule, ResultsModule, PowerbarsModule, DonutModule, HttpModule,
         TranslateModule.forRoot({
           loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
