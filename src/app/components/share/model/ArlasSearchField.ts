@@ -1,4 +1,5 @@
 export class ArlasSearchField {
+
   /**
    * @description The field label
    */
@@ -7,4 +8,9 @@ export class ArlasSearchField {
    * @description The type of the field.
    */
   public type: string;
+
+  constructor(label: string, type: string) {
+    this.label = label;
+    this.type = type;
+  }
 }

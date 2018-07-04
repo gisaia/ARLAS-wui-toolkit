@@ -6,6 +6,7 @@
         <mat-radio-button [value]="'cluster'" class="share-radio-button">{{ 'Clusters' | translate}}</mat-radio-button>
         <mat-radio-button [value]="'feature'" class="share-radio-button">{{ 'Features' | translate}}</mat-radio-button>
       </mat-radio-group>
+      <mat-divider style="margin-top:15px;"></mat-divider>
       <div>
         <button mat-button matStepperNext class="share-stepper-button">{{ 'Next' | translate}}</button>
       </div>
@@ -18,48 +19,66 @@
         <mat-form-field>
           <mat-select placeholder="Desired precision" formControlName="precision" matInput required>
             <mat-option *ngFor="let val of precisions" [value]="val[0]">
-              {{ val[0] }} -
-              <span class="share-description">({{val[1]}})</span>
+              {{ val[0] }} - <span class="share-description">({{val[1]}})</span>
             </mat-option>
           </mat-select>
         </mat-form-field>
       </div>
       <div *ngIf="geojsonTypeGroup.get('geojsonType').value == 'feature'" class="fields-form">
-        <mat-form-field class="share-form-field">
-          <mat-select placeholder="Exported fields" formControlName="availableFields" panelClass="share-exported-fields" [(value)]="selectedFields" multiple required [(ngModel)]="selectedFields">
-            <mat-select-trigger>
-              {{paramFormGroup.get('availableFields').value ? paramFormGroup.get('availableFields').value[0]?.label : ''}}
-              <span *ngIf="paramFormGroup.get('availableFields').value?.length > 1" class="fields-additional-selection">
-                (+{{paramFormGroup.get('availableFields').value?.length - 1}} others)
-              </span>
-            </mat-select-trigger>
-            <mat-option disabled="disabled" class="share-option-check">
-              <button mat-raised-button class="mat-primary fill text-sm" (click)="selectedFields = allFields">
-                Select All
-              </button>
-              <button mat-raised-button class="mat-accent fill text-sm" (click)="selectedFields = []">
-                Unselect All
-              </button>
-            </mat-option>
-            <mat-option *ngFor="let field of allFields" [value]="field" >
-              {{ field.label }} -
-              <span class="share-description">{{field.type}}</span>
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field class="share-form-field">
-          <mat-select placeholder="Order by" formControlName="orderField" [(value)]="selectedOrderField" panelClass="share-order-field">
-            <mat-option [value]="">None</mat-option>
-            <mat-option *ngFor="let field of selectedFields | excludeType:excludedType" [value]="field">
-              {{ field.label }}
-            </mat-option>
-          </mat-select>
-          <mat-hint>Types {{excludedTypeString}} are excluded</mat-hint>
-        </mat-form-field>
-        <mat-radio-group class="share-radio-group" formControlName="orderDirection" [(ngModel)]="sortDirection">
-          <mat-radio-button [value]="'asc'" class="share-radio-button">ASC</mat-radio-button>
-          <mat-radio-button [value]="'desc'" class="share-radio-button">DESC</mat-radio-button>
-        </mat-radio-group>
+        <div class="share-feature-block">
+            <div style="flex:3" class="share-title-list">
+                <mat-label>Available fields</mat-label>
+            </div>
+            <div style="flex:1;padding:0 7px;">
+            </div>
+            <div style="flex:3" class="share-title-list">
+                <mat-label>Selected fields</mat-label>
+            </div>
+        </div>
+        <div class="share-feature-block">
+          <div style="max-height: 40vh;overflow:auto;flex:3">
+            <mat-selection-list role="listbox" formControlName="availableFields" #selectedList (selectionChange)=onSelectionChange(selectedList.selectedOptions.selected)>
+              <mat-list-option *ngFor="let field of allFields">
+                <p matLine>
+                    {{ field.label }} - <span class="share-description">{{field.type}}</span>
+                </p>
+              </mat-list-option>
+            </mat-selection-list>
+          </div>
+          <div class="share-feature-button">
+            <button mat-raised-button class="mat-accent fill text-sm share-button" (click)="selectedList.selectAll();onSelectionChange(selectedList.selectedOptions.selected)">
+              &gt;&gt;
+            </button>
+            <br /><br />
+            <button mat-raised-button class="mat-primary fill text-sm share-button" (click)="selectedList.deselectAll();onSelectionChange(selectedList.selectedOptions.selected)">
+              &lt;&lt;
+            </button>
+          </div>
+
+          <div style="max-height:40vh;overflow:auto;flex:3">
+            <mat-list role="list">
+              <mat-list-item  *ngIf="selectedFields.length == 0">No item selected</mat-list-item>
+              <mat-list-item role="listitem" *ngFor="let field of selectedFields">{{ field.label }} -&nbsp;<span class="share-description">{{field.type}}</span></mat-list-item>
+            </mat-list>
+          </div>
+        </div>
+
+        <div class="share-feature-block">
+          <mat-form-field class="share-form-field">
+            <mat-select placeholder="Order by" formControlName="orderField" [(value)]="selectedOrderField" panelClass="share-order-field">
+              <mat-option [value]="">None</mat-option>
+              <mat-option *ngFor="let field of selectedFields | excludeType:excludedType" [value]="field">
+                {{ field.label }}
+              </mat-option>
+            </mat-select>
+            <mat-hint>Types {{excludedTypeString}} are excluded</mat-hint>
+          </mat-form-field>
+          <mat-radio-group class="share-radio-group" formControlName="orderDirection" [(ngModel)]="sortDirection">
+            <mat-radio-button [value]="'asc'" class="share-radio-button">ASC</mat-radio-button>
+            <mat-radio-button [value]="'desc'" class="share-radio-button">DESC</mat-radio-button>
+          </mat-radio-group>
+        </div>
+        <mat-divider style="margin-top:15px;"></mat-divider>
       </div>
       <div>
         <button mat-button matStepperPrevious class="share-stepper-button">{{ 'Back' | translate}}</button>

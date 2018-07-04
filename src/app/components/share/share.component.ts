@@ -199,6 +199,14 @@ export class ShareDialogComponent implements OnInit {
     document.body.removeChild(textArea);
   }
 
+  public onSelectionChange(selectedOptionsList) {
+    this.selectedFields = new Array<ArlasSearchField>();
+    selectedOptionsList.forEach(option => {
+      const field = option._text.nativeElement.innerText.split('-');
+      this.selectedFields.push(new ArlasSearchField(field[0].trim(), field[1].trim()));
+    });
+  }
+
   private getFieldProperties(fieldList: any, fieldName: string, parentPrefix?: string) {
     if (fieldList[fieldName].type === 'OBJECT') {
       const subFields = fieldList[fieldName].properties;
