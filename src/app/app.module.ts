@@ -23,8 +23,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import {
   MatButtonModule, MatCardModule, MatDialogModule,
-  MatExpansionModule, MatIconModule, MatRadioModule, MatChipsModule,
-  MatSelectModule, MatStepperModule, MatSnackBarModule, MatInputModule, MatProgressBarModule
+  MatExpansionModule, MatIconModule, MatRadioModule, MatChipsModule, MatSelectModule,
+  MatStepperModule, MatSnackBarModule, MatInputModule, MatProgressBarModule, MatListModule
 } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -146,6 +146,7 @@ export function translationServiceFactory(translate: TranslateService, injector:
     MatInputModule,
     MatProgressBarModule,
     MatSelectModule,
+    MatListModule,
     MatSnackBarModule,
     MatStepperModule,
     MatRadioModule,

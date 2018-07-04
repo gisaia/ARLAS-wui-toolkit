@@ -2,6 +2,7 @@
   display: inline-flex;
   flex-direction: row;
   padding:10px;
+  flex:1;
 }
 
 .share-radio-button {
@@ -28,7 +29,40 @@
 }
 
 .share-form-field{
+  flex:2;
+}
 
+.share-title-list{
+  -ms-flex-line-pack: center;
+  align-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  padding: 8px 20px;
+  color: rgba(0,0,0,.54);
+  background: rgba(0,0,0,.03);
+}
+
+.share-feature-block{
+  display:flex;
+  flex-direction:row;
+  justify-content: space-between
+}
+
+.share-feature-button{
+  display:flex;
+  flex-direction:column;
+  flex:1;
+  align-items: center;
+  justify-content: center;
+}
+
+.share-button{
+  min-width: 55px;
 }
 
 .share-block .btn-success{
@@ -51,16 +85,6 @@
   flex-direction: column;
 }
 
-.share-exported-fields, .share-order-field{
-  min-width: fit-content !important;
-}
-
-.share-exported-fields .mat-select-content{
-  width: fit-content;
-  font-size: 13px;
-}
-
 .share-order-field .mat-select-content{
-  width: fit-content;
   font-size: 13px;
 }
