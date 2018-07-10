@@ -72,13 +72,13 @@ export class BookmarkDatabase {
       uid = guid.newGuid();
     }
     if (date) {
-      bookmarkDate = date;
+      bookmarkDate = new Date(date);
     } else {
       bookmarkDate = new Date();
     }
     const bookMark: BookMark = {
       id: uid,
-      date: new Date(),
+      date: bookmarkDate,
       name: name,
       prettyFilter: prettyFilter,
       url: url,
