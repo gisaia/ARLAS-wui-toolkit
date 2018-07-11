@@ -1,8 +1,25 @@
 # Change Log
 
+## [v7.1.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v7.1.0) (2018-07-11)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v7.0.1...v7.1.0)
+
+**New stuff:**
+
+- GeoJson Export: use "flat" property of the server [\#46](https://github.com/gisaia/ARLAS-wui-toolkit/issues/46)
+- Improve info lisibility in share component [\#50](https://github.com/gisaia/ARLAS-wui-toolkit/pull/50) ([sebbousquet](https://github.com/sebbousquet))
+
+**Fixed bugs:**
+
+- Fix bookmark date [\#51](https://github.com/gisaia/ARLAS-wui-toolkit/pull/51) ([sebbousquet](https://github.com/sebbousquet))
+
 ## [v7.0.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v7.0.1) (2018-06-21)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v6.0.0...v7.0.1)
+
+**New stuff:**
+
+- Timeline : add time shortcuts [\#49](https://github.com/gisaia/ARLAS-wui-toolkit/issues/49)
 
 ## [v6.0.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v6.0.0) (2018-05-23)
 
