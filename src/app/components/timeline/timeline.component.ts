@@ -17,14 +17,15 @@
  * under the License.
  */
 
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { HistogramContributor } from 'arlas-web-contributors';
-import { OperationEnum, Contributor } from 'arlas-web-core';
+import { Component, Input, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { HistogramContributor, DetailedHistogramContributor } from 'arlas-web-contributors';
+import { OperationEnum } from 'arlas-web-core';
 import { ArlasCollaborativesearchService, ArlasStartupService } from './../../services/startup/startup.service';
-import { StringifiedTimeShortcut, TimeShortcut, SelectedOutputValues } from 'arlas-web-contributors/models/models';
+import { StringifiedTimeShortcut, SelectedOutputValues } from 'arlas-web-contributors/models/models';
 import * as d3 from 'd3';
-import { WidgetComponent } from '../widget/widget.component';
 import { TranslateService } from '@ngx-translate/core';
+import { ChartType, DataType, Position } from 'arlas-d3';
+import { HistogramComponent } from 'arlas-web-components';
 
 @Component({
   selector: 'arlas-timeline',
@@ -35,20 +36,75 @@ export class TimelineComponent implements OnInit {
 
   @Input() public detailedTimelineComponent: any;
   @Input() public timelineComponent: any;
-  @ViewChild('timeline') private timelineWidget: WidgetComponent;
+  @ViewChild('timeline') public timelineHistogramComponent: HistogramComponent;
 
   public showDetailedTimeline = false;
+  public detailedTimelineContributor: DetailedHistogramContributor;
+  public timelineContributor: HistogramContributor;
+  public detailedTimelineIntervalSelection: SelectedOutputValues;
+
+  private isDetailedIntervalBrushed = false;
+  private applicationFirstLoad = false;
   private timelineIsFiltered = false;
 
-
-  constructor(private arlasCollaborativesearchService: ArlasCollaborativesearchService, private arlasStartupService: ArlasStartupService) {
+  constructor(private arlasCollaborativesearchService: ArlasCollaborativesearchService, private cdr: ChangeDetectorRef,
+    private arlasStartupService: ArlasStartupService) {
   }
 
   public ngOnInit() {
     if (this.timelineComponent && this.detailedTimelineComponent) {
-      this.detailedTimelineComponent.input.isHistogramSelectable = false;
+      this.resetHistogramsInputs(this.timelineComponent.input);
+      this.resetHistogramsInputs(this.detailedTimelineComponent.input);
+      this.detailedTimelineContributor = this.arlasStartupService.contributorRegistry.get(this.detailedTimelineComponent.contributorId);
+      this.timelineContributor = this.arlasStartupService.contributorRegistry.get(this.timelineComponent.contributorId);
       this.showDetailedTimelineOnCollaborationEnd();
+    } else if (this.timelineComponent) {
+      this.resetHistogramsInputs(this.timelineComponent.input);
+      this.timelineContributor = this.arlasStartupService.contributorRegistry.get(this.timelineComponent.contributorId);
     }
+  }
+
+  /**
+   * Recalculates the new data of detailed timeline and resets its own current selection.
+   * @param selections List containing only the current selection of detailed timeline
+   */
+  public onDetailedIntervalBrushed(selections: SelectedOutputValues[]): void {
+    this.isDetailedIntervalBrushed = true;
+    this.detailedTimelineIntervalSelection = {startvalue: selections[0].startvalue, endvalue: selections[0].endvalue};
+    this.timelineContributor.valueChanged(this.timelineContributor.intervalListSelection.concat(selections));
+  }
+
+  /**
+   * Runs when the selection is brushed on timeline.
+   * @param selections List containing only the current selection of detailed timeline
+   */
+  public onTimelineIntervalBrushed(selections: SelectedOutputValues[]): void {
+    this.timelineContributor.valueChanged(selections);
+  }
+
+  /**
+   * Runs when the detailed timeline is plotted.
+   * Sets current selection of detailed timeline after it is plotted
+   * Applies the current selection of detailed timeline on the main timeline
+   */
+  public afterDetailedDataPlotted() {
+    if (this.isDetailedIntervalBrushed) {  // If detailed timeline is replotted after moving its own brush.
+      // Reset current selection of detailed timeline after it is plotted
+      this.detailedTimelineIntervalSelection = { startvalue: this.detailedTimelineIntervalSelection.startvalue,
+        endvalue: this.detailedTimelineIntervalSelection.endvalue };
+      // Apply the current selection of detailed timeline on the main timeline
+      this.timelineContributor.intervalSelection = { startvalue: this.detailedTimelineIntervalSelection.startvalue,
+        endvalue: this.detailedTimelineIntervalSelection.endvalue };
+    } else { // If detailed timeline is replotted after moving the brush of the main timeline or when the app is loaded.
+      const selection =  this.timelineContributor.intervalSelection;
+      if (selection) {
+        this.detailedTimelineIntervalSelection = { startvalue: selection.startvalue, endvalue: selection.endvalue };
+      } else {
+        this.applicationFirstLoad = true;
+      }
+    }
+    this.isDetailedIntervalBrushed = false;
+    this.cdr.detectChanges();
   }
 
   private showDetailedTimelineOnCollaborationEnd(): void {
@@ -57,8 +113,8 @@ export class TimelineComponent implements OnInit {
         if (c.operation === OperationEnum.remove) {
           this.timelineIsFiltered = false;
           this.showDetailedTimeline = false;
-          this.timelineWidget.histogramComponent.histogram.histogramParams.chartHeight = this.timelineComponent.input.chartHeight;
-          this.timelineWidget.histogramComponent.resizeHistogram();
+          this.timelineHistogramComponent.histogram.histogramParams.chartHeight = this.timelineComponent.input.chartHeight;
+          this.timelineHistogramComponent.resizeHistogram();
         } else if (c.operation === OperationEnum.add ) {
           this.timelineIsFiltered = true;
         }
@@ -66,32 +122,41 @@ export class TimelineComponent implements OnInit {
 
       this.arlasCollaborativesearchService.ongoingSubscribe.subscribe(nb => {
         if (this.arlasCollaborativesearchService.totalSubscribe === 0 && this.timelineIsFiltered) {
-          const timelineRange = (<HistogramContributor>this.arlasCollaborativesearchService.registry
-            .get(this.timelineComponent.contributorId)).range;
-          const detailedTimelineRange = (<HistogramContributor>this.arlasCollaborativesearchService.registry
-            .get(this.detailedTimelineComponent.contributorId)).range;
+          const timelineRange = this.timelineContributor.range;
+          const detailedTimelineRange = this.detailedTimelineContributor.range;
           if (timelineRange && detailedTimelineRange) {
-            // For timeline : calculate the range of data + selections
-            let min = timelineRange.min;
-            let max = timelineRange.max;
-            const timelineContributor = this.arlasStartupService.contributorRegistry.get(this.timelineComponent.contributorId);
-            timelineContributor.intervalListSelection.forEach( intervalSelection => {
-              min = (min > intervalSelection.startvalue) ? intervalSelection.startvalue : min;
-              max = (max < intervalSelection.endvalue) ? intervalSelection.endvalue : max;
-            });
-            min = (min > timelineContributor.intervalSelection.startvalue) ? timelineContributor.intervalSelection.startvalue : min;
-            max = (max < timelineContributor.intervalSelection.endvalue) ? timelineContributor.intervalSelection.endvalue : max;
-            this.showDetailedTimeline = ((detailedTimelineRange.max - detailedTimelineRange.min) <= 0.2 * (max - min));
-            this.timelineWidget.histogramComponent.histogram.histogramParams.chartHeight = (this.showDetailedTimeline) ?
+            this.showDetailedTimeline = ((detailedTimelineRange.max - detailedTimelineRange.min) <=
+              (0.2 * (timelineRange.max - timelineRange.min)));
+            this.timelineHistogramComponent.histogram.histogramParams.chartHeight = (this.showDetailedTimeline) ?
               this.detailedTimelineComponent.input.chartHeight : this.timelineComponent.input.chartHeight;
-            this.timelineWidget.histogramComponent.resizeHistogram();
+            this.timelineHistogramComponent.resizeHistogram();
+            if (this.applicationFirstLoad) {
+              // Sets current selection of detailed timeline
+              const select =  this.timelineContributor.intervalSelection;
+              this.detailedTimelineIntervalSelection = { startvalue: select.startvalue, endvalue: select.endvalue };
+              this.applicationFirstLoad = false;
+            }
           } else {
             this.showDetailedTimeline = false;
-            this.timelineWidget.histogramComponent.histogram.histogramParams.chartHeight = this.timelineComponent.input.chartHeight;
-            this.timelineWidget.histogramComponent.resizeHistogram();
+            this.timelineHistogramComponent.histogram.histogramParams.chartHeight = this.timelineComponent.input.chartHeight;
+            this.timelineHistogramComponent.resizeHistogram();
           }
         }
       });
+  }
+
+  private resetHistogramsInputs(inputs: any) {
+    Object.keys(inputs).forEach(key => {
+      if (key === 'chartType') {
+        inputs[key] = ChartType[inputs[key]];
+      } else if (key === 'dataType') {
+        inputs[key] = DataType[inputs[key]];
+      } else if (key === 'xAxisPosition') {
+        inputs[key] = Position[inputs[key]];
+      } else if (key === 'descriptionPosition') {
+        inputs = Position[inputs[key]];
+      }
+    });
   }
 }
 

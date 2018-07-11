@@ -3,6 +3,76 @@
   <arlas-timeline-shortcut [timelineComponent]="timelineComponent"></arlas-timeline-shortcut>
 </div>
 <div class="arlas-timeline--timelines">
-  <arlas-tool-widget *ngIf="detailedTimelineComponent && showDetailedTimeline" [contributorId]="detailedTimelineComponent?.contributorId" [componentParams]="detailedTimelineComponent?.input"></arlas-tool-widget>
-  <arlas-tool-widget #timeline *ngIf="timelineComponent" [contributorId]="timelineComponent?.contributorId" [componentParams]="timelineComponent?.input"></arlas-tool-widget>
+    <div *ngIf="detailedTimelineComponent" class="show-detailedtimeline-{{showDetailedTimeline.valueOf()}}">
+        <arlas-histogram  #histogram
+          [data]="detailedTimelineContributor?.chartData"
+          [intervalSelection]="detailedTimelineIntervalSelection"
+          (dataPlottedEvent)="afterDetailedDataPlotted($event)"
+          (valuesListChangedEvent)="onDetailedIntervalBrushed($event)"
+          [id]="detailedTimelineComponent?.input?.id"
+          [displayOnlyIntervalsWithData]=true
+          [dataType]="detailedTimelineComponent?.input?.dataType"
+          [dataUnit]="detailedTimelineComponent?.input?.dataUnit"
+          [valuesDateFormat]="detailedTimelineComponent?.input?.valuesDateFormat"
+          [isHistogramSelectable]="detailedTimelineComponent?.input?.isHistogramSelectable"
+          [multiselectable]="detailedTimelineComponent?.input?.multiselectable"
+          [topOffsetRemoveInterval]="detailedTimelineComponent?.input?.topOffsetRemoveInterval"
+          [leftOffsetRemoveInterval]="detailedTimelineComponent?.input?.leftOffsetRemoveInterval"
+          [brushHandlesHeightWeight]="detailedTimelineComponent?.input?.brushHandlesHeightWeight"
+          [chartType]="detailedTimelineComponent?.input?.chartType"
+          [chartTitle]="detailedTimelineComponent?.input?.chartTitle"
+          [chartWidth]="detailedTimelineComponent?.input?.chartWidth"
+          [chartHeight]="detailedTimelineComponent?.input?.chartHeight"
+          [customizedCssClass]="detailedTimelineComponent?.input?.customizedCssClass"
+          [xAxisPosition]="detailedTimelineComponent?.input?.xAxisPosition"
+          [descriptionPosition]="detailedTimelineComponent?.input?.descriptionPosition"
+          [xTicks]="detailedTimelineComponent?.input?.xTicks"
+          [yTicks]="detailedTimelineComponent?.input?.yTicks"
+          [xLabels]="detailedTimelineComponent?.input?.xLabels"
+          [yLabels]="detailedTimelineComponent?.input?.yLabels"
+          [showXTicks]="detailedTimelineComponent?.input?.showXTicks"
+          [showYTicks]="detailedTimelineComponent?.input?.showYTicks"
+          [showXLabels]="detailedTimelineComponent?.input?.showXLabels"
+          [showYLabels]="detailedTimelineComponent?.input?.showYLabels"
+          [ticksDateFormat]="detailedTimelineComponent?.input?.ticksDateFormat"
+          [isSmoothedCurve]="detailedTimelineComponent?.input?.isSmoothedCurve"
+          [barWeight]="detailedTimelineComponent?.input?.barWeight"
+          [paletteColors]="detailedTimelineComponent?.input?.paletteColors"
+
+          ></arlas-histogram>
+      </div>
+      <div *ngIf="timelineComponent">
+        <arlas-histogram  #timeline [intervalListSelection]="timelineContributor?.intervalListSelection" [intervalSelection]="timelineContributor?.intervalSelection"
+          [data]="timelineContributor?.chartData" (valuesListChangedEvent)="onTimelineIntervalBrushed($event)"
+          [id]="timelineComponent?.input?.id"
+          [dataType]="timelineComponent?.input?.dataType"
+          [dataUnit]="timelineComponent?.input?.dataUnit"
+          [valuesDateFormat]="timelineComponent?.input?.valuesDateFormat"
+          [isHistogramSelectable]="timelineComponent?.input?.isHistogramSelectable"
+          [multiselectable]="timelineComponent?.input?.multiselectable"
+          [topOffsetRemoveInterval]="timelineComponent?.input?.topOffsetRemoveInterval"
+          [leftOffsetRemoveInterval]="timelineComponent?.input?.leftOffsetRemoveInterval"
+          [brushHandlesHeightWeight]="timelineComponent?.input?.brushHandlesHeightWeight"
+          [chartType]="timelineComponent?.input?.chartType"
+          [chartTitle]="timelineComponent?.input?.chartTitle"
+          [chartWidth]="timelineComponent?.input?.chartWidth"
+          [chartHeight]="timelineComponent?.input?.chartHeight"
+          [customizedCssClass]="timelineComponent?.input?.customizedCssClass"
+          [xAxisPosition]="timelineComponent?.input?.xAxisPosition"
+          [descriptionPosition]="timelineComponent?.input?.descriptionPosition"
+          [xTicks]="timelineComponent?.input?.xTicks"
+          [yTicks]="timelineComponent?.input?.yTicks"
+          [xLabels]="timelineComponent?.input?.xLabels"
+          [yLabels]="timelineComponent?.input?.yLabels"
+          [showXTicks]="timelineComponent?.input?.showXTicks"
+          [showYTicks]="timelineComponent?.input?.showYTicks"
+          [showXLabels]="timelineComponent?.input?.showXLabels"
+          [showYLabels]="timelineComponent?.input?.showYLabels"
+          [ticksDateFormat]="timelineComponent?.input?.ticksDateFormat"
+          [isSmoothedCurve]="timelineComponent?.input?.isSmoothedCurve"
+          [barWeight]="timelineComponent?.input?.barWeight"
+          [paletteColors]="timelineComponent?.input?.paletteColors"
+
+          ></arlas-histogram>
+      </div>
 </div>

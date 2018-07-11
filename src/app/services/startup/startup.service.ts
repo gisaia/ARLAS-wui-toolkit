@@ -19,7 +19,6 @@
 
 import { Injectable, Inject, OnInit } from '@angular/core';
 import { Http, Response } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/catch';
@@ -35,7 +34,7 @@ import {
     SwimLaneContributor,
     ChipsSearchContributor,
     DonutContributor,
-    contributors
+    DetailedHistogramContributor
 } from 'arlas-web-contributors';
 import * as rootContributorConfSchema from 'arlas-web-contributors/jsonSchemas/rootContributorConf.schema.json';
 import { ConfigService, CollaborativesearchService } from 'arlas-web-core';
@@ -129,6 +128,7 @@ export class ArlasStartupService {
                 const validateConfig = ajv()
                     .addSchema(rootContributorConfSchema)
                     .addSchema(HistogramContributor.getJsonSchema())
+                    .addSchema(DetailedHistogramContributor.getJsonSchema())
                     .addSchema(SwimLaneContributor.getJsonSchema())
                     .addSchema(PowerbarsContributor.getJsonSchema())
                     .addSchema(ResultListContributor.getJsonSchema())
@@ -168,7 +168,7 @@ export class ArlasStartupService {
                     this.collaborativesearchService.setWriteApi( arlasWriteApi);
                     this.collaborativesearchService.collection = this.configService.getValue('arlas.server.collection.name');
                     this.collaborativesearchService.max_age = this.configService.getValue('arlas.server.max_age');
-                    this.collaborativesearchService.resolveHits([projType.count, {}])
+                    this.collaborativesearchService.resolveHits([projType.count, {}], this.collaborativesearchService.collaborations)
                         .subscribe(
                         result => { this.shouldRunApp = true; },
                         error => {
