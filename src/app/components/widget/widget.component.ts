@@ -75,6 +75,9 @@ export class WidgetComponent implements OnInit {
     const swimConf = this.swimlanes.filter(f => f.name === event.value)[0];
     this.contributor.aggregations = swimConf.aggregationmodels;
     this.contributor.field = swimConf.field;
+    if (swimConf.jsonpath) {
+      this.contributor.json_path = swimConf.jsonpath;
+    }
     const collaborationEvent: CollaborationEvent = {
       id: 'changeSwimlane',
       operation: OperationEnum.add,
