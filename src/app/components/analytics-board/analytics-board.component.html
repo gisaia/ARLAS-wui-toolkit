@@ -1,24 +1,27 @@
 <div class="analytics-board-content">
-  <mat-expansion-panel *ngFor="let group of groups" [expanded]="group?.collapsed ? false : true" class="analytics-board-panel">
-      <mat-expansion-panel-header *ngIf="group?.title !== undefined" [expandedHeight]="'48px'" [collapsedHeight]="'32px'" color="primary">
-        <mat-panel-title class="analytics-board-panel-title">
-          <mat-icon *ngIf="group?.icon !== undefined" class="analytics-board-panel-icon">{{group.icon}}</mat-icon>
-          {{group.title | translate}}
-        </mat-panel-title>
-        <mat-panel-description>
-            {{group.description | translate}}
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-      <div class="analytics-board-group">
-        <mat-card *ngFor="let component of group.components;let i = index" class="analytics-board-card">
-          <mat-card-title *ngIf="component?.title !== undefined" class="analytics-board-card-title">
-            <mat-icon *ngIf="component?.icon !== undefined" class="analytics-board-card-icon">{{component.icon}}</mat-icon>
-            {{component.title | translate}}
-          </mat-card-title>
-          <mat-card-content>
-              <arlas-tool-widget [contributorId]="component?.contributorId" [componentParams]="component?.input" (outEvents)="listenOutput($event)"></arlas-tool-widget>
-          </mat-card-content>
-        </mat-card>
-      </div>
-  </mat-expansion-panel>
+  <ng-container *ngFor="let group of groups">
+      <mat-expansion-panel *ngIf="groupsDisplayStatusMap?.get(group?.groupId)" [expanded]="group?.collapsed ? false : true" class="analytics-board-panel" >
+          <mat-expansion-panel-header *ngIf="group?.title !== undefined" [expandedHeight]="'48px'" [collapsedHeight]="'32px'" color="primary">
+            <mat-panel-title class="analytics-board-panel-title">
+              <mat-icon *ngIf="group?.icon !== undefined" class="analytics-board-panel-icon">{{group.icon}}</mat-icon>
+              {{group.title | translate}}
+            </mat-panel-title>
+            <mat-panel-description>
+                {{group.description | translate}}
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <div class="analytics-board-group">
+            <mat-card *ngFor="let component of group.components;let i = index" class="analytics-board-card">
+              <mat-card-title *ngIf="component?.title !== undefined" class="analytics-board-card-title">
+                <mat-icon *ngIf="component?.icon !== undefined" class="analytics-board-card-icon">{{component.icon}}</mat-icon>
+                {{component.title | translate}}
+              </mat-card-title>
+              <mat-card-content>
+                  <arlas-tool-widget [contributorId]="component?.contributorId" [componentParams]="component?.input" (outEvents)="listenOutput($event)"></arlas-tool-widget>
+              </mat-card-content>
+            </mat-card>
+          </div>
+      </mat-expansion-panel>
+  </ng-container>
+
 </div>
