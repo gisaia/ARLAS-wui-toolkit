@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { Component, Input, Output } from '@angular/core';
+import { Component, Input, Output, OnInit } from '@angular/core';
 import {
   MatCard, MatExpansionPanel, MatExpansionPanelHeader, MatExpansionPanelTitle,
   MatExpansionPanelDescription, MatExpansionPanelState, MatIcon
@@ -28,12 +28,23 @@ import { Subject } from 'rxjs/Subject';
   templateUrl: './analytics-board.component.html',
   styleUrls: ['./analytics-board.component.css']
 })
-export class AnalyticsBoardComponent {
+export class AnalyticsBoardComponent implements OnInit {
 
   @Input() public groups: Array<any>;
+  /**
+   * @description Map of <groupId, displayStatus> that informs which groupIds to display/hide
+   */
+  @Input() public groupsDisplayStatusMap: Map<string, boolean>;
   @Output() public boardOutputs: Subject<{ origin: string, event: string, data?: any }>
   = new Subject<{ origin: string, event: string, data?: any }>();
   constructor() { }
+
+  public ngOnInit() {
+    if (!this.groupsDisplayStatusMap && this.groups) {
+      this.groupsDisplayStatusMap = new Map<string, boolean>();
+      this.groups.forEach(group => this.groupsDisplayStatusMap.set(group.groupId, true));
+    }
+  }
 
   public listenOutput(event: { origin: string, event: string, data?: any }) {
     this.boardOutputs.next( event);
