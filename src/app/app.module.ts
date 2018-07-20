@@ -24,7 +24,7 @@ import { HttpModule } from '@angular/http';
 import {
   MatButtonModule, MatCardModule, MatDialogModule,
   MatExpansionModule, MatIconModule, MatRadioModule, MatChipsModule, MatSelectModule,
-  MatStepperModule, MatSnackBarModule, MatInputModule, MatProgressBarModule, MatListModule
+  MatStepperModule, MatSnackBarModule, MatInputModule, MatProgressBarModule, MatListModule, MatTooltipModule
 } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -150,6 +150,7 @@ export function translationServiceFactory(translate: TranslateService, injector:
     MatSnackBarModule,
     MatStepperModule,
     MatRadioModule,
+    MatTooltipModule,
     MatChipsModule,
     PowerbarsModule,
     ReactiveFormsModule,

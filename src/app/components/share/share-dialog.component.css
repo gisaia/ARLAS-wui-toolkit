@@ -88,3 +88,7 @@
 .share-order-field .mat-select-content{
   font-size: 13px;
 }
+
+.share-stepper{
+  width: 45vw;
+}
