@@ -1,4 +1,4 @@
-<mat-horizontal-stepper [linear]="true" (selectionChange)="changeStep($event)">
+<mat-horizontal-stepper [linear]="true" (selectionChange)="changeStep($event)" class="share-stepper">
   <mat-step [stepControl]="geojsonTypeGroup">
     <form [formGroup]="geojsonTypeGroup">
       <ng-template matStepLabel>Mode</ng-template>
@@ -6,8 +6,8 @@
         <mat-radio-button [value]="'cluster'" class="share-radio-button">{{ 'Clusters' | translate}}</mat-radio-button>
         <mat-radio-button [value]="'feature'" class="share-radio-button">{{ 'Features' | translate}}</mat-radio-button>
       </mat-radio-group>
-      <mat-divider style="margin-top:15px;"></mat-divider>
       <div>
+        <mat-divider style="margin-top:15px;"></mat-divider>
         <button mat-button matStepperNext class="share-stepper-button">{{ 'Next' | translate}}</button>
       </div>
     </form>
@@ -39,18 +39,18 @@
           <div style="max-height: 40vh;overflow:auto;flex:3">
             <mat-selection-list role="listbox" formControlName="availableFields" #selectedList (selectionChange)=onSelectionChange(selectedList.selectedOptions.selected)>
               <mat-list-option *ngFor="let field of allFields">
-                <p matLine>
+                <p matLine title="{{ field.label }} - {{field.type}}">
                     {{ field.label }} - <span class="share-description">{{field.type}}</span>
                 </p>
               </mat-list-option>
             </mat-selection-list>
           </div>
           <div class="share-feature-button">
-            <button mat-raised-button class="mat-accent fill text-sm share-button" (click)="selectedList.selectAll();onSelectionChange(selectedList.selectedOptions.selected)">
+            <button mat-raised-button class="mat-accent fill text-sm share-button" matTooltip="Select All" [matTooltipPosition]="'above'" (click)="selectedList.selectAll();onSelectionChange(selectedList.selectedOptions.selected)">
               &gt;&gt;
             </button>
             <br /><br />
-            <button mat-raised-button class="mat-primary fill text-sm share-button" (click)="selectedList.deselectAll();onSelectionChange(selectedList.selectedOptions.selected)">
+            <button mat-raised-button class="mat-primary fill text-sm share-button" matTooltip="Remove All" (click)="selectedList.deselectAll();onSelectionChange(selectedList.selectedOptions.selected)">
               &lt;&lt;
             </button>
           </div>
@@ -58,7 +58,11 @@
           <div style="max-height:40vh;overflow:auto;flex:3">
             <mat-list role="list">
               <mat-list-item  *ngIf="selectedFields.length == 0">No item selected</mat-list-item>
-              <mat-list-item role="listitem" *ngFor="let field of selectedFields">{{ field.label }} -&nbsp;<span class="share-description">{{field.type}}</span></mat-list-item>
+              <mat-list-item role="listitem" *ngFor="let field of selectedFields">
+                  <p matLine title="{{ field.label }} - {{field.type}}">
+                    {{ field.label }} - <span class="share-description">{{field.type}}</span>
+                  </p>
+              </mat-list-item>
             </mat-list>
           </div>
         </div>
@@ -78,9 +82,9 @@
             <mat-radio-button [value]="'desc'" class="share-radio-button">DESC</mat-radio-button>
           </mat-radio-group>
         </div>
-        <mat-divider style="margin-top:15px;"></mat-divider>
       </div>
       <div>
+        <mat-divider style="margin-top:15px;"></mat-divider>
         <button mat-button matStepperPrevious class="share-stepper-button">{{ 'Back' | translate}}</button>
         <button mat-button matStepperNext class="share-stepper-button">{{ 'Next' | translate}}</button>
       </div>
@@ -95,6 +99,9 @@
         {{ 'Copy URL' | translate}}
       </button>
     </div>
-
+    <div>
+      <mat-divider style="margin-top:15px;"></mat-divider>
+      <button mat-button matStepperPrevious class="share-stepper-button">{{ 'Back' | translate}}</button>
+    </div>
   </mat-step>
 </mat-horizontal-stepper>
