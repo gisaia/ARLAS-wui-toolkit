@@ -1,11 +1,25 @@
 # Change Log
 
+## [v7.2.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v7.2.0) (2018-07-23)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v7.1.0...v7.2.0)
+
+**New stuff:**
+
+- Add a map to analyticsboard that indicates which groups to show [\#55](https://github.com/gisaia/ARLAS-wui-toolkit/pull/55) ([MohamedHamouGisaia](https://github.com/MohamedHamouGisaia))
+- Addjsonpath to swimlane widget [\#54](https://github.com/gisaia/ARLAS-wui-toolkit/pull/54) ([mbarbet](https://github.com/mbarbet))
+
+**Fixed bugs:**
+
+- Fix the size of share dialog [\#56](https://github.com/gisaia/ARLAS-wui-toolkit/pull/56) ([sebbousquet](https://github.com/sebbousquet))
+
 ## [v7.1.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v7.1.0) (2018-07-11)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v7.0.1...v7.1.0)
 
 **New stuff:**
 
+- Update ARLAS-wui-toolkit to version 7.1.0 [\#52](https://github.com/gisaia/ARLAS-wui-toolkit/issues/52)
 - GeoJson Export: use "flat" property of the server [\#46](https://github.com/gisaia/ARLAS-wui-toolkit/issues/46)
 - Improve info lisibility in share component [\#50](https://github.com/gisaia/ARLAS-wui-toolkit/pull/50) ([sebbousquet](https://github.com/sebbousquet))
 
