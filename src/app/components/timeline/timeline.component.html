@@ -1,6 +1,6 @@
 
 <div class="arlas-timeline--timeshortcuts">
-  <arlas-timeline-shortcut [timelineComponent]="timelineComponent"></arlas-timeline-shortcut>
+  <arlas-timeline-shortcut [timelineComponent]="timelineComponent" [dateFormat]="timelineComponent?.dateFormat"></arlas-timeline-shortcut>
 </div>
 <div class="arlas-timeline--timelines">
     <div *ngIf="detailedTimelineComponent" class="show-detailedtimeline-{{showDetailedTimeline.valueOf()}}">
