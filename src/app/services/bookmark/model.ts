@@ -34,4 +34,5 @@ export interface BookMark {
   type: BookMarkType;
   color: string;
   count: Observable<number>;
+  views: number;
 }

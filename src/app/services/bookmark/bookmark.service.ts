@@ -110,7 +110,7 @@ export class ArlasBookmarkService {
   }
 
   public viewBookMark(url: string) {
-    const name = this.getBookMatkNameFromUrl(url);
+    const bookmark = this.getBookmarkFromUrl(url);
     const dataModel = this.collaborativesearchService.dataModelBuilder(decodeURI(url));
     this.collaborativesearchService.setCollaborations(dataModel);
     let language = null;
@@ -122,8 +122,9 @@ export class ArlasBookmarkService {
     if (language) {
       queryParams['lg'] = language;
     }
+    this.dataBase.incrementBookmarkView(bookmark.id);
     this.router.navigate(['.'], { queryParams: queryParams });
-    this.openSnackBar(name + ' loading');
+    this.openSnackBar(bookmark.name + ' loading');
   }
 
   public openSnackBar(message: string) {
@@ -139,6 +140,10 @@ export class ArlasBookmarkService {
   }
 
   public viewCombineBookmark(selectedBookmark: Set<string>) {
+    // Increment view of each selected Bookmark
+    selectedBookmark.forEach(bookmarkId => {
+      this.dataBase.incrementBookmarkView(bookmarkId);
+    });
     if (this.bookMarkMap.get(Array.from(selectedBookmark)[0]).type === BookMarkType.enumIds) {
       const url = this.getUrlFomSetIds(this.combineBookmarkFromIds(selectedBookmark));
       this.viewBookMark(url);
@@ -223,6 +228,17 @@ export class ArlasBookmarkService {
     });
     return name;
   }
+
+  private getBookmarkFromUrl(url: string): BookMark {
+    let bookmark: BookMark;
+    this.bookMarkMap.forEach((k, v) => {
+      if (k.url === url) {
+        bookmark = k;
+      }
+    });
+    return bookmark;
+  }
+
   private getUrlFomSetIds(selectedItem?: Set<string>): string {
     const dataModel = {};
     const collaboration: Collaboration = {
