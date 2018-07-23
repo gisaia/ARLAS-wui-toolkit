@@ -29,7 +29,10 @@
     [isSmoothedCurve]="graphParam?.isSmoothedCurve"
     [barWeight]="graphParam?.barWeight"
     [paletteColors]="graphParam?.paletteColors"
-
+    [applyOffsetOnAreaChart]="graphParam?.applyOffsetOnAreaChart"
+    [displayOnlyIntervalsWithData]="graphParam?.displayOnlyIntervalsWithData"
+    [yAxisStartsFromZero]="graphParam?.yAxisStartsFromZero"
+    [showStripes]="graphParam?.showStripes"
     ></arlas-histogram>
 </div>
 <div *ngIf="componentType === 'swimlane'">
@@ -73,7 +76,7 @@
     [swimLaneLabelsWidth]="graphParam?.swimLaneLabelsWidth"
     [swimlaneBorderRadius]="graphParam?.swimlaneBorderRadius"
     [swimlaneHeight]="graphParam?.swimlaneHeight"
-
+    [displayOnlyIntervalsWithData]="graphParam?.displayOnlyIntervalsWithData"
     ></arlas-histogram>
 </div>
 <div *ngIf="componentType === 'powerbars'">
@@ -99,13 +102,12 @@
     [fieldsConfiguration]="contributor?.fieldsConfiguration"
     [fieldsList]="contributor?.fieldsList"
     [filtersMap]="contributor?.filtersMap"
+    [dropDownMapValues]="contributor?.dropDownMapValues"
     (sortColumnEvent)="contributor?.sortColumn($event)"
     (moreDataEvent)="contributor?.getMoreData($event)"
     (setFiltersEvent)="contributor?.setFilters($event)"
-
     [tableWidth]="graphParam.tableWidth"
     [globalActionsList]="graphParam.globalActionsList"
-
     [searchSize]="graphParam.searchSize"
     [nLastLines]="graphParam.nLastLines"
     [detailedGridHeight]="graphParam.detailedGridHeight"
@@ -115,7 +117,8 @@
     [defautMode]="graphParam.defautMode"
     [displayFilters]="graphParam.displayFilters"
     [isBodyHidden]="graphParam.isBodyHidden"
-    [isGeoSortActived]="graphParam.isGeoSortActived"
+    [isGeoSortActived]="graphParam?.isGeoSortActived"
+    [isAutoGeoSortActived]="graphParam?.isAutoGeoSortActived"
     (geoSortEvent)="emitEvent(contributorId, 'geoSortEvent', $event)"
     (selectedItemsEvent)="emitEvent(contributorId, 'selectedItemsEvent', $event)"
     (consultedItemEvent)="emitEvent(contributorId, 'consultedItemEvent', $event)"

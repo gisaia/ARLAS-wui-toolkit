@@ -20,6 +20,7 @@
 import { DataType } from 'arlas-web-contributors/models/models';
 import {
     HistogramContributor,
+    DetailedHistogramContributor,
     PowerbarsContributor,
     ResultListContributor,
     SwimLaneContributor
@@ -46,6 +47,14 @@ export class ContributorBuilder {
                     collaborativesearchService,
                     configService, isOneDimension);
                 break;
+            case 'detailedhistogram':
+                datatype = config['datatype'];
+                isOneDimension = config['isOneDimension'];
+                contributor = new DetailedHistogramContributor(identifier,
+                    DataType[datatype],
+                    collaborativesearchService,
+                    configService, isOneDimension);
+            break;
             case 'powerbars':
                 const title: string = config['title'];
                 contributor = new PowerbarsContributor(identifier,
