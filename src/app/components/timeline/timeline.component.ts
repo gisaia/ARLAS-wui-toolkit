@@ -37,6 +37,7 @@ export class TimelineComponent implements OnInit {
   @Input() public detailedTimelineComponent: any;
   @Input() public timelineComponent: any;
   @ViewChild('timeline') public timelineHistogramComponent: HistogramComponent;
+  @ViewChild('detailedtimeline') public detailedTimelineHistogramComponent: HistogramComponent;
 
   public showDetailedTimeline = false;
   public detailedTimelineContributor: DetailedHistogramContributor;

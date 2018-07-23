@@ -4,7 +4,7 @@
 </div>
 <div class="arlas-timeline--timelines">
     <div *ngIf="detailedTimelineComponent" class="show-detailedtimeline-{{showDetailedTimeline.valueOf()}}">
-        <arlas-histogram  #histogram
+        <arlas-histogram  #detailedtimeline
           [data]="detailedTimelineContributor?.chartData"
           [intervalSelection]="detailedTimelineIntervalSelection"
           (dataPlottedEvent)="afterDetailedDataPlotted($event)"
