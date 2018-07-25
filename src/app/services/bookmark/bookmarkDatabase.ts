@@ -32,17 +32,19 @@ export class BookmarkDatabase {
     if (localStorage.getItem('bookmark') !== null) {
       const copiedData = [];
       Array.from(JSON.parse(localStorage.getItem('bookmark'))).forEach((b: BookMark) => {
-        copiedData.push(this.createNewBookMark(b.name, b.prettyFilter, b.url, b.type, b.color, b.id, b.date));
-        this.bookMarkMap.set(b.id, this.createNewBookMark(b.name, b.prettyFilter, b.url, b.type, b.color, b.id, b.date));
+        copiedData.push(this.createNewBookMark(b.name, b.prettyFilter, b.url, b.type, b.color, b.id, b.date, b.views));
+        this.bookMarkMap.set(b.id, this.createNewBookMark(b.name, b.prettyFilter, b.url, b.type, b.color, b.id, b.date, b.views));
       });
       const sortedData = sortOnDate(copiedData);
       this.dataChange.next(sortedData);
     }
   }
 
-  public addBookMark(name: string, prettyFilter: string, url: string, type: BookMarkType, color: string, id?: string, date?: Date) {
+  public addBookMark(
+    name: string, prettyFilter: string, url: string, type: BookMarkType, color: string, id?: string, date?: Date, views?: number
+  ) {
     const copiedData = this.data.slice();
-    const bookmark = this.createNewBookMark(name, prettyFilter, url, type, color, id, date);
+    const bookmark = this.createNewBookMark(name, prettyFilter, url, type, color, id, date, views);
     copiedData.push(bookmark);
     this.bookMarkMap.set(bookmark.id, bookmark);
     const sortedData = sortOnDate(copiedData);
@@ -61,10 +63,27 @@ export class BookmarkDatabase {
     this.dataChange.next(newData);
   }
 
+  public incrementBookmarkView(id: string) {
+    const bookmark = this.bookMarkMap.get(id);
+    this.removeBookMark(id);
+    bookmark.views++;
+    this.addBookMark(
+      bookmark.name,
+      bookmark.prettyFilter,
+      bookmark.url,
+      bookmark.type,
+      bookmark.color,
+      bookmark.id,
+      bookmark.date,
+      bookmark.views
+    );
+  }
+
   private createNewBookMark(name: string, prettyFilter: string, url: string,
-    type: BookMarkType, color: string, id?: string, date?: Date): BookMark {
+    type: BookMarkType, color: string, id?: string, date?: Date, views?: number): BookMark {
     let uid = '';
     let bookmarkDate: Date;
+    let bookmarkViews: number;
     if (id) {
       uid = id;
     } else {
@@ -76,6 +95,11 @@ export class BookmarkDatabase {
     } else {
       bookmarkDate = new Date();
     }
+    if (views) {
+      bookmarkViews = views;
+    } else {
+      bookmarkViews = 0;
+    }
     const bookMark: BookMark = {
       id: uid,
       date: bookmarkDate,
@@ -84,7 +108,8 @@ export class BookmarkDatabase {
       url: url,
       type: type,
       color: color,
-      count: new Observable<0>()
+      count: new Observable<0>(),
+      views: bookmarkViews
     };
     this.bookmarkService.setBookMarkCount(bookMark);
     return bookMark;

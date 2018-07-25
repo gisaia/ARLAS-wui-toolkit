@@ -109,21 +109,22 @@ export class ArlasBookmarkService {
 
   }
 
-  public viewBookMark(url: string) {
-    const name = this.getBookMatkNameFromUrl(url);
-    const dataModel = this.collaborativesearchService.dataModelBuilder(decodeURI(url));
+  public viewBookMark(id: string) {
+    const bookmark = this.getBookmarkById(id);
+    const dataModel = this.collaborativesearchService.dataModelBuilder(decodeURI(bookmark.url));
     this.collaborativesearchService.setCollaborations(dataModel);
     let language = null;
     if (this.activatedRoute.snapshot.queryParams['lg']) {
       language = this.activatedRoute.snapshot.queryParams['lg'];
     }
     const queryParams: Params = Object.assign({}, this.activatedRoute.snapshot.queryParams);
-    queryParams['filter'] = url;
+    queryParams['filter'] = bookmark.url;
     if (language) {
       queryParams['lg'] = language;
     }
+    this.dataBase.incrementBookmarkView(bookmark.id);
     this.router.navigate(['.'], { queryParams: queryParams });
-    this.openSnackBar(name + ' loading');
+    this.openSnackBar(bookmark.name + ' loading');
   }
 
   public openSnackBar(message: string) {
@@ -139,6 +140,10 @@ export class ArlasBookmarkService {
   }
 
   public viewCombineBookmark(selectedBookmark: Set<string>) {
+    // Increment view of each selected Bookmark
+    selectedBookmark.forEach(bookmarkId => {
+      this.dataBase.incrementBookmarkView(bookmarkId);
+    });
     if (this.bookMarkMap.get(Array.from(selectedBookmark)[0]).type === BookMarkType.enumIds) {
       const url = this.getUrlFomSetIds(this.combineBookmarkFromIds(selectedBookmark));
       this.viewBookMark(url);
@@ -214,15 +219,16 @@ export class ArlasBookmarkService {
     });
   }
 
-  private getBookMatkNameFromUrl(url: string): string {
-    let name = '';
+  private getBookmarkById(id: string): BookMark {
+    let bookmark: BookMark;
     this.bookMarkMap.forEach((k, v) => {
-      if (k.url === url) {
-        name = k.name;
+      if (k.id === id) {
+        bookmark = k;
       }
     });
-    return name;
+    return bookmark;
   }
+
   private getUrlFomSetIds(selectedItem?: Set<string>): string {
     const dataModel = {};
     const collaboration: Collaboration = {
