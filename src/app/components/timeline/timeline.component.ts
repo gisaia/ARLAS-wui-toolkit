@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { Component, Input, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, ChangeDetectorRef, Pipe, PipeTransform } from '@angular/core';
 import { HistogramContributor, DetailedHistogramContributor } from 'arlas-web-contributors';
 import { OperationEnum } from 'arlas-web-core';
 import { ArlasCollaborativesearchService, ArlasStartupService } from './../../services/startup/startup.service';
@@ -37,6 +37,7 @@ export class TimelineComponent implements OnInit {
   @Input() public detailedTimelineComponent: any;
   @Input() public timelineComponent: any;
   @ViewChild('timeline') public timelineHistogramComponent: HistogramComponent;
+  @ViewChild('detailedtimeline') public detailedTimelineHistogramComponent: HistogramComponent;
 
   public showDetailedTimeline = false;
   public detailedTimelineContributor: DetailedHistogramContributor;
@@ -187,8 +188,8 @@ export class TimelineShortcutComponent implements OnInit {
         this.timeShortcuts.forEach(shortcut => {
           shortcut.label = this.translate.instant(shortcut.label);
         });
+        this.shortcutLabel = this.timelineContributor.timeLabel;
         this.timeShortcutsMap = this.groupBy(this.timeShortcuts, shortcut => shortcut.type);
-        this.setLabelOnCollaborationsEnd();
         this.setRemoveIconVisibility();
       }
   }
@@ -219,26 +220,6 @@ export class TimelineShortcutComponent implements OnInit {
 
   }
 
-  private setLabelOnCollaborationsEnd(): void {
-    this.arlasCollaborativesearchService.ongoingSubscribe.subscribe(nb => {
-      if (this.arlasCollaborativesearchService.totalSubscribe === 0) {
-        const label = this.timelineContributor.getShortcutLabel();
-        if (!label) {
-          const start = new Date(<number>this.timelineContributor.intervalSelection.startvalue);
-          const end = new Date(<number>this.timelineContributor.intervalSelection.endvalue);
-          if (this.dateFormat) {
-            const timeFormat = d3.timeFormat(this.dateFormat);
-            this.shortcutLabel = timeFormat(start) + ' to ' + timeFormat(end);
-          }
-          this.shortcutLabel = start.toLocaleDateString() + ' ' + start.toLocaleTimeString() + ' to '
-          + end.toLocaleDateString() + ' ' + end.toLocaleTimeString();
-        } else {
-          this.shortcutLabel = label;
-        }
-      }
-    });
-  }
-
   private setRemoveIconVisibility(): void {
     this.arlasCollaborativesearchService.collaborationBus.filter(c => (c.id === this.timelineComponent.contributorId || c.all))
       .subscribe(c => {
@@ -263,5 +244,29 @@ export class TimelineShortcutComponent implements OnInit {
         }
     });
     return map;
+  }
+}
+
+@Pipe({name: 'getLabel'})
+export class LabelPipe implements PipeTransform {
+  public transform(label: string, format: string): string {
+    if (label) {
+      const startEndValues = label.split('to');
+      if (startEndValues.length > 1) {
+        const start = new Date(+startEndValues[0]);
+        const end = new Date(+startEndValues[1]);
+        if (format) {
+          const timeFormat = d3.timeFormat(format);
+          return (timeFormat(start) + ' to ' + timeFormat(end));
+        } else {
+          return start.toLocaleDateString() + ' ' + start.toLocaleTimeString() + ' to '
+          + end.toLocaleDateString() + ' ' + end.toLocaleTimeString();
+        }
+      } else {
+        return label;
+      }
+    } else {
+      return label;
+    }
   }
 }

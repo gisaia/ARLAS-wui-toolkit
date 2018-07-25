@@ -281,6 +281,10 @@
                                       "$ref": "histogram.schema.json#"
                                     }
                                   ]
+                                },
+                                "dateFormat": {
+                                  "description": "Format of the date.",
+                                  "type": "string"
                                 }
                               },
                               "required": [
