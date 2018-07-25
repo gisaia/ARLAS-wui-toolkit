@@ -21,6 +21,7 @@ import { DataType } from 'arlas-web-contributors/models/models';
 import {
     HistogramContributor,
     DetailedHistogramContributor,
+    AnalyticsContributor,
     PowerbarsContributor,
     ResultListContributor,
     SwimLaneContributor
@@ -54,7 +55,7 @@ export class ContributorBuilder {
                     DataType[datatype],
                     collaborativesearchService,
                     configService, isOneDimension);
-            break;
+                break;
             case 'powerbars':
                 const title: string = config['title'];
                 contributor = new PowerbarsContributor(identifier,
@@ -84,10 +85,28 @@ export class ContributorBuilder {
                     collaborativesearchService,
                     configService,
                     titleDonut
-                  );
+                );
                 break;
             case 'chipsearch':
                 // TO DO
+                break;
+            case 'analytics':
+                const groupIdToValues = new Map<string, Array<string>>();
+                const analytics = configService.getValue('arlas.web.analytics');
+                if (analytics) {
+                    analytics.forEach(analytic => {
+                        if (analytic.filterValues) {
+                            groupIdToValues.set(analytic.groupId, analytic.filterValues);
+                        } else {
+                            groupIdToValues.set(analytic.groupId, ['*']);
+                        }
+                    });
+                }
+                contributor = new AnalyticsContributor(identifier,
+                    collaborativesearchService,
+                    configService,
+                    groupIdToValues
+                );
                 break;
         }
         return contributor;

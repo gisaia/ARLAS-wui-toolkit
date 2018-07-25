@@ -785,9 +785,9 @@ arlas-d3@4.2.*:
     rxjs "^5.4.2"
     tinycolor2 "^1.4.1"
 
-arlas-web-components@7.2.*:
-  version "7.2.0"
-  resolved "https://registry.yarnpkg.com/arlas-web-components/-/arlas-web-components-7.2.0.tgz#6876d66e1a7a805803ec5aeb0e966439058e2113"
+arlas-web-components@7.3.*:
+  version "7.3.0"
+  resolved "https://registry.yarnpkg.com/arlas-web-components/-/arlas-web-components-7.3.0.tgz#2b5be4260d7d16236371ec80da6bfd1045ab1904"
   dependencies:
     "@angular/animations" "^5.2.0"
     "@angular/cdk" "^5.2.0"
@@ -822,16 +822,16 @@ arlas-web-components@7.2.*:
     tinycolor2 "^1.4.1"
     zone.js "^0.8.19"
 
-arlas-web-contributors@7.2.*:
-  version "7.2.1"
-  resolved "https://registry.yarnpkg.com/arlas-web-contributors/-/arlas-web-contributors-7.2.1.tgz#ce5507554d665577759732213ceb6118f600c791"
+arlas-web-contributors@7.3.*:
+  version "7.3.0"
+  resolved "https://registry.yarnpkg.com/arlas-web-contributors/-/arlas-web-contributors-7.3.0.tgz#70ef69da8fc8df17ff69b93f33d200c63346e9d6"
   dependencies:
     "@turf/bbox" "^6.0.1"
     "@turf/helpers" "^6.1.4"
     "@types/file-saver" "^0.0.1"
     "@types/jsonpath" "^0.2.0"
     "@types/tinycolor2" "^1.4.0"
-    arlas-web-core "7.2.*"
+    arlas-web-core "7.3.*"
     file-saver "1.3.3"
     jsonpath "^1.0.0"
     moment "^2.22.1"
@@ -839,9 +839,9 @@ arlas-web-contributors@7.2.*:
     rxjs "^5.5.6"
     tinycolor2 "^1.4.1"
 
-arlas-web-core@7.2.*:
-  version "7.2.0"
-  resolved "https://registry.yarnpkg.com/arlas-web-core/-/arlas-web-core-7.2.0.tgz#ed2b5d30266ffd91125eb11e5c0003a0108147ba"
+arlas-web-core@7.3.*:
+  version "7.3.0"
+  resolved "https://registry.yarnpkg.com/arlas-web-core/-/arlas-web-core-7.3.0.tgz#fb5425266e405046a31f73db7f3ebee6bada4196"
   dependencies:
     arlas-api "7.0.3"
     rxjs "^5.5.6"

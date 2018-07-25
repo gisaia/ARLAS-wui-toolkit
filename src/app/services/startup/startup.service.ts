@@ -43,6 +43,7 @@ import { Configuration, ExploreApi, WriteApi } from 'arlas-api';
 
 import * as arlasConfSchema from './arlasconfig.schema.json';
 import { ContributorBuilder } from './contributorBuilder';
+import { AnalyticsContributor } from 'arlas-web-contributors/contributors/AnalyticsContributor';
 
 @Injectable()
 export class ArlasConfigService extends ConfigService {
@@ -135,6 +136,7 @@ export class ArlasStartupService {
                     .addSchema(MapContributor.getJsonSchema())
                     .addSchema(DonutContributor.getJsonSchema())
                     .addSchema(ChipsSearchContributor.getJsonSchema())
+                    .addSchema(AnalyticsContributor.getJsonSchema())
                     .addSchema(HistogramComponent.getHistogramJsonSchema())
                     .addSchema(HistogramComponent.getSwimlaneJsonSchema())
                     .addSchema(PowerbarsComponent.getPowerbarsJsonSchema())
