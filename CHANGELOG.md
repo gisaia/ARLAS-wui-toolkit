@@ -1,11 +1,20 @@
 # Change Log
 
+## [v7.2.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v7.2.1) (2018-07-25)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v7.2.0...v7.2.1)
+
+**Fixed bugs:**
+
+- Add a detailedTimelineComponent object in arlas-timeline [\#58](https://github.com/gisaia/ARLAS-wui-toolkit/pull/58) ([MohamedHamouGisaia](https://github.com/MohamedHamouGisaia))
+
 ## [v7.2.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v7.2.0) (2018-07-23)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v7.1.0...v7.2.0)
 
 **New stuff:**
 
+- Add brush selection on detailed timeline [\#57](https://github.com/gisaia/ARLAS-wui-toolkit/pull/57) ([MohamedHamouGisaia](https://github.com/MohamedHamouGisaia))
 - Add a map to analyticsboard that indicates which groups to show [\#55](https://github.com/gisaia/ARLAS-wui-toolkit/pull/55) ([MohamedHamouGisaia](https://github.com/MohamedHamouGisaia))
 - Addjsonpath to swimlane widget [\#54](https://github.com/gisaia/ARLAS-wui-toolkit/pull/54) ([mbarbet](https://github.com/mbarbet))
 
