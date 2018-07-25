@@ -1,8 +1,21 @@
 # Change Log
 
+## [v7.3.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v7.3.0) (2018-07-25)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v7.2.1...v7.3.0)
+
+**New stuff:**
+
+- Feature/count bookmark view [\#62](https://github.com/gisaia/ARLAS-wui-toolkit/pull/62) ([sebbousquet](https://github.com/sebbousquet))
+- Add analytics contributor management [\#61](https://github.com/gisaia/ARLAS-wui-toolkit/pull/61) ([mbarbet](https://github.com/mbarbet))
+
 ## [v7.2.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v7.2.1) (2018-07-25)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v7.2.0...v7.2.1)
+
+**New stuff:**
+
+- Emit geoAutoSortEvent in resultlist [\#59](https://github.com/gisaia/ARLAS-wui-toolkit/pull/59) ([MohamedHamouGisaia](https://github.com/MohamedHamouGisaia))
 
 **Fixed bugs:**
 
