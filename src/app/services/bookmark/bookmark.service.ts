@@ -109,16 +109,16 @@ export class ArlasBookmarkService {
 
   }
 
-  public viewBookMark(url: string) {
-    const bookmark = this.getBookmarkFromUrl(url);
-    const dataModel = this.collaborativesearchService.dataModelBuilder(decodeURI(url));
+  public viewBookMark(id: string) {
+    const bookmark = this.getBookmarkById(id);
+    const dataModel = this.collaborativesearchService.dataModelBuilder(decodeURI(bookmark.url));
     this.collaborativesearchService.setCollaborations(dataModel);
     let language = null;
     if (this.activatedRoute.snapshot.queryParams['lg']) {
       language = this.activatedRoute.snapshot.queryParams['lg'];
     }
     const queryParams: Params = Object.assign({}, this.activatedRoute.snapshot.queryParams);
-    queryParams['filter'] = url;
+    queryParams['filter'] = bookmark.url;
     if (language) {
       queryParams['lg'] = language;
     }
@@ -219,20 +219,10 @@ export class ArlasBookmarkService {
     });
   }
 
-  private getBookMatkNameFromUrl(url: string): string {
-    let name = '';
-    this.bookMarkMap.forEach((k, v) => {
-      if (k.url === url) {
-        name = k.name;
-      }
-    });
-    return name;
-  }
-
-  private getBookmarkFromUrl(url: string): BookMark {
+  private getBookmarkById(id: string): BookMark {
     let bookmark: BookMark;
     this.bookMarkMap.forEach((k, v) => {
-      if (k.url === url) {
+      if (k.id === id) {
         bookmark = k;
       }
     });
