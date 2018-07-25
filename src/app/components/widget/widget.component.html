@@ -120,6 +120,7 @@
     [isGeoSortActived]="graphParam?.isGeoSortActived"
     [isAutoGeoSortActived]="graphParam?.isAutoGeoSortActived"
     (geoSortEvent)="emitEvent(contributorId, 'geoSortEvent', $event)"
+    (geoAutoSortEvent)="emitEvent(contributorId, 'geoAutoSortEvent', $event)"
     (selectedItemsEvent)="emitEvent(contributorId, 'selectedItemsEvent', $event)"
     (consultedItemEvent)="emitEvent(contributorId, 'consultedItemEvent', $event)"
     (actionOnItemEvent)="emitEvent(contributorId, 'actionOnItemEvent', $event)"
