@@ -72,6 +72,13 @@
                                             "$ref": "chipssearchContributorConf.schema.json#"
                                         }
                                     ]
+                                },
+                                "^(analytics\\$).*$": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "analyticsContributorConf.schema.json#"
+                                        }
+                                    ]
                                 }
                             },
                             "additionalProperties": false
@@ -86,6 +93,14 @@
                                     "groupId": {
                                         "description": "Id of group to regroup component in same line",
                                         "type": "string"
+                                    },
+                                    "filterValues": {
+                                        "description": "Values used to filter the display of group",
+                                        "type": "array",
+                                        "items": {
+                                            "description": "Value used to filter the display of group",
+                                            "type": "string"
+                                        }
                                     },
                                     "components": {
                                         "description": "List of components in group",
