@@ -288,6 +288,10 @@
                               "description": "Timeline component configuration",
                               "type": "object",
                               "properties": {
+                                "contributorId": {
+                                  "description": "Identifier of the timeline contributor",
+                                  "type": "string"
+                                },
                                 "input": {
                                   "description": "Histogram component inputs for timeline",
                                   "type": "object",
@@ -303,6 +307,34 @@
                                 }
                               },
                               "required": [
+                                "contributorId",
+                                "input"
+                              ]
+                            },
+                            "detailedTimeline": {
+                              "description": "Detailed timeline component configuration",
+                              "type": "object",
+                              "properties": {
+                                "contributorId": {
+                                  "description": "Identifier of the detailed timeline contributor. It should be a detailedhistogram contributor.",
+                                  "type": "string"
+                                },
+                                "input": {
+                                  "description": "Histogram component inputs for detailed timeline",
+                                  "type": "object",
+                                  "allOf": [
+                                    {
+                                      "$ref": "histogram.schema.json#"
+                                    }
+                                  ]
+                                },
+                                "dateFormat": {
+                                  "description": "Format of the date.",
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "contributorId",
                                 "input"
                               ]
                             }
