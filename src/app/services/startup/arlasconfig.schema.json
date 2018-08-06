@@ -266,6 +266,14 @@
                               "description": "Timeline component configuration",
                               "type": "object",
                               "properties": {
+                                "contributorId": {
+                                  "description":  "Identifier of the timeline histogram contributor.",
+                                  "type": "string"
+                                },
+                                "dateFormat": {
+                                  "description": "Format of the date.",
+                                  "type": "string"
+                                },
                                 "input": {
                                   "description": "Histogram component inputs for timeline",
                                   "type": "object",

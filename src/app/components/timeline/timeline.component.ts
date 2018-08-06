@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, Pipe, PipeTransform } from '@angular/core';
 import { HistogramContributor } from 'arlas-web-contributors';
 import { OperationEnum, Contributor } from 'arlas-web-core';
 import { ArlasCollaborativesearchService, ArlasStartupService } from './../../services/startup/startup.service';
@@ -122,8 +122,8 @@ export class TimelineShortcutComponent implements OnInit {
         this.timeShortcuts.forEach(shortcut => {
           shortcut.label = this.translate.instant(shortcut.label);
         });
+        this.shortcutLabel = this.timelineContributor.timeLabel;
         this.timeShortcutsMap = this.groupBy(this.timeShortcuts, shortcut => shortcut.type);
-        this.setLabelOnCollaborationsEnd();
         this.setRemoveIconVisibility();
       }
   }
@@ -154,26 +154,6 @@ export class TimelineShortcutComponent implements OnInit {
 
   }
 
-  private setLabelOnCollaborationsEnd(): void {
-    this.arlasCollaborativesearchService.ongoingSubscribe.subscribe(nb => {
-      if (this.arlasCollaborativesearchService.totalSubscribe === 0) {
-        const label = this.timelineContributor.getShortcutLabel();
-        if (!label) {
-          const start = new Date(<number>this.timelineContributor.intervalSelection.startvalue);
-          const end = new Date(<number>this.timelineContributor.intervalSelection.endvalue);
-          if (this.dateFormat) {
-            const timeFormat = d3.timeFormat(this.dateFormat);
-            this.shortcutLabel = timeFormat(start) + ' to ' + timeFormat(end);
-          }
-          this.shortcutLabel = start.toLocaleDateString() + ' ' + start.toLocaleTimeString() + ' to '
-          + end.toLocaleDateString() + ' ' + end.toLocaleTimeString();
-        } else {
-          this.shortcutLabel = label;
-        }
-      }
-    });
-  }
-
   private setRemoveIconVisibility(): void {
     this.arlasCollaborativesearchService.collaborationBus.filter(c => (c.id === this.timelineComponent.contributorId || c.all))
       .subscribe(c => {
@@ -198,5 +178,29 @@ export class TimelineShortcutComponent implements OnInit {
         }
     });
     return map;
+  }
+}
+
+@Pipe({name: 'getLabel'})
+export class LabelPipe implements PipeTransform {
+  public transform(label: string, format: string): string {
+    if (label) {
+      const startEndValues = label.split('to');
+      if (startEndValues.length > 1) {
+        const start = new Date(+startEndValues[0]);
+        const end = new Date(+startEndValues[1]);
+        if (format) {
+          const timeFormat = d3.utcFormat(format);
+          return (timeFormat(start) + ' to ' + timeFormat(end));
+        } else {
+          return start.toUTCString().split(',')[1].replace('GMT', '') + ' to '
+          + end.toUTCString().split(',')[1].replace('GMT', '');
+        }
+      } else {
+        return label;
+      }
+    } else {
+      return label;
+    }
   }
 }
