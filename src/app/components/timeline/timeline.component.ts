@@ -173,7 +173,6 @@ export class TimelineShortcutComponent implements OnInit {
   public timelineContributor: HistogramContributor;
   public timeShortcuts: Array<StringifiedTimeShortcut>;
   public timeShortcutsMap: Map<string, Array<StringifiedTimeShortcut>>;
-  public shortcutLabel: string;
   public showRemoveIcon = false;
   public showShortcuts = false;
   public HIDE_SHOW = 'Show';
@@ -189,7 +188,6 @@ export class TimelineShortcutComponent implements OnInit {
         this.timeShortcuts.forEach(shortcut => {
           shortcut.label = this.translate.instant(shortcut.label);
         });
-        this.shortcutLabel = this.timelineContributor.timeLabel;
         this.timeShortcutsMap = this.groupBy(this.timeShortcuts, shortcut => shortcut.type);
         this.setRemoveIconVisibility();
       }
@@ -202,7 +200,6 @@ export class TimelineShortcutComponent implements OnInit {
     });
     selectedIntervalsList.push({startvalue: shortCut.from, endvalue: shortCut.to});
     this.timelineContributor.valueChanged(selectedIntervalsList);
-    this.shortcutLabel = shortCut.label;
   }
 
   public getKeys(map): Array<string> {
@@ -223,7 +220,6 @@ export class TimelineShortcutComponent implements OnInit {
   public removeTimelineCollaboration(): void {
     this.showRemoveIcon = false;
     this.arlasCollaborativesearchService.removeFilter(this.timelineComponent.contributorId);
-
   }
 
   private setRemoveIconVisibility(): void {
@@ -255,7 +251,7 @@ export class TimelineShortcutComponent implements OnInit {
 
 @Pipe({name: 'getLabel'})
 export class LabelPipe implements PipeTransform {
-  public transform(label: string, format: string): string {
+  public transform(label: string, format: string, translate: TranslateService): string {
     if (label) {
       const startEndValues = label.split('to');
       if (startEndValues.length > 1) {
@@ -263,13 +259,13 @@ export class LabelPipe implements PipeTransform {
         const end = new Date(+startEndValues[1]);
         if (format) {
           const timeFormat = d3.utcFormat(format);
-          return (timeFormat(start) + ' to ' + timeFormat(end));
+          return translate.instant('From') + ' ' + (timeFormat(start) + ' ' + translate.instant('to') + ' ' + timeFormat(end));
         } else {
-          return start.toUTCString().split(',')[1].replace('GMT', '') + ' to '
-          + end.toUTCString().split(',')[1].replace('GMT', '');
+          return translate.instant('From') + ' ' + start.toUTCString().split(',')[1].replace('GMT', '') + ' ' +
+            translate.instant('to') + ' ' + end.toUTCString().split(',')[1].replace('GMT', '');
         }
       } else {
-        return label;
+        return translate.instant(label);
       }
     } else {
       return label;

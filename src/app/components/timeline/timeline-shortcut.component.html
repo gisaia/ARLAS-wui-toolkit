@@ -2,7 +2,7 @@
   <div>
       <mat-basic-chip class="shortcut-button">
           <mat-icon class="shortcut-button__icon" [class.cursor]="timeShortcuts?.length > 0" (click)="showSortcuts()" matTooltip="{{HIDE_SHOW + ' time shortcuts' | translate}}" [matTooltipPosition]="'above'">access_time</mat-icon>
-          <span class="shortcut-button__label">{{timelineContributor?.timeLabel | getLabel : dateFormat}}</span>
+          <span class="shortcut-button__label">{{timelineContributor?.timeLabel | getLabel: dateFormat:translate}}</span>
           <mat-icon *ngIf="showRemoveIcon" (click)="removeTimelineCollaboration()" class="shortcut-remove-filter" matTooltip="{{'Remove time filter' | translate}}" [matTooltipPosition]="'before'" >clear</mat-icon>
       </mat-basic-chip>
   </div>
