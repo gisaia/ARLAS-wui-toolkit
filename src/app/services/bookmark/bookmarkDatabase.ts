@@ -48,9 +48,10 @@ export class BookmarkDatabase {
     copiedData.push(bookmark);
     this.bookMarkMap.set(bookmark.id, bookmark);
     const sortedData = sortOnDate(copiedData);
+    localStorage.setItem('bookmark', JSON.stringify(sortedData));
     this.dataChange.next(sortedData);
-
   }
+
   public removeBookMark(id: string) {
     const copiedData = this.data.slice();
     const newData = [];
