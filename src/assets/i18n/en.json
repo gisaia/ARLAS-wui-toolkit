@@ -17,5 +17,7 @@
   },
   "Donut": {
     "title": "Geoname"
-  }
+  },
+  "From": "From",
+  "to": "to"
 }
