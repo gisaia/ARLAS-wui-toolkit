@@ -176,6 +176,7 @@ export class TimelineShortcutComponent implements OnInit {
   public shortcutLabel: string;
   public showRemoveIcon = false;
   public showShortcuts = false;
+  public HIDE_SHOW = 'Show';
 
   constructor(private arlasCollaborativesearchService: ArlasCollaborativesearchService, private arlasStartupService: ArlasStartupService,
     public translate: TranslateService) {
@@ -211,6 +212,11 @@ export class TimelineShortcutComponent implements OnInit {
   public showSortcuts(): void {
     if (this.timeShortcuts && this.timeShortcuts.length > 0) {
       this.showShortcuts = !this.showShortcuts;
+      if (this.showShortcuts) {
+        this.HIDE_SHOW = 'Hide';
+      } else {
+        this.HIDE_SHOW = 'Show';
+      }
     }
   }
 
