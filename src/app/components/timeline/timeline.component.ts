@@ -256,11 +256,11 @@ export class LabelPipe implements PipeTransform {
         const start = new Date(+startEndValues[0]);
         const end = new Date(+startEndValues[1]);
         if (format) {
-          const timeFormat = d3.timeFormat(format);
+          const timeFormat = d3.utcFormat(format);
           return (timeFormat(start) + ' to ' + timeFormat(end));
         } else {
-          return start.toLocaleDateString() + ' ' + start.toLocaleTimeString() + ' to '
-          + end.toLocaleDateString() + ' ' + end.toLocaleTimeString();
+          return start.toUTCString().split(',')[1].replace('GMT', '') + ' to '
+          + end.toUTCString().split(',')[1].replace('GMT', '');
         }
       } else {
         return label;
