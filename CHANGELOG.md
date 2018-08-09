@@ -1,5 +1,9 @@
 # Change Log
 
+## [v7.3.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v7.3.2) (2018-08-09)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v7.3.1...v7.3.2)
+
 ## [v7.3.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v7.3.1) (2018-08-09)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v7.0.2...v7.3.1)
@@ -13,6 +17,7 @@
 - Bookmark is not added to local storage after click on `OK` [\#72](https://github.com/gisaia/ARLAS-wui-toolkit/issues/72)
 - Internationalize hard coded labels [\#68](https://github.com/gisaia/ARLAS-wui-toolkit/issues/68)
 - Timeline : use utc as date locale [\#66](https://github.com/gisaia/ARLAS-wui-toolkit/issues/66)
+- Selection interval of detailed timeline is not set correctly when loading datasets due to effect board [\#65](https://github.com/gisaia/ARLAS-wui-toolkit/issues/65)
 
 ## [v7.0.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v7.0.2) (2018-08-06)
 
