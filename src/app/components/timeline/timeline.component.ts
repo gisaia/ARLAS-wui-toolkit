@@ -131,7 +131,7 @@ export class TimelineComponent implements OnInit {
             this.timelineHistogramComponent.histogram.histogramParams.chartHeight = (this.showDetailedTimeline) ?
               this.detailedTimelineComponent.input.chartHeight : this.timelineComponent.input.chartHeight;
             this.timelineHistogramComponent.resizeHistogram();
-            if (this.applicationFirstLoad) {
+            if (this.applicationFirstLoad && this.detailedTimelineContributor.currentSelectedInterval) {
               // Sets current selection of detailed timeline
               const select =  this.detailedTimelineContributor.currentSelectedInterval;
               this.detailedTimelineIntervalSelection = { startvalue: select.startvalue, endvalue: select.endvalue };
