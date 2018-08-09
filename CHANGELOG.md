@@ -1,11 +1,34 @@
 # Change Log
 
+## [v7.3.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v7.3.1) (2018-08-09)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v7.0.2...v7.3.1)
+
+**New stuff:**
+
+- Add missing tooltips [\#70](https://github.com/gisaia/ARLAS-wui-toolkit/issues/70)
+
+**Fixed bugs:**
+
+- Bookmark is not added to local storage after click on `OK` [\#72](https://github.com/gisaia/ARLAS-wui-toolkit/issues/72)
+- Internationalize hard coded labels [\#68](https://github.com/gisaia/ARLAS-wui-toolkit/issues/68)
+- Timeline : use utc as date locale [\#66](https://github.com/gisaia/ARLAS-wui-toolkit/issues/66)
+
+## [v7.0.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v7.0.2) (2018-08-06)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v7.3.0...v7.0.2)
+
+**Fixed bugs:**
+
+- timeline & detailedTimeline : conf schema doesn't declare some properties as required [\#63](https://github.com/gisaia/ARLAS-wui-toolkit/issues/63)
+
 ## [v7.3.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v7.3.0) (2018-07-25)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v7.2.1...v7.3.0)
 
 **New stuff:**
 
+- Contributor Builder : add analytics contributor [\#60](https://github.com/gisaia/ARLAS-wui-toolkit/issues/60)
 - Feature/count bookmark view [\#62](https://github.com/gisaia/ARLAS-wui-toolkit/pull/62) ([sebbousquet](https://github.com/sebbousquet))
 - Add analytics contributor management [\#61](https://github.com/gisaia/ARLAS-wui-toolkit/pull/61) ([mbarbet](https://github.com/mbarbet))
 
