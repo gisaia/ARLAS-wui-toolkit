@@ -91,13 +91,13 @@ export class TimelineComponent implements OnInit {
   public afterDetailedDataPlotted() {
     if (this.isDetailedIntervalBrushed) {  // If detailed timeline is replotted after moving its own brush.
       // Reset current selection of detailed timeline after it is plotted
-      this.detailedTimelineIntervalSelection = { startvalue: this.detailedTimelineIntervalSelection.startvalue,
-        endvalue: this.detailedTimelineIntervalSelection.endvalue };
+      this.detailedTimelineIntervalSelection = { startvalue: this.detailedTimelineContributor.currentSelectedInterval.startvalue,
+        endvalue: this.detailedTimelineContributor.currentSelectedInterval.endvalue };
       // Apply the current selection of detailed timeline on the main timeline
-      this.timelineContributor.intervalSelection = { startvalue: this.detailedTimelineIntervalSelection.startvalue,
-        endvalue: this.detailedTimelineIntervalSelection.endvalue };
+      this.timelineContributor.intervalSelection = { startvalue: this.detailedTimelineContributor.currentSelectedInterval.startvalue,
+        endvalue: this.detailedTimelineContributor.currentSelectedInterval.endvalue };
     } else { // If detailed timeline is replotted after moving the brush of the main timeline or when the app is loaded.
-      const selection =  this.timelineContributor.intervalSelection;
+      const selection =  this.detailedTimelineContributor.currentSelectedInterval;
       if (selection) {
         this.detailedTimelineIntervalSelection = { startvalue: selection.startvalue, endvalue: selection.endvalue };
       } else {
@@ -133,7 +133,7 @@ export class TimelineComponent implements OnInit {
             this.timelineHistogramComponent.resizeHistogram();
             if (this.applicationFirstLoad) {
               // Sets current selection of detailed timeline
-              const select =  this.timelineContributor.intervalSelection;
+              const select =  this.detailedTimelineContributor.currentSelectedInterval;
               this.detailedTimelineIntervalSelection = { startvalue: select.startvalue, endvalue: select.endvalue };
               this.applicationFirstLoad = false;
             }
