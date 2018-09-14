@@ -1,8 +1,20 @@
 # Change Log
 
+## [v7.4.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v7.4.0) (2018-09-14)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v7.3.2...v7.4.0)
+
+**Breaking changes:**
+
+- Support swimlane term selection mode [\#77](https://github.com/gisaia/ARLAS-wui-toolkit/issues/77)
+
 ## [v7.3.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v7.3.2) (2018-08-09)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v7.3.1...v7.3.2)
+
+**Fixed bugs:**
+
+- Detailedtimeline : check the existence of currentSelectedInterval [\#75](https://github.com/gisaia/ARLAS-wui-toolkit/issues/75)
 
 ## [v7.3.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v7.3.1) (2018-08-09)
 
