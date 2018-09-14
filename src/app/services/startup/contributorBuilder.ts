@@ -72,10 +72,8 @@ export class ContributorBuilder {
                 // TO DO
                 break;
             case 'swimlane':
-                datatype = config['datatype'];
                 isOneDimension = config['isOneDimension'];
                 contributor = new SwimLaneContributor(identifier,
-                    DataType[datatype],
                     collaborativesearchService,
                     configService);
                 break;

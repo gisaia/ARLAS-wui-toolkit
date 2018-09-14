@@ -74,7 +74,8 @@ export class WidgetComponent implements OnInit {
   public changeSwimlane(event) {
     const swimConf = this.swimlanes.filter(f => f.name === event.value)[0];
     this.contributor.aggregations = swimConf.aggregationmodels;
-    this.contributor.field = swimConf.field;
+    this.contributor.xAxisField = swimConf.xAxisField;
+    this.contributor.termField = swimConf.termField;
     if (swimConf.jsonpath) {
       this.contributor.json_path = swimConf.jsonpath;
     }
