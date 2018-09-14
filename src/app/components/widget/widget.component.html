@@ -43,8 +43,8 @@
       </mat-select>
     </mat-form-field>
   </div>
-  <arlas-histogram [chartType]="chartType.swimlane" [intervalListSelection]="contributor?.intervalListSelection"
-    [data]="contributor?.swimData" (valuesListChangedEvent)="contributor?.valueChanged($event)" [intervalSelection]="contributor?.intervalSelection"
+  <arlas-histogram [chartType]="chartType.swimlane" [selectedSwimlanes]="contributor?.selectedSwimlanes"
+    [data]="contributor?.swimData" (selectedSwimlanesEvent)="contributor?.valueChanged($event)"
     [id]="graphParam?.id"
     [dataType]="graphParam?.dataType"
     [dataUnit]="graphParam?.dataUnit"
