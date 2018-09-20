@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-## CREATE TARGET DIRECTORY ##
+# CREATE TARGET DIRECTORY ##
 rm -rf target
 mkdir target
 mkdir target/generated-docs
@@ -16,49 +16,53 @@ if [ -d ./docs ] ; then
 fi
 
 mkdir -p target/generated-docs/schemas-doc/
-mkdir -p target/generated-docs/schemas/
 
-## COPY CONTRIBUTOR SCHEMA
-cp node_modules/arlas-web-contributors/jsonSchemas/* target/generated-docs/schemas/
-## COPY ARLAS SCHEMA
-cp src/app/services/startup/*.json target/generated-docs/schemas/
-## COPY COMPONENT SCHEMA
-for f in $(find node_modules/arlas-web-components -name '*.schema.json'); do
-cp $f target/generated-docs/schemas/;
-done
+# GENERATE ARLAS CONFIG SCHEMA MD
+find src/app/services/startup -name '*.schema.json' -type f -exec docker run --rm -v `pwd`:/schema gisaia/jsonschema2md:0.1.2 -d /schema/{} -o /schema/target/generated-docs/schemas-doc/arlasconfig  \;
+
+## GENERATE CONTRIBUTORS SCHEMA MD
+find node_modules/arlas-web-contributors/jsonSchemas -type f -exec docker run --rm -v `pwd`:/schema gisaia/jsonschema2md:0.1.2 -d /schema/{} -o /schema/target/generated-docs/schemas-doc/contributors \;
+
+## GENERATE COMPONENTS SCHEMA MD
+find node_modules/arlas-web-components -name '*.schema.json' -type f -exec docker run --rm -v `pwd`:/schema gisaia/jsonschema2md:0.1.2 -d /schema/{} -o /schema/target/generated-docs/schemas-doc/components  \;
+
+## MOVE ALL SCHEMA JSON FILES TO A REP
+mkdir -p target/generated-docs/schemas/
+find target/generated-docs/schemas-doc/* -name '*.schema.json' -type f -exec cp {} target/generated-docs/schemas \;
 
 function parseFilePath {
     filename=$(basename $1)
-    echo '### '${filename} >> target/generated-docs/schemas-doc/schemas.md
-    echo ' ' >> target/generated-docs/schemas-doc/schemas.md
-    echo ' [source](../schemas/'${1}')'>> target/generated-docs/schemas-doc/schemas.md
-    echo ' ' >> target/generated-docs/schemas-doc/schemas.md
-    echo '```json' >> target/generated-docs/schemas-doc/schemas.md
-    cat ${1} >> target/generated-docs/schemas-doc/schemas.md
-    echo ' ' >> target/generated-docs/schemas-doc/schemas.md
-    echo '```' >> target/generated-docs/schemas-doc/schemas.md
+    echo ' - ['${filename}'](../schemas/'${filename}')'>> target/generated-docs/schemas/schemas.md
 }
 
-## GENERATE ARLAS SCHEMA MD
-echo '# List of json schemas' > target/generated-docs/schemas-doc/schemas.md
-echo '## ARLAS' >> target/generated-docs/schemas-doc/schemas.md
-for filepath in src/app/services/startup/*.json; do
-    parseFilePath ${filepath}
-done
+function addHashTag {
+    sed -i -e 's/^# /## /g' ${1}
+    cat ${1} >> target/generated-docs/schemas/schemas.md
+}
 
-## GENERATE CONTRIBUTOR SCHEMA MD
-echo '## Contributors' >> target/generated-docs/schemas-doc/schemas.md
-for filepath in node_modules/arlas-web-contributors/jsonSchemas/*.json; do
-    parseFilePath ${filepath}
-done
+## Build on md file from all generated ones
+export -f parseFilePath
+export -f addHashTag
 
-## GENERATE COMPONENT SCHEMA MD
-echo '## Components' >> target/generated-docs/schemas-doc/schemas.md
-for filepath in $(find node_modules/arlas-web-components -name '*.schema.json'); do
-    parseFilePath ${filepath}
-done
+echo ' # Documentation of Arlas-wui configuration' > target/generated-docs/schemas/schemas.md
+echo ' ' >> target/generated-docs/schemas/schemas.md
 
+### Arlasconfig schema
+echo ' ## Arlas configuration json schema files' >> target/generated-docs/schemas/schemas.md
+echo ' ' >> target/generated-docs/schemas/schemas.md
+parseFilePath target/generated-docs/schemas-doc/arlasconfig/arlasconfig.schema.json
+### Contributors schemas
+echo ' ## Contributors json schemas files' >> target/generated-docs/schemas/schemas.md
+echo ' ' >> target/generated-docs/schemas/schemas.md
+find target/generated-docs/schemas-doc/contributors -name '*.schema.json' -type f -exec bash -c 'parseFilePath {}' \;
 
+# ### Components schemas
+echo ' ## Components json schemas files' >> target/generated-docs/schemas/schemas.md
+echo ' ' >> target/generated-docs/schemas/schemas.md
+find target/generated-docs/schemas-doc/components -name '*.schema.json' -type f -exec bash -c 'parseFilePath {}' \;
 
+addHashTag target/generated-docs/schemas-doc/arlasconfig/arlasconfig.schema.md
+find target/generated-docs/schemas-doc/contributors -name '*.schema.md' -type f -exec bash -c 'addHashTag {}' \;
+find target/generated-docs/schemas-doc/components -name '*.schema.md' -type f -exec bash -c 'addHashTag {}' \;
 
-
+find target/generated-docs/schemas-doc/ -name "*.json" -type f -delete
