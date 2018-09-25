@@ -48,6 +48,9 @@ export class AppComponent implements AfterViewInit, OnInit {
       if (this.activatedRoute.snapshot.queryParams['lg']) {
         queryParams['lg'] = this.activatedRoute.snapshot.queryParams['lg'];
       }
+      if (this.activatedRoute.snapshot.queryParams['extend']) {
+        queryParams['extend'] = this.activatedRoute.snapshot.queryParams['extend'];
+      }
       if (collaborationEvent.id !== 'url') {
         this.router.navigate(['.'], { queryParams: queryParams });
       }
