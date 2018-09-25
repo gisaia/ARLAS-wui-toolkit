@@ -1,0 +1,126 @@
+{
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "title": "Map Contributor Configuration",
+    "description": "The Configuration of Map Contributor",
+    "type": "object",
+    "$id": "mapContributorConf.schema.json",
+    "allOf": [
+        {
+            "$ref": "rootContributorConf.schema.json#"
+        }
+    ],
+    "properties": {
+        "idFieldName": {
+            "description": "Id of entity to show on Map",
+            "type": "string"
+        },
+        "includeFeaturesFields": {
+            "description": "List of fields pattern or names that will be included in features mode as geojson properties.",
+            "type": "array",
+            "items": {
+                "description": "Field pattern or name",
+                "type": "string"
+            }
+        },
+        "initZoom": {
+            "description": "Initial zoom of  Map",
+            "type": "number"
+        },
+        "geometry": {
+            "description": "Geometry field of index",
+            "type": "string"
+        },
+        "drawtype": {
+            "description": "Type of representation for aggregate data",
+            "enum": [
+                "CIRCLE",
+                "RECTANGLE"
+            ]
+        },
+        "isFlat": {
+            "description": "If true, geosjon properties will be flat, true by default",
+            "type": "boolean"
+        },
+        "zoomLevelFullData": {
+            "description": "Max zoom to retrieve all world data",
+            "type": "number"
+        },
+        "zoomLevelForTestCount": {
+            "description": "Zoom from which we test to retrieve data without aggregation",
+            "type": "number"
+        },
+        "nbMaxDefautFeatureForCluster": {
+            "description": "Defaut number of features below which we show data without agrgegation",
+            "type": "number"
+        },
+        "zoomToNbMaxFeatureForCluster": {
+            "description": "List of couple zoom-number to associate a number of features below which we show data without agrgegation for each zoom",
+            "type": "array",
+            "items": {
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 2,
+                "items": [
+                    {
+                        "description": "Zoom value",
+                        "type": "number"
+                    },
+                    {
+                        "description": "Number of features below which we show data without agrgegation",
+                        "type": "number"
+                    }
+                ]
+            }
+        },
+        "maxPrecision": {
+            "type": "array",
+            "minItems": 2,
+            "maxItems": 2,
+            "items": [
+                {
+                    "description": "Precision of geohash aggregation",
+                    "type": "number"
+                },
+                {
+                    "description": "Level of geohash to retrieve data like tile",
+                    "type": "number"
+                }
+            ]
+        },
+        "zoomToPrecisionCluster": {
+            "description": "List of triplet zoom-precison-level to associate a couple precision-level for each zoom",
+            "type": "array",
+            "items": {
+                "type": "array",
+                "minItems": 3,
+                "maxItems": 3,
+                "items": [
+                    {
+                        "description": "Zoom value",
+                        "type": "number"
+                    },
+                    {
+                        "description": "Precision of geohash aggregation",
+                        "type": "number"
+                    },
+                    {
+                        "description": "Level of geohash to retrieve data like tile",
+                        "type": "number"
+                    }
+                ]
+            }
+        }
+    },
+    "required": [
+        "idFieldName",
+        "initZoom",
+        "geometry",
+        "drawtype",
+        "zoomLevelFullData",
+        "zoomLevelForTestCount",
+        "nbMaxDefautFeatureForCluster",
+        "zoomToNbMaxFeatureForCluster",
+        "maxPrecision",
+        "zoomToPrecisionCluster"
+    ]
+}

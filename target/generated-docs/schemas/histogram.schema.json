@@ -1,0 +1,170 @@
+{
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "title": "Histogram input configuration",
+    "description": "The Configuration input of an histogram",
+    "type": "object",
+    "$id": "histogram.schema.json",
+    "properties": {
+        "id": {
+            "description": "Identifier of the histogram",
+            "type": "string"
+        },
+        "dataType": {
+            "description": "Type of data in histogram",
+            "enum": [
+                "numeric",
+                "time"
+            ]
+        },
+        "dataUnit": {
+            "description": "Unit of time in histogram",
+            "enum": [
+                "millisecond",
+                "second"
+            ]
+        },
+        "isHistogramSelectable": {
+            "description": "If you can select a period on histogram",
+            "type": "boolean"
+        },
+        "multiselectable": {
+            "description": "If you can select several period on histogram",
+            "type": "boolean"
+        },
+        "displayOnlyIntervalsWithData": {
+            "description": "If you can select several period on histogram",
+            "type": "boolean"
+        },
+        "applyOffsetOnAreaChart": {
+            "description": "Translates area chart by half data interval",
+            "type": "boolean"
+        },
+        "topOffsetRemoveInterval": {
+            "description": "Top position of the remove-selection-button",
+            "type": "number"
+        },
+        "leftOffsetRemoveInterval": {
+            "description": "Left offset position of the remove-selection-button",
+            "type": "number"
+        },
+        "brushHandlesHeightWeight": {
+            "description": " A 0 to 1 weight of the brush height. It controls the brush handles height.",
+            "type": "number"
+        },
+        "chartType": {
+            "description": "Chart's representation type.",
+            "enum": [
+                "bars",
+                "area",
+                "oneDimension"
+            ]
+        },
+        "chartTitle": {
+            "description": "Chart's title",
+            "type": "string"
+        },
+        "chartWidth": {
+            "description": "Chart's width. If set to null, the chart takes the component's container width.",
+            "oneOf": [
+                {
+                    "type": "number"
+                },
+                {
+                    "type": "null"
+                }
+            ]
+        },
+        "chartHeight": {
+            "description": "Chart's height. If set to null, the chart takes the component's container height",
+            "oneOf": [
+                {
+                    "type": "number"
+                },
+                {
+                    "type": "null"
+                }
+            ]
+        },
+        "customizedCssClass": {
+            "description": "Css class name to use to customize a specific `arlas-histogram` component.",
+            "type": "string"
+        },
+        "yAxisStartsFromZero": {
+            "description": "Whether the histogram values start from zero or from the minimum of data.",
+            "type": "boolean"
+        },
+        "showStripes": {
+            "description": "Whether to add stripes in the histogram when yAxis starts from minimum of data.",
+            "type": "boolean"
+        },
+        "xAxisPosition": {
+            "description": "The xAxis positon : above or below the chart.",
+            "enum": [
+                "top",
+                "bottom"
+            ]
+        },
+        "descriptionPosition": {
+            "description": "The start/end values positon : above or below the chart.",
+            "enum": [
+                "top",
+                "bottom"
+            ]
+        },
+        "xTicks": {
+            "description": "Number of ticks in the X axis.",
+            "type": "integer"
+        },
+        "yTicks": {
+            "description": "Number of ticks in the Y axis.",
+            "type": "integer"
+        },
+        "xLabels": {
+            "description": "Number of labels in the X axis.",
+            "type": "integer"
+        },
+        "yLabels": {
+            "description": "Number of labels in the Y axis.",
+            "type": "integer"
+        },
+        "showXTicks": {
+            "description": "Whether showing the X axis ticks.m",
+            "type": "boolean"
+        },
+        "showYTicks": {
+            "description": "Whether showing the Y axis ticks.",
+            "type": "boolean"
+        },
+        "showXLabels": {
+            "description": "Whether showing the X axis labels.",
+            "type": "boolean"
+        },
+        "showYLabels": {
+            "description": "Whether showing the Y axis labels.",
+            "type": "boolean"
+        },
+        "showHorizontalLines": {
+            "description": "Whether showing the horizontal dashed lines.",
+            "type": "boolean"
+        },
+        "paletteColors": {
+            "description": "Either a hex string color or a color name (in English) or a saturation interval.",
+            "type": "array"
+        },
+        "ticksDateFormat": {
+            "description": "The date format of ticks.* Please refer to this [list of specifiers](https://github.com/d3/d3-time-format/blob/master/README.md#locale_format).",
+            "type": "string"
+        },
+        "isSmoothedCurve": {
+            "description": " Whether the curve of an `area` chart is smoothed.",
+            "type": "boolean"
+        },
+        "barWeight": {
+            "description": "Weight applied to bars width. ]0,1].",
+            "type": "number"
+        }
+    },
+    "required": [
+        "id"
+    ]
+}

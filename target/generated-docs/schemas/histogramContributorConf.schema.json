@@ -1,0 +1,66 @@
+{
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "title": "Histogram Contributor Configuration",
+    "description": "The Configuration of Histogram Contributor",
+    "type": "object",
+    "$id": "histogramContributorConf.schema.json",
+    "allOf": [
+        {
+            "$ref": "rootContributorConf.schema.json#"
+        }
+    ],
+    "properties": {
+        "datatype": {
+            "description": "Type of data for histogram",
+            "enum": [
+                "numeric",
+                "time"
+            ]
+        },
+        "isOneDimension": {
+            "description": "True if it's one dimension histogram",
+            "type": "boolean"
+        },
+        "numberOfBuckets": {
+            "description": "Number of buckets in the histogram. If not specified, the interval in aggregation model is used instead.",
+            "type": "number"
+        },
+        "timeShortcuts": {
+            "description": "List of time shortcuts labels to be fetched from the predefined shortcuts list",
+            "type": "array",
+            "items": {
+                "type": "string",
+                "enum": [
+                    "Today",
+                    "This week",
+                    "This month",
+                    "This year",
+                    "Today so far",
+                    "This week so far",
+                    "This month so far",
+                    "This year so far",
+                    "Last 15 minutes",
+                    "Last 30 minutes",
+                    "Last hour",
+                    "Last 4 hours",
+                    "Last 12 hours",
+                    "Last 24 hours",
+                    "Last 7 days",
+                    "Last 30 days",
+                    "Last 60 days",
+                    "Last 90 days",
+                    "Last 6 months",
+                    "L"
+                ]
+            }
+        },
+        "jsonpath": {
+            "description": "Json path to find value used in aggregation, for example  $.count or $.metrics[0].value, $.count is used by default if this property is not setted.",
+            "type": "string"
+        }
+    },
+    "required": [
+        "datatype",
+        "isOneDimension"
+    ]
+}

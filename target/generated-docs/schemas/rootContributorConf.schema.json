@@ -1,0 +1,87 @@
+{
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "title": "Contributors Configuration",
+    "description": "The Configuration of Contributors",
+    "type": "object",
+    "$id": "rootContributorConf.schema.json",
+    "definitions": {
+        "identifier": {
+            "description": "The unique identifier for a Contributor",
+            "type": "string"
+        },
+        "name": {
+            "description": "The name of the Contributor",
+            "type": "string"
+        },
+        "aggregationmodels": {
+            "description": "List of aggregation, order matters",
+            "type": "array",
+            "minItems": 1,
+            "items": {
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "description": "Type of aggregation",
+                        "enum": [
+                            "datehistogram",
+                            "geohash",
+                            "histogram",
+                            "term"
+                        ]
+                    },
+                    "field": {
+                        "description": "Field of aggregation",
+                        "type": "string"
+                    },
+                    "interval": {
+                        "description": "Interval of aggregation",
+                        "type": "object",
+                        "properties": {
+                            "value": {
+                                "description": "Value of interval",
+                                "type": "integer"
+                            },
+                            "unit": {
+                                "description": "Unit of interval",
+                                "enum": [
+                                    "year",
+                                    "quarter",
+                                    "month",
+                                    "week",
+                                    "day",
+                                    "hour",
+                                    "minute",
+                                    "second"
+                                ]
+                            }
+                        }
+                    },
+                    "withGeoCentroid": {
+                        "description": "Place the point on geocentroid",
+                        "type": "boolean"
+                    }
+                },
+                "required": [
+                    "type",
+                    "field"
+                ]
+            }
+        }
+    },
+    "properties": {
+        "identifier": {
+            "$ref": "#/definitions/identifier"
+        },
+        "name": {
+            "$ref": "#/definitions/name"
+        },
+        "aggregationmodels": {
+            "$ref": "#/definitions/aggregationmodels"
+        }
+    },
+    "required": [
+        "identifier",
+        "name",
+        "aggregationmodels"
+    ]
+}

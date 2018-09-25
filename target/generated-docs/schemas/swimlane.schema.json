@@ -1,0 +1,33 @@
+{
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "title": "Swimlane input configuration",
+    "description": "The Configuration input of a swimlane",
+    "type": "object",
+    "$id": "swimlane.schema.json",
+    "allOf": [
+        {
+            "$ref": "histogram.schema.json#"
+        }
+    ],
+    "properties": {
+        "swimLaneLabelsWidth": {
+            "description": "The width of swimlane labels space.",
+            "type": "number"
+        },
+        "swimlaneBorderRadius": {
+            "description": "The radius of swimlane bars borders",
+            "type": "number"
+        },
+        "swimlaneHeight": {
+            "description": " The height of a single lane. If not specified, a lane height is the chartHeight devided by the number of lanes.",
+            "type": "number"
+        },
+        "swimlaneMode": {
+            "description": "The swimlane representation mode.",
+            "enum": [
+                "variableHeight",
+                "fixedHeight"
+            ]
+        }
+    }
+}

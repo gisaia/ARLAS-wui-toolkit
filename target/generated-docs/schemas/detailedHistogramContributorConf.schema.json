@@ -1,0 +1,25 @@
+{
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "title": "Detailed Histogram Contributor Configuration",
+    "description": "The Configuration of Detailed Histogram Contributor",
+    "type": "object",
+    "$id": "detailedHistogramContributorConf.schema.json",
+    "allOf": [
+        {
+            "$ref": "histogramContributorConf.schema.json#"
+        }
+    ],
+    "properties": {
+        "annexedContributorId": {
+            "description": "Id of the histogram contributor which fetches data of the main histogram.",
+            "type": "string"
+        },
+        "selectionExtentPercentage": {
+            "description": "Percentage of current selection extent. This percentage will be used to calculate an offset to add to this extent : offset + selectionextent = data extent",
+            "type": "number"
+        }
+    },
+    "required": [
+        "annexedContributorId"
+    ]
+}

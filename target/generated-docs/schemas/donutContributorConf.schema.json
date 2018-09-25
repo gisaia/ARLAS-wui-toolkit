@@ -1,0 +1,25 @@
+{
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "title": "Donuts Contributor Configuration",
+    "description": "The Configuration of Donut Contributor",
+    "type": "object",
+    "$id": "donutContributorConf.schema.json",
+    "allOf": [
+        {
+            "$ref": "rootContributorConf.schema.json#"
+        }
+    ],
+    "properties": {
+        "title": {
+            "description": "Title of Donut",
+            "type": "string"
+        },
+        "arcMinPourcentage": {
+            "description": "The minimum ratio of the arc in its ring needed to be plot. Otherwise the arc is considered as OTHER",
+            "type": "number"
+        }
+    },
+    "required": [
+        "title"
+    ]
+}

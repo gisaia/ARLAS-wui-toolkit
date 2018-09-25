@@ -1,0 +1,13 @@
+{
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "title": "Powerbars input configuration",
+    "description": "The Configuration input of  powerbars",
+    "type": "object",
+    "$id": "powerbars.schema.json",
+    "properties": {
+        "customizedCssClass": {
+            "description": "Css class name to use to customize a specific powerbar's style.",
+            "type": "string"
+        }
+    }
+}
