@@ -19,5 +19,27 @@
     "title": "Toponyme"
   },
   "From": "De",
-  "to": "à"
+  "to": "à",
+  "Datepicker": {
+    "upSecondLabel": "Ajouter une seconde",
+    "downSecondLabel": "Retirer une seconde",
+    "upMinuteLabel": "Ajouter une minute",
+    "downMinuteLabel": "Retirer une minute",
+    "upHourLabel": "Ajouter une heure",
+    "downHourLabel": "Retirer une heure",
+    "prevMonthLabel": "Mois précédent",
+    "nextMonthLabel": "Mois suivant",
+    "prevYearLabel": "Année précédente",
+    "nextYearLabel": "Année suivante",
+    "prevMultiYearLabel": "Les  21 années précédentes",
+    "nextMultiYearLabel": "Les 21 années suivantes",
+    "switchToMonthViewLabel": "Basculer vers la vue mois",
+    "switchToMultiYearViewLabel": "Choisir le mois et l'année",
+    "cancelBtnLabel": "Annuler",
+    "setBtnLabel": "OK",
+    "rangeFromLabel": "Du",
+    "rangeToLabel": "au",
+    "hour12AMLabel": "AM",
+    "hour12PMLabel": "PM"
+  }
 }
