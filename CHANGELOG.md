@@ -1,8 +1,25 @@
 # Change Log
 
+## [v7.4.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v7.4.2) (2018-10-17)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v7.4.1...v7.4.2)
+
+**New stuff:**
+
+- Add a date picker to set Timeline selection [\#85](https://github.com/gisaia/ARLAS-wui-toolkit/issues/85)
+- Add Date Picker [\#88](https://github.com/gisaia/ARLAS-wui-toolkit/pull/88) ([mbarbet](https://github.com/mbarbet))
+
+**Fixed bugs:**
+
+- Remove generated repo [\#83](https://github.com/gisaia/ARLAS-wui-toolkit/pull/83) ([MohamedHamouGisaia](https://github.com/MohamedHamouGisaia))
+
 ## [v7.4.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v7.4.1) (2018-09-25)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v7.4.0...v7.4.1)
+
+**New stuff:**
+
+- Include map extent in the url [\#81](https://github.com/gisaia/ARLAS-wui-toolkit/issues/81)
 
 ## [v7.4.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v7.4.0) (2018-09-14)
 
