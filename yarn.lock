@@ -5783,6 +5783,16 @@ next-tick@1:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-1.0.0.tgz#ca86d1fe8828169b0120208e3dc8424b9db8342c"
 
+ng-pick-datetime-moment@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/ng-pick-datetime-moment/-/ng-pick-datetime-moment-1.0.7.tgz#c95c7d1a028bc39b3a35a4c280306e55ed77276e"
+
+ng-pick-datetime@^5.2.6:
+  version "5.2.6"
+  resolved "https://registry.yarnpkg.com/ng-pick-datetime/-/ng-pick-datetime-5.2.6.tgz#a51f3443eefd5944ae41c556d81fad0c141a412b"
+  dependencies:
+    "@angular/cdk" "^5.2.0"
+
 ngeohash@^0.6.0:
   version "0.6.0"
   resolved "https://registry.yarnpkg.com/ngeohash/-/ngeohash-0.6.0.tgz#329713e9e73d1f1a46d92aab0b94adb94533f687"
