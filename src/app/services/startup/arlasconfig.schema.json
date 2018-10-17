@@ -59,6 +59,13 @@
                                         }
                                     ]
                                 },
+                                "^(topomap\\$).*$": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "topomapContributorConf.schema.json#"
+                                        }
+                                    ]
+                                },
                                 "^(swimlane\\$).*$": {
                                     "allOf": [
                                         {

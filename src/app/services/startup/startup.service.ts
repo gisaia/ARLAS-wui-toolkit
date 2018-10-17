@@ -34,7 +34,8 @@ import {
     SwimLaneContributor,
     ChipsSearchContributor,
     DonutContributor,
-    DetailedHistogramContributor
+    DetailedHistogramContributor,
+    TopoMapContributor
 } from 'arlas-web-contributors';
 import * as rootContributorConfSchema from 'arlas-web-contributors/jsonSchemas/rootContributorConf.schema.json';
 import { ConfigService, CollaborativesearchService } from 'arlas-web-core';
@@ -134,6 +135,7 @@ export class ArlasStartupService {
                     .addSchema(PowerbarsContributor.getJsonSchema())
                     .addSchema(ResultListContributor.getJsonSchema())
                     .addSchema(MapContributor.getJsonSchema())
+                    .addSchema(TopoMapContributor.getJsonSchema())
                     .addSchema(DonutContributor.getJsonSchema())
                     .addSchema(ChipsSearchContributor.getJsonSchema())
                     .addSchema(AnalyticsContributor.getJsonSchema())
