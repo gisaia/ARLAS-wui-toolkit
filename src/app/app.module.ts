@@ -30,10 +30,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
-
 import { DonutModule, HistogramModule, PowerbarsModule, ResultsModule } from 'arlas-web-components';
 import { Observable } from 'rxjs/Observable';
-
 import { AppComponent } from './app.component';
 import { routing } from './app.routes';
 import { AnalyticsBoardComponent } from './components/analytics-board/analytics-board.component';
@@ -47,7 +45,13 @@ import { ArlasBookmarkService } from './services/bookmark/bookmark.service';
 import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from './services/startup/startup.service';
 import { ArlasTagService } from './services/tag/tag.service';
 import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.component';
-import { TimelineComponent, TimelineShortcutComponent, LabelPipe } from './components/timeline/timeline.component';
+import { TimelineComponent } from './components/timeline/timeline/timeline.component';
+import { TimelineShortcutComponent } from './components/timeline/timeline-shortcut/timeline-shortcut.component';
+import { GetTimeLabelPipe } from './pipes/get-time-label.pipe';
+import { DatePickerComponent } from './components/timeline/date-picker/date-picker.component';
+import { OwlDateTimeModule, OwlNativeDateTimeModule, OWL_DATE_TIME_FORMATS, OwlDateTimeIntl, OWL_DATE_TIME_LOCALE } from 'ng-pick-datetime';
+import { ArlasTranslateIntl } from './components/timeline/date-picker/ArlasTranslateIntl';
+
 
 export class CustomTranslateLoader implements TranslateLoader {
 
@@ -75,6 +79,10 @@ export function startupServiceFactory(startupService: ArlasStartupService) {
   return load;
 }
 
+export function localDatePickerFactory(translate: TranslateService) {
+  return translate.currentLang;
+}
+
 export function translationServiceFactory(translate: TranslateService, injector: Injector) {
   const translationLoaded = () => new Promise<any>((resolve: any) => {
     const url = window.location.href;
@@ -85,7 +93,6 @@ export function translationServiceFactory(translate: TranslateService, injector:
     if (results && results[2]) {
       langToSet = decodeURIComponent(results[2].replace(/\+/g, ' '));
     }
-
     const locationInitialized = injector.get(LOCATION_INITIALIZED, Promise.resolve(null));
     locationInitialized.then(() => {
       translate.setDefaultLang('en');
@@ -101,6 +108,7 @@ export function translationServiceFactory(translate: TranslateService, injector:
   return translationLoaded;
 }
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -114,17 +122,19 @@ export function translationServiceFactory(translate: TranslateService, injector:
     TagComponent,
     TagDialogComponent,
     ExcludeTypePipe,
+    GetTimeLabelPipe,
     LanguageSwitcherComponent,
     TimelineComponent,
     TimelineShortcutComponent,
-    LabelPipe
+    DatePickerComponent
+
   ],
   exports: [
     AppComponent,
     WidgetComponent,
     AnalyticsBoardComponent,
     TimelineComponent,
-    LabelPipe,
+    GetTimeLabelPipe,
     TimelineShortcutComponent,
     ShareComponent,
     TagComponent,
@@ -154,6 +164,8 @@ export function translationServiceFactory(translate: TranslateService, injector:
     MatRadioModule,
     MatTooltipModule,
     MatChipsModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
     PowerbarsModule,
     ReactiveFormsModule,
     ResultsModule,
@@ -185,7 +197,14 @@ export function translationServiceFactory(translate: TranslateService, injector:
       useFactory: translationServiceFactory,
       deps: [TranslateService, Injector],
       multi: true
-    }],
+    },
+    {
+      provide: OWL_DATE_TIME_LOCALE,
+      useFactory: localDatePickerFactory,
+      deps: [TranslateService]
+    },
+    { provide: OwlDateTimeIntl, useClass: ArlasTranslateIntl, deps: [TranslateService] }
+  ],
   bootstrap: [AppComponent],
   entryComponents: [ErrorModalMsgComponent, ShareDialogComponent, TagDialogComponent, ConfirmModalComponent],
 })

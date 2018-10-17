@@ -1,0 +1,12 @@
+  <label class="arlas-date-picker-label-from">
+      {{'Datepicker.rangeFromLabel' | translate}}
+    <input class="arlas-date-picker-input-from" [(ngModel)]="startSelectedMoment" [owlDateTimeTrigger]="startDt" [owlDateTime]="startDt"
+      (dateTimeChange)="setDate($event)">
+    <owl-date-time #startDt showSecondsTimer=true></owl-date-time>
+  </label>
+  <label class="arlas-date-picker-label-to">
+      {{'Datepicker.rangeToLabel' | translate}}
+    <input class="arlas-date-picker-input-to" [(ngModel)]="endSelectedMoment" [owlDateTimeTrigger]="endDt" [owlDateTime]="endDt"
+      (dateTimeChange)="setDate($event)">
+    <owl-date-time #endDt showSecondsTimer=true></owl-date-time>
+  </label>
