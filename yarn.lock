@@ -782,9 +782,9 @@ argparse@^1.0.7:
   dependencies:
     sprintf-js "~1.0.2"
 
-arlas-api@7.0.4:
-  version "7.0.4"
-  resolved "https://registry.yarnpkg.com/arlas-api/-/arlas-api-7.0.4.tgz#2056fb9d90910f7165d783db12af83b388436ce7"
+arlas-api@8.0.0:
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/arlas-api/-/arlas-api-8.0.0.tgz#f678f61a06cd10c5c5975fd9482b077b5c51207f"
   dependencies:
     es6-promise "4.2.4"
     portable-fetch "3.0.0"
@@ -801,9 +801,9 @@ arlas-d3@4.3.*:
     rxjs "^5.4.2"
     tinycolor2 "^1.4.1"
 
-arlas-web-components@7.4.*:
-  version "7.4.0"
-  resolved "https://registry.yarnpkg.com/arlas-web-components/-/arlas-web-components-7.4.0.tgz#10b95f777edc302c5958e216f2752294f7f9ef37"
+arlas-web-components@8.0.*:
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/arlas-web-components/-/arlas-web-components-8.0.0.tgz#262d14dbe36bc531eea97a08e85b7a980193acd2"
   dependencies:
     "@angular/animations" "^5.2.0"
     "@angular/cdk" "^5.2.0"
@@ -837,9 +837,9 @@ arlas-web-components@7.4.*:
     tinycolor2 "^1.4.1"
     zone.js "^0.8.19"
 
-arlas-web-contributors@7.4.*:
-  version "7.4.0"
-  resolved "https://registry.yarnpkg.com/arlas-web-contributors/-/arlas-web-contributors-7.4.0.tgz#986d21e85d50020682346a5a5e04076e0a5a4277"
+arlas-web-contributors@8.0.*:
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/arlas-web-contributors/-/arlas-web-contributors-8.0.0.tgz#074beb4e8e121bb82ceb2e68f33e582c2f759864"
   dependencies:
     "@turf/bbox" "^6.0.1"
     "@turf/bbox-polygon" "^6.0.1"
@@ -848,7 +848,7 @@ arlas-web-contributors@7.4.*:
     "@types/file-saver" "^0.0.1"
     "@types/jsonpath" "^0.2.0"
     "@types/tinycolor2" "^1.4.0"
-    arlas-web-core "7.4.*"
+    arlas-web-core "8.0.*"
     file-saver "1.3.3"
     jsonpath "^1.0.0"
     moment "^2.22.1"
@@ -856,11 +856,11 @@ arlas-web-contributors@7.4.*:
     rxjs "^5.5.6"
     tinycolor2 "^1.4.1"
 
-arlas-web-core@7.4.*:
-  version "7.4.0"
-  resolved "https://registry.yarnpkg.com/arlas-web-core/-/arlas-web-core-7.4.0.tgz#90b945f960fe25fee031ddd9601c79b6936bde18"
+arlas-web-core@8.0.*:
+  version "8.0.1"
+  resolved "https://registry.yarnpkg.com/arlas-web-core/-/arlas-web-core-8.0.1.tgz#30aa11ac3d87a07783d2de6ccaee80a087754268"
   dependencies:
-    arlas-api "7.0.4"
+    arlas-api "8.0.0"
     rxjs "^5.5.6"
 
 arr-diff@^1.0.1:

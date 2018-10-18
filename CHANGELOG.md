@@ -1,8 +1,21 @@
 # Change Log
 
+## [v8.0.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v8.0.0) (2018-10-18)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v7.4.3...v8.0.0)
+
+**Breaking changes:**
+
+- Update arlas V8 [\#92](https://github.com/gisaia/ARLAS-wui-toolkit/pull/92) ([mbarbet](https://github.com/mbarbet))
+
 ## [v7.4.3](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v7.4.3) (2018-10-17)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v7.4.2...v7.4.3)
+
+**New stuff:**
+
+- Add min/max date in DatePicker [\#89](https://github.com/gisaia/ARLAS-wui-toolkit/issues/89)
+- Add min/max date in picker [\#90](https://github.com/gisaia/ARLAS-wui-toolkit/pull/90) ([mbarbet](https://github.com/mbarbet))
 
 ## [v7.4.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v7.4.2) (2018-10-17)
 
