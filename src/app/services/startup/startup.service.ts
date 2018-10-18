@@ -55,18 +55,18 @@ export class ArlasConfigService extends ConfigService {
 
 @Injectable()
 export class ArlasExploreApi extends ExploreApi {
-  constructor(@Inject('CONF') conf: Configuration, @Inject('base_path') basePath: string,
-  @Inject('fetch') fetch) {
-    super(conf, basePath, fetch);
-  }
+    constructor( @Inject('CONF') conf: Configuration, @Inject('base_path') basePath: string,
+        @Inject('fetch') fetch) {
+        super(conf, basePath, fetch);
+    }
 }
 
 @Injectable()
 export class ArlasWriteApi extends WriteApi {
-  constructor(@Inject('CONF') conf: Configuration, @Inject('base_path') basePath: string,
-  @Inject('fetch') fetch) {
-    super(conf, basePath, fetch);
-  }
+    constructor( @Inject('CONF') conf: Configuration, @Inject('base_path') basePath: string,
+        @Inject('fetch') fetch) {
+        super(conf, basePath, fetch);
+    }
 }
 
 @Injectable()
@@ -92,22 +92,22 @@ export class ArlasStartupService {
         private collaborativesearchService: ArlasCollaborativesearchService) {
     }
     public loadExtraConfig(extraConfig: ExtraConfig, data: Object): Promise<any> {
-          return this.http.get(extraConfig.configPath)
-              .map((res: Response) => res.json())
-              .toPromise()
-              .then((extraConfigData) => {
-                  if (extraConfigData[extraConfig.replacer] !== undefined) {
-                      this.setAttribute(extraConfig.replacedAttribute, extraConfigData[extraConfig.replacer], data);
-                  } else {
-                      this.shouldRunApp = false;
-                      this.errorMessagesList.push('The replacer : ' + extraConfig.replacer + ' does not exist in your '
-                        + extraConfig.configPath + ' file.' );
-                  }
-              })
-              .catch((err: any) => {
-                  console.log(err);
-                  return Promise.resolve(null);
-              });
+        return this.http.get(extraConfig.configPath)
+            .map((res: Response) => res.json())
+            .toPromise()
+            .then((extraConfigData) => {
+                if (extraConfigData[extraConfig.replacer] !== undefined) {
+                    this.setAttribute(extraConfig.replacedAttribute, extraConfigData[extraConfig.replacer], data);
+                } else {
+                    this.shouldRunApp = false;
+                    this.errorMessagesList.push('The replacer : ' + extraConfig.replacer + ' does not exist in your '
+                        + extraConfig.configPath + ' file.');
+                }
+            })
+            .catch((err: any) => {
+                console.log(err);
+                return Promise.resolve(null);
+            });
     }
 
     public load(configRessource: string): Promise<any> {
@@ -116,14 +116,14 @@ export class ArlasStartupService {
             .get(configRessource)
             .map((res: Response) => res.json())
             .flatMap((response) => {
-              configData = response;
-              if (configData.extraConfigs !== undefined) {
-                const promises = new Array<Promise<any>>();
-                configData.extraConfigs.forEach(extraConfig => promises.push(this.loadExtraConfig(extraConfig, configData)));
-                return Promise.all(promises);
-              } else {
-                return Promise.resolve(null);
-              }
+                configData = response;
+                if (configData.extraConfigs !== undefined) {
+                    const promises = new Array<Promise<any>>();
+                    configData.extraConfigs.forEach(extraConfig => promises.push(this.loadExtraConfig(extraConfig, configData)));
+                    return Promise.all(promises);
+                } else {
+                    return Promise.resolve(null);
+                }
             })
             .toPromise()
             .then(() => {
@@ -153,7 +153,7 @@ export class ArlasStartupService {
                     );
                     this.configService.setConfig({ error: this.errorMessagesList });
                 } else if (!this.shouldRunApp) {
-                  this.configService.setConfig({ error: this.errorMessagesList });
+                    this.configService.setConfig({ error: this.errorMessagesList });
                 } else {
                     this.configService.setConfig(configData);
                     this.collaborativesearchService.setConfigService(this.configService);
@@ -165,11 +165,11 @@ export class ArlasStartupService {
                     );
                     this.collaborativesearchService.setExploreApi(arlasExploreApi);
                     const arlasWriteApi = new ArlasWriteApi(
-                      configuraiton,
-                      this.configService.getValue('arlas.server.url'),
-                      portableFetch
+                        configuraiton,
+                        this.configService.getValue('arlas.server.url'),
+                        portableFetch
                     );
-                    this.collaborativesearchService.setWriteApi( arlasWriteApi);
+                    this.collaborativesearchService.setWriteApi(arlasWriteApi);
                     this.collaborativesearchService.collection = this.configService.getValue('arlas.server.collection.name');
                     this.collaborativesearchService.max_age = this.configService.getValue('arlas.server.max_age');
                     this.collaborativesearchService.resolveHits([projType.count, {}], this.collaborativesearchService.collaborations)
@@ -211,6 +211,17 @@ export class ArlasStartupService {
                                     }
                                 );
                             });
+                        } else if (contributorType === 'map' || contributorType === 'topomap') {
+                            const zoomToPrecisionCluster: Array<Array<number>> = this.configService
+                                .getValue('arlas.web.contributors')[key]['zoomToPrecisionCluster'];
+                            if (zoomToPrecisionCluster.filter(tab => (tab[1] - tab[2]) > 2).length > 0) {
+                                const errorMessage = 'Invalid values in map zoomToPrecisionCluster elements.' +
+                                    'The difference between precision of geohash aggregation and' +
+                                    ' level of geohash to retrieve data like tile' +
+                                    ' must be less or equal to 2.';
+                                this.shouldRunApp = false;
+                                this.configService.setConfig({ error: [errorMessage] });
+                            }
                         }
                         const contributor = ContributorBuilder.buildContributor(contributorType,
                             contributorIdentifier,
@@ -232,24 +243,24 @@ export class ArlasStartupService {
     }
 
     private setAttribute(path, value, object) {
-      const pathToList = path.split('.');
-      const pathLength = pathToList.length;
-      for (let i = 0; i < pathLength - 1; i++) {
-          const element = pathToList[i];
-          if ( !object[element] ) {
-            this.shouldRunApp = false;
-            this.errorMessagesList.push('The attribute : ' + path + ' does not exist in your main configuration.' );
-          }
-          object = object[element];
-      }
-      object[pathToList[pathLength - 1]] = value;
+        const pathToList = path.split('.');
+        const pathLength = pathToList.length;
+        for (let i = 0; i < pathLength - 1; i++) {
+            const element = pathToList[i];
+            if (!object[element]) {
+                this.shouldRunApp = false;
+                this.errorMessagesList.push('The attribute : ' + path + ' does not exist in your main configuration.');
+            }
+            object = object[element];
+        }
+        object[pathToList[pathLength - 1]] = value;
     }
 }
 
 export interface ExtraConfig {
-  configPath: string;
-  replacedAttribute: string;
-  replacer: string;
+    configPath: string;
+    replacedAttribute: string;
+    replacer: string;
 }
 
 
