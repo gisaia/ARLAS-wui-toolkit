@@ -17,10 +17,9 @@
  * under the License.
  */
 import { Injectable } from '@angular/core';
-import { Headers, Http, RequestMethod, RequestOptions } from '@angular/http';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material';
 import { Filter } from 'arlas-api';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 import { ArlasCollaborativesearchService, ArlasConfigService } from '../startup/startup.service';
 
 /** Constants used to fill up our data base. */
@@ -34,7 +33,6 @@ export class ArlasTagService {
   constructor(
     private collaborativeSearchService: ArlasCollaborativesearchService,
     private configService: ArlasConfigService,
-    private http: Http,
     private snackBar: MatSnackBar,
   ) {
     this.server = this.configService.getValue('arlas.server');
@@ -70,10 +68,6 @@ export class ArlasTagService {
   }
 
   public postTagData(data: any, mode: string = 'tag') {
-
-    const requestOptions = {
-      method: 'POST'
-    };
 
     const snackConfig = new MatSnackBarConfig();
     snackConfig.duration = 5000;

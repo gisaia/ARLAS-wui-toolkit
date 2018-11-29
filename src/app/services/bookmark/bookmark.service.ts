@@ -18,18 +18,17 @@
  */
 
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { DataSource } from '@angular/cdk/collections';
 import { Observable } from 'rxjs/Observable';
-import { MatSort, MatDialogRef, MatSnackBar, MatSnackBarConfig } from '@angular/material';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Filter, Expression } from 'arlas-api';
 import { projType, Collaboration } from 'arlas-web-core';
-import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from '../startup/startup.service';
+import { ArlasCollaborativesearchService, ArlasStartupService } from '../startup/startup.service';
 import { BookMarkType, BookMark } from './model';
 import { BookmarkDatabase } from './bookmarkDatabase';
 import { BookmarkDataSource } from './bookmarkDataSource';
 import { getKeyForColor } from './utils';
+import { map } from 'rxjs/operators';
 
 
 /** Constants used to fill up our data base. */
@@ -129,7 +128,7 @@ export class ArlasBookmarkService {
 
   public openSnackBar(message: string) {
     const config = new MatSnackBarConfig();
-    config.extraClasses = ['custom-class'];
+    config.panelClass = ['custom-class'];
     config.duration = 750;
     config.verticalPosition = 'top';
     this.snackBar.open(message, '', config);
@@ -214,9 +213,9 @@ export class ArlasBookmarkService {
     Object.keys(dataModel).forEach(key => {
       filters.push(dataModel[key].filter);
     });
-    return this.collaborativesearchService.resolveComputeHits([projType.count, {}], filters).map(hits => {
+    return this.collaborativesearchService.resolveComputeHits([projType.count, {}], filters).pipe(map(hits => {
       return hits.totalnb;
-    });
+    }));
   }
 
   private getBookmarkById(id: string): BookMark {

@@ -20,7 +20,8 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import { of } from 'rxjs';
+import { pairwise, take, timeoutWith } from 'rxjs/operators';
 import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from './services/startup/startup.service';
 
 
@@ -78,9 +79,11 @@ export class AppComponent implements AfterViewInit, OnInit {
     } else {
 
       this.activatedRoute.queryParams
-        .pairwise()
-        .take(1)
-        .timeoutWith(400, Observable.of('initWithoutFilter'))
+        .pipe(
+          pairwise(),
+          take(1),
+          timeoutWith(400, of('initWithoutFilter'))
+        )
         .subscribe((params) => {
           if (params.toString() === 'initWithoutFilter') {
             this.collaborativeService.setCollaborations({});
@@ -93,10 +96,6 @@ export class AppComponent implements AfterViewInit, OnInit {
             }
           }
         });
-
-      // this.collaborativeService.setCollaborations({});
-      // this.analytics = this.arlasStartupService.analytics;
-      // this.cdr.detectChanges();
     }
   }
 }

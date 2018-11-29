@@ -20,7 +20,6 @@ import { CommonModule, LOCATION_INITIALIZED } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { APP_INITIALIZER, Injector, NgModule, forwardRef } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
 import {
   MatButtonModule, MatCardModule, MatDialogModule,
   MatExpansionModule, MatIconModule, MatRadioModule, MatChipsModule, MatSelectModule,
@@ -148,7 +147,6 @@ export function translationServiceFactory(translate: TranslateService, injector:
     DonutModule,
     FormsModule,
     HistogramModule,
-    HttpModule,
     HttpClientModule,
     MatButtonModule,
     MatCardModule,

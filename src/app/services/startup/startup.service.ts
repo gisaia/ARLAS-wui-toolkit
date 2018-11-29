@@ -17,15 +17,10 @@
  * under the License.
  */
 
-import { Injectable, Inject, OnInit } from '@angular/core';
-import { Http, Response } from '@angular/http';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/toPromise';
-import 'rxjs/add/operator/catch';
-import * as portableFetch from 'portable-fetch';
-import * as ajv from 'ajv';
-
-import { HistogramComponent, PowerbarsComponent, MapglComponent, DonutComponent } from 'arlas-web-components';
+import { HttpClient } from '@angular/common/http';
+import { Inject, Injectable } from '@angular/core';
+import { Configuration, ExploreApi, WriteApi } from 'arlas-api';
+import { DonutComponent, HistogramComponent, MapglComponent, PowerbarsComponent } from 'arlas-web-components';
 import {
     HistogramContributor,
     MapContributor,
@@ -37,14 +32,18 @@ import {
     DetailedHistogramContributor,
     TopoMapContributor
 } from 'arlas-web-contributors';
-import * as rootContributorConfSchema from 'arlas-web-contributors/jsonSchemas/rootContributorConf.schema.json';
-import { ConfigService, CollaborativesearchService } from 'arlas-web-core';
-import { projType } from 'arlas-web-core/models/projections';
-import { Configuration, ExploreApi, WriteApi } from 'arlas-api';
-
-import * as arlasConfSchema from './arlasconfig.schema.json';
-import { ContributorBuilder } from './contributorBuilder';
 import { AnalyticsContributor } from 'arlas-web-contributors/contributors/AnalyticsContributor';
+import * as rootContributorConfSchema from 'arlas-web-contributors/jsonSchemas/rootContributorConf.schema.json';
+import * as portableFetch from 'portable-fetch';
+import * as arlasConfSchema from './arlasconfig.schema.json';
+import * as draftSchema from 'ajv/lib/refs/json-schema-draft-06.json';
+import { CollaborativesearchService, ConfigService } from 'arlas-web-core';
+import { projType } from 'arlas-web-core/models/projections';
+import { ContributorBuilder } from './contributorBuilder';
+import { flatMap } from 'rxjs/operators';
+import ajv from 'ajv';
+
+
 
 @Injectable()
 export class ArlasConfigService extends ConfigService {
@@ -87,48 +86,48 @@ export class ArlasStartupService {
     public temporalContributor: Array<string> = new Array<string>();
     private errorMessagesList = new Array<string>();
 
-    constructor(private http: Http,
+    constructor(private http: HttpClient,
         private configService: ArlasConfigService,
         private collaborativesearchService: ArlasCollaborativesearchService) {
     }
     public loadExtraConfig(extraConfig: ExtraConfig, data: Object): Promise<any> {
-        return this.http.get(extraConfig.configPath)
-            .map((res: Response) => res.json())
-            .toPromise()
-            .then((extraConfigData) => {
-                if (extraConfigData[extraConfig.replacer] !== undefined) {
-                    this.setAttribute(extraConfig.replacedAttribute, extraConfigData[extraConfig.replacer], data);
-                } else {
-                    this.shouldRunApp = false;
-                    this.errorMessagesList.push('The replacer : ' + extraConfig.replacer + ' does not exist in your '
-                        + extraConfig.configPath + ' file.');
-                }
-            })
-            .catch((err: any) => {
-                console.log(err);
-                return Promise.resolve(null);
-            });
+          return this.http.get(extraConfig.configPath)
+              .toPromise()
+              .then((extraConfigData) => {
+                  if (extraConfigData[extraConfig.replacer] !== undefined) {
+                      this.setAttribute(extraConfig.replacedAttribute, extraConfigData[extraConfig.replacer], data);
+                  } else {
+                      this.shouldRunApp = false;
+                      this.errorMessagesList.push('The replacer : ' + extraConfig.replacer + ' does not exist in your '
+                        + extraConfig.configPath + ' file.' );
+                  }
+              })
+              .catch((err: any) => {
+                  console.log(err);
+                  return Promise.resolve(null);
+              });
     }
 
     public load(configRessource: string): Promise<any> {
         let configData;
         const ret = this.http
             .get(configRessource)
-            .map((res: Response) => res.json())
-            .flatMap((response) => {
-                configData = response;
-                if (configData.extraConfigs !== undefined) {
-                    const promises = new Array<Promise<any>>();
-                    configData.extraConfigs.forEach(extraConfig => promises.push(this.loadExtraConfig(extraConfig, configData)));
-                    return Promise.all(promises);
-                } else {
-                    return Promise.resolve(null);
-                }
-            })
+            .pipe(flatMap((response) => {
+              configData = response;
+              if (configData.extraConfigs !== undefined) {
+                const promises = new Array<Promise<any>>();
+                configData.extraConfigs.forEach(extraConfig => promises.push(this.loadExtraConfig(extraConfig, configData)));
+                return Promise.all(promises);
+              } else {
+                return Promise.resolve(null);
+              }
+            }))
             .toPromise()
             .then(() => {
-                const validateConfig = ajv()
-                    .addSchema(rootContributorConfSchema)
+                const ajvObj =  ajv();
+                const validateConfig = ajvObj
+                    .addMetaSchema(draftSchema.default)
+                    .addSchema((<any>rootContributorConfSchema).default)
                     .addSchema(HistogramContributor.getJsonSchema())
                     .addSchema(DetailedHistogramContributor.getJsonSchema())
                     .addSchema(SwimLaneContributor.getJsonSchema())
@@ -139,12 +138,12 @@ export class ArlasStartupService {
                     .addSchema(DonutContributor.getJsonSchema())
                     .addSchema(ChipsSearchContributor.getJsonSchema())
                     .addSchema(AnalyticsContributor.getJsonSchema())
-                    .addSchema(HistogramComponent.getHistogramJsonSchema())
-                    .addSchema(HistogramComponent.getSwimlaneJsonSchema())
-                    .addSchema(PowerbarsComponent.getPowerbarsJsonSchema())
-                    .addSchema(MapglComponent.getMapglJsonSchema())
-                    .addSchema(DonutComponent.getDonutJsonSchema())
-                    .compile(arlasConfSchema);
+                    .addSchema((<any>HistogramComponent.getHistogramJsonSchema()).default)
+                    .addSchema((<any>HistogramComponent.getSwimlaneJsonSchema()).default)
+                    .addSchema((<any>PowerbarsComponent.getPowerbarsJsonSchema()).default)
+                    .addSchema((<any>MapglComponent.getMapglJsonSchema()).default)
+                    .addSchema((<any>DonutComponent.getDonutJsonSchema()).default)
+                    .compile((<any>arlasConfSchema).default);
                 if (validateConfig(configData) === false) {
                     this.shouldRunApp = false;
                     this.errorMessagesList.push(

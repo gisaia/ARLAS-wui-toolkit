@@ -1,1 +1,46 @@
-{"compileOnSave":false,"compilerOptions":{"outDir":"./dist/","baseUrl":"src","sourceMap":true,"declaration":true,"target":"es5","module":"es2015","moduleResolution":"node","emitDecoratorMetadata":true,"experimentalDecorators":true,"stripInternal":true,"skipLibCheck":true,"types":[],"typeRoots":["node_modules/@types"],"lib":["es2015","es6","dom"]},"files":["src/app/index.ts"],"include":["src/app/**/*"],"exclude":["node_modules","dist","src/app/**/*.spec.*","e2e/"],"angularCompilerOptions":{"genDir":"dist","strictMetadataEmit":true,"annotateForClosureCompiler":false,"skipTemplateCodegen":true}}
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "baseUrl": "src/app/",
+    "sourceMap": true,
+    "declaration": true,
+    "target": "es5",
+    "module": "es2015",
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "stripInternal": true,
+    "skipLibCheck": true,
+    "types": [],
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "lib": [
+      "es2015",
+      "es6",
+      "dom"
+    ]
+  },
+  "files": [
+    "src/app/index.ts"
+  ],
+  "include": [
+    "src/app/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "src/app/**/*.spec.*",
+    "e2e/"
+  ],
+  "angularCompilerOptions": {
+    "genDir": "dist",
+    "strictMetadataEmit": true,
+    "annotateForClosureCompiler": false,
+    "skipTemplateCodegen": true,
+    "fullTemplateTypeCheck": true
+  }
+}

@@ -18,7 +18,6 @@
  */
 import { Component, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Http } from '@angular/http';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { Subject } from 'rxjs/Subject';
 import { ArlasCollaborativesearchService, ArlasConfigService } from '../../services/startup/startup.service';
@@ -70,7 +69,6 @@ export class TagDialogComponent implements OnInit {
     public tagService: ArlasTagService,
     private configService: ArlasConfigService,
     private collaborativeSearchService: ArlasCollaborativesearchService,
-    private http: Http,
     private dialog: MatDialog,
     public dialogRef: MatDialogRef<TagDialogComponent>
   ) {

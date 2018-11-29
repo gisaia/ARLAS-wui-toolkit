@@ -20,6 +20,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ArlasConfigService, ArlasCollaborativesearchService } from '../../services/startup/startup.service';
 import { MatDialog, MatDialogRef } from '@angular/material';
+import { debounceTime, bufferWhen } from 'rxjs/operators';
 
 @Component({
   selector: 'arlas-tool-errormodal',
@@ -34,7 +35,7 @@ export class ErrormodalComponent implements OnInit {
   }
   public ngOnInit() {
     this.configService.confErrorBus
-      .bufferWhen(() => this.configService.confErrorBus.debounceTime(5000))
+    .pipe(bufferWhen(() => this.configService.confErrorBus.pipe(debounceTime(5000))))
       .subscribe(k => {
         this.openDialog();
         const listError = [];
@@ -47,7 +48,7 @@ export class ErrormodalComponent implements OnInit {
         this.dialogRef.componentInstance.messages = listError;
       });
     this.collaborativeService.collaborationErrorBus
-      .bufferWhen(() => this.collaborativeService.collaborationErrorBus.debounceTime(5000))
+      .pipe(bufferWhen(() => this.collaborativeService.collaborationErrorBus.pipe(debounceTime(5000))))
       .subscribe(response => {
         this.openDialog();
         this.dialogRef.componentInstance.messages = response;

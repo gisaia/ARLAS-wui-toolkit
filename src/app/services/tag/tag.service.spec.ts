@@ -18,7 +18,7 @@
  */
 import { APP_BASE_HREF } from '@angular/common';
 import { TestBed, inject } from '@angular/core/testing';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import { MatSnackBarModule } from '@angular/material';
 import { ArlasToolKitModule } from '../../app.module';
 import { ArlasCollaborativesearchService } from '../startup/startup.service';
@@ -28,7 +28,7 @@ describe('ArlasTagService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [ArlasTagService, ArlasCollaborativesearchService, { provide: APP_BASE_HREF, useValue: '/' }],
-      imports: [MatSnackBarModule, HttpModule, ArlasToolKitModule]
+      imports: [MatSnackBarModule, HttpClientModule, ArlasToolKitModule]
     });
   });
 

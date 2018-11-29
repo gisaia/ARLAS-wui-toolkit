@@ -23,7 +23,7 @@ import { ArlasBookmarkService } from './bookmark.service';
 import { ArlasCollaborativesearchService } from '../startup/startup.service';
 import { MatSnackBarModule } from '@angular/material';
 import { RouterModule} from '@angular/router';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import { routing } from '../../app.routes';
 import { ArlasToolKitModule } from '../../app.module';
 import { APP_BASE_HREF } from '@angular/common';
@@ -32,7 +32,7 @@ describe('BookmarkService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [ArlasBookmarkService, ArlasCollaborativesearchService, { provide: APP_BASE_HREF, useValue: '/' }],
-      imports: [MatSnackBarModule, RouterModule, HttpModule, routing, ArlasToolKitModule]
+      imports: [MatSnackBarModule, RouterModule, HttpClientModule, routing, ArlasToolKitModule]
 
     });
   });

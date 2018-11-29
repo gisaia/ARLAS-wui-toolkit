@@ -5,7 +5,6 @@ import { DatePickerComponent } from '../../timeline/date-picker/date-picker.comp
 import { ArlasCollaborativesearchService, ArlasStartupService, ArlasConfigService } from '../../../services/startup/startup.service';
 import { OwlDateTimeModule } from 'ng-pick-datetime';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
 import {
   MatButtonModule, MatCardModule, MatExpansionModule, MatIconModule, MatSelectModule,
   MatTooltipModule, MatChipsModule
@@ -15,6 +14,8 @@ import {
 } from 'ng-pick-datetime';
 import { BrowserModule } from '@angular/platform-browser';
 import { GetTimeLabelPipe } from '../../../.../../pipes/get-time-label.pipe';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+
 describe('TimelineShortcutComponent', () => {
   let component: TimelineShortcutComponent;
   let fixture: ComponentFixture<TimelineShortcutComponent>;
@@ -24,14 +25,14 @@ describe('TimelineShortcutComponent', () => {
       declarations: [TimelineShortcutComponent, DatePickerComponent, GetTimeLabelPipe],
       imports: [
         MatCardModule, MatIconModule, MatExpansionModule, MatSelectModule, MatButtonModule, MatChipsModule,
-        OwlDateTimeModule, FormsModule, HttpModule,
+        OwlDateTimeModule, FormsModule, HttpClientModule,
         MatTooltipModule, BrowserModule,
         TranslateModule.forRoot({
           loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
         })
       ],
       providers: [
-        { provide: OWL_DATE_TIME_LOCALE, useValue: 'fr' },
+        { provide: OWL_DATE_TIME_LOCALE, useValue: 'fr' }, HttpClient,
         ArlasCollaborativesearchService, ArlasStartupService, ArlasConfigService, TranslateService,
 
       ]
