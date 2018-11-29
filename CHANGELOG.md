@@ -1,5 +1,14 @@
 # Change Log
 
+## [v9.0.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v9.0.0) (2018-11-29)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v8.0.0...v9.0.0)
+
+**New stuff:**
+
+- Add a check to zoomToPrecisionCluster configuration properties [\#86](https://github.com/gisaia/ARLAS-wui-toolkit/issues/86)
+- Add check in zoomToPrecisionCluster config [\#93](https://github.com/gisaia/ARLAS-wui-toolkit/pull/93) ([mbarbet](https://github.com/mbarbet))
+
 ## [v8.0.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v8.0.0) (2018-10-18)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v7.4.3...v8.0.0)
@@ -7,6 +16,10 @@
 **Breaking changes:**
 
 - Update arlas V8 [\#92](https://github.com/gisaia/ARLAS-wui-toolkit/pull/92) ([mbarbet](https://github.com/mbarbet))
+
+**New stuff:**
+
+- Update Arlas module  Version [\#91](https://github.com/gisaia/ARLAS-wui-toolkit/issues/91)
 
 ## [v7.4.3](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v7.4.3) (2018-10-17)
 
