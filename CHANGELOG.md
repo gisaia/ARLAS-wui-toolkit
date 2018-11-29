@@ -1,8 +1,16 @@
 # Change Log
 
+## [v9.0.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v9.0.1) (2018-11-29)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v9.0.0...v9.0.1)
+
 ## [v9.0.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v9.0.0) (2018-11-29)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v8.0.0...v9.0.0)
+
+**Breaking changes:**
+
+- Update Angular version to 7 [\#87](https://github.com/gisaia/ARLAS-wui-toolkit/issues/87)
 
 **New stuff:**
 
