@@ -28,12 +28,12 @@ import { ArlasCollaborativesearchService, ArlasStartupService, ArlasConfigServic
 import { WidgetComponent } from '../../widget/widget.component';
 import { TimelineComponent } from './timeline.component';
 import { TranslateModule, TranslateService, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
-import { HttpModule } from '@angular/http';
 import { TimelineShortcutComponent } from '../../timeline/timeline-shortcut/timeline-shortcut.component';
 import { GetTimeLabelPipe } from '../../../pipes/get-time-label.pipe';
 import { DatePickerComponent } from 'app/components/timeline/date-picker/date-picker.component';
 import { OwlNativeDateTimeModule, OwlDateTimeModule } from 'ng-pick-datetime';
 import { FormsModule } from '@angular/forms';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 describe('TimelineComponent', () => {
   let component: TimelineComponent;
@@ -44,14 +44,14 @@ describe('TimelineComponent', () => {
       declarations: [TimelineComponent, DatePickerComponent, WidgetComponent, TimelineShortcutComponent, GetTimeLabelPipe],
       imports: [
         MatCardModule, MatIconModule, MatExpansionModule, MatSelectModule, MatButtonModule, MatChipsModule,
-        OwlDateTimeModule, OwlNativeDateTimeModule, FormsModule,
-        MatTooltipModule, BrowserModule, HistogramModule, ResultsModule, PowerbarsModule, DonutModule, HttpModule,
+        OwlDateTimeModule, OwlNativeDateTimeModule, FormsModule, HttpClientModule,
+        MatTooltipModule, BrowserModule, HistogramModule, ResultsModule, PowerbarsModule, DonutModule,
         TranslateModule.forRoot({
           loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
         })
       ],
       providers: [
-        ArlasCollaborativesearchService, ArlasStartupService, ArlasConfigService, TranslateService
+        ArlasCollaborativesearchService, ArlasStartupService, ArlasConfigService, TranslateService, HttpClient
       ]
     })
       .compileComponents();

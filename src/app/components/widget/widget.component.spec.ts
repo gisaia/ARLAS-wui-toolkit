@@ -5,7 +5,7 @@ import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupServic
 import { HistogramModule, ResultsModule, DonutModule } from 'arlas-web-components';
 import { PowerbarsModule } from 'arlas-web-components/powerbars/powerbars.module';
 import { MatSelectModule } from '@angular/material';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import { TranslateModule, TranslateService, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
 
 describe('WidgetComponent', () => {
@@ -22,7 +22,7 @@ describe('WidgetComponent', () => {
         ResultsModule,
         DonutModule,
         MatSelectModule,
-        HttpModule,
+        HttpClientModule,
         TranslateModule.forRoot({
           loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
         })

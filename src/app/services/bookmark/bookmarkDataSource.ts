@@ -17,12 +17,13 @@
  * under the License.
  */
 
-import { Observable } from 'rxjs/Observable';
+import { Observable, merge } from 'rxjs';
 import { BookMark } from './model';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { DataSource } from '@angular/cdk/collections';
 import { BookmarkDatabase } from './bookmarkDatabase';
 import { sortOnDate } from './utils';
+import { map } from 'rxjs/operators';
 
 export class BookmarkDataSource extends DataSource<any> {
   private _filterChange = new BehaviorSubject('');
@@ -39,11 +40,11 @@ export class BookmarkDataSource extends DataSource<any> {
 
 
     ];
-    return Observable.merge(...displayDataChanges).map(() => {
+    return merge(...displayDataChanges).pipe(map(() => {
       localStorage.setItem('bookmark', JSON.stringify(this._bookmarkDatabase.data));
       return this.getSortedData();
 
-    });
+    }));
   }
 
   public disconnect() { }

@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { utcFormat } from 'd3';
+import { utcFormat } from 'd3-time-format';
 
 @Pipe({
   name: 'getTimeLabel'

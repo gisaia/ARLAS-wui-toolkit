@@ -4,6 +4,7 @@ import { StringifiedTimeShortcut, SelectedOutputValues } from 'arlas-web-contrib
 import { ArlasCollaborativesearchService, ArlasStartupService } from './../../../services/startup/startup.service';
 import { TranslateService } from '@ngx-translate/core';
 import { OperationEnum } from 'arlas-web-core';
+import { filter } from 'rxjs/internal/operators/filter';
 
 @Component({
   selector: 'arlas-timeline-shortcut',
@@ -26,7 +27,7 @@ export class TimelineShortcutComponent implements OnInit {
 
   constructor(private arlasCollaborativesearchService: ArlasCollaborativesearchService, private arlasStartupService: ArlasStartupService,
     public translate: TranslateService) {
-    this.arlasCollaborativesearchService.collaborationBus.filter(c => (c.id === this.timelineComponent.contributorId || c.all))
+    this.arlasCollaborativesearchService.collaborationBus.pipe(filter(c => (c.id === this.timelineComponent.contributorId || c.all)))
       .subscribe(data => {
         if (this.timelineContributor.timeLabel !== undefined && this.timelineContributor.timeLabel.indexOf('to') === -1) {
           this.isShortcutSelected = true;
@@ -81,7 +82,7 @@ export class TimelineShortcutComponent implements OnInit {
 
 
   private setRemoveIconVisibility(): void {
-    this.arlasCollaborativesearchService.collaborationBus.filter(c => (c.id === this.timelineComponent.contributorId || c.all))
+    this.arlasCollaborativesearchService.collaborationBus.pipe(filter(c => (c.id === this.timelineComponent.contributorId || c.all)))
       .subscribe(c => {
         if (c.operation === OperationEnum.remove) {
           this.showRemoveIcon = false;

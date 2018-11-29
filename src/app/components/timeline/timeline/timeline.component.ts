@@ -22,10 +22,11 @@ import { HistogramContributor, DetailedHistogramContributor } from 'arlas-web-co
 import { OperationEnum } from 'arlas-web-core';
 import { ArlasCollaborativesearchService, ArlasStartupService } from './../../../services/startup/startup.service';
 import { StringifiedTimeShortcut, SelectedOutputValues } from 'arlas-web-contributors/models/models';
-import { utcFormat } from 'd3';
+import { utcFormat } from 'd3-time-format';
 import { TranslateService } from '@ngx-translate/core';
 import { ChartType, DataType, Position } from 'arlas-d3';
 import { HistogramComponent } from 'arlas-web-components';
+import { filter } from 'rxjs/internal/operators/filter';
 
 @Component({
   selector: 'arlas-timeline',
@@ -89,7 +90,7 @@ export class TimelineComponent implements OnInit {
    * Sets current selection of detailed timeline after it is plotted
    * Applies the current selection of detailed timeline on the main timeline
    */
-  public afterDetailedDataPlotted() {
+  public afterDetailedDataPlotted(e) {
     if (this.isDetailedIntervalBrushed) {  // If detailed timeline is replotted after moving its own brush.
       // Reset current selection of detailed timeline after it is plotted
       this.detailedTimelineIntervalSelection = {
@@ -114,7 +115,7 @@ export class TimelineComponent implements OnInit {
   }
 
   private showDetailedTimelineOnCollaborationEnd(): void {
-    this.arlasCollaborativesearchService.collaborationBus.filter(c => (c.id === this.timelineComponent.contributorId || c.all))
+    this.arlasCollaborativesearchService.collaborationBus.pipe(filter(c => (c.id === this.timelineComponent.contributorId || c.all)))
       .subscribe(c => {
         if (c.operation === OperationEnum.remove) {
           this.timelineIsFiltered = false;

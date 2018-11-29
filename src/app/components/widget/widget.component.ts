@@ -18,8 +18,8 @@ import { HistogramContributor } from 'arlas-web-contributors';
  * under the License.
  */
 
-import { Component, OnInit, Input, AfterViewInit, ViewChild, ChangeDetectorRef, ComponentFactoryResolver, Output } from '@angular/core';
-import { ArlasStartupService, ArlasConfigService, ArlasCollaborativesearchService } from '../../services/startup/startup.service';
+import { Component, OnInit, Input, ViewChild, ChangeDetectorRef, ComponentFactoryResolver, Output } from '@angular/core';
+import { ArlasStartupService, ArlasCollaborativesearchService } from '../../services/startup/startup.service';
 import { Contributor, CollaborationEvent, OperationEnum } from 'arlas-web-core';
 import { contributors } from 'arlas-web-contributors';
 import { ChartType, HistogramComponent, Position, SwimlaneMode, DonutComponent } from 'arlas-web-components';
@@ -87,6 +87,10 @@ export class WidgetComponent implements OnInit {
     this.arlasCollaborativesearchService.collaborationBus.next(collaborationEvent);
   }
 
+  public emitEvent(source: string, event: string, data: any) {
+    this.outEvents.next({ origin: source, event: event, data: data });
+  }
+
   private getComponentType() {
     const contributor: Contributor = this.arlasStartupService.contributorRegistry.get(this.contributorId);
     if (contributor) {
@@ -121,9 +125,4 @@ export class WidgetComponent implements OnInit {
       });
     }
   }
-
-  private emitEvent(source: string, event: string, data: any) {
-    this.outEvents.next({ origin: source, event: event, data: data });
-  }
 }
-

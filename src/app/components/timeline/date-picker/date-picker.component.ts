@@ -66,7 +66,7 @@ export class DatePickerComponent implements OnInit, OnChanges {
       selectedIntervalsList.push(intervalSelection);
     });
     selectedIntervalsList
-    .push({ startvalue: moment.utc(this.startSelectedMoment).valueOf(), endvalue: moment.utc(this.endSelectedMoment).valueOf() });
+      .push({ startvalue: moment.utc(this.startSelectedMoment).valueOf(), endvalue: moment.utc(this.endSelectedMoment).valueOf() });
     this.timelineContributor.valueChanged(selectedIntervalsList);
   }
 

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import {
   MatAutocompleteModule,
   MatDialogModule,
@@ -24,7 +24,7 @@ describe('TagComponent', () => {
       imports: [
         ReactiveFormsModule, MatAutocompleteModule,
         MatInputModule, FormsModule, BrowserAnimationsModule,
-        MatIconModule, HttpModule, MatDialogModule, MatStepperModule,
+        MatIconModule, HttpClientModule, MatDialogModule, MatStepperModule,
         MatRadioModule, MatSelectModule
       ],
       declarations: [TagComponent],

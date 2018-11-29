@@ -8,7 +8,7 @@ import {
   OWL_DATE_TIME_LOCALE, OwlNativeDateTimeModule
 } from 'ng-pick-datetime';
 import { TranslateModule, TranslateLoader, TranslateFakeLoader, TranslateService } from '@ngx-translate/core';
-import { HttpModule } from '@angular/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 export const MY_CUSTOM_FORMATS = {
   parseInput: 'lll',
   fullPickerInput: 'll LTS',
@@ -26,13 +26,13 @@ describe('DatePickerComponent', () => {
     TestBed.configureTestingModule({
       declarations: [DatePickerComponent],
       imports: [
-        OwlDateTimeModule, FormsModule, HttpModule,
+        OwlDateTimeModule, FormsModule, HttpClientModule,
         TranslateModule.forRoot({
           loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
         })
       ],
       providers: [
-        { provide: OWL_DATE_TIME_LOCALE, useValue: 'fr' },
+        { provide: OWL_DATE_TIME_LOCALE, useValue: 'fr' }, HttpClient,
 
         ArlasCollaborativesearchService, ArlasStartupService, ArlasConfigService, TranslateService,
         { provide: DateTimeAdapter, useClass: MomentDateTimeAdapter, deps: [OWL_DATE_TIME_LOCALE] },

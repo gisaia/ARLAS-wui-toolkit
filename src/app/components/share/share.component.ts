@@ -18,7 +18,6 @@
  */
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Http } from '@angular/http';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { Aggregation, Filter } from 'arlas-api';
 import { projType } from 'arlas-web-core';
@@ -93,7 +92,6 @@ export class ShareDialogComponent implements OnInit {
 
   constructor(
     private _formBuilder: FormBuilder,
-    private http: Http,
     private collaborativeService: ArlasCollaborativesearchService,
     private configService: ArlasConfigService,
     public dialogRef: MatDialogRef<ShareDialogComponent>
