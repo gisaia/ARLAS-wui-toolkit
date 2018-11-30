@@ -33,7 +33,6 @@ import {
     TopoMapContributor
 } from 'arlas-web-contributors';
 import { AnalyticsContributor } from 'arlas-web-contributors/contributors/AnalyticsContributor';
-import * as rootContributorConfSchema from 'arlas-web-contributors/jsonSchemas/rootContributorConf.schema.json';
 import * as portableFetch from 'portable-fetch';
 import * as arlasConfSchema from './arlasconfig.schema.json';
 import * as draftSchema from 'ajv/lib/refs/json-schema-draft-06.json';
@@ -42,6 +41,8 @@ import { projType } from 'arlas-web-core/models/projections';
 import { ContributorBuilder } from './contributorBuilder';
 import { flatMap } from 'rxjs/operators';
 import ajv from 'ajv';
+import * as rootContributorConfSchema from 'arlas-web-contributors/jsonSchemas/rootContributorConf.schema.json';
+
 
 
 
