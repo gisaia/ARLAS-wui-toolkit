@@ -50,8 +50,7 @@ export class ErrormodalComponent implements OnInit {
     this.collaborativeService.collaborationErrorBus
       .pipe(bufferWhen(() => this.collaborativeService.collaborationErrorBus.pipe(debounceTime(5000))))
       .subscribe(response => {
-        this.openDialog();
-        this.dialogRef.componentInstance.messages = response;
+        console.log(response);
       });
   }
   public openDialog() {

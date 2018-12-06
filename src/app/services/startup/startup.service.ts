@@ -42,8 +42,7 @@ import { ContributorBuilder } from './contributorBuilder';
 import { flatMap } from 'rxjs/operators';
 import ajv from 'ajv';
 import * as rootContributorConfSchema from 'arlas-web-contributors/jsonSchemas/rootContributorConf.schema.json';
-
-
+import { Observable, Subject } from 'rxjs';
 
 
 @Injectable()
@@ -55,7 +54,7 @@ export class ArlasConfigService extends ConfigService {
 
 @Injectable()
 export class ArlasExploreApi extends ExploreApi {
-    constructor( @Inject('CONF') conf: Configuration, @Inject('base_path') basePath: string,
+    constructor(@Inject('CONF') conf: Configuration, @Inject('base_path') basePath: string,
         @Inject('fetch') fetch) {
         super(conf, basePath, fetch);
     }
@@ -63,7 +62,7 @@ export class ArlasExploreApi extends ExploreApi {
 
 @Injectable()
 export class ArlasWriteApi extends WriteApi {
-    constructor( @Inject('CONF') conf: Configuration, @Inject('base_path') basePath: string,
+    constructor(@Inject('CONF') conf: Configuration, @Inject('base_path') basePath: string,
         @Inject('fetch') fetch) {
         super(conf, basePath, fetch);
     }
@@ -81,6 +80,7 @@ export class ArlasStartupService {
 
     public contributorRegistry: Map<string, any> = new Map<string, any>();
     public shouldRunApp = true;
+    public arlasIsUp: Subject<boolean> = new Subject<boolean>();
     public analytics: Array<{ groupId: string, components: Array<any> }>;
     public collectionId: string;
     public selectorById: string;
@@ -92,21 +92,21 @@ export class ArlasStartupService {
         private collaborativesearchService: ArlasCollaborativesearchService) {
     }
     public loadExtraConfig(extraConfig: ExtraConfig, data: Object): Promise<any> {
-          return this.http.get(extraConfig.configPath)
-              .toPromise()
-              .then((extraConfigData) => {
-                  if (extraConfigData[extraConfig.replacer] !== undefined) {
-                      this.setAttribute(extraConfig.replacedAttribute, extraConfigData[extraConfig.replacer], data);
-                  } else {
-                      this.shouldRunApp = false;
-                      this.errorMessagesList.push('The replacer : ' + extraConfig.replacer + ' does not exist in your '
-                        + extraConfig.configPath + ' file.' );
-                  }
-              })
-              .catch((err: any) => {
-                  console.log(err);
-                  return Promise.resolve(null);
-              });
+        return this.http.get(extraConfig.configPath)
+            .toPromise()
+            .then((extraConfigData) => {
+                if (extraConfigData[extraConfig.replacer] !== undefined) {
+                    this.setAttribute(extraConfig.replacedAttribute, extraConfigData[extraConfig.replacer], data);
+                } else {
+                    this.shouldRunApp = false;
+                    this.errorMessagesList.push('The replacer : ' + extraConfig.replacer + ' does not exist in your '
+                        + extraConfig.configPath + ' file.');
+                }
+            })
+            .catch((err: any) => {
+                console.log(err);
+                return Promise.resolve(null);
+            });
     }
 
     public load(configRessource: string): Promise<any> {
@@ -114,18 +114,18 @@ export class ArlasStartupService {
         const ret = this.http
             .get(configRessource)
             .pipe(flatMap((response) => {
-              configData = response;
-              if (configData.extraConfigs !== undefined) {
-                const promises = new Array<Promise<any>>();
-                configData.extraConfigs.forEach(extraConfig => promises.push(this.loadExtraConfig(extraConfig, configData)));
-                return Promise.all(promises);
-              } else {
-                return Promise.resolve(null);
-              }
+                configData = response;
+                if (configData.extraConfigs !== undefined) {
+                    const promises = new Array<Promise<any>>();
+                    configData.extraConfigs.forEach(extraConfig => promises.push(this.loadExtraConfig(extraConfig, configData)));
+                    return Promise.all(promises);
+                } else {
+                    return Promise.resolve(null);
+                }
             }))
             .toPromise()
             .then(() => {
-                const ajvObj =  ajv();
+                const ajvObj = ajv();
                 const validateConfig = ajvObj
                     .addMetaSchema(draftSchema.default)
                     .addSchema((<any>rootContributorConfSchema).default)
@@ -174,11 +174,12 @@ export class ArlasStartupService {
                     this.collaborativesearchService.max_age = this.configService.getValue('arlas.server.max_age');
                     this.collaborativesearchService.resolveHits([projType.count, {}], this.collaborativesearchService.collaborations)
                         .subscribe(
-                        result => { this.shouldRunApp = true; },
-                        error => {
-                            this.shouldRunApp = false;
-                            alert('Unreachable ARLAS Server : ' + this.configService.getValue('arlas.server.url'));
-                        });
+                            result => {
+                                this.arlasIsUp.next(true);
+                            },
+                            error => {
+                                this.arlasIsUp.next(false);
+                            });
                 }
                 if (this.shouldRunApp) {
                     Object.keys(this.configService.getValue('arlas.web.contributors')).forEach(key => {
