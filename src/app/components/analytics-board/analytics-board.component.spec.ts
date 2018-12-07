@@ -5,7 +5,8 @@ import {
   MatExpansionModule,
   MatSelectModule,
   MatButtonModule,
-  MatTooltipModule
+  MatTooltipModule,
+  MatBadgeModule
 } from '@angular/material';
 import { AnalyticsBoardComponent } from './analytics-board.component';
 import { WidgetComponent } from '../widget/widget.component';
@@ -14,6 +15,7 @@ import {
   HistogramModule, ResultsModule, PowerbarsModule, DonutModule
 } from 'arlas-web-components';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { ArlasCollaborativesearchService } from '../../services/startup/startup.service';
 
 describe('AnalyticsBoardComponent', () => {
   let component: AnalyticsBoardComponent;
@@ -26,10 +28,11 @@ describe('AnalyticsBoardComponent', () => {
       ],
       imports: [
         MatCardModule, MatIconModule, MatExpansionModule, MatSelectModule, MatButtonModule,
-        MatTooltipModule, BrowserModule, HistogramModule, ResultsModule, PowerbarsModule, DonutModule, TranslateModule
+        MatTooltipModule, BrowserModule, HistogramModule, ResultsModule, PowerbarsModule,
+        DonutModule, TranslateModule, MatBadgeModule
       ],
       providers: [
-        TranslateService
+        TranslateService, ArlasCollaborativesearchService
       ]
     })
       .compileComponents();

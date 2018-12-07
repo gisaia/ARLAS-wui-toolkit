@@ -50,3 +50,16 @@
   align-items: center;
   padding: 3px 0 0 25px;
 }
+
+.analytics-board-compact{
+  width: 48px;
+}
+
+.analytics-board-compact .mat-card{
+  padding: 10px;
+  border-radius: 0px;
+}
+
+.analytics-compact-card{
+  cursor: pointer;
+}

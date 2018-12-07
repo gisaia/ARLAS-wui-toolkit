@@ -17,9 +17,10 @@
  * under the License.
  */
 
-import { Component, Input, Output, OnInit, AfterViewInit } from '@angular/core';
+import { Component, Input, Output, OnInit, AfterViewInit, Renderer2 } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { AnalyticGroupConfiguration } from './analytics.utils';
+import { ArlasCollaborativesearchService } from '../../services/startup/startup.service';
 /**
  * This component organizes the `Widgets` in a board.
  * A Widget is declared within a "group" in the configuration. A group contains one or more Widgets
@@ -29,7 +30,8 @@ import { AnalyticGroupConfiguration } from './analytics.utils';
   templateUrl: './analytics-board.component.html',
   styleUrls: ['./analytics-board.component.css']
 })
-export class AnalyticsBoardComponent implements OnInit {
+export class AnalyticsBoardComponent implements OnInit, AfterViewInit {
+
 
   /**
    * @Input : Angular
@@ -47,15 +49,54 @@ export class AnalyticsBoardComponent implements OnInit {
    * the `origin` which is the contributor id of the Widget; `event` the name of the event; and eventually `data` which contains
    * the emitted data from the component.
    */
+  @Input() public mode = 'normal';
+  @Input() public target: string;
   @Output() public boardOutputs: Subject<{ origin: string, event: string, data?: any }>
-  = new Subject<{ origin: string, event: string, data?: any }>();
-  constructor() { }
+    = new Subject<{ origin: string, event: string, data?: any }>();
+
+  @Output() public modeChange: Subject<string> = new Subject<string>();
+
+  private compGroup: Map<string, string> = new Map<string, string>();
+  public activeFilter: Map<string, boolean> = new Map<string, boolean>();
+
+  constructor(private collaborativeService: ArlasCollaborativesearchService, private renderer: Renderer2) { }
 
   public ngOnInit() {
+
     if (!this.groupsDisplayStatusMap && this.groups) {
       this.groupsDisplayStatusMap = new Map<string, boolean>();
       this.groups.forEach(group => this.groupsDisplayStatusMap.set(group.groupId, true));
     }
+
+    if (this.groups) {
+      this.groups.forEach(group =>
+        group.components.forEach(comp => {
+          this.compGroup.set(comp.contributorId, group.groupId);
+        }));
+    }
+
+    if (this.mode === 'compact') {
+      this.setActiveFilter();
+      this.collaborativeService.collaborationBus.subscribe(() => {
+        this.setActiveFilter();
+      });
+    }
+
+
+  }
+
+  public ngAfterViewInit() {
+    if (this.mode === 'normal' && this.target !== undefined) {
+      const element = (<HTMLElement>document.getElementById(this.target));
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  public setActiveFilter() {
+    this.activeFilter.clear();
+    this.collaborativeService.getEnableContributors().forEach(contrib => {
+      this.activeFilter.set(this.compGroup.get(contrib), true);
+    });
   }
 
   /**
@@ -65,6 +106,10 @@ export class AnalyticsBoardComponent implements OnInit {
    * @param data Emitted data
    */
   public listenOutput(event: { origin: string, event: string, data?: any }) {
-    this.boardOutputs.next( event);
+    this.boardOutputs.next(event);
+  }
+
+  public changeMode(event) {
+    this.modeChange.next(event);
   }
 }

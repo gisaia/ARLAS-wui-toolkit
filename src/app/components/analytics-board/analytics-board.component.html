@@ -1,6 +1,6 @@
-<div class="analytics-board-content">
+<div class="analytics-board-content" [class.analytics-board-compact]="mode == 'compact'">
   <ng-container *ngFor="let group of groups">
-      <mat-expansion-panel *ngIf="groupsDisplayStatusMap?.get(group?.groupId)" [expanded]="group?.collapsed ? false : true" class="analytics-board-panel" >
+      <mat-expansion-panel id="analytics-panel-{{group?.groupId}}" *ngIf="groupsDisplayStatusMap?.get(group?.groupId) && mode == 'normal'" [expanded]="group?.collapsed ? false : true" class="analytics-board-panel" >
           <mat-expansion-panel-header *ngIf="group?.title !== undefined" [expandedHeight]="'48px'" [collapsedHeight]="'32px'" color="primary">
             <mat-panel-title class="analytics-board-panel-title">
               <mat-icon *ngIf="group?.icon !== undefined" class="analytics-board-panel-icon">{{group.icon}}</mat-icon>
@@ -22,6 +22,9 @@
             </mat-card>
           </div>
       </mat-expansion-panel>
+      <mat-card *ngIf="mode == 'compact'" matTooltip="{{group.title | translate}}" matTooltipPosition="right" (click)="changeMode(group.groupId)" class="analytics-compact-card">
+        <mat-icon matBadge="1" matBadgeHidden="{{!this.activeFilter.get(group.groupId)}}" matBadgeColor="accent">{{group.icon}}</mat-icon>
+      </mat-card>
   </ng-container>
 
 </div>
