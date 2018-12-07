@@ -21,13 +21,15 @@ import { HistogramContributor } from 'arlas-web-contributors';
 import { Component, OnInit, Input, ViewChild, ChangeDetectorRef, ComponentFactoryResolver, Output } from '@angular/core';
 import { ArlasStartupService, ArlasCollaborativesearchService } from '../../services/startup/startup.service';
 import { Contributor, CollaborationEvent, OperationEnum } from 'arlas-web-core';
-import { contributors } from 'arlas-web-contributors';
-import { ChartType, HistogramComponent, Position, SwimlaneMode, DonutComponent } from 'arlas-web-components';
-import { PowerbarsComponent } from 'arlas-web-components/powerbars/powerbars.component';
-import { DataType, SelectedOutputValues } from 'arlas-web-contributors/models/models';
+import { ChartType, HistogramComponent, Position, SwimlaneMode } from 'arlas-web-components';
+import { DataType } from 'arlas-web-contributors/models/models';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs/Subject';
 
+/**
+ * A Widget wraps a component from ARLAS-web-components and bind it to its contributor. The component has thus input data to plot.
+ * Note: This component is binded to ARLAS-wui configuration
+ */
 @Component({
   selector: 'arlas-tool-widget',
   templateUrl: './widget.component.html',
@@ -47,8 +49,22 @@ export class WidgetComponent implements OnInit {
   public showSwimlaneDropDown: boolean;
   public graphParam: any = {};
 
+  /**
+   * @Input : Angular
+   * @description Identifier of the contributor that serves data to the component
+   */
   @Input() public contributorId: string;
+  /**
+   * @Input : Angular
+   * @description Inputs of one of the ARLAS-web-components
+   */
   @Input() public componentParams: any;
+  /**
+   * @Output : Angular
+   * @description Emits an output that comes from the component (ARLAS-web-components). The emitted output has information about
+   * the `origin` which is the contributor id of the component; `event` the name of the event; and eventually `data` which contains
+   * the emitted data from the component.
+   */
   @Output() public outEvents: Subject<{ origin: string, event: string, data?: any }>
     = new Subject<{ origin: string, event: string, data?: any }>();
 
@@ -71,8 +87,12 @@ export class WidgetComponent implements OnInit {
     this.setComponentInput(this.graphParam);
   }
 
-  public changeSwimlane(event) {
-    const swimConf = this.swimlanes.filter(f => f.name === event.value)[0];
+  /**
+   * @description Changes swimlane from the pool of swimlanes defined in SwimlaneContributor configuration.
+   * @param swimlaneName The name of swimlane.
+   */
+  public changeSwimlane(swimlaneName) {
+    const swimConf = this.swimlanes.filter(f => f.name === swimlaneName.value)[0];
     this.contributor.aggregations = swimConf.aggregationmodels;
     this.contributor.xAxisField = swimConf.xAxisField;
     this.contributor.termField = swimConf.termField;
@@ -87,6 +107,12 @@ export class WidgetComponent implements OnInit {
     this.arlasCollaborativesearchService.collaborationBus.next(collaborationEvent);
   }
 
+  /**
+   * Emits the components output events.
+   * @param source Contributor identifier
+   * @param event Name of the event
+   * @param data Emitted data
+   */
   public emitEvent(source: string, event: string, data: any) {
     this.outEvents.next({ origin: source, event: event, data: data });
   }

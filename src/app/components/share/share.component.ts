@@ -24,6 +24,12 @@ import { projType } from 'arlas-web-core';
 import { ArlasSearchField } from '../../components/share/model/ArlasSearchField';
 import { ArlasCollaborativesearchService, ArlasConfigService } from '../../services/startup/startup.service';
 
+/**
+ * This component allows to build a _geoaggregate and/or _geosearch requests through a guiding stepper and obtain
+ * a Get request URL at the end.
+ * You can use this url to show your geographic data in standard GIS applications.
+ * Note: This component is binded to ARLAS-wui configuration.
+ */
 @Component({
   selector: 'arlas-share',
   templateUrl: './share.component.html',
@@ -43,6 +49,7 @@ export class ShareComponent {
   }
 
 }
+
 
 @Component({
   selector: 'arlas-share-dialog',
@@ -118,10 +125,12 @@ export class ShareDialogComponent implements OnInit {
   }
 
 
-
+  /**
+   * Switches between dialog steps
+   * @param event The step index
+   */
   public changeStep(event) {
     const server = this.configService.getValue('arlas.server');
-
     if (event.selectedIndex === 1) {
       if (this.geojsonTypeGroup.get('geojsonType').value === 'feature') {
         this.paramFormGroup.get('precision').disable();
@@ -183,7 +192,10 @@ export class ShareDialogComponent implements OnInit {
         + this.searchSize + this.includeFields + this.sort + '&flat=true';
     }
   }
-
+  /**
+   * Copies a text in your clipboard
+   * @param text Text to copy
+   */
   public copyTextToClipboard(text: string) {
     const textArea = document.createElement('textarea');
     textArea.value = text;
