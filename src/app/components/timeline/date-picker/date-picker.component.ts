@@ -18,6 +18,10 @@ export const MY_CUSTOM_FORMATS = {
   dateA11yLabel: 'lll',
   monthYearA11yLabel: 'MMMM YYYY',
 };
+
+/**
+ * The component allows to set start/end values of a temporal selection on the timeline
+ */
 @Component({
   selector: 'arlas-tool-date-picker',
   templateUrl: './date-picker.component.html',
@@ -29,11 +33,24 @@ export const MY_CUSTOM_FORMATS = {
 })
 export class DatePickerComponent implements OnInit, OnChanges {
 
-
+  /**
+   * @Input : Angular
+   * @description Start value of the date picker. It must be date or a timestamp.
+   */
   @Input()
-  public startSelectedMoment;
+  public startSelectedMoment: Date | number;
+  /**
+   * @Input : Angular
+   * @description End value of the date picker. It must be date or a timestamp.
+   */
   @Input()
-  public endSelectedMoment;
+  public endSelectedMoment: Date | number;
+  /**
+   * @Input : Angular
+   * @description In this object, all the necessary inputs of HistogramComponent (ARLAS-web-components)
+   * must be set as well as the identifier of the contributor that fetches timeline data. The `HistogramContributor`
+   * should be declared before in the `contributorRegistry` of `ArlasStartupService`.
+   */
   @Input()
   public timelineComponent: any;
 
@@ -42,7 +59,6 @@ export class DatePickerComponent implements OnInit, OnChanges {
   constructor(private arlasCollaborativesearchService: ArlasCollaborativesearchService,
     private arlasStartupService: ArlasStartupService,
     public translate: TranslateService) {
-
   }
 
   public ngOnInit() {
@@ -60,7 +76,10 @@ export class DatePickerComponent implements OnInit, OnChanges {
     }
   }
 
-  public setDate(e): void {
+  /**
+   * Applies a temporal filter on the timeline on date selection on the date picker
+   */
+  public setDate(): void {
     const selectedIntervalsList = new Array<SelectedOutputValues>();
     this.timelineContributor.intervalListSelection.forEach(intervalSelection => {
       selectedIntervalsList.push(intervalSelection);

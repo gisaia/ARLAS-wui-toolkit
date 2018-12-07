@@ -21,13 +21,19 @@ import { Component, Input, OnInit, ViewChild, ChangeDetectorRef} from '@angular/
 import { HistogramContributor, DetailedHistogramContributor } from 'arlas-web-contributors';
 import { OperationEnum } from 'arlas-web-core';
 import { ArlasCollaborativesearchService, ArlasStartupService } from './../../../services/startup/startup.service';
-import { StringifiedTimeShortcut, SelectedOutputValues } from 'arlas-web-contributors/models/models';
-import { utcFormat } from 'd3-time-format';
-import { TranslateService } from '@ngx-translate/core';
+import { SelectedOutputValues } from 'arlas-web-contributors/models/models';
 import { ChartType, DataType, Position } from 'arlas-d3';
 import { HistogramComponent } from 'arlas-web-components';
 import { filter } from 'rxjs/internal/operators/filter';
+import { TimelineConfiguration } from './timeline.utils';
 
+/**
+ * This component contains
+ * - A main timeline histogram that plots the count (or other metric) of data over time
+ * - A detailed timeline histogram that plots the current selection on the main timeline (optional)
+ * - A datepicker (optional)
+ * - Shortcut labels that allow to apply predefined temporal filters (Last year, Last month, Today, etc ...)
+ */
 @Component({
   selector: 'arlas-timeline',
   templateUrl: './timeline.component.html',
@@ -35,8 +41,25 @@ import { filter } from 'rxjs/internal/operators/filter';
 })
 export class TimelineComponent implements OnInit {
 
-  @Input() public detailedTimelineComponent: any;
-  @Input() public timelineComponent: any;
+  /**
+   * @Input : Angular
+   * @description In this object, all the necessary inputs of HistogramComponent (ARLAS-web-components)
+   * must be set as well as the identifier of the contributor that fetches timeline data. The `HistogramContributor`
+   * should be declared before in the `contributorRegistry` of `ArlasStartupService`
+   */
+  @Input() public timelineComponent: TimelineConfiguration;
+  /**
+   * @Input : Angular
+   * @description Optional input. If not set, the detailed timeline is deactivated.
+   * Same as the precedent input, In this object, all the necessary inputs of HistogramComponent (ARLAS-web-components)
+   * must be set as well as the identifier of the detailed contributor that fetches data within the current selection.
+   * The `DetailedHistogramContributor` should be declared before in the `contributorRegistry` of `ArlasStartupService`
+   */
+  @Input() public detailedTimelineComponent: TimelineConfiguration;
+  /**
+   * @Input : Angular
+   * @description Whether the date picker is enabled
+   */
   @Input() public activeDatePicker = false;
   @ViewChild('timeline') public timelineHistogramComponent: HistogramComponent;
   @ViewChild('detailedtimeline') public detailedTimelineHistogramComponent: HistogramComponent;
@@ -78,7 +101,7 @@ export class TimelineComponent implements OnInit {
   }
 
   /**
-   * Runs when the selection is brushed on timeline.
+   * Runs when the selection is brushed on main timeline.
    * @param selections List containing only the current selection of detailed timeline
    */
   public onTimelineIntervalBrushed(selections: SelectedOutputValues[]): void {

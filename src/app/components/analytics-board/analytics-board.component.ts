@@ -17,12 +17,13 @@
  * under the License.
  */
 
-import { Component, Input, Output, OnInit } from '@angular/core';
-import {
-  MatCard, MatExpansionPanel, MatExpansionPanelHeader, MatExpansionPanelTitle,
-  MatExpansionPanelDescription, MatExpansionPanelState, MatIcon
-} from '@angular/material';
+import { Component, Input, Output, OnInit, AfterViewInit } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
+import { AnalyticGroupConfiguration } from './analytics.utils';
+/**
+ * This component organizes the `Widgets` in a board.
+ * A Widget is declared within a "group" in the configuration. A group contains one or more Widgets
+ */
 @Component({
   selector: 'arlas-analytics-board',
   templateUrl: './analytics-board.component.html',
@@ -30,11 +31,22 @@ import { Subject } from 'rxjs/Subject';
 })
 export class AnalyticsBoardComponent implements OnInit {
 
-  @Input() public groups: Array<any>;
+  /**
+   * @Input : Angular
+   * @description List of groups. Each group contains one or more widgets.
+   */
+  @Input() public groups: Array<AnalyticGroupConfiguration>;
   /**
    * @description Map of <groupId, displayStatus> that informs which groupIds to display/hide
    */
   @Input() public groupsDisplayStatusMap: Map<string, boolean>;
+  /**
+   * @Output : Angular
+   * @description Emits an event coming from one of the Widgets.
+   * The emitted output has information about
+   * the `origin` which is the contributor id of the Widget; `event` the name of the event; and eventually `data` which contains
+   * the emitted data from the component.
+   */
   @Output() public boardOutputs: Subject<{ origin: string, event: string, data?: any }>
   = new Subject<{ origin: string, event: string, data?: any }>();
   constructor() { }
@@ -46,8 +58,13 @@ export class AnalyticsBoardComponent implements OnInit {
     }
   }
 
+  /**
+   * Emits the widgets output events.
+   * @param source Contributor identifier
+   * @param event Name of the event
+   * @param data Emitted data
+   */
   public listenOutput(event: { origin: string, event: string, data?: any }) {
     this.boardOutputs.next( event);
   }
-
 }

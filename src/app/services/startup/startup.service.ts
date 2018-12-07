@@ -91,6 +91,15 @@ export class ArlasStartupService {
         private configService: ArlasConfigService,
         private collaborativesearchService: ArlasCollaborativesearchService) {
     }
+
+    /**
+     * Loads extra configuration declared in the main configuration file.
+     * @param extraConfig This object specifies
+     * the path to the extra configuration file,
+     * the attribute to change in the main configuration file,
+     * and the attribute to take from the extra configuration file.
+     * @param data Content of the extra configuration file
+     */
     public loadExtraConfig(extraConfig: ExtraConfig, data: Object): Promise<any> {
         return this.http.get(extraConfig.configPath)
             .toPromise()
@@ -109,6 +118,10 @@ export class ArlasStartupService {
             });
     }
 
+    /**
+     * Loads ARLAS-wui configuration on start of the app
+     * @param configRessource Configuration file name
+     */
     public load(configRessource: string): Promise<any> {
         let configData;
         const ret = this.http

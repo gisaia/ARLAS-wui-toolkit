@@ -22,6 +22,9 @@ import { ArlasConfigService, ArlasCollaborativesearchService } from '../../servi
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { debounceTime, bufferWhen } from 'rxjs/operators';
 
+/**
+ * This component displays error messages due to misconfiguration of ARLAS-wui or to a broken connection to ARLAS-server.
+ */
 @Component({
   selector: 'arlas-tool-errormodal',
   templateUrl: './errormodal.component.html',

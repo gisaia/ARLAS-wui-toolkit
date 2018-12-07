@@ -24,6 +24,11 @@ import { ArlasCollaborativesearchService, ArlasConfigService } from '../../servi
 import { ArlasTagService } from '../../services/tag/tag.service';
 import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
 
+/**
+ * This component allows to tag your selected data (documents). The tag value is set on taggable fields.
+ * The list of taggable fields is available on the dialog`.
+ * Note : This component is binded to ARLAS-wui configuration.
+ */
 @Component({
   selector: 'arlas-tag',
   templateUrl: './tag.component.html',
@@ -31,8 +36,15 @@ import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component'
   encapsulation: ViewEncapsulation.None
 })
 export class TagComponent {
-
+  /**
+   * @Input : Angular
+   * @description Name of the icon (Material icons)
+   */
   @Input() public icon = 'local_offer';
+  /**
+   * @Output : Angular
+   * @description A subject that emits the tag string
+   */
   @Output() public tagEvent: Subject<string> = new Subject<string>();
 
   public dialogRef: MatDialogRef<TagDialogComponent>;
@@ -55,7 +67,10 @@ export class TagComponent {
   encapsulation: ViewEncapsulation.None
 })
 export class TagDialogComponent implements OnInit {
-
+  /**
+   * @Output : Angular
+   * @description A subject that emits the tag string
+   */
   @Output() public tagEvent: Subject<string> = new Subject<string>();
 
   private server: any;
@@ -101,10 +116,20 @@ export class TagDialogComponent implements OnInit {
     });
   }
 
+  /**
+   * Adds a tag on a taggable field.
+   * @param path Taggable field path
+   * @param value Value of the tag
+   */
   public addTag(path: string, value: number | string) {
     this.tagService.addTag(path, value);
   }
 
+  /**
+   * Removes a tag from a taggable field. If the tag value is not specified, all the tags of this field are removed
+   * @param path Taggable field path
+   * @param value Value of the tag
+   */
   public removeTag(path: string, value?: number | string) {
     if (value) {
       this.tagService.removeTag(path, value);

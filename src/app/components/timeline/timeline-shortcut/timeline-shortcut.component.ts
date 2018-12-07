@@ -6,16 +6,36 @@ import { TranslateService } from '@ngx-translate/core';
 import { OperationEnum } from 'arlas-web-core';
 import { filter } from 'rxjs/internal/operators/filter';
 
+/**
+ * This component contains shortcut labels that allow to apply predefined temporal filters on a timeline
+ * (Last year, Last month, Today, etc ...).
+ * It also displays the start and end values of the current selection on the timeline. And if enabled, a datepicker is allowed on those
+ * start and end values.
+ * This component is used internally in `TimelineComponent`
+ */
 @Component({
   selector: 'arlas-timeline-shortcut',
   templateUrl: './timeline-shortcut.component.html',
   styleUrls: ['./timeline-shortcut.component.css']
 })
 export class TimelineShortcutComponent implements OnInit {
+   /**
+   * @Input : Angular
+   * @description In this object, all the necessary inputs of HistogramComponent (ARLAS-web-components)
+   * must be set as well as the identifier of the contributor that fetches timeline data. The `HistogramContributor`
+   * should be declared before in the `contributorRegistry` of `ArlasStartupService`
+   */
   @Input() public timelineComponent: any;
+  /**
+   * @Input : Angular
+   * @description Optional input. Sets the format of start/end date values of the timeline.
+   */
   @Input() public dateFormat: string;
+  /**
+   * @Input : Angular
+   * @description Whether the date picker is enabled
+   */
   @Input() public activeDatePicker = false;
-
 
   public timelineContributor: HistogramContributor;
   public timeShortcuts: Array<StringifiedTimeShortcut>;
@@ -49,6 +69,10 @@ export class TimelineShortcutComponent implements OnInit {
     }
   }
 
+  /**
+   * Applies a temporal filter on timeline according to the chosen shortcut.
+   * @param shortCut
+   */
   public setShortcut(shortCut: StringifiedTimeShortcut): void {
     const selectedIntervalsList = new Array<SelectedOutputValues>();
     this.timelineContributor.intervalListSelection.forEach(intervalSelection => {
@@ -58,10 +82,9 @@ export class TimelineShortcutComponent implements OnInit {
     this.timelineContributor.valueChanged(selectedIntervalsList);
   }
 
-  public getKeys(map): Array<string> {
-    return Array.from(map.keys());
-  }
-
+  /**
+   * Shows/hides the `div` containing the shortcuts list
+   */
   public showSortcuts(): void {
     if (this.timeShortcuts && this.timeShortcuts.length > 0) {
       this.showShortcuts = !this.showShortcuts;
@@ -73,14 +96,26 @@ export class TimelineShortcutComponent implements OnInit {
     }
   }
 
+  /**
+   * Removes all temporal filters of the timeline
+   */
   public removeTimelineCollaboration(): void {
     this.showRemoveIcon = false;
     this.isShortcutSelected = false;
     this.arlasCollaborativesearchService.removeFilter(this.timelineComponent.contributorId);
   }
 
+  /**
+   * Gets the list of keys of a Typescript map
+   * @param map
+   */
+  public getKeys(map): Array<string> {
+    return Array.from(map.keys());
+  }
 
-
+  /**
+   * Shows or hides the icon that allows to clear all temporal filter. This icon is displayed when there filters on the timeline.
+   */
   private setRemoveIconVisibility(): void {
     this.arlasCollaborativesearchService.collaborationBus.pipe(filter(c => (c.id === this.timelineComponent.contributorId || c.all)))
       .subscribe(c => {
@@ -92,7 +127,6 @@ export class TimelineShortcutComponent implements OnInit {
         }
       });
   }
-
 
   private groupBy(list, keyGetter) {
     const map = new Map();
