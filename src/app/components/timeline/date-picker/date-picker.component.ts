@@ -38,13 +38,13 @@ export class DatePickerComponent implements OnInit, OnChanges {
    * @description Start value of the date picker. It must be date or a timestamp.
    */
   @Input()
-  public startSelectedMoment: Date | number;
+  public startSelectedMoment: _moment.Moment | Date | number;
   /**
    * @Input : Angular
    * @description End value of the date picker. It must be date or a timestamp.
    */
   @Input()
-  public endSelectedMoment: Date | number;
+  public endSelectedMoment: _moment.Moment | Date | number;
   /**
    * @Input : Angular
    * @description In this object, all the necessary inputs of HistogramComponent (ARLAS-web-components)
@@ -81,6 +81,8 @@ export class DatePickerComponent implements OnInit, OnChanges {
    */
   public setDate(): void {
     const selectedIntervalsList = new Array<SelectedOutputValues>();
+    this.startSelectedMoment = moment(this.startSelectedMoment).utc(true);
+    this.endSelectedMoment = moment(this.endSelectedMoment).utc(true);
     this.timelineContributor.intervalListSelection.forEach(intervalSelection => {
       selectedIntervalsList.push(intervalSelection);
     });
