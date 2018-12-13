@@ -112,4 +112,11 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit {
   public changeMode(event) {
     this.modeChange.next(event);
   }
+
+  public removeFilter(groupId: string, event: any) {
+    Array.from(this.compGroup.entries()).filter( group => group[1] === groupId).forEach( mapGroup => {
+      this.collaborativeService.removeFilter(mapGroup[0]);
+    });
+    event.stopPropagation();
+  }
 }
