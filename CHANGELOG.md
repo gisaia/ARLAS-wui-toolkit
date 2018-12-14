@@ -1,5 +1,17 @@
 # Change Log
 
+## [v9.0.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v9.0.2) (2018-12-13)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v9.0.1...v9.0.2)
+
+**New stuff:**
+
+- Feauture/improve startup service [\#96](https://github.com/gisaia/ARLAS-wui-toolkit/pull/96) ([mbarbet](https://github.com/mbarbet))
+
+**Fixed bugs:**
+
+- The displayed dates in date picker should be utc [\#98](https://github.com/gisaia/ARLAS-wui-toolkit/issues/98)
+
 ## [v9.0.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v9.0.1) (2018-11-29)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v9.0.0...v9.0.1)
