@@ -4,15 +4,17 @@
       <mat-icon class="shortcut-button__icon" [class.cursor]="timeShortcuts?.length > 0" (click)="showSortcuts()" matTooltip="{{HIDE_SHOW + ' time shortcuts' | translate}}"
         [matTooltipPosition]="'above'">access_time</mat-icon>
       <span *ngIf="activeDatePicker">
-        <arlas-tool-date-picker class="shortcut-button__label" 
+        <arlas-tool-date-picker class="shortcut-button__label"
         [startSelectedMoment]="timelineContributor?.intervalSelection?.startvalue"
         [endSelectedMoment]="timelineContributor?.intervalSelection?.endvalue"
         [timelineComponent]="timelineComponent">
         </arlas-tool-date-picker>
       </span>
       <span  *ngIf="!activeDatePicker" class="shortcut-button__label">{{timelineContributor?.timeLabel | getTimeLabel: dateFormat:translate}}</span>
-      <mat-icon *ngIf="showRemoveIcon" (click)="removeTimelineCollaboration()" class="shortcut-remove-filter" matTooltip="{{'Remove time filter' | translate}}"
-        [matTooltipPosition]="'before'">clear</mat-icon>
+      <div *ngIf="showRemoveIcon" class="shortcut-remove-filter" matTooltip="{{'Remove time filter' | translate}}" [matTooltipPosition]="'before'" (click)="removeTimelineCollaboration()">
+        <mat-icon class="shortcut-remove-filter-icon" >clear</mat-icon>
+      </div>
+
     </mat-basic-chip>
   </div>
   <div *ngIf="showShortcuts" class="arlas-time-shortcuts__list--container">

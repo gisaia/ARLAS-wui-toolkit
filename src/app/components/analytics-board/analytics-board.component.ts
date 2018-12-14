@@ -88,7 +88,7 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit {
   public ngAfterViewInit() {
     if (this.mode === 'normal' && this.target !== undefined) {
       const element = (<HTMLElement>document.getElementById(this.target));
-      element.scrollIntoView({ behavior: 'smooth' });
+      element.scrollIntoView({ block: 'start', inline: 'nearest', behavior: 'smooth' });
     }
   }
 
