@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { Component, Input, Output, OnInit, AfterViewInit, Renderer2 } from '@angular/core';
+import { Component, Input, Output, OnInit, AfterViewInit, Renderer2, OnChanges, SimpleChanges } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { AnalyticGroupConfiguration } from './analytics.utils';
 import { ArlasCollaborativesearchService } from '../../services/startup/startup.service';
@@ -30,7 +30,8 @@ import { ArlasCollaborativesearchService } from '../../services/startup/startup.
   templateUrl: './analytics-board.component.html',
   styleUrls: ['./analytics-board.component.css']
 })
-export class AnalyticsBoardComponent implements OnInit, AfterViewInit {
+export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges {
+
 
 
   /**
@@ -81,14 +82,23 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit {
         this.setActiveFilter();
       });
     }
+  }
 
-
+  public ngOnChanges(changes: SimpleChanges): void {
+    if (changes.target && changes.groups === undefined) {
+      this.scrollToAnalyticsComponent(changes.target.currentValue);
+    }
   }
 
   public ngAfterViewInit() {
-    if (this.mode === 'normal' && this.target !== undefined) {
-      const element = (<HTMLElement>document.getElementById(this.target));
-      element.scrollIntoView({ block: 'start', inline: 'nearest', behavior: 'smooth' });
+    this.scrollToAnalyticsComponent(this.target);
+  }
+
+
+  public scrollToAnalyticsComponent(target: string) {
+    if (this.mode === 'normal' && target !== undefined) {
+      const element = (<HTMLElement>document.getElementById(target));
+      element.scrollIntoView(true);
     }
   }
 
@@ -114,8 +124,10 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit {
   }
 
   public removeFilter(groupId: string, event: any) {
-    Array.from(this.compGroup.entries()).filter( group => group[1] === groupId).forEach( mapGroup => {
-      this.collaborativeService.removeFilter(mapGroup[0]);
+    Array.from(this.compGroup.entries()).filter(group => group[1] === groupId).forEach(mapGroup => {
+      Array.from(this.collaborativeService.collaborations.keys()).filter(cont => cont === mapGroup[0]).forEach(contributor => {
+        this.collaborativeService.removeFilter(contributor);
+      });
     });
     event.stopPropagation();
   }
