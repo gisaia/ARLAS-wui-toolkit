@@ -190,6 +190,7 @@
                   }
                 }
               ]
+
             }
           ],
           "charttype": "swimlane",
@@ -204,7 +205,7 @@
         "map$mapbox": {
           "identifier": "mapbox",
           "idFieldName": "id",
-          "drawtype": "RECTANGLE",
+          "geomStrategy": "centroid",
           "name": "Map",
           "initZoom": 4,
           "includeFeaturesFields": [
@@ -225,7 +226,9 @@
               "interval": {
                 "value": 3
               },
-              "withGeoCentroid": true
+              "fetchGeometry": {
+                "strategy": "centroid"
+              }
             }
           ],
           "zoomLevelFullData": 6,
@@ -347,37 +350,37 @@
             [
               14,
               8,
-              5
+              6
             ],
             [
               15,
               8,
-              5
+              6
             ],
             [
               16,
               8,
-              5
+              6
             ],
             [
               17,
               8,
-              5
+              6
             ],
             [
               18,
               8,
-              5
+              6
             ],
             [
               19,
               8,
-              5
+              6
             ],
             [
               20,
               8,
-              5
+              6
             ]
           ],
           "search_size": 10000
@@ -460,309 +463,204 @@
           "search_size": 20,
           "name": "Detail list"
         }
-      },
-      "analytics": [
-        {
-          "groupId": "1",
-          "title": "Speed over ground (knots)",
-          "icon": "slow_motion_video",
-          "components": [
-            {
-              "contributorId": "sog",
-              "componentType": "histogram",
-              "input": {
-                "id": "sog",
-                "dataType": "numeric",
-                "isHistogramSelectable": true,
-                "multiselectable": true,
-                "topOffsetRemoveInterval": 40,
-                "leftOffsetRemoveInterval": 18,
-                "brushHandlesHeightWeight": 0.8,
-                "yAxisStartsFromZero": true,
-                "chartType": "bars",
-                "chartTitle": "Speed over ground",
-                "chartWidth": null,
-                "chartHeight": 100,
-                "customizedCssClass": "arlas-histogram-analytics",
-                "xAxisPosition": "bottom",
-                "descriptionPosition": "bottom",
-                "xTicks": 4,
-                "yTicks": 1,
-                "xLabels": 4,
-                "yLabels": 4,
-                "showXTicks": true,
-                "showYTicks": true,
-                "showXLabels": true,
-                "showYLabels": true,
-                "showHorizontalLines": false,
-                "isSmoothedCurve": false,
-                "barWeight": 0.8
-              }
-            }
-          ]
+
+
         },
-        {
-          "groupId": "2",
-          "title": "Heading (degree)",
-          "icon": "near_me",
-          "components": [
-            {
-              "contributorId": "heading",
-              "componentType": "histogram",
-              "input": {
-                "id": "heading",
-                "dataType": "numeric",
-                "isHistogramSelectable": true,
-                "multiselectable": true,
-                "topOffsetRemoveInterval": 40,
-                "leftOffsetRemoveInterval": 18,
-                "brushHandlesHeightWeight": 0.8,
-                "chartType": "area",
-                "chartTitle": "Heading",
-                "chartWidth": null,
-                "chartHeight": 100,
-                "customizedCssClass": "arlas-histogram-analytics",
-                "xAxisPosition": "bottom",
-                "descriptionPosition": "bottom",
-                "yAxisStartsFromZero": true,
-                "xTicks": 4,
-                "yTicks": 1,
-                "xLabels": 4,
-                "yLabels": 4,
-                "showXTicks": true,
-                "showYTicks": true,
-                "showXLabels": true,
-                "showYLabels": true,
-                "showHorizontalLines": false,
-                "isSmoothedCurve": true,
-                "barWeight": 0.8
+        "analytics": [
+          {
+            "groupId": "1",
+            "title": "Speed over ground (knots)",
+            "icon": "slow_motion_video",
+            "components": [
+              {
+                "contributorId": "sog",
+                "componentType": "histogram",
+                "input": {
+                  "id": "sog",
+                  "dataType": "numeric",
+                  "isHistogramSelectable": true,
+                  "multiselectable": true,
+                  "topOffsetRemoveInterval": 40,
+                  "leftOffsetRemoveInterval": 18,
+                  "brushHandlesHeightWeight": 0.8,
+                  "yAxisStartsFromZero": true,
+                  "chartType": "bars",
+                  "chartTitle": "Speed over ground",
+                  "chartWidth": null,
+                  "chartHeight": 100,
+                  "customizedCssClass": "arlas-histogram-analytics",
+                  "xAxisPosition": "bottom",
+                  "descriptionPosition": "bottom",
+                  "xTicks": 4,
+                  "yTicks": 1,
+                  "xLabels": 4,
+                  "yLabels": 4,
+                  "showXTicks": true,
+                  "showYTicks": true,
+                  "showXLabels": true,
+                  "showYLabels": true,
+                  "showHorizontalLines": false,
+                  "isSmoothedCurve": false,
+                  "barWeight": 0.8
+                }
               }
-            }
-          ]
-        },
-        {
-          "groupId": "3",
-          "title": "Course over ground (degree)",
-          "icon": "explore",
-          "components": [
-            {
-              "contributorId": "cog",
-              "componentType": "histogram",
-              "input": {
-                "dataType": "numeric",
-                "id": "cog",
-                "isHistogramSelectable": true,
-                "multiselectable": true,
-                "topOffsetRemoveInterval": 40,
-                "leftOffsetRemoveInterval": 18,
-                "brushHandlesHeightWeight": 0.8,
-                "yAxisStartsFromZero": true,
-                "chartType": "area",
-                "chartTitle": "Course over ground",
-                "chartWidth": null,
-                "chartHeight": 100,
-                "customizedCssClass": "arlas-histogram-analytics",
-                "xAxisPosition": "bottom",
-                "descriptionPosition": "bottom",
-                "xTicks": 4,
-                "yTicks": 1,
-                "xLabels": 4,
-                "yLabels": 4,
-                "showXTicks": true,
-                "showYTicks": true,
-                "showXLabels": true,
-                "showYLabels": true,
-                "showHorizontalLines": false,
-                "isSmoothedCurve": true,
-                "barWeight": 0.8
+            ]
+          },
+          {
+            "groupId": "2",
+            "title": "Heading (degree)",
+            "icon": "near_me",
+            "components": [
+              {
+                "contributorId": "heading",
+                "componentType": "histogram",
+                "input": {
+                  "id": "heading",
+                  "dataType": "numeric",
+                  "isHistogramSelectable": true,
+                  "multiselectable": true,
+                  "topOffsetRemoveInterval": 40,
+                  "leftOffsetRemoveInterval": 18,
+                  "brushHandlesHeightWeight": 0.8,
+                  "chartType": "area",
+                  "chartTitle": "Heading",
+                  "chartWidth": null,
+                  "chartHeight": 100,
+                  "customizedCssClass": "arlas-histogram-analytics",
+                  "xAxisPosition": "bottom",
+                  "descriptionPosition": "bottom",
+                  "yAxisStartsFromZero": true,
+                  "xTicks": 4,
+                  "yTicks": 1,
+                  "xLabels": 4,
+                  "yLabels": 4,
+                  "showXTicks": true,
+                  "showYTicks": true,
+                  "showXLabels": true,
+                  "showYLabels": true,
+                  "showHorizontalLines": false,
+                  "isSmoothedCurve": true,
+                  "barWeight": 0.8
+                }
               }
-            }
-          ]
-        },
-        {
-          "groupId": "4",
-          "title": "Ais Emission Tempo (millisecond)",
-          "icon": "watch_later",
-          "components": [
-            {
-              "contributorId": "duration",
-              "componentType": "histogram",
-              "input": {
-                "dataType": "numeric",
-                "id": "duration",
-                "isHistogramSelectable": true,
-                "multiselectable": true,
-                "topOffsetRemoveInterval": 40,
-                "leftOffsetRemoveInterval": 18,
-                "brushHandlesHeightWeight": 0.8,
-                "chartType": "bars",
-                "chartTitle": "Ais Emission Temp",
-                "chartWidth": null,
-                "chartHeight": 100,
-                "customizedCssClass": "arlas-histogram-analytics",
-                "xAxisPosition": "bottom",
-                "descriptionPosition": "bottom",
-                "yAxisStartsFromZero": true,
-                "xTicks": 4,
-                "yTicks": 1,
-                "xLabels": 4,
-                "yLabels": 4,
-                "showXTicks": true,
-                "showYTicks": true,
-                "showXLabels": true,
-                "showYLabels": true,
-                "showHorizontalLines": false,
-                "isSmoothedCurve": true,
-                "barWeight": 0.8
+            ]
+          },
+          {
+            "groupId": "3",
+            "title": "Course over ground (degree)",
+            "icon": "explore",
+            "components": [
+              {
+                "contributorId": "cog",
+                "componentType": "histogram",
+                "input": {
+                  "dataType": "numeric",
+                  "id": "cog",
+                  "isHistogramSelectable": true,
+                  "multiselectable": true,
+                  "topOffsetRemoveInterval": 40,
+                  "leftOffsetRemoveInterval": 18,
+                  "brushHandlesHeightWeight": 0.8,
+                  "yAxisStartsFromZero": true,
+                  "chartType": "area",
+                  "chartTitle": "Course over ground",
+                  "chartWidth": null,
+                  "chartHeight": 100,
+                  "customizedCssClass": "arlas-histogram-analytics",
+                  "xAxisPosition": "bottom",
+                  "descriptionPosition": "bottom",
+                  "xTicks": 4,
+                  "yTicks": 1,
+                  "xLabels": 4,
+                  "yLabels": 4,
+                  "showXTicks": true,
+                  "showYTicks": true,
+                  "showXLabels": true,
+                  "showYLabels": true,
+                  "showHorizontalLines": false,
+                  "isSmoothedCurve": true,
+                  "barWeight": 0.8
+                }
               }
-            }
-          ]
-        },
-        {
-          "groupId": "5",
-          "title": "Ship type   -   Navigational status",
-          "icon": "directions_boat",
-          "components": [
-            {
-              "contributorId": "shiptype",
-              "componentType": "donut",
-              "input": {
-                "id": "donut",
-                "customizedCssClass": "arlas-donuts-analytics",
-                "multiselectable": true,
-                "opacity": 0.3,
-                "keysToColors": [
-                  [
-                    "Tanker",
-                    "#ff8ee8"
-                  ],
-                  [
-                    "Fishing",
-                    "#86d8f7"
-                  ],
-                  [
-                    "Tug",
-                    "#f4df42"
-                  ],
-                  [
-                    "SAR",
-                    "#03c6ac"
-                  ],
-                  [
-                    "OTHER",
-                    "#c2c2c2"
-                  ],
-                  [
-                    "Other",
-                    "#c2c2c2"
-                  ],
-                  [
-                    "Undefined",
-                    "#c2c2c2"
-                  ],
-                  [
-                    "Category X",
-                    "#eab738"
-                  ],
-                  [
-                    "Category Y",
-                    "#ead538"
-                  ],
-                  [
-                    "Category Z",
-                    "#ea8538"
-                  ],
-                  [
-                    "Category OS",
-                    "#ed29d5"
-                  ],
-                  [
-                    "Pilot",
-                    "#e74b4b"
-                  ],
-                  [
-                    "HSC",
-                    "#0086bd"
-                  ],
-                  [
-                    "Law enforcement",
-                    "#00b4d3"
-                  ],
-                  [
-                    "Military",
-                    "#a625e0"
-                  ],
-                  [
-                    "Cargo",
-                    "#0099ff"
-                  ],
-                  [
-                    "Passenger",
-                    "#a5c176"
-                  ],
-                  [
-                    "Dredging",
-                    "#51a588"
-                  ],
-                  [
-                    "Anti-pollution",
-                    "#00f4d0"
-                  ],
-                  [
-                    "Pleasure",
-                    "#ad0084"
-                  ],
-                  [
-                    "Towing",
-                    "#d37700"
-                  ],
-                  [
-                    "Towing long/wide",
-                    "#d37700"
-                  ],
-                  [
-                    "Sailing",
-                    "#edc77b"
+            ]
+          },
+          {
+            "groupId": "4",
+            "title": "Ais Emission Tempo (millisecond)",
+            "icon": "watch_later",
+            "components": [
+              {
+                "contributorId": "duration",
+                "componentType": "histogram",
+                "input": {
+                  "dataType": "numeric",
+                  "id": "duration",
+                  "isHistogramSelectable": true,
+                  "multiselectable": true,
+                  "topOffsetRemoveInterval": 40,
+                  "leftOffsetRemoveInterval": 18,
+                  "brushHandlesHeightWeight": 0.8,
+                  "chartType": "bars",
+                  "chartTitle": "Ais Emission Temp",
+                  "chartWidth": null,
+                  "chartHeight": 100,
+                  "customizedCssClass": "arlas-histogram-analytics",
+                  "xAxisPosition": "bottom",
+                  "descriptionPosition": "bottom",
+                  "yAxisStartsFromZero": true,
+                  "xTicks": 4,
+                  "yTicks": 1,
+                  "xLabels": 4,
+                  "yLabels": 4,
+                  "showXTicks": true,
+                  "showYTicks": true,
+                  "showXLabels": true,
+                  "showYLabels": true,
+                  "showHorizontalLines": false,
+                  "isSmoothedCurve": true,
+                  "barWeight": 0.8
+                }
+              }
+            ]
+          },
+          {
+            "groupId": "5",
+            "title": "Ship type   -   Navigational status",
+            "icon": "directions_boat",
+            "components": [
+              {
+                "contributorId": "shiptype",
+                "componentType": "donut",
+                "input": {
+                  "id": "donut",
+                  "customizedCssClass": "arlas-donuts-analytics",
+                  "multiselectable": true,
+                  "opacity": 0.3,
+                  "keysToColors": [["Tanker", "#ff8ee8"], ["Fishing", "#86d8f7"],
+                    ["Tug", "#f4df42"], ["SAR", "#03c6ac"], ["OTHER", "#c2c2c2"],
+                    ["Other", "#c2c2c2"], ["Undefined", "#c2c2c2"], ["Category X", "#eab738"],
+                    ["Category Y", "#ead538"], ["Category Z", "#ea8538"], ["Category OS", "#ed29d5"],
+                    ["Pilot", "#e74b4b"], ["HSC", "#0086bd"], ["Law enforcement", "#00b4d3"],
+                    ["Military", "#a625e0"], ["Cargo", "#0099ff"], ["Passenger", "#a5c176"], ["Dredging", "#51a588"],
+                    ["Anti-pollution", "#00f4d0"], ["Pleasure", "#ad0084"], ["Towing", "#d37700"], ["Towing long/wide", "#d37700"],
+                    ["Sailing", "#edc77b"]
                   ]
-                ]
-              }
-            },
-            {
-              "contributorId": "navigationalstatus",
-              "componentType": "donut",
-              "input": {
-                "id": "donut-navigation",
-                "customizedCssClass": "arlas-donuts-status-analytics",
-                "multiselectable": true,
-                "opacity": 0.3,
-                "keysToColors": [
-                  [
-                    "Under way using engine",
-                    "#51a588"
-                  ],
-                  [
-                    "Unknown value",
-                    "#c2c2c2"
-                  ],
-                  [
-                    "Engaged in fishing",
-                    "#86d8f7"
-                  ],
-                  [
-                    "Moored",
-                    "#eab738"
-                  ],
-                  [
-                    "Reserved for future amendment [HSC]",
-                    "#0086bd"
-                  ],
-                  [
-                    "Under way sailing",
-                    "#ad0084"
+                }
+              },
+              {
+                "contributorId": "navigationalstatus",
+                "componentType": "donut",
+                "input": {
+                  "id": "donut-navigation",
+                  "customizedCssClass": "arlas-donuts-status-analytics",
+                  "multiselectable": true,
+                  "opacity": 0.3,
+                  "keysToColors": [["Under way using engine", "#51a588"], ["Unknown value", "#c2c2c2"],
+                    ["Engaged in fishing", "#86d8f7"], ["Moored", "#eab738"], ["Reserved for future amendment [HSC]", "#0086bd"],
+                    ["Under way sailing", "#ad0084"]
                   ]
-                ]
+                }
               }
-            }
           ]
         },
         {
@@ -830,6 +728,7 @@
             }
           ]
         },
+
         {
           "groupId": "resultlist",
           "title": "Result List",
@@ -858,6 +757,7 @@
             }
           ]
         }
+
       ],
       "components": {
         "share": {
@@ -866,8 +766,8 @@
             "max_for_cluster": 100000,
             "agg_field": "position.location",
             "sort_excluded_type": [
-              "TEXT",
-              "GEO_POINT"
+                "TEXT",
+                "GEO_POINT"
             ]
           }
         },
@@ -912,6 +812,7 @@
                       ],
                       "isDefault": false
                     }
+
                   ]
                 },
                 {
@@ -927,7 +828,7 @@
                       "layerIds": [
                         "cluster-heat"
                       ],
-                      "drawType": "CIRCLE"
+                      "geomStrategy": "centroid"
                     },
                     {
                       "id": "fill",
@@ -935,10 +836,11 @@
                       "layerIds": [
                         "cluster-rect-fill"
                       ],
-                      "drawType": "RECTANGLE"
+                      "geomStrategy": "geohash"
                     }
                   ]
                 }
+
               ],
               "events": {
                 "zoomOnClick": [
