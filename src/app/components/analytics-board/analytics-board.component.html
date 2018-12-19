@@ -24,7 +24,9 @@
       </mat-expansion-panel>
       <mat-card *ngIf="groupsDisplayStatusMap?.get(group?.groupId) && mode == 'compact'" #compactTooltip="matTooltip" (mouseover)="compactTooltip.show()" matTooltip="{{group.title | translate}}" matTooltipPosition="right" (click)="changeMode(group.groupId)" class="analytics-compact-card">
         <mat-icon>{{group.icon}}</mat-icon>
-        <div *ngIf="this.activeFilter.get(group.groupId)" class="active-filter" matTooltip="Click to remove filter" matTooltipPosition="right" (mouseenter)="compactTooltip.hide()" (click)="removeFilter(group.groupId, $event);compactTooltip.hide()"><span class="active-filter-close">x</span></div>
+        <div *ngIf="this.activeFilter.get(group.groupId)" class="active-filter" (click)="removeFilter(group.groupId, $event);compactTooltip.hide()">
+          <mat-icon class="active-filter-close" matTooltip="Click to remove filter" matTooltipPosition="right" (mouseenter)="compactTooltip.hide()">clear</mat-icon>
+        </div>
       </mat-card>
   </ng-container>
 

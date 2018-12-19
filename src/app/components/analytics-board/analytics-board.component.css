@@ -76,10 +76,9 @@
 
 .active-filter-close{
   display: none;
-  position: absolute;
-  right: 6px;
-  bottom: 2px;
-  font-size: 12px;
+  padding: 2px 0px 0 2px;
+  font-size: 14px;
+  color: white;
 }
 
 .active-filter:hover .active-filter-close{
