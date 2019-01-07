@@ -716,14 +716,17 @@
               "contributorId": "mmsi",
               "componentType": "powerbars",
               "input": {
-                "customizedCssClass": "arlas-powerbars-analytics"
+                "customizedCssClass": "arlas-powerbars-analytics",
+                "chartTitle": "MMSI",
+                "displayFilter": true
               }
             },
             {
               "contributorId": "ship_name",
               "componentType": "powerbars",
               "input": {
-                "customizedCssClass": "arlas-powerbars-analytics"
+                "customizedCssClass": "arlas-powerbars-analytics",
+                "chartTitle": "Ship name"
               }
             }
           ]

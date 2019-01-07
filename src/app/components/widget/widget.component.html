@@ -80,9 +80,8 @@
     ></arlas-histogram>
 </div>
 <div *ngIf="componentType === 'powerbars'">
-  <div class="powerbarTitle">{{contributor?.getFilterDisplayName() | translate}}</div>
-  <arlas-powerbars [customizedCssClass]="graphParam?.customizedCssClass" [inputData]="contributor?.powerbarsData" (selectedPowerBarEvent)="contributor?.selectedBarsChanged($event)"
-    [selectedPowerbarsTerms]="contributor?.selectedBars">
+  <arlas-powerbars [customizedCssClass]="graphParam?.customizedCssClass" [powerbarTitle]="graphParam?.chartTitle" [displayFilterField]="graphParam?.displayFilter" [inputData]="contributor?.powerbarsData" (selectedPowerBarEvent)="contributor?.selectedBarsChanged($event)"
+    [selectedPowerbarsTerms]="contributor?.selectedBars" (selectedPowerBarEvent)="contributor?.updatePowerbarsData($event)" >
   </arlas-powerbars>
 </div>
 
