@@ -14,7 +14,7 @@
 .arlas-timeline--timeshortcuts{
   position: absolute;
   bottom: 125px;
-  overflow: hidden;
+  overflow: visible;
   right:7px;
   z-index:1000;
   background-color: transparent;

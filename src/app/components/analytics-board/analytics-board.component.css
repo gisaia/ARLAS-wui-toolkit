@@ -50,3 +50,37 @@
   align-items: center;
   padding: 3px 0 0 25px;
 }
+
+.analytics-board-compact{
+  width: 35px;
+}
+
+.analytics-board-compact .mat-card{
+  padding: 5px 5px 0 5px !important;
+  border-radius: 0px;
+}
+
+.analytics-compact-card{
+  cursor: pointer;
+}
+
+.active-filter{
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  background-color: #00DDE5;
+  border-radius: 9px;
+  right: -12px;
+  top: 8px;
+}
+
+.active-filter-close{
+  display: none;
+  padding: 2px 0px 0 2px;
+  font-size: 14px;
+  color: white;
+}
+
+.active-filter:hover .active-filter-close{
+  display: block;
+}

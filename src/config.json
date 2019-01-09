@@ -205,8 +205,8 @@
         "map$mapbox": {
           "identifier": "mapbox",
           "idFieldName": "id",
-          "geomStrategy": "centroid",
           "name": "Map",
+          "geomStrategy": "centroid",
           "initZoom": 4,
           "includeFeaturesFields": [
             "course.heading",
@@ -922,7 +922,7 @@
       }
     },
     "server": {
-      "url": "http://demo.arlas.io/arlas",
+      "url": "http://localhost:9999/arlas",
       "collection": {
         "name": "ais-danmark",
         "id": "id"

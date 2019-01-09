@@ -11,6 +11,7 @@
   border-top-left-radius: 2px;
   border-top-right-radius: 2px;
   padding: 0 3px 0 3px;
+  overflow: visible;
 }
 
 .shortcut-button__icon {
@@ -24,14 +25,17 @@
   cursor: pointer;
 }
 
-.shortcut-remove-filter {
+.shortcut-remove-filter{
+  height: 20px;
+}
+
+.shortcut-remove-filter-icon {
   color: white;
-  width: 15px;
-  height: 15px;
+  width: 20px;
+  height: 20px;
   font-size: 15px;
-  font-weight: bold;
-  margin-left: 5px;
   cursor: pointer;
+  padding: 2px 2px;
 }
 
 .shortcut-button__label {

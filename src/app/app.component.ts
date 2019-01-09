@@ -35,6 +35,8 @@ export class AppComponent implements AfterViewInit, OnInit {
 
   public analytics: Array<any>;
   public languages: string[];
+  public analyticsOpen = false;
+  public target: string;
 
   constructor(private configService: ArlasConfigService,
     private arlasStartupService: ArlasStartupService,
@@ -99,5 +101,10 @@ export class AppComponent implements AfterViewInit, OnInit {
           }
         });
     }
+  }
+
+  public openAnalytics(event) {
+    this.target = 'analytics-panel-' + event;
+    this.analyticsOpen = true;
   }
 }
