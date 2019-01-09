@@ -1190,10 +1190,10 @@ arlas-d3@5.0.0:
     rxjs-compat "6.3.3"
     tinycolor2 "^1.4.1"
 
-arlas-web-components@9.0.*:
-  version "9.0.0"
-  resolved "https://registry.yarnpkg.com/arlas-web-components/-/arlas-web-components-9.0.0.tgz#dbe224351da17ee73496e44e2b7dd259b6979ede"
-  integrity sha512-TROS9FY/P6zNvxS+649ZrNY+xOT4nyltJsp8L7cdLsLqSR6tU7JPGpLGdFZAtwmpkXGmj9xTeKyyOShp82gTMw==
+arlas-web-components@9.1.*:
+  version "9.1.0"
+  resolved "https://registry.yarnpkg.com/arlas-web-components/-/arlas-web-components-9.1.0.tgz#96c2b56b4d2e3015d9d1d0f3a89faedeaaf3e537"
+  integrity sha512-0f5yEKSHIFPJZ06+/i4ZcD8x32u7IYnAmqd9NMrrHWSznWUMmqUVoW6Ejzke0Ok2pPm2pCSVxpx6hr8FYtl8oQ==
   dependencies:
     "@angular/animations" "~7.0.0"
     "@angular/cdk" "~7.0.0"
@@ -1225,10 +1225,10 @@ arlas-web-components@9.0.*:
     typedoc-plugin-markdown "^1.1.17"
     zone.js "^0.8.26"
 
-arlas-web-contributors@9.0.*:
-  version "9.0.1"
-  resolved "https://registry.yarnpkg.com/arlas-web-contributors/-/arlas-web-contributors-9.0.1.tgz#489de7e67b7d9da4205b2396aa1cd3195454c95f"
-  integrity sha512-9J0znoMhXnaumM8+Q8zrRxDZJz0bItAe4c/gPJMP3/aoqM9m+Fk1pYfYD1piJKV6PFrqn50miQTpn9PSWhQasg==
+arlas-web-contributors@9.1.*:
+  version "9.1.0"
+  resolved "https://registry.yarnpkg.com/arlas-web-contributors/-/arlas-web-contributors-9.1.0.tgz#9d3989a213efe990675df36fc5d092707f3fb0dd"
+  integrity sha512-M0Pn3twJ7T1lDzfwO33uVMl1nGM2OWwBT+yzSeiAW6SBU3xkoPJE+GeNxm/k8m/hIz4r4ZpYEooP3FWJJLsz7w==
   dependencies:
     "@turf/bbox" "^6.0.1"
     "@turf/bbox-polygon" "^6.0.1"

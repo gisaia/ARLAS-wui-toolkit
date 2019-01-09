@@ -1,6 +1,20 @@
 # Change Log
 
-## [v9.0.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v9.0.2) (2018-12-13)
+## [v9.1.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v9.1.0) (2019-01-09)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v9.0.2...v9.1.0)
+
+**New stuff:**
+
+- Add new input in powerbar widget [\#105](https://github.com/gisaia/ARLAS-wui-toolkit/pull/105) ([sebbousquet](https://github.com/sebbousquet))
+- Add a 'compact' mode to the analytics board [\#102](https://github.com/gisaia/ARLAS-wui-toolkit/pull/102) ([sebbousquet](https://github.com/sebbousquet))
+- Add a class for AB group size [\#100](https://github.com/gisaia/ARLAS-wui-toolkit/pull/100) ([sebbousquet](https://github.com/sebbousquet))
+
+**Fixed bugs:**
+
+- Fix versions image mkdoc [\#103](https://github.com/gisaia/ARLAS-wui-toolkit/pull/103) ([mbarbet](https://github.com/mbarbet))
+
+## [v9.0.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v9.0.2) (2018-12-14)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v9.0.1...v9.0.2)
 
