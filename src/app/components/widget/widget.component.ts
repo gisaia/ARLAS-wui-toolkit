@@ -21,7 +21,7 @@ import { HistogramContributor } from 'arlas-web-contributors';
 import { Component, OnInit, Input, ViewChild, ChangeDetectorRef, ComponentFactoryResolver, Output } from '@angular/core';
 import { ArlasStartupService, ArlasCollaborativesearchService } from '../../services/startup/startup.service';
 import { Contributor, CollaborationEvent, OperationEnum } from 'arlas-web-core';
-import { ChartType, HistogramComponent, Position, SwimlaneMode } from 'arlas-web-components';
+import { ChartType, HistogramComponent, Position, SwimlaneMode, CellBackgroundStyleEnum } from 'arlas-web-components';
 import { DataType } from 'arlas-web-contributors/models/models';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs/Subject';
@@ -131,7 +131,9 @@ export class WidgetComponent implements OnInit {
   private setComponentInput(component: any) {
     if (this.componentParams) {
       Object.keys(this.componentParams).forEach(key => {
-        if (key === 'chartType') {
+        if (key === 'cellBackgroundStyle') {
+          component[key] = CellBackgroundStyleEnum[this.componentParams[key]];
+        } else if (key === 'chartType') {
           component[key] = ChartType[this.componentParams[key]];
         } else if (key === 'dataType') {
           component[key] = DataType[this.componentParams[key]];
