@@ -55,9 +55,10 @@ export class ArlasBookmarkService {
       const url = this.getUrlFomSetIds(selectedItem);
       const dataModel = this.collaborativesearchService.dataModelBuilder(decodeURI(url));
       const color = '#' + getKeyForColor(dataModel);
-      this.dataBase.addBookMark(newBookMarkName, newBookMarkName, url, BookMarkType.enumIds, color);
+      const bookmarkFromItem = this.dataBase.createNewBookMark(newBookMarkName, newBookMarkName, url, BookMarkType.enumIds, color);
+      this.dataBase.addBookMark(bookmarkFromItem);
       this.bookMarkMap = this.dataBase.bookMarkMap;
-      this.viewBookMark(url);
+      this.viewBookMark(bookmarkFromItem.id);
     } else {
       let filter = '';
       this.collaborativesearchService.collaborations.forEach((k, v) => {
@@ -72,7 +73,8 @@ export class ArlasBookmarkService {
       } else {
         type = BookMarkType.filterWithTime;
       }
-      this.dataBase.addBookMark(newBookMarkName, filter.substring(1, filter.length), url, type, color);
+      const bookmarkFromFilter = this.dataBase.createNewBookMark(newBookMarkName, filter.substring(1, filter.length), url, type, color);
+      this.dataBase.addBookMark(bookmarkFromFilter);
       this.bookMarkMap = this.dataBase.bookMarkMap;
     }
   }
@@ -95,10 +97,9 @@ export class ArlasBookmarkService {
       Object.keys(dataModel).forEach(v => {
         filter = filter + '-' + this.collaborativesearchService.registry.get(v).getFilterDisplayName();
       });
-      this.dataBase.addBookMark(newBookMarkName, filter.substring(1, filter.length), url, type, color);
+      const bookmark = this.dataBase.createNewBookMark(newBookMarkName, filter.substring(1, filter.length), url, type, color);
+      this.dataBase.addBookMark(bookmark);
       this.bookMarkMap = this.dataBase.bookMarkMap;
-
-
     }
   }
 
@@ -111,18 +112,8 @@ export class ArlasBookmarkService {
   public viewBookMark(id: string) {
     const bookmark = this.getBookmarkById(id);
     const dataModel = this.collaborativesearchService.dataModelBuilder(decodeURI(bookmark.url));
-    this.collaborativesearchService.setCollaborations(dataModel);
-    let language = null;
-    if (this.activatedRoute.snapshot.queryParams['lg']) {
-      language = this.activatedRoute.snapshot.queryParams['lg'];
-    }
-    const queryParams: Params = Object.assign({}, this.activatedRoute.snapshot.queryParams);
-    queryParams['filter'] = bookmark.url;
-    if (language) {
-      queryParams['lg'] = language;
-    }
+    this.viewFromDataModel(dataModel);
     this.dataBase.incrementBookmarkView(bookmark.id);
-    this.router.navigate(['.'], { queryParams: queryParams });
     this.openSnackBar(bookmark.name + ' loading');
   }
 
@@ -143,23 +134,29 @@ export class ArlasBookmarkService {
     selectedBookmark.forEach(bookmarkId => {
       this.dataBase.incrementBookmarkView(bookmarkId);
     });
+    let dataModel;
     if (this.bookMarkMap.get(Array.from(selectedBookmark)[0]).type === BookMarkType.enumIds) {
       const url = this.getUrlFomSetIds(this.combineBookmarkFromIds(selectedBookmark));
-      this.viewBookMark(url);
+      dataModel = this.collaborativesearchService.dataModelBuilder(decodeURI(url));
     } else {
-      const dataModel = this.combineBookmarkFromFilter(selectedBookmark);
-      this.collaborativesearchService.setCollaborations(dataModel);
-      let language = null;
-      if (this.activatedRoute.snapshot.queryParams['lg']) {
-        language = this.activatedRoute.snapshot.queryParams['lg'];
-      }
-      const queryParams: Params = Object.assign({}, this.activatedRoute.snapshot.queryParams);
-      queryParams['filter'] = JSON.stringify(dataModel);
-      if (language) {
-        queryParams['lg'] = language;
-      }
-      this.router.navigate(['.'], { queryParams: queryParams });
+      dataModel = this.combineBookmarkFromFilter(selectedBookmark);
     }
+    this.viewFromDataModel(dataModel);
+  }
+
+
+  private viewFromDataModel(dataModel: Object) {
+    this.collaborativesearchService.setCollaborations(dataModel);
+    let language = null;
+    if (this.activatedRoute.snapshot.queryParams['lg']) {
+      language = this.activatedRoute.snapshot.queryParams['lg'];
+    }
+    const queryParams: Params = Object.assign({}, this.activatedRoute.snapshot.queryParams);
+    queryParams['filter'] = JSON.stringify(dataModel);
+    if (language) {
+      queryParams['lg'] = language;
+    }
+    this.router.navigate(['.'], { queryParams: queryParams });
   }
 
   private combineBookmarkFromIds(selectedBookmark: Set<string>): Set<string> {
