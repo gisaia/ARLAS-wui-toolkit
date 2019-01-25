@@ -1,6 +1,10 @@
 # Change Log
 
-## [v9.1.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v9.1.2) (2019-01-09)
+## [v9.1.3](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v9.1.3) (2019-01-25)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v9.1.2...v9.1.3)
+
+## [v9.1.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v9.1.2) (2019-01-11)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v9.1.1...v9.1.2)
 
