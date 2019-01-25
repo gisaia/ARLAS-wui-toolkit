@@ -40,47 +40,7 @@ export class BookmarkDatabase {
     }
   }
 
-  public addBookMark(
-    name: string, prettyFilter: string, url: string, type: BookMarkType, color: string, id?: string, date?: Date, views?: number
-  ) {
-    const copiedData = this.data.slice();
-    const bookmark = this.createNewBookMark(name, prettyFilter, url, type, color, id, date, views);
-    copiedData.push(bookmark);
-    this.bookMarkMap.set(bookmark.id, bookmark);
-    const sortedData = sortOnDate(copiedData);
-    localStorage.setItem('bookmark', JSON.stringify(sortedData));
-    this.dataChange.next(sortedData);
-  }
-
-  public removeBookMark(id: string) {
-    const copiedData = this.data.slice();
-    const newData = [];
-    copiedData.forEach(u => {
-      if (u.id !== id) {
-        newData.push(u);
-      }
-    });
-    this.bookMarkMap.delete(id);
-    this.dataChange.next(newData);
-  }
-
-  public incrementBookmarkView(id: string) {
-    const bookmark = this.bookMarkMap.get(id);
-    this.removeBookMark(id);
-    bookmark.views++;
-    this.addBookMark(
-      bookmark.name,
-      bookmark.prettyFilter,
-      bookmark.url,
-      bookmark.type,
-      bookmark.color,
-      bookmark.id,
-      bookmark.date,
-      bookmark.views
-    );
-  }
-
-  private createNewBookMark(name: string, prettyFilter: string, url: string,
+  public createNewBookMark(name: string, prettyFilter: string, url: string,
     type: BookMarkType, color: string, id?: string, date?: Date, views?: number): BookMark {
     let uid = '';
     let bookmarkDate: Date;
@@ -114,5 +74,33 @@ export class BookmarkDatabase {
     };
     this.bookmarkService.setBookMarkCount(bookMark);
     return bookMark;
+  }
+
+  public addBookMark(bookmark: BookMark) {
+    const copiedData = this.data.slice();
+    copiedData.push(bookmark);
+    this.bookMarkMap.set(bookmark.id, bookmark);
+    const sortedData = sortOnDate(copiedData);
+    localStorage.setItem('bookmark', JSON.stringify(sortedData));
+    this.dataChange.next(sortedData);
+  }
+
+  public removeBookMark(id: string) {
+    const copiedData = this.data.slice();
+    const newData = [];
+    copiedData.forEach(u => {
+      if (u.id !== id) {
+        newData.push(u);
+      }
+    });
+    this.bookMarkMap.delete(id);
+    this.dataChange.next(newData);
+  }
+
+  public incrementBookmarkView(id: string) {
+    const bookmark = this.bookMarkMap.get(id);
+    this.removeBookMark(id);
+    bookmark.views++;
+    this.addBookMark(bookmark);
   }
 }
