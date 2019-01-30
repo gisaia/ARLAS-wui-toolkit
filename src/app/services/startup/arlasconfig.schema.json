@@ -45,6 +45,13 @@
                                         }
                                     ]
                                 },
+                                "^(tree\\$).*$": {
+                                  "allOf": [
+                                      {
+                                          "$ref": "treeContributorConf.schema.json#"
+                                      }
+                                  ]
+                                },
                                 "^(resultlist\\$).*$": {
                                     "allOf": [
                                         {

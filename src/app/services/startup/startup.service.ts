@@ -30,7 +30,8 @@ import {
     ChipsSearchContributor,
     DonutContributor,
     DetailedHistogramContributor,
-    TopoMapContributor
+    TopoMapContributor,
+    TreeContributor
 } from 'arlas-web-contributors';
 import { AnalyticsContributor } from 'arlas-web-contributors/contributors/AnalyticsContributor';
 import * as portableFetch from 'portable-fetch';
@@ -150,6 +151,7 @@ export class ArlasStartupService {
                     .addSchema(MapContributor.getJsonSchema())
                     .addSchema(TopoMapContributor.getJsonSchema())
                     .addSchema(DonutContributor.getJsonSchema())
+                    .addSchema(TreeContributor.getJsonSchema())
                     .addSchema(ChipsSearchContributor.getJsonSchema())
                     .addSchema(AnalyticsContributor.getJsonSchema())
                     .addSchema((<any>HistogramComponent.getHistogramJsonSchema()).default)

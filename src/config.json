@@ -116,7 +116,7 @@
           "datatype": "numeric",
           "isOneDimension": false
         },
-        "donut$shiptype": {
+        "tree$shiptype": {
           "aggregationmodels": [
             {
               "type": "term",
@@ -190,7 +190,6 @@
                   }
                 }
               ]
-
             }
           ],
           "charttype": "swimlane",
@@ -645,6 +644,15 @@
                     ["Anti-pollution", "#00f4d0"], ["Pleasure", "#ad0084"], ["Towing", "#d37700"], ["Towing long/wide", "#d37700"],
                     ["Sailing", "#edc77b"]
                   ]
+                }
+              },
+              {
+                "contributorId": "shiptype",
+                "componentType": "powerbars",
+                "input": {
+                  "customizedCssClass": "arlas-powerbars-analytics",
+                  "chartTitle": "ship type",
+                  "displayFilter": true
                 }
               },
               {
