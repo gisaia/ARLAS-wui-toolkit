@@ -33,18 +33,34 @@
     [swimLaneLabelsWidth]="graphParam?.swimLaneLabelsWidth" [swimlaneBorderRadius]="graphParam?.swimlaneBorderRadius" [swimlaneHeight]="graphParam?.swimlaneHeight"
     [displayOnlyIntervalsWithData]="graphParam?.displayOnlyIntervalsWithData"></arlas-histogram>
 </div>
-<div *ngIf="componentType === 'powerbars'">
+
+<div *ngIf="componentType === 'powerbars' && contributorType ==='powerbars'">
   <arlas-powerbars [customizedCssClass]="graphParam?.customizedCssClass" [powerbarTitle]="graphParam?.powerbarTitle" [displayFilterField]="graphParam?.displayFilterField"
-    [inputData]="contributor?.powerbarsData" (selectedPowerBarEvent)="contributor?.selectedBarsChanged($event)" [selectedPowerbarsTerms]="contributor?.selectedBars"
+    [inputData]="contributor?.powerbarsData" (selectedPowerBarEvent)="contributor?.selectedBarsChanged($event)" [selectedPaths]="contributor?.selectedBars"
     (searchedTerm)="contributor?.updatePowerbarsData($event)">
   </arlas-powerbars>
 </div>
 
-<div *ngIf="componentType==='donut'" class="donut-container">
+<div *ngIf="componentType==='powerbars' && contributorType ==='tree'">
+  <arlas-powerbars [customizedCssClass]="graphParam?.customizedCssClass" [powerbarTitle]="graphParam?.powerbarTitle" [displayFilterField]="graphParam?.displayFilterField"
+    [inputData]="contributor?.treeData" (selectedPowerBarEvent)="contributor?.selectedNodesListChanged($event)" [selectedPaths]="contributor?.selectedNodesPathsList"
+    (searchedTerm)="contributor?.updateTreeDataSearch($event)">
+  </arlas-powerbars>
+</div>
+
+<div *ngIf="componentType==='donut' && contributorType ==='donut'" class="donut-container">
   <div class="donut">{{contributor?.getFilterDisplayName() | translate}}</div>
   <arlas-donut [id]="graphParam?.id" [donutData]="contributor?.donutData" [opacity]="graphParam.opacity" [multiselectable]="graphParam?.multiselectable"
     [selectedArcsList]="contributor?.selectedArcsList" [keysToColors]="graphParam?.keysToColors" [colorsSaturationWeight]="graphParam?.colorsSaturationWeight"
     (selectedNodesEvent)="contributor?.selectedArcsListChanged($event)" [customizedCssClass]="graphParam?.customizedCssClass">
+  </arlas-donut>
+</div>
+
+<div *ngIf="componentType==='donut' && contributorType ==='tree'" class="donut-container">
+  <div class="donut">{{contributor?.getFilterDisplayName() | translate}}</div>
+  <arlas-donut [id]="graphParam?.id" [donutData]="contributor?.treeData" [opacity]="graphParam.opacity" [multiselectable]="graphParam?.multiselectable"
+    [selectedArcsList]="contributor?.selectedNodesPathsList" [keysToColors]="graphParam?.keysToColors" [colorsSaturationWeight]="graphParam?.colorsSaturationWeight"
+    (selectedNodesEvent)="contributor?.selectedNodesListChanged($event)" [customizedCssClass]="graphParam?.customizedCssClass">
   </arlas-donut>
 </div>
 
