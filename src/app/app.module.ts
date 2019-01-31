@@ -29,7 +29,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
-import { DonutModule, HistogramModule, PowerbarsModule, ResultsModule } from 'arlas-web-components';
+import { DonutModule, HistogramModule, PowerbarsModule, ResultsModule, ColorGeneratorModule,
+  ColorGeneratorLoader} from 'arlas-web-components';
 import { Observable } from 'rxjs/Observable';
 import { AppComponent } from './app.component';
 import { routing } from './app.routes';
@@ -50,6 +51,7 @@ import { GetTimeLabelPipe } from './pipes/get-time-label.pipe';
 import { DatePickerComponent } from './components/timeline/date-picker/date-picker.component';
 import { OwlDateTimeModule, OwlNativeDateTimeModule, OWL_DATE_TIME_FORMATS, OwlDateTimeIntl, OWL_DATE_TIME_LOCALE } from 'ng-pick-datetime';
 import { ArlasTranslateIntl } from './components/timeline/date-picker/ArlasTranslateIntl';
+import { ArlasColorGeneratorLoader } from './services/color-generator-loader/color-generator-loader.service';
 
 
 export class CustomTranslateLoader implements TranslateLoader {
@@ -169,6 +171,12 @@ export function translationServiceFactory(translate: TranslateService, injector:
     ResultsModule,
     RouterModule,
     routing,
+    ColorGeneratorModule.forRoot({
+      loader: {
+        provide: ColorGeneratorLoader,
+        useClass: ArlasColorGeneratorLoader
+      }
+    }),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -181,6 +189,7 @@ export function translationServiceFactory(translate: TranslateService, injector:
     forwardRef(() => ArlasConfigService),
     forwardRef(() => ArlasCollaborativesearchService),
     forwardRef(() => ArlasStartupService),
+    forwardRef(() => ArlasColorGeneratorLoader),
     forwardRef(() => ArlasBookmarkService),
     forwardRef(() => ArlasTagService),
 
