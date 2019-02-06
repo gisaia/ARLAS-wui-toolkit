@@ -21,7 +21,7 @@ import { HistogramContributor } from 'arlas-web-contributors';
 import { Component, OnInit, Input, ViewChild, ChangeDetectorRef, ComponentFactoryResolver, Output } from '@angular/core';
 import { ArlasStartupService, ArlasCollaborativesearchService } from '../../services/startup/startup.service';
 import { Contributor, CollaborationEvent, OperationEnum } from 'arlas-web-core';
-import { ChartType, HistogramComponent, Position, SwimlaneMode } from 'arlas-web-components';
+import { ChartType, HistogramComponent, Position, SwimlaneMode, CellBackgroundStyleEnum } from 'arlas-web-components';
 import { DataType } from 'arlas-web-contributors/models/models';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs/Subject';
@@ -40,7 +40,7 @@ export class WidgetComponent implements OnInit {
 
   public chartType = ChartType;
 
-  public componentType;
+  public contributorType;
   public contributor;
   public swimSelected;
   public swimlanes = [];
@@ -48,6 +48,8 @@ export class WidgetComponent implements OnInit {
   public highlightItems: Set<string> = new Set<string>();
   public showSwimlaneDropDown: boolean;
   public graphParam: any = {};
+
+  @Input() public componentType;
 
   /**
    * @Input : Angular
@@ -77,7 +79,7 @@ export class WidgetComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.componentType = this.getComponentType();
+    this.contributorType = this.getContirbutorType();
     this.contributor = this.arlasStartupService.contributorRegistry.get(this.contributorId);
     if (this.componentType === 'swimlane') {
       this.swimlanes = this.contributor.getConfigValue('swimlanes');
@@ -117,7 +119,7 @@ export class WidgetComponent implements OnInit {
     this.outEvents.next({ origin: source, event: event, data: data });
   }
 
-  private getComponentType() {
+  private getContirbutorType() {
     const contributor: Contributor = this.arlasStartupService.contributorRegistry.get(this.contributorId);
     if (contributor) {
       const contributorPkgName: string = contributor.getPackageName();
@@ -129,7 +131,9 @@ export class WidgetComponent implements OnInit {
   private setComponentInput(component: any) {
     if (this.componentParams) {
       Object.keys(this.componentParams).forEach(key => {
-        if (key === 'chartType') {
+        if (key === 'cellBackgroundStyle') {
+          component[key] = CellBackgroundStyleEnum[this.componentParams[key]];
+        } else if (key === 'chartType') {
           component[key] = ChartType[this.componentParams[key]];
         } else if (key === 'dataType') {
           component[key] = DataType[this.componentParams[key]];

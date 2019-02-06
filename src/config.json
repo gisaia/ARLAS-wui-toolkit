@@ -116,7 +116,7 @@
           "datatype": "numeric",
           "isOneDimension": false
         },
-        "donut$shiptype": {
+        "tree$shiptype": {
           "aggregationmodels": [
             {
               "type": "term",
@@ -190,7 +190,6 @@
                   }
                 }
               ]
-
             }
           ],
           "charttype": "swimlane",
@@ -396,7 +395,11 @@
           "identifier": "table",
           "icon": "list",
           "fieldsConfiguration": {
-            "idFieldName": "id"
+            "idFieldName": "id",
+            "urlThumbnailTemplate": "test",
+            "titleFieldNames": [{"fieldPath":"vessel.ship_type"}],
+            "icon": "fiber_manual_record",
+            "iconColorFieldName": "vessel.ship_type"
           },
           "columns": [
             {
@@ -408,6 +411,7 @@
             {
               "columnName": "Ship type",
               "fieldName": "vessel.ship_type",
+              "useColorService": true,
               "dataType": "",
               "process": ""
             },
@@ -635,16 +639,17 @@
                   "id": "donut",
                   "customizedCssClass": "arlas-donuts-analytics",
                   "multiselectable": true,
-                  "opacity": 0.3,
-                  "keysToColors": [["Tanker", "#ff8ee8"], ["Fishing", "#86d8f7"],
-                    ["Tug", "#f4df42"], ["SAR", "#03c6ac"], ["OTHER", "#c2c2c2"],
-                    ["Other", "#c2c2c2"], ["Undefined", "#c2c2c2"], ["Category X", "#eab738"],
-                    ["Category Y", "#ead538"], ["Category Z", "#ea8538"], ["Category OS", "#ed29d5"],
-                    ["Pilot", "#e74b4b"], ["HSC", "#0086bd"], ["Law enforcement", "#00b4d3"],
-                    ["Military", "#a625e0"], ["Cargo", "#0099ff"], ["Passenger", "#a5c176"], ["Dredging", "#51a588"],
-                    ["Anti-pollution", "#00f4d0"], ["Pleasure", "#ad0084"], ["Towing", "#d37700"], ["Towing long/wide", "#d37700"],
-                    ["Sailing", "#edc77b"]
-                  ]
+                  "opacity": 0.3
+                }
+              },
+              {
+                "contributorId": "shiptype",
+                "componentType": "powerbars",
+                "input": {
+                  "customizedCssClass": "arlas-powerbars-analytics",
+                  "chartTitle": "ship type",
+                  "displayFilter": true,
+                  "useColorService": true
                 }
               },
               {
@@ -654,11 +659,7 @@
                   "id": "donut-navigation",
                   "customizedCssClass": "arlas-donuts-status-analytics",
                   "multiselectable": true,
-                  "opacity": 0.3,
-                  "keysToColors": [["Under way using engine", "#51a588"], ["Unknown value", "#c2c2c2"],
-                    ["Engaged in fishing", "#86d8f7"], ["Moored", "#eab738"], ["Reserved for future amendment [HSC]", "#0086bd"],
-                    ["Under way sailing", "#ad0084"]
-                  ]
+                  "opacity": 0.3
                 }
               }
           ]
@@ -726,7 +727,8 @@
               "componentType": "powerbars",
               "input": {
                 "customizedCssClass": "arlas-powerbars-analytics",
-                "chartTitle": "Ship name"
+                "chartTitle": "Ship name",
+                "useColorService": true
               }
             }
           ]
@@ -755,7 +757,9 @@
                 "selectedItemsEvent": null,
                 "consultedItemEvent": null,
                 "actionOnItemEvent": null,
-                "globalActionEvent": null
+                "globalActionEvent": null,
+                "useColorService": true,
+                "cellBackgroundStyle": "filled"
               }
             }
           ]
@@ -922,6 +926,19 @@
             "barWeight": 0.8
           }
         }
+      },
+      "colorGenerator": {
+        "keysToColors": [["Tanker", "#ff8ee8"], ["Fishing", "#7AD8F5"],
+        ["Tug", "#f4df42"], ["SAR", "#03c6ac"], ["OTHER", "#c2c2c2"],
+        ["Other", "#c2c2c2"], ["Undefined", "#c2c2c2"], ["Category X", "#eab738"],
+        ["Category Y", "#ead538"], ["Category Z", "#ea8538"], ["Category OS", "#ed29d5"],
+        ["Pilot", "#e74b4b"], ["HSC", "#0086bd"], ["Law enforcement", "#00b4d3"],
+        ["Military", "#a625e0"], ["Cargo", "#0099ff"], ["Passenger", "#a5c176"], ["Dredging", "#51a588"],
+        ["Anti-pollution", "#00f4d0"], ["Pleasure", "#ad0084"], ["Towing", "#d37700"], ["Towing long/wide", "#d37700"],
+        ["Sailing", "#edc77b"],["Under way using engine", "#51a588"], ["Unknown value", "#c2c2c2"],
+        ["Engaged in fishing", "#86d8f7"], ["Moored", "#eab738"], ["Reserved for future amendment [HSC]", "#0086bd"],
+        ["Under way sailing", "#ad0084"]],
+        "colorsSaturationWeight": 0.6
       }
     },
     "server": {

@@ -45,6 +45,13 @@
                                         }
                                     ]
                                 },
+                                "^(tree\\$).*$": {
+                                  "allOf": [
+                                      {
+                                          "$ref": "treeContributorConf.schema.json#"
+                                      }
+                                  ]
+                                },
                                 "^(resultlist\\$).*$": {
                                     "allOf": [
                                         {
@@ -352,6 +359,103 @@
                                 "contributorId",
                                 "input"
                               ]
+                            }
+                          }
+                        },
+                        "colorGenerator": {
+                          "description": "",
+                          "type": "object",
+                          "properties": {
+                            "keysToColors": {
+                              "description": "List of [key, color] couples that associates a hex color to each key",
+                              "type": "array",
+                              "items": {
+                                    "type": "array",
+                                    "minItems": 2,
+                                    "maxItems": 2,
+                                    "items": [
+                                        {
+                                            "description": "Key to which a color is associated",
+                                            "type": "string"
+                                        },
+                                        {
+                                            "description": "Hex color associated to the key",
+                                            "type": "string"
+                                        }
+                                    ]
+                                }
+                            },
+                            "colorsSaturationWeight": {
+                              "description": "Knowing that saturation scale is [0, 1], `colorsSaturationWeight` is a factor (between 0 and 1) that tightens this scale to [(1-colorsSaturationWeight), 1]. Therefore saturation of generated colors will be within this tightened scale.",
+                              "type": "number"
+                            },
+                            "colorAggregations": {
+                              "description": "List of aggregation, order matters",
+                              "type": "array",
+                              "items": {
+                                  "type": "array",
+                                  "minItems": 2,
+                                  "maxItems": 2,
+                                  "items": {
+                                    "type": "object",
+                                    "properties": {
+                                      "type": {
+                                          "description": "Type of aggregation",
+                                          "enum": [
+                                              "datehistogram",
+                                              "geohash",
+                                              "histogram",
+                                              "term"
+                                          ]
+                                      },
+                                      "field": {
+                                          "description": "Field of aggregation",
+                                          "type": "string"
+                                      },
+                                      "interval": {
+                                          "description": "Interval of aggregation",
+                                          "type": "object",
+                                          "properties": {
+                                              "value": {
+                                                  "description": "Value of interval",
+                                                  "type": "integer"
+                                              },
+                                              "unit": {
+                                                  "description": "Unit of interval",
+                                                  "enum": [
+                                                      "year",
+                                                      "quarter",
+                                                      "month",
+                                                      "week",
+                                                      "day",
+                                                      "hour",
+                                                      "minute",
+                                                      "second"
+                                                  ]
+                                              }
+                                          }
+                                      },
+                                      "fetchGeometry": {
+                                          "description": "How to retrieve geometry for term and geohash aggregation",
+                                          "type": "object",
+                                          "properties": {
+                                              "strategy:": {
+                                                  "description": "Strategy to fetch geometry",
+                                                  "enum": [
+                                                      "bbox",
+                                                      "centroid",
+                                                      "first",
+                                                      "last",
+                                                      "byDefault",
+                                                      "geohash"
+                                                  ]
+                                              }
+                                          }
+                                      }
+                                    }
+                                  }
+                                }
+
                             }
                           }
                         }

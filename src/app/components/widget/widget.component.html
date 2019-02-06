@@ -33,18 +33,20 @@
     [swimLaneLabelsWidth]="graphParam?.swimLaneLabelsWidth" [swimlaneBorderRadius]="graphParam?.swimlaneBorderRadius" [swimlaneHeight]="graphParam?.swimlaneHeight"
     [displayOnlyIntervalsWithData]="graphParam?.displayOnlyIntervalsWithData"></arlas-histogram>
 </div>
-<div *ngIf="componentType === 'powerbars'">
-  <arlas-powerbars [customizedCssClass]="graphParam?.customizedCssClass" [powerbarTitle]="graphParam?.powerbarTitle" [displayFilterField]="graphParam?.displayFilterField"
-    [inputData]="contributor?.powerbarsData" (selectedPowerBarEvent)="contributor?.selectedBarsChanged($event)" [selectedPowerbarsTerms]="contributor?.selectedBars"
-    (searchedTerm)="contributor?.updatePowerbarsData($event)">
+
+<div *ngIf="componentType==='powerbars'">
+  <arlas-powerbars [customizedCssClass]="graphParam?.customizedCssClass" [powerbarTitle]="graphParam?.powerbarTitle" [displayFilterField]="graphParam?.displayFilter"
+    [inputData]="contributor?.treeData" [useColorService]="graphParam?.useColorService" [keysToColors]="graphParam?.keysToColors" [colorsSaturationWeight]="graphParam?.colorsSaturationWeight"
+    (selectedPowerBarEvent)="contributor?.selectedNodesListChanged($event)" [selectedPaths]="contributor?.selectedNodesPathsList"
+    (searchedTerm)="contributor?.updateTreeDataSearch($event)">
   </arlas-powerbars>
 </div>
 
 <div *ngIf="componentType==='donut'" class="donut-container">
   <div class="donut">{{contributor?.getFilterDisplayName() | translate}}</div>
-  <arlas-donut [id]="graphParam?.id" [donutData]="contributor?.donutData" [opacity]="graphParam.opacity" [multiselectable]="graphParam?.multiselectable"
-    [selectedArcsList]="contributor?.selectedArcsList" [keysToColors]="graphParam?.keysToColors" [colorsSaturationWeight]="graphParam?.colorsSaturationWeight"
-    (selectedNodesEvent)="contributor?.selectedArcsListChanged($event)" [customizedCssClass]="graphParam?.customizedCssClass">
+  <arlas-donut [id]="graphParam?.id" [donutData]="contributor?.treeData" [opacity]="graphParam.opacity" [multiselectable]="graphParam?.multiselectable"
+    [selectedArcsList]="contributor?.selectedNodesPathsList" [keysToColors]="graphParam?.keysToColors" [colorsSaturationWeight]="graphParam?.colorsSaturationWeight"
+    (selectedNodesEvent)="contributor?.selectedNodesListChanged($event)" [customizedCssClass]="graphParam?.customizedCssClass">
   </arlas-donut>
 </div>
 
@@ -56,7 +58,10 @@
     [searchSize]="graphParam.searchSize" [nLastLines]="graphParam.nLastLines" [detailedGridHeight]="graphParam.detailedGridHeight"
     [nbGridColumns]="graphParam.nbGridColumns" [indeterminatedItems]="this.indeterminatedItems" [highlightItems]="this.highlightItems"
     [defautMode]="graphParam.defautMode" [displayFilters]="graphParam.displayFilters" [isBodyHidden]="graphParam.isBodyHidden"
-    [isGeoSortActived]="graphParam?.isGeoSortActived" [isAutoGeoSortActived]="graphParam?.isAutoGeoSortActived" (geoSortEvent)="emitEvent(contributorId, 'geoSortEvent', $event)"
+    [isGeoSortActived]="graphParam?.isGeoSortActived" [isAutoGeoSortActived]="graphParam?.isAutoGeoSortActived"
+    [useColorService]="graphParam?.useColorService" [cellBackgroundStyle]="graphParam?.cellBackgroundStyle"
+    [keysToColors]="graphParam?.keysToColors" [colorsSaturationWeight]="graphParam?.colorsSaturationWeight"
+    (geoSortEvent)="emitEvent(contributorId, 'geoSortEvent', $event)"
     (geoAutoSortEvent)="emitEvent(contributorId, 'geoAutoSortEvent', $event)" (selectedItemsEvent)="emitEvent(contributorId, 'selectedItemsEvent', $event)"
     (consultedItemEvent)="emitEvent(contributorId, 'consultedItemEvent', $event)" (actionOnItemEvent)="emitEvent(contributorId, 'actionOnItemEvent', $event)"
     (globalActionEvent)="emitEvent(contributorId, 'globalActionEvent', $event)">

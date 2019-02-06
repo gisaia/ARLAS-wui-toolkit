@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { WidgetComponent } from './widget.component';
 import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from '../../services/startup/startup.service';
 import { HistogramModule, ResultsModule, DonutModule } from 'arlas-web-components';
-import { PowerbarsModule } from 'arlas-web-components/powerbars/powerbars.module';
+import { PowerbarsModule } from 'arlas-web-components';
 import { MatSelectModule } from '@angular/material';
 import { HttpClientModule } from '@angular/common/http';
 import { TranslateModule, TranslateService, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';

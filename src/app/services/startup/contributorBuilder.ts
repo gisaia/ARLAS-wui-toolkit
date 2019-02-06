@@ -27,7 +27,7 @@ import {
     SwimLaneContributor
 } from 'arlas-web-contributors';
 import { ArlasConfigService, ArlasCollaborativesearchService } from './startup.service';
-import { DonutContributor } from 'arlas-web-contributors/contributors/DonutContributor';
+import { DonutContributor, TreeContributor } from 'arlas-web-contributors';
 
 export class ContributorBuilder {
     public static buildContributor(contributorType: string,
@@ -83,6 +83,14 @@ export class ContributorBuilder {
                     collaborativesearchService,
                     configService,
                     titleDonut
+                );
+                break;
+            case 'tree':
+                const titletree: string = config['title'];
+                    contributor = new TreeContributor(identifier,
+                    collaborativesearchService,
+                    configService,
+                    titletree
                 );
                 break;
             case 'chipsearch':
