@@ -4,36 +4,37 @@ const inlineResources = require('./tools/inline-resources');
 
 function copyHtml() {
     return gulp.src('src/app/**/*.html')
-        .pipe(gulp.dest('./dist')).on('end', copyAssets);
+        .pipe(gulp.dest('./dist'));
 }
 
 function copyDts() {
     return gulp.src('src/app/**/*.d.ts')
-        .pipe(gulp.dest('./dist')).on('end', copyAssets);
+        .pipe(gulp.dest('./dist'));
 }
 
 function copyJS() {
     return gulp.src('src/app/**/*.js')
-        .pipe(gulp.dest('./dist')).on('end', copyAssets);
+        .pipe(gulp.dest('./dist'));
 }
 
 function copyscriptJS() {
     return gulp.src('src/script/*.js')
-        .pipe(gulp.dest('./dist')).on('end', copyAssets);
+        .pipe(gulp.dest('./dist'));
 }
 
 function copyAssets() {
     return gulp.src('./src/assets/**/*')
-        .pipe(gulp.dest('./dist/assets')).on('end', copyScss);
+        .pipe(gulp.dest('./dist/assets'));
 }
 
 function copyScss() {
     return gulp.src('./src/app/**/*.{scss,css}')
-        .pipe(gulp.dest('./dist')).on('end', inlineResource);
+        .pipe(gulp.dest('./dist'));
 }
 
-function inlineResource() {
+function inlineResource(done) {
     inlineResources('./dist/**');
+    done();
 }
 
 function cleanDistNodeModules() {
@@ -53,17 +54,22 @@ function copyData() {
 
 gulp.task('build:clean-dist-node_modules', cleanDistNodeModules);
 gulp.task('build:clean-dist-src', cleanDistSrc);
-gulp.task('build:copy-and-inline-resource', copyHtml);
-gulp.task('build:copy-and-inline-dts', copyDts);
-gulp.task('build:copy-and-inline-js', copyJS);
-gulp.task('build:copy-and-inline-script-js', copyscriptJS);
+gulp.task('build:copy-html', copyHtml);
+gulp.task('build:copy-dts', copyDts);
+gulp.task('build:copy-js', copyJS);
+gulp.task('build:copy-script-js', copyscriptJS);
+gulp.task('build:copy-css', copyScss);
+gulp.task('build:copy-json', copyData);
+gulp.task('build:inline-resources', inlineResource);
 
-gulp.task('build:copy-resources', copyData);
-
-gulp.task('default', gulp.series('build:copy-and-inline-resource',
-'build:copy-and-inline-dts',
-'build:copy-and-inline-js',
-'build:copy-and-inline-script-js',
-'build:clean-dist-node_modules',
-'build:clean-dist-src',
-'build:copy-resources'));
+gulp.task('default', gulp.series(
+  'build:copy-html',
+  'build:copy-dts',
+  'build:copy-js',
+  'build:copy-script-js',
+  'build:copy-css',
+  'build:clean-dist-node_modules',
+  'build:clean-dist-src',
+  'build:copy-json',
+  'build:inline-resources'
+));
