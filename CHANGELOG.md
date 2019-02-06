@@ -1,8 +1,37 @@
 # Change Log
 
+## [v9.2.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v9.2.0) (2019-02-06)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v9.2.0-beta.2...v9.2.0)
+
+**New stuff:**
+
+- Deduplicate html tags for donut and powerbars [\#114](https://github.com/gisaia/ARLAS-wui-toolkit/pull/114) ([MohamedHamouGisaia](https://github.com/MohamedHamouGisaia))
+
+## [v9.2.0-beta.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v9.2.0-beta.2) (2019-02-01)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v9.2.0-beta.1...v9.2.0-beta.2)
+
+**Breaking changes:**
+
+- Create ArlasColorGeneratorLoader injected to powerbars/donuts/list [\#111](https://github.com/gisaia/ARLAS-wui-toolkit/pull/111) ([MohamedHamouGisaia](https://github.com/MohamedHamouGisaia))
+
+## [v9.2.0-beta.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v9.2.0-beta.1) (2019-01-31)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v9.1.3...v9.2.0-beta.1)
+
+**Breaking changes:**
+
+- Integrate TreeContributor [\#110](https://github.com/gisaia/ARLAS-wui-toolkit/pull/110) ([MohamedHamouGisaia](https://github.com/MohamedHamouGisaia))
+
 ## [v9.1.3](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v9.1.3) (2019-01-25)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v9.1.2...v9.1.3)
+
+**Fixed bugs:**
+
+- ViewBookMark Method doesnt use URL input anymore [\#108](https://github.com/gisaia/ARLAS-wui-toolkit/issues/108)
+- Fix viewBookmark method [\#109](https://github.com/gisaia/ARLAS-wui-toolkit/pull/109) ([mbarbet](https://github.com/mbarbet))
 
 ## [v9.1.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v9.1.2) (2019-01-11)
 
