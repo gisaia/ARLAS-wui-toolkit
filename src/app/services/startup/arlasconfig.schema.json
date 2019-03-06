@@ -20,6 +20,25 @@
                             "items": {
                               "allOf": [
                                 {
+                                  "properties": {
+                                    "type": {
+                                      "enum": [
+                                        "analytics",
+                                        "chipssearch",
+                                        "detailedhistogram",
+                                        "donut",
+                                        "histogram",
+                                        "powerbars",
+                                        "map",
+                                        "resultlist",
+                                        "swimlane",
+                                        "topomap",
+                                        "tree"
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
                                   "if": { "properties": { "type": { "const": "analytics" } } },
                                   "then": { "$ref": "analyticsContributorConf.schema.json#" }
                                 },
