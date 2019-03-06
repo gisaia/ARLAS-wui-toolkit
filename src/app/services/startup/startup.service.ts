@@ -42,6 +42,7 @@ import { projType } from 'arlas-web-core/models/projections';
 import { ContributorBuilder } from './contributorBuilder';
 import { flatMap } from 'rxjs/operators';
 import ajv from 'ajv';
+import * as ajvKeywords from 'ajv-keywords/keywords/uniqueItemProperties';
 import * as rootContributorConfSchema from 'arlas-web-contributors/jsonSchemas/rootContributorConf.schema.json';
 import { Observable, Subject } from 'rxjs';
 
@@ -140,6 +141,7 @@ export class ArlasStartupService {
             .toPromise()
             .then(() => {
                 const ajvObj = ajv();
+                ajvKeywords(ajvObj);
                 const validateConfig = ajvObj
                     .addMetaSchema(draftSchema.default)
                     .addSchema((<any>rootContributorConfSchema).default)
@@ -161,6 +163,7 @@ export class ArlasStartupService {
                     .addSchema((<any>DonutComponent.getDonutJsonSchema()).default)
                     .compile((<any>arlasConfSchema).default);
                 if (validateConfig(configData) === false) {
+                  console.log( validateConfig.errors);
                     this.shouldRunApp = false;
                     this.errorMessagesList.push(
                         validateConfig.errors[0].dataPath + ' ' +
@@ -197,14 +200,13 @@ export class ArlasStartupService {
                             });
                 }
                 if (this.shouldRunApp) {
-                    Object.keys(this.configService.getValue('arlas.web.contributors')).forEach(key => {
-                        const contributorType = key.split('$')[0];
-                        const contributorIdentifier = key.split('$')[1];
+                    this.configService.getValue('arlas.web.contributors').forEach(contrib => {
+                        const contributorType = contrib.type;
+                        const contributorIdentifier = contrib.identifier;
                         if (contributorType === 'resultlist') {
                             this.selectorById = contributorIdentifier;
                         } else if (contributorType === 'histogram') {
-                            const aggregationmodels = this.configService
-                                .getValue('arlas.web.contributors')[key]['aggregationmodels'];
+                            const aggregationmodels = contrib.aggregationmodels;
                             aggregationmodels.forEach(
                                 agg => {
                                     if (agg.type === 'datehistogram') {
@@ -215,7 +217,7 @@ export class ArlasStartupService {
                                 }
                             );
                         } else if (contributorType === 'swimlane') {
-                            const swimlanes = this.configService.getValue('arlas.web.contributors')[key]['swimlanes'];
+                            const swimlanes = contrib.swimlanes;
                             swimlanes.forEach(swimlane => {
                                 swimlane.aggregationmodels.forEach(
                                     agg => {
@@ -228,8 +230,7 @@ export class ArlasStartupService {
                                 );
                             });
                         } else if (contributorType === 'map' || contributorType === 'topomap') {
-                            const zoomToPrecisionCluster: Array<Array<number>> = this.configService
-                                .getValue('arlas.web.contributors')[key]['zoomToPrecisionCluster'];
+                            const zoomToPrecisionCluster: Array<Array<number>> = contrib.zoomToPrecisionCluster;
                             if (zoomToPrecisionCluster.filter(tab => (tab[1] - tab[2]) > 2).length > 0) {
                                 const errorMessage = 'Invalid values in map zoomToPrecisionCluster elements.' +
                                     'The difference between precision of geohash aggregation and' +

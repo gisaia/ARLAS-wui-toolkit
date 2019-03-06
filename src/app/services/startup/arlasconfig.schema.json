@@ -15,85 +15,55 @@
                     "properties": {
                         "contributors": {
                             "description": "Configuration of each arlas contributors",
-                            "type": "object",
-                            "patternProperties": {
-                                "^(histogram\\$).*$": {
-                                    "allOf": [
-                                        {
-                                            "$ref": "histogramContributorConf.schema.json#"
-                                        }
-                                    ]
+                            "type": "array",
+                            "uniqueItemProperties": [ "identifier"],
+                            "items": {
+                              "allOf": [
+                                {
+                                  "if": { "properties": { "type": { "const": "analytics" } } },
+                                  "then": { "$ref": "analyticsContributorConf.schema.json#" }
                                 },
-                                "^(detailedhistogram\\$).*$": {
-                                  "allOf": [
-                                      {
-                                          "$ref": "detailedHistogramContributorConf.schema.json#"
-                                      }
-                                  ]
-                              },
-                                "^(powerbars\\$).*$": {
-                                    "allOf": [
-                                        {
-                                            "$ref": "powerbarsContributorConf.schema.json#"
-                                        }
-                                    ]
+                                {
+                                  "if": { "properties": { "type": { "const": "chipssearch" } } },
+                                  "then": {"$ref": "chipssearchContributorConf.schema.json#"}
                                 },
-                                "^(donut\\$).*$": {
-                                    "allOf": [
-                                        {
-                                            "$ref": "donutContributorConf.schema.json#"
-                                        }
-                                    ]
+                                {
+                                  "if": { "properties": { "type": { "const": "detailedHistogram" } } },
+                                  "then": {"$ref": "detailedHistogramContributorConf.schema.json#"}
                                 },
-                                "^(tree\\$).*$": {
-                                  "allOf": [
-                                      {
-                                          "$ref": "treeContributorConf.schema.json#"
-                                      }
-                                  ]
+                                {
+                                  "if": { "properties": { "type": { "const": "donut" } } },
+                                  "then": {"$ref": "donutContributorConf.schema.json#"}
                                 },
-                                "^(resultlist\\$).*$": {
-                                    "allOf": [
-                                        {
-                                            "$ref": "resultlistContributorConf.schema.json#"
-                                        }
-                                    ]
+                                {
+                                  "if": { "properties": { "type": { "const": "histogram" } } },
+                                  "then": {"$ref": "histogramContributorConf.schema.json#"}
                                 },
-                                "^(map\\$).*$": {
-                                    "allOf": [
-                                        {
-                                            "$ref": "mapContributorConf.schema.json#"
-                                        }
-                                    ]
+                                {
+                                  "if": { "properties": { "type": { "const": "powerbars" } } },
+                                  "then": {"$ref": "powerbarsContributorConf.schema.json#"}
                                 },
-                                "^(topomap\\$).*$": {
-                                    "allOf": [
-                                        {
-                                            "$ref": "topomapContributorConf.schema.json#"
-                                        }
-                                    ]
+                                {
+                                  "if": { "properties": { "type": { "const": "map" } } },
+                                  "then": {"$ref": "mapContributorConf.schema.json#"}
                                 },
-                                "^(swimlane\\$).*$": {
-                                    "allOf": [
-                                        {
-                                            "$ref": "swimlaneContributorConf.schema.json#"
-                                        }
-                                    ]
+                                {
+                                  "if": { "properties": { "type": { "const": "resultlist" } } },
+                                  "then": {"$ref": "resultlistContributorConf.schema.json#"}
                                 },
-                                "^(chipssearch\\$).*$": {
-                                    "allOf": [
-                                        {
-                                            "$ref": "chipssearchContributorConf.schema.json#"
-                                        }
-                                    ]
+                                {
+                                  "if": { "properties": { "type": { "const": "swimlane" } } },
+                                  "then": {"$ref": "swimlaneContributorConf.schema.json#"}
                                 },
-                                "^(analytics\\$).*$": {
-                                    "allOf": [
-                                        {
-                                            "$ref": "analyticsContributorConf.schema.json#"
-                                        }
-                                    ]
+                                {
+                                  "if": { "properties": { "type": { "const": "topomap" } } },
+                                  "then": {"$ref": "topomapContributorConf.schema.json#"}
+                                },
+                                {
+                                  "if": { "properties": { "type": { "const": "tree" } } },
+                                  "then": {"$ref": "treeContributorConf.schema.json#"}
                                 }
+                              ]
                             },
                             "additionalProperties": false
                         },

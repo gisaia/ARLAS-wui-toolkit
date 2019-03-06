@@ -34,7 +34,10 @@ export class ContributorBuilder {
         identifier: string,
         configService: ArlasConfigService,
         collaborativesearchService: ArlasCollaborativesearchService): any {
-        const config: Object = configService.getValue('arlas.web.contributors')[contributorType + '$' + identifier];
+
+        const config = configService.getValue('arlas.web.contributors').find( contrib =>
+          contrib.type === contributorType && contrib.identifier ===  identifier
+        );
         let contributor;
         let datatype: string;
         let isOneDimension: boolean;
