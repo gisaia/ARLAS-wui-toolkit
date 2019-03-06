@@ -1,8 +1,9 @@
 {
   "arlas": {
     "web": {
-      "contributors": {
-        "histogram$timeline": {
+      "contributors": [
+        {
+          "type":"histogram",
           "identifier": "timeline",
           "aggregationmodels": [
             {
@@ -17,10 +18,10 @@
           "numberOfBuckets": 100,
           "name": "Timeline",
           "icon": "watch_later",
-          "datatype": "time",
           "isOneDimension": false
         },
-        "detailedhistogram$detailedTimeline": {
+        {
+          "type": "detailedhistogram",
           "identifier": "detailedTimeline",
           "annexedContributorId": "timeline",
           "selectionExtentPercentage": 0.02,
@@ -37,10 +38,10 @@
           "numberOfBuckets": 100,
           "name": "Timeline",
           "icon": "watch_later",
-          "datatype": "time",
           "isOneDimension": false
         },
-        "histogram$sog": {
+        {
+          "type": "histogram",
           "identifier": "sog",
           "aggregationmodels": [
             {
@@ -56,10 +57,10 @@
           "numberOfBuckets": 20,
           "title": "Speed over ground",
           "icon": "slow_motion_video",
-          "datatype": "numeric",
           "isOneDimension": false
         },
-        "histogram$heading": {
+        {
+          "type":"histogram",
           "identifier": "heading",
           "aggregationmodels": [
             {
@@ -75,10 +76,10 @@
           "charttype": "area",
           "numberOfBuckets": 50,
           "icon": "near_me",
-          "datatype": "numeric",
           "isOneDimension": false
         },
-        "histogram$cog": {
+        {
+          "type":"histogram",
           "identifier": "cog",
           "aggregationmodels": [
             {
@@ -94,10 +95,10 @@
           "numberOfBuckets": 50,
           "title": "Course over ground",
           "icon": "explore",
-          "datatype": "numeric",
           "isOneDimension": false
         },
-        "histogram$duration": {
+        {
+          "type":"histogram",
           "identifier": "duration",
           "aggregationmodels": [
             {
@@ -113,10 +114,10 @@
           "numberOfBuckets": 50,
           "title": "Ais Emission Tempo",
           "icon": "watch_later",
-          "datatype": "numeric",
           "isOneDimension": false
         },
-        "tree$shiptype": {
+        {
+          "type":"tree",
           "aggregationmodels": [
             {
               "type": "term",
@@ -132,7 +133,8 @@
           "name": "Ship type",
           "icon": "directions_boat"
         },
-        "donut$navigationalstatus": {
+        {
+          "type":"donut",
           "aggregationmodels": [
             {
               "type": "term",
@@ -144,7 +146,8 @@
           "name": "Navigational status",
           "icon": "navigation"
         },
-        "powerbars$mmsi": {
+        {
+          "type":"powerbars",
           "aggregationmodels": [
             {
               "type": "term",
@@ -156,7 +159,8 @@
           "name": "MMSI",
           "icon": "directions_boat"
         },
-        "powerbars$ship_name": {
+        {
+          "type":"powerbars",
           "aggregationmodels": [
             {
               "type": "term",
@@ -168,7 +172,8 @@
           "name": "Ship name",
           "icon": "directions_boat"
         },
-        "swimlane$shiptypetime": {
+        {
+          "type":"swimlane",
           "swimlanes": [
             {
               "id": 1,
@@ -193,7 +198,6 @@
             }
           ],
           "charttype": "swimlane",
-          "datatype": "time",
           "numberOfBuckets": 40,
           "isOneDimension": false,
           "title": "",
@@ -201,7 +205,8 @@
           "name": "Ship type over time",
           "icon": "directions_boat"
         },
-        "map$mapbox": {
+        {
+          "type":"map",
           "identifier": "mapbox",
           "idFieldName": "id",
           "name": "Map",
@@ -384,14 +389,16 @@
           ],
           "search_size": 10000
         },
-        "chipssearch$chipssearch": {
+        {
+          "type": "chipssearch",
           "identifier": "chipssearch",
           "search_size": 100,
           "search_field": "internal.fulltext",
           "name": "Search",
           "icon": "search"
         },
-        "resultlist$table": {
+        {
+          "type": "resultlist",
           "identifier": "table",
           "icon": "list",
           "fieldsConfiguration": {
@@ -469,8 +476,8 @@
         }
 
 
-        },
-        "analytics": [
+      ],
+      "analytics": [
           {
             "groupId": "1",
             "title": "Speed over ground (knots)",
