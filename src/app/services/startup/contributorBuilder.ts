@@ -17,7 +17,6 @@
  * under the License.
  */
 
-import { DataType } from 'arlas-web-contributors/models/models';
 import {
     HistogramContributor,
     DetailedHistogramContributor,
@@ -34,27 +33,21 @@ export class ContributorBuilder {
         identifier: string,
         configService: ArlasConfigService,
         collaborativesearchService: ArlasCollaborativesearchService): any {
-        const config: Object = configService.getValue('arlas.web.contributors')[contributorType + '$' + identifier];
+
+        const config = configService.getValue('arlas.web.contributors').find( contrib =>
+          contrib.type === contributorType && contrib.identifier ===  identifier
+        );
         let contributor;
-        let datatype: string;
         let isOneDimension: boolean;
 
         switch (contributorType) {
             case 'histogram':
-                datatype = config['datatype'];
                 isOneDimension = config['isOneDimension'];
-                contributor = new HistogramContributor(identifier,
-                    DataType[datatype],
-                    collaborativesearchService,
-                    configService, isOneDimension);
+                contributor = new HistogramContributor(identifier, collaborativesearchService, configService, isOneDimension);
                 break;
             case 'detailedhistogram':
-                datatype = config['datatype'];
                 isOneDimension = config['isOneDimension'];
-                contributor = new DetailedHistogramContributor(identifier,
-                    DataType[datatype],
-                    collaborativesearchService,
-                    configService, isOneDimension);
+                contributor = new DetailedHistogramContributor(identifier, collaborativesearchService, configService, isOneDimension);
                 break;
             case 'powerbars':
                 const title: string = config['title'];
@@ -64,18 +57,14 @@ export class ContributorBuilder {
                     title);
                 break;
             case 'resultlist':
-                contributor = new ResultListContributor(identifier,
-                    collaborativesearchService,
-                    configService);
+                contributor = new ResultListContributor(identifier, collaborativesearchService, configService);
                 break;
             case 'map':
                 // TO DO
                 break;
             case 'swimlane':
                 isOneDimension = config['isOneDimension'];
-                contributor = new SwimLaneContributor(identifier,
-                    collaborativesearchService,
-                    configService);
+                contributor = new SwimLaneContributor(identifier, collaborativesearchService, configService);
                 break;
             case 'donut':
                 const titleDonut: string = config['title'];
