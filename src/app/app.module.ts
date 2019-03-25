@@ -52,6 +52,7 @@ import { DatePickerComponent } from './components/timeline/date-picker/date-pick
 import { OwlDateTimeModule, OwlNativeDateTimeModule, OWL_DATE_TIME_FORMATS, OwlDateTimeIntl, OWL_DATE_TIME_LOCALE } from 'ng-pick-datetime';
 import { ArlasTranslateIntl } from './components/timeline/date-picker/ArlasTranslateIntl';
 import { ArlasColorGeneratorLoader } from './services/color-generator-loader/color-generator-loader.service';
+import { ArlasWalkthroughService } from './services/walkthrough/walkthrough.service';
 
 
 export class CustomTranslateLoader implements TranslateLoader {
@@ -77,6 +78,11 @@ export class CustomTranslateLoader implements TranslateLoader {
 
 export function startupServiceFactory(startupService: ArlasStartupService) {
   const load = () => startupService.load('config.json');
+  return load;
+}
+
+export function walkthroughServiceFactory(walkthroughService: ArlasWalkthroughService) {
+  const load = () => walkthroughService.load('tour.json');
   return load;
 }
 
@@ -192,11 +198,17 @@ export function translationServiceFactory(translate: TranslateService, injector:
     forwardRef(() => ArlasColorGeneratorLoader),
     forwardRef(() => ArlasBookmarkService),
     forwardRef(() => ArlasTagService),
-
+    forwardRef(() => ArlasWalkthroughService),
     {
       provide: APP_INITIALIZER,
       useFactory: startupServiceFactory,
       deps: [ArlasStartupService],
+      multi: true
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: walkthroughServiceFactory,
+      deps: [ArlasWalkthroughService],
       multi: true
     },
     {
