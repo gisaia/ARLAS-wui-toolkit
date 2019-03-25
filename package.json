@@ -39,7 +39,6 @@
     "arlas-web-contributors": "9.2.*",
     "cli-color": "^1.2.0",
     "core-js": "^2.4.1",
-    "hopscotch": "0.3.1",
     "ng-pick-datetime": "^7.0.0",
     "ng-pick-datetime-moment": "^1.0.7",
     "rxjs": "~6.3.3",
