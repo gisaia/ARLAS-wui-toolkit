@@ -942,7 +942,7 @@
       }
     },
     "server": {
-      "url": "http://localhost:9999/arlas",
+      "url": "http://demo.arlas.io/arlas",
       "collection": {
         "name": "ais-danmark",
         "id": "id"
