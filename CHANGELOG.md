@@ -1,12 +1,26 @@
 # Change Log
 
+## [v9.3.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v9.3.0) (2019-03-26)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/9.3.0-beta.0...v9.3.0)
+
+## [9.3.0-beta.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/9.3.0-beta.0) (2019-02-20)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v9.2.0...9.3.0-beta.0)
+
 ## [v9.2.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v9.2.0) (2019-02-06)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v9.2.0-beta.2...v9.2.0)
 
 **New stuff:**
 
+- Integrate TreeContributor \(arlas-web-contributors@9.2.\*\) [\#117](https://github.com/gisaia/ARLAS-wui-toolkit/issues/117)
+- Add new ColorServiceLoader to override the one in arlas-web-components@9.2.\* [\#116](https://github.com/gisaia/ARLAS-wui-toolkit/issues/116)
 - Deduplicate html tags for donut and powerbars [\#114](https://github.com/gisaia/ARLAS-wui-toolkit/pull/114) ([MohamedHamouGisaia](https://github.com/MohamedHamouGisaia))
+
+**Miscellaneous:**
+
+- Rearrange tasks in gulpfile [\#118](https://github.com/gisaia/ARLAS-wui-toolkit/issues/118)
 
 ## [v9.2.0-beta.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v9.2.0-beta.2) (2019-02-01)
 
