@@ -286,6 +286,10 @@
                                   "description": "Whether to allow writing the map extend in the url. If so the map moves to that extend at the initial load.",
                                   "type": "boolean"
                                 },
+                                "allowMapStyles": {
+                                  "description": "Whether to allow writing the map selected styles in the url. If so the map shows the styles set in the url at the initial load.",
+                                  "type": "boolean"
+                                },
                                 "mapExtendTimer": {
                                   "description": "Laps of time, after map moveend, to be considered before changing the map extend in the url.",
                                   "type": "number"
