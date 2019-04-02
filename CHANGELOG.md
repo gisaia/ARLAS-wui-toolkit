@@ -1,5 +1,18 @@
 # Change Log
 
+## [v10.0.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v10.0.0) (2019-04-02)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v9.3.0...v10.0.0)
+
+**Breaking changes:**
+
+- Remove \[datatype\] from Histogram contributors configuration and instanciation   [\#130](https://github.com/gisaia/ARLAS-wui-toolkit/issues/130)
+- Apply new format for contributors configuration [\#129](https://github.com/gisaia/ARLAS-wui-toolkit/issues/129)
+
+**New stuff:**
+
+- Add test CI with Chome [\#126](https://github.com/gisaia/ARLAS-wui-toolkit/pull/126) [[CI](https://github.com/gisaia/ARLAS-wui-toolkit/labels/CI)] ([mbarbet](https://github.com/mbarbet))
+
 ## [v9.3.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v9.3.0) (2019-03-26)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/9.3.0-beta.0...v9.3.0)
