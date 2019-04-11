@@ -1,5 +1,9 @@
 # Change Log
 
+## [v10.0.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v10.0.1) (2019-04-11)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v10.0.0...v10.0.1)
+
 ## [v10.0.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v10.0.0) (2019-04-02)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v9.3.0...v10.0.0)
@@ -11,6 +15,7 @@
 
 **New stuff:**
 
+- Add 'map\_styles' queryParam to share selected styles of the map in the url [\#133](https://github.com/gisaia/ARLAS-wui-toolkit/issues/133)
 - Add test CI with Chome [\#126](https://github.com/gisaia/ARLAS-wui-toolkit/pull/126) [[CI](https://github.com/gisaia/ARLAS-wui-toolkit/labels/CI)] ([mbarbet](https://github.com/mbarbet))
 
 ## [v9.3.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v9.3.0) (2019-03-26)
