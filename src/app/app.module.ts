@@ -66,6 +66,7 @@ import { ExtendComponent } from './components/extend/extend.component';
 import { BookmarkComponent, BookmarkAddDialogComponent } from './components/bookmark/bookmark.component';
 import { BookmarkMenuComponent } from './components/bookmark-menu/bookmark-menu.component';
 import { ArlasExtendService } from './services/extend/extend.service';
+import { ArlasConfigurationDescriptor } from './services/configuration-descriptor/configurationDescriptor.service';
 
 
 export class CustomTranslateLoader implements TranslateLoader {
@@ -227,6 +228,8 @@ export function translationServiceFactory(translate: TranslateService, injector:
     forwardRef(() => ArlasBookmarkService),
     forwardRef(() => ArlasConfigService),
     forwardRef(() => ArlasCollaborativesearchService),
+    forwardRef(() => ArlasStartupService),
+    forwardRef(() => ArlasConfigurationDescriptor),
     forwardRef(() => ArlasColorGeneratorLoader),
     forwardRef(() => ArlasExtendService),
     forwardRef(() => ArlasStartupService),
