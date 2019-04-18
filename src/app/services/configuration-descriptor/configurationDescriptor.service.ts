@@ -9,7 +9,10 @@ import * as portableFetch from 'portable-fetch';
 @Injectable()
 export class ArlasConfigurationDescriptor {
 
-  constructor(private collaborativesearchService: ArlasCollaborativesearchService, private configService: ArlasConfigService) {}
+  constructor(
+    private collaborativesearchService: ArlasCollaborativesearchService,
+    private configService: ArlasConfigService
+  ) {}
 
   public getAllCollections(): Observable<Array<string>> {
     const configuration: Configuration = new Configuration();
@@ -29,10 +32,17 @@ export class ArlasConfigurationDescriptor {
    * @description Returns all the fields which types are in `types` param. If no `types` is specified, then all the fields are returned
    */
   public getFields(types?: Array<string>): Observable<any> {
+    const configuraiton: Configuration = new Configuration();
+    const arlasExploreApi: ArlasExploreApi = new ArlasExploreApi(
+        configuraiton,
+        this.configService.getValue('arlas.server.url'),
+        portableFetch
+    );
+    this.collaborativesearchService.setExploreApi(arlasExploreApi);
     return this.collaborativesearchService.describe(this.configService.getValue('arlas.server.collection.name')).pipe(
       map(description => this.getFieldProperties(description.properties)),
-      map(fields => types ? fields.filter(field => types.find(type => type == field.type) !== undefined).map(field => field.label)
-        : fields.map(field => field.label))
+      map(fields => types ? fields.filter(field => types.find(type => type == field.type) !== undefined)
+        : fields)
     );
   }
 
