@@ -32,8 +32,6 @@ import { ArlasCollaborativesearchService } from '../../services/startup/startup.
 })
 export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges {
 
-
-
   /**
    * @Input : Angular
    * @description List of groups. Each group contains one or more widgets.
@@ -94,7 +92,6 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
     this.scrollToAnalyticsComponent(this.target);
   }
 
-
   public scrollToAnalyticsComponent(target: string) {
     if (this.mode === 'normal' && target !== undefined) {
       const element = (<HTMLElement>document.getElementById(target));
@@ -130,5 +127,17 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
       });
     });
     event.stopPropagation();
+  }
+
+  /**
+   *
+   * @param group Group declared in configuration file
+   * @param display Whether to display the widget
+   */
+  public addWidget(group: AnalyticGroupConfiguration, display: boolean): void {
+    if (group && group.groupId) {
+      this.groupsDisplayStatusMap.set(group.groupId, display);
+      this.groups.push(group);
+    }
   }
 }
