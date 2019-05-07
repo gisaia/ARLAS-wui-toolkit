@@ -17,17 +17,16 @@
                 {{component.title | translate}}
               </mat-card-title>
               <mat-card-content>
-                  <arlas-tool-widget [componentType]="component?.componentType" [contributorId]="component?.contributorId" [componentParams]="component?.input" (outEvents)="listenOutput($event)"></arlas-tool-widget>
+                  <arlas-tool-widget id="{{component?.componentType + '-' +  component?.contributorId + '-' + group.groupId + '-' + i}}" [componentType]="component?.componentType" [contributorId]="component?.contributorId" [componentParams]="component?.input" (outEvents)="listenOutput($event)"></arlas-tool-widget>
               </mat-card-content>
             </mat-card>
           </div>
       </mat-expansion-panel>
-      <mat-card *ngIf="groupsDisplayStatusMap?.get(group?.groupId) && mode == 'compact'" #compactTooltip="matTooltip" (mouseover)="compactTooltip.show()" matTooltip="{{group.title | translate}}" matTooltipPosition="right" (click)="changeMode(group.groupId)" class="analytics-compact-card">
+      <mat-card id="{{'compact-' + group.groupId}}" *ngIf="groupsDisplayStatusMap?.get(group?.groupId) && mode == 'compact'" #compactTooltip="matTooltip" (mouseover)="compactTooltip.show()" matTooltip="{{group.title | translate}}" matTooltipPosition="right" (click)="changeMode(group.groupId)" class="analytics-compact-card">
         <mat-icon>{{group.icon}}</mat-icon>
         <div *ngIf="this.activeFilter.get(group.groupId)" class="active-filter" (click)="removeFilter(group.groupId, $event);compactTooltip.hide()">
           <mat-icon class="active-filter-close" matTooltip="{{'Click to remove filter'  | translate}}" matTooltipPosition="right" (mouseenter)="compactTooltip.hide()">clear</mat-icon>
         </div>
       </mat-card>
   </ng-container>
-
 </div>
