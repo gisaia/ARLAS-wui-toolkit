@@ -1,0 +1,25 @@
+ARLAS-wui-toolkit
+Copyright 2017-2019 and onwards Gisaïa
+
+
+ARLAS-wui-toolkit embeds the following components and their dependencies :
+
++ Angular
+    - Angular               (The MIT License - https://angular.io/)
+    - Angular Material      (The MIT License - https://material.angular.io/)
+
++ ARLAS-web-contributors
+    - ARLAS-web-contributors   (The Apache License Version 2.0 - https://github.com/gisaia/ARLAS-web-contributors)
+      * ARLAS-web-core         (The Apache License Version 2.0 - https://github.com/gisaia/ARLAS-web-core)
+        + ARLAS-api            (The Apache License Version 2.0 - https://github.com/gisaia/ARLAS-server)
+
++ ARLAS-web-components      (The Apache License Version 2.0 - https://github.com/gisaia/ARLAS-web-components)
+
++ Reactive programming
+    - RxJS                  (The Apache License Version 2.0 - https://rxjs-dev.firebaseapp.com/)
+
++ JSON schema validation
+    - ajv                   (The MIT License - https://ajv.js.org/)
+
++ Test and Build Tools
+    - gulp.js               (The MIT License - https://gulpjs.com/)
