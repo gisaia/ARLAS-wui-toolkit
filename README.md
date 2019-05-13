@@ -35,13 +35,13 @@ It's an Angular application that provides one configuration file where to declar
 4. In your bootstrap component you can inject the `ArlasStartupService` and subscribe to the `arlasIsUp` event.
 
     ```typescript
-     constructor(private arlasStartUpService: ArlasStartupService) {
-       this.arlasStartUpService.arlasIsUp.subscribe(isUp => {
-         if (isUp) {
-           /* your code*/
-         }
-       });
-     }
+    constructor(private arlasStartUpService: ArlasStartupService) {
+        this.arlasStartUpService.arlasIsUp.subscribe(isUp => {
+            if (isUp) {
+            /* your code*/
+            }
+        });
+    }
     ```
 
 5. You can add your own component in your application and feed it with data using an [`arlas-web-contributor`](https://github.com/gisaia/ARLAS-web-contributors). Let's say a search bar. To do so, you need to register your contributor to a [`ArlasCollaborativeSearchService`](http://docs.arlas.io/arlas-tech/current/classes/_src_app_services_startup_startup_service_.arlascollaborativesearchservice/) and a [`ArlasConfigService`](http://docs.arlas.io/arlas-tech/current/classes/_src_app_services_startup_startup_service_.arlasconfigservice/) that are provided by the `ArlasToolKitModule`.
@@ -56,7 +56,7 @@ It's an Angular application that provides one configuration file where to declar
                     sizeOnBackspaceBus,
                     this.collaborativeService,
                     this.configService);
-                    /* your code*/
+                  /* your code*/
               }
           });
       }
