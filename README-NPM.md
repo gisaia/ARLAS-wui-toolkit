@@ -3,11 +3,11 @@
 [![Build Status](https://travis-ci.org/gisaia/ARLAS-wui-toolkit.svg?branch=develop)](https://travis-ci.org/gisaia/ARLAS-wui-toolkit)
 [![npm version](https://badge.fury.io/js/arlas-wui-toolkit.svg)](https://badge.fury.io/js/arlas-wui-toolkit)
 
-ARLAS-wui-toolkit is the glue that brings the [components](https://github.com/gisaia/ARLAS-web-components) and their [contributors](https://github.com/gisaia/ARLAS-web-contributors) together in an `Analytics board`.
+ARLAS-wui-toolkit is the glue that brings the [components](https://www.npmjs.com/package/arlas-web-components) and their [contributors](https://www.npmjs.com/package/arlas-web-contributors) together in an `Analytics board`.
 
 It's an Angular application that provides one configuration file where to declare :
 - the ARLAS-server collection
-- the analytics ([components](https://github.com/gisaia/ARLAS-web-components) and [contributors](https://github.com/gisaia/ARLAS-web-contributors))
+- the analytics ([components](https://www.npmjs.com/package/arlas-web-components) and [contributors](https://www.npmjs.com/package/arlas-web-contributors))
 - the timeline with shortcuts and datepicker
 - the share component
 - the tag component.
@@ -44,7 +44,7 @@ It's an Angular application that provides one configuration file where to declar
     }
     ```
 
-5. You can add your own component in your application and feed it with data using an [`arlas-web-contributor`](https://github.com/gisaia/ARLAS-web-contributors). Let's say a search bar. To do so, you need to register your contributor to a [`ArlasCollaborativeSearchService`](http://docs.arlas.io/arlas-tech/current/classes/_src_app_services_startup_startup_service_.arlascollaborativesearchservice/) and a [`ArlasConfigService`](http://docs.arlas.io/arlas-tech/current/classes/_src_app_services_startup_startup_service_.arlasconfigservice/) that are provided by the `ArlasToolKitModule`.
+5. You can add your own component in your application and feed it with data using an [`arlas-web-contributor`](https://www.npmjs.com/package/arlas-web-contributors). Let's say a search bar. To do so, you need to register your contributor to a [`ArlasCollaborativeSearchService`](http://docs.arlas.io/arlas-tech/current/classes/_src_app_services_startup_startup_service_.arlascollaborativesearchservice/) and a [`ArlasConfigService`](http://docs.arlas.io/arlas-tech/current/classes/_src_app_services_startup_startup_service_.arlasconfigservice/) that are provided by the `ArlasToolKitModule`.
 
       Inject `ArlasCollaborativeSearchService` and `ArlasConfigService` in your bootstrap component and wait for `arlasIsUp` event to declare your contributor :
 
@@ -77,43 +77,6 @@ It's an Angular application that provides one configuration file where to declar
 
 ## Documentation
 Check the documentation of [components](http://docs.arlas.io/arlas-tech/current/classes/_src_app_components_analytics_board_analytics_board_component_.analyticsboardcomponent/) and [services](http://docs.arlas.io/arlas-tech/current/classes/_src_app_services_startup_startup_service_.arlascollaborativesearchservice/) of ARLAS-wui-toolkit out.
-
-## Build
-
-To build the project you need to have installed
-- [Node](https://nodejs.org/en/) version >= 8.0.0 
-- [npm](https://github.com/npm/npm) version >= 5.2.0
-- [Angular CLI](https://github.com/angular/angular-cli) version 7.0.2
-
-```
-$ npm install -g @angular/cli@7.0.2
-```
-
-Then, clone the project
-
-```shell
-$ git clone https://github.com/gisaia/ARLAS-wui-toolkit
-```
-
-Move to the folder
-
-```shell
-$ cd ARLAS-wui-toolkit
-```
-
-Install all the project's dependencies
-
-```shell
-$ npm install
-```
-
-Build the project with `ngc` and `gulp` :
-
-```shell
-$ npm run build-release
-```
-
-The build artifacts will be generated in the `dist/` directory. 
 
 ## Versioning
 We use our own `x.y.z` versioning schema, where :
