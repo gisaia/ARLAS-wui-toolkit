@@ -1,5 +1,17 @@
 # Change Log
 
+## [v10.1.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v10.1.0) (2019-05-23)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v10.0.2...v10.1.0)
+
+**New stuff:**
+
+- Implement function that allows to add widgets to Analytics Board [\#135](https://github.com/gisaia/ARLAS-wui-toolkit/pull/135) ([MohamedHamouGisaia](https://github.com/MohamedHamouGisaia))
+
+**Miscellaneous:**
+
+- Write a README.md for the project and for npm repo [\#139](https://github.com/gisaia/ARLAS-wui-toolkit/issues/139) [[documentation](https://github.com/gisaia/ARLAS-wui-toolkit/labels/documentation)]
+
 ## [v10.0.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v10.0.2) (2019-05-07)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v10.0.1...v10.0.2)
