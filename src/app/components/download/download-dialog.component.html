@@ -1,0 +1,105 @@
+<mat-horizontal-stepper [linear]="true" (selectionChange)="changeStep($event)" class="download-stepper">
+  <mat-step [stepControl]="exportTypeGroup">
+    <form [formGroup]="exportTypeGroup">
+      <ng-template matStepLabel>Type</ng-template>
+      <mat-radio-group class="download-radio-group" formControlName="exportType">
+        <mat-radio-button [value]="'csv'" class="download-radio-button">{{ 'CSV' | translate}}
+        </mat-radio-button>
+        <mat-radio-button [value]="'json'" class="download-radio-button">{{ 'Json' | translate}}
+        </mat-radio-button>
+      </mat-radio-group>
+      <div>
+        <mat-divider style="margin-top:15px;"></mat-divider>
+        <button mat-button matStepperNext class="download-stepper-button">{{ 'Next' | translate}}</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="paramFormGroup">
+    <form [formGroup]="paramFormGroup">
+      <ng-template matStepLabel>Parameters</ng-template>
+      <div class="download-feature-block">
+        <div style="flex:3" class="download-title-list">
+          <mat-label>Available fields</mat-label>
+        </div>
+        <div style="flex:1;padding:0 7px;">
+        </div>
+        <div style="flex:3" class="download-title-list">
+          <mat-label>Selected fields</mat-label>
+        </div>
+      </div>
+      <div class="download-feature-block">
+        <div style="max-height: 40vh;overflow:auto;flex:3">
+          <mat-selection-list role="listbox" formControlName="availableFields" #selectedList
+            (selectionChange)=onSelectionChange(selectedList.selectedOptions.selected)>
+            <mat-list-option *ngFor="let field of allFields">
+              <p matLine title="{{ field.label }} - {{field.type}}">
+                {{ field.label }} - <span class="download-description">{{field.type}}</span>
+              </p>
+            </mat-list-option>
+          </mat-selection-list>
+        </div>
+        <div class="download-feature-button">
+          <button mat-raised-button class="mat-accent fill text-sm download-button" matTooltip="Select All"
+            [matTooltipPosition]="'above'"
+            (click)="selectedList.selectAll();onSelectionChange(selectedList.selectedOptions.selected)">
+            &gt;&gt;
+          </button>
+          <br /><br />
+          <button mat-raised-button class="mat-primary fill text-sm download-button" matTooltip="Remove All"
+            (click)="selectedList.deselectAll();onSelectionChange(selectedList.selectedOptions.selected)">
+            &lt;&lt;
+          </button>
+        </div>
+
+        <div style="max-height:40vh;overflow:auto;flex:3">
+          <mat-list role="list">
+            <mat-list-item *ngIf="selectedFields.length == 0">No item selected</mat-list-item>
+            <mat-list-item role="listitem" *ngFor="let field of selectedFields">
+              <p matLine title="{{ field.label }} - {{field.type}}">
+                {{ field.label }} - <span class="download-description">{{field.type}}</span>
+              </p>
+            </mat-list-item>
+          </mat-list>
+        </div>
+      </div>
+      <div *ngIf="exportTypeGroup.get('exportType').value === 'csv'" class="fields-form">
+        <div class="download-feature-block">
+          <mat-form-field class="download-form-field">
+            <mat-select placeholder="Order by" formControlName="orderField" [(value)]="selectedOrderField"
+              panelClass="download-order-field">
+              <mat-option [value]="">None</mat-option>
+              <mat-option *ngFor="let field of selectedFields" [value]="field">
+                {{ field.label }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div>
+        <mat-divider style="margin-top:15px;"></mat-divider>
+        <button mat-button matStepperPrevious class="download-stepper-button">{{ 'Back' | translate}}</button>
+        <button mat-button matStepperNext class="download-stepper-button">{{ 'Next' | translate}}</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>{{ 'Get url' | translate}}</ng-template>
+    <div style="display:flex;flex-direction:row" class="download-block">
+      <textarea class="download-box">docker run \
+  -e GROUP_ID="$(id -g)" \
+  -e USER_ID="$(id -u)" \
+  --mount dst=/output,src="$PWD",type=bind \
+  --rm \
+  gisaia/arlas-hits-exporter \
+    --search_url="{{server.url}}/explore/{{server.collection.name}}/_search?sort=id \
+    --include={{selectedFieldString}} \
+    --format={{exportTypeGroup.get('exportType').value}} \
+    {{this.orderCommand}}
+      </textarea>
+    </div>
+    <div>
+      <mat-divider style="margin-top:15px;"></mat-divider>
+      <button mat-button matStepperPrevious class="download-stepper-button">{{ 'Back' | translate}}</button>
+    </div>
+  </mat-step>
+</mat-horizontal-stepper>

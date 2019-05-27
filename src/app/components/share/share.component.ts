@@ -47,7 +47,6 @@ export class ShareComponent {
   public openDialog() {
     this.dialog.open(ShareDialogComponent, { data: null });
   }
-
 }
 
 
