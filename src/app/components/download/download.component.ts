@@ -21,6 +21,8 @@ import { MatDialog } from '@angular/material';
 import { ArlasCollaborativesearchService, ArlasConfigService } from '../../services/startup/startup.service';
 import { ArlasSearchField } from '../share/model/ArlasSearchField';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { projType } from 'arlas-web-core';
+import { Filter } from 'arlas-api';
 
 @Component({
   selector: 'arlas-download',
@@ -52,10 +54,15 @@ export class DownloadDialogComponent implements OnInit {
   public allFields = new Array<ArlasSearchField>();
   public selectedFields = new Array<ArlasSearchField>();
   public selectedFieldString = '';
-  public selectedOrderField: ArlasSearchField;
+  public selectedFirstOrderField: ArlasSearchField;
+  public selectedSecondOrderField: ArlasSearchField;
+  public selectedThirdOrderField: ArlasSearchField;
 
-  public orderColunm: number;
+  public firstOrderColunm: number;
+  public secondOrderColunm: number;
+  public thirdOrderColunm: number;
   public orderCommand: string;
+  public filterUrl: string;
 
   public server: any;
 
@@ -105,16 +112,34 @@ export class DownloadDialogComponent implements OnInit {
    * @param event The step index
    */
   public changeStep(event) {
-    if (event.selectedIndex === 2 && this.exportTypeGroup.get('exportType').value === 'csv') {
-
-      this.selectedFields.forEach((field, index) => {
-        if (field.label === this.selectedOrderField.label) {
-          this.orderColunm = index + 1;
-        }
-      });
-      this.orderCommand = '--sort_csv=-k' + this.orderColunm;
-    } else {
+    if (event.selectedIndex === 2) {
       this.orderCommand = '';
+      const filters = new Array<Filter>();
+      this.collaborativeService.collaborations.forEach(element =>
+        filters.push(element.filter)
+      );
+      this.filterUrl = this.collaborativeService.getUrl([projType.search, []], filters);
+      if (this.exportTypeGroup.get('exportType').value === 'csv'
+        && (this.selectedFirstOrderField || this.selectedSecondOrderField || this.selectedThirdOrderField)) {
+
+        this.firstOrderColunm = 1;
+        this.secondOrderColunm = 2;
+        this.thirdOrderColunm = 3;
+        this.selectedFields.forEach((field, index) => {
+          if (this.selectedFirstOrderField && field.label === this.selectedFirstOrderField.label) {
+            this.firstOrderColunm = index + 1;
+          }
+          if (this.selectedSecondOrderField && field.label === this.selectedSecondOrderField.label) {
+            this.secondOrderColunm = index + 1;
+          }
+          if (this.selectedThirdOrderField && field.label === this.selectedThirdOrderField.label) {
+            this.thirdOrderColunm = index + 1;
+          }
+        });
+        this.orderCommand = '--sort_csv=' + (this.selectedFirstOrderField ? '-k' + this.firstOrderColunm + ' ' : '')
+          + (this.selectedSecondOrderField ? '-k' + this.secondOrderColunm + ' ' : '')
+          + (this.selectedThirdOrderField ? '-k' + this.thirdOrderColunm : '');
+      }
     }
   }
 

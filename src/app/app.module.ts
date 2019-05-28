@@ -58,6 +58,7 @@ import { ArlasWalkthroughService } from './services/walkthrough/walkthrough.serv
 import { FiltersComponent } from './components/filters/filters.component';
 import { SearchComponent } from './components/search/search.component';
 import { MatAutocompleteModule } from '@angular/material';
+import { DownloadComponent, DownloadDialogComponent } from './components/download/download.component';
 
 
 export class CustomTranslateLoader implements TranslateLoader {
@@ -141,7 +142,9 @@ export function translationServiceFactory(translate: TranslateService, injector:
     TimelineComponent,
     TimelineShortcutComponent,
     DatePickerComponent,
-    SearchComponent
+    SearchComponent,
+    DownloadComponent,
+    DownloadDialogComponent
   ],
   exports: [
     AppComponent,
@@ -235,6 +238,6 @@ export function translationServiceFactory(translate: TranslateService, injector:
     { provide: OwlDateTimeIntl, useClass: ArlasTranslateIntl, deps: [TranslateService] }
   ],
   bootstrap: [AppComponent],
-  entryComponents: [ErrorModalMsgComponent, ShareDialogComponent, TagDialogComponent, ConfirmModalComponent],
+  entryComponents: [ErrorModalMsgComponent, ShareDialogComponent, TagDialogComponent, ConfirmModalComponent, DownloadDialogComponent],
 })
 export class ArlasToolKitModule { }

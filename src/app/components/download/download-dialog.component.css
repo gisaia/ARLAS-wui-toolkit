@@ -29,7 +29,7 @@
 }
 
 .download-form-field{
-  flex:2;
+  min-width: 250px;
 }
 
 .download-title-list{
@@ -99,4 +99,23 @@
   font-family: monospace;
   font-size: 16px;
   border: none;
+}
+
+.admonition{
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12), 0 3px 1px -2px rgba(0,0,0,.2);
+  position: relative;
+  margin: 1.5625em 0;
+  padding: 0 1.2rem;
+  border-left: .4rem solid #673ab7;
+  border-radius: .2rem;
+  font-size: 0.9rem;
+  overflow: auto;
+}
+
+.admonition-title{
+  margin: 0 -1.2rem;
+  padding: .8rem 1.2rem .8rem 2rem;
+  border-bottom: .1rem solid rgba(103,58,183,.1);
+  background-color: rgba(103,58,183,.1);
+  font-weight: 700;
 }

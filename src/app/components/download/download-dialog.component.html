@@ -8,6 +8,13 @@
         <mat-radio-button [value]="'json'" class="download-radio-button">{{ 'Json' | translate}}
         </mat-radio-button>
       </mat-radio-group>
+      <div class="admonition note">
+        <p class="admonition-title">Important</p>
+        <p>
+          This tool allows you to get a docker command line to download your data.<br>
+          Make sure you have <strong>docker</strong> installed before continuing.
+        </p>
+      </div>
       <div>
         <mat-divider style="margin-top:15px;"></mat-divider>
         <button mat-button matStepperNext class="download-stepper-button">{{ 'Next' | translate}}</button>
@@ -64,8 +71,26 @@
       </div>
       <div *ngIf="exportTypeGroup.get('exportType').value === 'csv'" class="fields-form">
         <div class="download-feature-block">
+          <mat-form-field class="download-form-field" >
+            <mat-select placeholder="Order by" formControlName="orderField" [(value)]="selectedFirstOrderField"
+              panelClass="download-order-field">
+              <mat-option [value]="">None</mat-option>
+              <mat-option *ngFor="let field of selectedFields" [value]="field">
+                {{ field.label }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
           <mat-form-field class="download-form-field">
-            <mat-select placeholder="Order by" formControlName="orderField" [(value)]="selectedOrderField"
+            <mat-select placeholder="Then order by" formControlName="orderField" [(value)]="selectedSecondOrderField"
+              panelClass="download-order-field">
+              <mat-option [value]="">None</mat-option>
+              <mat-option *ngFor="let field of selectedFields" [value]="field">
+                {{ field.label }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="download-form-field">
+            <mat-select placeholder="Finally order by" formControlName="orderField" [(value)]="selectedThirdOrderField"
               panelClass="download-order-field">
               <mat-option [value]="">None</mat-option>
               <mat-option *ngFor="let field of selectedFields" [value]="field">
@@ -83,7 +108,7 @@
     </form>
   </mat-step>
   <mat-step>
-    <ng-template matStepLabel>{{ 'Get url' | translate}}</ng-template>
+    <ng-template matStepLabel>{{ 'Command line' | translate}}</ng-template>
     <div style="display:flex;flex-direction:row" class="download-block">
       <textarea class="download-box">docker run \
   -e GROUP_ID="$(id -g)" \
@@ -91,7 +116,7 @@
   --mount dst=/output,src="$PWD",type=bind \
   --rm \
   gisaia/arlas-hits-exporter \
-    --search_url="{{server.url}}/explore/{{server.collection.name}}/_search?sort=id \
+    --search_url="{{server.url}}/explore/{{server.collection.name}}/_search?sort={{server.collection.id}}&{{filterUrl}}" \
     --include={{selectedFieldString}} \
     --format={{exportTypeGroup.get('exportType').value}} \
     {{this.orderCommand}}
