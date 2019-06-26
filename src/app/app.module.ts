@@ -24,7 +24,8 @@ import {
   MatButtonModule, MatCardModule, MatDialogModule,
   MatExpansionModule, MatIconModule, MatRadioModule, MatChipsModule, MatSelectModule,
   MatStepperModule, MatSnackBarModule, MatInputModule, MatProgressBarModule, MatListModule,
-  MatTooltipModule, MatTableModule, MatCheckboxModule
+  MatTooltipModule, MatTableModule, MatCheckboxModule,
+  MatFormFieldModule, MatProgressSpinnerModule
 } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -196,6 +197,9 @@ export function translationServiceFactory(translate: TranslateService, injector:
     MatListModule,
     MatProgressBarModule,
     MatRadioModule,
+    MatFormFieldModule,
+    MatProgressBarModule,
+    MatProgressSpinnerModule,
     MatSelectModule,
     MatSnackBarModule,
     MatStepperModule,
