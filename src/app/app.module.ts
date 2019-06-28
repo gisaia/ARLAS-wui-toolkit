@@ -29,8 +29,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
-import { DonutModule, HistogramModule, PowerbarsModule, ResultsModule, ColorGeneratorModule,
-  ColorGeneratorLoader} from 'arlas-web-components';
+import {
+  DonutModule, HistogramModule, PowerbarsModule, ResultsModule, ColorGeneratorModule,
+  ColorGeneratorLoader
+} from 'arlas-web-components';
 import { Observable } from 'rxjs/Observable';
 import { AppComponent } from './app.component';
 import { routing } from './app.routes';
@@ -97,7 +99,8 @@ export function translationServiceFactory(translate: TranslateService, injector:
   const translationLoaded = () => new Promise<any>((resolve: any) => {
     const url = window.location.href;
     const paramLangage = 'lg';
-    let langToSet = 'en';
+    // Set default language to current browser language
+    let langToSet = navigator.language.slice(0, 2);
     const regex = new RegExp('[?&]' + paramLangage + '(=([^&#]*)|&|#|$)');
     const results = regex.exec(url);
     if (results && results[2]) {
