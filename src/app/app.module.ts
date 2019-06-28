@@ -53,6 +53,7 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule, OWL_DATE_TIME_FORMATS, OwlD
 import { ArlasTranslateIntl } from './components/timeline/date-picker/ArlasTranslateIntl';
 import { ArlasColorGeneratorLoader } from './services/color-generator-loader/color-generator-loader.service';
 import { ArlasWalkthroughService } from './services/walkthrough/walkthrough.service';
+import { FiltersComponent } from './components/filters/filters.component';
 
 
 export class CustomTranslateLoader implements TranslateLoader {
@@ -126,6 +127,7 @@ export function translationServiceFactory(translate: TranslateService, injector:
     AnalyticsBoardComponent,
     ShareComponent,
     ShareDialogComponent,
+    FiltersComponent,
     TagComponent,
     TagDialogComponent,
     ExcludeTypePipe,
@@ -146,6 +148,7 @@ export function translationServiceFactory(translate: TranslateService, injector:
     ShareComponent,
     TagComponent,
     LanguageSwitcherComponent,
+    FiltersComponent,
     TranslateModule
   ],
   imports: [
