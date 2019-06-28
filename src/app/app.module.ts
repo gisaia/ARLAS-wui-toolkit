@@ -54,6 +54,8 @@ import { ArlasTranslateIntl } from './components/timeline/date-picker/ArlasTrans
 import { ArlasColorGeneratorLoader } from './services/color-generator-loader/color-generator-loader.service';
 import { ArlasWalkthroughService } from './services/walkthrough/walkthrough.service';
 import { FiltersComponent } from './components/filters/filters.component';
+import { SearchComponent } from './components/search/search.component';
+import { MatAutocompleteModule } from '@angular/material';
 
 
 export class CustomTranslateLoader implements TranslateLoader {
@@ -135,8 +137,8 @@ export function translationServiceFactory(translate: TranslateService, injector:
     LanguageSwitcherComponent,
     TimelineComponent,
     TimelineShortcutComponent,
-    DatePickerComponent
-
+    DatePickerComponent,
+    SearchComponent
   ],
   exports: [
     AppComponent,
@@ -149,6 +151,7 @@ export function translationServiceFactory(translate: TranslateService, injector:
     TagComponent,
     LanguageSwitcherComponent,
     FiltersComponent,
+    SearchComponent,
     TranslateModule
   ],
   imports: [
@@ -159,6 +162,7 @@ export function translationServiceFactory(translate: TranslateService, injector:
     FormsModule,
     HistogramModule,
     HttpClientModule,
+    MatAutocompleteModule,
     MatButtonModule,
     MatCardModule,
     MatDialogModule,
