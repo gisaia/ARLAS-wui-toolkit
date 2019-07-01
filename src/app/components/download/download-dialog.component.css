@@ -1,0 +1,134 @@
+.download-radio-group {
+  display: inline-flex;
+  flex-direction: row;
+  padding: 10px;
+  flex: 1;
+}
+
+.download-radio-button {
+  margin: 5px;
+}
+
+.download-url {
+  width: 100%;
+  flex: 3;
+}
+
+.download-copy-url {
+  flex: 1;
+  font-weight: 200;
+}
+
+.download-description {
+  font-size: 15px;
+  font-weight: 300;
+}
+
+.download-stepper-button:focus {
+  outline: none;
+}
+
+.download-form-field {
+  min-width: 250px;
+}
+
+.download-title-list {
+  -ms-flex-line-pack: center;
+  align-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  padding: 8px 20px;
+  color: rgba(0, 0, 0, .54);
+  background: rgba(0, 0, 0, .03);
+}
+
+.download-feature-block {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between
+}
+
+.download-feature-button {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+}
+
+.download-button {
+  min-width: 55px;
+}
+
+.download-block .btn-success {
+  background-color: #4CAF50;
+}
+
+.download-block .btn-success mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+.fields-additional-selection {
+  opacity: 0.75;
+  font-size: 0.75em;
+}
+
+.fields-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.download-order-field .mat-select-content {
+  font-size: 13px;
+}
+
+.download-stepper {
+  width: 45vw;
+}
+
+.download-box {
+  width: 820px;
+  height: 208px;
+  font-family: monospace;
+  font-size: 16px;
+  border: none;
+}
+
+.admonition {
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 1px 5px 0 rgba(0, 0, 0, .12), 0 3px 1px -2px rgba(0, 0, 0, .2);
+  position: relative;
+  margin: 1.5625em 0;
+  padding: 0 1.2rem;
+  border-left: .4rem solid #673ab7;
+  border-radius: .2rem;
+  font-size: 0.9rem;
+  overflow: auto;
+}
+
+.admonition-title {
+  margin: 0 -1.2rem;
+  padding: .8rem 1.2rem .8rem 2rem;
+  border-bottom: .1rem solid rgba(103, 58, 183, .1);
+  background-color: rgba(103, 58, 183, .1);
+  font-weight: 700;
+}
+
+.btn-success {
+  background-color: #4CAF50 !important;
+  color: white !important;
+}
+
+.hide-icon {
+  display: none !important;
+}
+
+.download-stepper-button-copy{
+  float: right;
+}
