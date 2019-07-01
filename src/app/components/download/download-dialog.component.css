@@ -1,38 +1,38 @@
 .download-radio-group {
   display: inline-flex;
   flex-direction: row;
-  padding:10px;
-  flex:1;
+  padding: 10px;
+  flex: 1;
 }
 
 .download-radio-button {
   margin: 5px;
 }
 
-.download-url{
+.download-url {
   width: 100%;
-  flex:3;
+  flex: 3;
 }
 
-.download-copy-url{
-  flex:1;
+.download-copy-url {
+  flex: 1;
   font-weight: 200;
 }
 
-.download-description{
+.download-description {
   font-size: 15px;
   font-weight: 300;
 }
 
-.download-stepper-button:focus{
+.download-stepper-button:focus {
   outline: none;
 }
 
-.download-form-field{
+.download-form-field {
   min-width: 250px;
 }
 
-.download-title-list{
+.download-title-list {
   -ms-flex-line-pack: center;
   align-content: center;
   -webkit-box-align: center;
@@ -43,57 +43,57 @@
   -ms-flex-pack: center;
   justify-content: center;
   padding: 8px 20px;
-  color: rgba(0,0,0,.54);
-  background: rgba(0,0,0,.03);
+  color: rgba(0, 0, 0, .54);
+  background: rgba(0, 0, 0, .03);
 }
 
-.download-feature-block{
-  display:flex;
-  flex-direction:row;
+.download-feature-block {
+  display: flex;
+  flex-direction: row;
   justify-content: space-between
 }
 
-.download-feature-button{
-  display:flex;
-  flex-direction:column;
-  flex:1;
+.download-feature-button {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
   align-items: center;
   justify-content: center;
 }
 
-.download-button{
+.download-button {
   min-width: 55px;
 }
 
-.download-block .btn-success{
+.download-block .btn-success {
   background-color: #4CAF50;
 }
 
-.download-block .btn-success mat-icon{
+.download-block .btn-success mat-icon {
   font-size: 20px;
   width: 20px;
   height: 20px;
 }
 
-.fields-additional-selection{
+.fields-additional-selection {
   opacity: 0.75;
   font-size: 0.75em;
 }
 
-.fields-form{
+.fields-form {
   display: flex;
   flex-direction: column;
 }
 
-.download-order-field .mat-select-content{
+.download-order-field .mat-select-content {
   font-size: 13px;
 }
 
-.download-stepper{
+.download-stepper {
   width: 45vw;
 }
 
-.download-box{
+.download-box {
   width: 820px;
   height: 208px;
   font-family: monospace;
@@ -101,8 +101,8 @@
   border: none;
 }
 
-.admonition{
-  box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12), 0 3px 1px -2px rgba(0,0,0,.2);
+.admonition {
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 1px 5px 0 rgba(0, 0, 0, .12), 0 3px 1px -2px rgba(0, 0, 0, .2);
   position: relative;
   margin: 1.5625em 0;
   padding: 0 1.2rem;
@@ -112,10 +112,23 @@
   overflow: auto;
 }
 
-.admonition-title{
+.admonition-title {
   margin: 0 -1.2rem;
   padding: .8rem 1.2rem .8rem 2rem;
-  border-bottom: .1rem solid rgba(103,58,183,.1);
-  background-color: rgba(103,58,183,.1);
+  border-bottom: .1rem solid rgba(103, 58, 183, .1);
+  background-color: rgba(103, 58, 183, .1);
   font-weight: 700;
+}
+
+.btn-success {
+  background-color: #4CAF50 !important;
+  color: white !important;
+}
+
+.hide-icon {
+  display: none !important;
+}
+
+.download-stepper-button-copy{
+  float: right;
 }

@@ -63,6 +63,9 @@ export class DownloadDialogComponent implements OnInit {
   public thirdOrderColunm: number;
   public orderCommand: string;
   public filterUrl: string;
+  public exportedTypeCommand: string;
+
+  public isCopied = false;
 
   public server: any;
 
@@ -81,7 +84,9 @@ export class DownloadDialogComponent implements OnInit {
     });
     this.paramFormGroup = this.formBuilder.group({
       availableFields: ['', Validators.required],
-      orderField: ['']
+      orderField: [''],
+      orderField2: [{ value: '', disabled: true }],
+      orderField3: [{ value: '', disabled: true }]
     });
 
     this.server = this.configService.getValue('arlas.server');
@@ -101,10 +106,29 @@ export class DownloadDialogComponent implements OnInit {
     this.selectedFields = new Array<ArlasSearchField>();
     this.selectedFieldString = '';
     selectedOptionsList.forEach((option, index) => {
-      const field = option._text.nativeElement.innerText.split('-');
+      const field = option._element.nativeElement.textContent.split('-');
       this.selectedFields.push(new ArlasSearchField(field[0].trim(), field[1].trim()));
       this.selectedFieldString += (index !== 0 ? ',' : '') + field[0].trim();
     });
+    this.selectedFirstOrderField = null;
+    this.selectedSecondOrderField = null;
+    this.selectedThirdOrderField = null;
+  }
+
+  public orderSelect() {
+    if (this.selectedFirstOrderField) {
+      this.paramFormGroup.get('orderField2').enable();
+    } else {
+      this.paramFormGroup.get('orderField2').disable();
+      this.selectedSecondOrderField = null;
+    }
+
+    if (this.selectedSecondOrderField) {
+      this.paramFormGroup.get('orderField3').enable();
+    } else {
+      this.paramFormGroup.get('orderField3').disable();
+      this.selectedThirdOrderField = null;
+    }
   }
 
   /**
@@ -113,15 +137,14 @@ export class DownloadDialogComponent implements OnInit {
    */
   public changeStep(event) {
     if (event.selectedIndex === 2) {
+      this.isCopied = false;
+      this.exportedTypeCommand = this.exportTypeGroup.get('exportType').value;
       this.orderCommand = '';
-      const filters = new Array<Filter>();
-      this.collaborativeService.collaborations.forEach(element =>
-        filters.push(element.filter)
-      );
+      const filters = Array.from(this.collaborativeService.collaborations.values()).map(element => element.filter);
       this.filterUrl = this.collaborativeService.getUrl([projType.search, []], filters);
       if (this.exportTypeGroup.get('exportType').value === 'csv'
         && (this.selectedFirstOrderField || this.selectedSecondOrderField || this.selectedThirdOrderField)) {
-
+        this.exportedTypeCommand = this.exportedTypeCommand + ' \\';
         this.firstOrderColunm = 1;
         this.secondOrderColunm = 2;
         this.thirdOrderColunm = 3;
@@ -141,6 +164,23 @@ export class DownloadDialogComponent implements OnInit {
           + (this.selectedThirdOrderField ? '-k' + this.thirdOrderColunm : '');
       }
     }
+  }
+
+  /**
+   * Copies a text in your clipboard
+   * @param text Text to copy
+   */
+  public copyTextToClipboard(text: string) {
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+    document.body.appendChild(textArea);
+    textArea.select();
+    try {
+      this.isCopied = document.execCommand('copy');
+    } catch (err) {
+      this.isCopied = false;
+    }
+    document.body.removeChild(textArea);
   }
 
   private getFieldProperties(fieldList: any, fieldName: string, parentPrefix?: string) {
