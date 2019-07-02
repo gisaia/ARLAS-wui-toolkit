@@ -23,7 +23,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   MatButtonModule, MatCardModule, MatDialogModule,
   MatExpansionModule, MatIconModule, MatRadioModule, MatChipsModule, MatSelectModule,
-  MatStepperModule, MatSnackBarModule, MatInputModule, MatProgressBarModule, MatListModule, MatTooltipModule
+  MatStepperModule, MatSnackBarModule, MatInputModule, MatProgressBarModule, MatListModule,
+  MatTooltipModule, MatTableModule, MatCheckboxModule
 } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -46,6 +47,7 @@ import { WidgetComponent } from './components/widget/widget.component';
 import { ArlasBookmarkService } from './services/bookmark/bookmark.service';
 import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from './services/startup/startup.service';
 import { ArlasTagService } from './services/tag/tag.service';
+import { ArlasAoiService } from './services/aoi/aoi.service';
 import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.component';
 import { TimelineComponent } from './components/timeline/timeline/timeline.component';
 import { TimelineShortcutComponent } from './components/timeline/timeline-shortcut/timeline-shortcut.component';
@@ -59,6 +61,7 @@ import { FiltersComponent } from './components/filters/filters.component';
 import { SearchComponent } from './components/search/search.component';
 import { MatAutocompleteModule } from '@angular/material';
 import { DownloadComponent, DownloadDialogComponent } from './components/download/download.component';
+import { AoiComponent } from './components/aoi/aoi.component';
 
 
 export class CustomTranslateLoader implements TranslateLoader {
@@ -125,40 +128,42 @@ export function translationServiceFactory(translate: TranslateService, injector:
 
 @NgModule({
   declarations: [
+    AnalyticsBoardComponent,
+    AoiComponent,
     AppComponent,
     ConfirmModalComponent,
+    DatePickerComponent,
+    DownloadComponent,
+    DownloadDialogComponent,
     ErrormodalComponent,
     ErrorModalMsgComponent,
-    WidgetComponent,
-    AnalyticsBoardComponent,
+    ExcludeTypePipe,
+    FiltersComponent,
+    GetTimeLabelPipe,
+    LanguageSwitcherComponent,
+    SearchComponent,
     ShareComponent,
     ShareDialogComponent,
-    FiltersComponent,
     TagComponent,
     TagDialogComponent,
-    ExcludeTypePipe,
-    GetTimeLabelPipe,
-    LanguageSwitcherComponent,
     TimelineComponent,
     TimelineShortcutComponent,
-    DatePickerComponent,
-    SearchComponent,
-    DownloadComponent,
-    DownloadDialogComponent
+    WidgetComponent
   ],
   exports: [
-    AppComponent,
-    WidgetComponent,
     AnalyticsBoardComponent,
-    TimelineComponent,
+    AoiComponent,
+    AppComponent,
+    FiltersComponent,
     GetTimeLabelPipe,
-    TimelineShortcutComponent,
+    LanguageSwitcherComponent,
+    SearchComponent,
     ShareComponent,
     TagComponent,
-    LanguageSwitcherComponent,
-    FiltersComponent,
-    SearchComponent,
-    TranslateModule
+    TimelineComponent,
+    TimelineShortcutComponent,
+    TranslateModule,
+    WidgetComponent
   ],
   imports: [
     BrowserModule,
@@ -171,18 +176,20 @@ export function translationServiceFactory(translate: TranslateService, injector:
     MatAutocompleteModule,
     MatButtonModule,
     MatCardModule,
+    MatCheckboxModule,
+    MatChipsModule,
     MatDialogModule,
     MatExpansionModule,
     MatIconModule,
     MatInputModule,
-    MatProgressBarModule,
-    MatSelectModule,
     MatListModule,
+    MatProgressBarModule,
+    MatRadioModule,
+    MatSelectModule,
     MatSnackBarModule,
     MatStepperModule,
-    MatRadioModule,
+    MatTableModule,
     MatTooltipModule,
-    MatChipsModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
     PowerbarsModule,
@@ -205,11 +212,12 @@ export function translationServiceFactory(translate: TranslateService, injector:
     })
   ],
   providers: [
+    forwardRef(() => ArlasAoiService),
+    forwardRef(() => ArlasBookmarkService),
     forwardRef(() => ArlasConfigService),
     forwardRef(() => ArlasCollaborativesearchService),
-    forwardRef(() => ArlasStartupService),
     forwardRef(() => ArlasColorGeneratorLoader),
-    forwardRef(() => ArlasBookmarkService),
+    forwardRef(() => ArlasStartupService),
     forwardRef(() => ArlasTagService),
     forwardRef(() => ArlasWalkthroughService),
     {
