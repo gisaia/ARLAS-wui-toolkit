@@ -66,7 +66,7 @@ export class CustomTranslateLoader implements TranslateLoader {
   constructor(private http: HttpClient) { }
 
   public getTranslation(lang: string): Observable<any> {
-    const apiAddress = 'assets/i18n/' + lang + '.json';
+    const apiAddress = 'assets/i18n/' + lang + '.json?' + Date.now();
     return Observable.create(observer => {
       this.http.get(apiAddress).subscribe(
         res => {
@@ -83,12 +83,12 @@ export class CustomTranslateLoader implements TranslateLoader {
 }
 
 export function startupServiceFactory(startupService: ArlasStartupService) {
-  const load = () => startupService.load('config.json');
+  const load = () => startupService.load('config.json?' + Date.now());
   return load;
 }
 
 export function walkthroughServiceFactory(walkthroughService: ArlasWalkthroughService) {
-  const load = () => walkthroughService.load('tour.json');
+  const load = () => walkthroughService.load('tour.json?' + Date.now());
   return load;
 }
 
