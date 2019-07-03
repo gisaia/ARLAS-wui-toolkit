@@ -103,7 +103,7 @@ export class ArlasStartupService {
      * @param data Content of the extra configuration file
      */
     public loadExtraConfig(extraConfig: ExtraConfig, data: Object): Promise<any> {
-        return this.http.get(extraConfig.configPath)
+        return this.http.get(extraConfig.configPath + '?' + Date.now())
             .toPromise()
             .then((extraConfigData) => {
                 if (extraConfigData[extraConfig.replacer] !== undefined) {
