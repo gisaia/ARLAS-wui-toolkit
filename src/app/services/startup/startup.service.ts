@@ -188,7 +188,7 @@ export class ArlasStartupService {
                     );
                     this.collaborativesearchService.setWriteApi(arlasWriteApi);
                     this.collaborativesearchService.collection = this.configService.getValue('arlas.server.collection.name');
-                    this.collaborativesearchService.max_age = this.configService.getValue('arlas.server.max_age');
+                    this.collaborativesearchService.max_age = this.configService.getValue('arlas.server.max_age_cache');
                     this.collaborativesearchService.resolveHits([projType.count, {}], this.collaborativesearchService.collaborations)
                         .subscribe(
                             result => {
