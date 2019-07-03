@@ -1,0 +1,30 @@
+<mat-table [dataSource]="extends" class="extend-table-items">
+  <ng-container matColumnDef="checked">
+    <mat-header-cell *matHeaderCellDef> # </mat-header-cell>
+    <mat-cell *matCellDef="let extend">
+      <mat-checkbox class="extend-check" (change)="selectExtend($event, extend.id)"></mat-checkbox>
+    </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="actions">
+    <mat-header-cell *matHeaderCellDef> {{ 'Actions' | translate }} </mat-header-cell>
+    <mat-cell *matCellDef="let extend">
+      <mat-icon class="extend-icons-action extend-icons-action-view" title="{{ 'View' | translate }}" (click)="viewExtend(extend.id)">
+        remove_red_eye
+      </mat-icon>
+      <mat-icon class="extend-icons-action extend-icons-action-delete" title="{{ 'Remove' | translate }}" (click)="removeExtend(extend.id)">
+        delete
+      </mat-icon>
+    </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="date">
+    <mat-header-cell *matHeaderCellDef> {{ 'Date' | translate }} </mat-header-cell>
+    <mat-cell *matCellDef="let extend"> {{extend.date | date: 'dd/MM/yyyy HH:mm:ss'}} </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="name">
+    <mat-header-cell *matHeaderCellDef> {{ 'Name' | translate }} </mat-header-cell>
+    <mat-cell *matCellDef="let extend">{{extend.name}}</mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
+  <mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></mat-row>
+</mat-table>

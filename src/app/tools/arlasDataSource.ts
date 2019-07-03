@@ -18,41 +18,40 @@
  */
 
 import { Observable, merge } from 'rxjs';
-import { BookMark } from './model';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { DataSource } from '@angular/cdk/collections';
-import { BookmarkDatabase } from './bookmarkDatabase';
-import { sortOnDate } from './utils';
+import { ArlasLocalDatabase } from './arlasLocalDatabase';
+import { sortOnDate, ArlasStorageObject } from './utils';
 import { map } from 'rxjs/operators';
 
-export class BookmarkDataSource extends DataSource<any> {
+export class ArlasDataSource extends DataSource<any> {
   private _filterChange = new BehaviorSubject('');
   get filter(): string { return this._filterChange.value; }
   set filter(filter: string) { this._filterChange.next(filter); }
-  constructor(private _bookmarkDatabase: BookmarkDatabase) {
+  constructor(public arlasLocalDatabase: ArlasLocalDatabase<ArlasStorageObject>) {
     super();
   }
   /** Connect function called by the table to retrieve one stream containing the data to render. */
-  public connect(): Observable<BookMark[]> {
+  public connect(): Observable<ArlasStorageObject[]> {
     const displayDataChanges = [
-      this._bookmarkDatabase.dataChange,
+      this.arlasLocalDatabase.dataChange,
       this._filterChange
 
 
     ];
     return merge(...displayDataChanges).pipe(map(() => {
-      localStorage.setItem('bookmark', JSON.stringify(this._bookmarkDatabase.data));
+      localStorage.setItem(this.arlasLocalDatabase.localStorageKey, JSON.stringify(this.arlasLocalDatabase.data));
       return this.getSortedData();
 
     }));
   }
 
   public disconnect() { }
-  private getSortedData(): BookMark[] {
-    const data = this._bookmarkDatabase.data.slice();
+  public getSortedData(): ArlasStorageObject[] {
+    const data = this.arlasLocalDatabase.data.slice();
     // force date asc sort
     const sortedData = sortOnDate(data);
-    return sortedData.slice().filter((item: BookMark) => {
+    return sortedData.slice().filter((item: ArlasStorageObject) => {
       if (item.name !== undefined) {
         const searchStr = (item.name).toLowerCase();
         return searchStr.indexOf(this.filter.toLowerCase()) !== -1;

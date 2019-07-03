@@ -18,36 +18,36 @@
  */
 
 import { Injectable } from '@angular/core';
-import { AoiDatabase } from './aoiDatabase';
-import { Aoi } from './model';
+import { ExtendDatabase } from './extendDatabase';
+import { Extend } from './model';
 import { ArlasStartupService } from '../startup/startup.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ArlasAoiService {
-  public dataBase: AoiDatabase;
-  public aoiMap: Map<string, Aoi> = new Map<string, Aoi>();
+export class ArlasExtendService {
+  public dataBase: ExtendDatabase;
+  public extendMap: Map<string, Extend> = new Map<string, Extend>();
 
   constructor(private arlasStartupService: ArlasStartupService) {
     if (this.arlasStartupService.shouldRunApp) {
-      this.dataBase = new AoiDatabase();
-      this.aoiMap = this.dataBase.storageObjectMap;
+      this.dataBase = new ExtendDatabase();
+      this.extendMap = this.dataBase.storageObjectMap;
     }
   }
 
-  public addAoi(name: string, geometry: any) {
-    const newAoi = this.dataBase.createAoi(name, geometry);
-    this.dataBase.add(newAoi);
-    this.aoiMap = this.dataBase.storageObjectMap;
+  public addExtend(name: string, geometry: any) {
+    const newExtend = this.dataBase.createExtend(name, geometry);
+    this.dataBase.add(newExtend);
+    this.extendMap = this.dataBase.storageObjectMap;
   }
 
-  public removeAoi(id: string) {
+  public removeExtend(id: string) {
     this.dataBase.remove(id);
-    this.aoiMap = this.dataBase.storageObjectMap;
+    this.extendMap = this.dataBase.storageObjectMap;
   }
 
-  public getAoiById(id: string): Aoi {
-    return Array.from(this.aoiMap.values()).find(aoi => aoi.id === id);
+  public getExtendById(id: string): Extend {
+    return Array.from(this.extendMap.values()).find(extend => extend.id === id);
   }
 }

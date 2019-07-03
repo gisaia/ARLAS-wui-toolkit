@@ -18,6 +18,7 @@
  */
 
 import { Observable } from 'rxjs/Observable';
+import { ArlasStorageObject } from '../../tools/utils';
 
 export enum BookMarkType {
   enumIds,
@@ -25,14 +26,13 @@ export enum BookMarkType {
   filterWithoutTime
 }
 
-export interface BookMark {
-  id: string;
-  date: Date;
-  name: string;
+export interface BookMark extends ArlasStorageObject {
+
   prettyFilter: string;
   url: string;
   type: BookMarkType;
   color: string;
   count: Observable<number>;
   views: number;
+
 }

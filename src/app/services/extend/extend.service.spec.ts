@@ -17,39 +17,24 @@
  * under the License.
  */
 
-import { Aoi } from './model';
-import { Guid } from '../../tools/utils';
-import { ArlasLocalDatabase } from '../../tools/arlasLocalDatabase';
+import { TestBed } from '@angular/core/testing';
 
-export class AoiDatabase extends ArlasLocalDatabase<Aoi> {
+import { ArlasExtendService } from './extend.service';
+import { ArlasStartupService, ArlasConfigService, ArlasCollaborativesearchService } from '../startup/startup.service';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 
-  constructor() {
-    super('aoi');
-  }
+describe('ArlasExtendService', () => {
+  beforeEach(() => TestBed.configureTestingModule({
+    imports: [
+      HttpClientModule
+    ],
+    providers: [
+      ArlasStartupService, HttpClient, ArlasConfigService, ArlasCollaborativesearchService
+    ]
+  }));
 
-  public createAoi(name: string, geometry: any, visibility: boolean = false, date?: Date, id?: string): Aoi {
-    let uid = '';
-    let aoiDate: Date;
-
-    if (id) {
-      uid = id;
-    } else {
-      const guid = new Guid();
-      uid = guid.newGuid();
-    }
-    if (date) {
-      aoiDate = new Date(date);
-    } else {
-      aoiDate = new Date();
-    }
-    const aoi: Aoi = {
-      id: uid,
-      date: aoiDate,
-      name: name,
-      geometry: geometry,
-      private: visibility
-    };
-    return aoi;
-  }
-
-}
+  it('should be created', () => {
+    const service: ArlasExtendService = TestBed.get(ArlasExtendService);
+    expect(service).toBeTruthy();
+  });
+});

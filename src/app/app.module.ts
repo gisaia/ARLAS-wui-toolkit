@@ -62,6 +62,7 @@ import { SearchComponent } from './components/search/search.component';
 import { MatAutocompleteModule } from '@angular/material';
 import { DownloadComponent, DownloadDialogComponent } from './components/download/download.component';
 import { AoiComponent } from './components/aoi/aoi.component';
+import { ExtendComponent } from './components/extend/extend.component';
 
 
 export class CustomTranslateLoader implements TranslateLoader {
@@ -138,6 +139,7 @@ export function translationServiceFactory(translate: TranslateService, injector:
     ErrormodalComponent,
     ErrorModalMsgComponent,
     ExcludeTypePipe,
+    ExtendComponent,
     FiltersComponent,
     GetTimeLabelPipe,
     LanguageSwitcherComponent,
@@ -154,6 +156,7 @@ export function translationServiceFactory(translate: TranslateService, injector:
     AnalyticsBoardComponent,
     AoiComponent,
     AppComponent,
+    ExtendComponent,
     FiltersComponent,
     GetTimeLabelPipe,
     LanguageSwitcherComponent,

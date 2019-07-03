@@ -17,30 +17,23 @@
  * under the License.
  */
 
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { BookMark, BookMarkType } from './model';
 import { ArlasBookmarkService } from './bookmark.service';
-import { sortOnDate, Guid } from './utils';
+import { Guid } from '../../tools/utils';
 import { Observable } from 'rxjs/Observable';
+import { ArlasLocalDatabase } from '../../tools/arlasLocalDatabase';
 
-export class BookmarkDatabase {
-  /** Stream that emits whenever the data has been modified. */
-  public dataChange: BehaviorSubject<BookMark[]> = new BehaviorSubject<BookMark[]>([]);
-  get data(): BookMark[] { return this.dataChange.value; }
-  public bookMarkMap: Map<string, BookMark> = new Map<string, BookMark>();
+export class BookmarkDatabase extends ArlasLocalDatabase<BookMark> {
+
   constructor(public bookmarkService: ArlasBookmarkService) {
-    if (localStorage.getItem('bookmark') !== null) {
-      const copiedData = [];
-      Array.from(JSON.parse(localStorage.getItem('bookmark'))).forEach((b: BookMark) => {
-        copiedData.push(this.createNewBookMark(b.name, b.prettyFilter, b.url, b.type, b.color, b.id, b.date, b.views));
-        this.bookMarkMap.set(b.id, this.createNewBookMark(b.name, b.prettyFilter, b.url, b.type, b.color, b.id, b.date, b.views));
-      });
-      const sortedData = sortOnDate(copiedData);
-      this.dataChange.next(sortedData);
-    }
+    super('bookmark');
   }
 
-  public createNewBookMark(name: string, prettyFilter: string, url: string,
+  public init(bookmark: BookMark) {
+    this.bookmarkService.setBookMarkCount(bookmark);
+  }
+
+  public createBookmark(name: string, prettyFilter: string, url: string,
     type: BookMarkType, color: string, id?: string, date?: Date, views?: number): BookMark {
     let uid = '';
     let bookmarkDate: Date;
@@ -76,31 +69,11 @@ export class BookmarkDatabase {
     return bookMark;
   }
 
-  public addBookMark(bookmark: BookMark) {
-    const copiedData = this.data.slice();
-    copiedData.push(bookmark);
-    this.bookMarkMap.set(bookmark.id, bookmark);
-    const sortedData = sortOnDate(copiedData);
-    localStorage.setItem('bookmark', JSON.stringify(sortedData));
-    this.dataChange.next(sortedData);
-  }
-
-  public removeBookMark(id: string) {
-    const copiedData = this.data.slice();
-    const newData = [];
-    copiedData.forEach(u => {
-      if (u.id !== id) {
-        newData.push(u);
-      }
-    });
-    this.bookMarkMap.delete(id);
-    this.dataChange.next(newData);
-  }
-
   public incrementBookmarkView(id: string) {
-    const bookmark = this.bookMarkMap.get(id);
-    this.removeBookMark(id);
+    // TODO: Update object instead of remove and re-add
+    const bookmark = this.storageObjectMap.get(id);
+    super.remove(id);
     bookmark.views++;
-    this.addBookMark(bookmark);
+    super.add(bookmark);
   }
 }

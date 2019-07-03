@@ -19,7 +19,7 @@
 
 import { ArlasStorageObject } from '../../tools/utils';
 
-export interface Aoi extends ArlasStorageObject {
+export interface Extend extends ArlasStorageObject {
   geometry: any;
   private: boolean;
 }

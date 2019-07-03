@@ -17,19 +17,20 @@
  * under the License.
  */
 
-import { Aoi } from './model';
+import { Extend } from './model';
 import { Guid } from '../../tools/utils';
 import { ArlasLocalDatabase } from '../../tools/arlasLocalDatabase';
 
-export class AoiDatabase extends ArlasLocalDatabase<Aoi> {
+export class ExtendDatabase extends ArlasLocalDatabase<Extend> {
+
 
   constructor() {
-    super('aoi');
+    super('extend');
   }
 
-  public createAoi(name: string, geometry: any, visibility: boolean = false, date?: Date, id?: string): Aoi {
+  public createExtend(name: string, geometry: any, visibility: boolean = false, date?: Date, id?: string): Extend {
     let uid = '';
-    let aoiDate: Date;
+    let extendDate: Date;
 
     if (id) {
       uid = id;
@@ -38,18 +39,18 @@ export class AoiDatabase extends ArlasLocalDatabase<Aoi> {
       uid = guid.newGuid();
     }
     if (date) {
-      aoiDate = new Date(date);
+      extendDate = new Date(date);
     } else {
-      aoiDate = new Date();
+      extendDate = new Date();
     }
-    const aoi: Aoi = {
+    const extend: Extend = {
       id: uid,
-      date: aoiDate,
+      date: extendDate,
       name: name,
       geometry: geometry,
       private: visibility
     };
-    return aoi;
+    return extend;
   }
 
 }
