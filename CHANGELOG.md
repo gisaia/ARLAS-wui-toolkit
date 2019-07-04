@@ -1,5 +1,24 @@
 # Change Log
 
+## [v10.2.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v10.2.0) (2019-07-04)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v10.1.0...v10.2.0)
+
+**New stuff:**
+
+- Config files caching [\#153](https://github.com/gisaia/ARLAS-wui-toolkit/issues/153)
+- Add full text search [\#146](https://github.com/gisaia/ARLAS-wui-toolkit/issues/146)
+- Add filters component [\#145](https://github.com/gisaia/ARLAS-wui-toolkit/issues/145)
+- Set  i18n default value with the value of the browser [\#144](https://github.com/gisaia/ARLAS-wui-toolkit/issues/144)
+- Add a component to generate a command line to download features [\#143](https://github.com/gisaia/ARLAS-wui-toolkit/issues/143)
+- Set default language with browser language [\#151](https://github.com/gisaia/ARLAS-wui-toolkit/pull/151) ([sebbousquet](https://github.com/sebbousquet))
+- Add search component [\#150](https://github.com/gisaia/ARLAS-wui-toolkit/pull/150) ([sebbousquet](https://github.com/sebbousquet))
+- Add filter component [\#149](https://github.com/gisaia/ARLAS-wui-toolkit/pull/149) ([sebbousquet](https://github.com/sebbousquet))
+
+**Fixed bugs:**
+
+- Max\_age is not used for caching [\#152](https://github.com/gisaia/ARLAS-wui-toolkit/issues/152)
+
 ## [v10.1.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v10.1.0) (2019-05-23)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v10.0.2...v10.1.0)
