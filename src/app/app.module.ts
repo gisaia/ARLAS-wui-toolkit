@@ -63,6 +63,8 @@ import { MatAutocompleteModule } from '@angular/material';
 import { DownloadComponent, DownloadDialogComponent } from './components/download/download.component';
 import { AoiComponent } from './components/aoi/aoi.component';
 import { ExtendComponent } from './components/extend/extend.component';
+import { BookmarkComponent, BookmarkAddDialogComponent } from './components/bookmark/bookmark.component';
+import { BookmarkMenuComponent } from './components/bookmark-menu/bookmark-menu.component';
 
 
 export class CustomTranslateLoader implements TranslateLoader {
@@ -132,6 +134,9 @@ export function translationServiceFactory(translate: TranslateService, injector:
     AnalyticsBoardComponent,
     AoiComponent,
     AppComponent,
+    BookmarkComponent,
+    BookmarkAddDialogComponent,
+    BookmarkMenuComponent,
     ConfirmModalComponent,
     DatePickerComponent,
     DownloadComponent,
@@ -156,6 +161,8 @@ export function translationServiceFactory(translate: TranslateService, injector:
     AnalyticsBoardComponent,
     AoiComponent,
     AppComponent,
+    BookmarkComponent,
+    BookmarkMenuComponent,
     ExtendComponent,
     FiltersComponent,
     GetTimeLabelPipe,
@@ -249,6 +256,14 @@ export function translationServiceFactory(translate: TranslateService, injector:
     { provide: OwlDateTimeIntl, useClass: ArlasTranslateIntl, deps: [TranslateService] }
   ],
   bootstrap: [AppComponent],
-  entryComponents: [ErrorModalMsgComponent, ShareDialogComponent, TagDialogComponent, ConfirmModalComponent, DownloadDialogComponent],
+  entryComponents: [
+    BookmarkAddDialogComponent,
+    BookmarkComponent, // Usefull for bookmark-menu
+    ConfirmModalComponent,
+    DownloadDialogComponent,
+    ErrorModalMsgComponent,
+    ShareDialogComponent,
+    TagDialogComponent
+  ],
 })
 export class ArlasToolKitModule { }

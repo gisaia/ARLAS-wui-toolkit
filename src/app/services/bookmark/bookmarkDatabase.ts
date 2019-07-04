@@ -26,11 +26,23 @@ import { ArlasLocalDatabase } from '../../tools/arlasLocalDatabase';
 export class BookmarkDatabase extends ArlasLocalDatabase<BookMark> {
 
   constructor(public bookmarkService: ArlasBookmarkService) {
-    super('bookmark');
+    super('bookmark', bookmarkService);
   }
 
-  public init(bookmark: BookMark) {
-    this.bookmarkService.setBookMarkCount(bookmark);
+  public init(bookmark: BookMark, service: ArlasBookmarkService): BookMark {
+    const initBookmark = {
+      id: bookmark.id,
+      date: new Date(bookmark.date),
+      name: bookmark.name,
+      prettyFilter: bookmark.prettyFilter,
+      url: bookmark.url,
+      type: bookmark.type,
+      color: bookmark.color,
+      count: new Observable<0>(),
+      views: bookmark.views
+    };
+    service.setBookMarkCount(initBookmark);
+    return initBookmark;
   }
 
   public createBookmark(name: string, prettyFilter: string, url: string,
@@ -70,7 +82,6 @@ export class BookmarkDatabase extends ArlasLocalDatabase<BookMark> {
   }
 
   public incrementBookmarkView(id: string) {
-    // TODO: Update object instead of remove and re-add
     const bookmark = this.storageObjectMap.get(id);
     super.remove(id);
     bookmark.views++;

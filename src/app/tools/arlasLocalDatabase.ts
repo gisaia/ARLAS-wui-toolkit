@@ -28,15 +28,15 @@ export class ArlasLocalDatabase<T extends ArlasStorageObject> {
 
   public localStorageKey: string;
 
-  constructor(localStorageKey: string = 'storage_object') {
+  constructor(localStorageKey: string = 'storage_object', additionalObject?: any) {
     this.localStorageKey = localStorageKey;
 
     if (localStorage.getItem(this.localStorageKey) !== null) {
       const copiedData = [];
       Array.from(JSON.parse(localStorage.getItem(this.localStorageKey))).forEach((obj: T) => {
-        copiedData.push(obj);
-        this.init(obj);
-        this.storageObjectMap.set(obj.id, obj);
+        const newObj: T = this.init(obj, additionalObject);
+        copiedData.push(newObj);
+        this.storageObjectMap.set(obj.id, newObj);
       });
       const sortedData = sortOnDate(copiedData);
       this.dataChange.next((sortedData as T[]));
@@ -46,8 +46,11 @@ export class ArlasLocalDatabase<T extends ArlasStorageObject> {
   /**
    * Method call for each element at init
    * @param obj Object to init of type <T>
+   * @param additionnalObj Addtionnal object
    */
-  public init(obj: T) { }
+  public init(obj: T, additionnalObj?: any): T {
+    return obj;
+  }
 
   public create(name: string, id?: string, date?: Date): T {
     let uid = '';
