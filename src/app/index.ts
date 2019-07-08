@@ -1,3 +1,4 @@
+import { ArlasDataSource } from './tools/arlasDataSource';
 /*
  * Licensed to Gisaïa under one or more contributor
  * license agreements. See the NOTICE.txt file distributed with
@@ -19,3 +20,4 @@
 
 export { ArlasExploreApi } from './services/startup/startup.service';
 export { ArlasToolKitModule } from './app.module';
+export { ArlasDataSource } from './tools/arlasDataSource';

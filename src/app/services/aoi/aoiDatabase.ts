@@ -27,6 +27,17 @@ export class AoiDatabase extends ArlasLocalDatabase<Aoi> {
     super('aoi');
   }
 
+  public init(aoi: Aoi): Aoi {
+    const initAoi = {
+      id: aoi.id,
+      date: new Date(aoi.date),
+      name: aoi.name,
+      geometry: aoi.geometry,
+      private: aoi.private
+    };
+    return initAoi;
+  }
+
   public createAoi(name: string, geometry: any, visibility: boolean = false, date?: Date, id?: string): Aoi {
     let uid = '';
     let aoiDate: Date;

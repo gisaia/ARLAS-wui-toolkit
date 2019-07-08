@@ -28,6 +28,17 @@ export class ExtendDatabase extends ArlasLocalDatabase<Extend> {
     super('extend');
   }
 
+  public init(extend: Extend): Extend {
+    const initExtend = {
+      id: extend.id,
+      date: new Date(extend.date),
+      name: extend.name,
+      geometry: extend.geometry,
+      private: extend.private
+    };
+    return initExtend;
+  }
+
   public createExtend(name: string, geometry: any, visibility: boolean = false, date?: Date, id?: string): Extend {
     let uid = '';
     let extendDate: Date;
