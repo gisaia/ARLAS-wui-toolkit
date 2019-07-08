@@ -1,0 +1,30 @@
+<mat-table [dataSource]="aois" class="aoi-table-items">
+  <ng-container matColumnDef="checked">
+    <mat-header-cell *matHeaderCellDef> # </mat-header-cell>
+    <mat-cell *matCellDef="let aoi">
+      <mat-checkbox class="aoi-check" (change)="selectAoi($event, aoi.id)"></mat-checkbox>
+    </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="actions">
+    <mat-header-cell *matHeaderCellDef> {{ 'Actions' | translate }} </mat-header-cell>
+    <mat-cell *matCellDef="let aoi">
+      <mat-icon class="aoi-icons-action aoi-icons-action-view" title="{{ 'View' | translate }}" (click)="viewAoi(aoi.id)">
+        remove_red_eye
+      </mat-icon>
+      <mat-icon class="aoi-icons-action aoi-icons-action-delete" title="{{ 'Remove' | translate }}" (click)="removeAoi(aoi.id)">
+        delete
+      </mat-icon>
+    </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="date">
+    <mat-header-cell *matHeaderCellDef> {{ 'Date' | translate }} </mat-header-cell>
+    <mat-cell *matCellDef="let aoi"> {{aoi.date | date: 'dd/MM/yyyy HH:mm:ss'}} </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="name">
+    <mat-header-cell *matHeaderCellDef> {{ 'Name' | translate }} </mat-header-cell>
+    <mat-cell *matCellDef="let aoi">{{aoi.name}}</mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
+  <mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></mat-row>
+</mat-table>

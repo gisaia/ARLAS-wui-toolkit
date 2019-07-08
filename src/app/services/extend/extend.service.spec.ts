@@ -1,4 +1,3 @@
-import { ArlasDataSource } from './tools/arlasDataSource';
 /*
  * Licensed to Gisaïa under one or more contributor
  * license agreements. See the NOTICE.txt file distributed with
@@ -18,6 +17,24 @@ import { ArlasDataSource } from './tools/arlasDataSource';
  * under the License.
  */
 
-export { ArlasExploreApi } from './services/startup/startup.service';
-export { ArlasToolKitModule } from './app.module';
-export { ArlasDataSource } from './tools/arlasDataSource';
+import { TestBed } from '@angular/core/testing';
+
+import { ArlasExtendService } from './extend.service';
+import { ArlasStartupService, ArlasConfigService, ArlasCollaborativesearchService } from '../startup/startup.service';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
+
+describe('ArlasExtendService', () => {
+  beforeEach(() => TestBed.configureTestingModule({
+    imports: [
+      HttpClientModule
+    ],
+    providers: [
+      ArlasStartupService, HttpClient, ArlasConfigService, ArlasCollaborativesearchService
+    ]
+  }));
+
+  it('should be created', () => {
+    const service: ArlasExtendService = TestBed.get(ArlasExtendService);
+    expect(service).toBeTruthy();
+  });
+});

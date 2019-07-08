@@ -25,17 +25,15 @@ import { Filter, Expression } from 'arlas-api';
 import { projType, Collaboration } from 'arlas-web-core';
 import { ArlasCollaborativesearchService, ArlasStartupService } from '../startup/startup.service';
 import { BookMarkType, BookMark } from './model';
-import { BookmarkDatabase } from './bookmarkDatabase';
-import { BookmarkDataSource } from './bookmarkDataSource';
-import { getKeyForColor } from './utils';
+import { getKeyForColor } from '../../tools/utils';
 import { map } from 'rxjs/operators';
+import { BookmarkDatabase } from './bookmarkDatabase';
 
 
 /** Constants used to fill up our data base. */
 @Injectable()
 export class ArlasBookmarkService {
   public dataBase: BookmarkDatabase;
-  public dataSource: BookmarkDataSource | null;
   public bookMarkMap: Map<string, BookMark> = new Map<string, BookMark>();
   public selectorById;
 
@@ -45,7 +43,7 @@ export class ArlasBookmarkService {
     private router: Router) {
     if (this.arlasStartupService.shouldRunApp) {
       this.dataBase = new BookmarkDatabase(this);
-      this.bookMarkMap = this.dataBase.bookMarkMap;
+      this.bookMarkMap = this.dataBase.storageObjectMap;
       this.selectorById = this.arlasStartupService.selectorById;
     }
   }
@@ -55,9 +53,9 @@ export class ArlasBookmarkService {
       const url = this.getUrlFomSetIds(selectedItem);
       const dataModel = this.collaborativesearchService.dataModelBuilder(decodeURI(url));
       const color = '#' + getKeyForColor(dataModel);
-      const bookmarkFromItem = this.dataBase.createNewBookMark(newBookMarkName, newBookMarkName, url, BookMarkType.enumIds, color);
-      this.dataBase.addBookMark(bookmarkFromItem);
-      this.bookMarkMap = this.dataBase.bookMarkMap;
+      const bookmarkFromItem = this.dataBase.createBookmark(newBookMarkName, newBookMarkName, url, BookMarkType.enumIds, color);
+      this.dataBase.add(bookmarkFromItem);
+      this.bookMarkMap = this.dataBase.storageObjectMap;
       this.viewBookMark(bookmarkFromItem.id);
     } else {
       let filter = '';
@@ -73,9 +71,9 @@ export class ArlasBookmarkService {
       } else {
         type = BookMarkType.filterWithTime;
       }
-      const bookmarkFromFilter = this.dataBase.createNewBookMark(newBookMarkName, filter.substring(1, filter.length), url, type, color);
-      this.dataBase.addBookMark(bookmarkFromFilter);
-      this.bookMarkMap = this.dataBase.bookMarkMap;
+      const bookmarkFromFilter = this.dataBase.createBookmark(newBookMarkName, filter.substring(1, filter.length), url, type, color);
+      this.dataBase.add(bookmarkFromFilter);
+      this.bookMarkMap = this.dataBase.storageObjectMap;
     }
   }
 
@@ -97,15 +95,15 @@ export class ArlasBookmarkService {
       Object.keys(dataModel).forEach(v => {
         filter = filter + '-' + this.collaborativesearchService.registry.get(v).getFilterDisplayName();
       });
-      const bookmark = this.dataBase.createNewBookMark(newBookMarkName, filter.substring(1, filter.length), url, type, color);
-      this.dataBase.addBookMark(bookmark);
-      this.bookMarkMap = this.dataBase.bookMarkMap;
+      const bookmark = this.dataBase.createBookmark(newBookMarkName, filter.substring(1, filter.length), url, type, color);
+      this.dataBase.add(bookmark);
+      this.bookMarkMap = this.dataBase.storageObjectMap;
     }
   }
 
   public removeBookmark(id: string) {
-    this.dataBase.removeBookMark(id);
-    this.bookMarkMap = this.dataBase.bookMarkMap;
+    this.dataBase.remove(id);
+    this.bookMarkMap = this.dataBase.storageObjectMap;
 
   }
 

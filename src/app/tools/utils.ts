@@ -17,8 +17,50 @@
  * under the License.
  */
 
-import { BookMark } from './model';
 import { Filter } from 'arlas-api';
+
+export interface ArlasStorageObject {
+  id: string;
+  date: Date;
+  name: string;
+}
+
+export function hashCode(str) { // java String#hashCode
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+      hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  return hash;
+}
+
+export function intToRGB(i) {
+  const c = (i & 0x00FFFFFF)
+      .toString(16)
+      .toUpperCase();
+  return '00000'.substring(0, 6 - c.length) + c;
+}
+
+export class Guid {
+  public newGuid() {
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+          const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+          return v.toString(16);
+      });
+  }
+}
+
+export function sortOnDate(data: ArlasStorageObject[]): ArlasStorageObject[] {
+  const sortedData = data.sort((a, b) => {
+      let propertyA: number = new Date(0).getTime();
+      let propertyB: number = new Date(0).getTime();
+      [propertyA, propertyB] = [a.date.getTime(), b.date.getTime()];
+      const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
+      const valueB = isNaN(+propertyB) ? propertyB : +propertyB;
+
+      return (valueA < valueB ? -1 : 1) * (-1);
+  });
+  return sortedData;
+}
 
 export function getKeyForColor(dataModel: Object): string {
     const finalKeys: string[] = [];
@@ -71,40 +113,4 @@ export function getKeyForColor(dataModel: Object): string {
         finalKeys.push(key.sort().join(','));
     });
     return intToRGB(hashCode(finalKeys.sort().join(',')));
-}
-export function hashCode(str) { // java String#hashCode
-    let hash = 0;
-    for (let i = 0; i < str.length; i++) {
-        hash = str.charCodeAt(i) + ((hash << 5) - hash);
-    }
-    return hash;
-}
-
-export function intToRGB(i) {
-    const c = (i & 0x00FFFFFF)
-        .toString(16)
-        .toUpperCase();
-    return '00000'.substring(0, 6 - c.length) + c;
-}
-
-export class Guid {
-    public newGuid() {
-        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-            const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
-            return v.toString(16);
-        });
-    }
-}
-
-export function sortOnDate(data: BookMark[]): BookMark[] {
-    const sortedData = data.sort((a, b) => {
-        let propertyA: number = new Date(0).getTime();
-        let propertyB: number = new Date(0).getTime();
-        [propertyA, propertyB] = [a.date.getTime(), b.date.getTime()];
-        const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
-        const valueB = isNaN(+propertyB) ? propertyB : +propertyB;
-
-        return (valueA < valueB ? -1 : 1) * (-1);
-    });
-    return sortedData;
 }
