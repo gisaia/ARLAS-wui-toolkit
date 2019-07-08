@@ -3,10 +3,10 @@
     <mat-basic-chip [hidden]="!isBookmarkOpen" *ngFor="let bookmark of topBookmarks;let index = index" class="bookmark-chip bookmark-view" (click)="viewBookmark(bookmark.id)">
       <span class="bookmark-name">#{{index+1}} - {{ bookmark.name}}</span>
     </mat-basic-chip>
-    <mat-basic-chip [hidden]="!isBookmarkOpen" class="bookmark-chip bookmark-action-left" style="margin-left:5px" matTooltip="Add a dataset" (click)="openDialogAdd()">
+    <mat-basic-chip [hidden]="!isBookmarkOpen" class="bookmark-chip bookmark-action-left" style="margin-left:5px" matTooltip="{{'Add a dataset' | translate}}" (click)="openDialogAdd()">
       <mat-icon aria-label="Add a dataset">add</mat-icon>
     </mat-basic-chip>
-    <mat-basic-chip [hidden]="!isBookmarkOpen" class="bookmark-chip bookmark-action-right" matTooltip="Manage datasets" (click)="openDialog()">
+    <mat-basic-chip [hidden]="!isBookmarkOpen" class="bookmark-chip bookmark-action-right" matTooltip="{{'Manage datasets' | translate}}" (click)="openDialog()">
       <mat-icon aria-label="Manage dataset">{{icon}}</mat-icon>
     </mat-basic-chip>
     <mat-basic-chip class="bookmark-chip bookmark-toggle" [class.bookmark-chip-radius]="isBookmarkOpen" (click)="isBookmarkOpen=!isBookmarkOpen" matTooltip="{{'Toggle datasets' | translate}}">
