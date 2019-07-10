@@ -26,7 +26,7 @@ import {
     SwimLaneContributor
 } from 'arlas-web-contributors';
 import { ArlasConfigService, ArlasCollaborativesearchService } from './startup.service';
-import { DonutContributor, TreeContributor } from 'arlas-web-contributors';
+import { DonutContributor, TreeContributor, ChipsSearchContributor } from 'arlas-web-contributors';
 
 export class ContributorBuilder {
     public static buildContributor(contributorType: string,
@@ -82,8 +82,11 @@ export class ContributorBuilder {
                     titletree
                 );
                 break;
-            case 'chipsearch':
-                // TO DO
+            case 'chipssearch':
+                  contributor = new ChipsSearchContributor(identifier,
+                    collaborativesearchService,
+                    configService
+                  );
                 break;
             case 'analytics':
                 const groupIdToValues = new Map<string, Array<string>>();

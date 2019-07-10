@@ -22,7 +22,7 @@ import { FormControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { Aggregation, AggregationResponse, Filter } from 'arlas-api';
 import { ChipsSearchContributor } from 'arlas-web-contributors';
-import { projType } from 'arlas-web-core';
+import { projType, Collaboration } from 'arlas-web-core';
 import { ArlasCollaborativesearchService, ArlasConfigService } from '../../services/startup/startup.service';
 import { Observable, Subject } from 'rxjs';
 import { filter, flatMap, first, merge, startWith, pairwise, debounceTime, map } from 'rxjs/operators';
@@ -40,6 +40,7 @@ export class SearchComponent {
   private autocomplete_field: string;
   private autocomplete_size: string;
   private keyEvent: Subject<number> = new Subject<number>();
+  private searchContributor: any;
   private searchContributorId: string;
 
   @Output() public valuesChangedEvent: Subject<string> = new Subject<string>();
@@ -50,11 +51,12 @@ export class SearchComponent {
     public translate: TranslateService
   ) {
 
-    this.searchContributorId = this.configService.getValue('arlas.web.contributors')
-      .filter(contributor => contributor.type === 'chipssearch').identifier;
-
+    this.searchContributor = this.configService.getValue('arlas.web.contributors')
+      .find(contributor => contributor.type === 'chipssearch');
+    this.searchContributorId = this.searchContributor.identifier;
     this.autocomplete_field = this.configService.getValue('arlas-wui.web.app.components.chipssearch.autocomplete_field');
     this.autocomplete_size = this.configService.getValue('arlas-wui.web.app.components.chipssearch.autocomplete_size');
+
     this.searchCtrl = new FormControl();
 
     this.keyEvent.pipe(pairwise()).subscribe(l => {
@@ -82,6 +84,9 @@ export class SearchComponent {
         this.searchCtrl.setValue(initSearchValue);
       }
     );
+
+    const contrib = Array.from(this.collaborativeService.registry.values()).find(contributor => contributor.identifier === 'chipssearch');
+    (contrib as ChipsSearchContributor).activateLastBackspace(this.onLastBackSpace);
 
     const autocomplete = this.searchCtrl.valueChanges.pipe(
       debounceTime(250),
@@ -142,6 +147,7 @@ export class SearchComponent {
     if (event.keyCode === 13) {
       if (this.searchCtrl.value && this.searchCtrl.value.trim() !== '') {
         this.valuesChangedEvent.next(this.searchCtrl.value);
+        this.search(this.searchCtrl.value);
       }
     }
   }
@@ -149,5 +155,21 @@ export class SearchComponent {
   public clickItemSearch(event) {
     (<ElementRef>event.option._element).nativeElement.focus();
     this.valuesChangedEvent.next('"' + this.searchCtrl.value + '"');
+    this.search('"' + this.searchCtrl.value + '"');
+  }
+
+  public search(value: string) {
+    if (value.trim() !== '') {
+      const filter: Filter = {
+        q: [[this.searchContributor.search_field + ':' + value.trim()]]
+      };
+
+      const collaboration: Collaboration = {
+        filter: filter,
+        enabled: true
+      };
+
+      this.collaborativeService.setFilter(this.searchContributorId, collaboration);
+    }
   }
 }
