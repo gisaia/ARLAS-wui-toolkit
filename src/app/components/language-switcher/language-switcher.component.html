@@ -1,3 +1,4 @@
-<mat-select [placeholder]="'Change language'">
-  <mat-option (click)="setLanguage(lang)" *ngFor="let lang of availablesLanguages"><span class="flag-icon flag-{{lang}}"></span>{{lang}}</mat-option>
+<mat-select [(value)]="currentLanguage" [disableOptionCentering]="true">
+  <mat-select-trigger style="height:24px"><span class="flag-icon flag-{{currentLanguage}}"></span></mat-select-trigger>
+  <mat-option (click)="setLanguage(lang)" [value]="lang" *ngFor="let lang of availablesLanguages" class="switcher-option"><span class="flag-icon flag-{{lang}}"></span></mat-option>
 </mat-select>

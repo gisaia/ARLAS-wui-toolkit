@@ -15,8 +15,20 @@ export class LanguageSwitcherComponent implements OnInit {
    */
   @Input() public availablesLanguages: string[];
 
-  public ngOnInit() {
+  @Input() public currentLanguage: string;
 
+  constructor() {
+  }
+
+  public ngOnInit() {
+    const url = window.location.href;
+    const paramLangage = 'lg';
+    this.currentLanguage = navigator.language.slice(0, 2);
+    const regex = new RegExp('[?&]' + paramLangage + '(=([^&#]*)|&|#|$)');
+    const results = regex.exec(url);
+    if (results && results[2]) {
+      this.currentLanguage = decodeURIComponent(results[2].replace(/\+/g, ' '));
+    }
   }
 
   /**
