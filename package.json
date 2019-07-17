@@ -38,6 +38,7 @@
     "ajv-keywords": "^3.4.0",
     "arlas-web-components": "11.0.*",
     "arlas-web-contributors": "11.0.*",
+    "arlas-tagger-api": "0.0.1-beta.0",
     "cli-color": "^1.2.0",
     "core-js": "^2.4.1",
     "hopscotch": "0.3.1",

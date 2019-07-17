@@ -16,13 +16,30 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, Inject, OnDestroy } from '@angular/core';
+import { WriteApi, StatusApi, Configuration, FetchAPI} from 'arlas-tagger-api';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material';
-import { Filter, UpdateResponse } from 'arlas-api';
-import { Subject, Subscription } from 'rxjs';
+import { Filter } from 'arlas-api';
+import { Subject, Subscription, from } from 'rxjs';
 import { IntervalObservable } from 'rxjs/observable/IntervalObservable';
-import { ArlasCollaborativesearchService, ArlasConfigService } from '../startup/startup.service';
-import { HttpClient } from '@angular/common/http';
+import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from '../startup/startup.service';
+import * as portableFetch from 'portable-fetch';
+
+@Injectable()
+export class ArlasTaggerWriteApi extends WriteApi {
+  constructor(@Inject('CONF') conf: Configuration, @Inject('base_path') basePAth: string,
+    @Inject('fetch') fetch: FetchAPI) {
+    super(conf, basePAth, fetch);
+  }
+}
+
+@Injectable()
+export class ArlasTaggerStatusApi extends StatusApi {
+  constructor(@Inject('CONF') conf: Configuration, @Inject('base_path') basePAth: string,
+    @Inject('fetch') fetch: FetchAPI) {
+    super(conf, basePAth, fetch);
+  }
+}
 
 /** Constants used to fill up our data base. */
 @Injectable()
@@ -32,6 +49,9 @@ export class ArlasTagService implements OnDestroy {
   public isProcessing = false;
   public status: Subject<Map<string, boolean>> = new Subject<Map<string, boolean>>();
   public processStatus: Map<string, number> = new Map<string, number>();
+  private taggerApi: ArlasTaggerWriteApi;
+  private statusApi: ArlasTaggerStatusApi;
+
   private tagger: any;
   private onGoingSubscription: Map<string, Subscription> = new Map<string, Subscription>();
 
@@ -39,9 +59,11 @@ export class ArlasTagService implements OnDestroy {
   constructor(
     private collaborativeSearchService: ArlasCollaborativesearchService,
     private configService: ArlasConfigService,
-    private snackBar: MatSnackBar,
-    private http: HttpClient
+    private snackBar: MatSnackBar
   ) {
+    const configuraiton: Configuration = new Configuration();
+    this.taggerApi = new ArlasTaggerWriteApi(configuraiton, this.configService.getValue('arlas.tagger.url'), portableFetch);
+    this.statusApi = new ArlasTaggerStatusApi(configuraiton, this.configService.getValue('arlas.tagger.url'), portableFetch);
     this.tagger = this.configService.getValue('arlas.tagger');
   }
 
@@ -52,13 +74,11 @@ export class ArlasTagService implements OnDestroy {
     if (propagateField) {
       data.propagation = this.createPropagationPayload(propagateField, propagateUrl);
     }
-    console.log(JSON.stringify( data));
     this.postTagData(data);
   }
 
   public removeTag(path: string, value?: string | number) {
     const data = this.createPayload(path, value);
-    console.log(data);
     data.label = 'UNTAG ' + Math.round(Date.now() / 1000);
     this.postTagData(data, 'untag');
   }
@@ -107,7 +127,7 @@ export class ArlasTagService implements OnDestroy {
     this.isProcessing = true;
 
     if (mode === 'tag') {
-      this.http.post(this.tagger.url + '/write/' + this.tagger.collection.name + '/_tag', data).subscribe(
+      from(this.taggerApi.tagPost(this.tagger.collection.name, data)).subscribe(
         (response: any) => {
           this.snackBar.open('Tag task running', '', snackConfig);
           this.status.next(new Map<string, boolean>().set(mode, true));
@@ -128,7 +148,7 @@ export class ArlasTagService implements OnDestroy {
         }
       );
     } else {
-      this.http.post(this.tagger.url + '/write/' + this.tagger.collection.name + '/_untag', data).subscribe(
+      from(this.taggerApi.untagPost(this.tagger.collection.name, data)).subscribe(
         (response: any) => {
           this.snackBar.open('Untag task running', '', snackConfig);
           this.status.next(new Map<string, boolean>().set(mode, true));
@@ -152,9 +172,8 @@ export class ArlasTagService implements OnDestroy {
   }
 
   public followStatus(response: any) {
-    this.http.get(this.tagger.url + '/status/' + this.tagger.collection.name + '/_tag?id=' + response.id).subscribe(
+    from(this.statusApi.taggingGet(this.tagger.collection.name, response.id)).subscribe(
       (response: any) => {
-        console.log(response);
         this.processStatus.set(response.label, response.progress);
         if (response.progress === 100) {
           this.onGoingSubscription.get(response.id).unsubscribe();

@@ -949,12 +949,18 @@
       }
     },
     "server": {
-      "url": "http://demo.arlas.io/arlas",
+      "url": "http://192.168.102.96:9999/arlas",
       "collection": {
-        "name": "ais-danmark",
-        "id": "id"
+        "name": "sigfox_fleet",
+        "id": "msg.id"
       },
       "max_age_cache": 120
+    },
+    "tagger":{
+      "url": "http://192.168.102.96:9998/arlas_tagger",
+      "collection": {
+        "name": "sigfox_fleet"
+      }
     }
   },
   "arlas-wui": {
