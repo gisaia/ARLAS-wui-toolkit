@@ -1,4 +1,6 @@
-import { ArlasDataSource } from './tools/arlasDataSource';
+import { NgModule, forwardRef } from '@angular/core';
+import { TagComponent, TagDialogComponent } from './components/tag/tag.component';
+import { ArlasTagService } from './services/tag/tag.service';
 /*
  * Licensed to Gisaïa under one or more contributor
  * license agreements. See the NOTICE.txt file distributed with
@@ -18,7 +20,18 @@ import { ArlasDataSource } from './tools/arlasDataSource';
  * under the License.
  */
 
-export { ArlasExploreApi } from './services/startup/startup.service';
-export { ArlasToolKitModule } from './app.module';
-export { ArlasDataSource } from './tools/arlasDataSource';
-export { ArlasTaggerModule } from './tagger.module';
+@NgModule({
+  declarations: [
+    TagComponent,
+    TagDialogComponent
+  ],
+  exports: [
+    TagComponent
+  ],
+  providers: [
+    forwardRef(() => ArlasTagService)
+  ],
+  bootstrap: [],
+  entryComponents: [TagDialogComponent],
+})
+export class ArlasTaggerModule { }
