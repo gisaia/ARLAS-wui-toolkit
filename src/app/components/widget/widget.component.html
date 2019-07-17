@@ -53,7 +53,8 @@
 <div *ngIf="componentType === 'resultlist'">
   <arlas-result-list style="height:100%" [rowItemList]="contributor?.data" [detailedDataRetriever]="contributor?.detailedDataRetriever"
     [fieldsConfiguration]="contributor?.fieldsConfiguration" [fieldsList]="contributor?.fieldsList" [filtersMap]="contributor?.filtersMap"
-    [dropDownMapValues]="contributor?.dropDownMapValues" (sortColumnEvent)="contributor?.sortColumn($event)" (moreDataEvent)="contributor?.getMoreData($event)"
+    [dropDownMapValues]="contributor?.dropDownMapValues" (sortColumnEvent)="contributor?.sortColumn($event)"
+    [fetchState]="contributor?.fetchState" (paginationEvent)="contributor?.getPage($event.reference, $event.whichPage)"
     (setFiltersEvent)="contributor?.setFilters($event)" [tableWidth]="graphParam.tableWidth" [globalActionsList]="graphParam.globalActionsList"
     [nLastLines]="graphParam.nLastLines" [detailedGridHeight]="graphParam.detailedGridHeight"
     [nbGridColumns]="graphParam.nbGridColumns" [indeterminatedItems]="this.indeterminatedItems" [highlightItems]="this.highlightItems"
