@@ -1,6 +1,3 @@
-import { NgModule, forwardRef } from '@angular/core';
-import { TagComponent, TagDialogComponent } from './components/tag/tag.component';
-import { ArlasTagService } from './services/tag/tag.service';
 /*
  * Licensed to Gisaïa under one or more contributor
  * license agreements. See the NOTICE.txt file distributed with
@@ -20,10 +17,47 @@ import { ArlasTagService } from './services/tag/tag.service';
  * under the License.
  */
 
+import { NgModule, forwardRef } from '@angular/core';
+import { TagComponent, TagDialogComponent } from './components/tag/tag.component';
+import { ArlasTagService } from './services/tag/tag.service';
+import {
+  MatIconModule,
+  MatProgressBarModule,
+  MatSelectModule,
+  MatOptionModule,
+  MatCheckboxModule,
+  MatFormFieldModule
+} from '@angular/material';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { HttpClient } from '@angular/common/http';
+import { CustomTranslateLoader } from './app.module';
+
 @NgModule({
   declarations: [
     TagComponent,
     TagDialogComponent
+  ],
+  imports: [
+    BrowserModule,
+    CommonModule,
+    FormsModule,
+    MatCheckboxModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatOptionModule,
+    MatProgressBarModule,
+    MatSelectModule,
+    ReactiveFormsModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useClass: CustomTranslateLoader,
+        deps: [HttpClient]
+      }
+    })
   ],
   exports: [
     TagComponent
