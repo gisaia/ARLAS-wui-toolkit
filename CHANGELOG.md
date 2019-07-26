@@ -1,5 +1,17 @@
 # Change Log
 
+## [v11.0.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v11.0.0) (2019-07-26)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v10.2.0...v11.0.0)
+
+**New stuff:**
+
+- Instantiate ChipsSearchContributor in the contributorBuilder [\#163](https://github.com/gisaia/ARLAS-wui-toolkit/issues/163)
+- Update to Arlas API V11 [\#161](https://github.com/gisaia/ARLAS-wui-toolkit/issues/161)
+- User preference : favorite AOI \(draw, shp, geosjon,kml/kmz,wkt\) with localstorage [\#148](https://github.com/gisaia/ARLAS-wui-toolkit/issues/148)
+- User preference : favorite extent with localstorage [\#147](https://github.com/gisaia/ARLAS-wui-toolkit/issues/147)
+- Add aoi / extend / bookmark component and service [\#154](https://github.com/gisaia/ARLAS-wui-toolkit/pull/154) ([sebbousquet](https://github.com/sebbousquet))
+
 ## [v10.2.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v10.2.0) (2019-07-04)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v10.1.0...v10.2.0)
@@ -11,6 +23,7 @@
 - Add filters component [\#145](https://github.com/gisaia/ARLAS-wui-toolkit/issues/145)
 - Set  i18n default value with the value of the browser [\#144](https://github.com/gisaia/ARLAS-wui-toolkit/issues/144)
 - Add a component to generate a command line to download features [\#143](https://github.com/gisaia/ARLAS-wui-toolkit/issues/143)
+- Update arlas dependencies [\#157](https://github.com/gisaia/ARLAS-wui-toolkit/pull/157) ([mbarbet](https://github.com/mbarbet))
 - Set default language with browser language [\#151](https://github.com/gisaia/ARLAS-wui-toolkit/pull/151) ([sebbousquet](https://github.com/sebbousquet))
 - Add search component [\#150](https://github.com/gisaia/ARLAS-wui-toolkit/pull/150) ([sebbousquet](https://github.com/sebbousquet))
 - Add filter component [\#149](https://github.com/gisaia/ARLAS-wui-toolkit/pull/149) ([sebbousquet](https://github.com/sebbousquet))

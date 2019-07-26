@@ -1,0 +1,304 @@
+[
+  {
+    "vessel": {
+      "mmsi": "219005671",
+      "name": "HM141 PLUTO",
+      "callsign": "OU7988",
+      "length": 12
+    },
+    "course": {
+      "segment": {
+        "geometry": {
+          "geometry": {
+            "coordinates": [
+              [
+                8.600227,
+                57.120707
+              ],
+              [
+                8.600222,
+                57.120703
+              ]
+            ],
+            "type": "LineString"
+          }
+        }
+      }
+    },
+    "position": {
+      "location": {
+        "lon": 8.600222,
+        "lat": 57.120703
+      },
+      "timestamp": "04/04/2018 18:47:50"
+    }
+  },
+  {
+    "vessel": {
+      "mmsi": "636091104",
+      "name": "ANNABA",
+      "callsign": "A8JJ8",
+      "length": 167
+    },
+    "course": {
+      "segment": {
+        "geometry": {
+          "geometry": {
+            "coordinates": [
+              [
+                10.853,
+                55.560163
+              ],
+              [
+                10.852833,
+                55.56067
+              ]
+            ],
+            "type": "LineString"
+          }
+        }
+      }
+    },
+    "position": {
+      "location": {
+        "lon": 10.852833,
+        "lat": 55.56067
+      },
+      "timestamp": "04/04/2018 18:47:50"
+    }
+  },
+  {
+    "vessel": {
+      "mmsi": "219023116",
+      "name": "KARMSUND",
+      "callsign": "OXEX2",
+      "length": 90
+    },
+    "course": {
+      "segment": {
+        "geometry": {
+          "geometry": {
+            "coordinates": [
+              [
+                9.167417,
+                57.843615
+              ],
+              [
+                9.166958,
+                57.84316
+              ]
+            ],
+            "type": "LineString"
+          }
+        }
+      }
+    },
+    "position": {
+      "location": {
+        "lon": 9.166958,
+        "lat": 57.84316
+      },
+      "timestamp": "04/04/2018 18:47:50"
+    }
+  },
+  {
+    "vessel": {
+      "mmsi": "255805899",
+      "name": "ANINA",
+      "callsign": "CQYU",
+      "length": 149
+    },
+    "course": {
+      "segment": {
+        "geometry": {
+          "geometry": {
+            "coordinates": [
+              [
+                12.263333,
+                56.2445
+              ],
+              [
+                12.262667,
+                56.244833
+              ]
+            ],
+            "type": "LineString"
+          }
+        }
+      }
+    },
+    "position": {
+      "location": {
+        "lon": 12.262667,
+        "lat": 56.244833
+      },
+      "timestamp": "04/04/2018 18:47:50"
+    }
+  },
+  {
+    "vessel": {
+      "mmsi": "257207000",
+      "name": "HAGLAND CHIEF",
+      "callsign": "LACT8",
+      "length": 90
+    },
+    "course": {
+      "segment": {
+        "geometry": {
+          "geometry": {
+            "coordinates": [
+              [
+                5.563038,
+                55.759323
+              ],
+              [
+                5.562987,
+                55.759842
+              ]
+            ],
+            "type": "LineString"
+          }
+        }
+      }
+    },
+    "position": {
+      "location": {
+        "lon": 5.562987,
+        "lat": 55.759842
+      },
+      "timestamp": "04/04/2018 18:47:50"
+    }
+  },
+  {
+    "vessel": {
+      "mmsi": "219001849",
+      "name": "SKAWLINK I",
+      "callsign": "OVIB 2",
+      "length": 12
+    },
+    "position": {
+      "location": {
+        "lon": 10.594833,
+        "lat": 57.720167
+      },
+      "timestamp": "04/04/2018 18:47:50"
+    }
+  },
+  {
+    "vessel": {
+      "mmsi": "219001588",
+      "name": "RALIMA",
+      "callsign": "OWNV",
+      "length": 19
+    },
+    "course": {
+      "segment": {
+        "geometry": {
+          "geometry": {
+            "coordinates": [
+              [
+                8.222623,
+                56.701573
+              ],
+              [
+                8.222638,
+                56.701582
+              ]
+            ],
+            "type": "LineString"
+          }
+        }
+      }
+    },
+    "position": {
+      "location": {
+        "lon": 8.222638,
+        "lat": 56.701582
+      },
+      "timestamp": "04/04/2018 18:47:50"
+    }
+  },
+  {
+    "vessel": {
+      "mmsi": "219002349",
+      "name": "HENRY P. LADING",
+      "callsign": "OZZZ2",
+      "length": 90
+    },
+    "position": {
+      "location": {
+        "lon": 11.10225,
+        "lat": 55.67465
+      },
+      "timestamp": "04/04/2018 18:47:50"
+    }
+  },
+  {
+    "vessel": {
+      "mmsi": "258678000",
+      "name": "SALV0EY",
+      "callsign": "LECG",
+      "length": 41
+    },
+    "course": {
+      "segment": {
+        "geometry": {
+          "geometry": {
+            "coordinates": [
+              [
+                8.592238,
+                57.119057
+              ],
+              [
+                8.592223,
+                57.119052
+              ]
+            ],
+            "type": "LineString"
+          }
+        }
+      }
+    },
+    "position": {
+      "location": {
+        "lon": 8.592223,
+        "lat": 57.119052
+      },
+      "timestamp": "04/04/2018 18:47:50"
+    }
+  },
+  {
+    "vessel": {
+      "mmsi": "220341000",
+      "name": "LINE H",
+      "callsign": "XP3192",
+      "length": 18
+    },
+    "course": {
+      "segment": {
+        "geometry": {
+          "geometry": {
+            "coordinates": [
+              [
+                9.959222,
+                57.597657
+              ],
+              [
+                9.95931,
+                57.597553
+              ]
+            ],
+            "type": "LineString"
+          }
+        }
+      }
+    },
+    "position": {
+      "location": {
+        "lon": 9.95931,
+        "lat": 57.597553
+      },
+      "timestamp": "04/04/2018 18:47:50"
+    }
+  }
+]
