@@ -77,7 +77,7 @@ export class AppComponent implements AfterViewInit, OnInit {
     });
     // this.collaborativeService.setCollaborations({});
     // this.analytics = this.arlasStartupService.analytics;
-    // this.languages = ['en', 'fr', 'it'];
+    // this.languages = ['en', 'fr', 'it', 'es', 'de', 'us', 'cn'];
   }
 
   public ngAfterViewInit(): void {

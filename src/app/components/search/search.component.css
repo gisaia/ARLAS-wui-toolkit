@@ -35,12 +35,12 @@
 }
 
 .search-option.mat-active{
-  background-color: #F8BBD0;
+  background-color: lightslategray;
   font-size: 1em;
 }
 
 .search-option:hover{
-  background-color: #F8BBD0;
+  background-color: lightslategray;
   font-size: 1em;
 }
 
