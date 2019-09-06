@@ -46,7 +46,7 @@ import { ShareComponent, ShareDialogComponent } from './components/share/share.c
 import { WidgetComponent } from './components/widget/widget.component';
 import { ArlasBookmarkService } from './services/bookmark/bookmark.service';
 import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from './services/startup/startup.service';
-import { ArlasTagService } from './services/tag/tag.service';
+
 import { ArlasAoiService } from './services/aoi/aoi.service';
 import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.component';
 import { TimelineComponent } from './components/timeline/timeline/timeline.component';
@@ -66,7 +66,6 @@ import { ExtendComponent } from './components/extend/extend.component';
 import { BookmarkComponent, BookmarkAddDialogComponent } from './components/bookmark/bookmark.component';
 import { BookmarkMenuComponent } from './components/bookmark-menu/bookmark-menu.component';
 import { ArlasExtendService } from './services/extend/extend.service';
-import { TagComponent, TagDialogComponent } from './components/tag/tag.component';
 
 
 export class CustomTranslateLoader implements TranslateLoader {
@@ -153,8 +152,6 @@ export function translationServiceFactory(translate: TranslateService, injector:
     SearchComponent,
     ShareComponent,
     ShareDialogComponent,
-    TagComponent,
-    TagDialogComponent,
     TimelineComponent,
     TimelineShortcutComponent,
     WidgetComponent
@@ -171,7 +168,6 @@ export function translationServiceFactory(translate: TranslateService, injector:
     LanguageSwitcherComponent,
     SearchComponent,
     ShareComponent,
-    TagComponent,
     TimelineComponent,
     TimelineShortcutComponent,
     TranslateModule,
@@ -234,7 +230,6 @@ export function translationServiceFactory(translate: TranslateService, injector:
     forwardRef(() => ArlasColorGeneratorLoader),
     forwardRef(() => ArlasExtendService),
     forwardRef(() => ArlasStartupService),
-    forwardRef(() => ArlasTagService),
     forwardRef(() => ArlasWalkthroughService),
     {
       provide: APP_INITIALIZER,
@@ -268,8 +263,7 @@ export function translationServiceFactory(translate: TranslateService, injector:
     ConfirmModalComponent,
     DownloadDialogComponent,
     ErrorModalMsgComponent,
-    ShareDialogComponent,
-    TagDialogComponent
+    ShareDialogComponent
   ],
 })
 export class ArlasToolKitModule { }

@@ -949,17 +949,17 @@
       }
     },
     "server": {
-      "url": "http://192.168.102.96:9999/arlas",
+      "url": "http://localhost:19999/arlas",
       "collection": {
-        "name": "sigfox_fleet",
-        "id": "msg.id"
+        "name": "geodata",
+        "id": "id"
       },
       "max_age_cache": 120
     },
     "tagger":{
-      "url": "http://192.168.102.96:9998/arlas_tagger",
+      "url": "http://localhost:19998/arlas_tagger",
       "collection": {
-        "name": "sigfox_fleet"
+        "name": "geodata"
       }
     }
   },

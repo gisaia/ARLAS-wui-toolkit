@@ -24,6 +24,7 @@ import { Subject, Subscription, from } from 'rxjs';
 import { IntervalObservable } from 'rxjs/observable/IntervalObservable';
 import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from '../startup/startup.service';
 import * as portableFetch from 'portable-fetch';
+import { TaggerResponse } from './model';
 
 @Injectable()
 export class ArlasTaggerWriteApi extends WriteApi {
@@ -48,7 +49,7 @@ export class ArlasTagService implements OnDestroy {
   public taggableFields: Array<any> = [];
   public isProcessing = false;
   public status: Subject<Map<string, boolean>> = new Subject<Map<string, boolean>>();
-  public processStatus: Map<string, number> = new Map<string, number>();
+  public processStatus: Map<string, TaggerResponse> = new Map<string, TaggerResponse>();
   private taggerApi: ArlasTaggerWriteApi;
   private statusApi: ArlasTaggerStatusApi;
 
@@ -128,7 +129,7 @@ export class ArlasTagService implements OnDestroy {
 
     if (mode === 'tag') {
       from(this.taggerApi.tagPost(this.tagger.collection.name, data)).subscribe(
-        (response: any) => {
+        (response: TaggerResponse) => {
           this.snackBar.open('Tag task running', '', snackConfig);
           this.status.next(new Map<string, boolean>().set(mode, true));
           const subscription = IntervalObservable.create(5000).subscribe(() => {
@@ -149,7 +150,7 @@ export class ArlasTagService implements OnDestroy {
       );
     } else {
       from(this.taggerApi.untagPost(this.tagger.collection.name, data)).subscribe(
-        (response: any) => {
+        (response: TaggerResponse) => {
           this.snackBar.open('Untag task running', '', snackConfig);
           this.status.next(new Map<string, boolean>().set(mode, true));
           const subscription = IntervalObservable.create(5000).subscribe(() => {
@@ -173,8 +174,8 @@ export class ArlasTagService implements OnDestroy {
 
   public followStatus(response: any) {
     from(this.statusApi.taggingGet(this.tagger.collection.name, response.id)).subscribe(
-      (response: any) => {
-        this.processStatus.set(response.label, response.progress);
+      (response: TaggerResponse) => {
+        this.processStatus.set(response.id, response);
         if (response.progress === 100) {
           this.onGoingSubscription.get(response.id).unsubscribe();
         }

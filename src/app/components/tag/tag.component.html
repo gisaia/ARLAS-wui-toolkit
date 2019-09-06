@@ -5,11 +5,11 @@
 <div class="arlas-tag-box">
   <div *ngFor="let process of this.tagService.processStatus | keyvalue" class="arlas-tag-notification">
     <div class="arlas-tag-notification-content">
-      <span>{{process.key}}</span>
-      <mat-icon class="arlas-tag-notification-icon-blue" *ngIf="process.value == 0">watch_later</mat-icon>
-      <span *ngIf="process.value > 0 && process.value < 100">{{process.value}} %</span>
-      <mat-icon class="arlas-tag-notification-icon-green" *ngIf="process.value == 100">check_circle</mat-icon>
+      <span>{{process.value.label}}</span>
+      <mat-icon class="arlas-tag-notification-icon-blue" *ngIf="process.value.progress == 0">watch_later</mat-icon>
+      <span *ngIf="process.value.progress > 0 && process.value.progress < 100">{{process.value.progress}} %</span>
+      <mat-icon class="arlas-tag-notification-icon-green" *ngIf="process.value.progress == 100">check_circle</mat-icon>
     </div>
-    <mat-progress-bar *ngIf="process.value > 0 && process.value < 100" [mode]="'indeterminate'" [color]="'accent'"></mat-progress-bar>
+    <mat-progress-bar *ngIf="process.value.progress > 0 && process.value.progress < 100" [mode]="'indeterminate'" [color]="'accent'"></mat-progress-bar>
   </div>
 </div>
