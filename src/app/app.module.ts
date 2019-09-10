@@ -24,7 +24,8 @@ import {
   MatButtonModule, MatCardModule, MatDialogModule,
   MatExpansionModule, MatIconModule, MatRadioModule, MatChipsModule, MatSelectModule,
   MatStepperModule, MatSnackBarModule, MatInputModule, MatProgressBarModule, MatListModule,
-  MatTooltipModule, MatTableModule, MatCheckboxModule
+  MatTooltipModule, MatTableModule, MatCheckboxModule,
+  MatFormFieldModule, MatProgressSpinnerModule
 } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -42,11 +43,10 @@ import { ErrorModalMsgComponent, ErrormodalComponent } from './components/errorm
 import { LanguageSwitcherComponent } from './components/language-switcher/language-switcher.component';
 import { ExcludeTypePipe } from './components/share/exclude-type.pipe';
 import { ShareComponent, ShareDialogComponent } from './components/share/share.component';
-import { TagComponent, TagDialogComponent } from './components/tag/tag.component';
 import { WidgetComponent } from './components/widget/widget.component';
 import { ArlasBookmarkService } from './services/bookmark/bookmark.service';
 import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from './services/startup/startup.service';
-import { ArlasTagService } from './services/tag/tag.service';
+
 import { ArlasAoiService } from './services/aoi/aoi.service';
 import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.component';
 import { TimelineComponent } from './components/timeline/timeline/timeline.component';
@@ -152,8 +152,6 @@ export function translationServiceFactory(translate: TranslateService, injector:
     SearchComponent,
     ShareComponent,
     ShareDialogComponent,
-    TagComponent,
-    TagDialogComponent,
     TimelineComponent,
     TimelineShortcutComponent,
     WidgetComponent
@@ -170,7 +168,6 @@ export function translationServiceFactory(translate: TranslateService, injector:
     LanguageSwitcherComponent,
     SearchComponent,
     ShareComponent,
-    TagComponent,
     TimelineComponent,
     TimelineShortcutComponent,
     TranslateModule,
@@ -196,6 +193,9 @@ export function translationServiceFactory(translate: TranslateService, injector:
     MatListModule,
     MatProgressBarModule,
     MatRadioModule,
+    MatFormFieldModule,
+    MatProgressBarModule,
+    MatProgressSpinnerModule,
     MatSelectModule,
     MatSnackBarModule,
     MatStepperModule,
@@ -230,7 +230,6 @@ export function translationServiceFactory(translate: TranslateService, injector:
     forwardRef(() => ArlasColorGeneratorLoader),
     forwardRef(() => ArlasExtendService),
     forwardRef(() => ArlasStartupService),
-    forwardRef(() => ArlasTagService),
     forwardRef(() => ArlasWalkthroughService),
     {
       provide: APP_INITIALIZER,
@@ -264,8 +263,7 @@ export function translationServiceFactory(translate: TranslateService, injector:
     ConfirmModalComponent,
     DownloadDialogComponent,
     ErrorModalMsgComponent,
-    ShareDialogComponent,
-    TagDialogComponent
+    ShareDialogComponent
   ],
 })
 export class ArlasToolKitModule { }

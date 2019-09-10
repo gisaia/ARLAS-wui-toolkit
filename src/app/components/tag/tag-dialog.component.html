@@ -1,18 +1,35 @@
 <div [formGroup]="tagFormGroup" style="display:flex;flex-direction: column;justify-content: space-around;min-width:300px;">
   <mat-form-field class="tag-form-field">
-    <mat-select matInput placeholder="Field to tag" formControlName="fieldToTag" panelClass="tag-fields" #fieldtotag>
-      <mat-option *ngFor="let field of taggableFields" [value]="field">
+    <mat-select matInput placeholder="{{ 'Field to tag' | translate }}" formControlName="fieldToTag" panelClass="tag-fields" #fieldtotag>
+      <mat-option *ngFor="let field of taggableFields" [value]="field.label">
         {{ field.label }} -
         <span class="tag-description">{{field.type}}</span>
       </mat-option>
     </mat-select>
   </mat-form-field>
   <mat-form-field>
-    <input matInput placeholder="Value of tag" formControlName="valueOfTag" #valueoftag>
+    <input matInput placeholder="{{ 'Value of tag' | translate }}" formControlName="valueOfTag" #valueoftag>
   </mat-form-field>
+
+  <mat-checkbox (change)="propagationChange(propagation.checked)" formControlName="propagation" #propagation>{{ 'With propagation' | translate }}</mat-checkbox>
+  <mat-form-field>
+    <mat-select matInput placeholder="{{ 'On field' | translate }}" formControlName="onField" panelClass="tag-fields" #onfield>
+      <mat-option *ngFor="let field of keywordFields" [value]="field.label">
+        {{ field.label }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select matInput placeholder="{{ 'Link to' | translate }}" formControlName="linkTo" panelClass="tag-fields" #linkTo>
+      <mat-option *ngFor="let bookmark of bookmarks" [value]="bookmark.url">
+        {{ bookmark.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
   <div style="display:flex;flex-direction:row;justify-content: space-around;">
-    <button mat-raised-button [disabled]="this.tagService.isProcessing || fieldtotag.empty || ! valueoftag.value" color="primary" (click)="addTag(fieldtotag.value?.label, valueoftag.value)">Add Tag</button>
-    <button mat-raised-button [disabled]="this.tagService.isProcessing || fieldtotag.empty" color="warn" (click)="removeTag(fieldtotag.value?.label, valueoftag.value)">Remove Tag</button>
+    <button mat-raised-button [disabled]="this.tagService.isProcessing || !tagFormGroup.valid " color="primary" (click)="addTag()">{{ 'Add Tag' | translate }}</button>
+    <button mat-raised-button [disabled]="this.tagService.isProcessing || fieldtotag.empty || propagation.checked" color="warn" (click)="removeTag()">{{ 'Remove Tag' | translate }}</button>
   </div>
   <mat-progress-bar *ngIf="this.tagService.isProcessing" class="tag-progress" [color]="'accent'" [mode]="'indeterminate'"></mat-progress-bar>
 </div>

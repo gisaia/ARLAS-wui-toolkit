@@ -8,11 +8,14 @@ import {
   MatInputModule,
   MatRadioModule,
   MatSelectModule,
-  MatStepperModule
+  MatStepperModule,
+  MatProgressBarModule
 } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from '../../services/startup/startup.service';
 import { TagComponent } from './tag.component';
+import { ArlasTagService } from '../../services/tag/tag.service';
+import { MatSnackBarModule } from '@angular/material';
 
 
 describe('TagComponent', () => {
@@ -25,10 +28,10 @@ describe('TagComponent', () => {
         ReactiveFormsModule, MatAutocompleteModule,
         MatInputModule, FormsModule, BrowserAnimationsModule,
         MatIconModule, HttpClientModule, MatDialogModule, MatStepperModule,
-        MatRadioModule, MatSelectModule
+        MatRadioModule, MatSelectModule, MatProgressBarModule, MatSnackBarModule
       ],
       declarations: [TagComponent],
-      providers: [ArlasConfigService, ArlasCollaborativesearchService, ArlasStartupService]
+      providers: [ArlasConfigService, ArlasCollaborativesearchService, ArlasStartupService, ArlasTagService]
     })
       .compileComponents();
   }));

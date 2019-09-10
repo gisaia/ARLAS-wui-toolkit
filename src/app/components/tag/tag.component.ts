@@ -17,12 +17,13 @@
  * under the License.
  */
 import { Component, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { Subject } from 'rxjs/Subject';
 import { ArlasCollaborativesearchService, ArlasConfigService } from '../../services/startup/startup.service';
 import { ArlasTagService } from '../../services/tag/tag.service';
 import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
+import { ArlasBookmarkService } from '../../services/bookmark/bookmark.service';
 
 /**
  * This component allows to tag your selected data (documents). The tag value is set on taggable fields.
@@ -50,12 +51,13 @@ export class TagComponent {
   public dialogRef: MatDialogRef<TagDialogComponent>;
 
   constructor(
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public tagService: ArlasTagService
   ) { }
 
   public openDialog() {
     this.dialogRef = this.dialog.open(TagDialogComponent, { data: null });
-    this.dialogRef.componentInstance.tagEvent.subscribe( value => this.tagEvent.next(value));
+    this.dialogRef.componentInstance.tagEvent.subscribe(value => this.tagEvent.next(value));
   }
 
 }
@@ -76,6 +78,8 @@ export class TagDialogComponent implements OnInit {
   private server: any;
   public tagFormGroup: FormGroup;
   public taggableFields: Array<any> = [];
+  public keywordFields: Array<any> = [];
+  public bookmarks: Array<any> = [];
 
   public confirmDialogRef: MatDialogRef<ConfirmModalComponent>;
 
@@ -85,6 +89,7 @@ export class TagDialogComponent implements OnInit {
     private configService: ArlasConfigService,
     private collaborativeSearchService: ArlasCollaborativesearchService,
     private dialog: MatDialog,
+    private bookmarkService: ArlasBookmarkService,
     public dialogRef: MatDialogRef<TagDialogComponent>
   ) {
     this.server = this.configService.getValue('arlas.server');
@@ -95,6 +100,9 @@ export class TagDialogComponent implements OnInit {
           this.tagEvent.next(mode);
         }
       });
+    });
+    this.bookmarkService.bookMarkMap.forEach((v, k) => {
+      this.bookmarks.push(v);
     });
   }
 
@@ -111,8 +119,11 @@ export class TagDialogComponent implements OnInit {
       });
 
     this.tagFormGroup = this.formBuilder.group({
-      fieldToTag: [''],
-      valueOfTag: ['']
+      fieldToTag: ['', Validators.required],
+      valueOfTag: ['', Validators.required],
+      propagation: [''],
+      onField: [''],
+      linkTo: ['']
     });
   }
 
@@ -121,8 +132,13 @@ export class TagDialogComponent implements OnInit {
    * @param path Taggable field path
    * @param value Value of the tag
    */
-  public addTag(path: string, value: number | string) {
-    this.tagService.addTag(path, value);
+  public addTag() {
+    this.tagService.addTag(
+      this.tagFormGroup.value.fieldToTag,
+      this.tagFormGroup.value.valueOfTag,
+      this.tagFormGroup.value.onField,
+      this.tagFormGroup.value.linkTo
+    );
   }
 
   /**
@@ -130,18 +146,28 @@ export class TagDialogComponent implements OnInit {
    * @param path Taggable field path
    * @param value Value of the tag
    */
-  public removeTag(path: string, value?: number | string) {
-    if (value) {
-      this.tagService.removeTag(path, value);
+  public removeTag() {
+    if (this.tagFormGroup.value.valueOfTag) {
+      this.tagService.removeTag(this.tagFormGroup.value.fieldToTag, this.tagFormGroup.value.valueOfTag);
     } else {
       this.confirmDialogRef = this.dialog.open(ConfirmModalComponent);
-      this.confirmDialogRef.componentInstance.confirmHTLMMessage = '<strong>Remove</strong> all tags from `' + path + '` ?';
+      this.confirmDialogRef.componentInstance.confirmHTLMMessage =
+        '<strong>Remove</strong> all tags from `' + this.tagFormGroup.value.fieldToTag + '` ?';
       this.confirmDialogRef.afterClosed().subscribe(result => {
         if (result) {
-          this.tagService.removeTag(path, value);
+          this.tagService.removeTag(this.tagFormGroup.value.fieldToTag, null);
         }
         this.confirmDialogRef = null;
       });
+    }
+  }
+
+  public propagationChange(propagate: boolean) {
+    if (propagate) {
+      this.tagFormGroup.setControl('onField', new FormControl('', Validators.required));
+    } else {
+      this.tagFormGroup.setControl('onField', new FormControl(''));
+      this.tagFormGroup.setControl('linkTo', new FormControl(''));
     }
   }
 
@@ -156,6 +182,8 @@ export class TagDialogComponent implements OnInit {
     } else {
       if (fieldList[fieldName].taggable) {
         this.taggableFields.push({ label: (parentPrefix ? parentPrefix : '') + fieldName, type: fieldList[fieldName].type });
+      } else if (fieldList[fieldName].type === 'KEYWORD') {
+        this.keywordFields.push({ label: (parentPrefix ? parentPrefix : '') + fieldName, type: fieldList[fieldName].type });
       }
     }
   }

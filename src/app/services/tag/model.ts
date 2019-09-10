@@ -1,4 +1,3 @@
-import { ArlasDataSource } from './tools/arlasDataSource';
 /*
  * Licensed to Gisaïa under one or more contributor
  * license agreements. See the NOTICE.txt file distributed with
@@ -18,7 +17,14 @@ import { ArlasDataSource } from './tools/arlasDataSource';
  * under the License.
  */
 
-export { ArlasExploreApi } from './services/startup/startup.service';
-export { ArlasToolKitModule } from './app.module';
-export { ArlasDataSource } from './tools/arlasDataSource';
-export { ArlasTaggerModule } from './tagger.module';
+export interface TaggerResponse {
+  id: string;
+  endTime: number;
+  failed: number;
+  label: string;
+  processingTimes: number;
+  progress: number;
+  propagated: number;
+  startTime: number;
+  updated: number;
+}

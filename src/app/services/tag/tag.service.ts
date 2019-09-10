@@ -16,47 +16,83 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { Injectable } from '@angular/core';
+import { Injectable, Inject, OnDestroy } from '@angular/core';
+import { WriteApi, StatusApi, Configuration, FetchAPI} from 'arlas-tagger-api';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material';
 import { Filter } from 'arlas-api';
-import { Subject } from 'rxjs';
-import { ArlasCollaborativesearchService, ArlasConfigService } from '../startup/startup.service';
+import { Subject, Subscription, from } from 'rxjs';
+import { IntervalObservable } from 'rxjs/observable/IntervalObservable';
+import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from '../startup/startup.service';
+import * as portableFetch from 'portable-fetch';
+import { TaggerResponse } from './model';
+
+@Injectable()
+export class ArlasTaggerWriteApi extends WriteApi {
+  constructor(@Inject('CONF') conf: Configuration, @Inject('base_path') basePAth: string,
+    @Inject('fetch') fetch: FetchAPI) {
+    super(conf, basePAth, fetch);
+  }
+}
+
+@Injectable()
+export class ArlasTaggerStatusApi extends StatusApi {
+  constructor(@Inject('CONF') conf: Configuration, @Inject('base_path') basePAth: string,
+    @Inject('fetch') fetch: FetchAPI) {
+    super(conf, basePAth, fetch);
+  }
+}
 
 /** Constants used to fill up our data base. */
 @Injectable()
-export class ArlasTagService {
-  private server: any;
+export class ArlasTagService implements OnDestroy {
+
   public taggableFields: Array<any> = [];
   public isProcessing = false;
   public status: Subject<Map<string, boolean>> = new Subject<Map<string, boolean>>();
+  public processStatus: Map<string, TaggerResponse> = new Map<string, TaggerResponse>();
+  private taggerApi: ArlasTaggerWriteApi;
+  private statusApi: ArlasTaggerStatusApi;
+
+  private tagger: any;
+  private onGoingSubscription: Map<string, Subscription> = new Map<string, Subscription>();
+
 
   constructor(
     private collaborativeSearchService: ArlasCollaborativesearchService,
     private configService: ArlasConfigService,
-    private snackBar: MatSnackBar,
+    private snackBar: MatSnackBar
   ) {
-    this.server = this.configService.getValue('arlas.server');
+    const configuraiton: Configuration = new Configuration();
+    this.taggerApi = new ArlasTaggerWriteApi(configuraiton, this.configService.getValue('arlas.tagger.url'), portableFetch);
+    this.statusApi = new ArlasTaggerStatusApi(configuraiton, this.configService.getValue('arlas.tagger.url'), portableFetch);
+    this.tagger = this.configService.getValue('arlas.tagger');
   }
 
-  public addTag(path: string, value: string | number) {
+  public addTag(path: string, value: string | number, propagateField?: string, propagateUrl?: string) {
+
     const data = this.createPayload(path, value);
+    data.label = 'TAG ' + Math.round(Date.now() / 1000);
+    if (propagateField) {
+      data.propagation = this.createPropagationPayload(propagateField, propagateUrl);
+    }
     this.postTagData(data);
   }
 
   public removeTag(path: string, value?: string | number) {
     const data = this.createPayload(path, value);
+    data.label = 'UNTAG ' + Math.round(Date.now() / 1000);
     this.postTagData(data, 'untag');
   }
 
-  public createPayload(path: string, value?: string | number): Object {
+  public createPayload(path: string, value?: string | number): { search: any, tag?: any, propagation?: any, label?: string } {
 
     const filters = new Array<Filter>();
-    this.collaborativeSearchService.collaborations.forEach(element =>
-      filters.push(element.filter)
-    );
+    this.collaborativeSearchService.collaborations.forEach(element => {
+      filters.push(element.filter);
+    });
     const filter = this.collaborativeSearchService.getFinalFilter(filters);
 
-    const data: { search: any, tag?: any } = { search: {} };
+    const data: { search: any, tag?: any, propagation?: any, label?: string } = { search: {} };
     data.search = { filter: filter };
     const tag: { path: string, value?: string | number } = { path: '' };
     tag.path = path;
@@ -65,6 +101,22 @@ export class ArlasTagService {
     }
     data.tag = tag;
     return data;
+  }
+
+  public createPropagationPayload(propagateField?: string, propagateUrl?: string) {
+
+    const propagation: { field: string, filter?: any } = { field: '' };
+    propagation.field = propagateField;
+    if (propagateUrl) {
+      const dataModel = this.collaborativeSearchService.dataModelBuilder(decodeURI(propagateUrl));
+      const filters = new Array<Filter>();
+
+      Object.values(dataModel).forEach(element => {
+        filters.push(element.filter);
+      });
+      propagation.filter = this.collaborativeSearchService.getFinalFilter(filters);
+    }
+    return propagation;
   }
 
   public postTagData(data: any, mode: string = 'tag') {
@@ -76,10 +128,14 @@ export class ArlasTagService {
     this.isProcessing = true;
 
     if (mode === 'tag') {
-      this.collaborativeSearchService.tag(this.server.collection.name, data, false).subscribe(
-        response => {
-          this.snackBar.open(response.updated + ' hits have been successfully ' + mode + 'ged', '', snackConfig);
+      from(this.taggerApi.tagPost(this.tagger.collection.name, data)).subscribe(
+        (response: TaggerResponse) => {
+          this.snackBar.open('Tag task running', '', snackConfig);
           this.status.next(new Map<string, boolean>().set(mode, true));
+          const subscription = IntervalObservable.create(5000).subscribe(() => {
+            this.followStatus(response);
+          });
+          this.onGoingSubscription.set(response.id, subscription);
         },
         error => {
           this.snackBar.open('Error : the tag has not been added', '', snackConfig);
@@ -93,10 +149,14 @@ export class ArlasTagService {
         }
       );
     } else {
-      this.collaborativeSearchService.untag(this.server.collection.name, data, false).subscribe(
-        response => {
-          this.snackBar.open(response.updated + ' hits have been successfully ' + mode + 'ged', '', snackConfig);
+      from(this.taggerApi.untagPost(this.tagger.collection.name, data)).subscribe(
+        (response: TaggerResponse) => {
+          this.snackBar.open('Untag task running', '', snackConfig);
           this.status.next(new Map<string, boolean>().set(mode, true));
+          const subscription = IntervalObservable.create(5000).subscribe(() => {
+            this.followStatus(response);
+          });
+          this.onGoingSubscription.set(response.id, subscription);
         },
         error => {
           this.snackBar.open('Error : the tag has not been removed', '', snackConfig);
@@ -110,5 +170,22 @@ export class ArlasTagService {
         }
       );
     }
+  }
+
+  public followStatus(response: any) {
+    from(this.statusApi.taggingGet(this.tagger.collection.name, response.id)).subscribe(
+      (response: TaggerResponse) => {
+        this.processStatus.set(response.id, response);
+        if (response.progress === 100) {
+          this.onGoingSubscription.get(response.id).unsubscribe();
+        }
+      }
+    );
+  }
+
+  public ngOnDestroy(): void {
+    this.onGoingSubscription.forEach((subscription, k) => {
+      subscription.unsubscribe();
+    });
   }
 }

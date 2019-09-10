@@ -22,16 +22,16 @@ import { Inject, Injectable } from '@angular/core';
 import { Configuration, ExploreApi, WriteApi } from 'arlas-api';
 import { DonutComponent, HistogramComponent, MapglComponent, PowerbarsComponent } from 'arlas-web-components';
 import {
-    HistogramContributor,
-    MapContributor,
-    PowerbarsContributor,
-    ResultListContributor,
-    SwimLaneContributor,
-    ChipsSearchContributor,
-    DonutContributor,
-    DetailedHistogramContributor,
-    TopoMapContributor,
-    TreeContributor
+  HistogramContributor,
+  MapContributor,
+  PowerbarsContributor,
+  ResultListContributor,
+  SwimLaneContributor,
+  ChipsSearchContributor,
+  DonutContributor,
+  DetailedHistogramContributor,
+  TopoMapContributor,
+  TreeContributor
 } from 'arlas-web-contributors';
 import { AnalyticsContributor } from 'arlas-web-contributors/contributors/AnalyticsContributor';
 import * as portableFetch from 'portable-fetch';
@@ -49,50 +49,50 @@ import { Subject } from 'rxjs';
 
 @Injectable()
 export class ArlasConfigService extends ConfigService {
-    constructor() {
-        super();
-    }
+  constructor() {
+    super();
+  }
 }
 
 @Injectable()
 export class ArlasExploreApi extends ExploreApi {
-    constructor(@Inject('CONF') conf: Configuration, @Inject('base_path') basePath: string,
-        @Inject('fetch') fetch) {
-        super(conf, basePath, fetch);
-    }
+  constructor(@Inject('CONF') conf: Configuration, @Inject('base_path') basePath: string,
+    @Inject('fetch') fetch) {
+    super(conf, basePath, fetch);
+  }
 }
 
 @Injectable()
 export class ArlasWriteApi extends WriteApi {
-    constructor(@Inject('CONF') conf: Configuration, @Inject('base_path') basePath: string,
-        @Inject('fetch') fetch) {
-        super(conf, basePath, fetch);
-    }
+  constructor(@Inject('CONF') conf: Configuration, @Inject('base_path') basePath: string,
+    @Inject('fetch') fetch) {
+    super(conf, basePath, fetch);
+  }
 }
 
 @Injectable()
 export class ArlasCollaborativesearchService extends CollaborativesearchService {
-    constructor() {
-        super();
-    }
+  constructor() {
+    super();
+  }
 }
 
 @Injectable()
 export class ArlasStartupService {
 
-    public contributorRegistry: Map<string, any> = new Map<string, any>();
-    public shouldRunApp = true;
-    public arlasIsUp: Subject<boolean> = new Subject<boolean>();
-    public analytics: Array<{ groupId: string, components: Array<any> }>;
-    public collectionId: string;
-    public selectorById: string;
-    public temporalContributor: Array<string> = new Array<string>();
-    private errorMessagesList = new Array<string>();
+  public contributorRegistry: Map<string, any> = new Map<string, any>();
+  public shouldRunApp = true;
+  public arlasIsUp: Subject<boolean> = new Subject<boolean>();
+  public analytics: Array<{ groupId: string, components: Array<any> }>;
+  public collectionId: string;
+  public selectorById: string;
+  public temporalContributor: Array<string> = new Array<string>();
+  private errorMessagesList = new Array<string>();
 
-    constructor(private http: HttpClient,
-        private configService: ArlasConfigService,
-        private collaborativesearchService: ArlasCollaborativesearchService) {
-    }
+  constructor(private http: HttpClient,
+    private configService: ArlasConfigService,
+    private collaborativesearchService: ArlasCollaborativesearchService) {
+  }
 
     /**
      * Loads extra configuration declared in the main configuration file.
@@ -248,35 +248,34 @@ export class ArlasStartupService {
                     this.collectionId = this.configService.getValue('arlas.server.collection.id');
                     this.analytics = this.configService.getValue('arlas.web.analytics');
                 }
+      })
+      .catch((err: any) => {
+        console.log(err);
+        return Promise.resolve(null);
+      });
+    return ret.then((x) => {
+    });
+  }
 
-            })
-            .catch((err: any) => {
-                console.log(err);
-                return Promise.resolve(null);
-            });
-        return ret.then((x) => {
-        });
+  private setAttribute(path, value, object) {
+    const pathToList = path.split('.');
+    const pathLength = pathToList.length;
+    for (let i = 0; i < pathLength - 1; i++) {
+      const element = pathToList[i];
+      if (!object[element]) {
+        this.shouldRunApp = false;
+        this.errorMessagesList.push('The attribute : ' + path + ' does not exist in your main configuration.');
+      }
+      object = object[element];
     }
-
-    private setAttribute(path, value, object) {
-        const pathToList = path.split('.');
-        const pathLength = pathToList.length;
-        for (let i = 0; i < pathLength - 1; i++) {
-            const element = pathToList[i];
-            if (!object[element]) {
-                this.shouldRunApp = false;
-                this.errorMessagesList.push('The attribute : ' + path + ' does not exist in your main configuration.');
-            }
-            object = object[element];
-        }
-        object[pathToList[pathLength - 1]] = value;
-    }
+    object[pathToList[pathLength - 1]] = value;
+  }
 }
 
 export interface ExtraConfig {
-    configPath: string;
-    replacedAttribute: string;
-    replacer: string;
+  configPath: string;
+  replacedAttribute: string;
+  replacer: string;
 }
 
 
