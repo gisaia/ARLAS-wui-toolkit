@@ -26,14 +26,42 @@ import {
   MatSelectModule,
   MatOptionModule,
   MatCheckboxModule,
-  MatFormFieldModule
+  MatInputModule,
+  MatFormFieldModule,
+  MatButtonModule,
+  MatDialogModule,
+  MatSnackBarModule,
+  MatTooltipModule
 } from '@angular/material';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
-import { CustomTranslateLoader } from './app.module';
+import { Observable } from 'rxjs';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+
+export class CustomTranslateLoader implements TranslateLoader {
+
+  constructor(private http: HttpClient) { }
+
+  public getTranslation(lang: string): Observable<any> {
+    const apiAddress = 'assets/i18n/' + lang + '.json?' + Date.now();
+    return Observable.create(observer => {
+      this.http.get(apiAddress).subscribe(
+        res => {
+          observer.next(res);
+          observer.complete();
+        },
+        error => {
+          // failed to retrieve requested language file, use default
+          observer.complete(); // => Default language is already loaded
+        }
+      );
+    });
+  }
+}
 
 @NgModule({
   declarations: [
@@ -42,14 +70,20 @@ import { CustomTranslateLoader } from './app.module';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     CommonModule,
     FormsModule,
+    MatButtonModule,
     MatCheckboxModule,
+    MatDialogModule,
     MatFormFieldModule,
     MatIconModule,
+    MatInputModule,
     MatOptionModule,
     MatProgressBarModule,
     MatSelectModule,
+    MatSnackBarModule,
+    MatTooltipModule,
     ReactiveFormsModule,
     TranslateModule.forRoot({
       loader: {
