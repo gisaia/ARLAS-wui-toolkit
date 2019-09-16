@@ -38,3 +38,17 @@
 .arlas-tag-notification-icon-blue{
   color: #2196F3;
 }
+
+.arlas-tag-notification-icon-grey{
+  color: lightslategrey;
+  display: none !important;
+  cursor: pointer;
+}
+
+.arlas-tag-active .arlas-tag-hide{
+  display: none !important;
+}
+
+.arlas-tag-active .arlas-tag-show{
+  display: block !important;
+}

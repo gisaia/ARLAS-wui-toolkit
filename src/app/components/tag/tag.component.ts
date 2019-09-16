@@ -24,6 +24,8 @@ import { ArlasCollaborativesearchService, ArlasConfigService } from '../../servi
 import { ArlasTagService } from '../../services/tag/tag.service';
 import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
 import { ArlasBookmarkService } from '../../services/bookmark/bookmark.service';
+import { Aggregation, AggregationsRequest, AggregationResponse } from 'arlas-api';
+import { from } from 'rxjs';
 
 /**
  * This component allows to tag your selected data (documents). The tag value is set on taggable fields.
@@ -49,6 +51,7 @@ export class TagComponent {
   @Output() public tagEvent: Subject<string> = new Subject<string>();
 
   public dialogRef: MatDialogRef<TagDialogComponent>;
+  public hoveredDiv = '';
 
   constructor(
     public dialog: MatDialog,
@@ -58,6 +61,10 @@ export class TagComponent {
   public openDialog() {
     this.dialogRef = this.dialog.open(TagDialogComponent, { data: null });
     this.dialogRef.componentInstance.tagEvent.subscribe(value => this.tagEvent.next(value));
+  }
+
+  public removeProgress(itemId) {
+    this.tagService.unfollowStatus(itemId);
   }
 
 }
@@ -80,6 +87,7 @@ export class TagDialogComponent implements OnInit {
   public taggableFields: Array<any> = [];
   public keywordFields: Array<any> = [];
   public bookmarks: Array<any> = [];
+  public existingTags: Array<string> = [];
 
   public confirmDialogRef: MatDialogRef<ConfirmModalComponent>;
 
@@ -119,12 +127,33 @@ export class TagDialogComponent implements OnInit {
       });
 
     this.tagFormGroup = this.formBuilder.group({
+      operationName: [''],
       fieldToTag: ['', Validators.required],
       valueOfTag: ['', Validators.required],
       propagation: [''],
-      onField: [''],
-      linkTo: ['']
+      onField: [{ value: '', disabled: true }],
+      linkTo: [{ value: '', disabled: true }]
     });
+  }
+
+  public fieldChange(event) {
+    this.existingTags = [];
+    const aggregation: Aggregation = {
+      type: Aggregation.TypeEnum.Term,
+      field: event.value,
+      size: '10'
+    };
+
+    const aggreationRequest: AggregationsRequest = {
+      aggregations: [aggregation]
+    };
+
+    from(this.collaborativeSearchService.getExploreApi().aggregatePost(this.server.collection.name, aggreationRequest))
+      .subscribe((response: AggregationResponse) => {
+        response.elements.forEach(elem => {
+          this.existingTags.push(elem.key_as_string);
+        });
+      });
   }
 
   /**
@@ -137,7 +166,8 @@ export class TagDialogComponent implements OnInit {
       this.tagFormGroup.value.fieldToTag,
       this.tagFormGroup.value.valueOfTag,
       this.tagFormGroup.value.onField,
-      this.tagFormGroup.value.linkTo
+      this.tagFormGroup.value.linkTo,
+      this.tagFormGroup.value.operationName
     );
   }
 
@@ -165,9 +195,14 @@ export class TagDialogComponent implements OnInit {
   public propagationChange(propagate: boolean) {
     if (propagate) {
       this.tagFormGroup.setControl('onField', new FormControl('', Validators.required));
+      this.tagFormGroup.setControl('linkTo', new FormControl(''));
+      this.tagFormGroup.controls['onField'].enable();
+      this.tagFormGroup.controls['linkTo'].enable();
     } else {
       this.tagFormGroup.setControl('onField', new FormControl(''));
       this.tagFormGroup.setControl('linkTo', new FormControl(''));
+      this.tagFormGroup.controls['onField'].disable();
+      this.tagFormGroup.controls['linkTo'].disable();
     }
   }
 

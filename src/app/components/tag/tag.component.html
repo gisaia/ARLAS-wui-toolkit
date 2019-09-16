@@ -3,12 +3,14 @@
 </button>
 
 <div class="arlas-tag-box">
-  <div *ngFor="let process of this.tagService.processStatus | keyvalue" class="arlas-tag-notification">
-    <div class="arlas-tag-notification-content">
+  <div *ngFor="let process of this.tagService.processStatus | keyvalue" class="arlas-tag-notification" (mouseenter)="hoveredDiv = process.value.id" (mouseleave)="hoveredDiv = ''">
+    <div class="arlas-tag-notification-content" id="tag-progress-{{process.value.id}}" [class.arlas-tag-active]="hoveredDiv === process.value.id ? true : false"
+      >
       <span>{{process.value.label}}</span>
       <mat-icon class="arlas-tag-notification-icon-blue" *ngIf="process.value.progress == 0">watch_later</mat-icon>
       <span *ngIf="process.value.progress > 0 && process.value.progress < 100">{{process.value.progress}} %</span>
-      <mat-icon class="arlas-tag-notification-icon-green" *ngIf="process.value.progress == 100">check_circle</mat-icon>
+      <mat-icon class="arlas-tag-notification-icon-green arlas-tag-hide" *ngIf="process.value.progress == 100">check_circle</mat-icon>
+      <mat-icon class="arlas-tag-notification-icon-grey arlas-tag-show" *ngIf="process.value.progress == 100" (click)="removeProgress(process.value.id)">cancel</mat-icon>
     </div>
     <mat-progress-bar *ngIf="process.value.progress > 0 && process.value.progress < 100" [mode]="'indeterminate'" [color]="'accent'"></mat-progress-bar>
   </div>
