@@ -1,5 +1,17 @@
 # Change Log
 
+## [v11.1.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v11.1.0) (2019-09-16)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v11.0.0...v11.1.0)
+
+**New stuff:**
+
+- Tagging with propagation \(WUI\) [\#167](https://github.com/gisaia/ARLAS-wui-toolkit/issues/167)
+
+**Fixed bugs:**
+
+- i18n not implemented for arlas-bookmark [\#165](https://github.com/gisaia/ARLAS-wui-toolkit/issues/165)
+
 ## [v11.0.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v11.0.0) (2019-07-26)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v10.2.0...v11.0.0)
@@ -8,6 +20,7 @@
 
 - Instantiate ChipsSearchContributor in the contributorBuilder [\#163](https://github.com/gisaia/ARLAS-wui-toolkit/issues/163)
 - Update to Arlas API V11 [\#161](https://github.com/gisaia/ARLAS-wui-toolkit/issues/161)
+- Adap new list input in widget component [\#160](https://github.com/gisaia/ARLAS-wui-toolkit/issues/160)
 - User preference : favorite AOI \(draw, shp, geosjon,kml/kmz,wkt\) with localstorage [\#148](https://github.com/gisaia/ARLAS-wui-toolkit/issues/148)
 - User preference : favorite extent with localstorage [\#147](https://github.com/gisaia/ARLAS-wui-toolkit/issues/147)
 - Add aoi / extend / bookmark component and service [\#154](https://github.com/gisaia/ARLAS-wui-toolkit/pull/154) ([sebbousquet](https://github.com/sebbousquet))
