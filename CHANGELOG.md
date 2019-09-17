@@ -1,8 +1,20 @@
 # Change Log
 
+## [v11.1.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v11.1.2) (2019-09-17)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v11.1.1...v11.1.2)
+
+**New stuff:**
+
+- Improve tagger UI [\#171](https://github.com/gisaia/ARLAS-wui-toolkit/pull/171) ([sebbousquet](https://github.com/sebbousquet))
+
 ## [v11.1.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v11.1.1) (2019-09-16)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v11.1.0...v11.1.1)
+
+**Fixed bugs:**
+
+- Fix dependencies issues [\#170](https://github.com/gisaia/ARLAS-wui-toolkit/pull/170) ([sebbousquet](https://github.com/sebbousquet))
 
 ## [v11.1.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v11.1.0) (2019-09-16)
 
