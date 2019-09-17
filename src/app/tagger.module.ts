@@ -21,6 +21,7 @@ import { NgModule, forwardRef } from '@angular/core';
 import { TagComponent, TagDialogComponent } from './components/tag/tag.component';
 import { ArlasTagService } from './services/tag/tag.service';
 import {
+  MatAutocompleteModule,
   MatIconModule,
   MatProgressBarModule,
   MatSelectModule,
@@ -73,6 +74,7 @@ export class CustomTranslateLoader implements TranslateLoader {
     BrowserAnimationsModule,
     CommonModule,
     FormsModule,
+    MatAutocompleteModule,
     MatButtonModule,
     MatCheckboxModule,
     MatDialogModule,
