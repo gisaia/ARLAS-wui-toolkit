@@ -232,7 +232,6 @@ export function translationServiceFactory(translate: TranslateService, injector:
     forwardRef(() => ArlasConfigurationDescriptor),
     forwardRef(() => ArlasColorGeneratorLoader),
     forwardRef(() => ArlasExtendService),
-    forwardRef(() => ArlasStartupService),
     forwardRef(() => ArlasWalkthroughService),
     {
       provide: APP_INITIALIZER,
