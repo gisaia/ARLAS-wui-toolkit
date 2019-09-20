@@ -21,6 +21,7 @@ import { Component, Input, Output, OnInit, AfterViewInit, Renderer2, OnChanges, 
 import { Subject } from 'rxjs/Subject';
 import { AnalyticGroupConfiguration } from './analytics.utils';
 import { ArlasCollaborativesearchService } from '../../services/startup/startup.service';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 /**
  * This component organizes the `Widgets` in a board.
  * A Widget is declared within a "group" in the configuration. A group contains one or more Widgets
@@ -61,6 +62,11 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
   constructor(private collaborativeService: ArlasCollaborativesearchService, private renderer: Renderer2) { }
 
   public ngOnInit() {
+    // sort groups given saved order
+    if (localStorage.getItem('arlas_groups_order')) {
+      const orderedIds = localStorage.getItem('arlas_groups_order').split(',').map(id => id);
+      this.groups.sort((a, b) => orderedIds.indexOf(a.groupId) - orderedIds.indexOf(b.groupId));
+    }
 
     if (!this.groupsDisplayStatusMap && this.groups) {
       this.groupsDisplayStatusMap = new Map<string, boolean>();
@@ -114,6 +120,11 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
    */
   public listenOutput(event: { origin: string, event: string, data?: any }) {
     this.boardOutputs.next(event);
+  }
+
+  public drop(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.groups, event.previousIndex, event.currentIndex);
+    localStorage.setItem('arlas_groups_order', this.groups.map(group => group.groupId).toString());
   }
 
   public changeMode(event) {
