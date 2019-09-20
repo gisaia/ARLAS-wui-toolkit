@@ -9,6 +9,10 @@ import * as portableFetch from 'portable-fetch';
 @Injectable()
 export class ArlasConfigurationDescriptor {
 
+  public fetchOptions = {
+    credentials: 'include'
+  };
+
   constructor(
     private collaborativesearchService: ArlasCollaborativesearchService,
     private configService: ArlasConfigService
@@ -25,7 +29,7 @@ export class ArlasConfigurationDescriptor {
       this.configService.getValue('arlas.server.url'),
       portableFetch
     );
-    return <Observable<Array<string>>>from(arlasCollectionsApi.getAll1()).pipe(
+    return <Observable<Array<string>>>from(arlasCollectionsApi.getAll1(false, this.fetchOptions)).pipe(
       map(
         (collections: Array<CollectionReference>) => collections.map(
           (collection: CollectionReference) => collection.collection_name
