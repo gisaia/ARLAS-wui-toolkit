@@ -19,7 +19,7 @@
 
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { Configuration, ExploreApi, WriteApi } from 'arlas-api';
+import { Configuration, ExploreApi, WriteApi, CollectionsApi } from 'arlas-api';
 import { DonutComponent, HistogramComponent, MapglComponent, PowerbarsComponent } from 'arlas-web-components';
 import {
   HistogramContributor,
@@ -60,6 +60,14 @@ export class ArlasExploreApi extends ExploreApi {
     @Inject('fetch') fetch) {
     super(conf, basePath, fetch);
   }
+}
+
+@Injectable()
+export class ArlasCollectionApi extends CollectionsApi {
+    constructor(@Inject('CONF') conf: Configuration, @Inject('base_path') basePath: string,
+        @Inject('fetch') fetch) {
+        super(conf, basePath, fetch);
+    }
 }
 
 @Injectable()
