@@ -15,7 +15,7 @@ import {
   HistogramModule, ResultsModule, PowerbarsModule, DonutModule
 } from 'arlas-web-components';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { ArlasCollaborativesearchService } from '../../services/startup/startup.service';
+import { ArlasCollaborativesearchService, ArlasConfigService } from '../../services/startup/startup.service';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
 describe('AnalyticsBoardComponent', () => {
@@ -33,7 +33,7 @@ describe('AnalyticsBoardComponent', () => {
         DonutModule, TranslateModule, MatBadgeModule, DragDropModule
       ],
       providers: [
-        TranslateService, ArlasCollaborativesearchService
+        TranslateService, ArlasCollaborativesearchService, ArlasConfigService
       ]
     })
       .compileComponents();

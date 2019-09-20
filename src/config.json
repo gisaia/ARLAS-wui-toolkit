@@ -968,6 +968,7 @@
       "app": {
         "idFieldName": "id",
         "refresh": false,
+        "drag_items": true,
         "components": {
           "chipssearch": {
             "search_size": 100,
