@@ -17,10 +17,11 @@
  * under the License.
  */
 
-import { Component, Input, Output, OnInit, AfterViewInit, Renderer2, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, OnInit, AfterViewInit, OnChanges, SimpleChanges } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { AnalyticGroupConfiguration } from './analytics.utils';
-import { ArlasCollaborativesearchService } from '../../services/startup/startup.service';
+import { ArlasCollaborativesearchService, ArlasConfigService } from '../../services/startup/startup.service';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 /**
  * This component organizes the `Widgets` in a board.
  * A Widget is declared within a "group" in the configuration. A group contains one or more Widgets
@@ -58,9 +59,18 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
   private compGroup: Map<string, string> = new Map<string, string>();
   public activeFilter: Map<string, boolean> = new Map<string, boolean>();
 
-  constructor(private collaborativeService: ArlasCollaborativesearchService, private renderer: Renderer2) { }
+  public isActiveDragDrop = false;
+
+  constructor(private collaborativeService: ArlasCollaborativesearchService, private configService: ArlasConfigService) { }
 
   public ngOnInit() {
+    this.isActiveDragDrop = this.configService.getValue('arlas-wui.web.app.drag_items') ? true : false;
+
+    // sort groups given saved order
+    if (this.isActiveDragDrop) {
+      const orderedIds = localStorage.getItem('arlas_groups_order').split(',').map(id => id);
+      this.groups.sort((a, b) => orderedIds.indexOf(a.groupId) - orderedIds.indexOf(b.groupId));
+    }
 
     if (!this.groupsDisplayStatusMap && this.groups) {
       this.groupsDisplayStatusMap = new Map<string, boolean>();
@@ -114,6 +124,11 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
    */
   public listenOutput(event: { origin: string, event: string, data?: any }) {
     this.boardOutputs.next(event);
+  }
+
+  public drop(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.groups, event.previousIndex, event.currentIndex);
+    localStorage.setItem('arlas_groups_order', this.groups.map(group => group.groupId).toString());
   }
 
   public changeMode(event) {
