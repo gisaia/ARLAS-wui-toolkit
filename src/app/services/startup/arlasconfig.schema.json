@@ -16,73 +16,163 @@
                         "contributors": {
                             "description": "Configuration of each arlas contributors",
                             "type": "array",
-                            "uniqueItemProperties": [ "identifier"],
+                            "uniqueItemProperties": [
+                                "identifier"
+                            ],
                             "items": {
-                              "allOf": [
-                                {
-                                  "properties": {
-                                    "type": {
-                                      "enum": [
-                                        "analytics",
-                                        "chipssearch",
-                                        "detailedhistogram",
-                                        "donut",
-                                        "histogram",
-                                        "powerbars",
-                                        "map",
-                                        "resultlist",
-                                        "swimlane",
-                                        "topomap",
-                                        "tree"
-                                      ]
+                                "allOf": [
+                                    {
+                                        "properties": {
+                                            "type": {
+                                                "enum": [
+                                                    "analytics",
+                                                    "chipssearch",
+                                                    "detailedhistogram",
+                                                    "donut",
+                                                    "histogram",
+                                                    "powerbars",
+                                                    "map",
+                                                    "resultlist",
+                                                    "swimlane",
+                                                    "topomap",
+                                                    "tree"
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "if": {
+                                            "properties": {
+                                                "type": {
+                                                    "const": "analytics"
+                                                }
+                                            }
+                                        },
+                                        "then": {
+                                            "$ref": "analyticsContributorConf.schema.json#"
+                                        }
+                                    },
+                                    {
+                                        "if": {
+                                            "properties": {
+                                                "type": {
+                                                    "const": "chipssearch"
+                                                }
+                                            }
+                                        },
+                                        "then": {
+                                            "$ref": "chipssearchContributorConf.schema.json#"
+                                        }
+                                    },
+                                    {
+                                        "if": {
+                                            "properties": {
+                                                "type": {
+                                                    "const": "detailedHistogram"
+                                                }
+                                            }
+                                        },
+                                        "then": {
+                                            "$ref": "detailedHistogramContributorConf.schema.json#"
+                                        }
+                                    },
+                                    {
+                                        "if": {
+                                            "properties": {
+                                                "type": {
+                                                    "const": "donut"
+                                                }
+                                            }
+                                        },
+                                        "then": {
+                                            "$ref": "donutContributorConf.schema.json#"
+                                        }
+                                    },
+                                    {
+                                        "if": {
+                                            "properties": {
+                                                "type": {
+                                                    "const": "histogram"
+                                                }
+                                            }
+                                        },
+                                        "then": {
+                                            "$ref": "histogramContributorConf.schema.json#"
+                                        }
+                                    },
+                                    {
+                                        "if": {
+                                            "properties": {
+                                                "type": {
+                                                    "const": "powerbars"
+                                                }
+                                            }
+                                        },
+                                        "then": {
+                                            "$ref": "powerbarsContributorConf.schema.json#"
+                                        }
+                                    },
+                                    {
+                                        "if": {
+                                            "properties": {
+                                                "type": {
+                                                    "const": "map"
+                                                }
+                                            }
+                                        },
+                                        "then": {
+                                            "$ref": "mapContributorConf.schema.json#"
+                                        }
+                                    },
+                                    {
+                                        "if": {
+                                            "properties": {
+                                                "type": {
+                                                    "const": "resultlist"
+                                                }
+                                            }
+                                        },
+                                        "then": {
+                                            "$ref": "resultlistContributorConf.schema.json#"
+                                        }
+                                    },
+                                    {
+                                        "if": {
+                                            "properties": {
+                                                "type": {
+                                                    "const": "swimlane"
+                                                }
+                                            }
+                                        },
+                                        "then": {
+                                            "$ref": "swimlaneContributorConf.schema.json#"
+                                        }
+                                    },
+                                    {
+                                        "if": {
+                                            "properties": {
+                                                "type": {
+                                                    "const": "topomap"
+                                                }
+                                            }
+                                        },
+                                        "then": {
+                                            "$ref": "topomapContributorConf.schema.json#"
+                                        }
+                                    },
+                                    {
+                                        "if": {
+                                            "properties": {
+                                                "type": {
+                                                    "const": "tree"
+                                                }
+                                            }
+                                        },
+                                        "then": {
+                                            "$ref": "treeContributorConf.schema.json#"
+                                        }
                                     }
-                                  }
-                                },
-                                {
-                                  "if": { "properties": { "type": { "const": "analytics" } } },
-                                  "then": { "$ref": "analyticsContributorConf.schema.json#" }
-                                },
-                                {
-                                  "if": { "properties": { "type": { "const": "chipssearch" } } },
-                                  "then": {"$ref": "chipssearchContributorConf.schema.json#"}
-                                },
-                                {
-                                  "if": { "properties": { "type": { "const": "detailedHistogram" } } },
-                                  "then": {"$ref": "detailedHistogramContributorConf.schema.json#"}
-                                },
-                                {
-                                  "if": { "properties": { "type": { "const": "donut" } } },
-                                  "then": {"$ref": "donutContributorConf.schema.json#"}
-                                },
-                                {
-                                  "if": { "properties": { "type": { "const": "histogram" } } },
-                                  "then": {"$ref": "histogramContributorConf.schema.json#"}
-                                },
-                                {
-                                  "if": { "properties": { "type": { "const": "powerbars" } } },
-                                  "then": {"$ref": "powerbarsContributorConf.schema.json#"}
-                                },
-                                {
-                                  "if": { "properties": { "type": { "const": "map" } } },
-                                  "then": {"$ref": "mapContributorConf.schema.json#"}
-                                },
-                                {
-                                  "if": { "properties": { "type": { "const": "resultlist" } } },
-                                  "then": {"$ref": "resultlistContributorConf.schema.json#"}
-                                },
-                                {
-                                  "if": { "properties": { "type": { "const": "swimlane" } } },
-                                  "then": {"$ref": "swimlaneContributorConf.schema.json#"}
-                                },
-                                {
-                                  "if": { "properties": { "type": { "const": "topomap" } } },
-                                  "then": {"$ref": "topomapContributorConf.schema.json#"}
-                                },
-                                {
-                                  "if": { "properties": { "type": { "const": "tree" } } },
-                                  "then": {"$ref": "treeContributorConf.schema.json#"}
-                                }
-                              ]
+                                ]
                             },
                             "additionalProperties": false
                         },
@@ -159,8 +249,7 @@
                                                         },
                                                         "input": {
                                                             "description": "Input of resultlist component.",
-                                                            "type":"object"
-
+                                                            "type": "object"
                                                         }
                                                     }
                                                 },
@@ -182,22 +271,22 @@
                                                     }
                                                 },
                                                 {
-                                                  "properties": {
-                                                      "componentType": {
-                                                          "enum": [
-                                                              "donut"
-                                                          ]
-                                                      },
-                                                      "input": {
-                                                          "description": "Input of donut component.",
-                                                          "allOf": [
-                                                              {
-                                                                  "$ref": "donut.schema.json#"
-                                                              }
-                                                          ]
-                                                      }
-                                                  }
-                                              },
+                                                    "properties": {
+                                                        "componentType": {
+                                                            "enum": [
+                                                                "donut"
+                                                            ]
+                                                        },
+                                                        "input": {
+                                                            "description": "Input of donut component.",
+                                                            "allOf": [
+                                                                {
+                                                                    "$ref": "donut.schema.json#"
+                                                                }
+                                                            ]
+                                                        }
+                                                    }
+                                                },
                                                 {
                                                     "properties": {
                                                         "componentType": {
@@ -233,224 +322,233 @@
                                 ]
                             }
                         },
-                        "components":{
-                          "description": "Configuration of arlas components",
-                          "type": "object",
-                          "patternProperties": {
-                            "^(share)$": {
-                              "patternProperties": {
-                                "^(geojson)$": {
-                                  "description": "Configuration of arlas share component",
-                                  "type": "object",
-                                  "properties": {
-                                      "max_for_feature": {
-                                          "description": "Max number of elements returned by arlas-server in feature mode",
-                                          "type": "number"
-                                      },
-                                      "max_for_cluster": {
-                                          "description": "Max number of elements returned by arlas-server in cluster mode",
-                                          "type": "number"
-                                      },
-                                      "agg_field":{
-                                          "description": "Field for aggregation",
-                                          "type": "string"
-                                      },
-                                      "sort_excluded_type": {
-                                          "description": "List of excluded field's types in sort option",
-                                          "type": "array"
-                                      }
-                                  },
-                                  "required": [
-                                      "max_for_feature",
-                                      "max_for_cluster",
-                                      "agg_field",
-                                      "sort_excluded_type"
-                                  ]
-                                }
-                              }
-                            },
-                            "mapgl": {
-                              "description": "Mapgl component configuration",
-                              "type": "object",
-                              "properties": {
-                                "input": {
-                                  "description": "Mapgl component inputs",
-                                  "type":"object",
-                                  "allOf": [
-                                    {
-                                      "$ref": "mapgl.schema.json#"
-                                    }
-                                  ]
-                                },
-                                "allowMapExtend": {
-                                  "description": "Whether to allow writing the map extend in the url. If so the map moves to that extend at the initial load.",
-                                  "type": "boolean"
-                                },
-                                "allowMapStyles": {
-                                  "description": "Whether to allow writing the map selected styles in the url. If so the map shows the styles set in the url at the initial load.",
-                                  "type": "boolean"
-                                },
-                                "mapExtendTimer": {
-                                  "description": "Laps of time, after map moveend, to be considered before changing the map extend in the url.",
-                                  "type": "number"
-                                }
-                              },
-                              "required": [
-                                "input"
-                              ]
-                            },
-                            "timeline": {
-                              "description": "Timeline component configuration",
-                              "type": "object",
-                              "properties": {
-                                "contributorId": {
-                                  "description": "Identifier of the timeline contributor",
-                                  "type": "string"
-                                },
-                                "input": {
-                                  "description": "Histogram component inputs for timeline",
-                                  "type": "object",
-                                  "allOf": [
-                                    {
-                                      "$ref": "histogram.schema.json#"
-                                    }
-                                  ]
-                                },
-                                "dateFormat": {
-                                  "description": "Format of the date.",
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "contributorId",
-                                "input"
-                              ]
-                            },
-                            "detailedTimeline": {
-                              "description": "Detailed timeline component configuration",
-                              "type": "object",
-                              "properties": {
-                                "contributorId": {
-                                  "description": "Identifier of the detailed timeline contributor. It should be a detailedhistogram contributor.",
-                                  "type": "string"
-                                },
-                                "input": {
-                                  "description": "Histogram component inputs for detailed timeline",
-                                  "type": "object",
-                                  "allOf": [
-                                    {
-                                      "$ref": "histogram.schema.json#"
-                                    }
-                                  ]
-                                },
-                                "dateFormat": {
-                                  "description": "Format of the date.",
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "contributorId",
-                                "input"
-                              ]
-                            }
-                          }
-                        },
-                        "colorGenerator": {
-                          "description": "",
-                          "type": "object",
-                          "properties": {
-                            "keysToColors": {
-                              "description": "List of [key, color] couples that associates a hex color to each key",
-                              "type": "array",
-                              "items": {
-                                    "type": "array",
-                                    "minItems": 2,
-                                    "maxItems": 2,
-                                    "items": [
-                                        {
-                                            "description": "Key to which a color is associated",
-                                            "type": "string"
-                                        },
-                                        {
-                                            "description": "Hex color associated to the key",
-                                            "type": "string"
+                        "components": {
+                            "description": "Configuration of arlas components",
+                            "type": "object",
+                            "patternProperties": {
+                                "^(share)$": {
+                                    "patternProperties": {
+                                        "^(geojson)$": {
+                                            "description": "Configuration of arlas share component",
+                                            "type": "object",
+                                            "properties": {
+                                                "max_for_feature": {
+                                                    "description": "Max number of elements returned by arlas-server in feature mode",
+                                                    "type": "number"
+                                                },
+                                                "max_for_cluster": {
+                                                    "description": "Max number of elements returned by arlas-server in cluster mode",
+                                                    "type": "number"
+                                                },
+                                                "agg_field": {
+                                                    "description": "Field for aggregation",
+                                                    "type": "string"
+                                                },
+                                                "sort_excluded_type": {
+                                                    "description": "List of excluded field's types in sort option",
+                                                    "type": "array"
+                                                }
+                                            },
+                                            "required": [
+                                                "max_for_feature",
+                                                "max_for_cluster",
+                                                "agg_field",
+                                                "sort_excluded_type"
+                                            ]
                                         }
-                                    ]
-                                }
-                            },
-                            "colorsSaturationWeight": {
-                              "description": "Knowing that saturation scale is [0, 1], `colorsSaturationWeight` is a factor (between 0 and 1) that tightens this scale to [(1-colorsSaturationWeight), 1]. Therefore saturation of generated colors will be within this tightened scale.",
-                              "type": "number"
-                            },
-                            "colorAggregations": {
-                              "description": "List of aggregation, order matters",
-                              "type": "array",
-                              "items": {
-                                  "type": "array",
-                                  "minItems": 2,
-                                  "maxItems": 2,
-                                  "items": {
+                                    }
+                                },
+                                "mapgl": {
+                                    "description": "Mapgl component configuration",
                                     "type": "object",
                                     "properties": {
-                                      "type": {
-                                          "description": "Type of aggregation",
-                                          "enum": [
-                                              "datehistogram",
-                                              "geohash",
-                                              "histogram",
-                                              "term"
-                                          ]
-                                      },
-                                      "field": {
-                                          "description": "Field of aggregation",
-                                          "type": "string"
-                                      },
-                                      "interval": {
-                                          "description": "Interval of aggregation",
-                                          "type": "object",
-                                          "properties": {
-                                              "value": {
-                                                  "description": "Value of interval",
-                                                  "type": "integer"
-                                              },
-                                              "unit": {
-                                                  "description": "Unit of interval",
-                                                  "enum": [
-                                                      "year",
-                                                      "quarter",
-                                                      "month",
-                                                      "week",
-                                                      "day",
-                                                      "hour",
-                                                      "minute",
-                                                      "second"
-                                                  ]
-                                              }
-                                          }
-                                      },
-                                      "fetchGeometry": {
-                                          "description": "How to retrieve geometry for term and geohash aggregation",
-                                          "type": "object",
-                                          "properties": {
-                                              "strategy:": {
-                                                  "description": "Strategy to fetch geometry",
-                                                  "enum": [
-                                                      "bbox",
-                                                      "centroid",
-                                                      "first",
-                                                      "last",
-                                                      "byDefault",
-                                                      "geohash"
-                                                  ]
-                                              }
-                                          }
-                                      }
-                                    }
-                                  }
+                                        "input": {
+                                            "description": "Mapgl component inputs",
+                                            "type": "object",
+                                            "allOf": [
+                                                {
+                                                    "$ref": "mapgl.schema.json#"
+                                                }
+                                            ]
+                                        },
+                                        "allowMapExtend": {
+                                            "description": "Whether to allow writing the map extend in the url. If so the map moves to that extend at the initial load.",
+                                            "type": "boolean"
+                                        },
+                                        "allowMapStyles": {
+                                            "description": "Whether to allow writing the map selected styles in the url. If so the map shows the styles set in the url at the initial load.",
+                                            "type": "boolean"
+                                        },
+                                        "mapExtendTimer": {
+                                            "description": "Laps of time, after map moveend, to be considered before changing the map extend in the url.",
+                                            "type": "number"
+                                        }
+                                    },
+                                    "required": [
+                                        "input"
+                                    ]
+                                },
+                                "timeline": {
+                                    "description": "Timeline component configuration",
+                                    "type": "object",
+                                    "properties": {
+                                        "contributorId": {
+                                            "description": "Identifier of the timeline contributor",
+                                            "type": "string"
+                                        },
+                                        "input": {
+                                            "description": "Histogram component inputs for timeline",
+                                            "type": "object",
+                                            "allOf": [
+                                                {
+                                                    "$ref": "histogram.schema.json#"
+                                                }
+                                            ]
+                                        },
+                                        "dateFormat": {
+                                            "description": "Format of the date.",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "contributorId",
+                                        "input"
+                                    ]
+                                },
+                                "detailedTimeline": {
+                                    "description": "Detailed timeline component configuration",
+                                    "type": "object",
+                                    "properties": {
+                                        "contributorId": {
+                                            "description": "Identifier of the detailed timeline contributor. It should be a detailedhistogram contributor.",
+                                            "type": "string"
+                                        },
+                                        "input": {
+                                            "description": "Histogram component inputs for detailed timeline",
+                                            "type": "object",
+                                            "allOf": [
+                                                {
+                                                    "$ref": "histogram.schema.json#"
+                                                }
+                                            ]
+                                        },
+                                        "dateFormat": {
+                                            "description": "Format of the date.",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "contributorId",
+                                        "input"
+                                    ]
                                 }
-
                             }
-                          }
+                        },
+                        "colorGenerator": {
+                            "description": "",
+                            "type": "object",
+                            "properties": {
+                                "keysToColors": {
+                                    "description": "List of [key, color] couples that associates a hex color to each key",
+                                    "type": "array",
+                                    "items": {
+                                        "type": "array",
+                                        "minItems": 2,
+                                        "maxItems": 2,
+                                        "items": [
+                                            {
+                                                "description": "Key to which a color is associated",
+                                                "type": "string"
+                                            },
+                                            {
+                                                "description": "Hex color associated to the key",
+                                                "type": "string"
+                                            }
+                                        ]
+                                    }
+                                },
+                                "colorsSaturationWeight": {
+                                    "description": "Knowing that saturation scale is [0, 1], `colorsSaturationWeight` is a factor (between 0 and 1) that tightens this scale to [(1-colorsSaturationWeight), 1]. Therefore saturation of generated colors will be within this tightened scale.",
+                                    "type": "number"
+                                },
+                                "colorAggregations": {
+                                    "description": "List of aggregation, order matters",
+                                    "type": "array",
+                                    "items": {
+                                        "type": "array",
+                                        "minItems": 2,
+                                        "maxItems": 2,
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "type": {
+                                                    "description": "Type of aggregation",
+                                                    "enum": [
+                                                        "datehistogram",
+                                                        "geohash",
+                                                        "histogram",
+                                                        "term"
+                                                    ]
+                                                },
+                                                "field": {
+                                                    "description": "Field of aggregation",
+                                                    "type": "string"
+                                                },
+                                                "interval": {
+                                                    "description": "Interval of aggregation",
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "value": {
+                                                            "description": "Value of interval",
+                                                            "type": "integer"
+                                                        },
+                                                        "unit": {
+                                                            "description": "Unit of interval",
+                                                            "enum": [
+                                                                "year",
+                                                                "quarter",
+                                                                "month",
+                                                                "week",
+                                                                "day",
+                                                                "hour",
+                                                                "minute",
+                                                                "second"
+                                                            ]
+                                                        }
+                                                    }
+                                                },
+                                                "fetchGeometry": {
+                                                    "description": "How to retrieve geometry for term and geohash aggregation",
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "strategy:": {
+                                                            "description": "Strategy to fetch geometry",
+                                                            "enum": [
+                                                                "bbox",
+                                                                "centroid",
+                                                                "first",
+                                                                "last",
+                                                                "byDefault",
+                                                                "geohash"
+                                                            ]
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "options": {
+                            "description": "List of global options of an arlas app",
+                            "type": "object",
+                            "properties": {
+                                "drag_items": {
+                                    "description": "Whether drag and drop of widgets analitycs is enabled.",
+                                    "type": "boolean"
+                                }
+                            }
                         }
                     },
                     "required": [

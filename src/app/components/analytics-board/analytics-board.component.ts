@@ -64,10 +64,14 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
   constructor(private collaborativeService: ArlasCollaborativesearchService, private configService: ArlasConfigService) { }
 
   public ngOnInit() {
-    this.isActiveDragDrop = this.configService.getValue('arlas-wui.web.app.drag_items') ? true : false;
-
+    this.isActiveDragDrop = false;
+    const webConfig = this.configService.getValue('arlas.web');
+    if (webConfig !== undefined && webConfig.options !== undefined && webConfig.options.drag_items) {
+      this.isActiveDragDrop = webConfig.options.drag_items;
+    }
     // sort groups given saved order
-    if (this.isActiveDragDrop) {
+    const arlas_groups_order = localStorage.getItem('arlas_groups_order');
+    if (this.isActiveDragDrop && arlas_groups_order !== undefined) {
       const orderedIds = localStorage.getItem('arlas_groups_order').split(',').map(id => id);
       this.groups.sort((a, b) => orderedIds.indexOf(a.groupId) - orderedIds.indexOf(b.groupId));
     }

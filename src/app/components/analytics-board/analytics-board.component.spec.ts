@@ -15,12 +15,14 @@ import {
   HistogramModule, ResultsModule, PowerbarsModule, DonutModule
 } from 'arlas-web-components';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { ArlasCollaborativesearchService, ArlasConfigService } from '../../services/startup/startup.service';
+import { ArlasStartupService, ArlasConfigService, ArlasCollaborativesearchService } from '../../services/startup/startup.service';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
 describe('AnalyticsBoardComponent', () => {
   let component: AnalyticsBoardComponent;
   let fixture: ComponentFixture<AnalyticsBoardComponent>;
+  let arlasStartupService: ArlasStartupService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -30,22 +32,31 @@ describe('AnalyticsBoardComponent', () => {
       imports: [
         MatCardModule, MatIconModule, MatExpansionModule, MatSelectModule, MatButtonModule,
         MatTooltipModule, BrowserModule, HistogramModule, ResultsModule, PowerbarsModule,
-        DonutModule, TranslateModule, MatBadgeModule, DragDropModule
+        DonutModule, TranslateModule, MatBadgeModule, DragDropModule, HttpClientModule
       ],
       providers: [
-        TranslateService, ArlasCollaborativesearchService, ArlasConfigService
+        ArlasConfigService, ArlasCollaborativesearchService,
+        ArlasStartupService, HttpClient, TranslateService
       ]
     })
       .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AnalyticsBoardComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    arlasStartupService = TestBed.get(ArlasStartupService);
+    arlasStartupService.arlasIsUp.subscribe(isUp => {
+      if (isUp) {
+        fixture = TestBed.createComponent(AnalyticsBoardComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+      }
+    });
   });
-
   it('should create', () => {
-    expect(component).toBeTruthy();
+    arlasStartupService.arlasIsUp.subscribe(isUp => {
+      if (isUp) {
+        expect(component).toBeTruthy();
+      }
+    });
   });
 });
