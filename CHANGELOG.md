@@ -1,5 +1,15 @@
 # Change Log
 
+## [v11.2.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v11.2.0) (2019-10-02)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v11.1.2...v11.2.0)
+
+**New stuff:**
+
+- Allow analytics elements to be dragged and dropped [\#101](https://github.com/gisaia/ARLAS-wui-toolkit/issues/101)
+- Allow groups of analytics board to be Drag/Drop [\#176](https://github.com/gisaia/ARLAS-wui-toolkit/pull/176) ([sebbousquet](https://github.com/sebbousquet))
+- Add a service to describe the collections [\#175](https://github.com/gisaia/ARLAS-wui-toolkit/pull/175) ([sebbousquet](https://github.com/sebbousquet))
+
 ## [v11.1.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v11.1.2) (2019-09-17)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v11.1.1...v11.1.2)
