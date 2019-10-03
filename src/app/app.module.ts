@@ -164,6 +164,7 @@ export function translationServiceFactory(translate: TranslateService, injector:
     AppComponent,
     BookmarkComponent,
     BookmarkMenuComponent,
+    DownloadComponent,
     ExtendComponent,
     FiltersComponent,
     GetTimeLabelPipe,
