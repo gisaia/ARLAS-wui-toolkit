@@ -1,8 +1,21 @@
 # Change Log
 
+## [v11.2.3](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v11.2.3) (2019-10-03)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v11.2.2...v11.2.3)
+
+**Fixed bugs:**
+
+- check if tag aggregation response has elements [\#180](https://github.com/gisaia/ARLAS-wui-toolkit/pull/180) ([MohamedHamouGisaia](https://github.com/MohamedHamouGisaia))
+
 ## [v11.2.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v11.2.2) (2019-10-03)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v11.2.1...v11.2.2)
+
+**Fixed bugs:**
+
+- Missing export of Download component [\#182](https://github.com/gisaia/ARLAS-wui-toolkit/issues/182)
+- Fix configuration check for drag and drop [\#181](https://github.com/gisaia/ARLAS-wui-toolkit/pull/181) ([sebbousquet](https://github.com/sebbousquet))
 
 ## [v11.2.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v11.2.1) (2019-10-02)
 
