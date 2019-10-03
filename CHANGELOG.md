@@ -1,8 +1,16 @@
 # Change Log
 
+## [v11.2.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v11.2.2) (2019-10-03)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v11.2.1...v11.2.2)
+
 ## [v11.2.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v11.2.1) (2019-10-02)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v11.2.0...v11.2.1)
+
+**Fixed bugs:**
+
+- Fix drag and drop storage [\#179](https://github.com/gisaia/ARLAS-wui-toolkit/pull/179) ([mbarbet](https://github.com/mbarbet))
 
 ## [v11.2.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v11.2.0) (2019-10-02)
 
