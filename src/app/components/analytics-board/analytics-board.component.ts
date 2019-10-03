@@ -71,8 +71,8 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
     }
     // sort groups given saved order
     const arlas_groups_order = localStorage.getItem('arlas_groups_order');
-    if (this.isActiveDragDrop && arlas_groups_order !== undefined) {
-      const orderedIds = localStorage.getItem('arlas_groups_order').split(',').map(id => id);
+    if (this.isActiveDragDrop && arlas_groups_order) {
+      const orderedIds = arlas_groups_order.split(',').map(id => id);
       this.groups.sort((a, b) => orderedIds.indexOf(a.groupId) - orderedIds.indexOf(b.groupId));
     }
 
