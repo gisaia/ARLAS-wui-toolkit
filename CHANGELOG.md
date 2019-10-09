@@ -1,5 +1,13 @@
 # Change Log
 
+## [v11.3.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v11.3.0) (2019-10-09)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v11.2.3...v11.3.0)
+
+**Fixed bugs:**
+
+- Drag analytics element only from title section [\#183](https://github.com/gisaia/ARLAS-wui-toolkit/pull/183) ([sebbousquet](https://github.com/sebbousquet))
+
 ## [v11.2.3](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v11.2.3) (2019-10-03)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v11.2.2...v11.2.3)
