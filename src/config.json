@@ -776,9 +776,8 @@
       "components": {
         "share": {
           "geojson": {
-            "max_for_feature": 10000,
-            "max_for_topology": 10000,
-            "max_for_cluster": 100000,
+            "max_for_feature": 1000,
+            "max_for_topology": 1000,
             "agg_field": "position.location",
             "sort_excluded_type": [
                 "TEXT",

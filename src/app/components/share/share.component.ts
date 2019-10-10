@@ -71,6 +71,7 @@ export class ShareDialogComponent implements OnInit {
   private maxForFeature: number;
   private maxForTopology: number;
   private aggField: string;
+  private filters: Array<Filter> = new Array<Filter>();
 
   public displayedUrl: string;
   public precisions = [
@@ -117,9 +118,12 @@ export class ShareDialogComponent implements OnInit {
       orderField: [''],
       orderDirection: ['']
     });
-    this.maxForCluster = this.configService.getValue('arlas.web.components.share.geojson.max_for_cluster');
+
     this.maxForFeature = this.configService.getValue('arlas.web.components.share.geojson.max_for_feature');
-    this.maxForTopology = this.configService.getValue('arlas.web.components.share.geojson.max_for_topology');
+    this.maxForTopology = (
+      this.configService.getValue('arlas.web.components.share.geojson.max_for_topology') ?
+        this.configService.getValue('arlas.web.components.share.geojson.max_for_topology') : 1000
+    );
     this.aggField = this.configService.getValue('arlas.web.components.share.geojson.agg_field');
     this.configService.getValue('arlas.web.components.share.geojson.sort_excluded_type').forEach(element => {
       this.excludedType.add(element);
@@ -136,6 +140,9 @@ export class ShareDialogComponent implements OnInit {
         }
       }
     });
+    this.collaborativeService.collaborations.forEach(element =>
+      this.filters.push(element.filter)
+    );
   }
 
 
@@ -145,11 +152,16 @@ export class ShareDialogComponent implements OnInit {
    */
   public changeStep(event) {
     const server = this.configService.getValue('arlas.server');
+    /* STEP 2 */
     if (event.selectedIndex === 1) {
+      this.aggTypeText = '_geoaggregate';
+      this.aggType = projType.geoaggregate;
+      this.searchSize = '';
       if (this.geojsonTypeGroup.get('geojsonType').value === 'feature') {
         this.paramFormGroup.get('precision').disable();
         this.paramFormGroup.get('availableFields').enable();
         this.aggTypeText = '_geosearch';
+
         this.aggType = projType.geosearch;
         this.searchSize = '&size=' + this.maxForFeature;
         if (this.allFields.length === 0) {
@@ -167,43 +179,20 @@ export class ShareDialogComponent implements OnInit {
       } else if (this.geojsonTypeGroup.get('geojsonType').value === 'cluster') {
         this.paramFormGroup.get('precision').enable();
         this.paramFormGroup.get('availableFields').disable();
-        this.aggTypeText = '_geoaggregate';
-        this.aggType = projType.geoaggregate;
-        this.searchSize = '&size=' + this.maxForCluster;
       } else if (this.geojsonTypeGroup.get('geojsonType').value === 'topology') {
         this.isCopied = false;
-        this.aggTypeText = '_geoaggregate';
-        this.aggType = projType.geoaggregate;
-        this.searchSize = '&size=' + this.maxForTopology;
-        const filters = new Array<Filter>();
-        this.collaborativeService.collaborations.forEach(element =>
-          filters.push(element.filter)
-        );
+        this.topoAgg.size = this.maxForTopology.toString();
         this.displayedUrl = server.url + '/explore/' + server.collection.name + '/'
-        + this.aggTypeText + '/?' + this.collaborativeService.getUrl([this.aggType, [this.topoAgg]], filters)
-        + this.searchSize + this.includeFields + this.sort + '&flat=true';
+          + this.aggTypeText + '/?' + this.collaborativeService.getUrl([this.aggType, [this.topoAgg]], this.filters) + '&flat=true';
       }
     }
+    /* STEP 3 */
     if (event.selectedIndex === 2) {
       this.isCopied = false;
-      const filters = new Array<Filter>();
-      this.collaborativeService.collaborations.forEach(element =>
-        filters.push(element.filter)
-      );
-      if (!this.agg) {
-        this.agg = {
-          type: Aggregation.TypeEnum.Geohash,
-          field: this.aggField,
-          interval: {
-            value: this.paramFormGroup.get('precision').value
-          }
-        };
-      } else {
-        this.agg.interval.value = this.paramFormGroup.get('precision').value;
-      }
       this.sort = '';
       this.includeFields = '';
       if (this.geojsonTypeGroup.get('geojsonType').value === 'feature') {
+
         if (this.selectedFields.length > 0) {
           this.includeFields = '&include=';
           this.selectedFields.forEach(field =>
@@ -214,10 +203,12 @@ export class ShareDialogComponent implements OnInit {
         if (this.selectedOrderField) {
           this.sort = '&sort=' + (this.sortDirection === 'desc' ? '-' : '') + this.selectedOrderField.label;
         }
+      } else {
+        this.agg.interval.value = this.paramFormGroup.get('precision').value;
       }
 
       this.displayedUrl = server.url + '/explore/' + server.collection.name + '/'
-        + this.aggTypeText + '/?' + this.collaborativeService.getUrl([this.aggType, [this.agg]], filters)
+        + this.aggTypeText + '/?' + this.collaborativeService.getUrl([this.aggType, [this.agg]], this.filters)
         + this.searchSize + this.includeFields + this.sort + '&flat=true';
     }
   }
