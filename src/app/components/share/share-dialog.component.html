@@ -4,6 +4,7 @@
       <ng-template matStepLabel>Mode</ng-template>
       <mat-radio-group class="share-radio-group" formControlName="geojsonType">
         <mat-radio-button [value]="'cluster'" class="share-radio-button">{{ 'Clusters' | translate}}</mat-radio-button>
+        <mat-radio-button [value]="'topology'" class="share-radio-button">{{ 'Topology' | translate}}</mat-radio-button>
         <mat-radio-button [value]="'feature'" class="share-radio-button">{{ 'Features' | translate}}</mat-radio-button>
       </mat-radio-group>
       <div>
@@ -12,7 +13,7 @@
       </div>
     </form>
   </mat-step>
-  <mat-step [stepControl]="paramFormGroup">
+  <mat-step [stepControl]="paramFormGroup" *ngIf="geojsonTypeGroup.get('geojsonType').value !== 'topology'">
     <form [formGroup]="paramFormGroup">
       <ng-template matStepLabel>Parameters</ng-template>
       <div *ngIf="geojsonTypeGroup.get('geojsonType').value == 'cluster'">
