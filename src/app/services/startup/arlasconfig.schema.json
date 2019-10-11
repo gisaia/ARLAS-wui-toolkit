@@ -336,13 +336,9 @@
                                                     "description": "Max number of elements returned by arlas-server in feature mode",
                                                     "type": "number"
                                                 },
-                                                "max_for_cluster": {
-                                                    "description": "Max number of elements returned by arlas-server in cluster mode",
+                                                "max_for_topology": {
+                                                    "description": "Max number of elements returned by arlas-server in topology mode",
                                                     "type": "number"
-                                                },
-                                                "agg_field": {
-                                                    "description": "Field for aggregation",
-                                                    "type": "string"
                                                 },
                                                 "sort_excluded_type": {
                                                     "description": "List of excluded field's types in sort option",
@@ -351,8 +347,6 @@
                                             },
                                             "required": [
                                                 "max_for_feature",
-                                                "max_for_cluster",
-                                                "agg_field",
                                                 "sort_excluded_type"
                                             ]
                                         }

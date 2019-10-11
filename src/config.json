@@ -778,7 +778,6 @@
           "geojson": {
             "max_for_feature": 1000,
             "max_for_topology": 1000,
-            "agg_field": "position.location",
             "sort_excluded_type": [
                 "TEXT",
                 "GEO_POINT"
