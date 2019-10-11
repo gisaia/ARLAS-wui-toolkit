@@ -19,6 +19,7 @@
 import { ChangeDetectorRef, Component, ViewEncapsulation, Input, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { Contributor } from 'arlas-web-core';
 import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from '../../services/startup/startup.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'arlas-filter',
@@ -42,7 +43,8 @@ export class FiltersComponent implements OnInit {
     private collaborativeSearchService: ArlasCollaborativesearchService,
     private arlasStartupService: ArlasStartupService,
     private configService: ArlasConfigService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private translate: TranslateService
   ) {
 
     this.contributors = this.collaborativeSearchService.registry;
@@ -81,9 +83,9 @@ export class FiltersComponent implements OnInit {
     if (label !== undefined) {
       const labelSplited = label.split('<=');
       if (labelSplited.length === 3) {
-        label = labelSplited[1];
+        label = labelSplited[1].trim();
       }
-      return label;
+      return this.translate.instant(label);
     } else {
       return '';
     }
