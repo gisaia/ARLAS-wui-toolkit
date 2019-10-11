@@ -67,10 +67,8 @@ export class ShareDialogComponent implements OnInit {
   private sort = '';
   public mapType: string;
 
-  private maxForCluster: number;
   private maxForFeature: number;
   private maxForTopology: number;
-  private aggField: string;
   private filters: Array<Filter> = new Array<Filter>();
 
   public displayedUrl: string;
@@ -124,7 +122,6 @@ export class ShareDialogComponent implements OnInit {
       this.configService.getValue('arlas.web.components.share.geojson.max_for_topology') ?
         this.configService.getValue('arlas.web.components.share.geojson.max_for_topology') : 1000
     );
-    this.aggField = this.configService.getValue('arlas.web.components.share.geojson.agg_field');
     this.configService.getValue('arlas.web.components.share.geojson.sort_excluded_type').forEach(element => {
       this.excludedType.add(element);
       this.excludedTypeString += element + ', ';
