@@ -22,7 +22,7 @@ import { ArlasStartupService, ArlasCollaborativesearchService } from '../../serv
 import { Contributor, CollaborationEvent, OperationEnum } from 'arlas-web-core';
 import { ChartType, HistogramComponent, Position, SwimlaneMode, CellBackgroundStyleEnum, DataType } from 'arlas-web-components';
 import { TranslateService } from '@ngx-translate/core';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 
 /**
  * A Widget wraps a component from ARLAS-web-components and bind it to its contributor. The component has thus input data to plot.
@@ -68,7 +68,7 @@ export class WidgetComponent implements OnInit {
   @Output() public outEvents: Subject<{ origin: string, event: string, data?: any }>
     = new Subject<{ origin: string, event: string, data?: any }>();
 
-  @ViewChild('histogram') public histogramComponent: HistogramComponent;
+  @ViewChild('histogram', {static: true}) public histogramComponent: HistogramComponent;
 
   constructor(private arlasStartupService: ArlasStartupService,
     private cdr: ChangeDetectorRef, private componentFactoryResolver: ComponentFactoryResolver,

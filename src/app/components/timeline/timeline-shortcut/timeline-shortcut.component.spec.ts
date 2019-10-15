@@ -3,15 +3,13 @@ import { TranslateModule, TranslateLoader, TranslateFakeLoader, TranslateService
 import { TimelineShortcutComponent } from './timeline-shortcut.component';
 import { DatePickerComponent } from '../../timeline/date-picker/date-picker.component';
 import { ArlasCollaborativesearchService, ArlasStartupService, ArlasConfigService } from '../../../services/startup/startup.service';
-import { OwlDateTimeModule } from 'ng-pick-datetime';
+import { OwlDateTimeModule, OWL_DATE_TIME_LOCALE } from '@gisaia-team/ng-pick-datetime';
 import { FormsModule } from '@angular/forms';
 import {
   MatButtonModule, MatCardModule, MatExpansionModule, MatIconModule, MatSelectModule,
   MatTooltipModule, MatChipsModule
 } from '@angular/material';
-import {
-  OWL_DATE_TIME_LOCALE
-} from 'ng-pick-datetime';
+
 import { BrowserModule } from '@angular/platform-browser';
 import { GetTimeLabelPipe } from '../../../.../../pipes/get-time-label.pipe';
 import { HttpClient, HttpClientModule } from '@angular/common/http';

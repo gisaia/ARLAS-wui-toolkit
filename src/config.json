@@ -298,9 +298,9 @@
       }
     },
     "server": {
-      "url": "http://192.168.102.96:9999/arlas",
+      "url": "http://demo.arlas.io/arlas",
       "collection": {
-        "name": "geodata",
+        "name": "ais-danmark",
         "id": "id"
       },
       "max_age_cache": 120

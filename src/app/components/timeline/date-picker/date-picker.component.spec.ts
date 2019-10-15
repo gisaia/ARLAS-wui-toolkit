@@ -1,12 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ArlasCollaborativesearchService, ArlasStartupService, ArlasConfigService } from '../../../services/startup/startup.service';
 import { DatePickerComponent } from './date-picker.component';
-import { MomentDateTimeAdapter } from 'ng-pick-datetime-moment';
+
 import { FormsModule } from '@angular/forms';
 import {
   OwlDateTimeModule, DateTimeAdapter, OWL_DATE_TIME_FORMATS,
-  OWL_DATE_TIME_LOCALE, OwlNativeDateTimeModule
-} from 'ng-pick-datetime';
+  OWL_DATE_TIME_LOCALE, MomentDateTimeAdapter
+} from '@gisaia-team/ng-pick-datetime';
 import { TranslateModule, TranslateLoader, TranslateFakeLoader, TranslateService } from '@ngx-translate/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 export const MY_CUSTOM_FORMATS = {

@@ -4,7 +4,7 @@ import { StringifiedTimeShortcut, SelectedOutputValues } from 'arlas-web-contrib
 import { ArlasCollaborativesearchService, ArlasStartupService } from './../../../services/startup/startup.service';
 import { TranslateService } from '@ngx-translate/core';
 import { OperationEnum } from 'arlas-web-core';
-import { filter } from 'rxjs/internal/operators/filter';
+import { filter } from 'rxjs/operators';
 
 /**
  * This component contains shortcut labels that allow to apply predefined temporal filters on a timeline

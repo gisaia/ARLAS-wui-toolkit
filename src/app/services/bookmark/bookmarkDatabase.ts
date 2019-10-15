@@ -20,7 +20,7 @@
 import { BookMark, BookMarkType } from './model';
 import { ArlasBookmarkService } from './bookmark.service';
 import { Guid } from '../../tools/utils';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { ArlasLocalDatabase } from '../../tools/arlasLocalDatabase';
 
 export class BookmarkDatabase extends ArlasLocalDatabase<BookMark> {

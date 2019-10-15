@@ -35,7 +35,7 @@ import {
   DonutModule, HistogramModule, PowerbarsModule, ResultsModule, ColorGeneratorModule,
   ColorGeneratorLoader, MetricModule
 } from 'arlas-web-components';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { AppComponent } from './app.component';
 import { routing } from './app.routes';
 import { AnalyticsBoardComponent } from './components/analytics-board/analytics-board.component';
@@ -52,7 +52,10 @@ import { TimelineComponent } from './components/timeline/timeline/timeline.compo
 import { TimelineShortcutComponent } from './components/timeline/timeline-shortcut/timeline-shortcut.component';
 import { GetTimeLabelPipe } from './pipes/get-time-label.pipe';
 import { DatePickerComponent } from './components/timeline/date-picker/date-picker.component';
-import { OwlDateTimeModule, OwlNativeDateTimeModule, OWL_DATE_TIME_FORMATS, OwlDateTimeIntl, OWL_DATE_TIME_LOCALE } from 'ng-pick-datetime';
+import {
+  OwlDateTimeModule, OwlNativeDateTimeModule, OwlDateTimeIntl,
+  OWL_DATE_TIME_LOCALE, OwlMomentDateTimeModule
+} from '@gisaia-team/ng-pick-datetime';
 import { ArlasTranslateIntl } from './components/timeline/date-picker/ArlasTranslateIntl';
 import { ArlasColorGeneratorLoader } from './services/color-generator-loader/color-generator-loader.service';
 import { ArlasWalkthroughService } from './services/walkthrough/walkthrough.service';
@@ -228,6 +231,7 @@ export function getAuthModuleConfig(): OAuthModuleConfig {
     MatTooltipModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
+    OwlMomentDateTimeModule,
     PowerbarsModule,
     ReactiveFormsModule,
     ResultsModule,

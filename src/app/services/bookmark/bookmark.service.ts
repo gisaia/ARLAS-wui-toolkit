@@ -18,7 +18,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Filter, Expression } from 'arlas-api';

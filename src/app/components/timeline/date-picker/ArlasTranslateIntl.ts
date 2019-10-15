@@ -1,5 +1,5 @@
 import { TranslateService } from '@ngx-translate/core';
-import { OwlDateTimeIntl } from 'ng-pick-datetime';
+import { OwlDateTimeIntl } from '@gisaia-team/ng-pick-datetime';
 
 // here is the default text string
 export class ArlasTranslateIntl extends OwlDateTimeIntl {

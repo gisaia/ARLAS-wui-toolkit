@@ -31,7 +31,7 @@ import { TranslateModule, TranslateService, TranslateLoader, TranslateFakeLoader
 import { TimelineShortcutComponent } from '../../timeline/timeline-shortcut/timeline-shortcut.component';
 import { GetTimeLabelPipe } from '../../../pipes/get-time-label.pipe';
 import { DatePickerComponent } from 'app/components/timeline/date-picker/date-picker.component';
-import { OwlNativeDateTimeModule, OwlDateTimeModule } from 'ng-pick-datetime';
+import { OwlNativeDateTimeModule, OwlDateTimeModule } from '@gisaia-team/ng-pick-datetime';
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 

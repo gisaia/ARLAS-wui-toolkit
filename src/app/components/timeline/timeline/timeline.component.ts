@@ -24,7 +24,7 @@ import { ArlasCollaborativesearchService, ArlasStartupService } from './../../..
 import { SelectedOutputValues } from 'arlas-web-contributors/models/models';
 import { ChartType, DataType, Position } from 'arlas-d3';
 import { HistogramComponent } from 'arlas-web-components';
-import { filter } from 'rxjs/internal/operators/filter';
+import { filter } from 'rxjs/operators';
 import { TimelineConfiguration } from './timeline.utils';
 
 /**
@@ -61,8 +61,8 @@ export class TimelineComponent implements OnInit {
    * @description Whether the date picker is enabled
    */
   @Input() public activeDatePicker = false;
-  @ViewChild('timeline') public timelineHistogramComponent: HistogramComponent;
-  @ViewChild('detailedtimeline') public detailedTimelineHistogramComponent: HistogramComponent;
+  @ViewChild('timeline', {static: true}) public timelineHistogramComponent: HistogramComponent;
+  @ViewChild('detailedtimeline', {static: true}) public detailedTimelineHistogramComponent: HistogramComponent;
 
   public showDetailedTimeline = false;
   public detailedTimelineContributor: DetailedHistogramContributor;

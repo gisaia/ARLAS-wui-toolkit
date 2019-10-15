@@ -17,8 +17,7 @@
  * under the License.
  */
 
-import { Observable, merge } from 'rxjs';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable, merge, BehaviorSubject } from 'rxjs';
 import { DataSource } from '@angular/cdk/collections';
 import { ArlasLocalDatabase } from './arlasLocalDatabase';
 import { sortOnDate, ArlasStorageObject } from './utils';

@@ -20,9 +20,9 @@ import { Injectable, Inject, OnDestroy } from '@angular/core';
 import { WriteApi, StatusApi, Configuration, FetchAPI } from 'arlas-tagger-api';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material';
 import { Filter } from 'arlas-api';
-import { Subject, Subscription, from } from 'rxjs';
-import { IntervalObservable } from 'rxjs/observable/IntervalObservable';
-import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from '../startup/startup.service';
+import { Subject, Subscription, from, interval } from 'rxjs';
+
+import { ArlasCollaborativesearchService, ArlasConfigService } from '../startup/startup.service';
 import * as portableFetch from 'portable-fetch';
 import { TaggerResponse } from './model';
 
@@ -137,7 +137,7 @@ export class ArlasTagService implements OnDestroy {
         (response: TaggerResponse) => {
           this.snackBar.open('Tag task running', '', snackConfig);
           this.status.next(new Map<string, boolean>().set(mode, true));
-          const subscription = IntervalObservable.create(5000).subscribe(() => {
+          const subscription = interval(5000).subscribe(() => {
             this.followStatus(response);
           });
           this.onGoingSubscription.set(response.id, subscription);
@@ -158,7 +158,7 @@ export class ArlasTagService implements OnDestroy {
         (response: TaggerResponse) => {
           this.snackBar.open('Untag task running', '', snackConfig);
           this.status.next(new Map<string, boolean>().set(mode, true));
-          const subscription = IntervalObservable.create(5000).subscribe(() => {
+          const subscription = interval(5000).subscribe(() => {
             this.followStatus(response);
           });
           this.onGoingSubscription.set(response.id, subscription);

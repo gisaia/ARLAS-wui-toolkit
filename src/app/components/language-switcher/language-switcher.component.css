@@ -56,11 +56,11 @@
   background-size: contain;
 }
 
-/deep/ .switcher-option .mat-option-text{
+::ng-deep .switcher-option .mat-option-text{
   width: 24px;
   height: 24px;
 }
 
-/deep/ .mat-select-trigger{
+::ng-deep .mat-select-trigger{
   height: 24px;
 }
