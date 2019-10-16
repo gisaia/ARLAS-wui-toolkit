@@ -1,5 +1,19 @@
 # Change Log
 
+## [v11.4.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v11.4.0) (2019-10-16)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v11.3.0...v11.4.0)
+
+**New stuff:**
+
+- Translate labels in filters chips [\#185](https://github.com/gisaia/ARLAS-wui-toolkit/issues/185)
+- Support Topology aggregation in the share component [\#174](https://github.com/gisaia/ARLAS-wui-toolkit/issues/174)
+- Use the map aggregation in the share component [\#173](https://github.com/gisaia/ARLAS-wui-toolkit/issues/173)
+
+**Fixed bugs:**
+
+- Remove max\_cluster and add max\_topology in share configuration [\#187](https://github.com/gisaia/ARLAS-wui-toolkit/pull/187) ([sebbousquet](https://github.com/sebbousquet))
+
 ## [v11.3.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v11.3.0) (2019-10-09)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v11.2.3...v11.3.0)
