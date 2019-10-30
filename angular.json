@@ -21,6 +21,7 @@
               "src/i18n",
               "src/favicon.ico",
               "src/config.json",
+              "src/silent-refresh.html",
               "src/tour.json"
             ],
             "styles": [
@@ -81,6 +82,7 @@
               "src/i18n",
               "src/favicon.ico",
               "src/config.json",
+              "src/silent-refresh.html",
               "src/tour.json"
 
             ]

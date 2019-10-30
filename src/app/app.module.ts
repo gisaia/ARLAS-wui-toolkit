@@ -45,8 +45,7 @@ import { ExcludeTypePipe } from './components/share/exclude-type.pipe';
 import { ShareComponent, ShareDialogComponent } from './components/share/share.component';
 import { WidgetComponent } from './components/widget/widget.component';
 import { ArlasBookmarkService } from './services/bookmark/bookmark.service';
-import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from './services/startup/startup.service';
-
+import { ArlasCollaborativesearchService, ArlasStartupService, ArlasConfigService } from './services/startup/startup.service';
 import { ArlasAoiService } from './services/aoi/aoi.service';
 import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.component';
 import { TimelineComponent } from './components/timeline/timeline/timeline.component';
@@ -68,6 +67,8 @@ import { BookmarkMenuComponent } from './components/bookmark-menu/bookmark-menu.
 import { ArlasExtendService } from './services/extend/extend.service';
 import { ArlasConfigurationDescriptor } from './services/configuration-descriptor/configurationDescriptor.service';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { OAuthModule, OAuthModuleConfig, OAuthStorage, ValidationHandler, JwksValidationHandler } from 'angular-oauth2-oidc';
+import { AuthentificationService } from './services/authentification/authentification.service';
 
 
 export class CustomTranslateLoader implements TranslateLoader {
@@ -92,8 +93,17 @@ export class CustomTranslateLoader implements TranslateLoader {
 }
 
 export function startupServiceFactory(startupService: ArlasStartupService) {
+
   const load = () => startupService.load('config.json?' + Date.now());
   return load;
+}
+
+export function configServiceFactory(config: ArlasConfigService) {
+  return config;
+}
+
+export function auhtentServiceFactory(service: AuthentificationService) {
+  return service;
 }
 
 export function walkthroughServiceFactory(walkthroughService: ArlasWalkthroughService) {
@@ -129,6 +139,15 @@ export function translationServiceFactory(translate: TranslateService, injector:
     });
   });
   return translationLoaded;
+}
+
+// We need a factory since localStorage is not available at AOT build time
+export function storageFactory(config: ArlasConfigService): OAuthStorage {
+  return localStorage;
+}
+
+export function getAuthModuleConfig(): OAuthModuleConfig {
+  return <OAuthModuleConfig>{};
 }
 
 
@@ -224,22 +243,37 @@ export function translationServiceFactory(translate: TranslateService, injector:
         useClass: CustomTranslateLoader,
         deps: [HttpClient]
       }
-    })
+    }),
+    OAuthModule.forRoot()
   ],
   providers: [
     forwardRef(() => ArlasAoiService),
     forwardRef(() => ArlasBookmarkService),
     forwardRef(() => ArlasConfigService),
     forwardRef(() => ArlasCollaborativesearchService),
+    forwardRef(() => AuthentificationService),
     forwardRef(() => ArlasStartupService),
     forwardRef(() => ArlasConfigurationDescriptor),
     forwardRef(() => ArlasColorGeneratorLoader),
     forwardRef(() => ArlasExtendService),
     forwardRef(() => ArlasWalkthroughService),
+
     {
       provide: APP_INITIALIZER,
       useFactory: startupServiceFactory,
       deps: [ArlasStartupService],
+      multi: true
+    },
+    {
+      provide: 'ArlasConfigService',
+      useFactory: configServiceFactory,
+      deps: [ArlasConfigService],
+      multi: true
+    },
+    {
+      provide: 'AuthentificationService',
+      useFactory: auhtentServiceFactory,
+      deps: [AuthentificationService],
       multi: true
     },
     {
@@ -259,7 +293,21 @@ export function translationServiceFactory(translate: TranslateService, injector:
       useFactory: localDatePickerFactory,
       deps: [TranslateService]
     },
-    { provide: OwlDateTimeIntl, useClass: ArlasTranslateIntl, deps: [TranslateService] }
+    { provide: OwlDateTimeIntl, useClass: ArlasTranslateIntl, deps: [TranslateService] },
+    {
+      provide: OAuthModuleConfig,
+      deps: [ArlasConfigService],
+      useFactory: getAuthModuleConfig
+    },
+    {
+      provide: ValidationHandler,
+      useClass: JwksValidationHandler
+    },
+    {
+      provide: OAuthStorage,
+      deps: [ArlasConfigService],
+      useFactory: storageFactory
+    },
   ],
   bootstrap: [AppComponent],
   entryComponents: [
