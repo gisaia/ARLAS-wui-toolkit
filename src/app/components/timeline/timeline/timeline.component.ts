@@ -81,12 +81,15 @@ export class TimelineComponent implements OnInit {
     if (this.timelineComponent && this.detailedTimelineComponent) {
       this.resetHistogramsInputs(this.timelineComponent.input);
       this.resetHistogramsInputs(this.detailedTimelineComponent.input);
-      this.detailedTimelineContributor = this.arlasStartupService.contributorRegistry.get(this.detailedTimelineComponent.contributorId);
-      this.timelineContributor = this.arlasStartupService.contributorRegistry.get(this.timelineComponent.contributorId);
+      this.detailedTimelineContributor = <DetailedHistogramContributor>this.arlasStartupService.contributorRegistry
+        .get(this.detailedTimelineComponent.contributorId);
+      this.timelineContributor = <HistogramContributor>this.arlasStartupService.contributorRegistry
+        .get(this.timelineComponent.contributorId);
       this.showDetailedTimelineOnCollaborationEnd();
     } else if (this.timelineComponent) {
       this.resetHistogramsInputs(this.timelineComponent.input);
-      this.timelineContributor = this.arlasStartupService.contributorRegistry.get(this.timelineComponent.contributorId);
+      this.timelineContributor = <HistogramContributor>this.arlasStartupService.contributorRegistry
+        .get(this.timelineComponent.contributorId);
     }
   }
 

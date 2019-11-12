@@ -69,6 +69,7 @@ import { ArlasConfigurationDescriptor } from './services/configuration-descripto
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { OAuthModule, OAuthModuleConfig, OAuthStorage, ValidationHandler, JwksValidationHandler } from 'angular-oauth2-oidc';
 import { AuthentificationService } from './services/authentification/authentification.service';
+import { ArlasMapSettings } from './services/map-settings/map-settings.service';
 
 
 export class CustomTranslateLoader implements TranslateLoader {
@@ -254,6 +255,7 @@ export function getAuthModuleConfig(): OAuthModuleConfig {
     forwardRef(() => ArlasCollaborativesearchService),
     forwardRef(() => AuthentificationService),
     forwardRef(() => ArlasStartupService),
+    forwardRef(() => ArlasMapSettings),
     forwardRef(() => ArlasConfigurationDescriptor),
     forwardRef(() => ArlasColorGeneratorLoader),
     forwardRef(() => ArlasExtendService),

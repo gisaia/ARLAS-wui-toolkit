@@ -38,7 +38,7 @@ import { AnalyticsContributor } from 'arlas-web-contributors/contributors/Analyt
 import * as portableFetch from 'portable-fetch';
 import * as arlasConfSchema from './arlasconfig.schema.json';
 import * as draftSchema from 'ajv/lib/refs/json-schema-draft-06.json';
-import { CollaborativesearchService, ConfigService } from 'arlas-web-core';
+import { CollaborativesearchService, ConfigService, Contributor } from 'arlas-web-core';
 import { projType } from 'arlas-web-core/models/projections';
 import { ContributorBuilder } from './contributorBuilder';
 import { flatMap } from 'rxjs/operators';

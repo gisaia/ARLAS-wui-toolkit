@@ -63,7 +63,8 @@ export class DatePickerComponent implements OnInit, OnChanges {
 
   public ngOnInit() {
     if (this.timelineComponent) {
-      this.timelineContributor = this.arlasStartupService.contributorRegistry.get(this.timelineComponent.contributorId);
+      this.timelineContributor = <HistogramContributor>
+      this.arlasStartupService.contributorRegistry.get(this.timelineComponent.contributorId);
     }
   }
 

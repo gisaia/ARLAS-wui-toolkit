@@ -59,7 +59,8 @@ export class TimelineShortcutComponent implements OnInit {
   }
   public ngOnInit() {
     if (this.timelineComponent) {
-      this.timelineContributor = this.arlasStartupService.contributorRegistry.get(this.timelineComponent.contributorId);
+      this.timelineContributor = <HistogramContributor>this.arlasStartupService.contributorRegistry
+        .get(this.timelineComponent.contributorId);
       this.timeShortcuts = this.timelineContributor.timeShortcuts;
       this.timeShortcuts.forEach(shortcut => {
         shortcut.label = this.translate.instant(shortcut.label);

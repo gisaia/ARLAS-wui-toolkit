@@ -27,11 +27,14 @@ import {
     ComputeContributor,
     DonutContributor,
     TreeContributor,
-    ChipsSearchContributor
+    ChipsSearchContributor,
+    MapContributor,
+    TopoMapContributor
 } from 'arlas-web-contributors';
 import { ArlasConfigService, ArlasCollaborativesearchService } from './startup.service';
 
 export class ContributorBuilder {
+
     public static buildContributor(contributorType: string,
         identifier: string,
         configService: ArlasConfigService,
@@ -66,7 +69,10 @@ export class ContributorBuilder {
                 contributor = new ResultListContributor(identifier, collaborativesearchService, configService);
                 break;
             case 'map':
-                // TO DO
+                contributor = new MapContributor(identifier, collaborativesearchService, configService)
+                break;
+            case 'topomap':
+                contributor = new TopoMapContributor(identifier, collaborativesearchService, configService)
                 break;
             case 'swimlane':
                 isOneDimension = config['isOneDimension'];
