@@ -80,7 +80,7 @@ export class FiltersComponent implements OnInit {
 
   public getContributorLabel(contributorId: string): string {
     let label = this.collaborativeSearchService.registry.get(contributorId).getFilterDisplayName();
-    if (label !== undefined) {
+    if (label !== undefined && label !== '') {
       const labelSplited = label.split('<=');
       if (labelSplited.length === 3) {
         label = labelSplited[1].trim();
