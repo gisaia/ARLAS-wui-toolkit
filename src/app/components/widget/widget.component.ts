@@ -118,7 +118,7 @@ export class WidgetComponent implements OnInit {
   }
 
   private getContirbutorType() {
-    const contributor: Contributor = this.arlasStartupService.contributorRegistry.get(this.contributorId);
+    const contributor = this.arlasStartupService.contributorRegistry.get(this.contributorId);
     if (contributor) {
       const contributorPkgName: string = contributor.getPackageName();
       const componenType: string = contributorPkgName.split('.')[contributorPkgName.split('.').length - 1];

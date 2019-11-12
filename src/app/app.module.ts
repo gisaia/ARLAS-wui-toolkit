@@ -33,7 +33,7 @@ import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import {
   DonutModule, HistogramModule, PowerbarsModule, ResultsModule, ColorGeneratorModule,
-  ColorGeneratorLoader
+  ColorGeneratorLoader, MetricModule
 } from 'arlas-web-components';
 import { Observable } from 'rxjs/Observable';
 import { AppComponent } from './app.component';
@@ -203,6 +203,7 @@ export function getAuthModuleConfig(): OAuthModuleConfig {
     DragDropModule,
     FormsModule,
     HistogramModule,
+    MetricModule,
     HttpClientModule,
     MatAutocompleteModule,
     MatButtonModule,

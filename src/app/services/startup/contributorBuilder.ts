@@ -23,10 +23,13 @@ import {
     AnalyticsContributor,
     PowerbarsContributor,
     ResultListContributor,
-    SwimLaneContributor
+    SwimLaneContributor,
+    ComputeContributor,
+    DonutContributor,
+    TreeContributor,
+    ChipsSearchContributor
 } from 'arlas-web-contributors';
 import { ArlasConfigService, ArlasCollaborativesearchService } from './startup.service';
-import { DonutContributor, TreeContributor, ChipsSearchContributor } from 'arlas-web-contributors';
 
 export class ContributorBuilder {
     public static buildContributor(contributorType: string,
@@ -41,6 +44,9 @@ export class ContributorBuilder {
         let isOneDimension: boolean;
 
         switch (contributorType) {
+            case 'metric':
+                contributor = new ComputeContributor(identifier, collaborativesearchService, configService);
+                break;
             case 'histogram':
                 isOneDimension = config['isOneDimension'];
                 contributor = new HistogramContributor(identifier, collaborativesearchService, configService, isOneDimension);

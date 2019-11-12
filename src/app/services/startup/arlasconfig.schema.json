@@ -35,7 +35,8 @@
                                                     "resultlist",
                                                     "swimlane",
                                                     "topomap",
-                                                    "tree"
+                                                    "tree",
+                                                    "metric"
                                                 ]
                                             }
                                         }
@@ -171,7 +172,19 @@
                                         "then": {
                                             "$ref": "treeContributorConf.schema.json#"
                                         }
-                                    }
+                                    },
+                                    {
+                                      "if": {
+                                          "properties": {
+                                              "type": {
+                                                  "const": "metric"
+                                              }
+                                          }
+                                      },
+                                      "then": {
+                                          "$ref": "computeContributorConf.schema.json#"
+                                      }
+                                  }
                                 ]
                             },
                             "additionalProperties": false
@@ -213,7 +226,8 @@
                                                         "powerbars",
                                                         "swimlane",
                                                         "resultlist",
-                                                        "donut"
+                                                        "donut",
+                                                        "card"
                                                     ]
                                                 }
                                             },
@@ -299,6 +313,23 @@
                                                             "allOf": [
                                                                 {
                                                                     "$ref": "swimlane.schema.json#"
+                                                                }
+                                                            ]
+                                                        }
+                                                    }
+                                                },
+                                                {
+                                                    "properties": {
+                                                        "componentType": {
+                                                            "enum": [
+                                                                "card"
+                                                            ]
+                                                        },
+                                                        "input": {
+                                                            "description": "Input of card component.",
+                                                            "allOf": [
+                                                                {
+                                                                    "$ref": "card.schema.json#"
                                                                 }
                                                             ]
                                                         }

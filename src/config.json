@@ -3,80 +3,25 @@
     "web": {
       "contributors": [
         {
-          "type":"histogram",
-          "identifier": "timeline",
-          "aggregationmodels": [
-            {
-              "type": "datehistogram",
-              "field": "position.timestamp",
-              "interval": {
-                "value": 30,
-                "unit": "minute"
-              }
-            }
-          ],
-          "numberOfBuckets": 100,
-          "name": "Timeline",
-          "icon": "watch_later",
-          "isOneDimension": false
+          "type":"metric",
+          "identifier":"cardinality_id",
+          "field": "id",
+          "metric": "cardinality",
+          "title":"weight avg"
         },
         {
-          "type": "detailedhistogram",
-          "identifier": "detailedTimeline",
-          "annexedContributorId": "timeline",
-          "selectionExtentPercentage": 0.02,
-          "aggregationmodels": [
-            {
-              "type": "datehistogram",
-              "field": "position.timestamp",
-              "interval": {
-                "value": 30,
-                "unit": "minute"
-              }
-            }
-          ],
-          "numberOfBuckets": 100,
-          "name": "Timeline",
-          "icon": "watch_later",
-          "isOneDimension": false
+          "type":"metric",
+          "identifier":"weight_avg",
+          "field": "params.weight",
+          "metric": "avg",
+          "title":"weight avg"
         },
         {
-          "type": "histogram",
-          "identifier": "sog",
-          "aggregationmodels": [
-            {
-              "type": "histogram",
-              "field": "course.sog",
-              "interval": {
-                "value": 2
-              }
-            }
-          ],
-          "name": "Speed over ground",
-          "charttype": "bars",
-          "numberOfBuckets": 20,
-          "title": "Speed over ground",
-          "icon": "slow_motion_video",
-          "isOneDimension": false
-        },
-        {
-          "type":"histogram",
-          "identifier": "heading",
-          "aggregationmodels": [
-            {
-              "type": "histogram",
-              "field": "course.heading",
-              "interval": {
-                "value": 5
-              }
-            }
-          ],
-          "name": "Heading",
-          "title": "Heading",
-          "charttype": "area",
-          "numberOfBuckets": 50,
-          "icon": "near_me",
-          "isOneDimension": false
+          "type":"metric",
+          "identifier":"country_cardinality",
+          "field": "params.country",
+          "metric": "cardinality",
+          "title":"Cardinality"
         },
         {
           "type":"histogram",
@@ -84,7 +29,7 @@
           "aggregationmodels": [
             {
               "type": "histogram",
-              "field": "course.cog",
+              "field": "params.age",
               "interval": {
                 "value": 5
               }
@@ -96,469 +41,14 @@
           "title": "Course over ground",
           "icon": "explore",
           "isOneDimension": false
-        },
-        {
-          "type":"histogram",
-          "identifier": "duration",
-          "aggregationmodels": [
-            {
-              "type": "histogram",
-              "field": "course.segment.duration",
-              "interval": {
-                "value": 5000
-              }
-            }
-          ],
-          "name": "Ais Emission Tempo",
-          "charttype": "area",
-          "numberOfBuckets": 50,
-          "title": "Ais Emission Tempo",
-          "icon": "watch_later",
-          "isOneDimension": false
-        },
-        {
-          "type":"tree",
-          "aggregationmodels": [
-            {
-              "type": "term",
-              "field": "vessel.ship_type"
-            },
-            {
-              "type": "term",
-              "field": "vessel.cargo_type"
-            }
-          ],
-          "title": "Ship type",
-          "identifier": "shiptype",
-          "name": "Ship type",
-          "icon": "directions_boat"
-        },
-        {
-          "type":"donut",
-          "aggregationmodels": [
-            {
-              "type": "term",
-              "field": "course.navigational_status"
-            }
-          ],
-          "title": "Navigational status",
-          "identifier": "navigationalstatus",
-          "name": "Navigational status",
-          "icon": "navigation"
-        },
-        {
-          "type":"powerbars",
-          "aggregationmodels": [
-            {
-              "type": "term",
-              "field": "vessel.mmsi"
-            }
-          ],
-          "title": "MMSI",
-          "identifier": "mmsi",
-          "name": "MMSI",
-          "icon": "directions_boat"
-        },
-        {
-          "type":"powerbars",
-          "aggregationmodels": [
-            {
-              "type": "term",
-              "field": "vessel.name"
-            }
-          ],
-          "title": "Ship name",
-          "identifier": "ship_name",
-          "name": "Ship name",
-          "icon": "directions_boat"
-        },
-        {
-          "type":"swimlane",
-          "swimlanes": [
-            {
-              "id": 1,
-              "name": "Ship types over time",
-              "xAxisField": "position.timestamp",
-              "termField": "vessel.ship_type",
-              "aggregationmodels": [
-                {
-                  "type": "term",
-                  "field": "vessel.ship_type",
-                  "size": 5
-                },
-                {
-                  "type": "datehistogram",
-                  "field": "position.timestamp",
-                  "interval": {
-                    "value": 1,
-                    "unit": "hour"
-                  }
-                }
-              ]
-            }
-          ],
-          "charttype": "swimlane",
-          "numberOfBuckets": 40,
-          "isOneDimension": false,
-          "title": "",
-          "identifier": "shiptypetime",
-          "name": "Ship type over time",
-          "icon": "directions_boat"
-        },
-        {
-          "type":"map",
-          "identifier": "mapbox",
-          "idFieldName": "id",
-          "name": "Map",
-          "geomStrategy": "centroid",
-          "initZoom": 4,
-          "includeFeaturesFields": [
-            "course.heading",
-            "course.sog",
-            "vessel.ship_type"
-          ],
-          "icon": "check_box_outline_blank",
-          "geometry": "course.segment.geometry.geometry",
-          "actions": {
-            "flyto": true,
-            "hightlight": true
-          },
-          "aggregationmodels": [
-            {
-              "type": "geohash",
-              "field": "position.location",
-              "interval": {
-                "value": 3
-              },
-              "fetchGeometry": {
-                "strategy": "centroid"
-              }
-            }
-          ],
-          "zoomLevelFullData": 6,
-          "zoomLevelForTestCount": 6,
-          "nbMaxDefautFeatureForCluster": 10000,
-          "zoomToNbMaxFeatureForCluster": [
-            [
-              4,
-              10000
-            ],
-            [
-              5,
-              10000
-            ],
-            [
-              6,
-              10000
-            ],
-            [
-              7,
-              10000
-            ],
-            [
-              8,
-              10000
-            ],
-            [
-              9,
-              10000
-            ],
-            [
-              10,
-              10000
-            ],
-            [
-              11,
-              10000
-            ],
-            [
-              12,
-              10000
-            ]
-          ],
-          "maxPrecision": [
-            7,
-            4
-          ],
-          "zoomToPrecisionCluster": [
-            [
-              0,
-              3,
-              1
-            ],
-            [
-              1,
-              3,
-              1
-            ],
-            [
-              2,
-              3,
-              1
-            ],
-            [
-              3,
-              3,
-              1
-            ],
-            [
-              4,
-              4,
-              2
-            ],
-            [
-              5,
-              4,
-              2
-            ],
-            [
-              6,
-              4,
-              2
-            ],
-            [
-              7,
-              5,
-              3
-            ],
-            [
-              8,
-              5,
-              3
-            ],
-            [
-              9,
-              6,
-              4
-            ],
-            [
-              10,
-              6,
-              4
-            ],
-            [
-              11,
-              7,
-              5
-            ],
-            [
-              12,
-              7,
-              5
-            ],
-            [
-              13,
-              7,
-              5
-            ],
-            [
-              14,
-              8,
-              6
-            ],
-            [
-              15,
-              8,
-              6
-            ],
-            [
-              16,
-              8,
-              6
-            ],
-            [
-              17,
-              8,
-              6
-            ],
-            [
-              18,
-              8,
-              6
-            ],
-            [
-              19,
-              8,
-              6
-            ],
-            [
-              20,
-              8,
-              6
-            ]
-          ],
-          "search_size": 10000
-        },
-        {
-          "type": "chipssearch",
-          "identifier": "chipssearch",
-          "search_size": 100,
-          "search_field": "internal.fulltext",
-          "name": "Search",
-          "icon": "search"
-        },
-        {
-          "type": "resultlist",
-          "identifier": "table",
-          "icon": "list",
-          "fieldsConfiguration": {
-            "idFieldName": "id",
-            "urlThumbnailTemplate": "test",
-            "titleFieldNames": [{"fieldPath":"vessel.ship_type"}],
-            "icon": "fiber_manual_record",
-            "iconColorFieldName": "vessel.ship_type"
-          },
-          "columns": [
-            {
-              "columnName": "MMSI",
-              "fieldName": "vessel.mmsi",
-              "dataType": "",
-              "process": ""
-            },
-            {
-              "columnName": "Ship type",
-              "fieldName": "vessel.ship_type",
-              "useColorService": true,
-              "dataType": "",
-              "process": ""
-            },
-            {
-              "columnName": "Speed over Ground",
-              "fieldName": "course.sog",
-              "dataType": "",
-              "process": ""
-            },
-            {
-              "columnName": "Navig. Status",
-              "fieldName": "course.navigational_status",
-              "dataType": "",
-              "process": ""
-            }
-          ],
-          "process": {
-            "urlImageTemplate": {
-              "process": ""
-            },
-            "urlThumbnailTemplate": {
-              "process": ""
-            }
-          },
-          "details": [
-            {
-              "name": "Technical Informations",
-              "order": 1,
-              "fields": [
-                {
-                  "path": "vessel.name",
-                  "label": "Ship Name",
-                  "process": ""
-                },
-                {
-                  "path": "vessel.length",
-                  "label": "Length",
-                  "process": ""
-                },
-                {
-                  "path": "route.destination",
-                  "label": "Destination",
-                  "process": ""
-                },
-                {
-                  "path": "route.eta",
-                  "label": "Estimated time of arrival",
-                  "process": ""
-                }
-              ]
-            }
-          ],
-          "search_size": 20,
-          "name": "Detail list"
         }
-
 
       ],
       "analytics": [
-          {
-            "groupId": "1",
-            "title": "Speed over ground (knots)",
-            "icon": "slow_motion_video",
-            "components": [
-              {
-                "contributorId": "sog",
-                "componentType": "histogram",
-                "input": {
-                  "id": "sog",
-                  "dataType": "numeric",
-                  "isHistogramSelectable": true,
-                  "multiselectable": true,
-                  "topOffsetRemoveInterval": 40,
-                  "leftOffsetRemoveInterval": 18,
-                  "brushHandlesHeightWeight": 0.8,
-                  "yAxisStartsFromZero": true,
-                  "chartType": "bars",
-                  "chartTitle": "Speed over ground",
-                  "chartWidth": null,
-                  "chartHeight": 100,
-                  "customizedCssClass": "arlas-histogram-analytics",
-                  "xAxisPosition": "bottom",
-                  "descriptionPosition": "bottom",
-                  "xTicks": 4,
-                  "yTicks": 1,
-                  "xLabels": 4,
-                  "yLabels": 4,
-                  "showXTicks": true,
-                  "showYTicks": true,
-                  "showXLabels": true,
-                  "showYLabels": true,
-                  "showHorizontalLines": false,
-                  "isSmoothedCurve": false,
-                  "barWeight": 0.8
-                }
-              }
-            ]
-          },
-          {
-            "groupId": "2",
-            "title": "Heading (degree)",
-            "icon": "near_me",
-            "components": [
-              {
-                "contributorId": "heading",
-                "componentType": "histogram",
-                "input": {
-                  "id": "heading",
-                  "dataType": "numeric",
-                  "isHistogramSelectable": true,
-                  "multiselectable": true,
-                  "topOffsetRemoveInterval": 40,
-                  "leftOffsetRemoveInterval": 18,
-                  "brushHandlesHeightWeight": 0.8,
-                  "chartType": "area",
-                  "chartTitle": "Heading",
-                  "chartWidth": null,
-                  "chartHeight": 100,
-                  "customizedCssClass": "arlas-histogram-analytics",
-                  "xAxisPosition": "bottom",
-                  "descriptionPosition": "bottom",
-                  "yAxisStartsFromZero": true,
-                  "xTicks": 4,
-                  "yTicks": 1,
-                  "xLabels": 4,
-                  "yLabels": 4,
-                  "showXTicks": true,
-                  "showYTicks": true,
-                  "showXLabels": true,
-                  "showYLabels": true,
-                  "showHorizontalLines": false,
-                  "isSmoothedCurve": true,
-                  "barWeight": 0.8
-                }
-              }
-            ]
-          },
+
           {
             "groupId": "3",
-            "title": "Course over ground (degree)",
+            "title": "age distribution",
             "icon": "explore",
             "components": [
               {
@@ -595,182 +85,42 @@
               }
             ]
           },
-          {
-            "groupId": "4",
-            "title": "Ais Emission Tempo (millisecond)",
-            "icon": "watch_later",
-            "components": [
-              {
-                "contributorId": "duration",
-                "componentType": "histogram",
-                "input": {
-                  "dataType": "numeric",
-                  "id": "duration",
-                  "isHistogramSelectable": true,
-                  "multiselectable": true,
-                  "topOffsetRemoveInterval": 40,
-                  "leftOffsetRemoveInterval": 18,
-                  "brushHandlesHeightWeight": 0.8,
-                  "chartType": "bars",
-                  "chartTitle": "Ais Emission Temp",
-                  "chartWidth": null,
-                  "chartHeight": 100,
-                  "customizedCssClass": "arlas-histogram-analytics",
-                  "xAxisPosition": "bottom",
-                  "descriptionPosition": "bottom",
-                  "yAxisStartsFromZero": true,
-                  "xTicks": 4,
-                  "yTicks": 1,
-                  "xLabels": 4,
-                  "yLabels": 4,
-                  "showXTicks": true,
-                  "showYTicks": true,
-                  "showXLabels": true,
-                  "showYLabels": true,
-                  "showHorizontalLines": false,
-                  "isSmoothedCurve": true,
-                  "barWeight": 0.8
-                }
-              }
-            ]
-          },
+
           {
             "groupId": "5",
-            "title": "Ship type   -   Navigational status",
+            "title": "Metrics",
             "icon": "directions_boat",
             "components": [
               {
-                "contributorId": "shiptype",
-                "componentType": "donut",
+                "contributorId": "cardinality_id",
+                "componentType": "card",
                 "input": {
-                  "id": "donut",
-                  "customizedCssClass": "arlas-donuts-analytics",
-                  "multiselectable": true,
-                  "opacity": 0.3
+                  "customizedCssClass": "people",
+                  "beforeValue": " ",
+                  "afterValue": " people"
                 }
               },
               {
-                "contributorId": "shiptype",
-                "componentType": "powerbars",
+                "contributorId": "country_cardinality",
+                "componentType": "card",
                 "input": {
-                  "customizedCssClass": "arlas-powerbars-analytics",
-                  "chartTitle": "ship type",
-                  "displayFilter": true,
-                  "useColorService": true
+                  "customizedCssClass": "country",
+                  "beforeValue": " ",
+                  "afterValue": " countries"
                 }
               },
               {
-                "contributorId": "navigationalstatus",
-                "componentType": "donut",
+                "contributorId": "weight_avg",
+                "componentType": "card",
                 "input": {
-                  "id": "donut-navigation",
-                  "customizedCssClass": "arlas-donuts-status-analytics",
-                  "multiselectable": true,
-                  "opacity": 0.3
+                  "customizedCssClass": "weight",
+                  "beforeValue": "Average-weight",
+                  "afterValue": " kg"
                 }
               }
-          ]
-        },
-        {
-          "groupId": "6",
-          "title": "Ship type over time",
-          "icon": "directions_boat",
-          "components": [
-            {
-              "contributorId": "shiptypetime",
-              "componentType": "swimlane",
-              "input": {
-                "id": "swimlane-ais",
-                "dataType": "time",
-                "isHistogramSelectable": true,
-                "multiselectable": true,
-                "topOffsetRemoveInterval": 40,
-                "leftOffsetRemoveInterval": 18,
-                "brushHandlesHeightWeight": 0.8,
-                "yAxisStartsFromZero": true,
-                "chartWidth": null,
-                "chartHeight": 100,
-                "customizedCssClass": "ais-swimlane",
-                "xAxisPosition": "bottom",
-                "descriptionPosition": "bottom",
-                "xTicks": 4,
-                "yTicks": 1,
-                "xLabels": 4,
-                "yLabels": 4,
-                "showXTicks": true,
-                "showYTicks": true,
-                "showXLabels": true,
-                "showYLabels": false,
-                "showHorizontalLines": false,
-                "barWeight": 0.8,
-                "swimLaneLabelsWidth": 100,
-                "swimlaneHeight": 20,
-                "swimlaneMode": "fixedHeight",
-                "swimlaneBorderRadius": 3,
-                "paletteColors": [
-                  330,
-                  170
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "groupId": "7",
-          "title": "Boats identifiers",
-          "icon": "list",
-          "components": [
-            {
-              "contributorId": "mmsi",
-              "componentType": "powerbars",
-              "input": {
-                "customizedCssClass": "arlas-powerbars-analytics",
-                "chartTitle": "MMSI",
-                "displayFilter": true
-              }
-            },
-            {
-              "contributorId": "ship_name",
-              "componentType": "powerbars",
-              "input": {
-                "customizedCssClass": "arlas-powerbars-analytics",
-                "chartTitle": "Ship name",
-                "useColorService": true
-              }
-            }
-          ]
-        },
-
-        {
-          "groupId": "resultlist",
-          "title": "Result List",
-          "icon": "list",
-          "components": [
-            {
-              "contributorId": "table",
-              "componentType": "resultlist",
-              "input": {
-                "tableWidth": null,
-                "globalActionsList": [],
-                "searchSize": 20,
-                "nLastLines": 3,
-                "detailedGridHeight": 25,
-                "nbGridColumns": 3,
-                "defautMode": "list",
-                "displayFilters": false,
-                "isBodyHidden": false,
-                "isGeoSortActived": false,
-                "isAutoGeoSortActived": true,
-                "selectedItemsEvent": null,
-                "consultedItemEvent": null,
-                "actionOnItemEvent": null,
-                "globalActionEvent": null,
-                "useColorService": true,
-                "cellBackgroundStyle": "filled"
-              }
-            }
           ]
         }
+
 
       ],
       "components": {
@@ -948,7 +298,7 @@
       }
     },
     "server": {
-      "url": "http://localhost:9999/arlas",
+      "url": "http://192.168.102.96:9999/arlas",
       "collection": {
         "name": "geodata",
         "id": "id"

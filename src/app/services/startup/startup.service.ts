@@ -19,19 +19,20 @@
 
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable, Injector } from '@angular/core';
-import { Configuration, ExploreApi, WriteApi, CollectionsApi } from 'arlas-api';
-import { DonutComponent, HistogramComponent, MapglComponent, PowerbarsComponent } from 'arlas-web-components';
+import { Configuration, ExploreApi, CollectionsApi } from 'arlas-api';
+import { DonutComponent, HistogramComponent, MapglComponent, PowerbarsComponent, MetricComponent } from 'arlas-web-components';
 import {
-    HistogramContributor,
-    MapContributor,
-    PowerbarsContributor,
-    ResultListContributor,
-    SwimLaneContributor,
-    ChipsSearchContributor,
-    DonutContributor,
-    DetailedHistogramContributor,
-    TopoMapContributor,
-    TreeContributor
+  HistogramContributor,
+  MapContributor,
+  PowerbarsContributor,
+  ResultListContributor,
+  SwimLaneContributor,
+  ChipsSearchContributor,
+  DonutContributor,
+  DetailedHistogramContributor,
+  TopoMapContributor,
+  TreeContributor,
+  ComputeContributor
 } from 'arlas-web-contributors';
 import { AnalyticsContributor } from 'arlas-web-contributors/contributors/AnalyticsContributor';
 import * as portableFetch from 'portable-fetch';
@@ -67,14 +68,6 @@ export class ArlasExploreApi extends ExploreApi {
 
 @Injectable()
 export class ArlasCollectionApi extends CollectionsApi {
-    constructor(@Inject('CONF') conf: Configuration, @Inject('base_path') basePath: string,
-        @Inject('fetch') fetch) {
-        super(conf, basePath, fetch);
-    }
-}
-
-@Injectable()
-export class ArlasWriteApi extends WriteApi {
     constructor(@Inject('CONF') conf: Configuration, @Inject('base_path') basePath: string,
         @Inject('fetch') fetch) {
         super(conf, basePath, fetch);
@@ -311,33 +304,134 @@ export class ArlasStartupService {
                 } else {
                     return Promise.resolve(null);
                 }
-            })).toPromise()
-            .then(() => this.validateConfiguration(configData))
-            .then((data) => this.setConfigService(data))
-            .then((data) => this.setAuthentService(data))
-            .then((data) => this.setCollaborativeService(data))
-            .then((data) => this.testArlasUp(data))
-            .then((data) => this.buildContributor(data))
-            .catch((err: any) => {
-                console.error(err);
-                return Promise.resolve(null);
-            });
-        return ret.then((x) => {
-        });
+            }))
+            .toPromise()
+            .then(() => {
+                const ajvObj = ajv();
+                ajvKeywords(ajvObj);
+                const validateConfig = ajvObj
+                    .addMetaSchema(draftSchema.default)
+                    .addSchema((<any>rootContributorConfSchema).default)
+                    .addSchema(HistogramContributor.getJsonSchema())
+                    .addSchema(DetailedHistogramContributor.getJsonSchema())
+                    .addSchema(SwimLaneContributor.getJsonSchema())
+                    .addSchema(PowerbarsContributor.getJsonSchema())
+                    .addSchema(ResultListContributor.getJsonSchema())
+                    .addSchema(MapContributor.getJsonSchema())
+                    .addSchema(TopoMapContributor.getJsonSchema())
+                    .addSchema(DonutContributor.getJsonSchema())
+                    .addSchema(TreeContributor.getJsonSchema())
+                    .addSchema(ChipsSearchContributor.getJsonSchema())
+                    .addSchema(AnalyticsContributor.getJsonSchema())
+                    .addSchema(ComputeContributor.getJsonSchema())
+                    .addSchema((<any>HistogramComponent.getHistogramJsonSchema()).default)
+                    .addSchema((<any>HistogramComponent.getSwimlaneJsonSchema()).default)
+                    .addSchema((<any>PowerbarsComponent.getPowerbarsJsonSchema()).default)
+                    .addSchema((<any>MapglComponent.getMapglJsonSchema()).default)
+                    .addSchema((<any>DonutComponent.getDonutJsonSchema()).default)
+                    .addSchema((<any>MetricComponent.getMetricJsonSchema()).default)
+                    .compile((<any>arlasConfSchema).default);
+                if (validateConfig(configData) === false) {
+                    this.shouldRunApp = false;
+                    this.errorMessagesList.push(
+                        validateConfig.errors[0].dataPath + ' ' +
+                        validateConfig.errors[0].message
+                    );
+                    this.configService.setConfig({ error: this.errorMessagesList });
+                } else if (!this.shouldRunApp) {
+                    this.configService.setConfig({ error: this.errorMessagesList });
+                } else {
+                    this.configService.setConfig(configData);
+                    this.collaborativesearchService.setConfigService(this.configService);
+                    const configuraiton: Configuration = new Configuration();
+                    const arlasExploreApi: ArlasExploreApi = new ArlasExploreApi(
+                        configuraiton,
+                        this.configService.getValue('arlas.server.url'),
+                        portableFetch
+                    );
+                    this.collaborativesearchService.setExploreApi(arlasExploreApi);
+                    this.collaborativesearchService.collection = this.configService.getValue('arlas.server.collection.name');
+                    this.collaborativesearchService.max_age = this.configService.getValue('arlas.server.max_age_cache');
+                    this.collaborativesearchService.resolveHits([projType.count, {}], this.collaborativesearchService.collaborations)
+                        .subscribe(
+                            result => {
+                                this.arlasIsUp.next(true);
+                            },
+                            error => {
+                                this.arlasIsUp.next(false);
+                            });
+                }
+                if (this.shouldRunApp) {
+                    this.configService.getValue('arlas.web.contributors').forEach(contrib => {
+                        const contributorType = contrib.type;
+                        const contributorIdentifier = contrib.identifier;
+                        if (contributorType === 'resultlist') {
+                            this.selectorById = contributorIdentifier;
+                        } else if (contributorType === 'histogram') {
+                            const aggregationmodels = contrib.aggregationmodels;
+                            aggregationmodels.forEach(
+                                agg => {
+                                    if (agg.type === 'datehistogram') {
+                                        if (this.temporalContributor.indexOf(contributorIdentifier)) {
+                                            this.temporalContributor.push(contributorIdentifier);
+                                        }
+                                    }
+                                }
+                            );
+                        } else if (contributorType === 'swimlane') {
+                            const swimlanes = contrib.swimlanes;
+                            swimlanes.forEach(swimlane => {
+                                swimlane.aggregationmodels.forEach(
+                                    agg => {
+                                        if (agg.type === 'datehistogram') {
+                                            if (this.temporalContributor.indexOf(contributorIdentifier)) {
+                                                this.temporalContributor.push(contributorIdentifier);
+                                            }
+                                        }
+                                    }
+                                );
+                            });
+                        } else if (contributorType === 'map' || contributorType === 'topomap') {
+                            const zoomToPrecisionCluster: Array<Array<number>> = contrib.zoomToPrecisionCluster;
+                            if (zoomToPrecisionCluster.filter(tab => (tab[1] - tab[2]) > 2).length > 0) {
+                                const errorMessage = 'Invalid values in map zoomToPrecisionCluster elements.' +
+                                    'The difference between precision of geohash aggregation and' +
+                                    ' level of geohash to retrieve data like tile' +
+                                    ' must be less or equal to 2.';
+                                this.shouldRunApp = false;
+                                this.configService.setConfig({ error: [errorMessage] });
+                            }
+                        }
+                        const contributor = ContributorBuilder.buildContributor(contributorType,
+                            contributorIdentifier,
+                            this.configService,
+                            this.collaborativesearchService);
+                        this.contributorRegistry.set(contributorIdentifier, contributor);
+                    });
+                    this.collectionId = this.configService.getValue('arlas.server.collection.id');
+                    this.analytics = this.configService.getValue('arlas.web.analytics');
+                }
+      })
+      .catch((err: any) => {
+        console.log(err);
+        return Promise.resolve(null);
+      });
+    return ret.then((x) => {
+    });
+  }
+
+  private setAttribute(path, value, object) {
+    const pathToList = path.split('.');
+    const pathLength = pathToList.length;
+    for (let i = 0; i < pathLength - 1; i++) {
+      const element = pathToList[i];
+      if (!object[element]) {
+        this.shouldRunApp = false;
+        this.errorMessagesList.push('The attribute : ' + path + ' does not exist in your main configuration.');
+      }
+      object = object[element];
     }
-    private setAttribute(path, value, object) {
-        const pathToList = path.split('.');
-        const pathLength = pathToList.length;
-        for (let i = 0; i < pathLength - 1; i++) {
-            const element = pathToList[i];
-            if (!object[element]) {
-                this.shouldRunApp = false;
-                this.errorMessagesList.push('The attribute : ' + path + ' does not exist in your main configuration.');
-            }
-            object = object[element];
-        }
-        object[pathToList[pathLength - 1]] = value;
-    }
+  }
 }
 
 export interface ExtraConfig {

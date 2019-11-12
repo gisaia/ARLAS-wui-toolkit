@@ -68,3 +68,9 @@
     (globalActionEvent)="emitEvent(contributorId, 'globalActionEvent', $event)">
   </arlas-result-list>
 </div>
+
+<div *ngIf="componentType === 'card'">
+  <arlas-metric [beforeValue]="graphParam?.beforeValue" [shortValue]="graphParam?.shortValue" [value]="contributor?.metricValue" [afterValue]="graphParam?.afterValue" [customizedCssClass]="graphParam?.customizedCssClass">
+
+  </arlas-metric>
+</div>
