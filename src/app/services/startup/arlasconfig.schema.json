@@ -584,6 +584,93 @@
                         "url",
                         "collection"
                     ]
+                },
+                "authentification": {
+                    "description": "Configuration of Oauth2 OIDC connection",
+                    "type": "object",
+                    "properties": {
+                        "useAuthentForArlas":{
+                            "description": "Defines whether we use authent in arlas server backend",
+                            "type": "boolean"
+                        },
+                        "useDiscovery":{
+                            "description": "Defines whether we use document discovery service",
+                            "type": "boolean"
+                        },
+                        "clientId": {
+                            "description": "The client's id as registered with the auth server",
+                            "type": "string"
+                        },
+                        "issuer": {
+                            "description": "The issuer's uri.",
+                            "type": "string"
+                        },
+                        "redirectUri": {
+                            "description": "The client's redirectUri as registered with the auth server",
+                            "type": "string"
+                        },
+                        "scope": {
+                            "description": "The requested scopes ex:'openid profile'",
+                            "type": "string"
+                        },
+                        "tokenEndpoint": {
+                            "description": "Url of the token endpoint as defined by OpenId Connect and OAuth 2. Mandatory if useDiscovery is false.",
+                            "type": "string"
+                        },
+                        "userinfoEndpoint": {
+                            "description": "Url of the userinfo endpoint as defined by OpenId Connect. Mandatory if useDiscovery is false.",
+                            "type": "string"
+                        },
+                        "jwksEndpoint":{
+                            "description": "JSON Web Key Set (https://tools.ietf.org/html/rfc7517) with keys used to validate received id_tokens. This is taken out of the disovery document.. Mandatory if useDiscovery is false.",
+                            "type":"string"
+                        },
+                        "loginUrl": {
+                            "description": "The auth server's endpoint that allows to log the user in when using implicit flow. Mandatory if useDiscovery is false.",
+                            "type": "string"
+                        },
+                        "showDebugInformation": {
+                            "description": "Defines whether additional debug information should  be shown at the console",
+                            "type": "boolean"
+                        },
+                        "requireHttps": {
+                            "description": "Defines whether https is required.",
+                            "type": "boolean"
+                        },
+                        "responseType": {
+                            "description": "Response type values ex 'id_token token'",
+                            "type": "string"
+                        },
+                        "silentRefreshTimeout": {
+                            "description": "Timeout for silent refresh.",
+                            "type": "number"
+                        },
+                        "timeoutFactor": {
+                            "description": "Defines when the token_timeout event should be raised.If you set this to the default value 0.75, the event s triggered after 75% of the token's life time.",
+                            "type": "number"
+                        },
+                        "sessionChecksEnabled": {
+                            "description": "If true, the lib will try to check whether the user is still logged in on a regular basis as described",
+                            "type": "boolean"
+                        },
+                        "clearHashAfterLogin": {
+                            "description": "Defines whether to clear the hash fragment after logging in.",
+                            "type": "boolean"
+                        },
+                        "storage":{
+                            "description": "Defines where authentification are stocked. Locastorage by default",
+                            "enum": [
+                                "localstorage",
+                                "sessionstorage"
+                            ]
+                        }
+                    },
+                    "required": [
+                        "useAuthentForArlas",
+                        "useDiscovery",
+                        "clientId",
+                        "issuer"
+                    ]
                 }
             },
             "required": [

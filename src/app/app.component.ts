@@ -20,9 +20,10 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { of } from 'rxjs';
+import { of, Observable } from 'rxjs';
 import { pairwise, take, timeoutWith } from 'rxjs/operators';
-import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from './services/startup/startup.service';
+import { ArlasCollaborativesearchService, ArlasStartupService, ArlasConfigService } from './services/startup/startup.service';
+import { AuthentificationService } from './services/authentification/authentification.service';
 
 
 @Component({
@@ -84,7 +85,6 @@ export class AppComponent implements AfterViewInit, OnInit {
     if (this.configService.getConfig()['error'] !== undefined) {
       this.configService.confErrorBus.next(this.configService.getConfig()['error']);
     } else {
-
       this.activatedRoute.queryParams
         .pipe(
           pairwise(),
