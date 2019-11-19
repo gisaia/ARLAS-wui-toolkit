@@ -23,7 +23,7 @@
           <mat-card-content>
             <arlas-tool-widget
               id="{{component?.componentType + '-' +  component?.contributorId + '-' + group.groupId + '-' + i}}"
-              [componentType]="component?.componentType" [contributorId]="component?.contributorId"
+              [componentType]="component?.componentType" [contributorId]="component?.contributorId" [showExportCsv]="component?.showExportCsv"
               [componentParams]="component?.input" (outEvents)="listenOutput($event)"></arlas-tool-widget>
           </mat-card-content>
         </mat-card>
@@ -68,7 +68,7 @@
           <mat-card-content>
             <arlas-tool-widget
               id="{{component?.componentType + '-' +  component?.contributorId + '-' + group.groupId + '-' + i}}"
-              [componentType]="component?.componentType" [contributorId]="component?.contributorId"
+              [componentType]="component?.componentType" [contributorId]="component?.contributorId" [showExportCsv]="component?.showExportCsv"
               [componentParams]="component?.input" (outEvents)="listenOutput($event)"></arlas-tool-widget>
           </mat-card-content>
         </mat-card>

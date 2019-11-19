@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { WidgetComponent } from './widget.component';
 import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from '../../services/startup/startup.service';
 import { HistogramModule, ResultsModule, DonutModule, MetricModule, PowerbarsModule } from 'arlas-web-components';
-import { MatSelectModule } from '@angular/material';
+import { MatSelectModule, MatTooltipModule, MatIconModule } from '@angular/material';
 import { HttpClientModule } from '@angular/common/http';
 import { TranslateModule, TranslateService, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
 
@@ -23,6 +23,8 @@ describe('WidgetComponent', () => {
         MetricModule,
         MatSelectModule,
         HttpClientModule,
+        MatTooltipModule,
+        MatIconModule,
         TranslateModule.forRoot({
           loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
         })

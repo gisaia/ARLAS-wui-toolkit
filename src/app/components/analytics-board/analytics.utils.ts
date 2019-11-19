@@ -38,6 +38,10 @@ export interface WidgetConfiguration {
    * @description swimlane | histogram | donut | powerbars | resultlist
    */
   componentType?: string;
+    /**
+   * @description whether we display export csv button
+   */
+  showExportCsv?: boolean;
   /**
    * @description Set of inputs of a ARLAS-web-component.
    */

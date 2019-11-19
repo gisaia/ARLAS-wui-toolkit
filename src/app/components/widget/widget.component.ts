@@ -23,6 +23,7 @@ import { Contributor, CollaborationEvent, OperationEnum } from 'arlas-web-core';
 import { ChartType, HistogramComponent, Position, SwimlaneMode, CellBackgroundStyleEnum, DataType } from 'arlas-web-components';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
+import { ArlasExportCsvService } from '../../services/export-csv/export-csv.service';
 
 /**
  * A Widget wraps a component from ARLAS-web-components and bind it to its contributor. The component has thus input data to plot.
@@ -59,6 +60,13 @@ export class WidgetComponent implements OnInit {
    * @description Inputs of one of the ARLAS-web-components
    */
   @Input() public componentParams: any;
+
+  /**
+   * @Input : Angular
+   * @description Whether we dispylay the export csv button
+   */
+  @Input() public showExportCsv = false;
+
   /**
    * @Output : Angular
    * @description Emits an output that comes from the component (ARLAS-web-components). The emitted output has information about
@@ -73,7 +81,7 @@ export class WidgetComponent implements OnInit {
   constructor(private arlasStartupService: ArlasStartupService,
     private cdr: ChangeDetectorRef, private componentFactoryResolver: ComponentFactoryResolver,
     private arlasCollaborativesearchService: ArlasCollaborativesearchService,
-    public translate: TranslateService) {
+    public translate: TranslateService, public arlasExportCsvService: ArlasExportCsvService) {
   }
 
   public ngOnInit() {
@@ -115,6 +123,23 @@ export class WidgetComponent implements OnInit {
    */
   public emitEvent(source: string, event: string, data: any) {
     this.outEvents.next({ origin: source, event: event, data: data });
+  }
+
+  public exportCsv(contributor: Contributor, stayAtFirstLevel: boolean, componentType: string) {
+    this.arlasExportCsvService.export(contributor, stayAtFirstLevel).subscribe(blob => {
+      const contentType = 'text/csv';
+      const a = document.createElement('a');
+      a.download = contributor.getName().concat('_')
+        .concat(componentType)
+        .concat('_')
+        .concat(new Date().getTime().toString())
+        .concat('.csv');
+      a.href = window.URL.createObjectURL(blob);
+      a.dataset.downloadurl = [contentType, a.download, a.href].join(':');
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    });
   }
 
   private getContirbutorType() {
