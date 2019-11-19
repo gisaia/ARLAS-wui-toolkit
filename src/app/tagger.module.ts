@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { NgModule, forwardRef } from '@angular/core';
+import { NgModule, forwardRef, Injectable } from '@angular/core';
 import { TagComponent, TagDialogComponent } from './components/tag/tag.component';
 import { ArlasTagService } from './services/tag/tag.service';
 import {
@@ -42,7 +42,9 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-
+@Injectable({
+  providedIn: 'root'
+})
 export class CustomTranslateLoader implements TranslateLoader {
 
   constructor(private http: HttpClient) { }

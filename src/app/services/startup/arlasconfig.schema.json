@@ -227,7 +227,7 @@
                                                         "swimlane",
                                                         "resultlist",
                                                         "donut",
-                                                        "card"
+                                                        "metric"
                                                     ]
                                                 }
                                             },
@@ -322,14 +322,14 @@
                                                     "properties": {
                                                         "componentType": {
                                                             "enum": [
-                                                                "card"
+                                                                "metric"
                                                             ]
                                                         },
                                                         "input": {
-                                                            "description": "Input of card component.",
+                                                            "description": "Input of metric component.",
                                                             "allOf": [
                                                                 {
-                                                                    "$ref": "card.schema.json#"
+                                                                    "$ref": "metric.schema.json#"
                                                                 }
                                                             ]
                                                         }

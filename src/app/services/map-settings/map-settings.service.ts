@@ -107,7 +107,7 @@ export class ArlasMapSettings implements MapSettingsService {
     return (this.mapContributor instanceof MapContributor);
   }
 
-  public hasTopologyMOde(): boolean {
+  public hasTopologyMode(): boolean {
     return (this.mapContributor instanceof TopoMapContributor);
 
   }

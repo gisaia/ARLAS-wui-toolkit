@@ -23,7 +23,7 @@ import {
   MatTooltipModule, MatChipsModule
 } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
-import { DonutModule, HistogramModule, PowerbarsModule, ResultsModule } from 'arlas-web-components';
+import { DonutModule, HistogramModule, PowerbarsModule, ResultsModule, MetricModule } from 'arlas-web-components';
 import { ArlasCollaborativesearchService, ArlasStartupService, ArlasConfigService } from '../../../services/startup/startup.service';
 import { WidgetComponent } from '../../widget/widget.component';
 import { TimelineComponent } from './timeline.component';
@@ -45,7 +45,7 @@ describe('TimelineComponent', () => {
       imports: [
         MatCardModule, MatIconModule, MatExpansionModule, MatSelectModule, MatButtonModule, MatChipsModule,
         OwlDateTimeModule, OwlNativeDateTimeModule, FormsModule, HttpClientModule,
-        MatTooltipModule, BrowserModule, HistogramModule, ResultsModule, PowerbarsModule, DonutModule,
+        MatTooltipModule, BrowserModule, HistogramModule, ResultsModule, PowerbarsModule, DonutModule, MetricModule,
         TranslateModule.forRoot({
           loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
         })

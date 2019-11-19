@@ -24,16 +24,10 @@
     "@types/d3-shape": "^1.2.4",
     "ajv": "^6.4.0",
     "ajv-keywords": "^3.4.0",
-<<<<<<< 33652f93dc71ca8bb3c4957afd4de9611529691c
     "angular-oauth2-oidc": "^4.0.2",
-    "arlas-web-components": "11.4.*",
-    "arlas-web-contributors": "11.4.*",
-    "arlas-tagger-api": "11.0.3",
-=======
-    "arlas-web-components": "12.0.0-beta.1",
-    "arlas-web-contributors": "12.0.0-beta.0",
-    "arlas-tagger-api": "11.0.2",
->>>>>>> Upgrade to Angular 8
+    "arlas-web-components": "12.0.0-beta.4",
+    "arlas-web-contributors": "12.0.0-beta.4",
+    "arlas-tagger-api": "11.0.6",
     "cli-color": "^1.2.0",
     "core-js": "^2.4.1",
     "hopscotch": "0.3.1",

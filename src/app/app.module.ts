@@ -208,6 +208,13 @@ export function getAuthModuleConfig(): OAuthModuleConfig {
     FormsModule,
     HistogramModule,
     MetricModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useClass: CustomTranslateLoader,
+        deps: [HttpClient]
+      }
+    }),
     HttpClientModule,
     MatAutocompleteModule,
     MatButtonModule,
@@ -243,13 +250,6 @@ export function getAuthModuleConfig(): OAuthModuleConfig {
         useClass: ArlasColorGeneratorLoader
       }
     }),
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useClass: CustomTranslateLoader,
-        deps: [HttpClient]
-      }
-    }),
     OAuthModule.forRoot()
   ],
   providers: [
@@ -265,6 +265,12 @@ export function getAuthModuleConfig(): OAuthModuleConfig {
     forwardRef(() => ArlasExtendService),
     forwardRef(() => ArlasWalkthroughService),
 
+    {
+      provide: APP_INITIALIZER,
+      useFactory: translationServiceFactory,
+      deps: [TranslateService, Injector],
+      multi: true
+    },
     {
       provide: APP_INITIALIZER,
       useFactory: startupServiceFactory,
@@ -287,12 +293,6 @@ export function getAuthModuleConfig(): OAuthModuleConfig {
       provide: APP_INITIALIZER,
       useFactory: walkthroughServiceFactory,
       deps: [ArlasWalkthroughService],
-      multi: true
-    },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: translationServiceFactory,
-      deps: [TranslateService, Injector],
       multi: true
     },
     {

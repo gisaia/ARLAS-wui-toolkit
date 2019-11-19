@@ -69,10 +69,10 @@ export class ContributorBuilder {
                 contributor = new ResultListContributor(identifier, collaborativesearchService, configService);
                 break;
             case 'map':
-                contributor = new MapContributor(identifier, collaborativesearchService, configService)
+                contributor = new MapContributor(identifier, collaborativesearchService, configService);
                 break;
             case 'topomap':
-                contributor = new TopoMapContributor(identifier, collaborativesearchService, configService)
+                contributor = new TopoMapContributor(identifier, collaborativesearchService, configService);
                 break;
             case 'swimlane':
                 isOneDimension = config['isOneDimension'];
