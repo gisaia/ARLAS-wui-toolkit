@@ -24,11 +24,9 @@ import { DonutComponent, HistogramComponent, MapglComponent, PowerbarsComponent,
 import {
   HistogramContributor,
   MapContributor,
-  PowerbarsContributor,
   ResultListContributor,
   SwimLaneContributor,
   ChipsSearchContributor,
-  DonutContributor,
   DetailedHistogramContributor,
   TopoMapContributor,
   TreeContributor,
@@ -45,9 +43,7 @@ import { flatMap } from 'rxjs/operators';
 import ajv from 'ajv';
 import * as ajvKeywords from 'ajv-keywords/keywords/uniqueItemProperties';
 import * as rootContributorConfSchema from 'arlas-web-contributors/jsonSchemas/rootContributorConf.schema.json';
-import { Subject, Observable } from 'rxjs';
-import { resolve } from 'url';
-import { isReturnStatement } from 'typescript';
+import { Subject } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -116,11 +112,9 @@ export class ArlasStartupService {
                 .addSchema(HistogramContributor.getJsonSchema())
                 .addSchema(DetailedHistogramContributor.getJsonSchema())
                 .addSchema(SwimLaneContributor.getJsonSchema())
-                .addSchema(PowerbarsContributor.getJsonSchema())
                 .addSchema(ResultListContributor.getJsonSchema())
                 .addSchema(MapContributor.getJsonSchema())
                 .addSchema(TopoMapContributor.getJsonSchema())
-                .addSchema(DonutContributor.getJsonSchema())
                 .addSchema(TreeContributor.getJsonSchema())
                 .addSchema(ChipsSearchContributor.getJsonSchema())
                 .addSchema(AnalyticsContributor.getJsonSchema())
