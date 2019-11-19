@@ -61,8 +61,8 @@ export class TimelineComponent implements OnInit {
    * @description Whether the date picker is enabled
    */
   @Input() public activeDatePicker = false;
-  @ViewChild('timeline', {static: true}) public timelineHistogramComponent: HistogramComponent;
-  @ViewChild('detailedtimeline', {static: true}) public detailedTimelineHistogramComponent: HistogramComponent;
+  @ViewChild('timeline', {static: false}) public timelineHistogramComponent: HistogramComponent;
+  @ViewChild('detailedtimeline', {static: false}) public detailedTimelineHistogramComponent: HistogramComponent;
 
   public showDetailedTimeline = false;
   public detailedTimelineContributor: DetailedHistogramContributor;
