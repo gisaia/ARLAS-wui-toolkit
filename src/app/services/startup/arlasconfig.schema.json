@@ -28,9 +28,7 @@
                                                     "analytics",
                                                     "chipssearch",
                                                     "detailedhistogram",
-                                                    "donut",
                                                     "histogram",
-                                                    "powerbars",
                                                     "map",
                                                     "resultlist",
                                                     "swimlane",
@@ -81,36 +79,12 @@
                                         "if": {
                                             "properties": {
                                                 "type": {
-                                                    "const": "donut"
-                                                }
-                                            }
-                                        },
-                                        "then": {
-                                            "$ref": "donutContributorConf.schema.json#"
-                                        }
-                                    },
-                                    {
-                                        "if": {
-                                            "properties": {
-                                                "type": {
                                                     "const": "histogram"
                                                 }
                                             }
                                         },
                                         "then": {
                                             "$ref": "histogramContributorConf.schema.json#"
-                                        }
-                                    },
-                                    {
-                                        "if": {
-                                            "properties": {
-                                                "type": {
-                                                    "const": "powerbars"
-                                                }
-                                            }
-                                        },
-                                        "then": {
-                                            "$ref": "powerbarsContributorConf.schema.json#"
                                         }
                                     },
                                     {

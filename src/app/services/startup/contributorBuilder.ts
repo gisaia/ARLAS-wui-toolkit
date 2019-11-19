@@ -21,11 +21,9 @@ import {
     HistogramContributor,
     DetailedHistogramContributor,
     AnalyticsContributor,
-    PowerbarsContributor,
     ResultListContributor,
     SwimLaneContributor,
     ComputeContributor,
-    DonutContributor,
     TreeContributor,
     ChipsSearchContributor,
     MapContributor,
@@ -58,13 +56,6 @@ export class ContributorBuilder {
                 isOneDimension = config['isOneDimension'];
                 contributor = new DetailedHistogramContributor(identifier, collaborativesearchService, configService, isOneDimension);
                 break;
-            case 'powerbars':
-                const title: string = config['title'];
-                contributor = new PowerbarsContributor(identifier,
-                    collaborativesearchService,
-                    configService,
-                    title);
-                break;
             case 'resultlist':
                 contributor = new ResultListContributor(identifier, collaborativesearchService, configService);
                 break;
@@ -77,14 +68,6 @@ export class ContributorBuilder {
             case 'swimlane':
                 isOneDimension = config['isOneDimension'];
                 contributor = new SwimLaneContributor(identifier, collaborativesearchService, configService);
-                break;
-            case 'donut':
-                const titleDonut: string = config['title'];
-                contributor = new DonutContributor(identifier,
-                    collaborativesearchService,
-                    configService,
-                    titleDonut
-                );
                 break;
             case 'tree':
                 const titletree: string = config['title'];
