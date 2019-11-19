@@ -12,7 +12,7 @@ describe('AuthentificationService', () => {
   beforeEach(() =>
     TestBed.configureTestingModule({
       providers: [OAuthService, HttpClient, UrlHelperService],
-      imports: [OAuthModule, HttpClientModule]
+      imports: [OAuthModule.forRoot(), HttpClientModule]
 
     }));
   it('should be created', () => {
