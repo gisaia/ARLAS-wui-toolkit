@@ -40,7 +40,7 @@
   color: #FF0000;
 }
 
-/deep/ .mat-checkbox-layout{
+::ng-deep .mat-checkbox-layout{
   margin-bottom: 0;
 }
 

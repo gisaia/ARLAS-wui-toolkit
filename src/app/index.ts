@@ -1,4 +1,5 @@
 import { ArlasDataSource } from './tools/arlasDataSource';
+import { from } from 'rxjs';
 /*
  * Licensed to Gisaïa under one or more contributor
  * license agreements. See the NOTICE.txt file distributed with
@@ -18,7 +19,16 @@ import { ArlasDataSource } from './tools/arlasDataSource';
  * under the License.
  */
 
-export { ArlasExploreApi } from './services/startup/startup.service';
+export {
+  ArlasExploreApi,
+  ArlasStartupService,
+  ArlasCollaborativesearchService,
+  ArlasConfigService
+} from './services/startup/startup.service';
+export { ArlasBookmarkService } from './services/bookmark/bookmark.service';
+export { ArlasAoiService } from './services/aoi/aoi.service';
+export { ArlasColorGeneratorLoader } from './services/color-generator-loader/color-generator-loader.service';
+export { ArlasMapSettings } from './services/map-settings/map-settings.service';
 export { ArlasToolKitModule } from './app.module';
 export { ArlasDataSource } from './tools/arlasDataSource';
 export { ArlasTaggerModule } from './tagger.module';

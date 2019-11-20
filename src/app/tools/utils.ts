@@ -80,36 +80,6 @@ export function getKeyForColor(dataModel: Object): string {
                 key.push('q');
             }
         }
-        if ((<Filter>dataModel[k].filter).gintersect !== undefined) {
-            if (key.indexOf('gintersect') < 0) {
-                key.push('gintersect');
-            }
-        }
-        if ((<Filter>dataModel[k].filter).gwithin !== undefined) {
-            if (key.indexOf('gwithin') < 0) {
-                key.push('gwithin');
-            }
-        }
-        if ((<Filter>dataModel[k].filter).notgintersect !== undefined) {
-            if (key.indexOf('notgintersect') < 0) {
-                key.push('notgintersect');
-            }
-        }
-        if ((<Filter>dataModel[k].filter).notgwithin !== undefined) {
-            if (key.indexOf('notgwithin') < 0) {
-                key.push('notgwithin');
-            }
-        }
-        if ((<Filter>dataModel[k].filter).notpwithin !== undefined) {
-            if (key.indexOf('notpwithin') < 0) {
-                key.push('notpwithin');
-            }
-        }
-        if ((<Filter>dataModel[k].filter).pwithin !== undefined) {
-            if (key.indexOf('pwithin') < 0) {
-                key.push('pwithin');
-            }
-        }
         finalKeys.push(key.sort().join(','));
     });
     return intToRGB(hashCode(finalKeys.sort().join(',')));

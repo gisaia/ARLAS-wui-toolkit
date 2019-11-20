@@ -21,14 +21,18 @@ import {
     HistogramContributor,
     DetailedHistogramContributor,
     AnalyticsContributor,
-    PowerbarsContributor,
     ResultListContributor,
-    SwimLaneContributor
+    SwimLaneContributor,
+    ComputeContributor,
+    TreeContributor,
+    ChipsSearchContributor,
+    MapContributor,
+    TopoMapContributor
 } from 'arlas-web-contributors';
 import { ArlasConfigService, ArlasCollaborativesearchService } from './startup.service';
-import { DonutContributor, TreeContributor, ChipsSearchContributor } from 'arlas-web-contributors';
 
 export class ContributorBuilder {
+
     public static buildContributor(contributorType: string,
         identifier: string,
         configService: ArlasConfigService,
@@ -41,6 +45,9 @@ export class ContributorBuilder {
         let isOneDimension: boolean;
 
         switch (contributorType) {
+            case 'metric':
+                contributor = new ComputeContributor(identifier, collaborativesearchService, configService);
+                break;
             case 'histogram':
                 isOneDimension = config['isOneDimension'];
                 contributor = new HistogramContributor(identifier, collaborativesearchService, configService, isOneDimension);
@@ -49,30 +56,18 @@ export class ContributorBuilder {
                 isOneDimension = config['isOneDimension'];
                 contributor = new DetailedHistogramContributor(identifier, collaborativesearchService, configService, isOneDimension);
                 break;
-            case 'powerbars':
-                const title: string = config['title'];
-                contributor = new PowerbarsContributor(identifier,
-                    collaborativesearchService,
-                    configService,
-                    title);
-                break;
             case 'resultlist':
                 contributor = new ResultListContributor(identifier, collaborativesearchService, configService);
                 break;
             case 'map':
-                // TO DO
+                contributor = new MapContributor(identifier, collaborativesearchService, configService);
+                break;
+            case 'topomap':
+                contributor = new TopoMapContributor(identifier, collaborativesearchService, configService);
                 break;
             case 'swimlane':
                 isOneDimension = config['isOneDimension'];
                 contributor = new SwimLaneContributor(identifier, collaborativesearchService, configService);
-                break;
-            case 'donut':
-                const titleDonut: string = config['title'];
-                contributor = new DonutContributor(identifier,
-                    collaborativesearchService,
-                    configService,
-                    titleDonut
-                );
                 break;
             case 'tree':
                 const titletree: string = config['title'];

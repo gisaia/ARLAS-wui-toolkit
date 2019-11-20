@@ -1,6 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
-@import "~ng-pick-datetime/assets/style/picker.min.css";
+@import "~@gisaia-team/ng-pick-datetime/assets/style/picker.min.css";
 
 @font-face {
   font-family: 'Material Icons';
@@ -62,4 +62,34 @@
 .donut-container{
   height: 250px;
   padding: 20px;
+}
+
+
+.arlas-metric-container {
+  text-align: center;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  height: 116px;
+}
+
+.arlas-metric-value, .arlas-metric-title, .arlas-metric-description {
+  padding: 8px;
+}
+
+.arlas-metric-value {
+  font-size: 3em;
+}
+.people .arlas-metric-value {
+  font-weight: bold;
+  color: #589ff0;
+}
+
+.country .arlas-metric-value {
+  font-weight: bold;
+  color: #f5c133;
+}
+
+
+.weight .arlas-metric-value {
+  font-weight: bold;
+  color: #c53030;
 }

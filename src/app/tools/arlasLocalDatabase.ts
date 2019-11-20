@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { BehaviorSubject } from 'rxjs';
 import { sortOnDate, Guid, ArlasStorageObject } from './utils';
 
 export class ArlasLocalDatabase<T extends ArlasStorageObject> {

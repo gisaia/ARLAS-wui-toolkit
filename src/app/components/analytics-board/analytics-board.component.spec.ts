@@ -12,7 +12,7 @@ import { AnalyticsBoardComponent } from './analytics-board.component';
 import { WidgetComponent } from '../widget/widget.component';
 import { BrowserModule } from '@angular/platform-browser';
 import {
-  HistogramModule, ResultsModule, PowerbarsModule, DonutModule
+  HistogramModule, ResultsModule, PowerbarsModule, DonutModule, MetricModule
 } from 'arlas-web-components';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ArlasStartupService, ArlasConfigService, ArlasCollaborativesearchService } from '../../services/startup/startup.service';
@@ -32,7 +32,8 @@ describe('AnalyticsBoardComponent', () => {
       imports: [
         MatCardModule, MatIconModule, MatExpansionModule, MatSelectModule, MatButtonModule,
         MatTooltipModule, BrowserModule, HistogramModule, ResultsModule, PowerbarsModule,
-        DonutModule, TranslateModule, MatBadgeModule, DragDropModule, HttpClientModule
+        DonutModule, TranslateModule, MatBadgeModule, DragDropModule, HttpClientModule,
+        MetricModule
       ],
       providers: [
         ArlasConfigService, ArlasCollaborativesearchService,

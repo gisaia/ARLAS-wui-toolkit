@@ -19,34 +19,31 @@
 
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable, Injector } from '@angular/core';
-import { Configuration, ExploreApi, WriteApi, CollectionsApi } from 'arlas-api';
-import { DonutComponent, HistogramComponent, MapglComponent, PowerbarsComponent } from 'arlas-web-components';
+import { Configuration, ExploreApi, CollectionsApi } from 'arlas-api';
+import { DonutComponent, HistogramComponent, MapglComponent, PowerbarsComponent, MetricComponent } from 'arlas-web-components';
 import {
-    HistogramContributor,
-    MapContributor,
-    PowerbarsContributor,
-    ResultListContributor,
-    SwimLaneContributor,
-    ChipsSearchContributor,
-    DonutContributor,
-    DetailedHistogramContributor,
-    TopoMapContributor,
-    TreeContributor
+  HistogramContributor,
+  MapContributor,
+  ResultListContributor,
+  SwimLaneContributor,
+  ChipsSearchContributor,
+  DetailedHistogramContributor,
+  TopoMapContributor,
+  TreeContributor,
+  ComputeContributor
 } from 'arlas-web-contributors';
 import { AnalyticsContributor } from 'arlas-web-contributors/contributors/AnalyticsContributor';
 import * as portableFetch from 'portable-fetch';
 import * as arlasConfSchema from './arlasconfig.schema.json';
 import * as draftSchema from 'ajv/lib/refs/json-schema-draft-06.json';
-import { CollaborativesearchService, ConfigService } from 'arlas-web-core';
+import { CollaborativesearchService, ConfigService, Contributor } from 'arlas-web-core';
 import { projType } from 'arlas-web-core/models/projections';
 import { ContributorBuilder } from './contributorBuilder';
 import { flatMap } from 'rxjs/operators';
 import ajv from 'ajv';
 import * as ajvKeywords from 'ajv-keywords/keywords/uniqueItemProperties';
 import * as rootContributorConfSchema from 'arlas-web-contributors/jsonSchemas/rootContributorConf.schema.json';
-import { Subject, Observable } from 'rxjs';
-import { resolve } from 'url';
-import { isReturnStatement } from 'typescript';
+import { Subject } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -67,14 +64,6 @@ export class ArlasExploreApi extends ExploreApi {
 
 @Injectable()
 export class ArlasCollectionApi extends CollectionsApi {
-    constructor(@Inject('CONF') conf: Configuration, @Inject('base_path') basePath: string,
-        @Inject('fetch') fetch) {
-        super(conf, basePath, fetch);
-    }
-}
-
-@Injectable()
-export class ArlasWriteApi extends WriteApi {
     constructor(@Inject('CONF') conf: Configuration, @Inject('base_path') basePath: string,
         @Inject('fetch') fetch) {
         super(conf, basePath, fetch);
@@ -123,19 +112,19 @@ export class ArlasStartupService {
                 .addSchema(HistogramContributor.getJsonSchema())
                 .addSchema(DetailedHistogramContributor.getJsonSchema())
                 .addSchema(SwimLaneContributor.getJsonSchema())
-                .addSchema(PowerbarsContributor.getJsonSchema())
                 .addSchema(ResultListContributor.getJsonSchema())
                 .addSchema(MapContributor.getJsonSchema())
                 .addSchema(TopoMapContributor.getJsonSchema())
-                .addSchema(DonutContributor.getJsonSchema())
                 .addSchema(TreeContributor.getJsonSchema())
                 .addSchema(ChipsSearchContributor.getJsonSchema())
                 .addSchema(AnalyticsContributor.getJsonSchema())
+                .addSchema(ComputeContributor.getJsonSchema())
                 .addSchema((<any>HistogramComponent.getHistogramJsonSchema()).default)
                 .addSchema((<any>HistogramComponent.getSwimlaneJsonSchema()).default)
                 .addSchema((<any>PowerbarsComponent.getPowerbarsJsonSchema()).default)
                 .addSchema((<any>MapglComponent.getMapglJsonSchema()).default)
                 .addSchema((<any>DonutComponent.getDonutJsonSchema()).default)
+                .addSchema((<any>MetricComponent.getMetricJsonSchema()).default)
                 .compile((<any>arlasConfSchema).default);
             if (validateConfig(data) === false) {
                 const errorMessagesList = new Array<string>();
@@ -158,6 +147,7 @@ export class ArlasStartupService {
     }
 
     public setAuthentService(data) {
+
         return new Promise<any>((resolve, reject) => {
             if (this.configService.getValue('arlas.authentification')) {
                 const useAuthentForArlas = this.configService.getValue('arlas.authentification.useAuthentForArlas');
@@ -267,6 +257,7 @@ export class ArlasStartupService {
             this.collectionId = this.configService.getValue('arlas.server.collection.id');
             this.analytics = this.configService.getValue('arlas.web.analytics');
             this.arlasIsUp.next(true);
+            resolve(data);
         });
     }
 
@@ -298,7 +289,7 @@ export class ArlasStartupService {
     }
 
 
-    public load(configRessource: string) {
+    public load(configRessource: string): Promise<any> {
         let configData;
         const ret = this.http
             .get(configRessource)
@@ -322,8 +313,7 @@ export class ArlasStartupService {
                 console.error(err);
                 return Promise.resolve(null);
             });
-        return ret.then((x) => {
-        });
+        return ret.then((x) => {});
     }
     private setAttribute(path, value, object) {
         const pathToList = path.split('.');
@@ -338,6 +328,7 @@ export class ArlasStartupService {
         }
         object[pathToList[pathLength - 1]] = value;
     }
+
 }
 
 export interface ExtraConfig {

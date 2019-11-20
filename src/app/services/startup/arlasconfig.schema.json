@@ -28,14 +28,13 @@
                                                     "analytics",
                                                     "chipssearch",
                                                     "detailedhistogram",
-                                                    "donut",
                                                     "histogram",
-                                                    "powerbars",
                                                     "map",
                                                     "resultlist",
                                                     "swimlane",
                                                     "topomap",
-                                                    "tree"
+                                                    "tree",
+                                                    "metric"
                                                 ]
                                             }
                                         }
@@ -80,36 +79,12 @@
                                         "if": {
                                             "properties": {
                                                 "type": {
-                                                    "const": "donut"
-                                                }
-                                            }
-                                        },
-                                        "then": {
-                                            "$ref": "donutContributorConf.schema.json#"
-                                        }
-                                    },
-                                    {
-                                        "if": {
-                                            "properties": {
-                                                "type": {
                                                     "const": "histogram"
                                                 }
                                             }
                                         },
                                         "then": {
                                             "$ref": "histogramContributorConf.schema.json#"
-                                        }
-                                    },
-                                    {
-                                        "if": {
-                                            "properties": {
-                                                "type": {
-                                                    "const": "powerbars"
-                                                }
-                                            }
-                                        },
-                                        "then": {
-                                            "$ref": "powerbarsContributorConf.schema.json#"
                                         }
                                     },
                                     {
@@ -171,7 +146,19 @@
                                         "then": {
                                             "$ref": "treeContributorConf.schema.json#"
                                         }
-                                    }
+                                    },
+                                    {
+                                      "if": {
+                                          "properties": {
+                                              "type": {
+                                                  "const": "metric"
+                                              }
+                                          }
+                                      },
+                                      "then": {
+                                          "$ref": "computeContributorConf.schema.json#"
+                                      }
+                                  }
                                 ]
                             },
                             "additionalProperties": false
@@ -213,7 +200,8 @@
                                                         "powerbars",
                                                         "swimlane",
                                                         "resultlist",
-                                                        "donut"
+                                                        "donut",
+                                                        "metric"
                                                     ]
                                                 }
                                             },
@@ -299,6 +287,23 @@
                                                             "allOf": [
                                                                 {
                                                                     "$ref": "swimlane.schema.json#"
+                                                                }
+                                                            ]
+                                                        }
+                                                    }
+                                                },
+                                                {
+                                                    "properties": {
+                                                        "componentType": {
+                                                            "enum": [
+                                                                "metric"
+                                                            ]
+                                                        },
+                                                        "input": {
+                                                            "description": "Input of metric component.",
+                                                            "allOf": [
+                                                                {
+                                                                    "$ref": "metric.schema.json#"
                                                                 }
                                                             ]
                                                         }

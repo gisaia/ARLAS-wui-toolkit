@@ -1,12 +1,13 @@
-import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges, OnChanges } from '@angular/core';
 import * as _moment from 'moment';
-import { DateTimeAdapter, OWL_DATE_TIME_FORMATS, OWL_DATE_TIME_LOCALE } from 'ng-pick-datetime';
-import { MomentDateTimeAdapter, OWL_MOMENT_DATE_TIME_ADAPTER_OPTIONS } from 'ng-pick-datetime-moment';
+import { DateTimeAdapter, OWL_DATE_TIME_FORMATS, OWL_DATE_TIME_LOCALE, MomentDateTimeAdapter } from '@gisaia-team/ng-pick-datetime';
+
 import { HistogramContributor } from 'arlas-web-contributors';
 import { ArlasCollaborativesearchService, ArlasStartupService } from './../../../services/startup/startup.service';
 import { TranslateService } from '@ngx-translate/core';
 import { SelectedOutputValues } from 'arlas-web-contributors/models/models';
-import { OnChanges } from '@angular/core/src/metadata/lifecycle_hooks';
+
+
 
 const moment = (_moment as any).default ? (_moment as any).default : _moment;
 export const MY_CUSTOM_FORMATS = {
@@ -63,7 +64,8 @@ export class DatePickerComponent implements OnInit, OnChanges {
 
   public ngOnInit() {
     if (this.timelineComponent) {
-      this.timelineContributor = this.arlasStartupService.contributorRegistry.get(this.timelineComponent.contributorId);
+      this.timelineContributor = <HistogramContributor>
+      this.arlasStartupService.contributorRegistry.get(this.timelineComponent.contributorId);
     }
   }
 

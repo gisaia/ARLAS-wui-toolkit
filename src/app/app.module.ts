@@ -33,9 +33,9 @@ import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import {
   DonutModule, HistogramModule, PowerbarsModule, ResultsModule, ColorGeneratorModule,
-  ColorGeneratorLoader
+  ColorGeneratorLoader, MetricModule
 } from 'arlas-web-components';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { AppComponent } from './app.component';
 import { routing } from './app.routes';
 import { AnalyticsBoardComponent } from './components/analytics-board/analytics-board.component';
@@ -52,7 +52,10 @@ import { TimelineComponent } from './components/timeline/timeline/timeline.compo
 import { TimelineShortcutComponent } from './components/timeline/timeline-shortcut/timeline-shortcut.component';
 import { GetTimeLabelPipe } from './pipes/get-time-label.pipe';
 import { DatePickerComponent } from './components/timeline/date-picker/date-picker.component';
-import { OwlDateTimeModule, OwlNativeDateTimeModule, OWL_DATE_TIME_FORMATS, OwlDateTimeIntl, OWL_DATE_TIME_LOCALE } from 'ng-pick-datetime';
+import {
+  OwlDateTimeModule, OwlNativeDateTimeModule, OwlDateTimeIntl,
+  OWL_DATE_TIME_LOCALE, OwlMomentDateTimeModule
+} from '@gisaia-team/ng-pick-datetime';
 import { ArlasTranslateIntl } from './components/timeline/date-picker/ArlasTranslateIntl';
 import { ArlasColorGeneratorLoader } from './services/color-generator-loader/color-generator-loader.service';
 import { ArlasWalkthroughService } from './services/walkthrough/walkthrough.service';
@@ -69,6 +72,8 @@ import { ArlasConfigurationDescriptor } from './services/configuration-descripto
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { OAuthModule, OAuthModuleConfig, OAuthStorage, ValidationHandler, JwksValidationHandler } from 'angular-oauth2-oidc';
 import { AuthentificationService } from './services/authentification/authentification.service';
+import { ArlasMapSettings } from './services/map-settings/map-settings.service';
+import { ArlasExportCsvService } from './services/export-csv/export-csv.service';
 
 
 export class CustomTranslateLoader implements TranslateLoader {
@@ -203,6 +208,14 @@ export function getAuthModuleConfig(): OAuthModuleConfig {
     DragDropModule,
     FormsModule,
     HistogramModule,
+    MetricModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useClass: CustomTranslateLoader,
+        deps: [HttpClient]
+      }
+    }),
     HttpClientModule,
     MatAutocompleteModule,
     MatButtonModule,
@@ -226,6 +239,7 @@ export function getAuthModuleConfig(): OAuthModuleConfig {
     MatTooltipModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
+    OwlMomentDateTimeModule,
     PowerbarsModule,
     ReactiveFormsModule,
     ResultsModule,
@@ -237,13 +251,6 @@ export function getAuthModuleConfig(): OAuthModuleConfig {
         useClass: ArlasColorGeneratorLoader
       }
     }),
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useClass: CustomTranslateLoader,
-        deps: [HttpClient]
-      }
-    }),
     OAuthModule.forRoot()
   ],
   providers: [
@@ -253,11 +260,19 @@ export function getAuthModuleConfig(): OAuthModuleConfig {
     forwardRef(() => ArlasCollaborativesearchService),
     forwardRef(() => AuthentificationService),
     forwardRef(() => ArlasStartupService),
+    forwardRef(() => ArlasMapSettings),
     forwardRef(() => ArlasConfigurationDescriptor),
     forwardRef(() => ArlasColorGeneratorLoader),
     forwardRef(() => ArlasExtendService),
     forwardRef(() => ArlasWalkthroughService),
+    forwardRef(() => ArlasExportCsvService),
 
+    {
+      provide: APP_INITIALIZER,
+      useFactory: translationServiceFactory,
+      deps: [TranslateService, Injector],
+      multi: true
+    },
     {
       provide: APP_INITIALIZER,
       useFactory: startupServiceFactory,
@@ -280,12 +295,6 @@ export function getAuthModuleConfig(): OAuthModuleConfig {
       provide: APP_INITIALIZER,
       useFactory: walkthroughServiceFactory,
       deps: [ArlasWalkthroughService],
-      multi: true
-    },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: translationServiceFactory,
-      deps: [TranslateService, Injector],
       multi: true
     },
     {

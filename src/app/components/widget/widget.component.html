@@ -1,4 +1,7 @@
 <div *ngIf="componentType === 'histogram'">
+  <button *ngIf="showExportCsv" id="export-csv" matTooltip="{{'Export' | translate }}" class="export-csv-button" (click)="exportCsv(contributor,false,componentType)">
+    <mat-icon class="analytics-board-panel-icon export-csv">get_app</mat-icon>
+  </button>
   <arlas-histogram #histogram [intervalListSelection]="contributor?.intervalListSelection" [intervalSelection]="contributor?.intervalSelection"
     [data]="contributor?.chartData" (valuesListChangedEvent)="contributor?.valueChanged($event)" [id]="graphParam?.id" [dataType]="graphParam?.dataType"
     [dataUnit]="graphParam?.dataUnit" [valuesDateFormat]="graphParam?.valuesDateFormat" [isHistogramSelectable]="graphParam?.isHistogramSelectable"
@@ -35,15 +38,21 @@
 </div>
 
 <div *ngIf="componentType==='powerbars'">
+  <button *ngIf="showExportCsv" id="export-csv" matTooltip="{{'Export' | translate }}" class="export-csv-button" (click)="exportCsv(contributor,true,componentType)">
+    <mat-icon class="analytics-board-panel-icon export-csv">get_app</mat-icon>
+  </button>
   <arlas-powerbars [customizedCssClass]="graphParam?.customizedCssClass" [powerbarTitle]="graphParam?.powerbarTitle" [displayFilterField]="graphParam?.displayFilter"
-    [inputData]="contributor?.treeData" [useColorService]="graphParam?.useColorService" [keysToColors]="graphParam?.keysToColors" [colorsSaturationWeight]="graphParam?.colorsSaturationWeight"
-    (selectedPowerBarEvent)="contributor?.selectedNodesListChanged($event)" [selectedPaths]="contributor?.selectedNodesPathsList"
-    (searchedTerm)="contributor?.updateTreeDataSearch($event)">
+    [inputData]="contributor?.treeData" [useColorService]="graphParam?.useColorService" [keysToColors]="graphParam?.keysToColors"
+    [colorsSaturationWeight]="graphParam?.colorsSaturationWeight" (selectedPowerBarEvent)="contributor?.selectedNodesListChanged($event)"
+    [selectedPaths]="contributor?.selectedNodesPathsList" (searchedTerm)="contributor?.updateTreeDataSearch($event)">
   </arlas-powerbars>
 </div>
 
 <div *ngIf="componentType==='donut'" class="donut-container">
   <div class="donut">{{contributor?.getFilterDisplayName() | translate}}</div>
+  <button *ngIf="showExportCsv" id="export-csv" matTooltip="{{'Export' | translate }}" class="export-csv-button" (click)="exportCsv(contributor,false,componentType)">
+    <mat-icon class="analytics-board-panel-icon export-csv">get_app</mat-icon>
+  </button>
   <arlas-donut [id]="graphParam?.id" [donutData]="contributor?.treeData" [opacity]="graphParam.opacity" [multiselectable]="graphParam?.multiselectable"
     [selectedArcsList]="contributor?.selectedNodesPathsList" [keysToColors]="graphParam?.keysToColors" [colorsSaturationWeight]="graphParam?.colorsSaturationWeight"
     (selectedNodesEvent)="contributor?.selectedNodesListChanged($event)" [customizedCssClass]="graphParam?.customizedCssClass">
@@ -53,18 +62,22 @@
 <div *ngIf="componentType === 'resultlist'">
   <arlas-result-list style="height:100%" [rowItemList]="contributor?.data" [detailedDataRetriever]="contributor?.detailedDataRetriever"
     [fieldsConfiguration]="contributor?.fieldsConfiguration" [fieldsList]="contributor?.fieldsList" [filtersMap]="contributor?.filtersMap"
-    [dropDownMapValues]="contributor?.dropDownMapValues" (sortColumnEvent)="contributor?.sortColumn($event)"
-    [fetchState]="contributor?.fetchState" (paginationEvent)="contributor?.getPage($event.reference, $event.whichPage)"
-    (setFiltersEvent)="contributor?.setFilters($event)" [tableWidth]="graphParam.tableWidth" [globalActionsList]="graphParam.globalActionsList"
-    [nLastLines]="graphParam.nLastLines" [detailedGridHeight]="graphParam.detailedGridHeight"
-    [nbGridColumns]="graphParam.nbGridColumns" [indeterminatedItems]="this.indeterminatedItems" [highlightItems]="this.highlightItems"
-    [defautMode]="graphParam.defautMode" [displayFilters]="graphParam.displayFilters" [isBodyHidden]="graphParam.isBodyHidden"
-    [isGeoSortActived]="graphParam?.isGeoSortActived" [isAutoGeoSortActived]="graphParam?.isAutoGeoSortActived"
-    [useColorService]="graphParam?.useColorService" [cellBackgroundStyle]="graphParam?.cellBackgroundStyle"
-    [keysToColors]="graphParam?.keysToColors" [colorsSaturationWeight]="graphParam?.colorsSaturationWeight"
-    (geoSortEvent)="emitEvent(contributorId, 'geoSortEvent', $event)"
+    [dropDownMapValues]="contributor?.dropDownMapValues" (sortColumnEvent)="contributor?.sortColumn($event)" [fetchState]="contributor?.fetchState"
+    (paginationEvent)="contributor?.getPage($event.reference, $event.whichPage)" (setFiltersEvent)="contributor?.setFilters($event)"
+    [tableWidth]="graphParam.tableWidth" [globalActionsList]="graphParam.globalActionsList" [nLastLines]="graphParam.nLastLines"
+    [detailedGridHeight]="graphParam.detailedGridHeight" [nbGridColumns]="graphParam.nbGridColumns" [indeterminatedItems]="this.indeterminatedItems"
+    [highlightItems]="this.highlightItems" [defautMode]="graphParam.defautMode" [displayFilters]="graphParam.displayFilters"
+    [isBodyHidden]="graphParam.isBodyHidden" [isGeoSortActived]="graphParam?.isGeoSortActived" [isAutoGeoSortActived]="graphParam?.isAutoGeoSortActived"
+    [useColorService]="graphParam?.useColorService" [cellBackgroundStyle]="graphParam?.cellBackgroundStyle" [keysToColors]="graphParam?.keysToColors"
+    [colorsSaturationWeight]="graphParam?.colorsSaturationWeight" (geoSortEvent)="emitEvent(contributorId, 'geoSortEvent', $event)"
     (geoAutoSortEvent)="emitEvent(contributorId, 'geoAutoSortEvent', $event)" (selectedItemsEvent)="emitEvent(contributorId, 'selectedItemsEvent', $event)"
     (consultedItemEvent)="emitEvent(contributorId, 'consultedItemEvent', $event)" (actionOnItemEvent)="emitEvent(contributorId, 'actionOnItemEvent', $event)"
     (globalActionEvent)="emitEvent(contributorId, 'globalActionEvent', $event)">
   </arlas-result-list>
+</div>
+
+<div *ngIf="componentType === 'metric'">
+  <arlas-metric [beforeValue]="graphParam?.beforeValue" [shortValue]="graphParam?.shortValue" [value]="contributor?.metricValue" [afterValue]="graphParam?.afterValue" [customizedCssClass]="graphParam?.customizedCssClass">
+
+  </arlas-metric>
 </div>

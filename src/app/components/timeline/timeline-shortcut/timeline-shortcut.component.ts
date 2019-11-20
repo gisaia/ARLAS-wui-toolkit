@@ -4,7 +4,7 @@ import { StringifiedTimeShortcut, SelectedOutputValues } from 'arlas-web-contrib
 import { ArlasCollaborativesearchService, ArlasStartupService } from './../../../services/startup/startup.service';
 import { TranslateService } from '@ngx-translate/core';
 import { OperationEnum } from 'arlas-web-core';
-import { filter } from 'rxjs/internal/operators/filter';
+import { filter } from 'rxjs/operators';
 
 /**
  * This component contains shortcut labels that allow to apply predefined temporal filters on a timeline
@@ -59,7 +59,8 @@ export class TimelineShortcutComponent implements OnInit {
   }
   public ngOnInit() {
     if (this.timelineComponent) {
-      this.timelineContributor = this.arlasStartupService.contributorRegistry.get(this.timelineComponent.contributorId);
+      this.timelineContributor = <HistogramContributor>this.arlasStartupService.contributorRegistry
+        .get(this.timelineComponent.contributorId);
       this.timeShortcuts = this.timelineContributor.timeShortcuts;
       this.timeShortcuts.forEach(shortcut => {
         shortcut.label = this.translate.instant(shortcut.label);

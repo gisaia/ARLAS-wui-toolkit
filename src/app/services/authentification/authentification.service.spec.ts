@@ -12,9 +12,8 @@ describe('AuthentificationService', () => {
   beforeEach(() =>
     TestBed.configureTestingModule({
       providers: [OAuthService, HttpClient, UrlHelperService],
-      imports: [OAuthModule, HttpClientModule]
-
-    }));
+      imports: [OAuthModule.forRoot(), HttpClientModule]
+  }));
   it('should be created', () => {
     const service: AuthentificationService = TestBed.get(AuthentificationService);
     expect(service).toBeTruthy();

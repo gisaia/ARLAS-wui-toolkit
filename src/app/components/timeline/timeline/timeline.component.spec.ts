@@ -23,7 +23,7 @@ import {
   MatTooltipModule, MatChipsModule
 } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
-import { DonutModule, HistogramModule, PowerbarsModule, ResultsModule } from 'arlas-web-components';
+import { DonutModule, HistogramModule, PowerbarsModule, ResultsModule, MetricModule } from 'arlas-web-components';
 import { ArlasCollaborativesearchService, ArlasStartupService, ArlasConfigService } from '../../../services/startup/startup.service';
 import { WidgetComponent } from '../../widget/widget.component';
 import { TimelineComponent } from './timeline.component';
@@ -31,7 +31,7 @@ import { TranslateModule, TranslateService, TranslateLoader, TranslateFakeLoader
 import { TimelineShortcutComponent } from '../../timeline/timeline-shortcut/timeline-shortcut.component';
 import { GetTimeLabelPipe } from '../../../pipes/get-time-label.pipe';
 import { DatePickerComponent } from 'app/components/timeline/date-picker/date-picker.component';
-import { OwlNativeDateTimeModule, OwlDateTimeModule } from 'ng-pick-datetime';
+import { OwlNativeDateTimeModule, OwlDateTimeModule } from '@gisaia-team/ng-pick-datetime';
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 
@@ -45,7 +45,7 @@ describe('TimelineComponent', () => {
       imports: [
         MatCardModule, MatIconModule, MatExpansionModule, MatSelectModule, MatButtonModule, MatChipsModule,
         OwlDateTimeModule, OwlNativeDateTimeModule, FormsModule, HttpClientModule,
-        MatTooltipModule, BrowserModule, HistogramModule, ResultsModule, PowerbarsModule, DonutModule,
+        MatTooltipModule, BrowserModule, HistogramModule, ResultsModule, PowerbarsModule, DonutModule, MetricModule,
         TranslateModule.forRoot({
           loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
         })

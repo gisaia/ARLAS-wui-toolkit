@@ -24,7 +24,7 @@ import { ArlasCollaborativesearchService, ArlasStartupService } from './../../..
 import { SelectedOutputValues } from 'arlas-web-contributors/models/models';
 import { ChartType, DataType, Position } from 'arlas-d3';
 import { HistogramComponent } from 'arlas-web-components';
-import { filter } from 'rxjs/internal/operators/filter';
+import { filter } from 'rxjs/operators';
 import { TimelineConfiguration } from './timeline.utils';
 
 /**
@@ -61,8 +61,8 @@ export class TimelineComponent implements OnInit {
    * @description Whether the date picker is enabled
    */
   @Input() public activeDatePicker = false;
-  @ViewChild('timeline') public timelineHistogramComponent: HistogramComponent;
-  @ViewChild('detailedtimeline') public detailedTimelineHistogramComponent: HistogramComponent;
+  @ViewChild('timeline', {static: false}) public timelineHistogramComponent: HistogramComponent;
+  @ViewChild('detailedtimeline', {static: false}) public detailedTimelineHistogramComponent: HistogramComponent;
 
   public showDetailedTimeline = false;
   public detailedTimelineContributor: DetailedHistogramContributor;
@@ -81,12 +81,15 @@ export class TimelineComponent implements OnInit {
     if (this.timelineComponent && this.detailedTimelineComponent) {
       this.resetHistogramsInputs(this.timelineComponent.input);
       this.resetHistogramsInputs(this.detailedTimelineComponent.input);
-      this.detailedTimelineContributor = this.arlasStartupService.contributorRegistry.get(this.detailedTimelineComponent.contributorId);
-      this.timelineContributor = this.arlasStartupService.contributorRegistry.get(this.timelineComponent.contributorId);
+      this.detailedTimelineContributor = <DetailedHistogramContributor>this.arlasStartupService.contributorRegistry
+        .get(this.detailedTimelineComponent.contributorId);
+      this.timelineContributor = <HistogramContributor>this.arlasStartupService.contributorRegistry
+        .get(this.timelineComponent.contributorId);
       this.showDetailedTimelineOnCollaborationEnd();
     } else if (this.timelineComponent) {
       this.resetHistogramsInputs(this.timelineComponent.input);
-      this.timelineContributor = this.arlasStartupService.contributorRegistry.get(this.timelineComponent.contributorId);
+      this.timelineContributor = <HistogramContributor>this.arlasStartupService.contributorRegistry
+        .get(this.timelineComponent.contributorId);
     }
   }
 
