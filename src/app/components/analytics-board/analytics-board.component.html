@@ -14,7 +14,7 @@
         </mat-panel-description>
       </mat-expansion-panel-header>
       <div class="analytics-board-group analytics-group-{{group.components.length}}">
-        <mat-card *ngFor="let component of group.components;let i = index" class="analytics-board-card">
+        <mat-card *ngFor="let component of group.components;let i = index" class="analytics-board-card" [ngClass]="component?.customizedCssClass">
           <mat-card-title *ngIf="component?.title !== undefined" class="analytics-board-card-title">
             <mat-icon *ngIf="component?.icon !== undefined" class="analytics-board-card-icon">{{component.icon}}
             </mat-icon>
