@@ -31,7 +31,7 @@
     "cli-color": "^1.2.0",
     "core-js": "^2.4.1",
     "hopscotch": "0.3.1",
-    "@gisaia-team/ng-pick-datetime": "~8.0.1",
+    "@gisaia-team/ng-pick-datetime": "~8.0.*",
     "rxjs": "^6.5.3",
     "zone.js": "^0.9.1"
   },
