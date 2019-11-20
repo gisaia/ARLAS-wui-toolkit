@@ -203,6 +203,18 @@
                                                         "donut",
                                                         "metric"
                                                     ]
+                                                },
+                                                "title":{
+                                                  "description": "Title of the component",
+                                                  "type": "string"
+                                                },
+                                                "icon":{
+                                                  "description": "icon of the component, from material design icon",
+                                                  "type": "string"
+                                                },
+                                                "customizedCssClass":{
+                                                  "description": "css class name to be applied on the component container",
+                                                  "type": "string"
                                                 }
                                             },
                                             "required": [
