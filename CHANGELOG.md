@@ -1,5 +1,23 @@
 # Change Log
 
+## [v12.0.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v12.0.0) (2019-11-22)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v11.4.0...v12.0.0)
+
+**Breaking changes:**
+
+- Remove Donut and Powerbars Contributors and replace them with TreeContributor [\#200](https://github.com/gisaia/ARLAS-wui-toolkit/issues/200)
+- Update to angular 8.1 [\#158](https://github.com/gisaia/ARLAS-wui-toolkit/issues/158)
+
+**New stuff:**
+
+- Add implicit flow authentification service [\#196](https://github.com/gisaia/ARLAS-wui-toolkit/issues/196)
+- Add a service to export to CSV [\#194](https://github.com/gisaia/ARLAS-wui-toolkit/issues/194)
+
+**Fixed bugs:**
+
+- Fix chips icon rendering when label is empty [\#199](https://github.com/gisaia/ARLAS-wui-toolkit/pull/199) ([sebbousquet](https://github.com/sebbousquet))
+
 ## [v11.4.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v11.4.0) (2019-10-16)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v11.3.0...v11.4.0)
