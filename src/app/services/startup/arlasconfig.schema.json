@@ -680,6 +680,14 @@
                                 "localstorage",
                                 "sessionstorage"
                             ]
+                        },
+                        "disableAtHashCheck":{
+                            "description": "This property has been introduced to disable at_hash checks and is indented for Identity Provider that does not deliver an at_hash EVEN THOUGH its recommended by the OIDC specs.",
+                            "type": "boolean"
+                        },
+                        "dummyClientSecret":{
+                            "description":"dummyClientSecret dummy string for testn DONT USE IT in production",
+                            "type": "string"
                         }
                     },
                     "required": [

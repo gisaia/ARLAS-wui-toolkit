@@ -40,30 +40,31 @@ export class AuthentificationService {
   public initAuthService(configService, useDiscovery?: boolean, forceConnect?: boolean): Promise<void> {
     this.authConfigValue = configService.getValue('arlas.authentification');
     if (this.authConfigValue) {
-      if (useDiscovery) {
+      if (useDiscovery || this.oauthService.tokenValidationHandler.constructor.name === 'NullValidationHandler')  {
         this.authConfig = this.getAuthConfig(this.authConfigValue);
         this.setupAuthService();
-        return this.runInitialLoginSequence(true, forceConnect);
+        return this.runInitialLoginSequence(useDiscovery, forceConnect);
+      }
+    } else {
+      // Call jkw endpoint to set in config
+      if (this.authConfigValue['tokenEndpoint'] && this.authConfigValue['userinfoEndpoint']
+        && this.authConfigValue['loginUrl'] && this.authConfigValue['jwksEndpoint']) {
+        return this.http.get(this.authConfigValue['jwksEndpoint']).toPromise()
+          .then(jwks => {
+            this.authConfig = this.getAuthConfig(this.authConfigValue, jwks);
+            this.setupAuthService();
+            this.runInitialLoginSequence(false, forceConnect);
+          });
       } else {
-        // Call jkw endpoint to set in config
-        if (this.authConfigValue['tokenEndpoint'] && this.authConfigValue['userinfoEndpoint']
-          && this.authConfigValue['loginUrl'] && this.authConfigValue['jwksEndpoint']) {
-          return this.http.get(this.authConfigValue['jwksEndpoint']).toPromise()
-            .then(jwks => {
-              this.authConfig = this.getAuthConfig(this.authConfigValue, jwks);
-              this.setupAuthService();
-              this.runInitialLoginSequence(false, forceConnect);
-            });
-        } else {
-          console.error('Authentification config error : if useDiscovery ' +
-            'is set to false in configuration,  tokenEndpoint,userinfoEndpoint,loginUrl and jwksEndpoint must be defined.');
-        }
+        console.error('Authentification config error : if useDiscovery ' +
+          'is set to false in configuration,  tokenEndpoint,userinfoEndpoint,loginUrl and jwksEndpoint must be defined.');
       }
     }
   }
 
   public runInitialLoginSequence(useDiscovery?: boolean, forceConnect?: boolean): Promise<void> {
     let startToLogin: Promise<any>;
+
     if (useDiscovery) {
       startToLogin = this.oauthService.loadDiscoveryDocument()
         .then(() => this.oauthService.tryLogin());
@@ -79,7 +80,7 @@ export class AuthentificationService {
           .then(() => Promise.resolve())
           .catch(result => {
             if (forceConnect) {
-              this.oauthService.initImplicitFlow();
+              this.oauthService.initLoginFlow();
               console.warn('User interaction is needed to log in, we will wait for the user to manually log in.');
               return Promise.resolve();
             }
@@ -94,7 +95,7 @@ export class AuthentificationService {
 
 
   public login() {
-    this.oauthService.initImplicitFlow();
+    this.oauthService.initLoginFlow();
   }
   public logout() { this.oauthService.logOut(); }
   public refresh() { this.oauthService.silentRefresh(); }
@@ -127,7 +128,6 @@ export class AuthentificationService {
 
 
   private getAuthConfig(authConfigValue, jwks?): AuthConfig {
-    const hh = new Headers();
     let authServiceConfig: AuthConfig;
     if (authConfigValue) {
       if (authConfigValue['useDiscovery']) {
@@ -143,7 +143,11 @@ export class AuthentificationService {
           showDebugInformation: authConfigValue['showDebugInformation'] !== undefined ? authConfigValue['showDebugInformation'] : false,
           silentRefreshTimeout: authConfigValue['silentRefreshTimeout'] !== undefined ? authConfigValue['silentRefreshTimeout'] : 5000,
           clearHashAfterLogin: authConfigValue['clearHashAfterLogin'] !== undefined ? authConfigValue['clearHashAfterLogin'] : false,
+          disableAtHashCheck: authConfigValue['disableAtHashCheck'] !== undefined ? authConfigValue['disableAtHashCheck'] : false
         };
+        if (authConfigValue['dummyClientSecret'] !== undefined) {
+          authServiceConfig['dummyClientSecret'] = authConfigValue['dummyClientSecret'];
+        }
       } else {
         authServiceConfig = {
           clientId: authConfigValue['clientId'],
@@ -161,7 +165,14 @@ export class AuthentificationService {
           showDebugInformation: authConfigValue['showDebugInformation'] !== undefined ? authConfigValue['showDebugInformation'] : false,
           silentRefreshTimeout: authConfigValue['silentRefreshTimeout'] !== undefined ? authConfigValue['silentRefreshTimeout'] : 5000,
           clearHashAfterLogin: authConfigValue['clearHashAfterLogin'] !== undefined ? authConfigValue['clearHashAfterLogin'] : false,
+          disableAtHashCheck: authConfigValue['disableAtHashCheck'] !== undefined ? authConfigValue['disableAtHashCheck'] : false
         };
+        if (jwks !== undefined) {
+          authServiceConfig['jwks'] = jwks;
+        }
+        if (authConfigValue['dummyClientSecret'] !== undefined) {
+          authServiceConfig['dummyClientSecret'] = authConfigValue['dummyClientSecret'];
+        }
       }
     }
     return authServiceConfig;

@@ -148,7 +148,16 @@ export function translationServiceFactory(translate: TranslateService, injector:
 
 // We need a factory since localStorage is not available at AOT build time
 export function storageFactory(config: ArlasConfigService): OAuthStorage {
-  return localStorage;
+  if (config.getValue('arlas.authentification.storage') !== undefined) {
+    if (config.getValue('arlas.authentification.storage') === 'localStorage') {
+      return localStorage;
+    } else {
+      return sessionStorage;
+    }
+  } else {
+    return localStorage;
+
+  }
 }
 
 export function getAuthModuleConfig(): OAuthModuleConfig {
