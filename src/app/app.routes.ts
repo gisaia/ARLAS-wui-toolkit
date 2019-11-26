@@ -22,6 +22,7 @@ import { AppComponent } from './app.component';
 import {ModuleWithProviders} from '@angular/core';
 
 export const ROUTES: Routes = [
-  { path: '', component: AppComponent }
+  { path: '', component: AppComponent },
+  { path: 'callback', redirectTo: '' }
 ];
 export const routing = RouterModule.forRoot(ROUTES);
