@@ -40,13 +40,13 @@ export class AuthentificationService {
   public initAuthService(configService, useDiscovery?: boolean, forceConnect?: boolean): Promise<void> {
     this.authConfigValue = configService.getValue('arlas.authentification');
     if (this.authConfigValue) {
-      if (useDiscovery || this.oauthService.tokenValidationHandler.constructor.name === 'NullValidationHandler') {
+      if (useDiscovery || this.authConfigValue['jwksEndpoint'] === undefined)  {
         this.authConfig = this.getAuthConfig(this.authConfigValue);
         this.setupAuthService();
         return this.runInitialLoginSequence(useDiscovery, forceConnect);
       }
     } else {
-      // Call jkw endpoint to set in config
+      // Call jwks endpoint to set in config
       if (this.authConfigValue['tokenEndpoint'] && this.authConfigValue['userinfoEndpoint']
         && this.authConfigValue['loginUrl'] && this.authConfigValue['jwksEndpoint']) {
         return this.http.get(this.authConfigValue['jwksEndpoint']).toPromise()
@@ -159,7 +159,6 @@ export class AuthentificationService {
           userinfoEndpoint: authConfigValue['userinfoEndpoint'],
           loginUrl: authConfigValue['loginUrl'],
           redirectUri: window.location.origin + '/callback',
-          jwks: jwks,
           silentRefreshRedirectUri: window.location.origin + '/silent-refresh.html',
           timeoutFactor: authConfigValue['timeoutFactor'] !== undefined ? authConfigValue['timeoutFactor'] : 0.75,
           sessionChecksEnabled: authConfigValue['sessionChecksEnabled'] !== undefined ? authConfigValue['sessionChecksEnabled'] : true,
