@@ -40,7 +40,7 @@ export class AuthentificationService {
   public initAuthService(configService, useDiscovery?: boolean, forceConnect?: boolean): Promise<void> {
     this.authConfigValue = configService.getValue('arlas.authentification');
     if (this.authConfigValue) {
-      if (useDiscovery || this.oauthService.tokenValidationHandler.constructor.name === 'NullValidationHandler')  {
+      if (useDiscovery || this.oauthService.tokenValidationHandler.constructor.name === 'NullValidationHandler') {
         this.authConfig = this.getAuthConfig(this.authConfigValue);
         this.setupAuthService();
         return this.runInitialLoginSequence(useDiscovery, forceConnect);
@@ -143,7 +143,8 @@ export class AuthentificationService {
           showDebugInformation: authConfigValue['showDebugInformation'] !== undefined ? authConfigValue['showDebugInformation'] : false,
           silentRefreshTimeout: authConfigValue['silentRefreshTimeout'] !== undefined ? authConfigValue['silentRefreshTimeout'] : 5000,
           clearHashAfterLogin: authConfigValue['clearHashAfterLogin'] !== undefined ? authConfigValue['clearHashAfterLogin'] : false,
-          disableAtHashCheck: authConfigValue['disableAtHashCheck'] !== undefined ? authConfigValue['disableAtHashCheck'] : false
+          disableAtHashCheck: authConfigValue['disableAtHashCheck'] !== undefined ? authConfigValue['disableAtHashCheck'] : false,
+          requireHttps: authConfigValue['requireHttps'] !== undefined ? authConfigValue['requireHttps'] : true
         };
         if (authConfigValue['dummyClientSecret'] !== undefined) {
           authServiceConfig['dummyClientSecret'] = authConfigValue['dummyClientSecret'];
@@ -165,7 +166,8 @@ export class AuthentificationService {
           showDebugInformation: authConfigValue['showDebugInformation'] !== undefined ? authConfigValue['showDebugInformation'] : false,
           silentRefreshTimeout: authConfigValue['silentRefreshTimeout'] !== undefined ? authConfigValue['silentRefreshTimeout'] : 5000,
           clearHashAfterLogin: authConfigValue['clearHashAfterLogin'] !== undefined ? authConfigValue['clearHashAfterLogin'] : false,
-          disableAtHashCheck: authConfigValue['disableAtHashCheck'] !== undefined ? authConfigValue['disableAtHashCheck'] : false
+          disableAtHashCheck: authConfigValue['disableAtHashCheck'] !== undefined ? authConfigValue['disableAtHashCheck'] : false,
+          requireHttps: authConfigValue['requireHttps'] !== undefined ? authConfigValue['requireHttps'] : true
         };
         if (jwks !== undefined) {
           authServiceConfig['jwks'] = jwks;
