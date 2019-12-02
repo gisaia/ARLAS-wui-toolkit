@@ -116,11 +116,6 @@ export class FiltersComponent implements OnInit {
   }
 
   public getAllContributorsIcons() {
-
-    this.contributorsIcons.set(
-      'mapbox',
-      this.configService.getValue('arlas.web.contributors').find(contrib => contrib.identifier === 'mapbox').icon
-    );
     this.arlasStartupService.contributorRegistry.forEach((v, k) => {
       if (v !== undefined) {
         this.contributorsIcons.set(
