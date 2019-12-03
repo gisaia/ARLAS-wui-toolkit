@@ -98,6 +98,7 @@ export class ShareDialogComponent implements OnInit {
   public allFields = new Array<ArlasSearchField>();
   public excludedType = new Set<string>();
   public excludedTypeString = '';
+  public shareConfig: any;
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -117,12 +118,14 @@ export class ShareDialogComponent implements OnInit {
       orderDirection: ['']
     });
 
-    this.maxForFeature = this.configService.getValue('arlas.web.components.share.geojson.max_for_feature');
+    this.shareConfig = this.configService.getValue('arlas.web.components.share.geojson');
+
+    this.maxForFeature = this.shareConfig['max_for_feature'];
     this.maxForTopology = (
-      this.configService.getValue('arlas.web.components.share.geojson.max_for_topology') ?
-        this.configService.getValue('arlas.web.components.share.geojson.max_for_topology') : 1000
+      this.shareConfig['max_for_topology'] ?
+      this.shareConfig['max_for_topology'] : 1000
     );
-    this.configService.getValue('arlas.web.components.share.geojson.sort_excluded_type').forEach(element => {
+    this.shareConfig['sort_excluded_type'].forEach(element => {
       this.excludedType.add(element);
       this.excludedTypeString += element + ', ';
     });
