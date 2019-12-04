@@ -1,5 +1,21 @@
 # Change Log
 
+## [v12.1.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v12.1.0) (2019-12-04)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v12.0.0...v12.1.0)
+
+**New stuff:**
+
+- Change test to init authent mode [\#212](https://github.com/gisaia/ARLAS-wui-toolkit/issues/212)
+- Add requireHttps in configuration of authentification [\#210](https://github.com/gisaia/ARLAS-wui-toolkit/issues/210)
+- Enhance authentification service [\#208](https://github.com/gisaia/ARLAS-wui-toolkit/issues/208)
+
+**Fixed bugs:**
+
+- Error on share due to `max\_for\_topology` [\#219](https://github.com/gisaia/ARLAS-wui-toolkit/issues/219)
+- Filter component no longer need to set map contributor icon [\#216](https://github.com/gisaia/ARLAS-wui-toolkit/issues/216)
+- MapSettings Service detects incorrectly Topology mode [\#214](https://github.com/gisaia/ARLAS-wui-toolkit/issues/214)
+
 ## [v12.0.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v12.0.0) (2019-11-22)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v11.4.0...v12.0.0)
@@ -11,6 +27,7 @@
 
 **New stuff:**
 
+- Update build target to `es6` [\#206](https://github.com/gisaia/ARLAS-wui-toolkit/issues/206)
 - Add implicit flow authentification service [\#196](https://github.com/gisaia/ARLAS-wui-toolkit/issues/196)
 - Add a service to export to CSV [\#194](https://github.com/gisaia/ARLAS-wui-toolkit/issues/194)
 
