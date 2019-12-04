@@ -134,7 +134,7 @@
           "icon": "directions_boat"
         },
         {
-          "type":"donut",
+          "type":"tree",
           "aggregationmodels": [
             {
               "type": "term",
@@ -147,7 +147,7 @@
           "icon": "navigation"
         },
         {
-          "type":"powerbars",
+          "type":"tree",
           "aggregationmodels": [
             {
               "type": "term",
@@ -160,7 +160,7 @@
           "icon": "directions_boat"
         },
         {
-          "type":"powerbars",
+          "type":"tree",
           "aggregationmodels": [
             {
               "type": "term",
@@ -230,7 +230,7 @@
               "interval": {
                 "value": 3
               },
-              "fetchGeometry": {
+              "fetch_geometry": {
                 "strategy": "centroid"
               }
             }
@@ -759,8 +759,7 @@
                 "defautMode": "list",
                 "displayFilters": false,
                 "isBodyHidden": false,
-                "isGeoSortActived": false,
-                "isAutoGeoSortActived": true,
+                "isGeoSortEnabled": true,
                 "selectedItemsEvent": null,
                 "consultedItemEvent": null,
                 "actionOnItemEvent": null,
@@ -950,7 +949,7 @@
     "server": {
       "url": "http://demo.arlas.io/arlas",
       "collection": {
-        "name": "geodata",
+        "name": "demo_ais-danmark",
         "id": "id"
       },
       "max_age_cache": 120
