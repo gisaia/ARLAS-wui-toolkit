@@ -79,11 +79,14 @@ export class ArlasTagService implements OnDestroy {
     this.postTagData(data);
   }
 
-  public removeTag(path: string, value?: string | number, operationName?: string) {
+  public removeTag(path: string, value?: string | number, propagateField?: string, propagateUrl?: string, operationName?: string) {
     if (!operationName) {
       operationName = 'UNTAG ' + Math.round(Date.now() / 1000);
     }
     const data = this.createPayload(operationName, path, value);
+    if (propagateField) {
+      data.propagation = this.createPropagationPayload(propagateField, propagateUrl);
+    }
     this.postTagData(data, 'untag');
   }
 
