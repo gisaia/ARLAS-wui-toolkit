@@ -180,7 +180,12 @@ export class TagDialogComponent implements OnInit {
    */
   public removeTag() {
     if (this.tagFormGroup.value.valueOfTag) {
-      this.tagService.removeTag(this.tagFormGroup.value.fieldToTag, this.tagFormGroup.value.valueOfTag);
+      this.tagService.removeTag(
+        this.tagFormGroup.value.fieldToTag,
+        this.tagFormGroup.value.valueOfTag,
+        this.tagFormGroup.value.onField,
+        this.tagFormGroup.value.linkTo
+      );
     } else {
       this.confirmDialogRef = this.dialog.open(ConfirmModalComponent);
       this.confirmDialogRef.componentInstance.confirmHTLMMessage =

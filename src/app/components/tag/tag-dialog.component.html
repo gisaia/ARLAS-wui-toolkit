@@ -37,7 +37,7 @@
 
   <div style="display:flex;flex-direction:row;justify-content:space-around;padding-top:10px;">
     <button mat-raised-button [disabled]="this.tagService.isProcessing || !tagFormGroup.valid " color="primary" (click)="addTag()">{{ 'Add Tag' | translate }}</button>
-    <button mat-raised-button [disabled]="this.tagService.isProcessing || fieldtotag.empty || propagation.checked" color="warn" (click)="removeTag()">{{ 'Remove Tag' | translate }}</button>
+    <button mat-raised-button [disabled]="this.tagService.isProcessing || fieldtotag.empty || (propagation.checked && !tagFormGroup.valid)" color="warn" (click)="removeTag()">{{ 'Remove Tag' | translate }}</button>
   </div>
   <mat-progress-bar *ngIf="this.tagService.isProcessing" class="tag-progress" [color]="'accent'" [mode]="'indeterminate'"></mat-progress-bar>
 </div>
