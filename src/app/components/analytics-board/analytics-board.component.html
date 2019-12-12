@@ -26,7 +26,7 @@
               id="{{component?.componentType + '-' +  component?.contributorId + '-' + group.groupId + '-' + i}}"
               [componentType]="component?.componentType" [contributorId]="component?.contributorId" [showExportCsv]="component?.showExportCsv"
               [componentParams]="component?.input" (outEvents)="listenOutput($event)"></arlas-tool-widget>
-              <arlas-tool-progress-spinner *ngIf="showSpinner"  [hidden]="!getContributorStatus(component?.contributorId)"></arlas-tool-progress-spinner>
+              <arlas-tool-progress-spinner *ngIf="showSpinner"  [strokeWidth]="strokeWidthSpinner" [color]="colorSpinner" [diameter]="diameterSpinner" [hidden]="!getContributorStatus(component?.contributorId)"></arlas-tool-progress-spinner>
           </mat-card-content>
         </mat-card>
       </div>
@@ -74,9 +74,8 @@
               [componentType]="component?.componentType" [contributorId]="component?.contributorId" [showExportCsv]="component?.showExportCsv"
               [componentParams]="component?.input" (outEvents)="listenOutput($event)">
             </arlas-tool-widget>
-            <arlas-tool-progress-spinner *ngIf="showSpinner" [hidden]="!getContributorStatus(component?.contributorId)"></arlas-tool-progress-spinner>
+            <arlas-tool-progress-spinner *ngIf="showSpinner"  [strokeWidth]="strokeWidthSpinner" [color]="colorSpinner" [diameter]="diameterSpinner" [hidden]="!getContributorStatus(component?.contributorId)"></arlas-tool-progress-spinner>
           </mat-card-content>
-
         </mat-card>
       </div>
     </mat-expansion-panel>

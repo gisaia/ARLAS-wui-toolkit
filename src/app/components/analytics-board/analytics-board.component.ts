@@ -59,6 +59,9 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
   @Input() public mode = 'normal';
   @Input() public target: string;
   @Input() public showSpinner = false;
+  @Input() public colorSpinner = 'primary';
+  @Input() public diameterSpinner = 100;
+  @Input() public strokeWidthSpinner = 5;
 
   @Output() public boardOutputs: Subject<{ origin: string, event: string, data?: any }>
     = new Subject<{ origin: string, event: string, data?: any }>();
@@ -69,6 +72,8 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
   public activeFilter: Map<string, boolean> = new Map<string, boolean>();
 
   public isActiveDragDrop = false;
+
+  public wasClosedMap: Map<string, boolean> = new Map<string, boolean>();
 
   constructor(private collaborativeService: ArlasCollaborativesearchService,
     private configService: ArlasConfigService
@@ -179,14 +184,18 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
       .map(contribId => this.collaborativeService.registry.get(contribId))
       .map(contributor => {
         contributor.updateData = true;
-        contributor.updateFromCollaboration({
-          id: '',
-          operation: OperationEnum.add,
-          all: false
-        });
+        if (this.wasClosedMap.get(group.groupId)) {
+          contributor.updateFromCollaboration({
+            id: '',
+            operation: OperationEnum.add,
+            all: false
+          });
+          this.wasClosedMap.set(group.groupId, false);
+        }
       });
   }
   public closePanel(group: AnalyticGroupConfiguration) {
+    this.wasClosedMap.set(group.groupId, true);
     group.components
       .map(componentConfig => componentConfig.contributorId)
       .map(contribId => this.collaborativeService.registry.get(contribId))
