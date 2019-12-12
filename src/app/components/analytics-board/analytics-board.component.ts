@@ -17,11 +17,18 @@
  * under the License.
  */
 
-import { Component, Input, Output, OnInit, AfterViewInit, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  Component, Input, Output, OnInit, AfterViewInit,
+  OnChanges, SimpleChanges
+} from '@angular/core';
 import { Subject } from 'rxjs';
 import { AnalyticGroupConfiguration } from './analytics.utils';
 import { ArlasCollaborativesearchService, ArlasConfigService } from '../../services/startup/startup.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { OperationEnum } from 'arlas-web-core';
+import { ThemePalette, MatSpinner } from '@angular/material';
+import { OverlayRef, Overlay, PositionStrategy } from '@angular/cdk/overlay';
+import { TemplatePortal, ComponentPortal } from '@angular/cdk/portal';
 /**
  * This component organizes the `Widgets` in a board.
  * A Widget is declared within a "group" in the configuration. A group contains one or more Widgets
@@ -51,6 +58,8 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
    */
   @Input() public mode = 'normal';
   @Input() public target: string;
+  @Input() public showSpinner = false;
+
   @Output() public boardOutputs: Subject<{ origin: string, event: string, data?: any }>
     = new Subject<{ origin: string, event: string, data?: any }>();
 
@@ -61,7 +70,10 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
 
   public isActiveDragDrop = false;
 
-  constructor(private collaborativeService: ArlasCollaborativesearchService, private configService: ArlasConfigService) { }
+  constructor(private collaborativeService: ArlasCollaborativesearchService,
+    private configService: ArlasConfigService
+
+  ) { }
 
   public ngOnInit() {
     this.isActiveDragDrop = false;
@@ -101,6 +113,7 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
       this.scrollToAnalyticsComponent(changes.target.currentValue);
     }
   }
+
 
   public ngAfterViewInit() {
     this.scrollToAnalyticsComponent(this.target);
@@ -158,5 +171,29 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
       this.groupsDisplayStatusMap.set(group.groupId, display);
       this.groups.push(group);
     }
+  }
+
+  public openPanel(group: AnalyticGroupConfiguration) {
+    group.components
+      .map(componentConfig => componentConfig.contributorId)
+      .map(contribId => this.collaborativeService.registry.get(contribId))
+      .map(contributor => {
+        contributor.updateData = true;
+        contributor.updateFromCollaboration({
+          id: '',
+          operation: OperationEnum.add,
+          all: false
+        });
+      });
+  }
+  public closePanel(group: AnalyticGroupConfiguration) {
+    group.components
+      .map(componentConfig => componentConfig.contributorId)
+      .map(contribId => this.collaborativeService.registry.get(contribId))
+      .map(contributor => contributor.updateData = false);
+
+  }
+  public getContributorStatus(id) {
+    return this.collaborativeService.registry.get(id).isDataUpdating;
   }
 }
