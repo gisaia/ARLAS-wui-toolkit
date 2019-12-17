@@ -17,10 +17,10 @@
  * under the License.
  */
 import { Injectable, Inject, OnDestroy } from '@angular/core';
-import { WriteApi, StatusApi, Configuration, FetchAPI } from 'arlas-tagger-api';
+import { WriteApi, StatusApi, Configuration, FetchAPI, TagRefRequest } from 'arlas-tagger-api';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material';
 import { Filter } from 'arlas-api';
-import { Subject, Subscription, from, interval } from 'rxjs';
+import { Subject, Subscription, from, interval, Observable } from 'rxjs';
 
 import { ArlasCollaborativesearchService, ArlasConfigService } from '../startup/startup.service';
 import * as portableFetch from 'portable-fetch';
@@ -90,8 +90,8 @@ export class ArlasTagService implements OnDestroy {
     this.postTagData(data, 'untag');
   }
 
-  public createPayload(label: string, path: string, value?: string | number):
-    { search: any, tag?: any, label?: string, propagation?: any } {
+  public createPayload(label: string, path: string, value?: string | number)
+    : { search: any, tag?: any, label?: string, propagation?: any } {
 
     const filters = new Array<Filter>();
     this.collaborativeSearchService.collaborations.forEach(element => {
@@ -187,6 +187,22 @@ export class ArlasTagService implements OnDestroy {
         if (response.progress === 100) {
           this.onGoingSubscription.get(response.id).unsubscribe();
         }
+      }
+    );
+  }
+
+  public list(): Observable<TagRefRequest[]> {
+    return from(this.statusApi.taggingGetList(this.tagger.collection.name));
+  }
+
+  public replay(tagRequest: TagRefRequest) {
+    const snackConfig = new MatSnackBarConfig();
+    snackConfig.duration = 3000;
+    snackConfig.verticalPosition = 'top';
+
+    from(this.taggerApi.tagReplay(this.tagger.collection.name, tagRequest.offset)).subscribe(
+      (response: number) => {
+        this.snackBar.open('Replay is running from tag `' + tagRequest.label + '`', '', snackConfig);
       }
     );
   }

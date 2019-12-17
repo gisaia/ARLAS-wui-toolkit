@@ -193,6 +193,7 @@ export function configUpdaterFactory(x): any {
     WidgetComponent
   ],
   imports: [
+    ArlasTaggerModule,
     BrowserModule,
     BrowserAnimationsModule,
     CommonModule,

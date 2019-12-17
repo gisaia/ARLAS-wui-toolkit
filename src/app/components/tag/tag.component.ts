@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { Component, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnInit, Output, ViewEncapsulation, ElementRef, Renderer2 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { Subject } from 'rxjs';
@@ -26,6 +26,7 @@ import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component'
 import { ArlasBookmarkService } from '../../services/bookmark/bookmark.service';
 import { Aggregation, AggregationsRequest, AggregationResponse } from 'arlas-api';
 import { from } from 'rxjs';
+import { TagRefRequest } from 'arlas-tagger-api';
 
 /**
  * This component allows to tag your selected data (documents). The tag value is set on taggable fields.
@@ -51,6 +52,7 @@ export class TagComponent {
   @Output() public tagEvent: Subject<string> = new Subject<string>();
 
   public dialogRef: MatDialogRef<TagDialogComponent>;
+  public dialogManagementRef: MatDialogRef<TagManagementDialogComponent>;
   public hoveredDiv = '';
 
   constructor(
@@ -61,6 +63,10 @@ export class TagComponent {
   public openDialog() {
     this.dialogRef = this.dialog.open(TagDialogComponent, { data: null });
     this.dialogRef.componentInstance.tagEvent.subscribe(value => this.tagEvent.next(value));
+  }
+
+  public openManagement() {
+    this.dialogManagementRef = this.dialog.open(TagManagementDialogComponent, { data: null });
   }
 
   public removeProgress(itemId) {
@@ -227,6 +233,62 @@ export class TagDialogComponent implements OnInit {
       } else if (fieldList[fieldName].type === 'KEYWORD') {
         this.keywordFields.push({ label: (parentPrefix ? parentPrefix : '') + fieldName, type: fieldList[fieldName].type });
       }
+    }
+  }
+}
+
+@Component({
+  selector: 'arlas-management-tag-dialog',
+  templateUrl: './tag-management-dialog.component.html',
+  styleUrls: ['./tag-management-dialog.component.css'],
+  encapsulation: ViewEncapsulation.None
+})
+export class TagManagementDialogComponent {
+  public tagsRef: TagRefRequest[] = new Array<TagRefRequest>();
+
+  public columnsToDisplay = ['checked', 'date', 'name', 'path', 'tagValue', 'propagation', 'action'];
+  public isLoading = true;
+  public selectedTag: TagRefRequest;
+  public selectedIndex = 0;
+
+  constructor(private tagService: ArlasTagService, private elem: ElementRef, private renderer: Renderer2) {
+    this.tagService.list().subscribe(data => {
+      this.isLoading = false;
+      data.sort((a, b) => {
+        return a.creation_time > b.creation_time ? 1 : -1;
+      });
+      this.tagsRef = data;
+    });
+  }
+
+  public selectTag(index: number, tag: TagRefRequest) {
+    this.selectedTag = tag;
+    this.elem.nativeElement.querySelectorAll('.tags-table-row').forEach((elem, i) => {
+      if (i <= index) {
+        this.renderer.removeClass(elem, 'inactive-tag');
+        this.renderer.addClass(elem, 'active-tag');
+      } else {
+        this.renderer.addClass(elem, 'inactive-tag');
+        this.renderer.removeClass(elem, 'active-tag');
+      }
+    });
+    this.selectedIndex = index;
+  }
+
+  public replay() {
+    this.tagService.replay(this.selectedTag);
+    this.selectedTag = null;
+    this.elem.nativeElement.querySelectorAll('.tags-table-row').forEach((elem, i) => {
+      this.renderer.removeClass(elem, 'inactive-tag');
+      this.renderer.removeClass(elem, 'active-tag');
+    });
+  }
+
+  public isTagSelected(id) {
+    if (this.selectedTag) {
+      return this.selectedTag.id === id;
+    } else {
+      return false;
     }
   }
 }
