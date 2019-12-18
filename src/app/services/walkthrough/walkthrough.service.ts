@@ -41,7 +41,12 @@ export class ArlasWalkthroughService {
     return this.http
       .get(tourConfig)
       .toPromise()
-      .then(response => this.tourData = response)
+      .then(response => {
+        this.tourData = response;
+        if (this.tourData.steps.length <= 0) {
+          this.isActivable = false;
+        }
+      })
       .catch(error => {
         console.log(error);
         this.isActivable = false;
@@ -62,7 +67,9 @@ export class ArlasWalkthroughService {
    */
   public startTour(stepNum?: number) {
     if (localStorage.getItem(this.tourData.id) !== 'end') {
-      if (stepNum) {
+      if (!localStorage.getItem(this.tourData.id)) {
+        this.hopscotch.startTour(this.tourData);
+      } else if (stepNum) {
         this.hopscotch.startTour(this.tourData, stepNum);
         localStorage.setItem(this.tourData.id, stepNum.toString());
       } else {
