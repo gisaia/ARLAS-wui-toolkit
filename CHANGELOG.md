@@ -1,11 +1,22 @@
 # Change Log
 
+## [v12.1.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v12.1.1) (2019-12-18)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v12.1.0...v12.1.1)
+
+**Fixed bugs:**
+
+- \[WIDGET\] Add missing `valuePrecision` input on metric component [\#227](https://github.com/gisaia/ARLAS-wui-toolkit/issues/227)
+- Color service send exception on none found value [\#223](https://github.com/gisaia/ARLAS-wui-toolkit/issues/223)
+- TAG : Allow untag with propagation [\#191](https://github.com/gisaia/ARLAS-wui-toolkit/issues/191)
+
 ## [v12.1.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v12.1.0) (2019-12-04)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v12.0.0...v12.1.0)
 
 **New stuff:**
 
+- Update ResultList input to match new version [\#221](https://github.com/gisaia/ARLAS-wui-toolkit/issues/221)
 - Change test to init authent mode [\#212](https://github.com/gisaia/ARLAS-wui-toolkit/issues/212)
 - Add requireHttps in configuration of authentification [\#210](https://github.com/gisaia/ARLAS-wui-toolkit/issues/210)
 - Enhance authentification service [\#208](https://github.com/gisaia/ARLAS-wui-toolkit/issues/208)
