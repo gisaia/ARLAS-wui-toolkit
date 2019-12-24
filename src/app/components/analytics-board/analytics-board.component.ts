@@ -75,10 +75,11 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
 
   public wasClosedMap: Map<string, boolean> = new Map<string, boolean>();
 
-  constructor(private collaborativeService: ArlasCollaborativesearchService,
-    private configService: ArlasConfigService
+  public groupsByTab: Map<string, Array<AnalyticGroupConfiguration>> = new Map<string, Array<AnalyticGroupConfiguration>>();
 
-  ) { }
+  private defaultGroupTabName = 'analytics';
+
+  constructor(private collaborativeService: ArlasCollaborativesearchService, private configService: ArlasConfigService) { }
 
   public ngOnInit() {
     this.isActiveDragDrop = false;
@@ -99,10 +100,24 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
     }
 
     if (this.groups) {
-      this.groups.forEach(group =>
+      this.groups.map(group => {
+        if (group.tab && !this.groupsByTab.has(group.tab)) {
+          this.groupsByTab.set(group.tab, []);
+        }
+      });
+      this.groups.forEach(group => {
+        if (group.tab) {
+          this.groupsByTab.get(group.tab).push(group);
+        } else {
+          if (!this.groupsByTab.has(this.defaultGroupTabName)) {
+            this.groupsByTab.set(this.defaultGroupTabName, []);
+          }
+          this.groupsByTab.get(this.defaultGroupTabName).push(group);
+        }
         group.components.forEach(comp => {
           this.compGroup.set(comp.contributorId, group.groupId);
-        }));
+        });
+      });
     }
 
     if (this.mode === 'compact') {
@@ -122,6 +137,9 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
 
   public ngAfterViewInit() {
     this.scrollToAnalyticsComponent(this.target);
+    if (this.groupsByTab.size === 1) {
+      document.querySelector('.only-one > :first-child').remove();
+    }
   }
 
   public scrollToAnalyticsComponent(target: string) {
@@ -148,8 +166,8 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
     this.boardOutputs.next(event);
   }
 
-  public drop(event: CdkDragDrop<string[]>) {
-    moveItemInArray(this.groups, event.previousIndex, event.currentIndex);
+  public drop(event: CdkDragDrop<string[]>, tabKey: string) {
+    moveItemInArray(this.groupsByTab.get(tabKey), event.previousIndex, event.currentIndex);
     localStorage.setItem('arlas_groups_order', this.groups.map(group => group.groupId).toString());
   }
 

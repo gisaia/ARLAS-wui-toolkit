@@ -1,94 +1,108 @@
-<div *ngIf="this.isActiveDragDrop" class="analytics-board-content" cdkDropList [class.analytics-board-compact]="mode == 'compact'" (cdkDropListDropped)="drop($event)">
-  <ng-container *ngFor="let group of groups">
-    <mat-expansion-panel cdkDrag id="analytics-panel-{{group?.groupId}}"
-      *ngIf="groupsDisplayStatusMap?.get(group?.groupId) && mode == 'normal'"
-      [expanded]="group?.collapsed ? false : true" class="analytics-board-panel"
-      (opened)="openPanel(group)" (closed)="closePanel(group)">
-      <mat-expansion-panel-header cdkDragHandle *ngIf="group?.title !== undefined" [expandedHeight]="'48px'"
-        [collapsedHeight]="'32px'" color="primary">
-        <mat-panel-title class="analytics-board-panel-title">
-          <mat-icon *ngIf="group?.icon !== undefined" class="analytics-board-panel-icon">{{group.icon}}</mat-icon>
-          {{group.title | translate}}
-        </mat-panel-title>
-        <mat-panel-description>
-          {{group.description | translate}}
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-      <div class="analytics-board-group analytics-group-{{group.components.length}}">
-        <mat-card *ngFor="let component of group.components;let i = index" class="analytics-board-card" [ngClass]="component?.customizedCssClass">
-          <mat-card-title *ngIf="component?.title !== undefined" class="analytics-board-card-title">
-            <mat-icon *ngIf="component?.icon !== undefined" class="analytics-board-card-icon">{{component.icon}}
-            </mat-icon>
-            {{component.title | translate}}
-          </mat-card-title>
-          <mat-card-content>
-            <arlas-tool-widget
-              id="{{component?.componentType + '-' +  component?.contributorId + '-' + group.groupId + '-' + i}}"
-              [componentType]="component?.componentType" [contributorId]="component?.contributorId" [showExportCsv]="component?.showExportCsv"
-              [componentParams]="component?.input" (outEvents)="listenOutput($event)"></arlas-tool-widget>
-              <arlas-tool-progress-spinner *ngIf="showSpinner"  [strokeWidth]="strokeWidthSpinner" [color]="colorSpinner" [diameter]="diameterSpinner" [hidden]="!getContributorStatus(component?.contributorId)"></arlas-tool-progress-spinner>
-          </mat-card-content>
+<mat-tab-group [class.only-one]="this.groupsByTab.size == 1">
+  <mat-tab *ngFor="let tab of this.groupsByTab | keyvalue" label="{{tab.key | translate}}">
+    <div *ngIf="this.isActiveDragDrop" class="analytics-board-content" cdkDropList
+      [class.analytics-board-compact]="mode == 'compact'" (cdkDropListDropped)="drop($event, tab.key)">
+      <ng-container *ngFor="let group of tab.value">
+        <mat-expansion-panel cdkDrag id="analytics-panel-{{group?.groupId}}"
+          *ngIf="groupsDisplayStatusMap?.get(group?.groupId) && mode == 'normal'"
+          [expanded]="group?.collapsed ? false : true" class="analytics-board-panel" (opened)="openPanel(group)"
+          (closed)="closePanel(group)">
+          <mat-expansion-panel-header cdkDragHandle *ngIf="group?.title !== undefined" [expandedHeight]="'48px'"
+            [collapsedHeight]="'32px'" color="primary">
+            <mat-panel-title class="analytics-board-panel-title">
+              <mat-icon *ngIf="group?.icon !== undefined" class="analytics-board-panel-icon">{{group.icon}}</mat-icon>
+              {{group.title | translate}}
+            </mat-panel-title>
+            <mat-panel-description>
+              {{group.description | translate}}
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <div class="analytics-board-group analytics-group-{{group.components.length}}">
+            <mat-card *ngFor="let component of group.components;let i = index" class="analytics-board-card"
+              [ngClass]="component?.customizedCssClass">
+              <mat-card-title *ngIf="component?.title !== undefined" class="analytics-board-card-title">
+                <mat-icon *ngIf="component?.icon !== undefined" class="analytics-board-card-icon">{{component.icon}}
+                </mat-icon>
+                {{component.title | translate}}
+              </mat-card-title>
+              <mat-card-content>
+                <arlas-tool-widget
+                  id="{{component?.componentType + '-' +  component?.contributorId + '-' + group.groupId + '-' + i}}"
+                  [componentType]="component?.componentType" [contributorId]="component?.contributorId"
+                  [showExportCsv]="component?.showExportCsv" [componentParams]="component?.input"
+                  (outEvents)="listenOutput($event)"></arlas-tool-widget>
+                <arlas-tool-progress-spinner *ngIf="showSpinner" [strokeWidth]="strokeWidthSpinner"
+                  [color]="colorSpinner" [diameter]="diameterSpinner"
+                  [hidden]="!getContributorStatus(component?.contributorId)"></arlas-tool-progress-spinner>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </mat-expansion-panel>
+        <mat-card id="{{'compact-' + group.groupId}}"
+          *ngIf="groupsDisplayStatusMap?.get(group?.groupId) && mode == 'compact'" #compactTooltip="matTooltip"
+          (mouseover)="compactTooltip.show()" matTooltip="{{group.title | translate}}" matTooltipPosition="right"
+          (click)="changeMode(group.groupId)" class="analytics-compact-card">
+          <mat-icon>{{group.icon}}</mat-icon>
+          <div *ngIf="this.activeFilter.get(group.groupId)" class="active-filter"
+            (click)="removeFilter(group.groupId, $event);compactTooltip.hide()">
+            <mat-icon class="active-filter-close" matTooltip="{{'Click to remove filter'  | translate}}"
+              matTooltipPosition="right" (mouseenter)="compactTooltip.hide()">clear</mat-icon>
+          </div>
         </mat-card>
-      </div>
-    </mat-expansion-panel>
-    <mat-card id="{{'compact-' + group.groupId}}"
-      *ngIf="groupsDisplayStatusMap?.get(group?.groupId) && mode == 'compact'" #compactTooltip="matTooltip"
-      (mouseover)="compactTooltip.show()" matTooltip="{{group.title | translate}}" matTooltipPosition="right"
-      (click)="changeMode(group.groupId)" class="analytics-compact-card">
-      <mat-icon>{{group.icon}}</mat-icon>
-      <div *ngIf="this.activeFilter.get(group.groupId)" class="active-filter"
-        (click)="removeFilter(group.groupId, $event);compactTooltip.hide()">
-        <mat-icon class="active-filter-close" matTooltip="{{'Click to remove filter'  | translate}}"
-          matTooltipPosition="right" (mouseenter)="compactTooltip.hide()">clear</mat-icon>
-      </div>
-    </mat-card>
-  </ng-container>
-</div>
+      </ng-container>
+    </div>
 
-<div *ngIf="!this.isActiveDragDrop" class="analytics-board-content" [class.analytics-board-compact]="mode == 'compact'" (cdkDropListDropped)="drop($event)">
-  <ng-container *ngFor="let group of groups">
-    <mat-expansion-panel id="analytics-panel-{{group?.groupId}}"
-      *ngIf="groupsDisplayStatusMap?.get(group?.groupId) && mode == 'normal'"
-      [expanded]="group?.collapsed ? false : true" class="analytics-board-panel"
-      (opened)="openPanel(group)" (closed)="closePanel(group)">
-      <mat-expansion-panel-header *ngIf="group?.title !== undefined" [expandedHeight]="'48px'"
-        [collapsedHeight]="'32px'" color="primary">
-        <mat-panel-title class="analytics-board-panel-title">
-          <mat-icon *ngIf="group?.icon !== undefined" class="analytics-board-panel-icon">{{group.icon}}</mat-icon>
-          {{group.title | translate}}
-        </mat-panel-title>
-        <mat-panel-description>
-          {{group.description | translate}}
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-      <div class="analytics-board-group analytics-group-{{group.components.length}}">
-        <mat-card *ngFor="let component of group.components;let i = index" class="analytics-board-card" [ngClass]="component?.customizedCssClass">
-          <mat-card-title *ngIf="component?.title !== undefined" class="analytics-board-card-title">
-            <mat-icon *ngIf="component?.icon !== undefined" class="analytics-board-card-icon">{{component.icon}}
-            </mat-icon>
-            {{component.title | translate}}
-          </mat-card-title>
-          <mat-card-content>
-            <arlas-tool-widget
-              id="{{component?.componentType + '-' +  component?.contributorId + '-' + group.groupId + '-' + i}}"
-              [componentType]="component?.componentType" [contributorId]="component?.contributorId" [showExportCsv]="component?.showExportCsv"
-              [componentParams]="component?.input" (outEvents)="listenOutput($event)">
-            </arlas-tool-widget>
-            <arlas-tool-progress-spinner *ngIf="showSpinner"  [strokeWidth]="strokeWidthSpinner" [color]="colorSpinner" [diameter]="diameterSpinner" [hidden]="!getContributorStatus(component?.contributorId)"></arlas-tool-progress-spinner>
-          </mat-card-content>
+    <div *ngIf="!this.isActiveDragDrop" class="analytics-board-content"
+      [class.analytics-board-compact]="mode == 'compact'" (cdkDropListDropped)="drop($event, tab.key)">
+      <ng-container *ngFor="let group of tab.value">
+        <mat-expansion-panel id="analytics-panel-{{group?.groupId}}"
+          *ngIf="groupsDisplayStatusMap?.get(group?.groupId) && mode == 'normal'"
+          [expanded]="group?.collapsed ? false : true" class="analytics-board-panel" (opened)="openPanel(group)"
+          (closed)="closePanel(group)">
+          <mat-expansion-panel-header *ngIf="group?.title !== undefined" [expandedHeight]="'48px'"
+            [collapsedHeight]="'32px'" color="primary">
+            <mat-panel-title class="analytics-board-panel-title">
+              <mat-icon *ngIf="group?.icon !== undefined" class="analytics-board-panel-icon">{{group.icon}}</mat-icon>
+              {{group.title | translate}}
+            </mat-panel-title>
+            <mat-panel-description>
+              {{group.description | translate}}
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <div class="analytics-board-group analytics-group-{{group.components.length}}">
+            <mat-card *ngFor="let component of group.components;let i = index" class="analytics-board-card"
+              [ngClass]="component?.customizedCssClass">
+              <mat-card-title *ngIf="component?.title !== undefined" class="analytics-board-card-title">
+                <mat-icon *ngIf="component?.icon !== undefined" class="analytics-board-card-icon">{{component.icon}}
+                </mat-icon>
+                {{component.title | translate}}
+              </mat-card-title>
+              <mat-card-content>
+                <arlas-tool-widget
+                  id="{{component?.componentType + '-' +  component?.contributorId + '-' + group.groupId + '-' + i}}"
+                  [componentType]="component?.componentType" [contributorId]="component?.contributorId"
+                  [showExportCsv]="component?.showExportCsv" [componentParams]="component?.input"
+                  (outEvents)="listenOutput($event)">
+                </arlas-tool-widget>
+                <arlas-tool-progress-spinner *ngIf="showSpinner" [strokeWidth]="strokeWidthSpinner"
+                  [color]="colorSpinner" [diameter]="diameterSpinner"
+                  [hidden]="!getContributorStatus(component?.contributorId)"></arlas-tool-progress-spinner>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </mat-expansion-panel>
+        <mat-card id="{{'compact-' + group.groupId}}"
+          *ngIf="groupsDisplayStatusMap?.get(group?.groupId) && mode == 'compact'" #compactTooltip="matTooltip"
+          (mouseover)="compactTooltip.show()" matTooltip="{{group.title | translate}}" matTooltipPosition="right"
+          (click)="changeMode(group.groupId)" class="analytics-compact-card">
+          <mat-icon>{{group.icon}}</mat-icon>
+          <div *ngIf="this.activeFilter.get(group.groupId)" class="active-filter"
+            (click)="removeFilter(group.groupId, $event);compactTooltip.hide()">
+            <mat-icon class="active-filter-close" matTooltip="{{'Click to remove filter'  | translate}}"
+              matTooltipPosition="right" (mouseenter)="compactTooltip.hide()">clear</mat-icon>
+          </div>
         </mat-card>
-      </div>
-    </mat-expansion-panel>
-    <mat-card id="{{'compact-' + group.groupId}}"
-      *ngIf="groupsDisplayStatusMap?.get(group?.groupId) && mode == 'compact'" #compactTooltip="matTooltip"
-      (mouseover)="compactTooltip.show()" matTooltip="{{group.title | translate}}" matTooltipPosition="right"
-      (click)="changeMode(group.groupId)" class="analytics-compact-card">
-      <mat-icon>{{group.icon}}</mat-icon>
-      <div *ngIf="this.activeFilter.get(group.groupId)" class="active-filter"
-        (click)="removeFilter(group.groupId, $event);compactTooltip.hide()">
-        <mat-icon class="active-filter-close" matTooltip="{{'Click to remove filter'  | translate}}"
-          matTooltipPosition="right" (mouseenter)="compactTooltip.hide()">clear</mat-icon>
-      </div>
-    </mat-card>
-  </ng-container>
-</div>
+      </ng-container>
+    </div>
+  </mat-tab>
+</mat-tab-group>

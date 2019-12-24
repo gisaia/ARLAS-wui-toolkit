@@ -8,6 +8,10 @@ export interface AnalyticGroupConfiguration {
    */
   components: Array<WidgetConfiguration>;
   /**
+   * @description Tab identifiant this group is part of
+   */
+  tab: string;
+  /**
    * @description Title of the group
    */
   title?: string;
