@@ -27,6 +27,7 @@ export {
 } from './services/startup/startup.service';
 export { ArlasBookmarkService } from './services/bookmark/bookmark.service';
 export { ArlasAoiService } from './services/aoi/aoi.service';
+export { ArlasMapService } from './services/map/map.service';
 export { ArlasColorGeneratorLoader } from './services/color-generator-loader/color-generator-loader.service';
 export { ArlasMapSettings } from './services/map-settings/map-settings.service';
 export { ArlasToolKitModule } from './app.module';
