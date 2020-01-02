@@ -25,6 +25,13 @@ export interface ArlasStorageObject {
   name: string;
 }
 
+/**
+ * This interface lists the possible methods to apply on a Map object of a given cartographic client
+ */
+export interface MapService {
+  zoomToData(geoPointField: string, map: any);
+}
+
 export function hashCode(str) { // java String#hashCode
   let hash = 0;
   for (let i = 0; i < str.length; i++) {

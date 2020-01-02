@@ -24,14 +24,8 @@ import { ComputationRequest, ComputationResponse } from 'arlas-api';
 import { LngLatBounds, Map, LngLat } from 'mapbox-gl';
 import bbox from '@turf/bbox';
 import { BBox } from '@turf/helpers';
+import { MapService } from '../../tools/utils';
 
-
-/**
- * This interface lists the possible methods to apply on a Map object of a given cartographic client
- */
-export interface MapService {
-  zoomToData(geoPointField: string, map: any);
-}
 
 /**
  * This service provides methods to apply on the mapboxgl Map object
@@ -69,10 +63,10 @@ export class ArlasMapService implements MapService {
    */
   private toMapboxBounds(geometry: any, paddingPercentage?: number): LngLatBounds {
     const boundingBox: BBox = bbox(geometry);
-    const west = (paddingPercentage !== undefined) ? boundingBox[0] - boundingBox[0] * paddingPercentage : boundingBox[0];
-    const south = (paddingPercentage !== undefined) ? boundingBox[1] - boundingBox[1] * paddingPercentage : boundingBox[1];
-    const east = (paddingPercentage !== undefined) ? boundingBox[2] + boundingBox[2] * paddingPercentage : boundingBox[2];
-    const north = (paddingPercentage !== undefined) ? boundingBox[3] + boundingBox[3] * paddingPercentage : boundingBox[3];
+    const west = (paddingPercentage !== undefined) ? boundingBox[0] - Math.abs(boundingBox[0] * paddingPercentage) : boundingBox[0];
+    const south = (paddingPercentage !== undefined) ? boundingBox[1] - Math.abs(boundingBox[1] * paddingPercentage) : boundingBox[1];
+    const east = (paddingPercentage !== undefined) ? boundingBox[2] + Math.abs(boundingBox[2] * paddingPercentage) : boundingBox[2];
+    const north = (paddingPercentage !== undefined) ? boundingBox[3] + Math.abs(boundingBox[3] * paddingPercentage) : boundingBox[3];
     const mapboxBounds  = new LngLatBounds(
       new LngLat(west, south),
       new LngLat(east, north)
