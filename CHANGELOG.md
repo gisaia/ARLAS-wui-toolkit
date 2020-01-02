@@ -1,14 +1,23 @@
 # Change Log
 
+## [v12.1.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v12.1.2) (2020-01-02)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v12.1.1...v12.1.2)
+
 ## [v12.1.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v12.1.1) (2019-12-18)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v12.1.0...v12.1.1)
 
 **Fixed bugs:**
 
+- Walkthrough service doesn't start properly if the `tour.json` file contains no steps  [\#232](https://github.com/gisaia/ARLAS-wui-toolkit/issues/232)
 - \[WIDGET\] Add missing `valuePrecision` input on metric component [\#227](https://github.com/gisaia/ARLAS-wui-toolkit/issues/227)
 - Color service send exception on none found value [\#223](https://github.com/gisaia/ARLAS-wui-toolkit/issues/223)
 - TAG : Allow untag with propagation [\#191](https://github.com/gisaia/ARLAS-wui-toolkit/issues/191)
+
+**Miscellaneous:**
+
+- Remove yarn.lock [\#224](https://github.com/gisaia/ARLAS-wui-toolkit/issues/224)
 
 ## [v12.1.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v12.1.0) (2019-12-04)
 
