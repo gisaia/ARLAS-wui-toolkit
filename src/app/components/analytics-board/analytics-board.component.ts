@@ -87,12 +87,6 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
     if (webConfig !== undefined && webConfig.options !== undefined && webConfig.options.drag_items) {
       this.isActiveDragDrop = webConfig.options.drag_items;
     }
-    // sort groups given saved order
-    const arlas_groups_order = localStorage.getItem('arlas_groups_order');
-    if (this.isActiveDragDrop && arlas_groups_order) {
-      const orderedIds = arlas_groups_order.split(',').map(id => id);
-      this.groups.sort((a, b) => orderedIds.indexOf(a.groupId) - orderedIds.indexOf(b.groupId));
-    }
 
     if (!this.groupsDisplayStatusMap && this.groups) {
       this.groupsDisplayStatusMap = new Map<string, boolean>();
@@ -120,6 +114,17 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
       });
     }
 
+    // sort groups given saved order
+    const arlasTabsGroupsOrder = localStorage.getItem('arlas_tabs_groups_order');
+    if (this.isActiveDragDrop && arlasTabsGroupsOrder) {
+      const orderedGroupIdsByTab = new Map(JSON.parse(arlasTabsGroupsOrder));
+      orderedGroupIdsByTab.forEach((ids: Array<string>, tabId: string) => {
+        if (this.groupsByTab.get(tabId)) {
+          this.groupsByTab.get(tabId).sort((a, b) => ids.indexOf(a.groupId) - ids.indexOf(b.groupId));
+        }
+      });
+    }
+
     if (this.mode === 'compact') {
       this.setActiveFilter();
       this.collaborativeService.collaborationBus.subscribe(() => {
@@ -137,8 +142,12 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
 
   public ngAfterViewInit() {
     this.scrollToAnalyticsComponent(this.target);
+    // hide tabs group if only one
     if (this.groupsByTab.size === 1) {
       document.querySelector('.only-one > :first-child').remove();
+    } else {
+      document.querySelector('.analytics-tabs .mat-tab-header')
+        .setAttribute('style', 'background-color: white !important;border-radius: 4px !important;margin: 0 2px !important;');
     }
   }
 
@@ -168,7 +177,11 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
 
   public drop(event: CdkDragDrop<string[]>, tabKey: string) {
     moveItemInArray(this.groupsByTab.get(tabKey), event.previousIndex, event.currentIndex);
-    localStorage.setItem('arlas_groups_order', this.groups.map(group => group.groupId).toString());
+    const groupIdsByTab = new Map<string, Array<String>>();
+    this.groupsByTab.forEach((tab, tabId) => {
+      groupIdsByTab.set(tabId, tab.map(group => group.groupId));
+    });
+    localStorage.setItem('arlas_tabs_groups_order', JSON.stringify([...groupIdsByTab]));
   }
 
   public changeMode(event) {

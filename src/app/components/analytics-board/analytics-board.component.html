@@ -1,4 +1,5 @@
-<mat-tab-group [class.only-one]="this.groupsByTab.size == 1">
+
+<mat-tab-group class="analytics-tabs" [class.only-one]="this.groupsByTab.size == 1">
   <mat-tab *ngFor="let tab of this.groupsByTab | keyvalue" label="{{tab.key | translate}}">
     <div *ngIf="this.isActiveDragDrop" class="analytics-board-content" cdkDropList
       [class.analytics-board-compact]="mode == 'compact'" (cdkDropListDropped)="drop($event, tab.key)">
