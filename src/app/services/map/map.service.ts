@@ -40,7 +40,8 @@ export class ArlasMapService implements MapService {
    * @description zooms to the data extent
    * @param geoPointField geo-point field used to get the bounding box of the data
    * @param map Map object of mapboxgl
-   * @param paddingPercentage a percentage added to the bbox of data (between 0 and 1) that allows to have some context around data
+   * @param paddingPercentage a percentage of the extent's height and width
+   * that is added as a padding to bbox of data (between 0 and 1). It allows to have some context around data
    */
   public zoomToData(geoPointField: string, map: Map, paddingPercentage?: number) {
     const computationRequest: ComputationRequest = {
@@ -59,14 +60,31 @@ export class ArlasMapService implements MapService {
   /**
    * @description transforms the geojson object to a mapbox bounds
    * @param geometry geojson object
-   * @param paddingPercentage a percentage added to the bbox of data (between 0 and 1) that allows to have some context around data
+   * @param paddingPercentage a percentage of the extent's height and width
+   * that is added as a padding to bbox of data (between 0 and 1). It allows to have some context around data
    */
   private toMapboxBounds(geometry: any, paddingPercentage?: number): LngLatBounds {
     const boundingBox: BBox = bbox(geometry);
-    const west = (paddingPercentage !== undefined) ? boundingBox[0] - Math.abs(boundingBox[0] * paddingPercentage) : boundingBox[0];
-    const south = (paddingPercentage !== undefined) ? boundingBox[1] - Math.abs(boundingBox[1] * paddingPercentage) : boundingBox[1];
-    const east = (paddingPercentage !== undefined) ? boundingBox[2] + Math.abs(boundingBox[2] * paddingPercentage) : boundingBox[2];
-    const north = (paddingPercentage !== undefined) ? boundingBox[3] + Math.abs(boundingBox[3] * paddingPercentage) : boundingBox[3];
+    let west = boundingBox[0];
+    let south = boundingBox[1];
+    let east = boundingBox[2];
+    let north = boundingBox[3];
+    if (paddingPercentage !== undefined) {
+      let width = east - west;
+      let height = north - south;
+      /** if there is one hit, then west=east ===> we consider a width of 0.05°*/
+      if (width === 0) {
+        width = 0.05;
+      }
+      /** if there is one hit, then north=south ===> we consider a height of 0.05°*/
+      if (height === 0) {
+        height = 0.05;
+      }
+      west = west - paddingPercentage * width;
+      south = Math.max(-90, south - paddingPercentage * height);
+      east = east + paddingPercentage * width;
+      north = Math.min(90, north + paddingPercentage * height);
+    }
     const mapboxBounds  = new LngLatBounds(
       new LngLat(west, south),
       new LngLat(east, north)
