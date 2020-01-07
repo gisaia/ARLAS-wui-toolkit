@@ -2,7 +2,8 @@
   <ng-container *ngFor="let group of groups">
     <mat-expansion-panel cdkDrag id="analytics-panel-{{group?.groupId}}"
       *ngIf="groupsDisplayStatusMap?.get(group?.groupId) && mode == 'normal'"
-      [expanded]="group?.collapsed ? false : true" class="analytics-board-panel">
+      [expanded]="group?.collapsed ? false : true" class="analytics-board-panel"
+      (opened)="openPanel(group)" (closed)="closePanel(group)">
       <mat-expansion-panel-header cdkDragHandle *ngIf="group?.title !== undefined" [expandedHeight]="'48px'"
         [collapsedHeight]="'32px'" color="primary">
         <mat-panel-title class="analytics-board-panel-title">
@@ -25,6 +26,7 @@
               id="{{component?.componentType + '-' +  component?.contributorId + '-' + group.groupId + '-' + i}}"
               [componentType]="component?.componentType" [contributorId]="component?.contributorId" [showExportCsv]="component?.showExportCsv"
               [componentParams]="component?.input" (outEvents)="listenOutput($event)"></arlas-tool-widget>
+              <arlas-tool-progress-spinner *ngIf="showSpinner"  [strokeWidth]="strokeWidthSpinner" [color]="colorSpinner" [diameter]="diameterSpinner" [hidden]="!getContributorStatus(component?.contributorId)"></arlas-tool-progress-spinner>
           </mat-card-content>
         </mat-card>
       </div>
@@ -47,7 +49,8 @@
   <ng-container *ngFor="let group of groups">
     <mat-expansion-panel id="analytics-panel-{{group?.groupId}}"
       *ngIf="groupsDisplayStatusMap?.get(group?.groupId) && mode == 'normal'"
-      [expanded]="group?.collapsed ? false : true" class="analytics-board-panel">
+      [expanded]="group?.collapsed ? false : true" class="analytics-board-panel"
+      (opened)="openPanel(group)" (closed)="closePanel(group)">
       <mat-expansion-panel-header *ngIf="group?.title !== undefined" [expandedHeight]="'48px'"
         [collapsedHeight]="'32px'" color="primary">
         <mat-panel-title class="analytics-board-panel-title">
@@ -69,7 +72,9 @@
             <arlas-tool-widget
               id="{{component?.componentType + '-' +  component?.contributorId + '-' + group.groupId + '-' + i}}"
               [componentType]="component?.componentType" [contributorId]="component?.contributorId" [showExportCsv]="component?.showExportCsv"
-              [componentParams]="component?.input" (outEvents)="listenOutput($event)"></arlas-tool-widget>
+              [componentParams]="component?.input" (outEvents)="listenOutput($event)">
+            </arlas-tool-widget>
+            <arlas-tool-progress-spinner *ngIf="showSpinner"  [strokeWidth]="strokeWidthSpinner" [color]="colorSpinner" [diameter]="diameterSpinner" [hidden]="!getContributorStatus(component?.contributorId)"></arlas-tool-progress-spinner>
           </mat-card-content>
         </mat-card>
       </div>

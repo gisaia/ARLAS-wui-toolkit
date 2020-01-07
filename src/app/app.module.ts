@@ -25,7 +25,7 @@ import {
   MatExpansionModule, MatIconModule, MatRadioModule, MatChipsModule, MatSelectModule,
   MatStepperModule, MatSnackBarModule, MatInputModule, MatProgressBarModule, MatListModule,
   MatTooltipModule, MatTableModule, MatCheckboxModule,
-  MatFormFieldModule, MatProgressSpinnerModule
+  MatFormFieldModule, MatProgressSpinnerModule, MatSpinner
 } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -75,6 +75,7 @@ import { AuthentificationService } from './services/authentification/authentific
 import { ArlasMapSettings } from './services/map-settings/map-settings.service';
 import { ArlasExportCsvService } from './services/export-csv/export-csv.service';
 import { ArlasMapService } from './services/map/map.service';
+import { ProgressSpinnerComponent } from './components/progress-spinner/progress-spinner.component';
 
 
 export class CustomTranslateLoader implements TranslateLoader {
@@ -190,7 +191,8 @@ export function getAuthModuleConfig(): OAuthModuleConfig {
     ShareDialogComponent,
     TimelineComponent,
     TimelineShortcutComponent,
-    WidgetComponent
+    WidgetComponent,
+    ProgressSpinnerComponent
   ],
   exports: [
     AnalyticsBoardComponent,
@@ -336,7 +338,8 @@ export function getAuthModuleConfig(): OAuthModuleConfig {
     ConfirmModalComponent,
     DownloadDialogComponent,
     ErrorModalMsgComponent,
-    ShareDialogComponent
+    ShareDialogComponent,
+    MatSpinner
   ],
 })
 export class ArlasToolKitModule { }

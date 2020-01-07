@@ -6,10 +6,12 @@ import {
   MatSelectModule,
   MatButtonModule,
   MatTooltipModule,
-  MatBadgeModule
+  MatBadgeModule,
+  MatProgressSpinnerModule
 } from '@angular/material';
 import { AnalyticsBoardComponent } from './analytics-board.component';
 import { WidgetComponent } from '../widget/widget.component';
+import { ProgressSpinnerComponent } from '../progress-spinner/progress-spinner.component';
 import { BrowserModule } from '@angular/platform-browser';
 import {
   HistogramModule, ResultsModule, PowerbarsModule, DonutModule, MetricModule
@@ -27,13 +29,13 @@ describe('AnalyticsBoardComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        AnalyticsBoardComponent, WidgetComponent
+        AnalyticsBoardComponent, WidgetComponent, ProgressSpinnerComponent
       ],
       imports: [
         MatCardModule, MatIconModule, MatExpansionModule, MatSelectModule, MatButtonModule,
         MatTooltipModule, BrowserModule, HistogramModule, ResultsModule, PowerbarsModule,
         DonutModule, TranslateModule, MatBadgeModule, DragDropModule, HttpClientModule,
-        MetricModule
+        MetricModule, MatProgressSpinnerModule
       ],
       providers: [
         ArlasConfigService, ArlasCollaborativesearchService,
