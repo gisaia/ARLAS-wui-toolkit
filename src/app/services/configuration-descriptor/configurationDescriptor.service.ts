@@ -4,6 +4,7 @@ import { Observable, from } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Configuration, CollectionReference } from 'arlas-api';
 import * as portableFetch from 'portable-fetch';
+import { getFieldProperties } from '../../tools/utils';
 
 
 @Injectable()
@@ -54,34 +55,10 @@ export class ArlasConfigurationDescriptor {
     );
     this.collaborativesearchService.setExploreApi(arlasExploreApi);
     return this.collaborativesearchService.describe(this.configService.getValue('arlas.server.collection.name')).pipe(
-      map(description => this.getFieldProperties(description.properties)),
+      map(description => getFieldProperties(description.properties)),
       map(fields => types ? fields.filter(field => types.find(type => type === field.type) !== undefined)
         : fields)
     );
   }
 
-  private getFieldProperties(fieldList: any, parentPrefix?: string,
-    arlasFields?: Array<{ label: string, type: string }>, isFirstLevel?: boolean
-  ) {
-    if (!arlasFields) {
-      arlasFields = new Array();
-    }
-    if (isFirstLevel === undefined) {
-      isFirstLevel = true;
-    }
-    Object.keys(fieldList).forEach(fieldName => {
-      if (fieldList[fieldName].type === 'OBJECT') {
-        const subFields = fieldList[fieldName].properties;
-        if (subFields) {
-          this.getFieldProperties(subFields, (parentPrefix ? parentPrefix : '') + fieldName + '.', arlasFields, false);
-        }
-      } else {
-        arlasFields.push({ label: (parentPrefix ? parentPrefix : '') + fieldName, type: fieldList[fieldName].type });
-      }
-    });
-
-    if (isFirstLevel) {
-      return arlasFields;
-    }
-  }
 }

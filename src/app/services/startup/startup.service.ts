@@ -19,7 +19,7 @@
 
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable, Injector } from '@angular/core';
-import { Configuration, ExploreApi, CollectionsApi, CollectionReferenceDescription } from 'arlas-api';
+import { Configuration, ExploreApi, CollectionsApi, CollectionReferenceDescription, Aggregation } from 'arlas-api';
 import { DonutComponent, HistogramComponent, MapglComponent, PowerbarsComponent } from 'arlas-web-components';
 import {
   HistogramContributor,
@@ -91,6 +91,7 @@ export class ArlasStartupService {
     private errorMessagesList = new Array<string>();
     public errorStartUpServiceBus: Subject<any> = new Subject<any>();
     public arlasIsUp: Subject<boolean> = new Subject<boolean>();
+    public arlasExploreApi: ArlasExploreApi;
 
     constructor(
         private configService: ArlasConfigService,
@@ -141,23 +142,87 @@ export class ArlasStartupService {
         });
     }
 
-    public setConfigService(data) {
-        return new Promise<any>((resolve, reject) => {
-            this.configService.setConfig(data);
-            resolve(data);
-        });
+    public setConfigService(data): Promise<any> {
+        /**First set the raw config data in order to create an ArlasExploreApi instance */
+        this.configService.setConfig(data);
+        const collectionName = this.configService.getValue('arlas.server.collection.name');
+        const arlasUrl = this.configService.getValue('arlas.server.url');
+        const maxCacheAge = this.configService.getValue('arlas.server.max_age_cache');
+        const configuration: Configuration = new Configuration();
+        this.arlasExploreApi = new ArlasExploreApi(
+            configuration,
+            arlasUrl,
+            portableFetch
+        );
+        return this.listAvailableFields(collectionName, this.arlasExploreApi, maxCacheAge)
+            .then((availableFields: Set<string>) => this.applyFGA(data, availableFields))
+            .then((data) => { this.configService.setConfig(data); return data; });
+    }
+
+    public applyFGA(data, availableFields: Set<string>): any {
+        return this.removeWidgets(data, this.getContributorsToRemove(data, availableFields));
+    }
+
+    public getContributorsToRemove(data, availableFields: Set<string>): Set<string> {
+        const availableFieldsd = new Set<string>();
+        availableFieldsd.add('course.sog');
+        const contributorsToRemove = new Set<string>();
+        if (data) {
+            /** the conf is validated before; therefore, `arlas.web.contributors` is defined */
+            data.arlas.web.contributors.forEach(contributor => {
+                /** check if aggregation model has a non-available field */
+                if (contributor.aggregationmodels) {
+                    contributor.aggregationmodels.forEach((am: Aggregation) => {
+                        if (!availableFieldsd.has(am.field)) {
+                          console.log(contributor.identifier)
+                            contributorsToRemove.add(contributor.identifier);
+                        }
+                    });
+                }
+                if (contributor.swimlanes) {
+                  contributor.swimlanes.forEach(swimlane => {
+                    swimlane.aggregationmodels.forEach((am: Aggregation) => {
+                      if (!availableFieldsd.has(am.field)) {
+                        console.log(contributor.identifier)
+                          contributorsToRemove.add(contributor.identifier);
+                      }
+                    });
+                  });
+                }
+            });
+        }
+        return contributorsToRemove;
+    }
+
+    public removeWidgets(data, contributorsToRemove: Set<string>): any {
+        if (data) {
+            data.arlas.web.contributors = data.arlas.web.contributors.filter(contributor =>
+                !contributorsToRemove.has(contributor.identifier));
+            data.arlas.web.analytics.forEach(widget => {
+              widget.components = widget.components.filter(c => !contributorsToRemove.has(c.contributorId));
+            });
+            data.arlas.web.analytics = data.arlas.web.analytics.filter(widget => widget.components.length > 0);
+        }
+        return data;
+    }
+
+    public listAvailableFields(collectionName: string, arlasExploreApi: ArlasExploreApi, maxCacheAge: number): Promise<Set<string>> {
+      let availableFields = new Set<string>();
+      /** Needs a fix of arlas-api to return Array<CollectionReferenceDescription> instead of CollectionReferenceDescription */
+      return arlasExploreApi.list(false, maxCacheAge, {credentials: 'include'}).then((collectionDescriptions: any) => {
+        collectionDescriptions.filter((cd: CollectionReferenceDescription) => cd.collection_name === collectionName)
+          .forEach((cd: CollectionReferenceDescription) => {
+            availableFields = new Set(getFieldProperties(cd.properties).map(p => p.label));
+          }
+        );
+        return availableFields;
+      });
     }
 
     public setCollaborativeService(data) {
         return new Promise<any>((resolve, reject) => {
             this.collaborativesearchService.setConfigService(this.configService);
-            const configuraiton: Configuration = new Configuration();
-            const arlasExploreApi: ArlasExploreApi = new ArlasExploreApi(
-                configuraiton,
-                this.configService.getValue('arlas.server.url'),
-                portableFetch
-            );
-            this.collaborativesearchService.setExploreApi(arlasExploreApi);
+            this.collaborativesearchService.setExploreApi(this.arlasExploreApi);
             this.collaborativesearchService.collection = this.configService.getValue('arlas.server.collection.name');
             this.collaborativesearchService.max_age = this.configService.getValue('arlas.server.max_age_cache');
             resolve(data);
