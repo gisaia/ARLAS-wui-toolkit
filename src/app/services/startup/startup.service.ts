@@ -45,7 +45,7 @@ import ajv from 'ajv';
 import * as ajvKeywords from 'ajv-keywords/keywords/uniqueItemProperties';
 import * as rootContributorConfSchema from 'arlas-web-contributors/jsonSchemas/rootContributorConf.schema.json';
 import { Subject } from 'rxjs';
-import { getFieldProperties } from 'app/tools/utils.js';
+import { ArlasFGAService } from '../fga/fga.service.js';
 
 @Injectable({
     providedIn: 'root'
@@ -96,6 +96,7 @@ export class ArlasStartupService {
     constructor(
         private configService: ArlasConfigService,
         private collaborativesearchService: ArlasCollaborativesearchService,
+        private fgaService: ArlasFGAService,
         private injector: Injector,
         private http: HttpClient, ) {
     }
@@ -154,69 +155,23 @@ export class ArlasStartupService {
             arlasUrl,
             portableFetch
         );
-        return this.listAvailableFields(collectionName, this.arlasExploreApi, maxCacheAge)
+        return this.fgaService.listAvailableFields(collectionName, this.arlasExploreApi, maxCacheAge)
             .then((availableFields: Set<string>) => this.applyFGA(data, availableFields))
             .then((data) => { this.configService.setConfig(data); return data; });
     }
 
+    /**
+     * Applies FGA to explored collection
+     * @param data configuration object
+     * @param availableFields list of fields that are available for exploration
+     * @returns the updated configuration object
+     */
     public applyFGA(data, availableFields: Set<string>): any {
-        return this.removeWidgets(data, this.getContributorsToRemove(data, availableFields));
-    }
-
-    public getContributorsToRemove(data, availableFields: Set<string>): Set<string> {
-        const availableFieldsd = new Set<string>();
-        availableFieldsd.add('course.sog');
-        const contributorsToRemove = new Set<string>();
-        if (data) {
-            /** the conf is validated before; therefore, `arlas.web.contributors` is defined */
-            data.arlas.web.contributors.forEach(contributor => {
-                /** check if aggregation model has a non-available field */
-                if (contributor.aggregationmodels) {
-                    contributor.aggregationmodels.forEach((am: Aggregation) => {
-                        if (!availableFieldsd.has(am.field)) {
-                          console.log(contributor.identifier)
-                            contributorsToRemove.add(contributor.identifier);
-                        }
-                    });
-                }
-                if (contributor.swimlanes) {
-                  contributor.swimlanes.forEach(swimlane => {
-                    swimlane.aggregationmodels.forEach((am: Aggregation) => {
-                      if (!availableFieldsd.has(am.field)) {
-                        console.log(contributor.identifier)
-                          contributorsToRemove.add(contributor.identifier);
-                      }
-                    });
-                  });
-                }
-            });
-        }
-        return contributorsToRemove;
-    }
-
-    public removeWidgets(data, contributorsToRemove: Set<string>): any {
-        if (data) {
-            data.arlas.web.contributors = data.arlas.web.contributors.filter(contributor =>
-                !contributorsToRemove.has(contributor.identifier));
-            data.arlas.web.analytics.forEach(widget => {
-              widget.components = widget.components.filter(c => !contributorsToRemove.has(c.contributorId));
-            });
-            data.arlas.web.analytics = data.arlas.web.analytics.filter(widget => widget.components.length > 0);
-        }
-        return data;
-    }
-
-    public listAvailableFields(collectionName: string, arlasExploreApi: ArlasExploreApi, maxCacheAge: number): Promise<Set<string>> {
-      let availableFields = new Set<string>();
-      /** Needs a fix of arlas-api to return Array<CollectionReferenceDescription> instead of CollectionReferenceDescription */
-      return arlasExploreApi.list(false, maxCacheAge, {credentials: 'include'}).then((collectionDescriptions: any) => {
-        collectionDescriptions.filter((cd: CollectionReferenceDescription) => cd.collection_name === collectionName)
-          .forEach((cd: CollectionReferenceDescription) => {
-            availableFields = new Set(getFieldProperties(cd.properties).map(p => p.label));
-          }
-        );
-        return availableFields;
-      });
+      const contributorsToRemove: Set<string> = this.fgaService.getContributorsToRemove(data, availableFields);
+      let updatedConfig = this.fgaService.removeContributors(data, contributorsToRemove);
+      updatedConfig = this.fgaService.updateContributors(updatedConfig, availableFields);
+      updatedConfig = this.fgaService.removeWidgets(updatedConfig, contributorsToRemove);
+      return updatedConfig;
     }
 
     public setCollaborativeService(data) {
