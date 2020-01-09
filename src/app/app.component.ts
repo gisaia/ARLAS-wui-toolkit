@@ -20,10 +20,9 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { of, Observable } from 'rxjs';
+import { of } from 'rxjs';
 import { pairwise, take, timeoutWith } from 'rxjs/operators';
 import { ArlasCollaborativesearchService, ArlasStartupService, ArlasConfigService } from './services/startup/startup.service';
-import { AuthentificationService } from './services/authentification/authentification.service';
 
 
 @Component({
@@ -42,8 +41,7 @@ export class AppComponent implements AfterViewInit, OnInit {
   constructor(private configService: ArlasConfigService,
     private arlasStartupService: ArlasStartupService,
     private collaborativeService: ArlasCollaborativesearchService,
-    private cdr: ChangeDetectorRef, private activatedRoute: ActivatedRoute,
-    private router: Router, private location: Location) {
+    private activatedRoute: ActivatedRoute, private router: Router, private location: Location) {
 
     // update url when filter are setted
     const queryParams: Params = Object.assign({}, this.activatedRoute.snapshot.queryParams);

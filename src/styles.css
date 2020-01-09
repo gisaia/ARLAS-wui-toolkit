@@ -94,18 +94,7 @@
   color: #c53030;
 }
 
-.overlay{
-  position: absolute;
-    top: 0;
-    background: gray;
-    opacity: 0.35 !important;
-    width: -webkit-fill-available;
-    height: -webkit-fill-available;
+.histogram__description__title, .histogram__description {
+  z-index: 1 !important;
 }
-.spinner{
-  width: 100px;
-    height: 100px;
-    position: absolute!important;
-    top: 12px!important;
-    margin-left: 50%;
-}
+

@@ -1,0 +1,19 @@
+.overlay {
+  background: #FFF;
+  opacity: 0.65;
+  width: -webkit-fill-available;
+  height: -webkit-fill-available;
+  position: absolute;
+  top: 0;
+  z-index: 2;
+}
+
+.spinner {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  margin: auto;
+  z-index: 3;
+}

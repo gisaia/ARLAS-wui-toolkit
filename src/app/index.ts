@@ -1,5 +1,3 @@
-import { ArlasDataSource } from './tools/arlasDataSource';
-import { from } from 'rxjs';
 /*
  * Licensed to Gisaïa under one or more contributor
  * license agreements. See the NOTICE.txt file distributed with

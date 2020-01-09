@@ -26,7 +26,7 @@ import { AnalyticGroupConfiguration } from './analytics.utils';
 import { ArlasCollaborativesearchService, ArlasConfigService } from '../../services/startup/startup.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { OperationEnum } from 'arlas-web-core';
-import { ThemePalette, MatSpinner } from '@angular/material';
+import { ThemePalette, MatSpinner, MatTabChangeEvent } from '@angular/material';
 import { OverlayRef, Overlay, PositionStrategy } from '@angular/cdk/overlay';
 import { TemplatePortal, ComponentPortal } from '@angular/cdk/portal';
 /**
@@ -76,6 +76,7 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
   public wasClosedMap: Map<string, boolean> = new Map<string, boolean>();
 
   public groupsByTab: Map<string, Array<AnalyticGroupConfiguration>> = new Map<string, Array<AnalyticGroupConfiguration>>();
+  public groupsTabsKey: Array<string> = new Array<string>();
 
   private defaultGroupTabName = 'analytics';
 
@@ -94,17 +95,20 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
     }
 
     if (this.groups) {
-      this.groups.map(group => {
+      this.groups.forEach(group => {
         if (group.tab && !this.groupsByTab.has(group.tab)) {
           this.groupsByTab.set(group.tab, []);
+          this.groupsTabsKey.push(group.tab);
         }
       });
       this.groups.forEach(group => {
+
         if (group.tab) {
           this.groupsByTab.get(group.tab).push(group);
         } else {
           if (!this.groupsByTab.has(this.defaultGroupTabName)) {
             this.groupsByTab.set(this.defaultGroupTabName, []);
+            this.groupsTabsKey.push(this.defaultGroupTabName);
           }
           this.groupsByTab.get(this.defaultGroupTabName).push(group);
         }
@@ -124,6 +128,8 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
         }
       });
     }
+
+
 
     if (this.mode === 'compact') {
       this.setActiveFilter();
@@ -149,6 +155,8 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
       document.querySelector('.analytics-tabs .mat-tab-header')
         .setAttribute('style', 'background-color: white !important;border-radius: 4px !important;margin: 0 2px !important;');
     }
+
+    this.cancelAllOtherTabsContribution(0);
   }
 
   public scrollToAnalyticsComponent(target: string) {
@@ -210,6 +218,51 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
   }
 
   public openPanel(group: AnalyticGroupConfiguration) {
+    this.activateGroupContribution(group);
+  }
+  public closePanel(group: AnalyticGroupConfiguration) {
+    this.cancelGroupContribution(group);
+  }
+
+  public getContributorStatus(id) {
+    return this.collaborativeService.registry.get(id).isDataUpdating;
+  }
+
+  public tabChange(index: number) {
+    this.cancelAllOtherTabsContribution(index);
+
+    Array.from(this.groupsByTab.entries())
+      .filter(groupByTab => groupByTab[0] === this.groupsTabsKey[index])
+      .map(groupByTab => groupByTab[1])
+      .forEach(groups => {
+        groups.forEach(group => {
+          this.activateGroupContribution(group);
+        });
+      });
+  }
+
+  public cancelAllOtherTabsContribution(tabIndex: number) {
+    Array.from(this.groupsByTab.entries())
+      .filter(groupByTab => groupByTab[0] !== this.groupsTabsKey[tabIndex])
+      .map(groupByTab => groupByTab[1])
+      .forEach(groups => {
+        groups.forEach(group => {
+          this.cancelGroupContribution(group);
+        });
+      });
+  }
+
+  public cancelGroupContribution(group: AnalyticGroupConfiguration) {
+    this.wasClosedMap.set(group.groupId, true);
+    group.components
+      .map(componentConfig => componentConfig.contributorId)
+      .map(contribId => this.collaborativeService.registry.get(contribId))
+      .map(contributor => contributor.updateData = false);
+  }
+
+  public activateGroupContribution(group: AnalyticGroupConfiguration) {
+    const nbComponents = group.components.length;
+    let nbComponentsActivated = 0;
     group.components
       .map(componentConfig => componentConfig.contributorId)
       .map(contribId => this.collaborativeService.registry.get(contribId))
@@ -221,19 +274,11 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
             operation: OperationEnum.add,
             all: false
           });
-          this.wasClosedMap.set(group.groupId, false);
+          nbComponentsActivated++;
+          if (nbComponentsActivated === nbComponents) {
+            this.wasClosedMap.set(group.groupId, false);
+          }
         }
       });
-  }
-  public closePanel(group: AnalyticGroupConfiguration) {
-    this.wasClosedMap.set(group.groupId, true);
-    group.components
-      .map(componentConfig => componentConfig.contributorId)
-      .map(contribId => this.collaborativeService.registry.get(contribId))
-      .map(contributor => contributor.updateData = false);
-
-  }
-  public getContributorStatus(id) {
-    return this.collaborativeService.registry.get(id).isDataUpdating;
   }
 }
