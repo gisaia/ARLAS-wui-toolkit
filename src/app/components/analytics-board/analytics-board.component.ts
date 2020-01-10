@@ -218,9 +218,23 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
   }
 
   public openPanel(group: AnalyticGroupConfiguration) {
+    this.groupsByTab.forEach(groups => {
+      groups.map(grp => {
+        if (grp.groupId === group.groupId) {
+          grp.collapsed = false;
+        }
+      });
+    });
     this.activateGroupContribution(group);
   }
   public closePanel(group: AnalyticGroupConfiguration) {
+    this.groupsByTab.forEach(groups => {
+      groups.map(grp => {
+        if (grp.groupId === group.groupId) {
+          grp.collapsed = true;
+        }
+      });
+    });
     this.cancelGroupContribution(group);
   }
 
@@ -236,7 +250,9 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
       .map(groupByTab => groupByTab[1])
       .forEach(groups => {
         groups.forEach(group => {
-          this.activateGroupContribution(group);
+          if (!group.collapsed) {
+            this.activateGroupContribution(group);
+          }
         });
       });
   }
