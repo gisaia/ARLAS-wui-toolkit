@@ -138,6 +138,13 @@ export class ArlasFGAService {
             contributorsToRemove.add(contributor.identifier);
         }
       });
+      /** remove detailed contributors */
+      data.arlas.web.contributors.filter(contributor => contributor.annexedContributorId).forEach(contributor => {
+        if (contributorsToRemove.has(contributor.annexedContributorId)) {
+          contributorsToRemove.add(contributor.identifier);
+        }
+      });
+
     }
     return contributorsToRemove;
   }
@@ -168,6 +175,32 @@ export class ArlasFGAService {
         widget.components = widget.components.filter(c => !contributorsToRemove.has(c.contributorId));
       });
       data.arlas.web.analytics = data.arlas.web.analytics.filter(widget => widget.components.length > 0);
+    }
+    return data;
+  }
+
+  /**
+   * Removes timelines that are associated with removed timeline contributors
+   * @param data
+   * @param contributorsToRemove
+   * @returns configuration object
+   */
+  public removeTimelines(data, contributorsToRemove: Set<string>): any {
+    if (data) {
+      const components = data.arlas.web.components;
+      if (components) {
+        if (components.timeline) {
+          if (contributorsToRemove.has(components.timeline.contributorId)) {
+            delete components.timeline;
+          }
+        }
+        if (components.detailedTimeline) {
+          if (contributorsToRemove.has(components.detailedTimeline.contributorId)) {
+            delete components.detailedTimeline;
+          }
+        }
+      }
+
     }
     return data;
   }

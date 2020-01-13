@@ -175,6 +175,7 @@ export class ArlasStartupService {
       updatedConfig = this.fgaService.updateContributors(updatedConfig, availableFields);
       updatedConfig = this.fgaService.updateMapComponent(updatedConfig, availableFields);
       updatedConfig = this.fgaService.removeWidgets(updatedConfig, contributorsToRemove);
+      updatedConfig = this.fgaService.removeTimelines(updatedConfig, contributorsToRemove);
       return updatedConfig;
     }
 
