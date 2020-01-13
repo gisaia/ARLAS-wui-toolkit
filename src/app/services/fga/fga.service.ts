@@ -41,6 +41,10 @@ export class ArlasFGAService {
       collectionDescriptions.filter((cd: CollectionReferenceDescription) => cd.collection_name === collectionName)
         .forEach((cd: CollectionReferenceDescription) => {
           availableFields = new Set(getFieldProperties(cd.properties).map(p => p.label));
+          availableFields.add(cd.params.id_path);
+          availableFields.add(cd.params.timestamp_path);
+          availableFields.add(cd.params.geometry_path);
+          availableFields.add(cd.params.centroid_path);
         }
       );
       return availableFields;
@@ -115,11 +119,24 @@ export class ArlasFGAService {
           contributorsToRemove.add(contributor.identifier);
         }
 
+        /** map and topomap contributors have `geometry` AND `idFieldName` */
+        if (contributor.idFieldName && !availableFields.has(contributor.idFieldName)) {
+          contributorsToRemove.add(contributor.identifier);
+        }
+        if (contributor.geometry && !availableFields.has(contributor.geometry)) {
+          contributorsToRemove.add(contributor.identifier);
+        }
+
         /** chipssearch contributor */
         if (contributor.search_field && !availableFields.has(contributor.search_field)) {
           contributorsToRemove.add(contributor.identifier);
         }
 
+        /** resultlist contributor */
+        if (contributor.fieldsConfiguration && contributor.fieldsConfiguration.idFieldName
+          && !availableFields.has(contributor.fieldsConfiguration.idFieldName)) {
+            contributorsToRemove.add(contributor.identifier);
+        }
       });
     }
     return contributorsToRemove;
@@ -162,12 +179,32 @@ export class ArlasFGAService {
    * @returns configuration object
    */
   public updateContributors(data, availableFields: Set<string>): any {
-      const updatedConfig = this.updateResultListContributor(data, availableFields);
+      let updatedConfig = this.updateResultListContributor(data, availableFields);
+      updatedConfig = this.updateMapContributors(updatedConfig, availableFields);
       return updatedConfig;
   }
 
   /**
-   * Removes the properties -from ResultListContributor- including fields that are not available for exploration
+   * Removes the properties -from map component - including fields that are not available for exploration
+   * @param data configuration object
+   * @param availableFields List of available fields for exploration
+   * @returns configuration object
+   */
+  public updateMapComponent(data, availableFields: Set<string>): any {
+    if (data && data.arlas.web.components) {
+      const mapComponentConfig = data.arlas.web.components.mapgl;
+      if (mapComponentConfig && mapComponentConfig.input) {
+        const idFeatureField = mapComponentConfig.input.idFieldName;
+        if (idFeatureField && !availableFields.has(idFeatureField)) {
+          delete mapComponentConfig.input.idFieldName;
+        }
+      }
+    }
+    return data;
+}
+
+  /**
+   * Removes the properties -from ResultListContributor- that define fields not available for exploration
    * @param data configuration object
    * @param availableFields List of available fields for exploration
    * @returns configuration object
@@ -175,11 +212,9 @@ export class ArlasFGAService {
   public updateResultListContributor(data, availableFields: Set<string>): any {
     data.arlas.web.contributors.filter(contributor => contributor.type === 'resultlist').forEach(contributor => {
       if (contributor.fieldsConfiguration) {
-        console.log('here')
         const fc = contributor.fieldsConfiguration;
         /** remove imageEnabled */
         if (fc.imageEnabled && !availableFields.has(fc.imageEnabled)) {
-          console.log('here now')
           delete fc.imageEnabled;
           delete fc.urlImageTemplate;
         }
@@ -246,6 +281,25 @@ export class ArlasFGAService {
       if (contributor.attachments) {
         contributor.attachments = contributor.attachments.filter(a => availableFields.has(a.attachmentsField) &&
           availableFields.has(a.attachementUrlField));
+      }
+      /** remove metadata fields */
+      if (contributor.includeMetadata)  {
+        contributor.includeMetadata = contributor.includeMetadata.filter(f => availableFields.has(f));
+      }
+    });
+    return data;
+  }
+
+  /**
+   * Removes the properties -from ResultListContributor- that define fields not available for exploration
+   * @param data configuration object
+   * @param availableFields List of available fields for exploration
+   * @returns configuration object
+   */
+  public updateMapContributors(data, availableFields: Set<string>): any {
+    data.arlas.web.contributors.filter(contributor => contributor.type === 'map' || contributor.type === 'topomap').forEach(contributor => {
+      if (contributor.includeFeaturesFields) {
+        contributor.includeFeaturesFields = contributor.includeFeaturesFields.filter(f => availableFields.has(f));
       }
     });
     return data;

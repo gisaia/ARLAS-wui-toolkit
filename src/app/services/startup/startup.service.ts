@@ -101,6 +101,9 @@ export class ArlasStartupService {
         private http: HttpClient, ) {
     }
 
+    public getFGAService(): ArlasFGAService {
+      return this.fgaService;
+    }
 
     public errorStartUp() {
         this.errorStartUpServiceBus.subscribe(e => console.error(e));
@@ -170,6 +173,7 @@ export class ArlasStartupService {
       const contributorsToRemove: Set<string> = this.fgaService.getContributorsToRemove(data, availableFields);
       let updatedConfig = this.fgaService.removeContributors(data, contributorsToRemove);
       updatedConfig = this.fgaService.updateContributors(updatedConfig, availableFields);
+      updatedConfig = this.fgaService.updateMapComponent(updatedConfig, availableFields);
       updatedConfig = this.fgaService.removeWidgets(updatedConfig, contributorsToRemove);
       return updatedConfig;
     }
