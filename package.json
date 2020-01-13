@@ -1,6 +1,6 @@
 {
-  "name": "@gisaia-team/arlas-wui-toolkit",
-  "version": "12.2.0-dev0",
+  "name": "arlas-wui-toolkit",
+  "version": "12.1.3",
   "description": "Tool Kit Library for ARLAS wui web App",
   "author": "gisaia",
   "license": "Apache-2.0",
@@ -48,7 +48,7 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.803.9",
-    "@angular/cli": "8.3.9",
+    "@angular/cli": "^8.3.9",
     "@angular/compiler-cli": "~8.2.10",
     "@angular/language-service": "~8.2.10",
     "@types/jasmine": "2.8.8",

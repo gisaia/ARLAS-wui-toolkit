@@ -1,8 +1,20 @@
 # Change Log
 
+## [v12.1.3](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v12.1.3) (2020-01-03)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v12.1.2...v12.1.3)
+
+**Fixed bugs:**
+
+- zoom to data extent is not centered all the time [\#238](https://github.com/gisaia/ARLAS-wui-toolkit/issues/238)
+
 ## [v12.1.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v12.1.2) (2020-01-02)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v12.1.1...v12.1.2)
+
+**New stuff:**
+
+- Add a Map service that provides a 'zoomToData' method [\#234](https://github.com/gisaia/ARLAS-wui-toolkit/issues/234)
 
 ## [v12.1.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v12.1.1) (2019-12-18)
 
