@@ -26,7 +26,7 @@ import { AnalyticGroupConfiguration } from './analytics.utils';
 import { ArlasCollaborativesearchService, ArlasConfigService } from '../../services/startup/startup.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { OperationEnum } from 'arlas-web-core';
-import { ThemePalette, MatSpinner } from '@angular/material';
+import { ThemePalette, MatSpinner, MatTabChangeEvent } from '@angular/material';
 import { OverlayRef, Overlay, PositionStrategy } from '@angular/cdk/overlay';
 import { TemplatePortal, ComponentPortal } from '@angular/cdk/portal';
 /**
@@ -75,22 +75,18 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
 
   public wasClosedMap: Map<string, boolean> = new Map<string, boolean>();
 
-  constructor(private collaborativeService: ArlasCollaborativesearchService,
-    private configService: ArlasConfigService
+  public groupsByTab: Map<string, Array<AnalyticGroupConfiguration>> = new Map<string, Array<AnalyticGroupConfiguration>>();
+  public groupsTabsKey: Array<string> = new Array<string>();
 
-  ) { }
+  private defaultGroupTabName = 'analytics';
+
+  constructor(private collaborativeService: ArlasCollaborativesearchService, private configService: ArlasConfigService) { }
 
   public ngOnInit() {
     this.isActiveDragDrop = false;
     const webConfig = this.configService.getValue('arlas.web');
     if (webConfig !== undefined && webConfig.options !== undefined && webConfig.options.drag_items) {
       this.isActiveDragDrop = webConfig.options.drag_items;
-    }
-    // sort groups given saved order
-    const arlas_groups_order = localStorage.getItem('arlas_groups_order');
-    if (this.isActiveDragDrop && arlas_groups_order) {
-      const orderedIds = arlas_groups_order.split(',').map(id => id);
-      this.groups.sort((a, b) => orderedIds.indexOf(a.groupId) - orderedIds.indexOf(b.groupId));
     }
 
     if (!this.groupsDisplayStatusMap && this.groups) {
@@ -99,11 +95,41 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
     }
 
     if (this.groups) {
-      this.groups.forEach(group =>
+      this.groups.forEach(group => {
+        if (group.tab && !this.groupsByTab.has(group.tab)) {
+          this.groupsByTab.set(group.tab, []);
+          this.groupsTabsKey.push(group.tab);
+        }
+      });
+      this.groups.forEach(group => {
+
+        if (group.tab) {
+          this.groupsByTab.get(group.tab).push(group);
+        } else {
+          if (!this.groupsByTab.has(this.defaultGroupTabName)) {
+            this.groupsByTab.set(this.defaultGroupTabName, []);
+            this.groupsTabsKey.push(this.defaultGroupTabName);
+          }
+          this.groupsByTab.get(this.defaultGroupTabName).push(group);
+        }
         group.components.forEach(comp => {
           this.compGroup.set(comp.contributorId, group.groupId);
-        }));
+        });
+      });
     }
+
+    // sort groups given saved order
+    const arlasTabsGroupsOrder = localStorage.getItem('arlas_tabs_groups_order');
+    if (this.isActiveDragDrop && arlasTabsGroupsOrder) {
+      const orderedGroupIdsByTab = new Map(JSON.parse(arlasTabsGroupsOrder));
+      orderedGroupIdsByTab.forEach((ids: Array<string>, tabId: string) => {
+        if (this.groupsByTab.get(tabId)) {
+          this.groupsByTab.get(tabId).sort((a, b) => ids.indexOf(a.groupId) - ids.indexOf(b.groupId));
+        }
+      });
+    }
+
+
 
     if (this.mode === 'compact') {
       this.setActiveFilter();
@@ -122,6 +148,15 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
 
   public ngAfterViewInit() {
     this.scrollToAnalyticsComponent(this.target);
+    // hide tabs group if only one
+    if (this.groupsByTab.size === 1) {
+      document.querySelector('.only-one > :first-child').remove();
+    } else {
+      document.querySelector('.analytics-tabs .mat-tab-header')
+        .setAttribute('style', 'background-color: white !important;border-radius: 4px !important;margin: 0 2px !important;');
+    }
+
+    this.cancelAllOtherTabsContribution(0);
   }
 
   public scrollToAnalyticsComponent(target: string) {
@@ -148,9 +183,13 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
     this.boardOutputs.next(event);
   }
 
-  public drop(event: CdkDragDrop<string[]>) {
-    moveItemInArray(this.groups, event.previousIndex, event.currentIndex);
-    localStorage.setItem('arlas_groups_order', this.groups.map(group => group.groupId).toString());
+  public drop(event: CdkDragDrop<string[]>, tabKey: string) {
+    moveItemInArray(this.groupsByTab.get(tabKey), event.previousIndex, event.currentIndex);
+    const groupIdsByTab = new Map<string, Array<String>>();
+    this.groupsByTab.forEach((tab, tabId) => {
+      groupIdsByTab.set(tabId, tab.map(group => group.groupId));
+    });
+    localStorage.setItem('arlas_tabs_groups_order', JSON.stringify([...groupIdsByTab]));
   }
 
   public changeMode(event) {
@@ -179,6 +218,67 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
   }
 
   public openPanel(group: AnalyticGroupConfiguration) {
+    this.groupsByTab.forEach(groups => {
+      groups.map(grp => {
+        if (grp.groupId === group.groupId) {
+          grp.collapsed = false;
+        }
+      });
+    });
+    this.activateGroupContribution(group);
+  }
+  public closePanel(group: AnalyticGroupConfiguration) {
+    this.groupsByTab.forEach(groups => {
+      groups.map(grp => {
+        if (grp.groupId === group.groupId) {
+          grp.collapsed = true;
+        }
+      });
+    });
+    this.cancelGroupContribution(group);
+  }
+
+  public getContributorStatus(id) {
+    return this.collaborativeService.registry.get(id).isDataUpdating;
+  }
+
+  public tabChange(index: number) {
+    this.cancelAllOtherTabsContribution(index);
+
+    Array.from(this.groupsByTab.entries())
+      .filter(groupByTab => groupByTab[0] === this.groupsTabsKey[index])
+      .map(groupByTab => groupByTab[1])
+      .forEach(groups => {
+        groups.forEach(group => {
+          if (!group.collapsed) {
+            this.activateGroupContribution(group);
+          }
+        });
+      });
+  }
+
+  public cancelAllOtherTabsContribution(tabIndex: number) {
+    Array.from(this.groupsByTab.entries())
+      .filter(groupByTab => groupByTab[0] !== this.groupsTabsKey[tabIndex])
+      .map(groupByTab => groupByTab[1])
+      .forEach(groups => {
+        groups.forEach(group => {
+          this.cancelGroupContribution(group);
+        });
+      });
+  }
+
+  public cancelGroupContribution(group: AnalyticGroupConfiguration) {
+    this.wasClosedMap.set(group.groupId, true);
+    group.components
+      .map(componentConfig => componentConfig.contributorId)
+      .map(contribId => this.collaborativeService.registry.get(contribId))
+      .map(contributor => contributor.updateData = false);
+  }
+
+  public activateGroupContribution(group: AnalyticGroupConfiguration) {
+    const nbComponents = group.components.length;
+    let nbComponentsActivated = 0;
     group.components
       .map(componentConfig => componentConfig.contributorId)
       .map(contribId => this.collaborativeService.registry.get(contribId))
@@ -190,19 +290,11 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
             operation: OperationEnum.add,
             all: false
           });
-          this.wasClosedMap.set(group.groupId, false);
+          nbComponentsActivated++;
+          if (nbComponentsActivated === nbComponents) {
+            this.wasClosedMap.set(group.groupId, false);
+          }
         }
       });
-  }
-  public closePanel(group: AnalyticGroupConfiguration) {
-    this.wasClosedMap.set(group.groupId, true);
-    group.components
-      .map(componentConfig => componentConfig.contributorId)
-      .map(contribId => this.collaborativeService.registry.get(contribId))
-      .map(contributor => contributor.updateData = false);
-
-  }
-  public getContributorStatus(id) {
-    return this.collaborativeService.registry.get(id).isDataUpdating;
   }
 }

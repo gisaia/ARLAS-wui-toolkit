@@ -25,7 +25,7 @@ import {
   MatExpansionModule, MatIconModule, MatRadioModule, MatChipsModule, MatSelectModule,
   MatStepperModule, MatSnackBarModule, MatInputModule, MatProgressBarModule, MatListModule,
   MatTooltipModule, MatTableModule, MatCheckboxModule,
-  MatFormFieldModule, MatProgressSpinnerModule, MatSpinner
+  MatFormFieldModule, MatProgressSpinnerModule, MatTabsModule
 } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -248,6 +248,7 @@ export function getAuthModuleConfig(): OAuthModuleConfig {
     MatSnackBarModule,
     MatStepperModule,
     MatTableModule,
+    MatTabsModule,
     MatTooltipModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
@@ -338,8 +339,7 @@ export function getAuthModuleConfig(): OAuthModuleConfig {
     ConfirmModalComponent,
     DownloadDialogComponent,
     ErrorModalMsgComponent,
-    ShareDialogComponent,
-    MatSpinner
+    ShareDialogComponent
   ],
 })
 export class ArlasToolKitModule { }

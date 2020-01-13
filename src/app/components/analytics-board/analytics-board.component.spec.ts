@@ -7,7 +7,8 @@ import {
   MatButtonModule,
   MatTooltipModule,
   MatBadgeModule,
-  MatProgressSpinnerModule
+  MatProgressSpinnerModule,
+  MatTabsModule
 } from '@angular/material';
 import { AnalyticsBoardComponent } from './analytics-board.component';
 import { WidgetComponent } from '../widget/widget.component';
@@ -35,7 +36,7 @@ describe('AnalyticsBoardComponent', () => {
         MatCardModule, MatIconModule, MatExpansionModule, MatSelectModule, MatButtonModule,
         MatTooltipModule, BrowserModule, HistogramModule, ResultsModule, PowerbarsModule,
         DonutModule, TranslateModule, MatBadgeModule, DragDropModule, HttpClientModule,
-        MetricModule, MatProgressSpinnerModule
+        MetricModule, MatProgressSpinnerModule, MatTabsModule
       ],
       providers: [
         ArlasConfigService, ArlasCollaborativesearchService,
