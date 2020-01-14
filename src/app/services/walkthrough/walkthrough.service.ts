@@ -45,6 +45,27 @@ export class ArlasWalkthroughService {
         this.tourData = response;
         if (this.tourData.steps.length <= 0) {
           this.isActivable = false;
+        } else {
+          if (this.tourData.onStart) {
+            this.tourData.onStart = new Function(this.tourData.onStart);
+          }
+          if (this.tourData.onEnd) {
+            this.tourData.onEnd = new Function(this.tourData.onEnd);
+          }
+          if (this.tourData.onStart) {
+            this.tourData.onClose = new Function(this.tourData.onClose);
+          }
+          this.tourData.steps.forEach(step => {
+            if (step.onNext) {
+              step.onNext = new Function(step.onNext);
+            }
+            if (step.onPrev) {
+              step.onPrev = new Function(step.onPrev);
+            }
+            if (step.onShow) {
+              step.onShow = new Function(step.onShow);
+            }
+          });
         }
       })
       .catch(error => {
