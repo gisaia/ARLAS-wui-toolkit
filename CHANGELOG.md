@@ -1,8 +1,38 @@
 # Change Log
 
+## [v12.2.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v12.2.0) (2020-01-15)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v12.1.3...v12.2.0)
+
+**New stuff:**
+
+- Presentation tour : Improve steps actions [\#237](https://github.com/gisaia/ARLAS-wui-toolkit/issues/237)
+- zoom to data [\#218](https://github.com/gisaia/ARLAS-wui-toolkit/issues/218)
+- Add tabs in analytics board [\#189](https://github.com/gisaia/ARLAS-wui-toolkit/issues/189)
+
+**Miscellaneous:**
+
+- Build Warning related to old lint rules [\#236](https://github.com/gisaia/ARLAS-wui-toolkit/issues/236)
+
+## [v12.1.3](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v12.1.3) (2020-01-13)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v12.1.2...v12.1.3)
+
+**New stuff:**
+
+- \[Widget\] Optimize widget update [\#226](https://github.com/gisaia/ARLAS-wui-toolkit/issues/226)
+
+**Fixed bugs:**
+
+- the zoom to data extent is not centered all the time [\#238](https://github.com/gisaia/ARLAS-wui-toolkit/issues/238)
+
 ## [v12.1.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v12.1.2) (2020-01-02)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v12.1.1...v12.1.2)
+
+**New stuff:**
+
+- Add a Map service that provides a 'zoomToData' method [\#234](https://github.com/gisaia/ARLAS-wui-toolkit/issues/234)
 
 ## [v12.1.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v12.1.1) (2019-12-18)
 
