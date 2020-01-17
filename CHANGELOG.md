@@ -1,5 +1,13 @@
 # Change Log
 
+## [v11.5.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v11.5.0) (2020-01-17)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v11.4.0...v11.5.0)
+
+**New stuff:**
+
+- Update the configuration object according to the available fields for exploration [\#245](https://github.com/gisaia/ARLAS-wui-toolkit/issues/245)
+
 ## [v11.4.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v11.4.0) (2019-10-16)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v11.3.0...v11.4.0)

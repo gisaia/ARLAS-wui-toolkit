@@ -1,7 +1,7 @@
 {
   "name": "arlas-wui-toolkit",
-  "version": "*update by script*",
-  "description": "Tool Kit Library for ARLAS wui web App",
+  "version": "11.5.0",
+  "description": "Toolkit Library for ARLAS wui App",
   "author": "gisaia",
   "license": "Apache-2.0",
   "repository": {
