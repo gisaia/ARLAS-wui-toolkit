@@ -36,19 +36,17 @@ export class ArlasFGAService {
    */
   public listAvailableFields(collectionName: string, arlasExploreApi: ArlasExploreApi, maxCacheAge: number): Promise<Set<string>> {
     let availableFields = new Set<string>();
-    /** Needs a fix of arlas-api to return Array<CollectionReferenceDescription> instead of CollectionReferenceDescription */
-    return arlasExploreApi.list(false, maxCacheAge, {credentials: 'include'}).then((collectionDescriptions: any) => {
-      collectionDescriptions.filter((cd: CollectionReferenceDescription) => cd.collection_name === collectionName)
-        .forEach((cd: CollectionReferenceDescription) => {
-          availableFields = new Set(getFieldProperties(cd.properties).map(p => p.label));
-          availableFields.add(cd.params.id_path);
-          availableFields.add(cd.params.timestamp_path);
-          availableFields.add(cd.params.geometry_path);
-          availableFields.add(cd.params.centroid_path);
-        }
-      );
+    return arlasExploreApi.list(false, maxCacheAge, {credentials: 'include'})
+      .then((collectionDescriptions: Array<CollectionReferenceDescription>) => {
+        collectionDescriptions.filter((cd: CollectionReferenceDescription) => cd.collection_name === collectionName)
+          .forEach((cd: CollectionReferenceDescription) => {
+            availableFields = new Set(getFieldProperties(cd.properties).map(p => p.label));
+            availableFields.add(cd.params.id_path);
+            availableFields.add(cd.params.timestamp_path);
+            availableFields.add(cd.params.geometry_path);
+            availableFields.add(cd.params.centroid_path);
+          });
       return availableFields;
-      // return new Set(['id', 'course.sog', 'vessel.name', 'vessel.ship_type'])
     });
   }
 
