@@ -150,10 +150,15 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
     this.scrollToAnalyticsComponent(this.target);
     // hide tabs group if only one
     if (this.groupsByTab.size === 1) {
-      document.querySelector('.only-one > :first-child').remove();
+      const firstTab: Element = document.querySelector('.only-one > :first-child');
+      if (firstTab && firstTab !== undefined) {
+        firstTab.remove();
+      }
     } else {
-      document.querySelector('.analytics-tabs .mat-tab-header')
-        .setAttribute('style', 'background-color: white !important;border-radius: 4px !important;margin: 0 2px !important;');
+      const tabHeader: Element = document.querySelector('.analytics-tabs .mat-tab-header');
+      if (tabHeader && tabHeader !== undefined) {
+        tabHeader.setAttribute('style', 'background-color: white !important;border-radius: 4px !important;margin: 0 2px !important;');
+      }
     }
 
     this.cancelAllOtherTabsContribution(0);
