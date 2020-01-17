@@ -68,6 +68,7 @@ import { BookmarkMenuComponent } from './components/bookmark-menu/bookmark-menu.
 import { ArlasExtendService } from './services/extend/extend.service';
 import { ArlasConfigurationDescriptor } from './services/configuration-descriptor/configurationDescriptor.service';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { ArlasConfigurationUpdaterService } from './services/configuration-updater/configurationUpdater';
 
 
 export class CustomTranslateLoader implements TranslateLoader {
@@ -231,6 +232,7 @@ export function translationServiceFactory(translate: TranslateService, injector:
     forwardRef(() => ArlasBookmarkService),
     forwardRef(() => ArlasConfigService),
     forwardRef(() => ArlasCollaborativesearchService),
+    forwardRef(() => ArlasConfigurationUpdaterService),
     forwardRef(() => ArlasStartupService),
     forwardRef(() => ArlasConfigurationDescriptor),
     forwardRef(() => ArlasColorGeneratorLoader),

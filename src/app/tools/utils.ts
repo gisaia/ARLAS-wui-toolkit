@@ -114,3 +114,28 @@ export function getKeyForColor(dataModel: Object): string {
     });
     return intToRGB(hashCode(finalKeys.sort().join(',')));
 }
+
+export function getFieldProperties(fieldList: any, parentPrefix?: string,
+  arlasFields?: Array<{ label: string, type: string }>, isFirstLevel?: boolean
+): Array<{ label: string, type: string }> {
+  if (!arlasFields) {
+    arlasFields = new Array();
+  }
+  if (isFirstLevel === undefined) {
+    isFirstLevel = true;
+  }
+  Object.keys(fieldList).forEach(fieldName => {
+    if (fieldList[fieldName].type === 'OBJECT') {
+      const subFields = fieldList[fieldName].properties;
+      if (subFields) {
+        getFieldProperties(subFields, (parentPrefix ? parentPrefix : '') + fieldName + '.', arlasFields, false);
+      }
+    } else {
+      arlasFields.push({ label: (parentPrefix ? parentPrefix : '') + fieldName, type: fieldList[fieldName].type });
+    }
+  });
+
+  if (isFirstLevel) {
+    return arlasFields;
+  }
+}
