@@ -25,7 +25,7 @@ import { getFieldProperties } from '../../tools/utils.js';
 @Injectable({
   providedIn: 'root'
 })
-export class ArlasFGAService {
+export class ArlasConfigurationUpdaterService {
 
   /**
    * Lists the fields of `collectionName` that are available for exploration with `arlasExploreApi`

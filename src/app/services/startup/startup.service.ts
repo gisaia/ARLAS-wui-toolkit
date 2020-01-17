@@ -45,7 +45,7 @@ import ajv from 'ajv';
 import * as ajvKeywords from 'ajv-keywords/keywords/uniqueItemProperties';
 import * as rootContributorConfSchema from 'arlas-web-contributors/jsonSchemas/rootContributorConf.schema.json';
 import { Subject } from 'rxjs';
-import { ArlasFGAService } from '../fga/fga.service.js';
+import { ArlasConfigurationUpdaterService } from '../configuration-updater/configurationUpdater';
 
 @Injectable({
     providedIn: 'root'
@@ -96,13 +96,13 @@ export class ArlasStartupService {
     constructor(
         private configService: ArlasConfigService,
         private collaborativesearchService: ArlasCollaborativesearchService,
-        private fgaService: ArlasFGAService,
+        private configurationUpdaterService: ArlasConfigurationUpdaterService,
         private injector: Injector,
         private http: HttpClient, ) {
     }
 
-    public getFGAService(): ArlasFGAService {
-      return this.fgaService;
+    public getFGAService(): ArlasConfigurationUpdaterService {
+      return this.configurationUpdaterService;
     }
 
     public errorStartUp() {
@@ -158,7 +158,7 @@ export class ArlasStartupService {
             arlasUrl,
             portableFetch
         );
-        return this.fgaService.listAvailableFields(collectionName, this.arlasExploreApi, maxCacheAge)
+        return this.configurationUpdaterService.listAvailableFields(collectionName, this.arlasExploreApi, maxCacheAge)
             .then((availableFields: Set<string>) => this.applyFGA(data, availableFields))
             .then((data) => { this.configService.setConfig(data); return data; });
     }
@@ -170,12 +170,12 @@ export class ArlasStartupService {
      * @returns the updated configuration object
      */
     public applyFGA(data, availableFields: Set<string>): any {
-      const contributorsToRemove: Set<string> = this.fgaService.getContributorsToRemove(data, availableFields);
-      let updatedConfig = this.fgaService.removeContributors(data, contributorsToRemove);
-      updatedConfig = this.fgaService.updateContributors(updatedConfig, availableFields);
-      updatedConfig = this.fgaService.updateMapComponent(updatedConfig, availableFields);
-      updatedConfig = this.fgaService.removeWidgets(updatedConfig, contributorsToRemove);
-      updatedConfig = this.fgaService.removeTimelines(updatedConfig, contributorsToRemove);
+      const contributorsToRemove: Set<string> = this.configurationUpdaterService.getContributorsToRemove(data, availableFields);
+      let updatedConfig = this.configurationUpdaterService.removeContributors(data, contributorsToRemove);
+      updatedConfig = this.configurationUpdaterService.updateContributors(updatedConfig, availableFields);
+      updatedConfig = this.configurationUpdaterService.updateMapComponent(updatedConfig, availableFields);
+      updatedConfig = this.configurationUpdaterService.removeWidgets(updatedConfig, contributorsToRemove);
+      updatedConfig = this.configurationUpdaterService.removeTimelines(updatedConfig, contributorsToRemove);
       return updatedConfig;
     }
 
