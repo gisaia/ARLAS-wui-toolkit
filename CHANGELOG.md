@@ -1,5 +1,13 @@
 # Change Log
 
+## [v11.5.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v11.5.1) (2020-01-21)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v11.5.0...v11.5.1)
+
+**New stuff:**
+
+- Externalize date time format provider [\#247](https://github.com/gisaia/ARLAS-wui-toolkit/issues/247)
+
 ## [v11.5.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v11.5.0) (2020-01-17)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v11.4.0...v11.5.0)
