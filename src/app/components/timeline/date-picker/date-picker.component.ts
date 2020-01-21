@@ -9,15 +9,6 @@ import { SelectedOutputValues } from 'arlas-web-contributors/models/models';
 import { OnChanges } from '@angular/core/src/metadata/lifecycle_hooks';
 
 const moment = (_moment as any).default ? (_moment as any).default : _moment;
-export const MY_CUSTOM_FORMATS = {
-  parseInput: 'lll',
-  fullPickerInput: 'll LTS',
-  datePickerInput: 'lll',
-  timePickerInput: 'lll',
-  monthYearLabel: 'MMM YYYY',
-  dateA11yLabel: 'lll',
-  monthYearA11yLabel: 'MMMM YYYY',
-};
 
 /**
  * The component allows to set start/end values of a temporal selection on the timeline
@@ -27,8 +18,7 @@ export const MY_CUSTOM_FORMATS = {
   templateUrl: './date-picker.component.html',
   styleUrls: ['./date-picker.component.css'],
   providers: [
-    { provide: DateTimeAdapter, useClass: MomentDateTimeAdapter, deps: [OWL_DATE_TIME_LOCALE] },
-    { provide: OWL_DATE_TIME_FORMATS, useValue: MY_CUSTOM_FORMATS },
+    { provide: DateTimeAdapter, useClass: MomentDateTimeAdapter, deps: [OWL_DATE_TIME_LOCALE] }
   ]
 })
 export class DatePickerComponent implements OnInit, OnChanges {

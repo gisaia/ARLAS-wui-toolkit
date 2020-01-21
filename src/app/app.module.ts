@@ -132,6 +132,16 @@ export function translationServiceFactory(translate: TranslateService, injector:
   return translationLoaded;
 }
 
+export const MY_CUSTOM_FORMATS = {
+  parseInput: 'lll',
+  fullPickerInput: 'll LTS',
+  datePickerInput: 'lll',
+  timePickerInput: 'lll',
+  monthYearLabel: 'MMM YYYY',
+  dateA11yLabel: 'lll',
+  monthYearA11yLabel: 'MMMM YYYY',
+};
+
 
 @NgModule({
   declarations: [
@@ -261,7 +271,9 @@ export function translationServiceFactory(translate: TranslateService, injector:
       useFactory: localDatePickerFactory,
       deps: [TranslateService]
     },
-    { provide: OwlDateTimeIntl, useClass: ArlasTranslateIntl, deps: [TranslateService] }
+    { provide: OwlDateTimeIntl, useClass: ArlasTranslateIntl, deps: [TranslateService] },
+    { provide: OWL_DATE_TIME_FORMATS, useValue: MY_CUSTOM_FORMATS },
+
   ],
   bootstrap: [AppComponent],
   entryComponents: [
