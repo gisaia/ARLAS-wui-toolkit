@@ -24,7 +24,8 @@ import {
 } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { DonutModule, HistogramModule, PowerbarsModule, ResultsModule } from 'arlas-web-components';
-import { ArlasCollaborativesearchService, ArlasStartupService, ArlasConfigService } from '../../../services/startup/startup.service';
+import { ArlasCollaborativesearchService, ArlasStartupService, ArlasConfigService,
+  FETCH_OPTIONS } from '../../../services/startup/startup.service';
 import { WidgetComponent } from '../../widget/widget.component';
 import { TimelineComponent } from './timeline.component';
 import { TranslateModule, TranslateService, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
@@ -34,6 +35,7 @@ import { DatePickerComponent } from 'app/components/timeline/date-picker/date-pi
 import { OwlNativeDateTimeModule, OwlDateTimeModule } from 'ng-pick-datetime';
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { ArlasConfigurationUpdaterService } from '../../../services/configuration-updater/configurationUpdater';
 
 describe('TimelineComponent', () => {
   let component: TimelineComponent;
@@ -51,7 +53,13 @@ describe('TimelineComponent', () => {
         })
       ],
       providers: [
-        ArlasCollaborativesearchService, ArlasStartupService, ArlasConfigService, TranslateService, HttpClient
+        ArlasCollaborativesearchService, ArlasStartupService, ArlasConfigService, TranslateService, HttpClient,
+        {
+          provide: ArlasConfigurationUpdaterService,
+          useClass: ArlasConfigurationUpdaterService,
+          deps: [ArlasCollaborativesearchService]
+        },
+        {provide: FETCH_OPTIONS, useValue: {}},
       ]
     })
       .compileComponents();

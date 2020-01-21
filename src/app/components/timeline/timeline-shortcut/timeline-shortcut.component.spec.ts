@@ -2,7 +2,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule, TranslateLoader, TranslateFakeLoader, TranslateService } from '@ngx-translate/core';
 import { TimelineShortcutComponent } from './timeline-shortcut.component';
 import { DatePickerComponent } from '../../timeline/date-picker/date-picker.component';
-import { ArlasCollaborativesearchService, ArlasStartupService, ArlasConfigService } from '../../../services/startup/startup.service';
+import { ArlasCollaborativesearchService, ArlasStartupService, ArlasConfigService,
+  FETCH_OPTIONS } from '../../../services/startup/startup.service';
 import { OwlDateTimeModule } from 'ng-pick-datetime';
 import { FormsModule } from '@angular/forms';
 import {
@@ -15,6 +16,7 @@ import {
 import { BrowserModule } from '@angular/platform-browser';
 import { GetTimeLabelPipe } from '../../../.../../pipes/get-time-label.pipe';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { ArlasConfigurationUpdaterService } from '../../../services/configuration-updater/configurationUpdater';
 
 describe('TimelineShortcutComponent', () => {
   let component: TimelineShortcutComponent;
@@ -34,6 +36,12 @@ describe('TimelineShortcutComponent', () => {
       providers: [
         { provide: OWL_DATE_TIME_LOCALE, useValue: 'fr' }, HttpClient,
         ArlasCollaborativesearchService, ArlasStartupService, ArlasConfigService, TranslateService,
+        {
+          provide: ArlasConfigurationUpdaterService,
+          useClass: ArlasConfigurationUpdaterService,
+          deps: [ArlasCollaborativesearchService]
+        },
+        {provide: FETCH_OPTIONS, useValue: {}},
 
       ]
     })

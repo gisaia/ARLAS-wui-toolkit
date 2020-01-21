@@ -2,18 +2,13 @@ import { Injectable } from '@angular/core';
 import { ArlasConfigService, ArlasCollaborativesearchService, ArlasExploreApi, ArlasCollectionApi } from '../startup/startup.service';
 import { Observable, from } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Configuration, CollectionReference } from 'arlas-api';
+import { Configuration, CollectionReference, CollectionReferenceDescription } from 'arlas-api';
 import * as portableFetch from 'portable-fetch';
 import { getFieldProperties } from '../../tools/utils';
 
 
 @Injectable()
 export class ArlasConfigurationDescriptor {
-
-  public fetchOptions = {
-    credentials: 'include'
-  };
-
   constructor(
     private collaborativesearchService: ArlasCollaborativesearchService,
     private configService: ArlasConfigService
@@ -24,16 +19,10 @@ export class ArlasConfigurationDescriptor {
    * declared in ARLAS-server (that is configurated in `arlas.server.url`)
    */
   public getAllCollections(): Observable<Array<string>> {
-    const configuration: Configuration = new Configuration();
-    const arlasCollectionsApi = new ArlasCollectionApi(
-      configuration,
-      this.configService.getValue('arlas.server.url'),
-      portableFetch
-    );
-    return <Observable<Array<string>>>from(arlasCollectionsApi.getAll1(false, this.fetchOptions)).pipe(
+    return <Observable<Array<string>>>from(this.collaborativesearchService.list(false)).pipe(
       map(
-        (collections: Array<CollectionReference>) => collections.map(
-          (collection: CollectionReference) => collection.collection_name
+        (collections: Array<CollectionReferenceDescription>) => collections.map(
+          (collection: CollectionReferenceDescription) => collection.collection_name
         )
           .filter(collection => collection !== 'metacollection')
       )

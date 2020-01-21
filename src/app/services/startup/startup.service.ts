@@ -18,7 +18,7 @@
  */
 
 import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable, Injector } from '@angular/core';
+import { Inject, Injectable, Injector, InjectionToken } from '@angular/core';
 import { Configuration, ExploreApi, CollectionsApi, CollectionReferenceDescription, Aggregation } from 'arlas-api';
 import { DonutComponent, HistogramComponent, MapglComponent, PowerbarsComponent } from 'arlas-web-components';
 import {
@@ -46,6 +46,9 @@ import * as ajvKeywords from 'ajv-keywords/keywords/uniqueItemProperties';
 import * as rootContributorConfSchema from 'arlas-web-contributors/jsonSchemas/rootContributorConf.schema.json';
 import { Subject } from 'rxjs';
 import { ArlasConfigurationUpdaterService } from '../configuration-updater/configurationUpdater';
+
+
+export const FETCH_OPTIONS = new InjectionToken<any>('fetch_options');
 
 @Injectable({
     providedIn: 'root'
@@ -97,7 +100,7 @@ export class ArlasStartupService {
         private configService: ArlasConfigService,
         private collaborativesearchService: ArlasCollaborativesearchService,
         private configurationUpdaterService: ArlasConfigurationUpdaterService,
-        private injector: Injector,
+        @Inject(FETCH_OPTIONS) private fetchOptions,
         private http: HttpClient, ) {
     }
 
@@ -150,15 +153,17 @@ export class ArlasStartupService {
         /**First set the raw config data in order to create an ArlasExploreApi instance */
         this.configService.setConfig(data);
         const collectionName = this.configService.getValue('arlas.server.collection.name');
+        this.collaborativesearchService.setFetchOptions(this.fetchOptions);
         const arlasUrl = this.configService.getValue('arlas.server.url');
-        const maxCacheAge = this.configService.getValue('arlas.server.max_age_cache');
-        const configuration: Configuration = new Configuration();
-        this.arlasExploreApi = new ArlasExploreApi(
-            configuration,
-            arlasUrl,
-            portableFetch
-        );
-        return this.configurationUpdaterService.listAvailableFields(collectionName, this.arlasExploreApi, maxCacheAge)
+            const configuration: Configuration = new Configuration();
+            this.arlasExploreApi = new ArlasExploreApi(
+              configuration,
+              arlasUrl,
+              portableFetch
+            );
+        this.collaborativesearchService.setConfigService(this.configService);
+        this.collaborativesearchService.setExploreApi(this.arlasExploreApi);
+        return this.configurationUpdaterService.listAvailableFields(collectionName)
             .then((availableFields: Set<string>) => this.applyFGA(data, availableFields))
             .then((data) => { this.configService.setConfig(data); return data; });
     }

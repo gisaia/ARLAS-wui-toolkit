@@ -7,8 +7,10 @@ import {
   MatStepperModule
 } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from '../../services/startup/startup.service';
+import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService,
+  FETCH_OPTIONS } from '../../services/startup/startup.service';
 import { ShareComponent } from './share.component';
+import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater';
 
 
 describe('ShareComponent', () => {
@@ -24,7 +26,14 @@ describe('ShareComponent', () => {
         MatRadioModule, MatSelectModule
       ],
       declarations: [ShareComponent],
-      providers: [ArlasConfigService, ArlasCollaborativesearchService, ArlasStartupService]
+      providers: [ArlasConfigService, ArlasCollaborativesearchService, ArlasStartupService,
+        {
+          provide: ArlasConfigurationUpdaterService,
+          useClass: ArlasConfigurationUpdaterService,
+          deps: [ArlasCollaborativesearchService]
+        },
+        {provide: FETCH_OPTIONS, useValue: {}},
+]
     })
       .compileComponents();
   }));
