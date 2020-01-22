@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ArlasCollaborativesearchService, ArlasStartupService, ArlasConfigService } from '../../../services/startup/startup.service';
+import { ArlasCollaborativesearchService, ArlasStartupService, ArlasConfigService,
+  FETCH_OPTIONS } from '../../../services/startup/startup.service';
 import { DatePickerComponent } from './date-picker.component';
 import { MomentDateTimeAdapter } from 'ng-pick-datetime-moment';
 import { FormsModule } from '@angular/forms';
@@ -9,6 +10,7 @@ import {
 } from 'ng-pick-datetime';
 import { TranslateModule, TranslateLoader, TranslateFakeLoader, TranslateService } from '@ngx-translate/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { ArlasConfigurationUpdaterService } from '../../../services/configuration-updater/configurationUpdater';
 export const MY_CUSTOM_FORMATS = {
   parseInput: 'lll',
   fullPickerInput: 'll LTS',
@@ -37,6 +39,13 @@ describe('DatePickerComponent', () => {
         ArlasCollaborativesearchService, ArlasStartupService, ArlasConfigService, TranslateService,
         { provide: DateTimeAdapter, useClass: MomentDateTimeAdapter, deps: [OWL_DATE_TIME_LOCALE] },
         { provide: OWL_DATE_TIME_FORMATS, useValue: MY_CUSTOM_FORMATS },
+        {
+          provide: ArlasConfigurationUpdaterService,
+          useClass: ArlasConfigurationUpdaterService,
+          deps: [ArlasCollaborativesearchService]
+        },
+        {provide: FETCH_OPTIONS, useValue: {}},
+
       ]
     })
       .compileComponents();

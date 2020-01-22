@@ -20,8 +20,9 @@
 import { TestBed } from '@angular/core/testing';
 
 import { ArlasExtendService } from './extend.service';
-import { ArlasStartupService, ArlasConfigService, ArlasCollaborativesearchService } from '../startup/startup.service';
+import { ArlasStartupService, ArlasConfigService, ArlasCollaborativesearchService, FETCH_OPTIONS } from '../startup/startup.service';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { ArlasConfigurationUpdaterService } from '../configuration-updater/configurationUpdater';
 
 describe('ArlasExtendService', () => {
   beforeEach(() => TestBed.configureTestingModule({
@@ -29,7 +30,13 @@ describe('ArlasExtendService', () => {
       HttpClientModule
     ],
     providers: [
-      ArlasStartupService, HttpClient, ArlasConfigService, ArlasCollaborativesearchService
+      ArlasStartupService, HttpClient, ArlasConfigService, ArlasCollaborativesearchService,
+      {
+        provide: ArlasConfigurationUpdaterService,
+        useClass: ArlasConfigurationUpdaterService,
+        deps: [ArlasCollaborativesearchService]
+      },
+      {provide: FETCH_OPTIONS, useValue: {}},
     ]
   }));
 

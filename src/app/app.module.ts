@@ -45,7 +45,8 @@ import { ExcludeTypePipe } from './components/share/exclude-type.pipe';
 import { ShareComponent, ShareDialogComponent } from './components/share/share.component';
 import { WidgetComponent } from './components/widget/widget.component';
 import { ArlasBookmarkService } from './services/bookmark/bookmark.service';
-import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from './services/startup/startup.service';
+import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService,
+  FETCH_OPTIONS } from './services/startup/startup.service';
 
 import { ArlasAoiService } from './services/aoi/aoi.service';
 import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.component';
@@ -238,16 +239,21 @@ export const MY_CUSTOM_FORMATS = {
     })
   ],
   providers: [
+    {provide: FETCH_OPTIONS, useValue: {}},
     forwardRef(() => ArlasAoiService),
     forwardRef(() => ArlasBookmarkService),
     forwardRef(() => ArlasConfigService),
     forwardRef(() => ArlasCollaborativesearchService),
-    forwardRef(() => ArlasConfigurationUpdaterService),
     forwardRef(() => ArlasStartupService),
     forwardRef(() => ArlasConfigurationDescriptor),
     forwardRef(() => ArlasColorGeneratorLoader),
     forwardRef(() => ArlasExtendService),
     forwardRef(() => ArlasWalkthroughService),
+    {
+      provide: ArlasConfigurationUpdaterService,
+      useClass: ArlasConfigurationUpdaterService,
+      deps: [ArlasCollaborativesearchService]
+    },
     {
       provide: APP_INITIALIZER,
       useFactory: startupServiceFactory,

@@ -15,9 +15,11 @@ import {
   HistogramModule, ResultsModule, PowerbarsModule, DonutModule
 } from 'arlas-web-components';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { ArlasStartupService, ArlasConfigService, ArlasCollaborativesearchService } from '../../services/startup/startup.service';
+import { ArlasStartupService, ArlasConfigService,
+   ArlasCollaborativesearchService, FETCH_OPTIONS } from '../../services/startup/startup.service';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater';
 
 describe('AnalyticsBoardComponent', () => {
   let component: AnalyticsBoardComponent;
@@ -36,7 +38,14 @@ describe('AnalyticsBoardComponent', () => {
       ],
       providers: [
         ArlasConfigService, ArlasCollaborativesearchService,
-        ArlasStartupService, HttpClient, TranslateService
+        ArlasStartupService, HttpClient, TranslateService,
+        {
+          provide: ArlasConfigurationUpdaterService,
+          useClass: ArlasConfigurationUpdaterService,
+          deps: [ArlasCollaborativesearchService]
+        },
+        {provide: FETCH_OPTIONS, useValue: {}},
+
       ]
     })
       .compileComponents();

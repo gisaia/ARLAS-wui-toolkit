@@ -19,33 +19,31 @@
 
 import { Injectable } from '@angular/core';
 import { Aggregation, CollectionReferenceDescription } from 'arlas-api';
-import { ArlasExploreApi } from '../startup/startup.service';
-import { getFieldProperties } from '../../tools/utils.js';
+import { ArlasCollaborativesearchService } from '../startup/startup.service';
+import { getFieldProperties } from '../../tools/utils';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class ArlasConfigurationUpdaterService {
 
+  constructor(private arlasCollaborativeSearchService: ArlasCollaborativesearchService) {
+  }
   /**
    * Lists the fields of `collectionName` that are available for exploration with `arlasExploreApi`
    * @param collectionName collection name
-   * @param arlasExploreApi instance of ArlasExploreApi that allows to call the `_list` endpoint
-   * @param maxCacheAge maximum cache age
    * @returns available fields
    */
-  public listAvailableFields(collectionName: string, arlasExploreApi: ArlasExploreApi, maxCacheAge: number): Promise<Set<string>> {
+  public listAvailableFields(collectionName: string): Promise<Set<string>> {
     let availableFields = new Set<string>();
-    return arlasExploreApi.list(false, maxCacheAge, {credentials: 'include'})
-      .then((collectionDescriptions: Array<CollectionReferenceDescription>) => {
+    return this.arlasCollaborativeSearchService.list(false).toPromise().then(
+      (collectionDescriptions: Array<CollectionReferenceDescription>) => {
         collectionDescriptions.filter((cd: CollectionReferenceDescription) => cd.collection_name === collectionName)
-          .forEach((cd: CollectionReferenceDescription) => {
-            availableFields = new Set(getFieldProperties(cd.properties).map(p => p.label));
-            availableFields.add(cd.params.id_path);
-            availableFields.add(cd.params.timestamp_path);
-            availableFields.add(cd.params.geometry_path);
-            availableFields.add(cd.params.centroid_path);
-          });
+        .forEach((cd: CollectionReferenceDescription) => {
+          availableFields = new Set(getFieldProperties(cd.properties).map(p => p.label));
+          availableFields.add(cd.params.id_path);
+          availableFields.add(cd.params.timestamp_path);
+          availableFields.add(cd.params.geometry_path);
+          availableFields.add(cd.params.centroid_path);
+      });
       return availableFields;
     });
   }
