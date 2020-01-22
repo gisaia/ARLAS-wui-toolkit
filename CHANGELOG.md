@@ -1,5 +1,13 @@
 # Change Log
 
+## [v11.5.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v11.5.2) (2020-01-22)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v11.5.1...v11.5.2)
+
+**New stuff:**
+
+- Use list method of CSS and inject FETCH_OPTIONS [\#248](https://github.com/gisaia/ARLAS-wui-toolkit/pull/248)
+
 ## [v11.5.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v11.5.1) (2020-01-21)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v11.5.0...v11.5.1)
