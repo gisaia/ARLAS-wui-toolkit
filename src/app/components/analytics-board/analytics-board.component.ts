@@ -75,10 +75,12 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
 
   public wasClosedMap: Map<string, boolean> = new Map<string, boolean>();
 
-  public groupsByTab: Map<string, Array<AnalyticGroupConfiguration>> = new Map<string, Array<AnalyticGroupConfiguration>>();
+  public groupsByTab: Array<{ index: string, groups: Array<AnalyticGroupConfiguration> }>
+    = new Array<{ index: string, groups: Array<AnalyticGroupConfiguration> }>();
   public groupsTabsKey: Array<string> = new Array<string>();
 
   private defaultGroupTabName = 'analytics';
+  private activeIndex;
 
   constructor(private collaborativeService: ArlasCollaborativesearchService, private configService: ArlasConfigService) { }
 
@@ -96,21 +98,21 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
 
     if (this.groups) {
       this.groups.forEach(group => {
-        if (group.tab && !this.groupsByTab.has(group.tab)) {
-          this.groupsByTab.set(group.tab, []);
+        if (group.tab && this.groupsByTab.filter(item => item.index === group.tab).length === 0) {
+          this.groupsByTab.push({ index: group.tab, groups: new Array<AnalyticGroupConfiguration>() });
           this.groupsTabsKey.push(group.tab);
         }
       });
       this.groups.forEach(group => {
 
         if (group.tab) {
-          this.groupsByTab.get(group.tab).push(group);
+          this.groupsByTab.filter(tabGroup => tabGroup.index === group.tab).map(tabGroup => tabGroup.groups.push(group));
         } else {
-          if (!this.groupsByTab.has(this.defaultGroupTabName)) {
-            this.groupsByTab.set(this.defaultGroupTabName, []);
+          if (this.groupsByTab.filter(item => item.index === this.defaultGroupTabName).length === 0) {
+            this.groupsByTab.push({ index: this.defaultGroupTabName, groups: new Array<AnalyticGroupConfiguration>() });
             this.groupsTabsKey.push(this.defaultGroupTabName);
           }
-          this.groupsByTab.get(this.defaultGroupTabName).push(group);
+          this.groupsByTab.filter(tabGroup => tabGroup.index === this.defaultGroupTabName).map(tabGroup => tabGroup.groups.push(group));
         }
         group.components.forEach(comp => {
           this.compGroup.set(comp.contributorId, group.groupId);
@@ -123,8 +125,9 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
     if (this.isActiveDragDrop && arlasTabsGroupsOrder) {
       const orderedGroupIdsByTab = new Map(JSON.parse(arlasTabsGroupsOrder));
       orderedGroupIdsByTab.forEach((ids: Array<string>, tabId: string) => {
-        if (this.groupsByTab.get(tabId)) {
-          this.groupsByTab.get(tabId).sort((a, b) => ids.indexOf(a.groupId) - ids.indexOf(b.groupId));
+        const currentTab = this.groupsByTab.filter(groupTab => groupTab.index === tabId);
+        if (currentTab.length > 0) {
+          currentTab[0].groups.sort((a, b) => ids.indexOf(a.groupId) - ids.indexOf(b.groupId));
         }
       });
     }
@@ -149,7 +152,7 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
   public ngAfterViewInit() {
     this.scrollToAnalyticsComponent(this.target);
     // hide tabs group if only one
-    if (this.groupsByTab.size === 1) {
+    if (this.groupsByTab.length === 1) {
       const firstTab: Element = document.querySelector('.only-one > :first-child');
       if (firstTab && firstTab !== undefined) {
         firstTab.remove();
@@ -189,10 +192,11 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
   }
 
   public drop(event: CdkDragDrop<string[]>, tabKey: string) {
-    moveItemInArray(this.groupsByTab.get(tabKey), event.previousIndex, event.currentIndex);
+    const currentTabGroups = this.groupsByTab.filter(groupTab => groupTab.index === tabKey).map(groupTab => groupTab.groups);
+    moveItemInArray(currentTabGroups[0], event.previousIndex, event.currentIndex);
     const groupIdsByTab = new Map<string, Array<String>>();
-    this.groupsByTab.forEach((tab, tabId) => {
-      groupIdsByTab.set(tabId, tab.map(group => group.groupId));
+    this.groupsByTab.forEach((tab) => {
+      groupIdsByTab.set(tab.index, tab.groups.map(group => group.groupId));
     });
     localStorage.setItem('arlas_tabs_groups_order', JSON.stringify([...groupIdsByTab]));
   }
@@ -223,8 +227,8 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
   }
 
   public openPanel(group: AnalyticGroupConfiguration) {
-    this.groupsByTab.forEach(groups => {
-      groups.map(grp => {
+    this.groupsByTab.forEach(groupTab => {
+      groupTab.groups.map(grp => {
         if (grp.groupId === group.groupId) {
           grp.collapsed = false;
         }
@@ -233,8 +237,8 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
     this.activateGroupContribution(group);
   }
   public closePanel(group: AnalyticGroupConfiguration) {
-    this.groupsByTab.forEach(groups => {
-      groups.map(grp => {
+    this.groupsByTab.forEach(groupTab => {
+      groupTab.groups.map(grp => {
         if (grp.groupId === group.groupId) {
           grp.collapsed = true;
         }
@@ -248,29 +252,35 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
   }
 
   public tabChange(index: number) {
-    this.cancelAllOtherTabsContribution(index);
-
-    Array.from(this.groupsByTab.entries())
-      .filter(groupByTab => groupByTab[0] === this.groupsTabsKey[index])
-      .map(groupByTab => groupByTab[1])
-      .forEach(groups => {
-        groups.forEach(group => {
-          if (!group.collapsed) {
-            this.activateGroupContribution(group);
-          }
-        });
-      });
+    this.activeIndex = index;
   }
 
   public cancelAllOtherTabsContribution(tabIndex: number) {
-    Array.from(this.groupsByTab.entries())
-      .filter(groupByTab => groupByTab[0] !== this.groupsTabsKey[tabIndex])
-      .map(groupByTab => groupByTab[1])
+
+    this.groupsByTab.filter(groupTab => groupTab.index !== this.groupsTabsKey[tabIndex])
+      .map(groupTab => groupTab.groups)
       .forEach(groups => {
         groups.forEach(group => {
           this.cancelGroupContribution(group);
         });
       });
+  }
+
+  public animationDone() {
+    if (this.activeIndex !== undefined) {
+
+      this.cancelAllOtherTabsContribution(this.activeIndex);
+
+      this.groupsByTab.filter(groupTab => groupTab.index === this.groupsTabsKey[this.activeIndex])
+        .map(groupTab => groupTab.groups)
+        .forEach(groups => {
+          groups.forEach(group => {
+            if (!group.collapsed) {
+              this.activateGroupContribution(group);
+            }
+          });
+        });
+    }
   }
 
   public cancelGroupContribution(group: AnalyticGroupConfiguration) {
