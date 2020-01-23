@@ -1,8 +1,40 @@
 # Change Log
 
+## [v12.2.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v12.2.2) (2020-01-23)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v11.5.2...v12.2.2)
+
+**Fixed bugs:**
+
+- Tabs creation order in analytics board [\#249](https://github.com/gisaia/ARLAS-wui-toolkit/issues/249)
+
+## [v11.5.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v11.5.2) (2020-01-22)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v11.5.1...v11.5.2)
+
+**New stuff:**
+
+- Use list method of CSS and inject FETCH\_OPTIONS [\#248](https://github.com/gisaia/ARLAS-wui-toolkit/pull/248) ([MohamedHamouGisaia](https://github.com/MohamedHamouGisaia))
+
+## [v11.5.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v11.5.1) (2020-01-21)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v11.5.0...v11.5.1)
+
+**New stuff:**
+
+- Externalize date time format provider [\#247](https://github.com/gisaia/ARLAS-wui-toolkit/pull/247) ([mbarbet](https://github.com/mbarbet))
+
+## [v11.5.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v11.5.0) (2020-01-17)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v12.2.1...v11.5.0)
+
 ## [v12.2.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v12.2.1) (2020-01-17)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v12.2.0...v12.2.1)
+
+**Fixed bugs:**
+
+- Analytics board tabs initialisation crash [\#243](https://github.com/gisaia/ARLAS-wui-toolkit/issues/243)
 
 ## [v12.2.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v12.2.0) (2020-01-15)
 
