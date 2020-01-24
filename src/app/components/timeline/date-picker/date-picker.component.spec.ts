@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ArlasCollaborativesearchService, ArlasStartupService, ArlasConfigService } from '../../../services/startup/startup.service';
+import { ArlasCollaborativesearchService, ArlasStartupService, ArlasConfigService,
+  CONFIG_UPDATER } from '../../../services/startup/startup.service';
 import { DatePickerComponent } from './date-picker.component';
 
 import { FormsModule } from '@angular/forms';
@@ -37,6 +38,7 @@ describe('DatePickerComponent', () => {
         ArlasCollaborativesearchService, ArlasStartupService, ArlasConfigService, TranslateService,
         { provide: DateTimeAdapter, useClass: MomentDateTimeAdapter, deps: [OWL_DATE_TIME_LOCALE] },
         { provide: OWL_DATE_TIME_FORMATS, useValue: MY_CUSTOM_FORMATS },
+        {provide: CONFIG_UPDATER, useValue: {}}
       ]
     })
       .compileComponents();

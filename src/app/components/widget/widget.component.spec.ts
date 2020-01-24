@@ -1,7 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { WidgetComponent } from './widget.component';
-import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from '../../services/startup/startup.service';
+import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService,
+  CONFIG_UPDATER } from '../../services/startup/startup.service';
 import { HistogramModule, ResultsModule, DonutModule, MetricModule, PowerbarsModule } from 'arlas-web-components';
 import { MatSelectModule, MatTooltipModule, MatIconModule } from '@angular/material';
 import { HttpClientModule } from '@angular/common/http';
@@ -14,7 +15,8 @@ describe('WidgetComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [WidgetComponent],
-      providers: [ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService, TranslateService],
+      providers: [ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService, TranslateService,
+        {provide: CONFIG_UPDATER, useValue: {}}],
       imports: [
         HistogramModule,
         PowerbarsModule,

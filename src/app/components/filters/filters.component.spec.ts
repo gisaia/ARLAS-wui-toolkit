@@ -22,7 +22,7 @@ import { MatChipsModule, MatIconModule, MatMenuModule, MatTooltipModule } from '
 import {
   ArlasStartupService,
   ArlasCollaborativesearchService,
-  ArlasConfigService
+  ArlasConfigService, CONFIG_UPDATER
 } from '../../services/startup/startup.service';
 import { FiltersComponent } from './filters.component';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
@@ -45,7 +45,8 @@ describe('FiltersChipsComponent', () => {
       declarations: [FiltersComponent],
       providers: [
         ArlasStartupService, ArlasConfigService, ArlasCollaborativesearchService,
-        ArlasWalkthroughService, HttpClient, TranslateService
+        ArlasWalkthroughService, HttpClient, TranslateService,
+        { provide: CONFIG_UPDATER, useValue: {} }
       ]
     })
       .compileComponents();

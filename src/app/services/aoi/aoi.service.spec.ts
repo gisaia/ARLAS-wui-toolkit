@@ -20,16 +20,26 @@
 import { TestBed } from '@angular/core/testing';
 
 import { ArlasAoiService } from './aoi.service';
-import { ArlasStartupService, ArlasConfigService, ArlasCollaborativesearchService } from '../startup/startup.service';
+import {
+  ArlasStartupService, ArlasConfigService, ArlasCollaborativesearchService,
+  CONFIG_UPDATER
+} from '../startup/startup.service';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
+import {
+  TranslateService, TranslateStore,
+  TranslateModule, TranslateLoader, TranslateFakeLoader
+} from '@ngx-translate/core';
 
 describe('ArlasAoiService', () => {
   beforeEach(() => TestBed.configureTestingModule({
     imports: [
-      HttpClientModule
+      HttpClientModule,
+      TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } })
     ],
     providers: [
-      ArlasStartupService, HttpClient, ArlasConfigService, ArlasCollaborativesearchService
+      ArlasStartupService, HttpClient, ArlasConfigService, TranslateService, TranslateStore,
+      ArlasCollaborativesearchService,
+      { provide: CONFIG_UPDATER, useValue: {} }
     ]
   }));
 

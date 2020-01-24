@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { CommonModule, LOCATION_INITIALIZED } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { APP_INITIALIZER, Injector, NgModule, forwardRef } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -45,7 +45,10 @@ import { ExcludeTypePipe } from './components/share/exclude-type.pipe';
 import { ShareComponent, ShareDialogComponent } from './components/share/share.component';
 import { WidgetComponent } from './components/widget/widget.component';
 import { ArlasBookmarkService } from './services/bookmark/bookmark.service';
-import { ArlasCollaborativesearchService, ArlasStartupService, ArlasConfigService } from './services/startup/startup.service';
+import {
+  ArlasCollaborativesearchService, ArlasStartupService,
+  ArlasConfigService, CONFIG_UPDATER
+} from './services/startup/startup.service';
 import { ArlasAoiService } from './services/aoi/aoi.service';
 import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.component';
 import { TimelineComponent } from './components/timeline/timeline/timeline.component';
@@ -122,32 +125,6 @@ export function localDatePickerFactory(translate: TranslateService) {
   return translate.currentLang;
 }
 
-export function translationServiceFactory(translate: TranslateService, injector: Injector) {
-  const translationLoaded = () => new Promise<any>((resolve: any) => {
-    const url = window.location.href;
-    const paramLangage = 'lg';
-    // Set default language to current browser language
-    let langToSet = navigator.language.slice(0, 2);
-    const regex = new RegExp('[?&]' + paramLangage + '(=([^&#]*)|&|#|$)');
-    const results = regex.exec(url);
-    if (results && results[2]) {
-      langToSet = decodeURIComponent(results[2].replace(/\+/g, ' '));
-    }
-    const locationInitialized = injector.get(LOCATION_INITIALIZED, Promise.resolve(null));
-    locationInitialized.then(() => {
-      translate.setDefaultLang('en');
-      translate.use(langToSet).subscribe(() => {
-        console.log(`Successfully initialized '${langToSet}' language.`);
-      }, err => {
-        console.error(`Problem with '${langToSet}' language initialization.'`);
-      }, () => {
-        resolve(null);
-      });
-    });
-  });
-  return translationLoaded;
-}
-
 // We need a factory since localStorage is not available at AOT build time
 export function storageFactory(config: ArlasConfigService): OAuthStorage {
   if (config.getValue('arlas.authentification.storage') !== undefined) {
@@ -166,6 +143,9 @@ export function getAuthModuleConfig(): OAuthModuleConfig {
   return <OAuthModuleConfig>{};
 }
 
+export function configUpdaterFactory(x): any {
+  return x[0];
+}
 
 @NgModule({
   declarations: [
@@ -267,6 +247,10 @@ export function getAuthModuleConfig(): OAuthModuleConfig {
     OAuthModule.forRoot()
   ],
   providers: [
+    {
+      provide: CONFIG_UPDATER,
+      useValue: configUpdaterFactory
+    },
     forwardRef(() => ArlasAoiService),
     forwardRef(() => ArlasBookmarkService),
     forwardRef(() => ArlasConfigService),
@@ -281,12 +265,6 @@ export function getAuthModuleConfig(): OAuthModuleConfig {
     forwardRef(() => ArlasWalkthroughService),
     forwardRef(() => ArlasExportCsvService),
 
-    {
-      provide: APP_INITIALIZER,
-      useFactory: translationServiceFactory,
-      deps: [TranslateService, Injector],
-      multi: true
-    },
     {
       provide: APP_INITIALIZER,
       useFactory: startupServiceFactory,

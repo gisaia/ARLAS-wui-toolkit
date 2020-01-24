@@ -2,7 +2,10 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule, TranslateLoader, TranslateFakeLoader, TranslateService } from '@ngx-translate/core';
 import { TimelineShortcutComponent } from './timeline-shortcut.component';
 import { DatePickerComponent } from '../../timeline/date-picker/date-picker.component';
-import { ArlasCollaborativesearchService, ArlasStartupService, ArlasConfigService } from '../../../services/startup/startup.service';
+import {
+  ArlasCollaborativesearchService, ArlasStartupService,
+  ArlasConfigService, CONFIG_UPDATER
+} from '../../../services/startup/startup.service';
 import { OwlDateTimeModule, OWL_DATE_TIME_LOCALE } from '@gisaia-team/ng-pick-datetime';
 import { FormsModule } from '@angular/forms';
 import {
@@ -32,6 +35,7 @@ describe('TimelineShortcutComponent', () => {
       providers: [
         { provide: OWL_DATE_TIME_LOCALE, useValue: 'fr' }, HttpClient,
         ArlasCollaborativesearchService, ArlasStartupService, ArlasConfigService, TranslateService,
+        { provide: CONFIG_UPDATER, useValue: {} }
 
       ]
     })

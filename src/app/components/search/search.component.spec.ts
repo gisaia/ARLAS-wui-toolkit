@@ -25,7 +25,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
   ArlasCollaborativesearchService,
   ArlasConfigService,
-  ArlasStartupService
+  ArlasStartupService, CONFIG_UPDATER
 } from '../../services/startup/startup.service';
 import { SearchComponent } from './search.component';
 import { TranslateModule, TranslateService, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
@@ -46,13 +46,14 @@ describe('SearchComponent', () => {
       declarations: [SearchComponent],
       providers: [
         ArlasConfigService, ArlasCollaborativesearchService, ArlasStartupService,
-        HttpClient, TranslateService
+        HttpClient, TranslateService,
+        { provide: CONFIG_UPDATER, useValue: {} }
       ]
     })
       .compileComponents();
   });
 
-  beforeEach( () => {
+  beforeEach(() => {
     arlasStartupService = TestBed.get(ArlasStartupService);
     arlasStartupService.arlasIsUp.subscribe(isUp => {
       if (isUp) {

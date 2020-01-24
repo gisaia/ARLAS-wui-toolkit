@@ -18,19 +18,19 @@
  */
 
 import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable, Injector } from '@angular/core';
+import { Inject, Injectable, Injector, InjectionToken } from '@angular/core';
 import { Configuration, ExploreApi, CollectionsApi } from 'arlas-api';
 import { DonutComponent, HistogramComponent, MapglComponent, PowerbarsComponent, MetricComponent } from 'arlas-web-components';
 import {
-  HistogramContributor,
-  MapContributor,
-  ResultListContributor,
-  SwimLaneContributor,
-  ChipsSearchContributor,
-  DetailedHistogramContributor,
-  TopoMapContributor,
-  TreeContributor,
-  ComputeContributor
+    HistogramContributor,
+    MapContributor,
+    ResultListContributor,
+    SwimLaneContributor,
+    ChipsSearchContributor,
+    DetailedHistogramContributor,
+    TopoMapContributor,
+    TreeContributor,
+    ComputeContributor
 } from 'arlas-web-contributors';
 import { AnalyticsContributor } from 'arlas-web-contributors/contributors/AnalyticsContributor';
 import * as portableFetch from 'portable-fetch';
@@ -44,6 +44,8 @@ import ajv from 'ajv';
 import * as ajvKeywords from 'ajv-keywords/keywords/uniqueItemProperties';
 import * as rootContributorConfSchema from 'arlas-web-contributors/jsonSchemas/rootContributorConf.schema.json';
 import { Subject } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
+import { LOCATION_INITIALIZED } from '@angular/common';
 
 @Injectable({
     providedIn: 'root'
@@ -77,9 +79,11 @@ export class ArlasCollaborativesearchService extends CollaborativesearchService 
     }
 }
 
+export const CONFIG_UPDATER = new InjectionToken<Function>('config_updater');
+
+
 @Injectable()
 export class ArlasStartupService {
-
     public contributorRegistry: Map<string, any> = new Map<string, any>();
     public shouldRunApp = true;
     public analytics: Array<{ groupId: string, components: Array<any> }>;
@@ -94,7 +98,8 @@ export class ArlasStartupService {
         private configService: ArlasConfigService,
         private collaborativesearchService: ArlasCollaborativesearchService,
         private injector: Injector,
-        private http: HttpClient, ) {
+        private http: HttpClient, private translateService: TranslateService,
+        @Inject(CONFIG_UPDATER) private configUpdater) {
     }
 
 
@@ -138,11 +143,36 @@ export class ArlasStartupService {
             }
         });
     }
+    public translationLoaded(data) {
+        return new Promise<any>((resolve: any) => {
+            const url = window.location.href;
+            const paramLangage = 'lg';
+            // Set default language to current browser language
+            let langToSet = navigator.language.slice(0, 2);
+            const regex = new RegExp('[?&]' + paramLangage + '(=([^&#]*)|&|#|$)');
+            const results = regex.exec(url);
+            if (results && results[2]) {
+                langToSet = decodeURIComponent(results[2].replace(/\+/g, ' '));
+            }
+            const locationInitialized = this.injector.get(LOCATION_INITIALIZED, Promise.resolve(null));
+            locationInitialized.then(() => {
+                this.translateService.setDefaultLang('en');
+                this.translateService.use(langToSet).subscribe(() => {
+                    console.log(`Successfully initialized '${langToSet}' language.`);
+                }, err => {
+                    console.error(`Problem with '${langToSet}' language initialization.'`);
+                }, () => {
+                    resolve([data, langToSet]);
+                });
+            });
+        });
+    }
 
     public setConfigService(data) {
         return new Promise<any>((resolve, reject) => {
-            this.configService.setConfig(data);
-            resolve(data);
+            const newConfig = this.configUpdater(data);
+            this.configService.setConfig(newConfig);
+            resolve(newConfig);
         });
     }
 
@@ -304,6 +334,7 @@ export class ArlasStartupService {
                 }
             })).toPromise()
             .then(() => this.validateConfiguration(configData))
+            .then((data) => this.translationLoaded(data))
             .then((data) => this.setConfigService(data))
             .then((data) => this.setAuthentService(data))
             .then((data) => this.setCollaborativeService(data))
@@ -313,7 +344,7 @@ export class ArlasStartupService {
                 console.error(err);
                 return Promise.resolve(null);
             });
-        return ret.then((x) => {});
+        return ret.then((x) => { });
     }
     private setAttribute(path, value, object) {
         const pathToList = path.split('.');
