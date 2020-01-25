@@ -18,7 +18,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Filter, Expression } from 'arlas-api';
@@ -36,6 +36,7 @@ export class ArlasBookmarkService {
   public dataBase: BookmarkDatabase;
   public bookMarkMap: Map<string, BookMark> = new Map<string, BookMark>();
   public selectorById;
+  public onAction = new Subject<{ action: string, id: string }>();
 
   constructor(private collaborativesearchService: ArlasCollaborativesearchService,
     private activatedRoute: ActivatedRoute, public snackBar: MatSnackBar,
@@ -104,7 +105,10 @@ export class ArlasBookmarkService {
   public removeBookmark(id: string) {
     this.dataBase.remove(id);
     this.bookMarkMap = this.dataBase.storageObjectMap;
-
+    this.onAction.next({
+      action: 'delete',
+      id: id
+    });
   }
 
   public viewBookMark(id: string) {
@@ -113,6 +117,10 @@ export class ArlasBookmarkService {
     this.viewFromDataModel(dataModel);
     this.dataBase.incrementBookmarkView(bookmark.id);
     this.openSnackBar(bookmark.name + ' loading');
+    this.onAction.next({
+      action: 'view',
+      id: id
+    });
   }
 
   public openSnackBar(message: string) {
