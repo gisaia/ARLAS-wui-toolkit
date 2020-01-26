@@ -117,6 +117,9 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
         group.components.forEach(comp => {
           this.compGroup.set(comp.contributorId, group.groupId);
         });
+        if (group.collapsed) {
+          this.wasClosedMap.set(group.groupId, group.collapsed);
+        }
       });
     }
 
