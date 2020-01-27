@@ -21,7 +21,10 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BookmarkMenuComponent } from './bookmark-menu.component';
 import { MatChipsModule, MatIconModule, MatTooltipModule } from '@angular/material';
-import { ArlasStartupService, ArlasConfigService, ArlasCollaborativesearchService } from '../../services/startup/startup.service';
+import {
+  ArlasStartupService, ArlasConfigService,
+  ArlasCollaborativesearchService, CONFIG_UPDATER
+} from '../../services/startup/startup.service';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateService, TranslateModule, TranslateFakeLoader, TranslateLoader } from '@ngx-translate/core';
 
@@ -39,7 +42,8 @@ describe('BookmarkMenuComponent', () => {
       ],
       providers: [
         ArlasConfigService, ArlasCollaborativesearchService,
-        ArlasStartupService, HttpClient, TranslateService
+        ArlasStartupService, HttpClient, TranslateService,
+        { provide: CONFIG_UPDATER, useValue: {} }
       ]
     })
       .compileComponents();
