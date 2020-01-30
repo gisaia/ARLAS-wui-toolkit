@@ -18,7 +18,7 @@
  */
 import { Component, Input, OnInit, Output, ViewEncapsulation, ElementRef, Renderer2 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { MatDialog, MatDialogRef } from '@angular/material';
+import { MatDialog, MatDialogRef, MatCheckboxChange } from '@angular/material';
 import { Subject } from 'rxjs';
 import { ArlasCollaborativesearchService, ArlasConfigService } from '../../services/startup/startup.service';
 import { ArlasTagService } from '../../services/tag/tag.service';
@@ -248,10 +248,14 @@ export class TagManagementDialogComponent {
 
   public columnsToDisplay = ['checked', 'date', 'name', 'path', 'tagValue', 'propagation', 'action'];
   public isLoading = true;
-  public selectedTag: TagRefRequest;
-  public selectedIndex = 0;
+  public selectedsTag: TagRefRequest[] = new Array<TagRefRequest>();
 
-  constructor(private tagService: ArlasTagService, private elem: ElementRef, private renderer: Renderer2) {
+  constructor(
+    private tagService: ArlasTagService,
+    private elem: ElementRef,
+    private renderer: Renderer2,
+    public dialogRef: MatDialogRef<TagManagementDialogComponent>
+  ) {
     this.tagService.list().subscribe(data => {
       this.isLoading = false;
       data.sort((a, b) => {
@@ -261,34 +265,31 @@ export class TagManagementDialogComponent {
     });
   }
 
-  public selectTag(index: number, tag: TagRefRequest) {
-    this.selectedTag = tag;
+  public selectTag(event: MatCheckboxChange, index: number, tag: TagRefRequest) {
     this.elem.nativeElement.querySelectorAll('.tags-table-row').forEach((elem, i) => {
-      if (i <= index) {
-        this.renderer.removeClass(elem, 'inactive-tag');
-        this.renderer.addClass(elem, 'active-tag');
-      } else {
-        this.renderer.addClass(elem, 'inactive-tag');
-        this.renderer.removeClass(elem, 'active-tag');
+      if (index === i) {
+        if (event.checked) {
+          this.selectedsTag.push(tag);
+          this.renderer.addClass(elem, 'active-tag');
+        } else {
+          this.selectedsTag.splice(this.selectedsTag.indexOf(tag), 1);
+          this.renderer.removeClass(elem, 'active-tag');
+        }
       }
     });
-    this.selectedIndex = index;
   }
 
   public replay() {
-    this.tagService.replay(this.selectedTag);
-    this.selectedTag = null;
-    this.elem.nativeElement.querySelectorAll('.tags-table-row').forEach((elem, i) => {
-      this.renderer.removeClass(elem, 'inactive-tag');
-      this.renderer.removeClass(elem, 'active-tag');
+    this.selectedsTag.forEach((tagRef: TagRefRequest) => {
+      const payload = {
+        search: tagRef.search,
+        tag: tagRef.tag,
+        label: tagRef.label,
+        propagation: tagRef.propagation
+      };
+      this.tagService.postTagData(payload, 'tag');
     });
+    this.dialogRef.close();
   }
 
-  public isTagSelected(id) {
-    if (this.selectedTag) {
-      return this.selectedTag.id === id;
-    } else {
-      return false;
-    }
-  }
 }

@@ -2,7 +2,7 @@
   <ng-container matColumnDef="checked">
     <mat-header-cell *matHeaderCellDef>#</mat-header-cell>
     <mat-cell *matCellDef="let tagRef; let i = index">
-      <mat-radio-button (change)="selectTag(i, tagRef)" [checked]="isTagSelected(tagRef.id)" value="{{tagRef.id}}"> </mat-radio-button>
+      <mat-checkbox (change)="selectTag($event, i, tagRef)" value="{{tagRef.id}}"> </mat-checkbox>
     </mat-cell>
   </ng-container>
 
@@ -44,6 +44,6 @@
 </div>
 
 <div style="display:flex;flex-direction:row;justify-content:space-around;padding-top:10px;">
-  <button mat-raised-button [disabled]="!this.selectedTag" color="primary" (click)="replay()">{{ 'Replay from here' | translate }}</button>
+  <button mat-raised-button [disabled]="this.selectedsTag.length === 0" color="primary" (click)="replay()">{{ 'Replay' | translate }}</button>
 </div>
 

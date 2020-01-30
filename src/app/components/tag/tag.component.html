@@ -11,7 +11,7 @@
       >
       <span>{{process.value.label}}</span>
       <mat-icon class="arlas-tag-notification-icon-blue" *ngIf="process.value.progress == 0">watch_later</mat-icon>
-      <span *ngIf="process.value.progress > 0 && process.value.progress < 100">{{process.value.progress}} %</span>
+      <span *ngIf="process.value.progress > 0 && process.value.progress < 100">{{process.value.progress | number:'1.0-0'}} %</span>
       <mat-icon class="arlas-tag-notification-icon-green arlas-tag-hide" *ngIf="process.value.progress == 100">check_circle</mat-icon>
       <mat-icon class="arlas-tag-notification-icon-grey arlas-tag-show" *ngIf="process.value.progress == 100" (click)="removeProgress(process.value.id)">cancel</mat-icon>
     </div>

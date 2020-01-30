@@ -12,21 +12,17 @@
   flex: 0 0 160px;
 }
 
+.tags-table-items .mat-header-row{
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
 .mat-column-date{
   display:flex;
   justify-content:flex-start;
   align-items: center;
 }
-
-/* .tags-table-items .mat-column-name {
-  flex: 0 0 160px;
-}
-
-.mat-column-name{
-  display:flex;
-  justify-content:flex-start;
-  align-items: center;
-} */
 
 .tags-table-items .mat-column-action {
   flex: 0 0 100px;

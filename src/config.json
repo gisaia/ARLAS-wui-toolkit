@@ -947,7 +947,7 @@
       }
     },
     "server": {
-      "url": "http://192.168.102.96:9999/arlas",
+      "url": "http://localhost:9999/arlas",
       "collection": {
         "name": "geodata",
         "id": "id"

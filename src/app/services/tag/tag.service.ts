@@ -195,18 +195,6 @@ export class ArlasTagService implements OnDestroy {
     return from(this.statusApi.taggingGetList(this.tagger.collection.name));
   }
 
-  public replay(tagRequest: TagRefRequest) {
-    const snackConfig = new MatSnackBarConfig();
-    snackConfig.duration = 3000;
-    snackConfig.verticalPosition = 'top';
-
-    from(this.taggerApi.tagReplay(this.tagger.collection.name, tagRequest.offset)).subscribe(
-      (response: number) => {
-        this.snackBar.open('Replay is running from tag `' + tagRequest.label + '`', '', snackConfig);
-      }
-    );
-  }
-
   public unfollowStatus(responseId: string) {
     this.processStatus.delete(responseId);
   }
