@@ -1,0 +1,49 @@
+<mat-table [dataSource]="tagsRef" class="tags-table-items">
+  <ng-container matColumnDef="checked">
+    <mat-header-cell *matHeaderCellDef>#</mat-header-cell>
+    <mat-cell *matCellDef="let tagRef; let i = index">
+      <mat-checkbox (change)="selectTag($event, i, tagRef)" value="{{tagRef.id}}"> </mat-checkbox>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="date">
+    <mat-header-cell *matHeaderCellDef>{{ 'Date' | translate }}</mat-header-cell>
+    <mat-cell *matCellDef="let tagRef">{{tagRef.creationTime | date: 'dd/MM/yyyy HH:mm:ss'}}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="name">
+    <mat-header-cell *matHeaderCellDef>{{ 'Operation Name' | translate }}</mat-header-cell>
+    <mat-cell *matCellDef="let tagRef">{{tagRef.label}}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="path">
+    <mat-header-cell *matHeaderCellDef>{{ 'Field tagged' | translate }}</mat-header-cell>
+    <mat-cell *matCellDef="let tagRef">{{tagRef.tag.path}}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="tagValue">
+    <mat-header-cell *matHeaderCellDef>{{ 'Value of tag' | translate }}</mat-header-cell>
+    <mat-cell *matCellDef="let tagRef">{{tagRef.tag.value}}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="propagation">
+    <mat-header-cell *matHeaderCellDef>{{ 'Propagation field' | translate }}</mat-header-cell>
+    <mat-cell *matCellDef="let tagRef">{{tagRef.propagation?.field}}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="action">
+    <mat-header-cell *matHeaderCellDef>{{ 'Action' | translate }}</mat-header-cell>
+    <mat-cell *matCellDef="let tagRef">{{tagRef.action}}</mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
+  <mat-row class="tags-table-row" *matRowDef="let myRowData; columns: columnsToDisplay"></mat-row>
+</mat-table>
+
+<div class="tags_spinner" *ngIf="isLoading">
+  <mat-progress-spinner
+    color="primary"
+    mode="indeterminate"
+    [diameter]="50">
+  </mat-progress-spinner>
+</div>
+
+<div style="display:flex;flex-direction:row;justify-content:space-around;padding-top:10px;">
+  <button mat-raised-button [disabled]="this.selectedsTag.length === 0" color="primary" (click)="replay()">{{ 'Replay' | translate }}</button>
+</div>
+

@@ -1,0 +1,52 @@
+.tags-table-items {
+  min-width: 50vw;
+  max-height: 85vh;
+  overflow: overlay;
+}
+
+.tags-table-items .mat-column-checked {
+  flex: 0 0 50px;
+}
+
+.tags-table-items .mat-column-date {
+  flex: 0 0 160px;
+}
+
+.tags-table-items .mat-header-row{
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.mat-column-date{
+  display:flex;
+  justify-content:flex-start;
+  align-items: center;
+}
+
+.tags-table-items .mat-column-action {
+  flex: 0 0 100px;
+}
+
+.tags_spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 10px;
+}
+
+.active-tag{
+  background-color: #174ea6;
+}
+
+.active-tag .mat-cell{
+  color : white;
+}
+
+.active-tag .mat-radio-outer-circle{
+  border-color: white;
+}
+
+.inactive-tag .mat-cell{
+  color : #cccccc;
+}

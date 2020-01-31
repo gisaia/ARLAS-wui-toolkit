@@ -18,7 +18,7 @@
  */
 
 import { NgModule, forwardRef, Injectable } from '@angular/core';
-import { TagComponent, TagDialogComponent } from './components/tag/tag.component';
+import { TagComponent, TagDialogComponent, TagManagementDialogComponent } from './components/tag/tag.component';
 import { ArlasTagService } from './services/tag/tag.service';
 import {
   MatAutocompleteModule,
@@ -32,7 +32,9 @@ import {
   MatButtonModule,
   MatDialogModule,
   MatSnackBarModule,
-  MatTooltipModule
+  MatTooltipModule,
+  MatProgressSpinnerModule,
+  MatRadioModule
 } from '@angular/material';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -41,6 +43,7 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatTableModule } from '@angular/material';
 
 @Injectable({
   providedIn: 'root'
@@ -69,7 +72,8 @@ export class CustomTranslateLoader implements TranslateLoader {
 @NgModule({
   declarations: [
     TagComponent,
-    TagDialogComponent
+    TagDialogComponent,
+    TagManagementDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -85,8 +89,11 @@ export class CustomTranslateLoader implements TranslateLoader {
     MatInputModule,
     MatOptionModule,
     MatProgressBarModule,
+    MatProgressSpinnerModule,
+    MatRadioModule,
     MatSelectModule,
     MatSnackBarModule,
+    MatTableModule,
     MatTooltipModule,
     ReactiveFormsModule,
     TranslateModule.forRoot({
@@ -104,6 +111,6 @@ export class CustomTranslateLoader implements TranslateLoader {
     forwardRef(() => ArlasTagService)
   ],
   bootstrap: [],
-  entryComponents: [TagDialogComponent],
+  entryComponents: [TagDialogComponent, TagManagementDialogComponent],
 })
 export class ArlasTaggerModule { }
