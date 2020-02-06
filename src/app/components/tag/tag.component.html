@@ -1,10 +1,3 @@
-<button mat-mini-fab (click)="openDialog()" color="accent" class="tag-button">
-  <mat-icon aria-label="Tag hits of current selection">{{icon}}</mat-icon>
-</button>
-<button mat-mini-fab (click)="openManagement()" color="accent" class="tag-management-button">
-  <mat-icon aria-label="Tag hits of current selection">format_list_bulleted</mat-icon>
-</button>
-
 <div class="arlas-tag-box">
   <div *ngFor="let process of this.tagService.processStatus | keyvalue" class="arlas-tag-notification" (mouseenter)="hoveredDiv = process.value.id" (mouseleave)="hoveredDiv = ''">
     <div class="arlas-tag-notification-content" id="tag-progress-{{process.value.id}}" [class.arlas-tag-active]="hoveredDiv === process.value.id ? true : false"

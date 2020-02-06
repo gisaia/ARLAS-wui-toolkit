@@ -944,6 +944,9 @@
         ["Engaged in fishing", "#86d8f7"], ["Moored", "#eab738"], ["Reserved for future amendment [HSC]", "#0086bd"],
         ["Under way sailing", "#ad0084"]],
         "colorsSaturationWeight": 0.6
+      },
+      "options": {
+        "drag_items": true
       }
     },
     "server": {
@@ -966,7 +969,6 @@
       "app": {
         "idFieldName": "id",
         "refresh": false,
-        "drag_items": true,
         "components": {
           "chipssearch": {
             "search_size": 100,
