@@ -61,6 +61,7 @@ export class ContributorBuilder {
                 break;
             case 'map':
                 contributor = new MapContributor(identifier, collaborativesearchService, configService);
+                (contributor as MapContributor).updateData = false;
                 break;
             case 'topomap':
                 contributor = new TopoMapContributor(identifier, collaborativesearchService, configService);
