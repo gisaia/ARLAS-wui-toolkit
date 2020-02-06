@@ -45,10 +45,32 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
    * @description List of groups. Each group contains one or more widgets.
    */
   @Input() public groups: Array<AnalyticGroupConfiguration>;
+
   /**
    * @description Map of <groupId, displayStatus> that informs which groupIds to display/hide
    */
   @Input() public groupsDisplayStatusMap: Map<string, boolean>;
+
+  @Input() public mode = 'normal';
+  @Input() public target: string;
+
+  /**
+   * @Input : Angular
+   * @description Whether or not the spinner is displayed when a component is loading data
+   */
+  @Input() public showSpinner = false;
+
+  @Input() public colorSpinner = 'primary';
+  @Input() public diameterSpinner = 100;
+  @Input() public strokeWidthSpinner = 5;
+
+  /**
+   * @Input : Angular
+   * @description Whether or not the indicators are displayed when a filter is active on a group or tab
+   */
+  @Input() public showIndicators = false;
+
+
   /**
    * @Output : Angular
    * @description Emits an event coming from one of the Widgets.
@@ -56,20 +78,15 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
    * the `origin` which is the contributor id of the Widget; `event` the name of the event; and eventually `data` which contains
    * the emitted data from the component.
    */
-  @Input() public mode = 'normal';
-  @Input() public target: string;
-  @Input() public showSpinner = false;
-  @Input() public colorSpinner = 'primary';
-  @Input() public diameterSpinner = 100;
-  @Input() public strokeWidthSpinner = 5;
-
   @Output() public boardOutputs: Subject<{ origin: string, event: string, data?: any }>
     = new Subject<{ origin: string, event: string, data?: any }>();
 
   @Output() public modeChange: Subject<string> = new Subject<string>();
 
   private compGroup: Map<string, string> = new Map<string, string>();
-  public activeFilter: Map<string, boolean> = new Map<string, boolean>();
+  public activeFilterGroup: Map<string, boolean> = new Map<string, boolean>();
+  private groupTab: Map<string, string> = new Map<string, string>();
+  public activeFilterTab: Map<string, boolean> = new Map<string, boolean>();
 
   public isActiveDragDrop = false;
 
@@ -107,16 +124,19 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
 
         if (group.tab) {
           this.groupsByTab.filter(tabGroup => tabGroup.index === group.tab).map(tabGroup => tabGroup.groups.push(group));
+          this.groupTab.set(group.groupId, group.tab);
         } else {
           if (this.groupsByTab.filter(item => item.index === this.defaultGroupTabName).length === 0) {
             this.groupsByTab.push({ index: this.defaultGroupTabName, groups: new Array<AnalyticGroupConfiguration>() });
             this.groupsTabsKey.push(this.defaultGroupTabName);
           }
+          this.groupTab.set(group.groupId, this.defaultGroupTabName);
           this.groupsByTab.filter(tabGroup => tabGroup.index === this.defaultGroupTabName).map(tabGroup => tabGroup.groups.push(group));
         }
         group.components.forEach(comp => {
           this.compGroup.set(comp.contributorId, group.groupId);
         });
+
         if (group.collapsed) {
           this.wasClosedMap.set(group.groupId, group.collapsed);
         }
@@ -136,13 +156,13 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
     }
 
 
-
-    if (this.mode === 'compact') {
-      this.setActiveFilter();
-      this.collaborativeService.collaborationBus.subscribe(() => {
-        this.setActiveFilter();
-      });
-    }
+    // Set groups and tabs badge
+    this.setActiveFilterGroup();
+    this.setActiveFilterTab();
+    this.collaborativeService.collaborationBus.subscribe(() => {
+      this.setActiveFilterTab();
+      this.setActiveFilterGroup();
+    });
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
@@ -177,10 +197,17 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
     }
   }
 
-  public setActiveFilter() {
-    this.activeFilter.clear();
+  public setActiveFilterGroup() {
+    this.activeFilterGroup.clear();
     this.collaborativeService.getEnableContributors().forEach(contrib => {
-      this.activeFilter.set(this.compGroup.get(contrib), true);
+      this.activeFilterGroup.set(this.compGroup.get(contrib), true);
+    });
+  }
+
+  public setActiveFilterTab() {
+    this.activeFilterTab.clear();
+    this.collaborativeService.getEnableContributors().forEach(contrib => {
+      this.activeFilterTab.set(this.groupTab.get(this.compGroup.get(contrib)), true);
     });
   }
 
@@ -215,6 +242,12 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
       });
     });
     event.stopPropagation();
+  }
+
+  public removeTabFilter(tabId: string, event: any) {
+    Array.from(this.groupTab.entries()).filter(tab => tab[1] === tabId).forEach(mapTab => {
+      this.removeFilter(mapTab[0], event);
+    });
   }
 
   /**

@@ -8,9 +8,7 @@
   font-weight: 400;
   src: local('Material Icons'),
   local('MaterialIcons-Regular'),
-  url('./assets/fonts/material-icons.woff2') format('woff2'),
-  url('./assets/fonts/material-icons.woff') format('woff'),
-  url('./assets/fonts/material-icons.ttf') format('truetype');
+  url('./assets/fonts/material-icons.woff2') format('woff2')
 }
 
 .material-icons {
@@ -78,6 +76,7 @@
 .arlas-metric-value {
   font-size: 3em;
 }
+
 .people .arlas-metric-value {
   font-weight: bold;
   color: #589ff0;

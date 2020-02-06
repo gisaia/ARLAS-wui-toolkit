@@ -68,7 +68,6 @@
   position: absolute;
   width: 18px;
   height: 18px;
-  background-color: #00DDE5;
   border-radius: 9px;
   right: -12px;
   top: 8px;
@@ -81,9 +80,52 @@
   color: white;
 }
 
-.active-filter:hover .active-filter-close{
+::ng-deep .mat-tab-label-active{
+  opacity: 1 !important;
+}
+
+
+.active-filter-tab{
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: 9px;
+  left: 15px;
+}
+
+.active-filter-group{
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: 9px;
+  left: 7px;
+}
+
+.active-filter-group-close{
+  padding: 1px 0 0 1px;
+}
+.active-filter-tab-close{
+  padding-top: 1px;
+}
+
+.active-filter-group-close, .active-filter-tab-close{
+  display: none;
+  font-size: 12px;
+  color: white;
+  width: 14px;
+  height: 14px;
+}
+
+.active-filter:hover .active-filter-close,
+.active-filter-tab:hover .active-filter-tab-close,
+.active-filter-group:hover .active-filter-group-close{
   display: block;
 }
+
+.active-filter, .active-filter-group, .active-filter-tab{
+  background-color: #F44336;
+}
+
 
 .cdk-drag-preview {
   box-sizing: border-box;
