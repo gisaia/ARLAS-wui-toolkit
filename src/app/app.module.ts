@@ -147,6 +147,16 @@ export function configUpdaterFactory(x): any {
   return x[0];
 }
 
+export const MY_CUSTOM_FORMATS = {
+  parseInput: 'lll',
+  fullPickerInput: 'll LTS',
+  datePickerInput: 'lll',
+  timePickerInput: 'lll',
+  monthYearLabel: 'MMM YYYY',
+  dateA11yLabel: 'lll',
+  monthYearA11yLabel: 'MMMM YYYY',
+};
+
 @NgModule({
   declarations: [
     AnalyticsBoardComponent,

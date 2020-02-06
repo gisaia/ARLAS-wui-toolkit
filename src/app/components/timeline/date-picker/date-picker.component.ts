@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, SimpleChanges, OnChanges } from '@angular/core';
 import * as _moment from 'moment';
-import { DateTimeAdapter, OWL_DATE_TIME_FORMATS, OWL_DATE_TIME_LOCALE, MomentDateTimeAdapter } from '@gisaia-team/ng-pick-datetime';
+import { DateTimeAdapter, OWL_DATE_TIME_LOCALE, MomentDateTimeAdapter } from '@gisaia-team/ng-pick-datetime';
 
 import { HistogramContributor } from 'arlas-web-contributors';
 import { ArlasCollaborativesearchService, ArlasStartupService } from './../../../services/startup/startup.service';
@@ -10,15 +10,6 @@ import { SelectedOutputValues } from 'arlas-web-contributors/models/models';
 
 
 const moment = (_moment as any).default ? (_moment as any).default : _moment;
-export const MY_CUSTOM_FORMATS = {
-  parseInput: 'lll',
-  fullPickerInput: 'll LTS',
-  datePickerInput: 'lll',
-  timePickerInput: 'lll',
-  monthYearLabel: 'MMM YYYY',
-  dateA11yLabel: 'lll',
-  monthYearA11yLabel: 'MMMM YYYY',
-};
 
 /**
  * The component allows to set start/end values of a temporal selection on the timeline
@@ -28,8 +19,7 @@ export const MY_CUSTOM_FORMATS = {
   templateUrl: './date-picker.component.html',
   styleUrls: ['./date-picker.component.css'],
   providers: [
-    { provide: DateTimeAdapter, useClass: MomentDateTimeAdapter, deps: [OWL_DATE_TIME_LOCALE] },
-    { provide: OWL_DATE_TIME_FORMATS, useValue: MY_CUSTOM_FORMATS },
+    { provide: DateTimeAdapter, useClass: MomentDateTimeAdapter, deps: [OWL_DATE_TIME_LOCALE] }
   ]
 })
 export class DatePickerComponent implements OnInit, OnChanges {
