@@ -47,9 +47,11 @@ export class TimelineShortcutComponent implements OnInit {
 
   constructor(private arlasCollaborativesearchService: ArlasCollaborativesearchService, private arlasStartupService: ArlasStartupService,
     public translate: TranslateService) {
-    this.arlasCollaborativesearchService.collaborationBus.pipe(filter(c => (c.id === this.timelineComponent.contributorId || c.all)))
+    this.arlasCollaborativesearchService.collaborationBus.pipe(filter(c => ((this.timelineComponent
+      && c.id === this.timelineComponent.contributorId) || c.all)))
       .subscribe(data => {
-        if (this.timelineContributor.timeLabel !== undefined && this.timelineContributor.timeLabel.indexOf('to') === -1) {
+        if (this.timelineContributor && this.timelineContributor.timeLabel !== undefined
+          && this.timelineContributor.timeLabel.indexOf('to') === -1) {
           this.isShortcutSelected = true;
         } else {
           this.isShortcutSelected = false;
@@ -76,11 +78,13 @@ export class TimelineShortcutComponent implements OnInit {
    */
   public setShortcut(shortCut: StringifiedTimeShortcut): void {
     const selectedIntervalsList = new Array<SelectedOutputValues>();
-    this.timelineContributor.intervalListSelection.forEach(intervalSelection => {
-      selectedIntervalsList.push(intervalSelection);
-    });
-    selectedIntervalsList.push({ startvalue: shortCut.from, endvalue: shortCut.to });
-    this.timelineContributor.valueChanged(selectedIntervalsList);
+    if (this.timelineContributor) {
+      this.timelineContributor.intervalListSelection.forEach(intervalSelection => {
+        selectedIntervalsList.push(intervalSelection);
+      });
+      selectedIntervalsList.push({ startvalue: shortCut.from, endvalue: shortCut.to });
+      this.timelineContributor.valueChanged(selectedIntervalsList);
+    }
   }
 
   /**
