@@ -141,7 +141,8 @@ export class TimelineComponent implements OnInit {
   }
 
   private showDetailedTimelineOnCollaborationEnd(): void {
-    this.arlasCollaborativesearchService.collaborationBus.pipe(filter(c => (c.id === this.timelineComponent.contributorId || c.all)))
+    this.arlasCollaborativesearchService.collaborationBus.pipe(filter(c => ((this.timelineComponent
+      && c.id === this.timelineComponent.contributorId) || c.all)))
       .subscribe(c => {
         if (c.operation === OperationEnum.remove) {
           this.timelineIsFiltered = false;
