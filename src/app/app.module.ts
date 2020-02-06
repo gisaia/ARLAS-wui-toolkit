@@ -25,7 +25,7 @@ import { ColorGeneratorModule, ColorGeneratorLoader } from 'arlas-web-components
 import { ArlasBookmarkService } from './services/bookmark/bookmark.service';
 import {
   ArlasCollaborativesearchService, ArlasStartupService,
-  ArlasConfigService, CONFIG_UPDATER
+  ArlasConfigService, CONFIG_UPDATER, FETCH_OPTIONS
 } from './services/startup/startup.service';
 import { ArlasAoiService } from './services/aoi/aoi.service';
 import { OwlDateTimeIntl, OWL_DATE_TIME_LOCALE } from '@gisaia-team/ng-pick-datetime';
@@ -48,6 +48,7 @@ import { ErrorModalMsgComponent } from './components/errormodal/errormodal.compo
 import { ShareDialogComponent } from './components/share/share.component';
 import { routing } from './app.routes';
 import { ArlasToolkitSharedModule } from './shared.module';
+import { ArlasConfigurationUpdaterService } from './services/configuration-updater/configurationUpdater.service';
 
 
 
@@ -140,6 +141,7 @@ export const MY_CUSTOM_FORMATS = {
   exports: [AppComponent],
   declarations: [AppComponent],
   providers: [
+    {provide: FETCH_OPTIONS, useValue: {}},
     {
       provide: CONFIG_UPDATER,
       useValue: configUpdaterFactory
@@ -157,7 +159,11 @@ export const MY_CUSTOM_FORMATS = {
     forwardRef(() => ArlasExtendService),
     forwardRef(() => ArlasWalkthroughService),
     forwardRef(() => ArlasExportCsvService),
-
+    {
+      provide: ArlasConfigurationUpdaterService,
+      useClass: ArlasConfigurationUpdaterService,
+      deps: [ArlasCollaborativesearchService]
+    },
     {
       provide: APP_INITIALIZER,
       useFactory: startupServiceFactory,

@@ -22,13 +22,15 @@ import { TestBed } from '@angular/core/testing';
 import { ArlasAoiService } from './aoi.service';
 import {
   ArlasStartupService, ArlasConfigService, ArlasCollaborativesearchService,
-  CONFIG_UPDATER
+  CONFIG_UPDATER,
+  FETCH_OPTIONS
 } from '../startup/startup.service';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import {
   TranslateService, TranslateStore,
   TranslateModule, TranslateLoader, TranslateFakeLoader
 } from '@ngx-translate/core';
+import { ArlasConfigurationUpdaterService } from '../configuration-updater/configurationUpdater.service';
 
 describe('ArlasAoiService', () => {
   beforeEach(() => TestBed.configureTestingModule({
@@ -39,7 +41,13 @@ describe('ArlasAoiService', () => {
     providers: [
       ArlasStartupService, HttpClient, ArlasConfigService, TranslateService, TranslateStore,
       ArlasCollaborativesearchService,
-      { provide: CONFIG_UPDATER, useValue: {} }
+      { provide: CONFIG_UPDATER, useValue: {} },
+      {
+        provide: ArlasConfigurationUpdaterService,
+        useClass: ArlasConfigurationUpdaterService,
+        deps: [ArlasCollaborativesearchService]
+      },
+      {provide: FETCH_OPTIONS, useValue: {}},
     ]
   }));
 
