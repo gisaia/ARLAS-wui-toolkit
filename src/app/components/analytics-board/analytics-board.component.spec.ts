@@ -23,10 +23,12 @@ import {
 } from '@ngx-translate/core';
 import {
   ArlasStartupService, ArlasConfigService, ArlasCollaborativesearchService,
-  CONFIG_UPDATER
+  CONFIG_UPDATER,
+  FETCH_OPTIONS
 } from '../../services/startup/startup.service';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
 
 describe('AnalyticsBoardComponent', () => {
   let component: AnalyticsBoardComponent;
@@ -49,7 +51,13 @@ describe('AnalyticsBoardComponent', () => {
       providers: [
         ArlasConfigService, ArlasCollaborativesearchService,
         ArlasStartupService, HttpClient, TranslateService, TranslateStore,
-        { provide: CONFIG_UPDATER, useValue: {} }
+        { provide: CONFIG_UPDATER, useValue: {} },
+        {
+          provide: ArlasConfigurationUpdaterService,
+          useClass: ArlasConfigurationUpdaterService,
+          deps: [ArlasCollaborativesearchService]
+        },
+        {provide: FETCH_OPTIONS, useValue: {}}
       ]
     })
       .compileComponents();

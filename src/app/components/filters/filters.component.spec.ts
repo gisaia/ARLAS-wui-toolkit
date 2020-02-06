@@ -22,12 +22,13 @@ import { MatChipsModule, MatIconModule, MatMenuModule, MatTooltipModule } from '
 import {
   ArlasStartupService,
   ArlasCollaborativesearchService,
-  ArlasConfigService, CONFIG_UPDATER
+  ArlasConfigService, CONFIG_UPDATER, FETCH_OPTIONS
 } from '../../services/startup/startup.service';
 import { FiltersComponent } from './filters.component';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateService, TranslateModule, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
 import { ArlasWalkthroughService } from '../../services/walkthrough/walkthrough.service';
+import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
 
 
 describe('FiltersChipsComponent', () => {
@@ -46,7 +47,13 @@ describe('FiltersChipsComponent', () => {
       providers: [
         ArlasStartupService, ArlasConfigService, ArlasCollaborativesearchService,
         ArlasWalkthroughService, HttpClient, TranslateService,
-        { provide: CONFIG_UPDATER, useValue: {} }
+        { provide: CONFIG_UPDATER, useValue: {} },
+        {
+          provide: ArlasConfigurationUpdaterService,
+          useClass: ArlasConfigurationUpdaterService,
+          deps: [ArlasCollaborativesearchService]
+        },
+        {provide: FETCH_OPTIONS, useValue: {}}
       ]
     })
       .compileComponents();
