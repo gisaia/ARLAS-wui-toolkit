@@ -1,5 +1,20 @@
 # Change Log
 
+## [v12.4.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v12.4.0) (2020-02-06)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v12.3.0...v12.4.0)
+
+**New stuff:**
+
+- Externalize date time format provider [\#259](https://github.com/gisaia/ARLAS-wui-toolkit/issues/259)
+- Disable update of map data at MapContributor creation [\#257](https://github.com/gisaia/ARLAS-wui-toolkit/issues/257)
+- Add an indicator on analytics tabs when at least one of its filter is active [\#246](https://github.com/gisaia/ARLAS-wui-toolkit/issues/246)
+- TAG : Add tag management [\#230](https://github.com/gisaia/ARLAS-wui-toolkit/issues/230)
+
+**Miscellaneous:**
+
+- Update Material Icons font to the lasted version [\#255](https://github.com/gisaia/ARLAS-wui-toolkit/issues/255)
+
 ## [v12.3.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v12.3.0) (2020-01-27)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v12.2.2...v12.3.0)
@@ -7,6 +22,10 @@
 **New stuff:**
 
 - Update the configuration object according to the available fields for exploration [\#245](https://github.com/gisaia/ARLAS-wui-toolkit/issues/245)
+
+**Miscellaneous:**
+
+- Add init i18n in startup Service [\#251](https://github.com/gisaia/ARLAS-wui-toolkit/issues/251)
 
 ## [v12.2.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v12.2.2) (2020-01-23)
 
