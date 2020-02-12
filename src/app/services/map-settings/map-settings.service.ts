@@ -19,25 +19,27 @@
 
 import { Injectable } from '@angular/core';
 import { MapSettingsService, GeometrySelectModel, OperationSelectModel } from 'arlas-web-components';
-import { ArlasStartupService } from '../startup/startup.service';
+import { ArlasStartupService, ArlasConfigService } from '../startup/startup.service';
 import { MapContributor, TopoMapContributor } from 'arlas-web-contributors';
 import { Expression } from 'arlas-api';
 
 @Injectable()
 export class ArlasMapSettings implements MapSettingsService {
 
+
   public MAPCONTRIBUTOR_ID = 'mapbox';
   public TOPOMAPCONTRIBUTOR_ID = 'topo_mapbox';
-
+  public componentConfig;
   public mapContributor: MapContributor | TopoMapContributor;
 
-  constructor(public startUpService: ArlasStartupService) {
+  constructor(public startUpService: ArlasStartupService, private configService: ArlasConfigService) {
     const topoMapContributor = this.startUpService.contributorRegistry.get(this.TOPOMAPCONTRIBUTOR_ID);
     if (topoMapContributor) {
       this.mapContributor = <TopoMapContributor>topoMapContributor;
     } else {
       this.mapContributor = <MapContributor>this.startUpService.contributorRegistry.get(this.MAPCONTRIBUTOR_ID);
     }
+    this.componentConfig = this.configService.getValue('arlas.web.components');
   }
 
   public getAllGeometries(): Array<GeometrySelectModel> {
@@ -65,7 +67,16 @@ export class ArlasMapSettings implements MapSettingsService {
         });
       });
     }
-    return clusterDisplayGeometries;
+    if (this.componentConfig.mapgl_settings !== undefined) {
+      if (this.componentConfig.mapgl_settings.exlude_geom_for_cluster !== undefined) {
+        const excludeGeomList: Array<String> = this.componentConfig.mapgl_settings.exlude_geom_for_cluster;
+        return clusterDisplayGeometries.filter(model => excludeGeomList.indexOf(model.path) < 0);
+      } else {
+        return clusterDisplayGeometries;
+      }
+    } else {
+      return clusterDisplayGeometries;
+    }
   }
 
   public getFilterGeometries(): Array<GeometrySelectModel> {
@@ -80,6 +91,33 @@ export class ArlasMapSettings implements MapSettingsService {
       });
     }
     return filterGeometries;
+  }
+
+  public getFeatureGeometries(): GeometrySelectModel[] {
+    const featureDisplayGeometries = this.getAllGeometries();
+    if (this.componentConfig.mapgl_settings !== undefined) {
+      if (this.componentConfig.mapgl_settings.exlude_geom_for_features !== undefined) {
+        const excludeGeomList: Array<String> = this.componentConfig.mapgl_settings.exlude_geom_for_features;
+        return featureDisplayGeometries.filter(model => excludeGeomList.indexOf(model.path) < 0);
+      } else {
+        return featureDisplayGeometries;
+      }
+    } else {
+      return featureDisplayGeometries;
+    }
+  }
+  public getTopologyGeometries(): GeometrySelectModel[] {
+    const topologyDisplayGeometries = this.getAllGeometries();
+    if (this.componentConfig.mapgl_settings !== undefined) {
+      if (this.componentConfig.mapgl_settings.exlude_geom_for_topology !== undefined) {
+        const excludeGeomList: Array<String> = this.componentConfig.mapgl_settings.exlude_geom_for_topology;
+        return topologyDisplayGeometries.filter(model => excludeGeomList.indexOf(model.path) < 0);
+      } else {
+        return topologyDisplayGeometries;
+      }
+    } else {
+      return topologyDisplayGeometries;
+    }
   }
 
   public getOperations(): Array<OperationSelectModel> {
@@ -104,11 +142,32 @@ export class ArlasMapSettings implements MapSettingsService {
   }
 
   public hasFeaturesMode(): boolean {
-    return !(this.mapContributor instanceof TopoMapContributor);
+    let hasFeaturesMode = !(this.mapContributor instanceof TopoMapContributor);
+    if (this.componentConfig.mapgl_settings !== undefined) {
+      if (this.componentConfig.mapgl_settings.has_features_mode !== undefined) {
+        hasFeaturesMode = this.componentConfig.mapgl_settings.has_features_mode;
+      }
+    }
+    return hasFeaturesMode;
   }
 
   public hasTopologyMode(): boolean {
-    return (this.mapContributor instanceof TopoMapContributor);
+    let hasTopologyMode = (this.mapContributor instanceof TopoMapContributor);
+    if (this.componentConfig.mapgl_settings !== undefined) {
+      if (this.componentConfig.mapgl_settings.has_topology_mode !== undefined) {
+        hasTopologyMode = this.componentConfig.mapgl_settings.has_topology_mode;
+      }
+    }
+    return hasTopologyMode;
+  }
 
+  public hasClusterMode(): boolean {
+    let hasClusterMode = true;
+    if (this.componentConfig.mapgl_settings !== undefined) {
+      if (this.componentConfig.mapgl_settings.has_cluster_mode !== undefined) {
+        hasClusterMode = this.componentConfig.mapgl_settings.has_cluster_mode;
+      }
+    }
+    return hasClusterMode;
   }
 }

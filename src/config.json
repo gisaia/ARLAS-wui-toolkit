@@ -869,6 +869,14 @@
             "idFeatureField": "id"
           }
         },
+        "mapglSettings":{
+          "has_features_mode":true,
+          "has_topology_mode":true,
+          "has_cluster_mode":true,
+          "exlude_geom_for_cluster":[],
+          "exlude_geom_for_topology":[],
+          "exlude_geom_for_features":[]
+        },
         "timeline": {
           "contributorId": "timeline",
           "componentType": "histogram",
