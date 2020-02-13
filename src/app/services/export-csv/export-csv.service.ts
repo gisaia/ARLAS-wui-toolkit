@@ -42,10 +42,14 @@ export class ArlasExportCsvService {
     let aggResponse: Observable<AggregationResponse>;
     switch (contributor.constructor.name) {
       case 'TreeContributor': {
-        const aggs = (<TreeContributor>contributor).getAggregations();
-        aggs.filter(agg => agg.type === Aggregation.TypeEnum.Term).map(a => a.size = '10000');
+        const aggsOriginal: Aggregation[] = (<TreeContributor>contributor).getAggregations();
+        const aggsForExport = [];
+        aggsOriginal.forEach(agg => {
+          aggsForExport.push(Object.assign({}, agg));
+        });
+        aggsForExport.filter(agg => agg.type === Aggregation.TypeEnum.Term).map(a => a.size = '10000');
         aggResponse = this.collaborativesearchService.resolveButNotAggregation(
-          [projType.aggregate, aggs], this.collaborativesearchService.collaborations);
+          [projType.aggregate, aggsForExport], this.collaborativesearchService.collaborations);
         break;
       }
       case 'HistogramContributor': {
