@@ -148,17 +148,17 @@
                                         }
                                     },
                                     {
-                                      "if": {
-                                          "properties": {
-                                              "type": {
-                                                  "const": "metric"
-                                              }
-                                          }
-                                      },
-                                      "then": {
-                                          "$ref": "computeContributorConf.schema.json#"
-                                      }
-                                  }
+                                        "if": {
+                                            "properties": {
+                                                "type": {
+                                                    "const": "metric"
+                                                }
+                                            }
+                                        },
+                                        "then": {
+                                            "$ref": "computeContributorConf.schema.json#"
+                                        }
+                                    }
                                 ]
                             },
                             "additionalProperties": false
@@ -204,17 +204,17 @@
                                                         "metric"
                                                     ]
                                                 },
-                                                "title":{
-                                                  "description": "Title of the component",
-                                                  "type": "string"
+                                                "title": {
+                                                    "description": "Title of the component",
+                                                    "type": "string"
                                                 },
-                                                "icon":{
-                                                  "description": "icon of the component, from material design icon",
-                                                  "type": "string"
+                                                "icon": {
+                                                    "description": "icon of the component, from material design icon",
+                                                    "type": "string"
                                                 },
-                                                "customizedCssClass":{
-                                                  "description": "css class name to be applied on the component container",
-                                                  "type": "string"
+                                                "customizedCssClass": {
+                                                    "description": "css class name to be applied on the component container",
+                                                    "type": "string"
                                                 }
                                             },
                                             "required": [
@@ -369,7 +369,7 @@
                                         }
                                     }
                                 },
-                                "mapgl": {
+                                "^(mapgl)$": {
                                     "description": "Mapgl component configuration",
                                     "type": "object",
                                     "properties": {
@@ -398,6 +398,49 @@
                                     "required": [
                                         "input"
                                     ]
+                                },
+                                "^(mapglSettings)$": {
+                                    "description": "Mapgl settings component configuration",
+                                    "type": "object",
+                                    "properties": {
+                                        "has_cluster_mode": {
+                                            "description": "Whether to add cluster syle mode settings.",
+                                            "type": "boolean"
+                                        },
+                                        "has_topology_mode": {
+                                            "description": "Whether to add topology syle mode settings.",
+                                            "type": "boolean"
+                                        },
+                                        "has_features_mode": {
+                                            "description": "Whether to add features syle mode settings.",
+                                            "type": "boolean"
+                                        },
+                                        "exlude_geom_for_cluster": {
+                                            "description": "List of geometry field to exclude for cluster mode.",
+                                            "type": "array",
+                                            "items": {
+                                                "description": "Geometry field to exclude.",
+                                                "type": "string"
+                                            }
+                                        },
+                                        "exlude_geom_for_topology": {
+                                            "description": "List of geometry field to exclude for topology mode.",
+                                            "type": "array",
+                                            "items": {
+                                                "description": "Geometry field to exclude.",
+                                                "type": "string"
+                                            }
+                                        },
+                                        "exlude_geom_for_features": {
+                                            "description": "List of geometry field to exclude for features mode.",
+                                            "type": "array",
+                                            "items": {
+                                                "description": "Geometry field to exclude.",
+                                                "type": "string"
+                                            }
+                                        }
+                                    },
+                                    "required": []
                                 },
                                 "timeline": {
                                     "description": "Timeline component configuration",
@@ -606,11 +649,11 @@
                     "description": "Configuration of Oauth2 OIDC connection",
                     "type": "object",
                     "properties": {
-                        "useAuthentForArlas":{
+                        "useAuthentForArlas": {
                             "description": "Defines whether we use authent in arlas server backend",
                             "type": "boolean"
                         },
-                        "useDiscovery":{
+                        "useDiscovery": {
                             "description": "Defines whether we use document discovery service",
                             "type": "boolean"
                         },
@@ -638,9 +681,9 @@
                             "description": "Url of the userinfo endpoint as defined by OpenId Connect. Mandatory if useDiscovery is false.",
                             "type": "string"
                         },
-                        "jwksEndpoint":{
+                        "jwksEndpoint": {
                             "description": "JSON Web Key Set (https://tools.ietf.org/html/rfc7517) with keys used to validate received id_tokens. This is taken out of the disovery document.. Mandatory if useDiscovery is false.",
-                            "type":"string"
+                            "type": "string"
                         },
                         "loginUrl": {
                             "description": "The auth server's endpoint that allows to log the user in when using implicit flow. Mandatory if useDiscovery is false.",
@@ -674,19 +717,19 @@
                             "description": "Defines whether to clear the hash fragment after logging in.",
                             "type": "boolean"
                         },
-                        "storage":{
+                        "storage": {
                             "description": "Defines where authentification are stocked. Locastorage by default",
                             "enum": [
                                 "localstorage",
                                 "sessionstorage"
                             ]
                         },
-                        "disableAtHashCheck":{
+                        "disableAtHashCheck": {
                             "description": "This property has been introduced to disable at_hash checks and is indented for Identity Provider that does not deliver an at_hash EVEN THOUGH its recommended by the OIDC specs.",
                             "type": "boolean"
                         },
-                        "dummyClientSecret":{
-                            "description":"dummyClientSecret dummy string for testn DONT USE IT in production",
+                        "dummyClientSecret": {
+                            "description": "dummyClientSecret dummy string for testn DONT USE IT in production",
                             "type": "string"
                         }
                     },
