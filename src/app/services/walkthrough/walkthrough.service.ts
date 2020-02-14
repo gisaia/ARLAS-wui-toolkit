@@ -23,6 +23,7 @@
 import { Injectable } from '@angular/core';
 import hopscotch from 'hopscotch';
 import { HttpClient } from '@angular/common/http';
+import { ArlasCollaborativesearchService } from '../startup/startup.service';
 
 @Injectable({
   providedIn: 'root',
@@ -33,7 +34,7 @@ export class ArlasWalkthroughService {
   public tourData: any;
   public isActivable = true;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private css: ArlasCollaborativesearchService) {
     this.hopscotch = hopscotch;
   }
 
@@ -47,23 +48,23 @@ export class ArlasWalkthroughService {
           this.isActivable = false;
         } else {
           if (this.tourData.onStart) {
-            this.tourData.onStart = new Function(this.tourData.onStart);
+            this.tourData.onStart = new Function(this.tourData.onStart).bind(this);
           }
           if (this.tourData.onEnd) {
-            this.tourData.onEnd = new Function(this.tourData.onEnd);
+            this.tourData.onEnd = new Function(this.tourData.onEnd).bind(this);
           }
           if (this.tourData.onStart) {
-            this.tourData.onClose = new Function(this.tourData.onClose);
+            this.tourData.onClose = new Function(this.tourData.onClose).bind(this);
           }
           this.tourData.steps.forEach(step => {
             if (step.onNext) {
-              step.onNext = new Function(step.onNext);
+              step.onNext = new Function(step.onNext).bind(this);
             }
             if (step.onPrev) {
-              step.onPrev = new Function(step.onPrev);
+              step.onPrev = new Function(step.onPrev).bind(this);
             }
             if (step.onShow) {
-              step.onShow = new Function(step.onShow);
+              step.onShow = new Function(step.onShow).bind(this);
             }
           });
         }

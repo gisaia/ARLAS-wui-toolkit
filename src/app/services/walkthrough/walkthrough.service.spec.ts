@@ -2,10 +2,11 @@ import { TestBed } from '@angular/core/testing';
 
 import { ArlasWalkthroughService } from './walkthrough.service';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { ArlasCollaborativesearchService } from '../startup/startup.service';
 
 describe('ArlasWalkthroughService', () => {
   beforeEach(() => TestBed.configureTestingModule({
-    providers: [ArlasWalkthroughService, HttpClient],
+    providers: [ArlasWalkthroughService, HttpClient, ArlasCollaborativesearchService],
     imports: [
       HttpClientModule
     ]
