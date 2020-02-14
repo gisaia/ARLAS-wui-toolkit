@@ -1,5 +1,17 @@
 # Change Log
 
+## [v12.5.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v12.5.0) (2020-02-14)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v12.4.0...v12.5.0)
+
+**New stuff:**
+
+- \[MapSettings service\] Add an option to exclude geo field [\#267](https://github.com/gisaia/ARLAS-wui-toolkit/issues/267)
+
+**Fixed bugs:**
+
+- \[Export CSV\] export modify Tree Original agg size [\#265](https://github.com/gisaia/ARLAS-wui-toolkit/issues/265)
+
 ## [v12.4.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v12.4.0) (2020-02-06)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v12.3.0...v12.4.0)
@@ -13,7 +25,7 @@
 
 **Miscellaneous:**
 
-- Update Material Icons font to the lasted version [\#255](https://github.com/gisaia/ARLAS-wui-toolkit/issues/255)
+- Update Material Icons font to the lastest version [\#255](https://github.com/gisaia/ARLAS-wui-toolkit/issues/255)
 
 ## [v12.3.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v12.3.0) (2020-01-27)
 
