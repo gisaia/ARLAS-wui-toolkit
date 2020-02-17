@@ -40,7 +40,7 @@ export class AuthentificationService {
   public initAuthService(configService, useDiscovery?: boolean, forceConnect?: boolean): Promise<void> {
     this.authConfigValue = configService.getValue('arlas.authentification');
     if (this.authConfigValue) {
-      if (useDiscovery || this.authConfigValue['jwksEndpoint'] === undefined)  {
+      if (useDiscovery || this.authConfigValue['jwksEndpoint'] === undefined) {
         this.authConfig = this.getAuthConfig(this.authConfigValue);
         this.setupAuthService();
         return this.runInitialLoginSequence(useDiscovery, forceConnect);
@@ -129,6 +129,10 @@ export class AuthentificationService {
 
   private getAuthConfig(authConfigValue, jwks?): AuthConfig {
     let authServiceConfig: AuthConfig;
+    let url = window.location.origin.concat(window.location.pathname);
+    if (url.slice(-1) !== '/') {
+      url = url.concat('/');
+    }
     if (authConfigValue) {
       if (authConfigValue['useDiscovery']) {
         authServiceConfig = {
@@ -136,8 +140,9 @@ export class AuthentificationService {
           issuer: authConfigValue['issuer'],
           scope: authConfigValue['scope'],
           responseType: authConfigValue['responseType'],
-          redirectUri: window.location.origin + '/callback',
-          silentRefreshRedirectUri: window.location.origin + '/silent-refresh.html',
+          redirectUri: authConfigValue['redirectUri'] !== undefined ? authConfigValue['redirectUri'] : url + 'callback',
+          silentRefreshRedirectUri: authConfigValue['silentRefreshRedirectUri'] !== undefined ?
+            authConfigValue['silentRefreshRedirectUri'] : url + 'silent-refresh.html',
           timeoutFactor: authConfigValue['timeoutFactor'] !== undefined ? authConfigValue['timeoutFactor'] : 0.75,
           sessionChecksEnabled: authConfigValue['sessionChecksEnabled'] !== undefined ? authConfigValue['sessionChecksEnabled'] : true,
           showDebugInformation: authConfigValue['showDebugInformation'] !== undefined ? authConfigValue['showDebugInformation'] : false,
@@ -158,8 +163,9 @@ export class AuthentificationService {
           tokenEndpoint: authConfigValue['tokenEndpoint'],
           userinfoEndpoint: authConfigValue['userinfoEndpoint'],
           loginUrl: authConfigValue['loginUrl'],
-          redirectUri: window.location.origin + '/callback',
-          silentRefreshRedirectUri: window.location.origin + '/silent-refresh.html',
+          redirectUri: authConfigValue['redirectUri'] !== undefined ? authConfigValue['redirectUri'] : url + 'callback',
+          silentRefreshRedirectUri: authConfigValue['silentRefreshRedirectUri'] !== undefined ?
+            authConfigValue['silentRefreshRedirectUri'] : url + 'silent-refresh.html',
           timeoutFactor: authConfigValue['timeoutFactor'] !== undefined ? authConfigValue['timeoutFactor'] : 0.75,
           sessionChecksEnabled: authConfigValue['sessionChecksEnabled'] !== undefined ? authConfigValue['sessionChecksEnabled'] : true,
           showDebugInformation: authConfigValue['showDebugInformation'] !== undefined ? authConfigValue['showDebugInformation'] : false,
