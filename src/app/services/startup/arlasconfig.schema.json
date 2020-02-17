@@ -669,6 +669,10 @@
                             "description": "The client's redirectUri as registered with the auth server",
                             "type": "string"
                         },
+                        "silentRefreshRedirectUri": {
+                            "description": "The client's silentRefreshRedirectUri as registered with the auth server",
+                            "type": "string"
+                        },
                         "scope": {
                             "description": "The requested scopes ex:'openid profile'",
                             "type": "string"
