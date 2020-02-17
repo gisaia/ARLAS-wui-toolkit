@@ -1,5 +1,13 @@
 # Change Log
 
+## [v12.5.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v12.5.1) (2020-02-17)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v12.5.0...v12.5.1)
+
+**Fixed bugs:**
+
+- Wrong redirect uri & silent redirect uri for authentification [\#269](https://github.com/gisaia/ARLAS-wui-toolkit/issues/269)
+
 ## [v12.5.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v12.5.0) (2020-02-14)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v12.4.0...v12.5.0)
