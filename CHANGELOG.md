@@ -1,5 +1,13 @@
 # Change Log
 
+## [v12.5.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v12.5.2) (2020-02-19)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v12.5.1...v12.5.2)
+
+**Fixed bugs:**
+
+- Test idToken validity on start of the app [\#271](https://github.com/gisaia/ARLAS-wui-toolkit/issues/271)
+
 ## [v12.5.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v12.5.1) (2020-02-17)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v12.5.0...v12.5.1)
