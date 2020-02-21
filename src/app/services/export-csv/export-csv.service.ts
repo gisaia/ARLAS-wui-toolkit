@@ -1,5 +1,5 @@
 import { Injectable, Pipe } from '@angular/core';
-import { ArlasCollaborativesearchService } from '../startup/startup.service';
+import { ArlasCollaborativesearchService, ArlasConfigService } from '../startup/startup.service';
 import { Observable, from } from 'rxjs';
 import { Contributor, Collaboration, projType } from 'arlas-web-core';
 import { TreeContributor, HistogramContributor } from 'arlas-web-contributors';
@@ -13,7 +13,7 @@ import jp from 'jsonpath/jsonpath.min';
 })
 export class ArlasExportCsvService {
 
-  constructor(private collaborativesearchService: ArlasCollaborativesearchService) { }
+  constructor(private collaborativesearchService: ArlasCollaborativesearchService, private configService: ArlasConfigService) { }
 
 
   public export(contributor: Contributor, stayAtFirstLevel: boolean): Observable<Blob> {
@@ -40,8 +40,10 @@ export class ArlasExportCsvService {
 
   public compute(contributor: Contributor): Observable<AggregationResponse> {
     let aggResponse: Observable<AggregationResponse>;
-    switch (contributor.constructor.name) {
-      case 'TreeContributor': {
+    const contributorType = this.configService.getValue('arlas.web.contributors')
+      .find(cont => cont.identifier === contributor.identifier).type;
+    switch (contributorType) {
+      case 'tree': {
         const aggsOriginal: Aggregation[] = (<TreeContributor>contributor).getAggregations();
         const aggsForExport = [];
         aggsOriginal.forEach(agg => {
@@ -52,7 +54,7 @@ export class ArlasExportCsvService {
           [projType.aggregate, aggsForExport], this.collaborativesearchService.collaborations);
         break;
       }
-      case 'HistogramContributor': {
+      case 'histogram': {
         aggResponse = this.fetchHistogramData(contributor);
         break;
       }
