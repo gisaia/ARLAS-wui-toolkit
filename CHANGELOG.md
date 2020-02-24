@@ -1,5 +1,13 @@
 # Change Log
 
+## [v12.5.3](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v12.5.3) (2020-02-24)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v12.5.2...v12.5.3)
+
+**Fixed bugs:**
+
+- Export csv throws an error [\#274](https://github.com/gisaia/ARLAS-wui-toolkit/issues/274)
+
 ## [v12.5.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v12.5.2) (2020-02-19)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v12.5.1...v12.5.2)

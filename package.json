@@ -1,6 +1,6 @@
 {
-  "name": "@gisaia-team/arlas-wui-toolkit",
-  "version": "12.6.0-dev0",
+  "name": "arlas-wui-toolkit",
+  "version": "12.5.3",
   "description": "Tool Kit Library for ARLAS wui web App",
   "author": "gisaia",
   "license": "Apache-2.0",
