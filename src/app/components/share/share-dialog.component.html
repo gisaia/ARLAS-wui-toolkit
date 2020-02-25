@@ -47,11 +47,11 @@
             </mat-selection-list>
           </div>
           <div class="share-feature-button">
-            <button mat-raised-button class="mat-accent fill text-sm share-button" matTooltip="Select All" [matTooltipPosition]="'above'" (click)="selectedList.selectAll();onSelectionChange(selectedList.selectedOptions.selected)">
+            <button mat-raised-button class="mat-accent fill text-sm share-button" matTooltip="{{'Select All' | translate}}" [matTooltipPosition]="'above'" (click)="selectedList.selectAll();onSelectionChange(selectedList.selectedOptions.selected)">
               &gt;&gt;
             </button>
             <br /><br />
-            <button mat-raised-button class="mat-primary fill text-sm share-button" matTooltip="Remove All" (click)="selectedList.deselectAll();onSelectionChange(selectedList.selectedOptions.selected)">
+            <button mat-raised-button class="mat-primary fill text-sm share-button" matTooltip="{{'Remove All' | translate}}" (click)="selectedList.deselectAll();onSelectionChange(selectedList.selectedOptions.selected)">
               &lt;&lt;
             </button>
           </div>

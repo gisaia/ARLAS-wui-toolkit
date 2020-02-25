@@ -46,13 +46,13 @@
           </mat-selection-list>
         </div>
         <div class="download-feature-button">
-          <button mat-raised-button class="mat-accent fill text-sm download-button" matTooltip="Select All"
+          <button mat-raised-button class="mat-accent fill text-sm download-button" matTooltip="{{'Select All' | translate}}"
             [matTooltipPosition]="'above'"
             (click)="selectedList.selectAll();onSelectionChange(selectedList.selectedOptions.selected)">
             &gt;&gt;
           </button>
           <br /><br />
-          <button mat-raised-button class="mat-primary fill text-sm download-button" matTooltip="Remove All"
+          <button mat-raised-button class="mat-primary fill text-sm download-button" matTooltip="{{'Remove All' | translate}}"
             (click)="selectedList.deselectAll();onSelectionChange(selectedList.selectedOptions.selected)">
             &lt;&lt;
           </button>
@@ -75,7 +75,7 @@
             <mat-select placeholder="{{'Order by' | translate}}" formControlName="orderField" [(value)]="selectedFirstOrderField"
               panelClass="download-order-field" (valueChange)="orderSelect()">
               <mat-option [value]="">{{'None' | translate}}</mat-option>
-              <mat-option *ngFor="let field of selectedFields" [value]="field">
+              <mat-option *ngFor="let field of selectedSortableFields" [value]="field">
                 {{ field.label }}
               </mat-option>
             </mat-select>
@@ -84,7 +84,7 @@
             <mat-select placeholder="{{'Then order by' | translate}}" formControlName="orderField2" [(value)]="selectedSecondOrderField"
               panelClass="download-order-field" (valueChange)="orderSelect()">
               <mat-option [value]="">{{'None' | translate}}</mat-option>
-              <mat-option *ngFor="let field of selectedFields" [value]="field">
+              <mat-option *ngFor="let field of selectedSortableFields" [value]="field">
                 {{ field.label }}
               </mat-option>
             </mat-select>
@@ -93,7 +93,7 @@
             <mat-select placeholder="{{'Finally order by' | translate}}" formControlName="orderField3"   [(value)]="selectedThirdOrderField"
               panelClass="download-order-field" (valueChange)="orderSelect()">
               <mat-option [value]="">{{'None' | translate}}</mat-option>
-              <mat-option *ngFor="let field of selectedFields" [value]="field">
+              <mat-option *ngFor="let field of selectedSortableFields" [value]="field">
                 {{ field.label }}
               </mat-option>
             </mat-select>
