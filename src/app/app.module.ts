@@ -105,7 +105,6 @@ export class CustomTranslateLoader implements TranslateLoader {
 }
 
 export function startupServiceFactory(startupService: ArlasStartupService) {
-
   const load = () => startupService.load('config.json?' + Date.now());
   return load;
 }
@@ -296,8 +295,7 @@ export const MY_CUSTOM_FORMATS = {
     forwardRef(() => ArlasExportCsvService),
     {
       provide: ArlasConfigurationUpdaterService,
-      useClass: ArlasConfigurationUpdaterService,
-      deps: [ArlasCollaborativesearchService]
+      useClass: ArlasConfigurationUpdaterService
     },
     {
       provide: APP_INITIALIZER,

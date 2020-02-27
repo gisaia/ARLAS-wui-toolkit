@@ -43,23 +43,25 @@ export class ArlasMapSettings implements MapSettingsService {
   }
 
   public getAllGeometries(): Array<GeometrySelectModel> {
-    const geoFields = this.mapContributor.geoPointFields.concat(this.mapContributor.geoShapeFields);
     const allDisplayGeometries = new Array<GeometrySelectModel>();
-    if (geoFields) {
-      const returnedGeometriesSet = this.mapContributor.getReturnedGeometries(this.mapContributor.returned_geometries);
-      geoFields.forEach(geoField => {
-        allDisplayGeometries.push({
-          path: geoField,
-          selected: returnedGeometriesSet.has(geoField)
+    if (this.mapContributor) {
+      const geoFields = this.mapContributor.geoPointFields.concat(this.mapContributor.geoShapeFields);
+      if (geoFields) {
+        const returnedGeometriesSet = this.mapContributor.getReturnedGeometries(this.mapContributor.returned_geometries);
+        geoFields.forEach(geoField => {
+          allDisplayGeometries.push({
+            path: geoField,
+            selected: returnedGeometriesSet.has(geoField)
+          });
         });
-      });
+      }
     }
     return allDisplayGeometries;
   }
 
   public getClusterGeometries(): Array<GeometrySelectModel> {
     const clusterDisplayGeometries = new Array<GeometrySelectModel>();
-    if (this.mapContributor.geoPointFields) {
+    if (this.mapContributor && this.mapContributor.geoPointFields) {
       this.mapContributor.geoPointFields.forEach(geoPointField => {
         clusterDisplayGeometries.push({
           path: geoPointField,
@@ -80,15 +82,17 @@ export class ArlasMapSettings implements MapSettingsService {
   }
 
   public getFilterGeometries(): Array<GeometrySelectModel> {
-    const geoFields = this.mapContributor.geoPointFields.concat(this.mapContributor.geoShapeFields);
     const filterGeometries = new Array<GeometrySelectModel>();
-    if (geoFields) {
-      geoFields.forEach(geoField => {
-        filterGeometries.push({
-          path: geoField,
-          selected: geoField === this.mapContributor.geoQueryField
+    if (this.mapContributor) {
+      const geoFields = this.mapContributor.geoPointFields.concat(this.mapContributor.geoShapeFields);
+      if (geoFields) {
+        geoFields.forEach(geoField => {
+          filterGeometries.push({
+            path: geoField,
+            selected: geoField === this.mapContributor.geoQueryField
+          });
         });
-      });
+      }
     }
     return filterGeometries;
   }
@@ -121,28 +125,31 @@ export class ArlasMapSettings implements MapSettingsService {
   }
 
   public getOperations(): Array<OperationSelectModel> {
-    return [
-      {
-        operation: Expression.OpEnum.Within.toString(),
-        selected: Expression.OpEnum.Within === this.mapContributor.geoQueryOperation
-      },
-      {
-        operation: Expression.OpEnum.Notwithin.toString(),
-        selected: Expression.OpEnum.Notwithin === this.mapContributor.geoQueryOperation
-      },
-      {
-        operation: Expression.OpEnum.Intersects.toString(),
-        selected: Expression.OpEnum.Intersects === this.mapContributor.geoQueryOperation
-      },
-      {
-        operation: Expression.OpEnum.Notintersects.toString(),
-        selected: Expression.OpEnum.Notintersects === this.mapContributor.geoQueryOperation
-      }
-    ];
+    if (this.mapContributor) {
+      return [
+        {
+          operation: Expression.OpEnum.Within.toString(),
+          selected: Expression.OpEnum.Within === this.mapContributor.geoQueryOperation
+        },
+        {
+          operation: Expression.OpEnum.Notwithin.toString(),
+          selected: Expression.OpEnum.Notwithin === this.mapContributor.geoQueryOperation
+        },
+        {
+          operation: Expression.OpEnum.Intersects.toString(),
+          selected: Expression.OpEnum.Intersects === this.mapContributor.geoQueryOperation
+        },
+        {
+          operation: Expression.OpEnum.Notintersects.toString(),
+          selected: Expression.OpEnum.Notintersects === this.mapContributor.geoQueryOperation
+        }
+      ];
+    }
+    return [];
   }
 
   public hasFeaturesMode(): boolean {
-    let hasFeaturesMode = !(this.mapContributor instanceof TopoMapContributor);
+    let hasFeaturesMode = this.mapContributor && !(this.mapContributor instanceof TopoMapContributor);
     if (this.componentConfig.mapgl_settings !== undefined) {
       if (this.componentConfig.mapgl_settings.has_features_mode !== undefined) {
         hasFeaturesMode = this.componentConfig.mapgl_settings.has_features_mode;
@@ -152,7 +159,7 @@ export class ArlasMapSettings implements MapSettingsService {
   }
 
   public hasTopologyMode(): boolean {
-    let hasTopologyMode = (this.mapContributor instanceof TopoMapContributor);
+    let hasTopologyMode = this.mapContributor && (this.mapContributor instanceof TopoMapContributor);
     if (this.componentConfig.mapgl_settings !== undefined) {
       if (this.componentConfig.mapgl_settings.has_topology_mode !== undefined) {
         hasTopologyMode = this.componentConfig.mapgl_settings.has_topology_mode;
@@ -162,7 +169,7 @@ export class ArlasMapSettings implements MapSettingsService {
   }
 
   public hasClusterMode(): boolean {
-    let hasClusterMode = true;
+    let hasClusterMode = (this.mapContributor !== undefined);
     if (this.componentConfig.mapgl_settings !== undefined) {
       if (this.componentConfig.mapgl_settings.has_cluster_mode !== undefined) {
         hasClusterMode = this.componentConfig.mapgl_settings.has_cluster_mode;

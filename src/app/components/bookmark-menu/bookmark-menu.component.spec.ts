@@ -43,12 +43,16 @@ describe('BookmarkMenuComponent', () => {
       ],
       providers: [
         ArlasConfigService, ArlasCollaborativesearchService,
-        ArlasStartupService, HttpClient, TranslateService,
+        {
+          provide: ArlasStartupService,
+          useClass: ArlasStartupService,
+          deps: [ArlasConfigurationUpdaterService]
+        },
+        HttpClient, TranslateService,
         { provide: CONFIG_UPDATER, useValue: {} },
         {
           provide: ArlasConfigurationUpdaterService,
-          useClass: ArlasConfigurationUpdaterService,
-          deps: [ArlasCollaborativesearchService]
+          useClass: ArlasConfigurationUpdaterService
         },
         {provide: FETCH_OPTIONS, useValue: {}}
       ]

@@ -109,7 +109,7 @@ export class SearchComponent {
       const aggregation: Aggregation = {
         type: Aggregation.TypeEnum.Term,
         field: this.searchContributor.autocomplete_field,
-        include: encodeURI(search) + '.*',
+        include: search + '.*',
         size: (this.searchContributor.autocomplete_size).toString()
       };
       const filterAgg: Filter = {

@@ -6,17 +6,26 @@ import { ArlasCollaborativesearchService, ArlasStartupService, CONFIG_UPDATER } 
 import { ArlasMapSettings } from '../map-settings/map-settings.service';
 import { ArlasMapService } from '../map/map.service';
 import { TranslateService, TranslateStore, TranslateModule, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
+import { ArlasConfigurationUpdaterService } from '../configuration-updater/configurationUpdater.service';
 
 describe('ArlasWalkthroughService', () => {
   beforeEach(() => TestBed.configureTestingModule({
     providers: [
-      ArlasStartupService,
+      {
+        provide: ArlasStartupService,
+        useClass: ArlasStartupService,
+        deps: [ArlasConfigurationUpdaterService]
+      },
       ArlasWalkthroughService,
       HttpClient,
       TranslateService,
       TranslateStore,
       ArlasCollaborativesearchService,
       ArlasMapSettings,
+      {
+        provide: ArlasConfigurationUpdaterService,
+        useClass: ArlasConfigurationUpdaterService
+      },
       ArlasMapService,
       { provide: CONFIG_UPDATER, useValue: {} }
     ],

@@ -33,11 +33,16 @@ describe('TagComponent', () => {
         MatRadioModule, MatSelectModule, MatProgressBarModule, MatSnackBarModule
       ],
       declarations: [TagComponent],
-      providers: [ArlasConfigService, ArlasCollaborativesearchService, ArlasStartupService, ArlasTagService,
+      providers: [ArlasConfigService, ArlasCollaborativesearchService,
+        {
+          provide: ArlasStartupService,
+          useClass: ArlasStartupService,
+          deps: [ArlasConfigurationUpdaterService]
+        },
+        ArlasTagService,
         {
           provide: ArlasConfigurationUpdaterService,
-          useClass: ArlasConfigurationUpdaterService,
-          deps: [ArlasCollaborativesearchService]
+          useClass: ArlasConfigurationUpdaterService
         },
         {provide: FETCH_OPTIONS, useValue: {}},
       ]

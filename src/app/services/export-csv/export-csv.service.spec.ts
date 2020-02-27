@@ -7,11 +7,16 @@ import { ArlasConfigurationUpdaterService } from '../configuration-updater/confi
 describe('ArlasExportCsvService', () => {
   beforeEach(() =>
   TestBed.configureTestingModule({
-    providers: [ArlasStartupService, ArlasCollaborativesearchService,
+    providers: [
+      {
+        provide: ArlasStartupService,
+        useClass: ArlasStartupService,
+        deps: [ArlasConfigurationUpdaterService]
+      },
+      ArlasCollaborativesearchService,
       {
         provide: ArlasConfigurationUpdaterService,
-        useClass: ArlasConfigurationUpdaterService,
-        deps: [ArlasCollaborativesearchService]
+        useClass: ArlasConfigurationUpdaterService
       },
       {provide: FETCH_OPTIONS, useValue: {}},
     ]
