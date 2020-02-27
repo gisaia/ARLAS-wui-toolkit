@@ -54,12 +54,17 @@ describe('TimelineComponent', () => {
         })
       ],
       providers: [
-        ArlasCollaborativesearchService, ArlasStartupService, ArlasConfigService, TranslateService, HttpClient,
+        ArlasCollaborativesearchService,
+        {
+          provide: ArlasStartupService,
+          useClass: ArlasStartupService,
+          deps: [ArlasConfigurationUpdaterService]
+        },
+        ArlasConfigService, TranslateService, HttpClient,
         {provide: CONFIG_UPDATER, useValue: {}},
         {
           provide: ArlasConfigurationUpdaterService,
-          useClass: ArlasConfigurationUpdaterService,
-          deps: [ArlasCollaborativesearchService]
+          useClass: ArlasConfigurationUpdaterService
         },
         {provide: FETCH_OPTIONS, useValue: {}},
       ]

@@ -18,34 +18,12 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Aggregation, CollectionReferenceDescription } from 'arlas-api';
-import { ArlasCollaborativesearchService } from '../startup/startup.service';
-import { getFieldProperties } from '../../tools/utils';
+import { Aggregation } from 'arlas-api';
 
 @Injectable()
 export class ArlasConfigurationUpdaterService {
 
-  constructor(private arlasCollaborativeSearchService: ArlasCollaborativesearchService) {
-  }
-  /**
-   * Lists the fields of `collectionName` that are available for exploration with `arlasExploreApi`
-   * @param collectionName collection name
-   * @returns available fields
-   */
-  public listAvailableFields(collectionName: string): Promise<Set<string>> {
-    let availableFields = new Set<string>();
-    return this.arlasCollaborativeSearchService.list(false).toPromise().then(
-      (collectionDescriptions: Array<CollectionReferenceDescription>) => {
-        collectionDescriptions.filter((cd: CollectionReferenceDescription) => cd.collection_name === collectionName)
-        .forEach((cd: CollectionReferenceDescription) => {
-          availableFields = new Set(getFieldProperties(cd.properties).map(p => p.label));
-          availableFields.add(cd.params.id_path);
-          availableFields.add(cd.params.timestamp_path);
-          availableFields.add(cd.params.geometry_path);
-          availableFields.add(cd.params.centroid_path);
-      });
-      return availableFields;
-    });
+  constructor() {
   }
 
   /**
@@ -73,6 +51,10 @@ export class ArlasConfigurationUpdaterService {
               });
             }
           });
+        }
+        /** Compute contributors have metrics */
+        if (contributor.metrics && contributor.metrics.find(m => !availableFields.has(m.field))) {
+            contributorsToRemove.add(contributor.identifier);
         }
         /** swimlanes contributors have a specific structure for `aggregationmodels`  */
         if (contributor.swimlanes) {
@@ -107,19 +89,13 @@ export class ArlasConfigurationUpdaterService {
             }
           });
         }
-        /** topomap contributors have a `field_cardinality` AND a `field_geometry` */
+        /** topomap contributors have a `field_cardinality`*/
         if (contributor.field_cardinality && !availableFields.has(contributor.field_cardinality)) {
-          contributorsToRemove.add(contributor.identifier);
-        }
-        if (contributor.field_geometry && !availableFields.has(contributor.field_geometry)) {
           contributorsToRemove.add(contributor.identifier);
         }
 
         /** map and topomap contributors have `geometry` AND `idFieldName` */
         if (contributor.idFieldName && !availableFields.has(contributor.idFieldName)) {
-          contributorsToRemove.add(contributor.identifier);
-        }
-        if (contributor.geometry && !availableFields.has(contributor.geometry)) {
           contributorsToRemove.add(contributor.identifier);
         }
 
@@ -210,6 +186,7 @@ export class ArlasConfigurationUpdaterService {
   public updateContributors(data, availableFields: Set<string>): any {
       let updatedConfig = this.updateResultListContributor(data, availableFields);
       updatedConfig = this.updateMapContributors(updatedConfig, availableFields);
+      updatedConfig = this.updateChipSearchContributors(updatedConfig, availableFields);
       return updatedConfig;
   }
 
@@ -230,7 +207,7 @@ export class ArlasConfigurationUpdaterService {
       }
     }
     return data;
-}
+  }
 
   /**
    * Removes the properties -from ResultListContributor- that define fields not available for exploration
@@ -242,14 +219,14 @@ export class ArlasConfigurationUpdaterService {
     data.arlas.web.contributors.filter(contributor => contributor.type === 'resultlist').forEach(contributor => {
       if (contributor.fieldsConfiguration) {
         const fc = contributor.fieldsConfiguration;
-        /** remove imageEnabled */
-        if (fc.imageEnabled && !availableFields.has(fc.imageEnabled)) {
-          delete fc.imageEnabled;
+        /** remove imageFieldName */
+        if (fc.imageFieldName && !availableFields.has(fc.imageFieldName)) {
+          delete fc.imageFieldName;
           delete fc.urlImageTemplate;
         }
-        /** remove tumbnailEnabled */
-        if (fc.thumbnailEnabled && !availableFields.has(fc.thumbnailEnabled)) {
-          delete fc.thumbnailEnabled;
+        /** remove thumbnailFieldName */
+        if (fc.thumbnailFieldName && !availableFields.has(fc.thumbnailFieldName)) {
+          delete fc.thumbnailFieldName;
           delete fc.urlThumbnailTemplate;
         }
         /** remove urlImageTemplate */
@@ -320,7 +297,7 @@ export class ArlasConfigurationUpdaterService {
   }
 
   /**
-   * Removes the properties -from ResultListContributor- that define fields not available for exploration
+   * Removes the properties -from MapConributor- that define fields not available for exploration
    * @param data configuration object
    * @param availableFields List of available fields for exploration
    * @returns configuration object
@@ -329,6 +306,34 @@ export class ArlasConfigurationUpdaterService {
     data.arlas.web.contributors.filter(contributor => contributor.type === 'map' || contributor.type === 'topomap').forEach(contributor => {
       if (contributor.includeFeaturesFields) {
         contributor.includeFeaturesFields = contributor.includeFeaturesFields.filter(f => availableFields.has(f));
+      }
+      if (contributor.colorGenerationFields) {
+        contributor.colorGenerationFields = contributor.colorGenerationFields.filter(f => availableFields.has(f));
+      }
+      if (contributor.colorGenerationFields) {
+        contributor.normalizationFields = contributor.normalizationFields
+          .filter(f => availableFields.has(f.on) && (!f.per || availableFields.has(f.per)));
+      }
+      if (contributor.geoQueryField && !availableFields.has(contributor.geoQueryField)) {
+          delete contributor.geoQueryField;
+      }
+      if (contributor.searchSort && !availableFields.has(contributor.searchSort)) {
+          delete contributor.searchSort;
+      }
+    });
+    return data;
+  }
+
+  /**
+   * Removes the properties -from ChipsearchContributor- that define fields not available for exploration
+   * @param data configuration object
+   * @param availableFields List of available fields for exploration
+   * @returns configuration object
+   */
+  public updateChipSearchContributors(data, availableFields: Set<string>): any {
+    data.arlas.web.contributors.filter(contributor => contributor.type === 'chipssearch').forEach(contributor => {
+      if (contributor.autocomplete_field && !availableFields.has(contributor.autocomplete_field)) {
+          delete contributor.autocomplete_field;
       }
     });
     return data;

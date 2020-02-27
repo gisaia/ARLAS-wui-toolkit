@@ -39,13 +39,17 @@ describe('ArlasAoiService', () => {
       TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } })
     ],
     providers: [
-      ArlasStartupService, HttpClient, ArlasConfigService, TranslateService, TranslateStore,
+      {
+        provide: ArlasStartupService,
+        useClass: ArlasStartupService,
+        deps: [ArlasConfigurationUpdaterService]
+      },
+      HttpClient, ArlasConfigService, TranslateService, TranslateStore,
       ArlasCollaborativesearchService,
       { provide: CONFIG_UPDATER, useValue: {} },
       {
         provide: ArlasConfigurationUpdaterService,
-        useClass: ArlasConfigurationUpdaterService,
-        deps: [ArlasCollaborativesearchService]
+        useClass: ArlasConfigurationUpdaterService
       },
       {provide: FETCH_OPTIONS, useValue: {}},
     ]

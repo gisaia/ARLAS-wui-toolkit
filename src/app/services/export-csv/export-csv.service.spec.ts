@@ -11,11 +11,17 @@ describe('ArlasExportCsvService', () => {
     imports: [
       TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } })
     ],
-    providers: [ArlasStartupService, ArlasCollaborativesearchService, TranslateService,
+    providers: [
+      TranslateService,
+      {
+        provide: ArlasStartupService,
+        useClass: ArlasStartupService,
+        deps: [ArlasConfigurationUpdaterService]
+      },
+      ArlasCollaborativesearchService,
       {
         provide: ArlasConfigurationUpdaterService,
-        useClass: ArlasConfigurationUpdaterService,
-        deps: [ArlasCollaborativesearchService]
+        useClass: ArlasConfigurationUpdaterService
       },
       {provide: FETCH_OPTIONS, useValue: {}},
     ]

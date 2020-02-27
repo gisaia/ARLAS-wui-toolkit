@@ -26,11 +26,15 @@ describe('ShareComponent', () => {
         MatRadioModule, MatSelectModule
       ],
       declarations: [ShareComponent],
-      providers: [ArlasConfigService, ArlasCollaborativesearchService, ArlasStartupService,
+      providers: [ArlasConfigService, ArlasCollaborativesearchService,
+        {
+          provide: ArlasStartupService,
+          useClass: ArlasStartupService,
+          deps: [ArlasConfigurationUpdaterService]
+        },
         {
           provide: ArlasConfigurationUpdaterService,
-          useClass: ArlasConfigurationUpdaterService,
-          deps: [ArlasCollaborativesearchService]
+          useClass: ArlasConfigurationUpdaterService
         },
         {provide: FETCH_OPTIONS, useValue: {}},
         {provide: CONFIG_UPDATER, useValue: {}}

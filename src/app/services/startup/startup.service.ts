@@ -19,7 +19,7 @@
 
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable, Injector, InjectionToken } from '@angular/core';
-import { Configuration, ExploreApi, CollectionsApi, CollectionReferenceParameters } from 'arlas-api';
+import { Configuration, ExploreApi, CollectionsApi, CollectionReferenceDescription, CollectionReferenceParameters } from 'arlas-api';
 import { DonutComponent, HistogramComponent, MapglComponent, PowerbarsComponent, MetricComponent } from 'arlas-web-components';
 import {
     HistogramContributor,
@@ -46,6 +46,7 @@ import { Subject } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { LOCATION_INITIALIZED } from '@angular/common';
 import { ArlasConfigurationUpdaterService } from '../configuration-updater/configurationUpdater.service.js';
+import { getFieldProperties } from '../../tools/utils.js';
 
 @Injectable({
     providedIn: 'root'
@@ -189,7 +190,7 @@ export class ArlasStartupService {
            );
        this.collaborativesearchService.setConfigService(this.configService);
        this.collaborativesearchService.setExploreApi(this.arlasExploreApi);
-       return this.configurationUpdaterService.listAvailableFields(collectionName)
+       return this.listAvailableFields(collectionName)
            .then((availableFields: Set<string>) => this.applyFGA(newConfig, availableFields))
            .then((d) => { this.configService.setConfig(d); return d; });
     }
@@ -277,6 +278,26 @@ export class ArlasStartupService {
                         reject(error);
                     });
         });
+    }
+     /**
+     * Lists the fields of `collectionName` that are available for exploration with `arlasExploreApi`
+     * @param collectionName collection name
+     * @returns available fields
+     */
+    public listAvailableFields(collectionName: string): Promise<Set<string>> {
+      let availableFields = new Set<string>();
+      return this.collaborativesearchService.list(false).toPromise().then(
+        (collectionDescriptions: Array<CollectionReferenceDescription>) => {
+          collectionDescriptions.filter((cd: CollectionReferenceDescription) => cd.collection_name === collectionName)
+          .forEach((cd: CollectionReferenceDescription) => {
+            availableFields = new Set(getFieldProperties(cd.properties).map(p => p.label));
+            availableFields.add(cd.params.id_path);
+            availableFields.add(cd.params.timestamp_path);
+            availableFields.add(cd.params.geometry_path);
+            availableFields.add(cd.params.centroid_path);
+        });
+        return availableFields;
+      });
     }
 
     public buildContributor(data) {

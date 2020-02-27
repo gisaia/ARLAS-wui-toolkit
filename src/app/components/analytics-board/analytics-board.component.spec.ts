@@ -50,17 +50,20 @@ describe('AnalyticsBoardComponent', () => {
       ],
       providers: [
         ArlasConfigService, ArlasCollaborativesearchService,
-        ArlasStartupService, HttpClient, TranslateService, TranslateStore,
-        { provide: CONFIG_UPDATER, useValue: {} },
+        HttpClient, TranslateService, TranslateStore,
+        {
+          provide: ArlasStartupService,
+          useClass: ArlasStartupService,
+          deps: [ArlasConfigurationUpdaterService]
+        },
         {
           provide: ArlasConfigurationUpdaterService,
-          useClass: ArlasConfigurationUpdaterService,
-          deps: [ArlasCollaborativesearchService]
+          useClass: ArlasConfigurationUpdaterService
         },
+        { provide: CONFIG_UPDATER, useValue: {} },
         {provide: FETCH_OPTIONS, useValue: {}}
       ]
-    })
-      .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {

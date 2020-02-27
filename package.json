@@ -12,7 +12,7 @@
     "lint": "ng lint",
     "tslint": "ng lint",
     "gulp": "gulp",
-    "build-release": "ngc -p  tsconfig-build.json && cp -R  dist/src/app/* dist/ && gulp",
+    "build-release": "ngc -p tsconfig-build.json && cp -R  dist/src/app/* dist/ && gulp",
     "e2e": "ng e2e"
   },
   "repository": {

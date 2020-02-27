@@ -17,12 +17,17 @@ describe('WidgetComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [WidgetComponent],
-      providers: [ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService, TranslateService,
+      providers: [ArlasCollaborativesearchService, ArlasConfigService,
+        {
+          provide: ArlasStartupService,
+          useClass: ArlasStartupService,
+          deps: [ArlasConfigurationUpdaterService]
+        },
+        TranslateService,
         {provide: CONFIG_UPDATER, useValue: {}},
         {
           provide: ArlasConfigurationUpdaterService,
-          useClass: ArlasConfigurationUpdaterService,
-          deps: [ArlasCollaborativesearchService]
+          useClass: ArlasConfigurationUpdaterService
         },
         {provide: FETCH_OPTIONS, useValue: {}},
       ],

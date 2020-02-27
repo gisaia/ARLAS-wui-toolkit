@@ -11,17 +11,23 @@ import {
   TranslateFakeLoader, TranslateStore
 } from '@ngx-translate/core';
 import { ArlasConfigurationUpdaterService } from '../configuration-updater/configurationUpdater.service';
+
 describe('ArlasStartupService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [ArlasStartupService, ArlasConfigService, ArlasCollaborativesearchService,
-        TranslateService, TranslateStore,
-        { provide: CONFIG_UPDATER, useValue: {} },
+      providers: [
+        {
+          provide: ArlasStartupService,
+          useClass: ArlasStartupService,
+          deps: [ArlasConfigurationUpdaterService]
+        },
         {
           provide: ArlasConfigurationUpdaterService,
-          useClass: ArlasConfigurationUpdaterService,
-          deps: [ArlasCollaborativesearchService]
+          useClass: ArlasConfigurationUpdaterService
         },
+        ArlasConfigService, ArlasCollaborativesearchService,
+        TranslateService, TranslateStore,
+        { provide: CONFIG_UPDATER, useValue: {} },
         {provide: FETCH_OPTIONS, useValue: {}},
       ],
       imports: [
@@ -31,7 +37,8 @@ describe('ArlasStartupService', () => {
     });
   });
 
-  it('should be created', inject([ArlasStartupService], (service: ArlasStartupService) => {
+  it('should be created', (() => {
+    const service: ArlasStartupService = TestBed.get(ArlasStartupService);
     expect(service).toBeTruthy();
   }));
 });
