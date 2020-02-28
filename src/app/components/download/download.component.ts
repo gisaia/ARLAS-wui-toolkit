@@ -53,6 +53,7 @@ export class DownloadDialogComponent implements OnInit {
 
   public allFields = new Array<ArlasSearchField>();
   public selectedFields = new Array<ArlasSearchField>();
+  public selectedSortableFields = new Array<ArlasSearchField>();
   public selectedFieldString = '';
   public selectedFirstOrderField: ArlasSearchField;
   public selectedSecondOrderField: ArlasSearchField;
@@ -71,6 +72,8 @@ export class DownloadDialogComponent implements OnInit {
 
   public exportTypeGroup: FormGroup;
   public paramFormGroup: FormGroup;
+
+  private GEO_TYPE_PREFIX = 'GEO_';
 
   constructor(
     private formBuilder: FormBuilder,
@@ -110,6 +113,7 @@ export class DownloadDialogComponent implements OnInit {
       this.selectedFields.push(new ArlasSearchField(field[0].trim(), field[1].trim()));
       this.selectedFieldString += (index !== 0 ? ',' : '') + field[0].trim();
     });
+    this.selectedSortableFields = this.selectedFields.filter(sf => !sf.type.startsWith(this.GEO_TYPE_PREFIX));
     this.selectedFirstOrderField = null;
     this.selectedSecondOrderField = null;
     this.selectedThirdOrderField = null;
@@ -148,7 +152,7 @@ export class DownloadDialogComponent implements OnInit {
         this.firstOrderColunm = 1;
         this.secondOrderColunm = 2;
         this.thirdOrderColunm = 3;
-        this.selectedFields.forEach((field, index) => {
+        this.selectedSortableFields.forEach((field, index) => {
           if (this.selectedFirstOrderField && field.label === this.selectedFirstOrderField.label) {
             this.firstOrderColunm = index + 1;
           }
@@ -192,9 +196,7 @@ export class DownloadDialogComponent implements OnInit {
         });
       }
     } else {
-      if (!fieldList[fieldName].type.startsWith('GEO_')) {
         this.allFields.push({ label: (parentPrefix ? parentPrefix : '') + fieldName, type: fieldList[fieldName].type });
-      }
     }
   }
 
