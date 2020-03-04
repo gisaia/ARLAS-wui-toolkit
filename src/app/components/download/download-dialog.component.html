@@ -110,14 +110,17 @@
   <mat-step>
     <ng-template matStepLabel>{{ 'Command line' | translate}}</ng-template>
     <div style="display:flex;flex-direction:row" class="download-block">
-      <textarea class="download-box" #docker_command>docker run \
-  --mount dst=/output,src="$PWD",type=bind \
-  --rm \
-  gisaia/arlas-hits-exporter \
-    --search_url="{{server.url}}/explore/{{server.collection.name}}/_search?size=9999&sort={{server.collection.id}}&{{filterUrl}}" \
-    --include={{selectedFieldString}} \
-    --format={{this.exportedTypeCommand}}
-    {{this.orderCommand}}</textarea>
+      <textarea class="download-box" #docker_command>docker run \\\n
+      -it \\\n
+      --mount dst=/output,src="$PWD",type=bind \\\n
+      --rm \\\n
+      gisaia/arlas-hits-exporter \\\n
+        --search_url="{{server.url}}/explore/{{server.collection.name}}/_search?size=9999&sort={{server.collection.id}}&{{filterUrl}}" \\\n
+        --include={{selectedFieldString}} \\\n
+        --format={{this.exportedTypeCommand}}\n
+        {{this.orderCommand}}
+        {{authTypeCommand}}
+  </textarea>
     </div>
     <div>
       <mat-divider style="margin-top:15px;"></mat-divider>

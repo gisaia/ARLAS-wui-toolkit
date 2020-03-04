@@ -65,6 +65,7 @@ export class DownloadDialogComponent implements OnInit {
   public orderCommand: string;
   public filterUrl: string;
   public exportedTypeCommand: string;
+  public authTypeCommand: string;
 
   public isCopied = false;
 
@@ -73,7 +74,9 @@ export class DownloadDialogComponent implements OnInit {
   public exportTypeGroup: FormGroup;
   public paramFormGroup: FormGroup;
 
+  private downloadConfig: any;
   private GEO_TYPE_PREFIX = 'GEO_';
+  private BASIC_AUTH_TYPE = 'basic';
 
   constructor(
     private formBuilder: FormBuilder,
@@ -91,7 +94,10 @@ export class DownloadDialogComponent implements OnInit {
       orderField2: [{ value: '', disabled: true }],
       orderField3: [{ value: '', disabled: true }]
     });
-
+    const components = this.configService.getValue('arlas.web.components');
+    if (components.download) {
+      this.downloadConfig = components.download;
+    }
     this.server = this.configService.getValue('arlas.server');
     this.collaborativeService.describe(this.server.collection.name).subscribe(
       description => {
@@ -148,7 +154,7 @@ export class DownloadDialogComponent implements OnInit {
       this.filterUrl = this.collaborativeService.getUrl([projType.search, []], filters);
       if (this.exportTypeGroup.get('exportType').value === 'csv'
         && (this.selectedFirstOrderField || this.selectedSecondOrderField || this.selectedThirdOrderField)) {
-        this.exportedTypeCommand = this.exportedTypeCommand + ' \\';
+        this.exportedTypeCommand += ' \\';
         this.firstOrderColunm = 1;
         this.secondOrderColunm = 2;
         this.thirdOrderColunm = 3;
@@ -167,6 +173,14 @@ export class DownloadDialogComponent implements OnInit {
           + (this.selectedSecondOrderField ? '-k' + this.secondOrderColunm + ' ' : '')
           + (this.selectedThirdOrderField ? '-k' + this.thirdOrderColunm : '');
       }
+      if (this.downloadConfig && this.downloadConfig.auth_type === this.BASIC_AUTH_TYPE) {
+        if (this.orderCommand) {
+          this.orderCommand += '\\';
+        } else {
+          this.exportedTypeCommand += ' \\';
+        }
+        this.authTypeCommand = '--auth=' + this.BASIC_AUTH_TYPE;
+      }
     }
   }
 
@@ -176,7 +190,7 @@ export class DownloadDialogComponent implements OnInit {
    */
   public copyTextToClipboard(text: string) {
     const textArea = document.createElement('textarea');
-    textArea.value = text;
+    textArea.value = text.trim();
     document.body.appendChild(textArea);
     textArea.select();
     try {
