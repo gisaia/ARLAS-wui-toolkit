@@ -369,6 +369,19 @@
                                         }
                                     }
                                 },
+                                "download": {
+                                  "description": "Download component configuration",
+                                  "type": "object",
+                                  "properties": {
+                                      "auth_type": {
+                                          "description": "Authentication/Authorization type to ARLAS-server",
+                                          "type": "string",
+                                          "enum": [
+                                            "basic"
+                                          ]
+                                      }
+                                  }
+                                },
                                 "^(mapgl)$": {
                                     "description": "Mapgl component configuration",
                                     "type": "object",
