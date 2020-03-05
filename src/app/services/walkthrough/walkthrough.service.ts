@@ -24,6 +24,7 @@ import { Injectable } from '@angular/core';
 import hopscotch from 'hopscotch';
 import { HttpClient } from '@angular/common/http';
 import { ArlasCollaborativesearchService } from '../startup/startup.service';
+import { ArlasMapSettings } from '../map-settings/map-settings.service';
 
 @Injectable({
   providedIn: 'root',
@@ -34,7 +35,11 @@ export class ArlasWalkthroughService {
   public tourData: any;
   public isActivable = true;
 
-  constructor(private http: HttpClient, private css: ArlasCollaborativesearchService) {
+  constructor(
+    private http: HttpClient,
+    private css: ArlasCollaborativesearchService,
+    private mss: ArlasMapSettings
+  ) {
     this.hopscotch = hopscotch;
   }
 
