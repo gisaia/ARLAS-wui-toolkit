@@ -1,19 +1,32 @@
 # Change Log
 
+## [v12.6.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v12.6.0) (2020-03-12)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v12.5.2...v12.6.0)
+
+**New stuff:**
+
+- Add the possibility to specify an auth type to download component [\#282](https://github.com/gisaia/ARLAS-wui-toolkit/issues/282)
+
+**Miscellaneous:**
+
+- Add context in walkthrough service [\#283](https://github.com/gisaia/ARLAS-wui-toolkit/issues/283)
+
+## [v12.5.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v12.5.2) (2020-03-03)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v12.5.3...v12.5.2)
+
+**New stuff:**
+
+- Allow downloading geo-field in the download component [\#279](https://github.com/gisaia/ARLAS-wui-toolkit/issues/279)
+
 ## [v12.5.3](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v12.5.3) (2020-02-24)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v12.5.2...v12.5.3)
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v12.5.1...v12.5.3)
 
 **Fixed bugs:**
 
 - Export csv throws an error [\#274](https://github.com/gisaia/ARLAS-wui-toolkit/issues/274)
-
-## [v12.5.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v12.5.2) (2020-02-19)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v12.5.1...v12.5.2)
-
-**Fixed bugs:**
-
 - Test idToken validity on start of the app [\#271](https://github.com/gisaia/ARLAS-wui-toolkit/issues/271)
 
 ## [v12.5.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v12.5.1) (2020-02-17)
