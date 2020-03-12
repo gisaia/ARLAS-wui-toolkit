@@ -97,3 +97,25 @@
   z-index: 1 !important;
 }
 
+.histogram__swimlane--tooltip-content{
+  color: #0a69a8;
+  background-color: transparent;
+  font-weight: bold;
+}
+.histogram__swimlane--tooltip-xcontent{
+  color: #000;
+  background-color: transparent;
+  font-weight: bold;
+}
+
+.histogram__swimlane--tooltip-additional_info {
+  color: #379678;
+  background-color: transparent;
+  font-weight: bold;
+  font-style: italic;
+}
+
+.histogram__tooltip{
+  background: rgba(255,255,255,0.8) !important;
+  color: #0a69a8 !important;
+}

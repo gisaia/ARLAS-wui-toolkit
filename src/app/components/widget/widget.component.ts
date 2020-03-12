@@ -20,9 +20,10 @@
 import { Component, OnInit, Input, ViewChild, ChangeDetectorRef, ComponentFactoryResolver, Output } from '@angular/core';
 import { ArlasStartupService, ArlasCollaborativesearchService } from '../../services/startup/startup.service';
 import { Contributor, CollaborationEvent, OperationEnum } from 'arlas-web-core';
-import { ChartType, HistogramComponent, Position, SwimlaneMode, CellBackgroundStyleEnum, DataType } from 'arlas-web-components';
+import { ChartType, HistogramComponent, CellBackgroundStyleEnum, DataType } from 'arlas-web-components';
+import { SwimlaneRepresentation, SwimlaneMode, Position } from 'arlas-d3';
 import { TranslateService } from '@ngx-translate/core';
-import { Subject } from 'rxjs';
+import { Subject, from } from 'rxjs';
 import { ArlasExportCsvService } from '../../services/export-csv/export-csv.service';
 
 /**
@@ -166,6 +167,8 @@ export class WidgetComponent implements OnInit {
           component[key] = Position[this.componentParams[key]];
         } else if (key === 'swimlaneMode') {
           component[key] = SwimlaneMode[this.componentParams[key]];
+        } else if (key === 'swimlane_representation') {
+          component[key] = SwimlaneRepresentation[this.componentParams[key]];
         } else if (key === 'chartTitle' || key === 'valuesDateFormat') {
           if (this.componentParams[key] !== '') {
             component[key] = this.translate.instant(this.componentParams[key]);
