@@ -18,22 +18,24 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material';
-import { Router, ActivatedRoute, Params } from '@angular/router';
-import { Filter, Expression } from 'arlas-api';
-import { projType, Collaboration } from 'arlas-web-core';
-import { ArlasCollaborativesearchService, ArlasStartupService } from '../startup/startup.service';
-import { BookMarkType, BookMark } from './model';
-import { getKeyForColor } from '../../tools/utils';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Expression, Filter } from 'arlas-api';
+import { Collaboration, projType } from 'arlas-web-core';
+import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { BookmarkDatabase } from './bookmarkDatabase';
+import { getKeyForColor } from '../../tools/utils';
+import { PersistenceService } from '../persistence/persistence.service';
+import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from '../startup/startup.service';
+import { BookmarkLocalDatabase } from './bookmarkLocalDatabase';
+import { BookmarkPersistenceDatabase } from './bookmarkPersistenceDatabase';
+import { BookMark, BookMarkType } from './model';
 
 
 /** Constants used to fill up our data base. */
 @Injectable()
 export class ArlasBookmarkService {
-  public dataBase: BookmarkDatabase;
+  public dataBase: BookmarkLocalDatabase | BookmarkPersistenceDatabase;
   public bookMarkMap: Map<string, BookMark> = new Map<string, BookMark>();
   public selectorById;
   public onAction = new Subject<{ action: string, id: string }>();
@@ -41,9 +43,15 @@ export class ArlasBookmarkService {
   constructor(private collaborativesearchService: ArlasCollaborativesearchService,
     private activatedRoute: ActivatedRoute, public snackBar: MatSnackBar,
     private arlasStartupService: ArlasStartupService,
+    private configService: ArlasConfigService,
+    private persistanceService: PersistenceService,
     private router: Router) {
     if (this.arlasStartupService.shouldRunApp) {
-      this.dataBase = new BookmarkDatabase(this);
+      if (this.configService.getValue('arlas.persistence-sever') !== null) {
+          this.dataBase = new BookmarkPersistenceDatabase(this, this.persistanceService);
+      } else {
+        this.dataBase = new BookmarkLocalDatabase(this);
+      }
       this.bookMarkMap = this.dataBase.storageObjectMap;
       this.selectorById = this.arlasStartupService.selectorById;
     }

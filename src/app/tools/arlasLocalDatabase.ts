@@ -18,7 +18,7 @@
  */
 
 import { BehaviorSubject } from 'rxjs';
-import { sortOnDate, Guid, ArlasStorageObject } from './utils';
+import { sortOnDate, ArlasStorageObject } from './utils';
 
 export class ArlasLocalDatabase<T extends ArlasStorageObject> {
   /** Stream that emits whenever the data has been modified. */
@@ -26,14 +26,14 @@ export class ArlasLocalDatabase<T extends ArlasStorageObject> {
   get data(): T[] { return this.dataChange.value; }
   public storageObjectMap: Map<string, T> = new Map<string, T>();
 
-  public localStorageKey: string;
+  public storageKey: string;
 
-  constructor(localStorageKey: string = 'storage_object', additionalObject?: any) {
-    this.localStorageKey = localStorageKey;
+  constructor(storageKey: string = 'storage_object', additionalObject?: any) {
+    this.storageKey = storageKey;
 
-    if (localStorage.getItem(this.localStorageKey) !== null) {
+    if (localStorage.getItem(this.storageKey) !== null) {
       const copiedData = [];
-      Array.from(JSON.parse(localStorage.getItem(this.localStorageKey))).forEach((obj: T) => {
+      Array.from(JSON.parse(localStorage.getItem(this.storageKey))).forEach((obj: T) => {
         const newObj: T = this.init(obj, additionalObject);
         copiedData.push(newObj);
         this.storageObjectMap.set(obj.id, newObj);
@@ -52,35 +52,12 @@ export class ArlasLocalDatabase<T extends ArlasStorageObject> {
     return obj;
   }
 
-  public create(name: string, id?: string, date?: Date): T {
-    let uid = '';
-    let objectDate: Date;
-    if (id) {
-      uid = id;
-    } else {
-      const guid = new Guid();
-      uid = guid.newGuid();
-    }
-    if (date) {
-      objectDate = new Date(date);
-    } else {
-      objectDate = new Date();
-    }
-
-    const storageObject: ArlasStorageObject = {
-      id: uid,
-      date: objectDate,
-      name: name
-    };
-    return (storageObject as T);
-  }
-
   public add(storageObject: T) {
     const copiedData = this.data.slice();
     copiedData.push(storageObject);
     this.storageObjectMap.set(storageObject.id, storageObject);
     const sortedData = sortOnDate(copiedData);
-    localStorage.setItem(this.localStorageKey, JSON.stringify(sortedData));
+    localStorage.setItem(this.storageKey, JSON.stringify(sortedData));
     this.dataChange.next((sortedData as T[]));
   }
 
@@ -94,6 +71,11 @@ export class ArlasLocalDatabase<T extends ArlasStorageObject> {
     });
     this.storageObjectMap.delete(id);
     this.dataChange.next(newData);
+  }
+
+  public update(id: string, storageObject: T) {
+    this.remove(id);
+    this.add(storageObject);
   }
 
 }

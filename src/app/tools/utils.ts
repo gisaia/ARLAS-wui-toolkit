@@ -25,6 +25,11 @@ export interface ArlasStorageObject {
   name: string;
 }
 
+export enum ArlasStorageType {
+  local,
+  persistence
+}
+
 /**
  * This interface lists the possible methods to apply on a Map object of a given cartographic client
  */

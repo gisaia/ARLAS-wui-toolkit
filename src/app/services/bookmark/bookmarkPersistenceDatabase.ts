@@ -21,12 +21,15 @@ import { BookMark, BookMarkType } from './model';
 import { ArlasBookmarkService } from './bookmark.service';
 import { Guid } from '../../tools/utils';
 import { Observable } from 'rxjs';
-import { ArlasLocalDatabase } from '../../tools/arlasLocalDatabase';
+import { PersistenceService } from '../persistence/persistence.service';
+import { ArlasPersistenceDatabase } from 'app/tools/arlasPersistenceDatabase';
 
-export class BookmarkDatabase extends ArlasLocalDatabase<BookMark> {
+export class BookmarkPersistenceDatabase extends ArlasPersistenceDatabase<BookMark> {
 
-  constructor(public bookmarkService: ArlasBookmarkService) {
-    super('bookmark', bookmarkService);
+  constructor(
+    public bookmarkService: ArlasBookmarkService,
+    public persistenceService: PersistenceService) {
+    super('bookmark', persistenceService, bookmarkService);
   }
 
   public init(bookmark: BookMark, service: ArlasBookmarkService): BookMark {
@@ -83,8 +86,7 @@ export class BookmarkDatabase extends ArlasLocalDatabase<BookMark> {
 
   public incrementBookmarkView(id: string) {
     const bookmark = this.storageObjectMap.get(id);
-    super.remove(id);
     bookmark.views++;
-    super.add(bookmark);
+    super.update(id, bookmark);
   }
 }

@@ -958,9 +958,9 @@
       }
     },
     "server": {
-      "url": "http://localhost:9999/arlas",
+      "url": "http://demo.arlas.io/arlas",
       "collection": {
-        "name": "geodata",
+        "name": "demo_ais-danmark",
         "id": "id"
       },
       "max_age_cache": 120
@@ -970,6 +970,9 @@
       "collection": {
         "name": "geodata"
       }
+    },
+    "persistence-server": {
+      "url": "http://localhost:19997/arlas-persistence-server-dinamis"
     }
   },
   "arlas-wui": {
