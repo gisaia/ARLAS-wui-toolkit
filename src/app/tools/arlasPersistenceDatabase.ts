@@ -39,7 +39,6 @@ export class ArlasPersistenceDatabase<T extends ArlasStorageObject> {
     this.storageKey = storageKy;
     this.persistenceService = persistenceService;
     this.additionalObject = additionalObject;
-
     this.list(10, 1, 'desc');
   }
 
@@ -67,7 +66,7 @@ export class ArlasPersistenceDatabase<T extends ArlasStorageObject> {
   }
 
   public list(size: number, page: number, order: string) {
-    this.persistenceService.list(this.storageKey, 10, 1, 'asc').subscribe((bookmarks: DataResource) => {
+    this.persistenceService.list(this.storageKey, size, page, order).subscribe((bookmarks: DataResource) => {
       const copiedData = [];
       if (bookmarks.count > 0) {
         Array.from(bookmarks.data).forEach((obj: any) => {

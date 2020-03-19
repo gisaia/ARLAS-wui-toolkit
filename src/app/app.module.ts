@@ -79,6 +79,7 @@ import { ArlasMapSettings } from './services/map-settings/map-settings.service';
 import { ArlasExportCsvService } from './services/export-csv/export-csv.service';
 import { ArlasMapService } from './services/map/map.service';
 import { ProgressSpinnerComponent } from './components/progress-spinner/progress-spinner.component';
+import { GET_OPTIONS } from './services/persistence/persistence.service';
 
 
 export class CustomTranslateLoader implements TranslateLoader {
@@ -145,6 +146,17 @@ export function getAuthModuleConfig(): OAuthModuleConfig {
 
 export function configUpdaterFactory(x): any {
   return x[0];
+}
+
+export function getOptionsFactory(x): any {
+  // TODO remove this for prod it's just for test and dev in local
+  const token = this.arlasAuthService.idToken !== null ? this.arlasAuthService.idToken : 'sebseb';
+  // TODO change X-Forwarded-User to access_token when proxy will be ready
+  return {
+    headers: {
+      'X-Forwarded-User': token
+    }
+  };
 }
 
 export const MY_CUSTOM_FORMATS = {
@@ -260,6 +272,10 @@ export const MY_CUSTOM_FORMATS = {
     {
       provide: CONFIG_UPDATER,
       useValue: configUpdaterFactory
+    },
+    {
+      provide: GET_OPTIONS,
+      useValue: getOptionsFactory
     },
     forwardRef(() => ArlasAoiService),
     forwardRef(() => ArlasBookmarkService),
