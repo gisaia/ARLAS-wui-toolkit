@@ -33,11 +33,13 @@ import { MapService } from '../../tools/utils';
 @Injectable()
 export class ArlasMapService implements MapService {
 
+  public map: Map;
+
   constructor(private collaborativeSearchService: ArlasCollaborativesearchService) {
   }
 
   /**
-   * @description zooms to the data extent
+   * @description zooms to the data extent. If 'map' parameter is not defined, then this function uses the 'map' attribute
    * @param geoPointField geo-point field used to get the bounding box of the data
    * @param map Map object of mapboxgl
    * @param paddingPercentage a percentage of the extent's height and width
@@ -48,15 +50,25 @@ export class ArlasMapService implements MapService {
       metric: ComputationRequest.MetricEnum.GEOBBOX,
       field: geoPointField
     };
-
+    let mapInstance = map;
+    if (map === null || map === undefined) {
+      mapInstance = this.map;
+    }
     this.collaborativeSearchService.resolveButNotComputation([projType.compute, computationRequest],
       this.collaborativeSearchService.collaborations).subscribe( (cr: ComputationResponse) => {
         if (cr && cr.geometry) {
-          map.fitBounds(this.toMapboxBounds(cr.geometry, paddingPercentage));
+          mapInstance.fitBounds(this.toMapboxBounds(cr.geometry, paddingPercentage));
         }
       });
   }
 
+  /**
+   *
+   * @param map mapbox map instance
+   */
+  public setMap(map: Map) {
+    this.map = map;
+  }
   /**
    * @description transforms the geojson object to a mapbox bounds
    * @param geometry geojson object
