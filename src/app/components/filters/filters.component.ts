@@ -30,9 +30,22 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class FiltersComponent implements OnInit {
 
-
+/**
+ * @Input : Angular
+ * @description Title to display in filter bar
+ */
   @Input() public title = '';
+  /**
+ * @Input : Angular
+ * @description Background color of the filter bar
+ */
   @Input() public backgroundColor = '#000';
+  /**
+ * @Input : Angular
+ * @description Contributors identifier array which will be ignored from the filter summary
+ */
+  @Input() public ignoredContributors = new Array<string>();
+
 
   public collaborations: Set<string> = new Set<string>();
   public contributors: Map<string, Contributor> = new Map<string, Contributor>();
@@ -132,7 +145,7 @@ export class FiltersComponent implements OnInit {
   }
 
   private retrieveCurrentCollaborations() {
-    Array.from(this.contributors.keys()).forEach(contributorId => {
+    Array.from(this.contributors.keys()).filter(id => this.ignoredContributors.indexOf(id) < 0).forEach(contributorId => {
       const collaboration = this.collaborativeSearchService.getCollaboration(contributorId);
       if (collaboration != null) {
         this.collaborations.add(contributorId);
@@ -148,7 +161,7 @@ export class FiltersComponent implements OnInit {
         this.countAll = this.formatWithSpace(count);
         this.cdr.detectChanges();
       });
-      if (!collaborationBus.all) {
+      if (!collaborationBus.all && this.ignoredContributors.indexOf(collaborationBus.id) < 0) {
         const collaboration = this.collaborativeSearchService.getCollaboration(collaborationBus.id);
         if (collaboration != null) {
           if (collaborationBus.operation === 0) {
