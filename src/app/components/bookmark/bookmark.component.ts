@@ -17,11 +17,14 @@
  * under the License.
  */
 
-import { Component, Output } from '@angular/core';
+import { Component, Output, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { Subject } from 'rxjs';
 import { ArlasBookmarkService } from '../../services/bookmark/bookmark.service';
 import { ArlasDataSource } from '../../tools/arlasDataSource';
-import { MatDialogRef, MatDialog } from '@angular/material';
+import { MatDialogRef, MatDialog, MatPaginator, PageEvent } from '@angular/material';
+import { BookMark } from '../../services/bookmark/model';
+import { DataResource, DataWithLinks } from 'arlas-persistence-api';
+import { ArlasConfigService } from '../../services/startup/startup.service';
 
 @Component({
   selector: 'arlas-bookmark',
@@ -30,19 +33,53 @@ import { MatDialogRef, MatDialog } from '@angular/material';
 })
 export class BookmarkComponent {
 
-  public bookmarks: ArlasDataSource;
+  public bookmarks: ArlasDataSource | BookMark[];
   public columnsToDisplay = ['checked', 'name', 'date', 'count', 'actions'];
   public itemsCheck: Array<string> = new Array<string>();
   public disableCombine = true;
 
+  public resultsLength = 0;
+  public pageSize = 10;
+  public pageNumber = 0;
+
+
   @Output() public actions: Subject<{ action: string, id: string, geometry?: any }> = new Subject<any>();
+
+  @ViewChild(MatPaginator, { static: false }) public paginator: MatPaginator;
 
   constructor(
     private bookmarkService: ArlasBookmarkService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private configService: ArlasConfigService
   ) {
-    this.bookmarks = new ArlasDataSource(this.bookmarkService.dataBase);
+    // Init component with data from persistence server, if defined
+    if (!!this.configService.getValue('arlas.persistence-server')) {
+      this.bookmarkService.dataBase.dataChange.subscribe(() => {
+        this.getBookmarksList();
+      });
+    } else {
+      this.bookmarks = new ArlasDataSource(this.bookmarkService.dataBase);
+    }
+
   }
+
+  public getBookmarksList() {
+    this.bookmarkService.listBookmarks(this.pageSize, this.pageNumber + 1).subscribe((bookmarks: DataResource) => {
+      this.resultsLength = bookmarks.total;
+      const bookmarksList = [];
+      bookmarks.data.forEach((obj: any) => {
+        bookmarksList.push(this.bookmarkService.init(JSON.parse(obj.docValue) as BookMark));
+      });
+      this.bookmarks = bookmarksList;
+    });
+  }
+
+  public pageChange(pageEvent: PageEvent) {
+    this.pageNumber = pageEvent.pageIndex;
+    this.pageSize = pageEvent.pageSize;
+    this.getBookmarksList();
+  }
+
 
   public selectBookmark(event, id) {
     if (event.checked) {

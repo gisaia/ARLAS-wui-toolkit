@@ -30,6 +30,7 @@ import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupServic
 import { BookmarkLocalDatabase } from './bookmarkLocalDatabase';
 import { BookmarkPersistenceDatabase } from './bookmarkPersistenceDatabase';
 import { BookMark, BookMarkType } from './model';
+import { DataResource } from 'arlas-persistence-api';
 
 
 /** Constants used to fill up our data base. */
@@ -47,14 +48,21 @@ export class ArlasBookmarkService {
     private persistanceService: PersistenceService,
     private router: Router) {
     if (this.arlasStartupService.shouldRunApp) {
-      if (this.configService.getValue('arlas.persistence-sever') !== null) {
-          this.dataBase = new BookmarkPersistenceDatabase(this, this.persistanceService);
+      if (!!this.configService.getValue('arlas.persistence-server')) {
+        this.dataBase = new BookmarkPersistenceDatabase(this, this.persistanceService);
       } else {
         this.dataBase = new BookmarkLocalDatabase(this);
       }
       this.bookMarkMap = this.dataBase.storageObjectMap;
       this.selectorById = this.arlasStartupService.selectorById;
     }
+  }
+
+  /**
+   * List all bookmark for the user directly from the persistance service
+   */
+  public listBookmarks(size: number, pageNumber: number): Observable<DataResource> {
+    return this.persistanceService.list(this.dataBase.storageKey, size, pageNumber, 'desc');
   }
 
   public addBookmark(newBookMarkName: string, selectedItem?: Set<string>) {
@@ -158,6 +166,21 @@ export class ArlasBookmarkService {
     this.viewFromDataModel(dataModel);
   }
 
+  public init(bookmark: BookMark): BookMark {
+    const initBookmark = {
+      id: bookmark.id,
+      date: new Date(bookmark.date),
+      name: bookmark.name,
+      prettyFilter: bookmark.prettyFilter,
+      url: bookmark.url,
+      type: bookmark.type,
+      color: bookmark.color,
+      count: new Observable<0>(),
+      views: bookmark.views
+    };
+    this.setBookMarkCount(initBookmark);
+    return initBookmark;
+  }
 
   private viewFromDataModel(dataModel: Object) {
     this.collaborativesearchService.setCollaborations(dataModel);
@@ -276,4 +299,5 @@ export class ArlasBookmarkService {
     });
     return isTemporalFilter;
   }
+
 }

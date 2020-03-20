@@ -39,7 +39,7 @@ export class ArlasPersistenceDatabase<T extends ArlasStorageObject> {
     this.storageKey = storageKy;
     this.persistenceService = persistenceService;
     this.additionalObject = additionalObject;
-    this.list(10, 1, 'desc');
+
   }
 
   /**
