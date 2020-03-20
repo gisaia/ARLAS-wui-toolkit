@@ -1,5 +1,9 @@
 # Change Log
 
+## [v12.6.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v12.6.1) (2020-03-20)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v12.6.0...v12.6.1)
+
 ## [v12.6.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v12.6.0) (2020-03-12)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v12.5.2...v12.6.0)
@@ -7,6 +11,7 @@
 **New stuff:**
 
 - Add the possibility to specify an auth type to download component [\#282](https://github.com/gisaia/ARLAS-wui-toolkit/issues/282)
+- Add new inputs of swimlane [\#285](https://github.com/gisaia/ARLAS-wui-toolkit/pull/285) ([MohamedHamouGisaia](https://github.com/MohamedHamouGisaia))
 
 **Miscellaneous:**
 
