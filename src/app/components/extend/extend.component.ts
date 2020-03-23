@@ -26,7 +26,7 @@ import { ArlasConfigService } from '../../services/startup/startup.service';
 import { HttpClient } from '@angular/common/http';
 import { PageEvent } from '@angular/material/paginator';
 import { ExtendPersistenceDatabase } from '../../services/extend/extendPersistenceDatabase';
-import { ExtendLocalDatabase } from 'app/services/extend/extendLocalDatabase';
+import { ExtendLocalDatabase } from '../../services/extend/extendLocalDatabase';
 
 @Component({
   selector: 'arlas-extend',
@@ -65,7 +65,7 @@ export class ExtendComponent {
       this.getExtendsList();
       //   },
       //   () => {
-      //     this.extends = new ArlasDataSource(this.extendService.dataBase);
+      //     this.extends = new ArlasDataSource(this.extendService.dataBase as ExtendLocalDatabase);
       //   }
       // );
     } else {

@@ -18,15 +18,13 @@
  */
 
 import { Injectable } from '@angular/core';
-import { ExtendLocalDatabase } from './extendLocalDatabase';
-import { Extend } from './model';
-import { ArlasStartupService, ArlasConfigService } from '../startup/startup.service';
 import { PersistenceService } from '../persistence/persistence.service';
+import { ArlasConfigService, ArlasStartupService } from '../startup/startup.service';
+import { ExtendLocalDatabase } from './extendLocalDatabase';
 import { ExtendPersistenceDatabase } from './extendPersistenceDatabase';
+import { Extend } from './model';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class ArlasExtendService {
   public dataBase: ExtendLocalDatabase | ExtendPersistenceDatabase;
   public extendMap: Map<string, Extend> = new Map<string, Extend>();

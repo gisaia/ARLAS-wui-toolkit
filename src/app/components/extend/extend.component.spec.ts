@@ -20,7 +20,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ExtendComponent } from './extend.component';
-import { MatTableModule, MatCheckboxModule, MatIconModule } from '@angular/material';
+import { MatTableModule, MatCheckboxModule, MatIconModule, MatPaginatorModule, MatPaginator } from '@angular/material';
 import {
   ArlasStartupService, ArlasConfigService, ArlasCollaborativesearchService,
   CONFIG_UPDATER
@@ -36,7 +36,7 @@ describe('ExtendComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        MatTableModule, MatCheckboxModule, MatIconModule, HttpClientModule,
+        MatTableModule, MatCheckboxModule, MatIconModule, HttpClientModule, MatPaginatorModule,
         TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } })
       ],
       declarations: [ExtendComponent],
