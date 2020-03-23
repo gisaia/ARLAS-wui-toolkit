@@ -1,10 +1,10 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { PersistenceService } from './persistence.service';
-import { ArlasConfigService } from 'arlas-wui-toolkit';
+import { PersistenceService, GET_OPTIONS } from './persistence.service';
 import { HttpClientModule } from '@angular/common/http';
-import { AuthentificationService } from 'arlas-wui-toolkit/services/authentification/authentification.service';
 import { OAuthService, OAuthModule, OAuthLogger, UrlHelperService } from 'angular-oauth2-oidc';
+import { ArlasConfigService } from '../startup/startup.service';
+import { AuthentificationService } from '../authentification/authentification.service';
 
 
 describe('PersistenceService', () => {
@@ -15,7 +15,8 @@ describe('PersistenceService', () => {
         OAuthService,
         OAuthLogger,
         UrlHelperService,
-        AuthentificationService
+        AuthentificationService,
+        { provide: GET_OPTIONS, useValue: {} }
       ]
     });
   });

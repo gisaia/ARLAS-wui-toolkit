@@ -25,6 +25,7 @@ import { MatDialogRef, MatDialog, MatPaginator, PageEvent } from '@angular/mater
 import { BookMark } from '../../services/bookmark/model';
 import { DataResource, DataWithLinks } from 'arlas-persistence-api';
 import { ArlasConfigService } from '../../services/startup/startup.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'arlas-bookmark',
@@ -42,6 +43,7 @@ export class BookmarkComponent {
   public pageSize = 10;
   public pageNumber = 0;
 
+  public isPersistenceActive = false;
 
   @Output() public actions: Subject<{ action: string, id: string, geometry?: any }> = new Subject<any>();
 
@@ -50,13 +52,23 @@ export class BookmarkComponent {
   constructor(
     private bookmarkService: ArlasBookmarkService,
     private dialog: MatDialog,
-    private configService: ArlasConfigService
+    private configService: ArlasConfigService,
+    private http: HttpClient
   ) {
-    // Init component with data from persistence server, if defined
-    if (!!this.configService.getValue('arlas.persistence-server')) {
-      this.bookmarkService.dataBase.dataChange.subscribe(() => {
-        this.getBookmarksList();
-      });
+    // Init component with data from persistence server, if defined and server is reachable
+    if (!!this.configService.getValue('arlas.persistence-server') && !!this.configService.getValue('arlas.persistence-server.url')) {
+      // this.http.get(this.configService.getValue('arlas.persistence-server.url') + '/admin/healthcheck').subscribe(
+      //   () => {
+          this.isPersistenceActive = true;
+          this.bookmarkService.dataBase.dataChange.subscribe(() => {
+            this.getBookmarksList();
+          });
+      //   },
+      //   () => {
+      //     this.bookmarks = new ArlasDataSource(this.bookmarkService.dataBase);
+      //   }
+      // );
+
     } else {
       this.bookmarks = new ArlasDataSource(this.bookmarkService.dataBase);
     }
@@ -67,9 +79,11 @@ export class BookmarkComponent {
     this.bookmarkService.listBookmarks(this.pageSize, this.pageNumber + 1).subscribe((bookmarks: DataResource) => {
       this.resultsLength = bookmarks.total;
       const bookmarksList = [];
-      bookmarks.data.forEach((obj: any) => {
-        bookmarksList.push(this.bookmarkService.init(JSON.parse(obj.docValue) as BookMark));
-      });
+      if (!!bookmarks.data) {
+        bookmarks.data.forEach((obj: any) => {
+          bookmarksList.push(this.bookmarkService.init(JSON.parse(obj.docValue) as BookMark));
+        });
+      }
       this.bookmarks = bookmarksList;
     });
   }

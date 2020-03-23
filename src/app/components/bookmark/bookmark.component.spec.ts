@@ -20,7 +20,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BookmarkComponent } from './bookmark.component';
-import { MatTableModule, MatCheckboxModule, MatIconModule } from '@angular/material';
+import { MatTableModule, MatCheckboxModule, MatIconModule, MatPaginatorModule } from '@angular/material';
 import { ArlasStartupService, ArlasConfigService, ArlasCollaborativesearchService,
   CONFIG_UPDATER } from '../../services/startup/startup.service';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
@@ -34,7 +34,7 @@ describe('BookmarkComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        MatTableModule, MatCheckboxModule, MatIconModule, HttpClientModule,
+        MatTableModule, MatCheckboxModule, MatIconModule, HttpClientModule, MatPaginatorModule,
         TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } })
       ],
       declarations: [BookmarkComponent],

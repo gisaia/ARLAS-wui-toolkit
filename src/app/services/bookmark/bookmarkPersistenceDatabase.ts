@@ -22,7 +22,8 @@ import { ArlasBookmarkService } from './bookmark.service';
 import { Guid } from '../../tools/utils';
 import { Observable } from 'rxjs';
 import { PersistenceService } from '../persistence/persistence.service';
-import { ArlasPersistenceDatabase } from 'app/tools/arlasPersistenceDatabase';
+import { ArlasPersistenceDatabase } from '../../tools/arlasPersistenceDatabase';
+
 
 export class BookmarkPersistenceDatabase extends ArlasPersistenceDatabase<BookMark> {
 

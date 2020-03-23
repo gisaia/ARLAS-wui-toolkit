@@ -50,10 +50,11 @@ export class ArlasBookmarkService {
     if (this.arlasStartupService.shouldRunApp) {
       if (!!this.configService.getValue('arlas.persistence-server')) {
         this.dataBase = new BookmarkPersistenceDatabase(this, this.persistanceService);
+        this.bookMarkMap = this.dataBase.storageObjectMap;
       } else {
         this.dataBase = new BookmarkLocalDatabase(this);
+        this.bookMarkMap = this.dataBase.storageObjectMap;
       }
-      this.bookMarkMap = this.dataBase.storageObjectMap;
       this.selectorById = this.arlasStartupService.selectorById;
     }
   }
