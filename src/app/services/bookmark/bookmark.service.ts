@@ -30,7 +30,6 @@ import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupServic
 import { BookmarkLocalDatabase } from './bookmarkLocalDatabase';
 import { BookmarkPersistenceDatabase } from './bookmarkPersistenceDatabase';
 import { BookMark, BookMarkType } from './model';
-import { DataResource } from 'arlas-persistence-api';
 
 
 /** Constants used to fill up our data base. */
@@ -60,10 +59,10 @@ export class ArlasBookmarkService {
   }
 
   /**
-   * List all bookmark for the user directly from the persistance service
+   * List all bookmark for the user to update dataBase
    */
-  public listBookmarks(size: number, pageNumber: number): Observable<DataResource> {
-    return this.persistanceService.list(this.dataBase.storageKey, size, pageNumber, 'desc');
+  public listBookmarks(size: number, pageNumber: number) {
+    (this.dataBase as BookmarkPersistenceDatabase).list(size, pageNumber, 'desc');
   }
 
   public addBookmark(newBookMarkName: string, selectedItem?: Set<string>) {

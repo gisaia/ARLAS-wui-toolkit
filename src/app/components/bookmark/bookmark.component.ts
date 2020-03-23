@@ -23,9 +23,10 @@ import { ArlasBookmarkService } from '../../services/bookmark/bookmark.service';
 import { ArlasDataSource } from '../../tools/arlasDataSource';
 import { MatDialogRef, MatDialog, MatPaginator, PageEvent } from '@angular/material';
 import { BookMark } from '../../services/bookmark/model';
-import { DataResource, DataWithLinks } from 'arlas-persistence-api';
 import { ArlasConfigService } from '../../services/startup/startup.service';
 import { HttpClient } from '@angular/common/http';
+import { BookmarkLocalDatabase } from '../../services/bookmark/bookmarkLocalDatabase';
+import { BookmarkPersistenceDatabase } from '../../services/bookmark/bookmarkPersistenceDatabase';
 
 @Component({
   selector: 'arlas-bookmark',
@@ -57,35 +58,27 @@ export class BookmarkComponent {
   ) {
     // Init component with data from persistence server, if defined and server is reachable
     if (!!this.configService.getValue('arlas.persistence-server') && !!this.configService.getValue('arlas.persistence-server.url')) {
-      // this.http.get(this.configService.getValue('arlas.persistence-server.url') + '/admin/healthcheck').subscribe(
+      // this.http.get(this.configService.getValue('arlas.persistence-server.healthcheck')).subscribe(
       //   () => {
-          this.isPersistenceActive = true;
-          this.bookmarkService.dataBase.dataChange.subscribe(() => {
-            this.getBookmarksList();
-          });
+      this.isPersistenceActive = true;
+      (this.bookmarkService.dataBase as BookmarkPersistenceDatabase).dataChange
+        .subscribe((data: { total: number, items: BookMark[] }) => {
+          this.resultsLength = data.total;
+          this.bookmarks = data.items;
+        });
+      this.getBookmarksList();
       //   },
       //   () => {
       //     this.bookmarks = new ArlasDataSource(this.bookmarkService.dataBase);
       //   }
       // );
-
     } else {
-      this.bookmarks = new ArlasDataSource(this.bookmarkService.dataBase);
+      this.bookmarks = new ArlasDataSource(this.bookmarkService.dataBase as BookmarkLocalDatabase);
     }
-
   }
 
   public getBookmarksList() {
-    this.bookmarkService.listBookmarks(this.pageSize, this.pageNumber + 1).subscribe((bookmarks: DataResource) => {
-      this.resultsLength = bookmarks.total;
-      const bookmarksList = [];
-      if (!!bookmarks.data) {
-        bookmarks.data.forEach((obj: any) => {
-          bookmarksList.push(this.bookmarkService.init(JSON.parse(obj.docValue) as BookMark));
-        });
-      }
-      this.bookmarks = bookmarksList;
-    });
+    this.bookmarkService.listBookmarks(this.pageSize, this.pageNumber + 1);
   }
 
   public pageChange(pageEvent: PageEvent) {
@@ -93,7 +86,6 @@ export class BookmarkComponent {
     this.pageSize = pageEvent.pageSize;
     this.getBookmarksList();
   }
-
 
   public selectBookmark(event, id) {
     if (event.checked) {

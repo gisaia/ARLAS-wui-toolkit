@@ -24,8 +24,9 @@ import { DataResource } from 'arlas-persistence-api';
 
 export class ArlasPersistenceDatabase<T extends ArlasStorageObject> {
   /** Stream that emits whenever the data has been modified. */
-  public dataChange: BehaviorSubject<T[]> = new BehaviorSubject<T[]>([]);
-  get data(): T[] { return this.dataChange.value; }
+  public dataChange: BehaviorSubject<{ total: number, items: T[] }>
+    = new BehaviorSubject<{ total: number, items: T[] }>({ total: 0, items: [] });
+  get data(): { total: number, items: T[] } { return this.dataChange.value; }
   public storageObjectMap: Map<string, T> = new Map<string, T>();
   // persistenceIdMap : first => <T> id | second => persistenceObject id
   public persistenceIdMap: Map<string, string> = new Map<string, string>();
@@ -66,16 +67,17 @@ export class ArlasPersistenceDatabase<T extends ArlasStorageObject> {
   }
 
   public list(size: number, page: number, order: string) {
-    this.persistenceService.list(this.storageKey, size, page, order).subscribe((bookmarks: DataResource) => {
+    this.persistenceService.list(this.storageKey, size, page, order).subscribe((dataResource: DataResource) => {
+
       const copiedData = [];
-      if (bookmarks.count > 0) {
-        Array.from(bookmarks.data).forEach((obj: any) => {
+      if (dataResource.count > 0) {
+        Array.from(dataResource.data).forEach((obj: any) => {
           const newObj: T = this.init(JSON.parse(obj.docValue) as T, this.additionalObject);
           copiedData.push(newObj);
           this.storageObjectMap.set(newObj.id, newObj);
           this.persistenceIdMap.set(newObj.id, obj.id);
         });
-        this.dataChange.next((copiedData as T[]));
+        this.dataChange.next({ total: dataResource.total, items: copiedData as T[] });
       }
     });
   }

@@ -18,22 +18,50 @@
  */
 
 import { Injectable } from '@angular/core';
-import { ExtendDatabase } from './extendDatabase';
+import { ExtendLocalDatabase } from './extendLocalDatabase';
 import { Extend } from './model';
-import { ArlasStartupService } from '../startup/startup.service';
+import { ArlasStartupService, ArlasConfigService } from '../startup/startup.service';
+import { PersistenceService } from '../persistence/persistence.service';
+import { ExtendPersistenceDatabase } from './extendPersistenceDatabase';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ArlasExtendService {
-  public dataBase: ExtendDatabase;
+  public dataBase: ExtendLocalDatabase | ExtendPersistenceDatabase;
   public extendMap: Map<string, Extend> = new Map<string, Extend>();
 
-  constructor(private arlasStartupService: ArlasStartupService) {
+  constructor(
+    private arlasStartupService: ArlasStartupService,
+    private configService: ArlasConfigService,
+    private persistanceService: PersistenceService) {
     if (this.arlasStartupService.shouldRunApp) {
-      this.dataBase = new ExtendDatabase();
-      this.extendMap = this.dataBase.storageObjectMap;
+      if (!!this.configService.getValue('arlas.persistence-server')) {
+        this.dataBase = new ExtendPersistenceDatabase( this.persistanceService);
+        this.extendMap = this.dataBase.storageObjectMap;
+      } else {
+        this.dataBase = new ExtendLocalDatabase();
+        this.extendMap = this.dataBase.storageObjectMap;
+      }
     }
+  }
+
+  public init(extend: Extend): Extend {
+    const initExtend = {
+      id: extend.id,
+      date: new Date(extend.date),
+      name: extend.name,
+      geometry: extend.geometry,
+      private: extend.private
+    };
+    return initExtend;
+  }
+
+    /**
+   * List all bookmark for the user to update dataBase
+   */
+  public listExtends(size: number, pageNumber: number) {
+    (this.dataBase as ExtendPersistenceDatabase).list(size, pageNumber, 'desc');
   }
 
   public addExtend(name: string, geometry: any) {
