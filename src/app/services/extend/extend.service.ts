@@ -23,6 +23,7 @@ import { ArlasConfigService, ArlasStartupService } from '../startup/startup.serv
 import { ExtendLocalDatabase } from './extendLocalDatabase';
 import { ExtendPersistenceDatabase } from './extendPersistenceDatabase';
 import { Extend } from './model';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class ArlasExtendService {
@@ -34,9 +35,10 @@ export class ArlasExtendService {
     private configService: ArlasConfigService,
     private persistanceService: PersistenceService) {
     if (this.arlasStartupService.shouldRunApp) {
-      if (!!this.configService.getValue('arlas.persistence-server')) {
-        this.dataBase = new ExtendPersistenceDatabase( this.persistanceService);
-        this.extendMap = this.dataBase.storageObjectMap;
+      if (!!this.configService.getConfig()['arlas.persistence-server']
+        && !!this.configService.getConfig()['arlas.persistence-server.url']) {
+            this.dataBase = new ExtendPersistenceDatabase(this.persistanceService);
+            this.extendMap = this.dataBase.storageObjectMap;
       } else {
         this.dataBase = new ExtendLocalDatabase();
         this.extendMap = this.dataBase.storageObjectMap;
@@ -55,9 +57,9 @@ export class ArlasExtendService {
     return initExtend;
   }
 
-    /**
-   * List all bookmark for the user to update dataBase
-   */
+  /**
+ * List all bookmark for the user to update dataBase
+ */
   public listExtends(size: number, pageNumber: number) {
     (this.dataBase as ExtendPersistenceDatabase).list(size, pageNumber, 'desc');
   }

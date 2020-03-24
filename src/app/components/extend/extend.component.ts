@@ -48,26 +48,17 @@ export class ExtendComponent {
   @Output() public actions: Subject<{ action: string, id: string, geometry?: any }> = new Subject<any>();
 
   constructor(
-    private extendService: ArlasExtendService,
-    private configService: ArlasConfigService,
-    private http: HttpClient
+    private extendService: ArlasExtendService
   ) {
     // Init component with data from persistence server, if defined and server is reachable
-    if (!!this.configService.getValue('arlas.persistence-server') && !!this.configService.getValue('arlas.persistence-server.url')) {
-      // this.http.get(this.configService.getValue('arlas.persistence-server.healthcheck')).subscribe(
-      //   () => {
-      this.isPersistenceActive = true;
-
-      (this.extendService.dataBase as ExtendPersistenceDatabase).dataChange.subscribe((data: { total: number, items: Extend[] }) => {
-        this.resultsLength = data.total;
-        this.extends = data.items;
-      });
-      this.getExtendsList();
-      //   },
-      //   () => {
-      //     this.extends = new ArlasDataSource(this.extendService.dataBase as ExtendLocalDatabase);
-      //   }
-      // );
+    if (this.extendService.dataBase instanceof ExtendPersistenceDatabase) {
+          this.isPersistenceActive = true;
+          (this.extendService.dataBase as ExtendPersistenceDatabase).dataChange
+            .subscribe((data: { total: number, items: Extend[] }) => {
+              this.resultsLength = data.total;
+              this.extends = data.items;
+            });
+          this.getExtendsList();
     } else {
       this.extends = new ArlasDataSource(this.extendService.dataBase as ExtendLocalDatabase);
     }

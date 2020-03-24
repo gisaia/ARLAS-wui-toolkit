@@ -52,26 +52,17 @@ export class BookmarkComponent {
 
   constructor(
     private bookmarkService: ArlasBookmarkService,
-    private dialog: MatDialog,
-    private configService: ArlasConfigService,
-    private http: HttpClient
+    private dialog: MatDialog
   ) {
     // Init component with data from persistence server, if defined and server is reachable
-    if (!!this.configService.getValue('arlas.persistence-server') && !!this.configService.getValue('arlas.persistence-server.url')) {
-      // this.http.get(this.configService.getValue('arlas.persistence-server.healthcheck')).subscribe(
-      //   () => {
-      this.isPersistenceActive = true;
-      (this.bookmarkService.dataBase as BookmarkPersistenceDatabase).dataChange
-        .subscribe((data: { total: number, items: BookMark[] }) => {
-          this.resultsLength = data.total;
-          this.bookmarks = data.items;
-        });
-      this.getBookmarksList();
-      //   },
-      //   () => {
-      //     this.bookmarks = new ArlasDataSource(this.bookmarkService.dataBase);
-      //   }
-      // );
+    if (this.bookmarkService.dataBase instanceof BookmarkPersistenceDatabase) {
+          this.isPersistenceActive = true;
+          (this.bookmarkService.dataBase as BookmarkPersistenceDatabase).dataChange
+            .subscribe((data: { total: number, items: BookMark[] }) => {
+              this.resultsLength = data.total;
+              this.bookmarks = data.items;
+            });
+          this.getBookmarksList();
     } else {
       this.bookmarks = new ArlasDataSource(this.bookmarkService.dataBase as BookmarkLocalDatabase);
     }
