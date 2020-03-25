@@ -149,7 +149,7 @@ export function configUpdaterFactory(x): any {
 }
 
 export function getOptionsFactory(arlasAuthService: AuthentificationService): any {
-  return () => {
+  const getOptions = () => {
     const token = arlasAuthService.accessToken !== null ? arlasAuthService.accessToken : null;
     if (token !== null) {
       return {
@@ -161,6 +161,7 @@ export function getOptionsFactory(arlasAuthService: AuthentificationService): an
       return {};
     }
   };
+  return getOptions;
 }
 
 export const MY_CUSTOM_FORMATS = {
