@@ -20,7 +20,7 @@
 import { BehaviorSubject } from 'rxjs';
 import { ArlasStorageObject } from './utils';
 import { PersistenceService } from '../services/persistence/persistence.service';
-import { DataResource } from 'arlas-persistence-api';
+import { DataResource, DataWithLinks } from 'arlas-persistence-api';
 
 export class ArlasPersistenceDatabase<T extends ArlasStorageObject> {
   /** Stream that emits whenever the data has been modified. */
@@ -69,15 +69,17 @@ export class ArlasPersistenceDatabase<T extends ArlasStorageObject> {
     this.persistenceService.list(this.storageKey, size, page, order).subscribe((dataResource: DataResource) => {
 
       const copiedData = [];
+      let total = 0;
       if (dataResource.count > 0) {
-        Array.from(dataResource.data).forEach((obj: any) => {
-          const newObj: T = this.init(JSON.parse(obj.docValue) as T, this.additionalObject);
+        Array.from(dataResource.data).forEach((obj: DataWithLinks) => {
+          const newObj: T = this.init(JSON.parse(obj.doc_value) as T, this.additionalObject);
           copiedData.push(newObj);
           this.storageObjectMap.set(newObj.id, newObj);
           this.persistenceIdMap.set(newObj.id, obj.id);
         });
-        this.dataChange.next({ total: dataResource.total, items: copiedData as T[] });
+        total = dataResource.total;
       }
+      this.dataChange.next({ total: total, items: copiedData as T[] });
     });
   }
 

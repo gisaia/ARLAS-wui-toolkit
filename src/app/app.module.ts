@@ -149,15 +149,17 @@ export function configUpdaterFactory(x): any {
 }
 
 export function getOptionsFactory(arlasAuthService: AuthentificationService): any {
-  // TODO remove this for prod it's just for test and dev in local
   return () => {
-    const token = arlasAuthService.idToken !== null ? arlasAuthService.idToken : 'sebseb';
-    // TODO change X-Forwarded-User to access_token when proxy will be ready
-    return {
-      headers: {
-        'X-Forwarded-User': token
-      }
-    };
+    const token = arlasAuthService.accessToken !== null ? arlasAuthService.accessToken : null;
+    if (token !== null) {
+      return {
+        headers: {
+          'X-Forwarded-User': token
+        }
+      };
+    } else {
+      return {};
+    }
   };
 }
 

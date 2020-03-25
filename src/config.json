@@ -970,6 +970,9 @@
       "collection": {
         "name": "geodata"
       }
+    },
+    "persistence-server": {
+      "url": "http://localhost:19997/arlas_persistence_server"
     }
   },
   "arlas-wui": {
