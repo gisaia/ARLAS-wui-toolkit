@@ -4,7 +4,6 @@ import * as portableFetch from 'portable-fetch';
 import { Observable } from 'rxjs/internal/Observable';
 import { from } from 'rxjs/internal/observable/from';
 import { ArlasConfigService } from '../startup/startup.service';
-import { AuthentificationService } from '../authentification/authentification.service';
 import { Configuration, PersistenceApi, Data, DataResource } from 'arlas-persistence-api';
 
 export const GET_OPTIONS = new InjectionToken<Function>('get_options');
@@ -17,7 +16,6 @@ export class PersistenceService {
   private persistenceApi: PersistenceApi;
   constructor(
     private configService: ArlasConfigService,
-    private arlasAuthService: AuthentificationService,
     @Inject(GET_OPTIONS) private getOptions
   ) {
     const configuraiton = new Configuration();

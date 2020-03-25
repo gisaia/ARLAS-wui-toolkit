@@ -148,14 +148,16 @@ export function configUpdaterFactory(x): any {
   return x[0];
 }
 
-export function getOptionsFactory(x): any {
+export function getOptionsFactory(arlasAuthService: AuthentificationService): any {
   // TODO remove this for prod it's just for test and dev in local
-  const token = this.arlasAuthService.idToken !== null ? this.arlasAuthService.idToken : 'sebseb';
-  // TODO change X-Forwarded-User to access_token when proxy will be ready
-  return {
-    headers: {
-      'X-Forwarded-User': token
-    }
+  return () => {
+    const token = arlasAuthService.idToken !== null ? arlasAuthService.idToken : 'sebseb';
+    // TODO change X-Forwarded-User to access_token when proxy will be ready
+    return {
+      headers: {
+        'X-Forwarded-User': token
+      }
+    };
   };
 }
 
@@ -274,10 +276,6 @@ export const MY_CUSTOM_FORMATS = {
       provide: CONFIG_UPDATER,
       useValue: configUpdaterFactory
     },
-    {
-      provide: GET_OPTIONS,
-      useValue: getOptionsFactory
-    },
     forwardRef(() => ArlasAoiService),
     forwardRef(() => ArlasBookmarkService),
     forwardRef(() => ArlasConfigService),
@@ -335,6 +333,11 @@ export const MY_CUSTOM_FORMATS = {
       provide: OAuthStorage,
       deps: [ArlasConfigService],
       useFactory: storageFactory
+    },
+    {
+      provide: GET_OPTIONS,
+      useFactory: getOptionsFactory,
+      deps: [AuthentificationService]
     },
   ],
   bootstrap: [AppComponent],
