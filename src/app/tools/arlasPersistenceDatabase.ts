@@ -35,11 +35,13 @@ export class ArlasPersistenceDatabase<T extends ArlasStorageObject> {
   public persistenceService: PersistenceService;
   public additionalObject: any;
 
+  private page: { size: number, number: number } = { size: 10, number: 1 };
 
   constructor(storageKy: string = 'storage_object', persistenceService: PersistenceService, additionalObject?: any) {
     this.storageKey = storageKy;
     this.persistenceService = persistenceService;
     this.additionalObject = additionalObject;
+    this.list(this.page.size, this.page.number, 'desc');
   }
 
   /**
@@ -53,7 +55,7 @@ export class ArlasPersistenceDatabase<T extends ArlasStorageObject> {
 
   public add(storageObject: T) {
     this.persistenceService.create(this.storageKey, JSON.stringify(storageObject)).subscribe(result => {
-      this.list(10, 1, 'desc');
+      this.list(this.page.size, this.page.number, 'desc');
     });
   }
 
@@ -61,13 +63,12 @@ export class ArlasPersistenceDatabase<T extends ArlasStorageObject> {
     this.persistenceService.delete(this.persistenceIdMap.get(id)).subscribe(result => {
       this.storageObjectMap.delete(id);
       this.persistenceIdMap.delete(id);
-      this.list(10, 1, 'desc');
+      this.list(this.page.size, this.page.number, 'desc');
     });
   }
 
   public list(size: number, page: number, order: string) {
     this.persistenceService.list(this.storageKey, size, page, order).subscribe((dataResource: DataResource) => {
-
       const copiedData = [];
       let total = 0;
       if (dataResource.count > 0) {
@@ -85,8 +86,12 @@ export class ArlasPersistenceDatabase<T extends ArlasStorageObject> {
 
   public update(id: string, storageObject: T) {
     this.persistenceService.update(this.persistenceIdMap.get(id), JSON.stringify(storageObject)).subscribe(result => {
-      this.list(10, 1, 'desc');
+      this.list(this.page.size, this.page.number, 'desc');
     });
+  }
+
+  public setPage(page: { size: number, number: number }) {
+    this.page = page;
   }
 
 }

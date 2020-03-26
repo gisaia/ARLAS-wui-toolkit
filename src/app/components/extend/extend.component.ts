@@ -22,8 +22,6 @@ import { ArlasExtendService } from '../../services/extend/extend.service';
 import { Subject } from 'rxjs';
 import { Extend } from '../../services/extend/model';
 import { ArlasDataSource } from '../../tools/arlasDataSource';
-import { ArlasConfigService } from '../../services/startup/startup.service';
-import { HttpClient } from '@angular/common/http';
 import { PageEvent } from '@angular/material/paginator';
 import { ExtendPersistenceDatabase } from '../../services/extend/extendPersistenceDatabase';
 import { ExtendLocalDatabase } from '../../services/extend/extendLocalDatabase';
@@ -53,12 +51,13 @@ export class ExtendComponent {
     // Init component with data from persistence server, if defined and server is reachable
     if (this.extendService.dataBase instanceof ExtendPersistenceDatabase) {
           this.isPersistenceActive = true;
+          this.extendService.setPage(this.pageSize, this.pageNumber);
+          this.getExtendsList();
           (this.extendService.dataBase as ExtendPersistenceDatabase).dataChange
             .subscribe((data: { total: number, items: Extend[] }) => {
               this.resultsLength = data.total;
               this.extends = data.items;
             });
-          this.getExtendsList();
     } else {
       this.extends = new ArlasDataSource(this.extendService.dataBase as ExtendLocalDatabase);
     }
@@ -71,6 +70,7 @@ export class ExtendComponent {
   public pageChange(pageEvent: PageEvent) {
     this.pageNumber = pageEvent.pageIndex;
     this.pageSize = pageEvent.pageSize;
+    this.extendService.setPage(this.pageSize, this.pageNumber);
     this.getExtendsList();
   }
 

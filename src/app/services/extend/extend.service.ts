@@ -37,11 +37,16 @@ export class ArlasExtendService {
     if (this.arlasStartupService.shouldRunApp) {
       if (!!this.configService.getConfig()['arlas']['persistence-server']
         && !!this.configService.getConfig()['arlas']['persistence-server']['url']) {
-            this.dataBase = new ExtendPersistenceDatabase(this.persistanceService);
-            this.extendMap = this.dataBase.storageObjectMap;
+        this.dataBase = new ExtendPersistenceDatabase(this.persistanceService);
+        this.dataBase.dataChange.subscribe(() => {
+          this.extendMap = this.dataBase.storageObjectMap;
+        });
+
       } else {
         this.dataBase = new ExtendLocalDatabase();
-        this.extendMap = this.dataBase.storageObjectMap;
+        this.dataBase.dataChange.subscribe(() => {
+          this.extendMap = this.dataBase.storageObjectMap;
+        });
       }
     }
   }
@@ -64,15 +69,17 @@ export class ArlasExtendService {
     (this.dataBase as ExtendPersistenceDatabase).list(size, pageNumber, 'desc');
   }
 
+  public setPage(size: number, pageNumber: number) {
+    (this.dataBase as ExtendPersistenceDatabase).setPage({ size: size, number: pageNumber });
+  }
+
   public addExtend(name: string, geometry: any) {
     const newExtend = this.dataBase.createExtend(name, geometry);
     this.dataBase.add(newExtend);
-    this.extendMap = this.dataBase.storageObjectMap;
   }
 
   public removeExtend(id: string) {
     this.dataBase.remove(id);
-    this.extendMap = this.dataBase.storageObjectMap;
   }
 
   public getExtendById(id: string): Extend {

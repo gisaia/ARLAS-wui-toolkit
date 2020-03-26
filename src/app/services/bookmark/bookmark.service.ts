@@ -50,10 +50,14 @@ export class ArlasBookmarkService {
       if (!!this.configService.getConfig()['arlas']['persistence-server']
         && !!this.configService.getConfig()['arlas']['persistence-server']['url']) {
         this.dataBase = new BookmarkPersistenceDatabase(this, this.persistanceService);
-        this.bookMarkMap = this.dataBase.storageObjectMap;
+        this.dataBase.dataChange.subscribe(() => {
+          this.bookMarkMap = this.dataBase.storageObjectMap;
+        });
       } else {
         this.dataBase = new BookmarkLocalDatabase(this);
-        this.bookMarkMap = this.dataBase.storageObjectMap;
+        this.dataBase.dataChange.subscribe(() => {
+          this.bookMarkMap = this.dataBase.storageObjectMap;
+        });
       }
       this.selectorById = this.arlasStartupService.selectorById;
     }
@@ -66,14 +70,18 @@ export class ArlasBookmarkService {
     (this.dataBase as BookmarkPersistenceDatabase).list(size, pageNumber, 'desc');
   }
 
+  public setPage(size: number, pageNumber: number) {
+    (this.dataBase as BookmarkPersistenceDatabase).setPage({ size: size, number: pageNumber });
+  }
+
   public addBookmark(newBookMarkName: string, selectedItem?: Set<string>) {
+
     if (selectedItem) {
       const url = this.getUrlFomSetIds(selectedItem);
       const dataModel = this.collaborativesearchService.dataModelBuilder(decodeURI(url));
       const color = '#' + getKeyForColor(dataModel);
       const bookmarkFromItem = this.dataBase.createBookmark(newBookMarkName, newBookMarkName, url, BookMarkType.enumIds, color);
       this.dataBase.add(bookmarkFromItem);
-      this.bookMarkMap = this.dataBase.storageObjectMap;
       this.viewBookMark(bookmarkFromItem.id);
     } else {
       let filter = '';
@@ -91,7 +99,6 @@ export class ArlasBookmarkService {
       }
       const bookmarkFromFilter = this.dataBase.createBookmark(newBookMarkName, filter.substring(1, filter.length), url, type, color);
       this.dataBase.add(bookmarkFromFilter);
-      this.bookMarkMap = this.dataBase.storageObjectMap;
     }
   }
 
@@ -115,13 +122,11 @@ export class ArlasBookmarkService {
       });
       const bookmark = this.dataBase.createBookmark(newBookMarkName, filter.substring(1, filter.length), url, type, color);
       this.dataBase.add(bookmark);
-      this.bookMarkMap = this.dataBase.storageObjectMap;
     }
   }
 
   public removeBookmark(id: string) {
     this.dataBase.remove(id);
-    this.bookMarkMap = this.dataBase.storageObjectMap;
     this.onAction.next({
       action: 'delete',
       id: id

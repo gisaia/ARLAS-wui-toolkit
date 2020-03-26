@@ -23,8 +23,6 @@ import { ArlasBookmarkService } from '../../services/bookmark/bookmark.service';
 import { ArlasDataSource } from '../../tools/arlasDataSource';
 import { MatDialogRef, MatDialog, MatPaginator, PageEvent } from '@angular/material';
 import { BookMark } from '../../services/bookmark/model';
-import { ArlasConfigService } from '../../services/startup/startup.service';
-import { HttpClient } from '@angular/common/http';
 import { BookmarkLocalDatabase } from '../../services/bookmark/bookmarkLocalDatabase';
 import { BookmarkPersistenceDatabase } from '../../services/bookmark/bookmarkPersistenceDatabase';
 
@@ -57,12 +55,13 @@ export class BookmarkComponent {
     // Init component with data from persistence server, if defined and server is reachable
     if (this.bookmarkService.dataBase instanceof BookmarkPersistenceDatabase) {
           this.isPersistenceActive = true;
+          this.bookmarkService.setPage(this.pageSize, this.pageNumber);
+          this.getBookmarksList();
           (this.bookmarkService.dataBase as BookmarkPersistenceDatabase).dataChange
             .subscribe((data: { total: number, items: BookMark[] }) => {
               this.resultsLength = data.total;
               this.bookmarks = data.items;
             });
-          this.getBookmarksList();
     } else {
       this.bookmarks = new ArlasDataSource(this.bookmarkService.dataBase as BookmarkLocalDatabase);
     }
@@ -75,6 +74,7 @@ export class BookmarkComponent {
   public pageChange(pageEvent: PageEvent) {
     this.pageNumber = pageEvent.pageIndex;
     this.pageSize = pageEvent.pageSize;
+    this.bookmarkService.setPage(this.pageSize, this.pageNumber);
     this.getBookmarksList();
   }
 
