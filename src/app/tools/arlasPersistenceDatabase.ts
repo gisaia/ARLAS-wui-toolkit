@@ -28,8 +28,7 @@ export class ArlasPersistenceDatabase<T extends ArlasStorageObject> {
     = new BehaviorSubject<{ total: number, items: T[] }>({ total: 0, items: [] });
   get data(): { total: number, items: T[] } { return this.dataChange.value; }
   public storageObjectMap: Map<string, T> = new Map<string, T>();
-  // persistenceIdMap : first => <T> id | second => persistenceObject id
-  public persistenceIdMap: Map<string, string> = new Map<string, string>();
+
 
   public storageKey: string;
   public persistenceService: PersistenceService;
@@ -41,7 +40,6 @@ export class ArlasPersistenceDatabase<T extends ArlasStorageObject> {
     this.storageKey = storageKy;
     this.persistenceService = persistenceService;
     this.additionalObject = additionalObject;
-    this.list(this.page.size, this.page.number, 'desc');
   }
 
   /**
@@ -55,14 +53,17 @@ export class ArlasPersistenceDatabase<T extends ArlasStorageObject> {
 
   public add(storageObject: T) {
     this.persistenceService.create(this.storageKey, JSON.stringify(storageObject)).subscribe(result => {
-      this.list(this.page.size, this.page.number, 'desc');
+      const newObj = storageObject;
+      newObj['id'] = result.id;
+      this.persistenceService.update(result.id, JSON.stringify(newObj)).subscribe(result => {
+        this.list(this.page.size, this.page.number, 'desc');
+      });
     });
   }
 
   public remove(id: string) {
-    this.persistenceService.delete(this.persistenceIdMap.get(id)).subscribe(result => {
+    this.persistenceService.delete(id).subscribe(result => {
       this.storageObjectMap.delete(id);
-      this.persistenceIdMap.delete(id);
       this.list(this.page.size, this.page.number, 'desc');
     });
   }
@@ -76,7 +77,6 @@ export class ArlasPersistenceDatabase<T extends ArlasStorageObject> {
           const newObj: T = this.init(JSON.parse(obj.doc_value) as T, this.additionalObject);
           copiedData.push(newObj);
           this.storageObjectMap.set(newObj.id, newObj);
-          this.persistenceIdMap.set(newObj.id, obj.id);
         });
         total = dataResource.total;
       }
@@ -85,7 +85,7 @@ export class ArlasPersistenceDatabase<T extends ArlasStorageObject> {
   }
 
   public update(id: string, storageObject: T) {
-    this.persistenceService.update(this.persistenceIdMap.get(id), JSON.stringify(storageObject)).subscribe(result => {
+    this.persistenceService.update(id, JSON.stringify(storageObject)).subscribe(result => {
       this.list(this.page.size, this.page.number, 'desc');
     });
   }
