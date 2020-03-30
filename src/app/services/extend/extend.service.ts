@@ -18,33 +18,68 @@
  */
 
 import { Injectable } from '@angular/core';
-import { ExtendDatabase } from './extendDatabase';
+import { PersistenceService } from '../persistence/persistence.service';
+import { ArlasConfigService, ArlasStartupService } from '../startup/startup.service';
+import { ExtendLocalDatabase } from './extendLocalDatabase';
+import { ExtendPersistenceDatabase } from './extendPersistenceDatabase';
 import { Extend } from './model';
-import { ArlasStartupService } from '../startup/startup.service';
+import { HttpClient } from '@angular/common/http';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class ArlasExtendService {
-  public dataBase: ExtendDatabase;
+  public dataBase: ExtendLocalDatabase | ExtendPersistenceDatabase;
   public extendMap: Map<string, Extend> = new Map<string, Extend>();
 
-  constructor(private arlasStartupService: ArlasStartupService) {
+  constructor(
+    private arlasStartupService: ArlasStartupService,
+    private configService: ArlasConfigService,
+    private persistanceService: PersistenceService) {
     if (this.arlasStartupService.shouldRunApp) {
-      this.dataBase = new ExtendDatabase();
-      this.extendMap = this.dataBase.storageObjectMap;
+      if (!!this.configService.getConfig()['arlas']['persistence-server']
+        && !!this.configService.getConfig()['arlas']['persistence-server']['url']) {
+        this.dataBase = new ExtendPersistenceDatabase(this.persistanceService);
+        this.dataBase.dataChange.subscribe(() => {
+          this.extendMap = this.dataBase.storageObjectMap;
+        });
+
+      } else {
+        this.dataBase = new ExtendLocalDatabase();
+        this.dataBase.dataChange.subscribe(() => {
+          this.extendMap = this.dataBase.storageObjectMap;
+        });
+      }
     }
+  }
+
+  public init(extend: Extend): Extend {
+    const initExtend = {
+      id: extend.id,
+      date: new Date(extend.date),
+      name: extend.name,
+      geometry: extend.geometry,
+      private: extend.private
+    };
+    return initExtend;
+  }
+
+  /**
+ * List all bookmark for the user to update dataBase
+ */
+  public listExtends(size: number, pageNumber: number) {
+    (this.dataBase as ExtendPersistenceDatabase).list(size, pageNumber, 'desc');
+  }
+
+  public setPage(size: number, pageNumber: number) {
+    (this.dataBase as ExtendPersistenceDatabase).setPage({ size: size, number: pageNumber });
   }
 
   public addExtend(name: string, geometry: any) {
     const newExtend = this.dataBase.createExtend(name, geometry);
     this.dataBase.add(newExtend);
-    this.extendMap = this.dataBase.storageObjectMap;
   }
 
   public removeExtend(id: string) {
     this.dataBase.remove(id);
-    this.extendMap = this.dataBase.storageObjectMap;
   }
 
   public getExtendById(id: string): Extend {

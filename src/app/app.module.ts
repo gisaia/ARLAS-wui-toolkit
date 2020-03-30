@@ -25,7 +25,7 @@ import {
   MatExpansionModule, MatIconModule, MatRadioModule, MatChipsModule, MatSelectModule,
   MatStepperModule, MatSnackBarModule, MatInputModule, MatProgressBarModule, MatListModule,
   MatTooltipModule, MatTableModule, MatCheckboxModule,
-  MatFormFieldModule, MatProgressSpinnerModule, MatTabsModule
+  MatFormFieldModule, MatProgressSpinnerModule, MatTabsModule, MatPaginatorModule
 } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -79,6 +79,7 @@ import { ArlasMapSettings } from './services/map-settings/map-settings.service';
 import { ArlasExportCsvService } from './services/export-csv/export-csv.service';
 import { ArlasMapService } from './services/map/map.service';
 import { ProgressSpinnerComponent } from './components/progress-spinner/progress-spinner.component';
+import { GET_OPTIONS } from './services/persistence/persistence.service';
 
 
 export class CustomTranslateLoader implements TranslateLoader {
@@ -145,6 +146,22 @@ export function getAuthModuleConfig(): OAuthModuleConfig {
 
 export function configUpdaterFactory(x): any {
   return x[0];
+}
+
+export function getOptionsFactory(arlasAuthService: AuthentificationService): any {
+  const getOptions = () => {
+    const token = !!arlasAuthService.accessToken ? arlasAuthService.accessToken : null;
+    if (token !== null) {
+      return {
+        headers: {
+          'X-Forwarded-User': token
+        }
+      };
+    } else {
+      return {};
+    }
+  };
+  return getOptions;
 }
 
 export const MY_CUSTOM_FORMATS = {
@@ -232,6 +249,7 @@ export const MY_CUSTOM_FORMATS = {
     MatProgressBarModule,
     MatRadioModule,
     MatFormFieldModule,
+    MatPaginatorModule,
     MatProgressBarModule,
     MatProgressSpinnerModule,
     MatSelectModule,
@@ -318,6 +336,11 @@ export const MY_CUSTOM_FORMATS = {
       provide: OAuthStorage,
       deps: [ArlasConfigService],
       useFactory: storageFactory
+    },
+    {
+      provide: GET_OPTIONS,
+      useFactory: getOptionsFactory,
+      deps: [AuthentificationService]
     },
   ],
   bootstrap: [AppComponent],

@@ -19,13 +19,14 @@
 
 import { Extend } from './model';
 import { Guid } from '../../tools/utils';
-import { ArlasLocalDatabase } from '../../tools/arlasLocalDatabase';
+import { ArlasPersistenceDatabase } from '../../tools/arlasPersistenceDatabase';
+import { PersistenceService } from '../persistence/persistence.service';
 
-export class ExtendDatabase extends ArlasLocalDatabase<Extend> {
+export class ExtendPersistenceDatabase extends ArlasPersistenceDatabase<Extend> {
 
 
-  constructor() {
-    super('extend');
+  constructor( public persistenceService: PersistenceService) {
+    super('extend', persistenceService);
   }
 
   public init(extend: Extend): Extend {

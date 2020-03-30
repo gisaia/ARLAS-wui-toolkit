@@ -22,6 +22,9 @@ import { ArlasExtendService } from '../../services/extend/extend.service';
 import { Subject } from 'rxjs';
 import { Extend } from '../../services/extend/model';
 import { ArlasDataSource } from '../../tools/arlasDataSource';
+import { PageEvent } from '@angular/material/paginator';
+import { ExtendPersistenceDatabase } from '../../services/extend/extendPersistenceDatabase';
+import { ExtendLocalDatabase } from '../../services/extend/extendLocalDatabase';
 
 @Component({
   selector: 'arlas-extend',
@@ -30,16 +33,45 @@ import { ArlasDataSource } from '../../tools/arlasDataSource';
 })
 export class ExtendComponent {
 
-  public extends: ArlasDataSource;
+  public extends: ArlasDataSource | Extend[];
   public columnsToDisplay = ['checked', 'name', 'date', 'actions'];
   public itemsCheck: Array<string> = new Array<string>();
+
+  public resultsLength = 0;
+  public pageSize = 10;
+  public pageNumber = 0;
+
+  public isPersistenceActive = false;
 
   @Output() public actions: Subject<{ action: string, id: string, geometry?: any }> = new Subject<any>();
 
   constructor(
     private extendService: ArlasExtendService
   ) {
-    this.extends = new ArlasDataSource(this.extendService.dataBase);
+    // Init component with data from persistence server, if defined and server is reachable
+    if (this.extendService.dataBase instanceof ExtendPersistenceDatabase) {
+          this.isPersistenceActive = true;
+          this.extendService.setPage(this.pageSize, this.pageNumber);
+          this.getExtendsList();
+          (this.extendService.dataBase as ExtendPersistenceDatabase).dataChange
+            .subscribe((data: { total: number, items: Extend[] }) => {
+              this.resultsLength = data.total;
+              this.extends = data.items;
+            });
+    } else {
+      this.extends = new ArlasDataSource(this.extendService.dataBase as ExtendLocalDatabase);
+    }
+  }
+
+  public getExtendsList() {
+    this.extendService.listExtends(this.pageSize, this.pageNumber + 1);
+  }
+
+  public pageChange(pageEvent: PageEvent) {
+    this.pageNumber = pageEvent.pageIndex;
+    this.pageSize = pageEvent.pageSize;
+    this.extendService.setPage(this.pageSize, this.pageNumber);
+    this.getExtendsList();
   }
 
   public selectExtend(event, id) {

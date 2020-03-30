@@ -35,11 +35,9 @@ export class ArlasDataSource extends DataSource<any> {
     const displayDataChanges = [
       this.arlasLocalDatabase.dataChange,
       this._filterChange
-
-
     ];
     return merge(...displayDataChanges).pipe(map(() => {
-      localStorage.setItem(this.arlasLocalDatabase.localStorageKey, JSON.stringify(this.arlasLocalDatabase.data));
+      localStorage.setItem(this.arlasLocalDatabase.storageKey, JSON.stringify(this.arlasLocalDatabase.data));
       return this.getSortedData();
 
     }));

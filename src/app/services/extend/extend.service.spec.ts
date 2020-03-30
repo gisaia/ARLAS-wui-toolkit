@@ -17,34 +17,58 @@
  * under the License.
  */
 
-import { TestBed } from '@angular/core/testing';
-
+import { HttpClientModule } from '@angular/common/http';
+import { inject, TestBed } from '@angular/core/testing';
+import { OAuthLogger, OAuthModule, OAuthService, UrlHelperService } from 'angular-oauth2-oidc';
+import { AuthentificationService } from '../authentification/authentification.service';
+import { GET_OPTIONS } from '../persistence/persistence.service';
+import { ArlasConfigService, ArlasStartupService, ArlasCollaborativesearchService, CONFIG_UPDATER } from '../startup/startup.service';
 import { ArlasExtendService } from './extend.service';
-import {
-  ArlasStartupService, ArlasConfigService, ArlasCollaborativesearchService,
-  CONFIG_UPDATER
-} from '../startup/startup.service';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
-import {
-  TranslateModule, TranslateService, TranslateLoader,
-  TranslateFakeLoader, TranslateStore
-} from '@ngx-translate/core';
+import { TranslateModule, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
 
-describe('ArlasExtendService', () => {
-  beforeEach(() => TestBed.configureTestingModule({
-    imports: [
-      HttpClientModule,
-      TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } })
-    ],
-    providers: [
-      ArlasStartupService, HttpClient, ArlasConfigService,
-      ArlasCollaborativesearchService, TranslateService, TranslateStore,
-      { provide: CONFIG_UPDATER, useValue: {} }
-    ]
-  }));
 
-  it('should be created', () => {
-    const service: ArlasExtendService = TestBed.get(ArlasExtendService);
-    expect(service).toBeTruthy();
+describe('ExtendService', () => {
+
+
+  // beforeEach(() => TestBed.configureTestingModule({
+  //   providers: [
+  //     ArlasExtendService, ArlasCollaborativesearchService, TranslateService, TranslateStore
+  //   ],
+  //   imports: [
+  //     HttpClientModule,
+  //     TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } })
+  //   ]
+  // }));
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        HttpClientModule, OAuthModule,
+        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } })
+      ],
+      providers: [ArlasConfigService,
+        OAuthService,
+        OAuthLogger,
+        UrlHelperService,
+        AuthentificationService,
+        ArlasExtendService,
+        ArlasStartupService,
+        ArlasCollaborativesearchService,
+        { provide: GET_OPTIONS, useValue: {} },
+        { provide: CONFIG_UPDATER, useValue: {} }
+      ]
+    });
   });
+
+  it('should be created', inject([ArlasConfigService],
+    (arlasConfigService: ArlasConfigService) => {
+      const arlasStartupService = TestBed.get(ArlasStartupService);
+      arlasStartupService.arlasIsUp.subscribe(isUp => {
+        if (isUp) {
+          const service: ArlasExtendService = TestBed.get(ArlasExtendService);
+          expect(service).toBeTruthy();
+          expect(arlasConfigService).toBeTruthy();
+        }
+
+      });
+    }));
 });
