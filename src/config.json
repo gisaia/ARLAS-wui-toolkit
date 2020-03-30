@@ -958,7 +958,7 @@
       }
     },
     "server": {
-      "url": "http://demo.arlas.io/arlas",
+      "url": "http://localhost:9999/arlas",
       "collection": {
         "name": "demo_ais-danmark",
         "id": "id"
