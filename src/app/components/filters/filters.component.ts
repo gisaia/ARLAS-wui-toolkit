@@ -16,10 +16,11 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { ChangeDetectorRef, Component, ViewEncapsulation, Input, ChangeDetectionStrategy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, ViewEncapsulation, Input, ChangeDetectionStrategy, OnInit, Output } from '@angular/core';
 import { Contributor } from 'arlas-web-core';
 import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from '../../services/startup/startup.service';
 import { TranslateService } from '@ngx-translate/core';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'arlas-filter',
@@ -30,21 +31,27 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class FiltersComponent implements OnInit {
 
-/**
- * @Input : Angular
- * @description Title to display in filter bar
- */
+  /**
+   * @Input : Angular
+   * @description Title to display in filter bar
+   */
   @Input() public title = '';
   /**
- * @Input : Angular
- * @description Background color of the filter bar
- */
+   * @Input : Angular
+   * @description Background color of the filter bar
+   */
   @Input() public backgroundColor = '#000';
   /**
- * @Input : Angular
- * @description Contributors identifier array which will be ignored from the filter summary
- */
+   * @Input : Angular
+   * @description Contributors identifier array which will be ignored from the filter summary
+   */
   @Input() public ignoredContributors = new Array<string>();
+
+  /**
+   * @Input : Angular
+   * @description This output emit app name on click on the title of the filter
+   */
+  @Output() public clickOnTitle: Subject<string> = new Subject<string>();
 
 
   public collaborations: Set<string> = new Set<string>();
@@ -84,6 +91,7 @@ export class FiltersComponent implements OnInit {
 
   public removeAllFilters(): void {
     this.collaborativeSearchService.removeAll();
+    this.clickOnTitle.next(this.title);
     this.cdr.detectChanges();
   }
 
