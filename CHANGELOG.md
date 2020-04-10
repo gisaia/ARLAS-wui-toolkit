@@ -1,8 +1,22 @@
 # Change Log
 
+## [v12.7.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v12.7.0) (2020-04-10)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v12.6.1...v12.7.0)
+
+**New stuff:**
+
+- In filter component add output for remove all filter [\#291](https://github.com/gisaia/ARLAS-wui-toolkit/issues/291)
+
 ## [v12.6.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v12.6.1) (2020-03-20)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v12.6.0...v12.6.1)
+
+**New stuff:**
+
+- Add input to ignore contributors in filters comp [\#289](https://github.com/gisaia/ARLAS-wui-toolkit/issues/289)
+- Define a map instance of mapboxgl in the MapService [\#288](https://github.com/gisaia/ARLAS-wui-toolkit/issues/288)
+- Add input to ignore contributor in filters comp [\#286](https://github.com/gisaia/ARLAS-wui-toolkit/pull/286) ([mbarbet](https://github.com/mbarbet))
 
 ## [v12.6.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v12.6.0) (2020-03-12)
 
