@@ -28,7 +28,6 @@ import {
     SwimLaneContributor,
     ChipsSearchContributor,
     DetailedHistogramContributor,
-    TopoMapContributor,
     TreeContributor,
     ComputeContributor
 } from 'arlas-web-contributors';
@@ -119,7 +118,6 @@ export class ArlasStartupService {
                 .addSchema(SwimLaneContributor.getJsonSchema())
                 .addSchema(ResultListContributor.getJsonSchema())
                 .addSchema(MapContributor.getJsonSchema())
-                .addSchema(TopoMapContributor.getJsonSchema())
                 .addSchema(TreeContributor.getJsonSchema())
                 .addSchema(ChipsSearchContributor.getJsonSchema())
                 .addSchema(AnalyticsContributor.getJsonSchema())
@@ -266,17 +264,6 @@ export class ArlasStartupService {
                             }
                         );
                     });
-                } else if (contributorType === 'map' || contributorType === 'topomap') {
-                    const zoomToPrecisionCluster: Array<Array<number>> = contrib.zoomToPrecisionCluster;
-                    if (zoomToPrecisionCluster.filter(tab => (tab[1] - tab[2]) > 2).length > 0) {
-                        const errorMessage = 'Invalid values in map zoomToPrecisionCluster elements.' +
-                            'The difference between precision of geohash aggregation and' +
-                            ' level of geohash to retrieve data like tile' +
-                            ' must be less or equal to 2.';
-                        this.shouldRunApp = false;
-                        this.configService.setConfig({ error: [errorMessage] });
-                        this.errorStartUpServiceBus.next({ error: [errorMessage] });
-                    }
                 }
                 const contributor = ContributorBuilder.buildContributor(contributorType,
                     contributorIdentifier,

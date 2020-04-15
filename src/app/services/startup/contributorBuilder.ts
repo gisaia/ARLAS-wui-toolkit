@@ -26,8 +26,7 @@ import {
     ComputeContributor,
     TreeContributor,
     ChipsSearchContributor,
-    MapContributor,
-    TopoMapContributor
+    MapContributor
 } from 'arlas-web-contributors';
 import { ArlasConfigService, ArlasCollaborativesearchService } from './startup.service';
 
@@ -62,9 +61,6 @@ export class ContributorBuilder {
             case 'map':
                 contributor = new MapContributor(identifier, collaborativesearchService, configService);
                 (contributor as MapContributor).updateData = false;
-                break;
-            case 'topomap':
-                contributor = new TopoMapContributor(identifier, collaborativesearchService, configService);
                 break;
             case 'swimlane':
                 isOneDimension = config['isOneDimension'];
