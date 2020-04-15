@@ -32,7 +32,6 @@
                                                     "map",
                                                     "resultlist",
                                                     "swimlane",
-                                                    "topomap",
                                                     "tree",
                                                     "metric"
                                                 ]
@@ -121,18 +120,6 @@
                                         },
                                         "then": {
                                             "$ref": "swimlaneContributorConf.schema.json#"
-                                        }
-                                    },
-                                    {
-                                        "if": {
-                                            "properties": {
-                                                "type": {
-                                                    "const": "topomap"
-                                                }
-                                            }
-                                        },
-                                        "then": {
-                                            "$ref": "topomapContributorConf.schema.json#"
                                         }
                                     },
                                     {
