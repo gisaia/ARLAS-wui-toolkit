@@ -29,5 +29,6 @@ export { ArlasMapService } from './services/map/map.service';
 export { ArlasColorGeneratorLoader } from './services/color-generator-loader/color-generator-loader.service';
 export { ArlasMapSettings } from './services/map-settings/map-settings.service';
 export { ArlasToolKitModule } from './app.module';
+export { ArlasToolkitSharedModule } from './shared.module';
 export { ArlasDataSource } from './tools/arlasDataSource';
 export { ArlasTaggerModule } from './tagger.module';

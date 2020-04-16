@@ -17,91 +17,49 @@
  * under the License.
  */
 import { CommonModule } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { APP_INITIALIZER, Injector, NgModule, forwardRef } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {
-  MatButtonModule, MatCardModule, MatDialogModule,
-  MatExpansionModule, MatIconModule, MatRadioModule, MatChipsModule, MatSelectModule,
-  MatStepperModule, MatSnackBarModule, MatInputModule, MatProgressBarModule, MatListModule,
-  MatTooltipModule, MatTableModule, MatCheckboxModule,
-  MatFormFieldModule, MatProgressSpinnerModule, MatTabsModule, MatPaginatorModule
-} from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import {
-  DonutModule, HistogramModule, PowerbarsModule, ResultsModule, ColorGeneratorModule,
-  ColorGeneratorLoader, MetricModule
+  ColorGeneratorModule,
+  ColorGeneratorLoader
 } from 'arlas-web-components';
 import { Observable } from 'rxjs';
-import { AppComponent } from './app.component';
-import { routing } from './app.routes';
-import { AnalyticsBoardComponent } from './components/analytics-board/analytics-board.component';
-import { ErrorModalMsgComponent, ErrormodalComponent } from './components/errormodal/errormodal.component';
-import { LanguageSwitcherComponent } from './components/language-switcher/language-switcher.component';
-import { ExcludeTypePipe } from './components/share/exclude-type.pipe';
-import { ShareComponent, ShareDialogComponent } from './components/share/share.component';
-import { WidgetComponent } from './components/widget/widget.component';
 import { ArlasBookmarkService } from './services/bookmark/bookmark.service';
 import {
   ArlasCollaborativesearchService, ArlasStartupService,
   ArlasConfigService, CONFIG_UPDATER
 } from './services/startup/startup.service';
 import { ArlasAoiService } from './services/aoi/aoi.service';
-import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.component';
-import { TimelineComponent } from './components/timeline/timeline/timeline.component';
-import { TimelineShortcutComponent } from './components/timeline/timeline-shortcut/timeline-shortcut.component';
 import { GetTimeLabelPipe } from './pipes/get-time-label.pipe';
-import { DatePickerComponent } from './components/timeline/date-picker/date-picker.component';
 import {
   OwlDateTimeModule, OwlNativeDateTimeModule, OwlDateTimeIntl,
   OWL_DATE_TIME_LOCALE, OwlMomentDateTimeModule
 } from '@gisaia-team/ng-pick-datetime';
-import { ArlasTranslateIntl } from './components/timeline/date-picker/ArlasTranslateIntl';
 import { ArlasColorGeneratorLoader } from './services/color-generator-loader/color-generator-loader.service';
 import { ArlasWalkthroughService } from './services/walkthrough/walkthrough.service';
-import { FiltersComponent } from './components/filters/filters.component';
-import { SearchComponent } from './components/search/search.component';
 import { MatAutocompleteModule } from '@angular/material';
-import { DownloadComponent, DownloadDialogComponent } from './components/download/download.component';
-import { AoiComponent } from './components/aoi/aoi.component';
-import { ExtendComponent } from './components/extend/extend.component';
-import { BookmarkComponent, BookmarkAddDialogComponent } from './components/bookmark/bookmark.component';
-import { BookmarkMenuComponent } from './components/bookmark-menu/bookmark-menu.component';
 import { ArlasExtendService } from './services/extend/extend.service';
 import { ArlasConfigurationDescriptor } from './services/configuration-descriptor/configurationDescriptor.service';
-import { DragDropModule } from '@angular/cdk/drag-drop';
 import { OAuthModule, OAuthModuleConfig, OAuthStorage, ValidationHandler, JwksValidationHandler } from 'angular-oauth2-oidc';
 import { AuthentificationService } from './services/authentification/authentification.service';
 import { ArlasMapSettings } from './services/map-settings/map-settings.service';
 import { ArlasExportCsvService } from './services/export-csv/export-csv.service';
 import { ArlasMapService } from './services/map/map.service';
-import { ProgressSpinnerComponent } from './components/progress-spinner/progress-spinner.component';
 import { GET_OPTIONS } from './services/persistence/persistence.service';
+import { ArlasTranslateIntl } from './components/timeline/date-picker/ArlasTranslateIntl';
+import { AppComponent } from './app.component';
+import { BookmarkAddDialogComponent, BookmarkComponent } from './components/bookmark/bookmark.component';
+import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.component';
+import { DownloadDialogComponent } from './components/download/download.component';
+import { ErrorModalMsgComponent } from './components/errormodal/errormodal.component';
+import { ShareDialogComponent } from './components/share/share.component';
+import { routing } from './app.routes';
+import { ArlasToolkitSharedModule } from './shared.module';
 
 
-export class CustomTranslateLoader implements TranslateLoader {
-
-  constructor(private http: HttpClient) { }
-
-  public getTranslation(lang: string): Observable<any> {
-    const apiAddress = 'assets/i18n/' + lang + '.json?' + Date.now();
-    return Observable.create(observer => {
-      this.http.get(apiAddress).subscribe(
-        res => {
-          observer.next(res);
-          observer.complete();
-        },
-        error => {
-          // failed to retrieve requested language file, use default
-          observer.complete(); // => Default language is already loaded
-        }
-      );
-    });
-  }
-}
 
 export function startupServiceFactory(startupService: ArlasStartupService) {
 
@@ -175,95 +133,10 @@ export const MY_CUSTOM_FORMATS = {
 };
 
 @NgModule({
-  declarations: [
-    AnalyticsBoardComponent,
-    AoiComponent,
-    AppComponent,
-    BookmarkComponent,
-    BookmarkAddDialogComponent,
-    BookmarkMenuComponent,
-    ConfirmModalComponent,
-    DatePickerComponent,
-    DownloadComponent,
-    DownloadDialogComponent,
-    ErrormodalComponent,
-    ErrorModalMsgComponent,
-    ExcludeTypePipe,
-    ExtendComponent,
-    FiltersComponent,
-    GetTimeLabelPipe,
-    LanguageSwitcherComponent,
-    SearchComponent,
-    ShareComponent,
-    ShareDialogComponent,
-    TimelineComponent,
-    TimelineShortcutComponent,
-    WidgetComponent,
-    ProgressSpinnerComponent
-  ],
-  exports: [
-    AnalyticsBoardComponent,
-    AoiComponent,
-    AppComponent,
-    BookmarkComponent,
-    BookmarkMenuComponent,
-    DownloadComponent,
-    ExtendComponent,
-    FiltersComponent,
-    GetTimeLabelPipe,
-    LanguageSwitcherComponent,
-    SearchComponent,
-    ShareComponent,
-    TimelineComponent,
-    TimelineShortcutComponent,
-    TranslateModule,
-    WidgetComponent
-  ],
   imports: [
+    ArlasToolkitSharedModule,
     BrowserModule,
     BrowserAnimationsModule,
-    CommonModule,
-    DonutModule,
-    DragDropModule,
-    FormsModule,
-    HistogramModule,
-    MetricModule,
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useClass: CustomTranslateLoader,
-        deps: [HttpClient]
-      }
-    }),
-    HttpClientModule,
-    MatAutocompleteModule,
-    MatButtonModule,
-    MatCardModule,
-    MatCheckboxModule,
-    MatChipsModule,
-    MatDialogModule,
-    MatExpansionModule,
-    MatIconModule,
-    MatInputModule,
-    MatListModule,
-    MatProgressBarModule,
-    MatRadioModule,
-    MatFormFieldModule,
-    MatPaginatorModule,
-    MatProgressBarModule,
-    MatProgressSpinnerModule,
-    MatSelectModule,
-    MatSnackBarModule,
-    MatStepperModule,
-    MatTableModule,
-    MatTabsModule,
-    MatTooltipModule,
-    OwlDateTimeModule,
-    OwlNativeDateTimeModule,
-    OwlMomentDateTimeModule,
-    PowerbarsModule,
-    ReactiveFormsModule,
-    ResultsModule,
     RouterModule,
     routing,
     ColorGeneratorModule.forRoot({
@@ -274,6 +147,8 @@ export const MY_CUSTOM_FORMATS = {
     }),
     OAuthModule.forRoot()
   ],
+  exports: [AppComponent],
+  declarations: [AppComponent],
   providers: [
     {
       provide: CONFIG_UPDATER,
