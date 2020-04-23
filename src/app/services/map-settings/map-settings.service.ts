@@ -45,28 +45,21 @@ export class ArlasMapSettings implements MapSettingsService {
   public getAllGeometries(): Array<GeometrySelectModel> {
     const geoFields = this.mapContributor.geoPointFields.concat(this.mapContributor.geoShapeFields);
     const allDisplayGeometries = new Array<GeometrySelectModel>();
-    if (geoFields) {
-      const returnedGeometriesSet = this.mapContributor.getReturnedGeometries(this.mapContributor.returned_geometries);
-      geoFields.forEach(geoField => {
-        allDisplayGeometries.push({
-          path: geoField,
-          selected: returnedGeometriesSet.has(geoField)
-        });
-      });
-    }
+    // if (geoFields) {
+    //   const returnedGeometriesSet = this.mapContributor.getReturnedGeometries(this.mapContributor.returned_geometries);
+    //   geoFields.forEach(geoField => {
+    //     allDisplayGeometries.push({
+    //       path: geoField,
+    //       selected: returnedGeometriesSet.has(geoField)
+    //     });
+    //   });
+    // }
     return allDisplayGeometries;
   }
 
   public getClusterGeometries(): Array<GeometrySelectModel> {
     const clusterDisplayGeometries = new Array<GeometrySelectModel>();
-    if (this.mapContributor.geoPointFields) {
-      this.mapContributor.geoPointFields.forEach(geoPointField => {
-        clusterDisplayGeometries.push({
-          path: geoPointField,
-          selected: geoPointField === this.mapContributor.aggregationField
-        });
-      });
-    }
+
     if (this.componentConfig.mapgl_settings !== undefined) {
       if (this.componentConfig.mapgl_settings.exlude_geom_for_cluster !== undefined) {
         const excludeGeomList: Array<String> = this.componentConfig.mapgl_settings.exlude_geom_for_cluster;
