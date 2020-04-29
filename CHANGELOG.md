@@ -1,5 +1,9 @@
 # Change Log
 
+## [v12.7.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v12.7.1) (2020-04-29)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v12.7.0...v12.7.1)
+
 ## [v12.7.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v12.7.0) (2020-04-10)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v12.6.1...v12.7.0)
@@ -7,6 +11,7 @@
 **New stuff:**
 
 - In filter component add output for remove all filter [\#291](https://github.com/gisaia/ARLAS-wui-toolkit/issues/291)
+- Update Arlas to 12.7.0 [\#293](https://github.com/gisaia/ARLAS-wui-toolkit/pull/293) ([mbarbet](https://github.com/mbarbet))
 
 ## [v12.6.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v12.6.1) (2020-03-20)
 
