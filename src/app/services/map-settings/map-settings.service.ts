@@ -59,7 +59,6 @@ export class ArlasMapSettings implements MapSettingsService {
 
   public getClusterGeometries(): Array<GeometrySelectModel> {
     const clusterDisplayGeometries = new Array<GeometrySelectModel>();
-
     if (this.componentConfig.mapgl_settings !== undefined) {
       if (this.componentConfig.mapgl_settings.exlude_geom_for_cluster !== undefined) {
         const excludeGeomList: Array<String> = this.componentConfig.mapgl_settings.exlude_geom_for_cluster;
