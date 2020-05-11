@@ -176,10 +176,12 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
     this.scrollToAnalyticsComponent(this.target);
     // hide tabs group if only one
     if (this.groupsByTab.length === 1) {
-      const firstTab: Element = document.querySelector('.only-one > :first-child');
-      if (firstTab && firstTab !== undefined) {
-        firstTab.remove();
-      }
+      const firstTabs = document.querySelectorAll('.only-one > :first-child');
+      firstTabs.forEach(tab => {
+        if (tab && tab !== undefined && tab.outerHTML.startsWith('<mat-tab-header')) {
+          tab.remove();
+        }
+      });
     } else {
       const tabHeader: Element = document.querySelector('.analytics-tabs .mat-tab-header');
       if (tabHeader && tabHeader !== undefined) {
