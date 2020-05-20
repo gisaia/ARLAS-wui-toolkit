@@ -1,6 +1,6 @@
 .share-radio-group {
   display: inline-flex;
-  flex-direction: row;
+  flex-direction: column;
   padding:10px;
   flex:1;
 }

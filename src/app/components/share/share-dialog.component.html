@@ -3,9 +3,7 @@
     <form [formGroup]="geojsonTypeGroup">
       <ng-template matStepLabel>{{'Mode' | translate}}</ng-template>
       <mat-radio-group class="share-radio-group" formControlName="geojsonType">
-        <mat-radio-button [value]="'cluster'" class="share-radio-button">{{ 'Clusters' | translate}}</mat-radio-button>
-        <mat-radio-button *ngIf="mapType === 'topomap'" [value]="'topology'" class="share-radio-button">{{ 'Topology' | translate}}</mat-radio-button>
-        <mat-radio-button [value]="'feature'" class="share-radio-button">{{ 'Features' | translate}}</mat-radio-button>
+        <mat-radio-button *ngFor="let layer of sharableLayers" [value]="layer.source" class="share-radio-button">{{ layer.id | translate}}</mat-radio-button>
       </mat-radio-group>
       <div>
         <mat-divider style="margin-top:15px;"></mat-divider>
@@ -13,10 +11,10 @@
       </div>
     </form>
   </mat-step>
-  <mat-step [stepControl]="paramFormGroup" *ngIf="geojsonTypeGroup.get('geojsonType').value !== 'topology'">
+  <mat-step [stepControl]="paramFormGroup" *ngIf="!geojsonTypeGroup.get('geojsonType').value.startsWith('feature-metric')">
     <form [formGroup]="paramFormGroup">
       <ng-template matStepLabel>{{'Parameters' | translate}}</ng-template>
-      <div *ngIf="geojsonTypeGroup.get('geojsonType').value == 'cluster'">
+      <div *ngIf="geojsonTypeGroup.get('geojsonType').value.startsWith('cluster')">
         <mat-form-field>
           <mat-select placeholder="{{'Desired precision' | translate}}" formControlName="precision" matInput required>
             <mat-option *ngFor="let val of precisions" [value]="val[0]">
@@ -25,7 +23,7 @@
           </mat-select>
         </mat-form-field>
       </div>
-      <div *ngIf="geojsonTypeGroup.get('geojsonType').value == 'feature'" class="fields-form">
+      <div *ngIf="geojsonTypeGroup.get('geojsonType').value.startsWith('feature')" class="fields-form">
         <div class="share-feature-block">
             <div style="flex:3" class="share-title-list">
                 <mat-label>{{'Available fields' | translate}}</mat-label>
@@ -39,7 +37,7 @@
         <div class="share-feature-block">
           <div style="max-height: 40vh;overflow:auto;flex:3">
             <mat-selection-list role="listbox" formControlName="availableFields" #selectedList (selectionChange)=onSelectionChange(selectedList.selectedOptions.selected)>
-              <mat-list-option *ngFor="let field of allFields">
+              <mat-list-option [selected]="isSelected(field)" *ngFor="let field of allFields">
                 <p matLine title="{{ field.label }} - {{field.type}}">
                     {{ field.label }} - <span class="share-description">{{field.type}}</span>
                 </p>
