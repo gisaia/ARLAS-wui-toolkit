@@ -16,31 +16,21 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { CommonModule } from '@angular/common';
-import { APP_INITIALIZER, Injector, NgModule, forwardRef } from '@angular/core';
+import { APP_INITIALIZER, NgModule, forwardRef } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
-import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
-import {
-  ColorGeneratorModule,
-  ColorGeneratorLoader
-} from 'arlas-web-components';
-import { Observable } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
+import { ColorGeneratorModule, ColorGeneratorLoader } from 'arlas-web-components';
 import { ArlasBookmarkService } from './services/bookmark/bookmark.service';
 import {
   ArlasCollaborativesearchService, ArlasStartupService,
   ArlasConfigService, CONFIG_UPDATER
 } from './services/startup/startup.service';
 import { ArlasAoiService } from './services/aoi/aoi.service';
-import { GetTimeLabelPipe } from './pipes/get-time-label.pipe';
-import {
-  OwlDateTimeModule, OwlNativeDateTimeModule, OwlDateTimeIntl,
-  OWL_DATE_TIME_LOCALE, OwlMomentDateTimeModule
-} from '@gisaia-team/ng-pick-datetime';
+import { OwlDateTimeIntl, OWL_DATE_TIME_LOCALE } from '@gisaia-team/ng-pick-datetime';
 import { ArlasColorGeneratorLoader } from './services/color-generator-loader/color-generator-loader.service';
 import { ArlasWalkthroughService } from './services/walkthrough/walkthrough.service';
-import { MatAutocompleteModule } from '@angular/material';
 import { ArlasExtendService } from './services/extend/extend.service';
 import { ArlasConfigurationDescriptor } from './services/configuration-descriptor/configurationDescriptor.service';
 import { OAuthModule, OAuthModuleConfig, OAuthStorage, ValidationHandler, JwksValidationHandler } from 'angular-oauth2-oidc';
