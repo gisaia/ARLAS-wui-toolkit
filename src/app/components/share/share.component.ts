@@ -107,12 +107,8 @@ export class ShareDialogComponent implements OnInit {
     public dialogRef: MatDialogRef<ShareDialogComponent>
   ) { }
 
-  public isSelected(field: string): boolean {
-    // todo make the checkbox activated
-    if (!!this.selectedFields) {
-      return this.selectedFields.some(f => f.label === field);
-    }
-    return false;
+  public isSelected(field: ArlasSearchField): boolean {
+    return (this.selectedFields || []).some(f => f.label === field.label);
   }
   public ngOnInit() {
     this.geojsonTypeGroup = this._formBuilder.group({
