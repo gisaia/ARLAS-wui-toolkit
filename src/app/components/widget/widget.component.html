@@ -13,7 +13,7 @@
     [showYTicks]="graphParam?.showYTicks" [showXLabels]="graphParam?.showXLabels" [showYLabels]="graphParam?.showYLabels" [ticksDateFormat]="graphParam?.ticksDateFormat"
     [isSmoothedCurve]="graphParam?.isSmoothedCurve" [barWeight]="graphParam?.barWeight" [paletteColors]="graphParam?.paletteColors"
     [applyOffsetOnAreaChart]="graphParam?.applyOffsetOnAreaChart" [displayOnlyIntervalsWithData]="graphParam?.displayOnlyIntervalsWithData"
-    [yAxisStartsFromZero]="graphParam?.yAxisStartsFromZero" [showStripes]="graphParam?.showStripes"></arlas-histogram>
+    [yAxisStartsFromZero]="graphParam?.yAxisStartsFromZero" [showStripes]="graphParam?.showStripes" [shortYLabels]="graphParam?.shortYLabels"></arlas-histogram>
 </div>
 <div *ngIf="componentType === 'swimlane'">
   <div *ngIf="showSwimlaneDropDown" class="dropdownSwimlane">
@@ -55,7 +55,7 @@
     <mat-icon class="analytics-board-panel-icon export-csv">get_app</mat-icon>
   </button>
   <arlas-donut [id]="graphParam?.id" [donutData]="contributor?.treeData" [opacity]="graphParam.opacity" [multiselectable]="graphParam?.multiselectable"
-    [selectedArcsList]="contributor?.selectedNodesPathsList" [keysToColors]="graphParam?.keysToColors" [colorsSaturationWeight]="graphParam?.colorsSaturationWeight"
+    [selectedArcsList]="contributor?.selectedNodesPathsList" [diameter]="graphParam?.diameter" [keysToColors]="graphParam?.keysToColors" [colorsSaturationWeight]="graphParam?.colorsSaturationWeight"
     (selectedNodesEvent)="contributor?.selectedNodesListChanged($event)" [customizedCssClass]="graphParam?.customizedCssClass">
   </arlas-donut>
 </div>
