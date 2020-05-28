@@ -574,17 +574,12 @@
                             "description": "Configuration of ARLAS Collection",
                             "type": "object",
                             "properties": {
-                                "id": {
-                                    "description": "Id of an entity in collection",
-                                    "type": "string"
-                                },
                                 "name": {
                                     "description": "Name of ARLAS Collection",
                                     "type": "string"
                                 }
                             },
                             "required": [
-                                "id",
                                 "name"
                             ]
                         },
