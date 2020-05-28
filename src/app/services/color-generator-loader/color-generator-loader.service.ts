@@ -67,17 +67,23 @@ export class ArlasColorGeneratorLoader implements ColorGeneratorLoader {
   }
 
   private getHexColor(key: string, saturationWeight: number): string {
-    const text = key + ':' + key;
+    const text = key + ':' + key.split('').reverse().join('') + ':'  + key;
     // string to int
     let hash = 0;
     for (let i = 0; i < text.length; i++) {
-      hash = text.charCodeAt(i) + ((hash << 5) - hash);
+        hash = text.charCodeAt(i) + ((hash << 5) - hash);
     }
     // int to rgb
     let hex = (hash & 0x00FFFFFF).toString(16).toUpperCase();
-    hex =  '00000'.substring(0, 6 - hex.length) + hex;
+    hex = '00000'.substring(0, 6 - hex.length) + hex;
     const color = mix(hex, hex);
-    color.saturate(color.toHsv().s * saturationWeight + ((1 - saturationWeight) * 100));
+    color.lighten(5);
+    const saturation = color.toHsv().s;
+    if (saturation < (1 - saturationWeight) * 100) {
+      const range = (1 - saturationWeight) * 100 - saturation;
+      color.saturate(range);
+    }
+    color.brighten(10);
     return color.toHexString();
   }
 
