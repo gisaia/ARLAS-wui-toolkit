@@ -90,7 +90,8 @@
   width: 14px;
   height: 14px;
   border-radius: 9px;
-  left: 15px;
+  left: 10px;
+  top: 8px;
 }
 
 .active-filter-group{
