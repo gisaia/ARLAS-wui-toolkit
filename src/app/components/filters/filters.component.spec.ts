@@ -28,6 +28,7 @@ import { FiltersComponent } from './filters.component';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateService, TranslateModule, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
 import { ArlasWalkthroughService } from '../../services/walkthrough/walkthrough.service';
+import { FormatNumberModule } from 'arlas-web-components';
 
 
 describe('FiltersChipsComponent', () => {
@@ -40,6 +41,7 @@ describe('FiltersChipsComponent', () => {
       imports: [
         MatChipsModule, MatIconModule, MatTooltipModule, MatMenuModule,
         TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }),
+        FormatNumberModule,
         HttpClientModule
       ],
       declarations: [FiltersComponent],
