@@ -29,7 +29,7 @@ export class ArlasConfigurationDescriptor {
       this.configService.getValue('arlas.server.url'),
       portableFetch
     );
-    return <Observable<Array<string>>>from(arlasCollectionsApi.getAll1(false, this.fetchOptions)).pipe(
+    return <Observable<Array<string>>>from(arlasCollectionsApi.getAll(false, this.fetchOptions)).pipe(
       map(
         (collections: Array<CollectionReference>) => collections.map(
           (collection: CollectionReference) => collection.collection_name

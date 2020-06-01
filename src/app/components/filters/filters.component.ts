@@ -38,6 +38,11 @@ export class FiltersComponent implements OnInit {
   @Input() public title = '';
   /**
    * @Input : Angular
+   * @description The count unit
+   */
+  @Input() public unit = '';
+  /**
+   * @Input : Angular
    * @description Background color of the filter bar
    */
   @Input() public backgroundColor = '#000';
@@ -58,6 +63,7 @@ export class FiltersComponent implements OnInit {
   public contributors: Map<string, Contributor> = new Map<string, Contributor>();
   public contributorsIcons = new Map<string, string>();
   public countAll;
+  public NUMBER_FORMAT_CHAR = 'NUMBER_FORMAT_CHAR';
 
   constructor(
     private collaborativeSearchService: ArlasCollaborativesearchService,
@@ -73,6 +79,9 @@ export class FiltersComponent implements OnInit {
 
   public ngOnInit(): void {
     this.contributorsIcons = this.getAllContributorsIcons();
+    if (!this.unit) {
+      this.unit = '';
+    }
   }
 
   public removeCollaboration(contributorId: string): void {
@@ -148,10 +157,6 @@ export class FiltersComponent implements OnInit {
     return this.contributorsIcons;
   }
 
-  public formatWithSpace(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
-  }
-
   private retrieveCurrentCollaborations() {
     Array.from(this.contributors.keys()).filter(id => this.ignoredContributors.indexOf(id) < 0).forEach(contributorId => {
       const collaboration = this.collaborativeSearchService.getCollaboration(contributorId);
@@ -166,7 +171,7 @@ export class FiltersComponent implements OnInit {
   private subscribeToFutureCollaborations() {
     this.collaborativeSearchService.collaborationBus.subscribe(collaborationBus => {
       this.collaborativeSearchService.countAll.subscribe(count => {
-        this.countAll = this.formatWithSpace(count);
+        this.countAll = count;
         this.cdr.detectChanges();
       });
       if (!collaborationBus.all && this.ignoredContributors.indexOf(collaborationBus.id) < 0) {

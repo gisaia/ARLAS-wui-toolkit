@@ -58,6 +58,7 @@ import {
 import { OwlDateTimeModule, OwlNativeDateTimeModule, OwlMomentDateTimeModule } from '@gisaia-team/ng-pick-datetime';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { FormatNumberModule } from 'arlas-web-components';
 
 
 export class CustomTranslateLoader implements TranslateLoader {
@@ -119,6 +120,7 @@ export class CustomTranslateLoader implements TranslateLoader {
         PowerbarsModule,
         ReactiveFormsModule,
         ResultsModule,
+        FormatNumberModule,
         TranslateModule.forRoot({
             loader: {
               provide: TranslateLoader,
