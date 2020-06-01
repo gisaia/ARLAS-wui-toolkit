@@ -14,8 +14,8 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class ArlasExportCsvService {
 
-  constructor(private collaborativesearchService: ArlasCollaborativesearchService, private configService: ArlasConfigService, private translate: TranslateService) { }
-
+  constructor(private collaborativesearchService: ArlasCollaborativesearchService, private configService: ArlasConfigService,
+    private translate: TranslateService) { }
 
   public export(contributor: Contributor, stayAtFirstLevel: boolean): Observable<Blob> {
     return this.compute(contributor).pipe(map(data => {
