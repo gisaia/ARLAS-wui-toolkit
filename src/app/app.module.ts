@@ -206,7 +206,7 @@ export const MY_CUSTOM_FORMATS = {
       provide: GET_OPTIONS,
       useFactory: getOptionsFactory,
       deps: [AuthentificationService]
-    },
+    }
   ],
   bootstrap: [AppComponent],
   entryComponents: [
