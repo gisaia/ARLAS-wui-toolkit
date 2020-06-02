@@ -174,8 +174,8 @@ export class DownloadDialogComponent implements OnInit {
           + (this.selectedThirdOrderField ? '-k' + this.thirdOrderColunm : '');
       }
       if (this.downloadConfig && this.downloadConfig.auth_type === this.BASIC_AUTH_TYPE) {
-        if (this.orderCommand) {
-          this.orderCommand += '\\';
+        if (this.orderCommand && this.orderCommand !== '') {
+          this.orderCommand += ' \\';
         } else {
           this.exportedTypeCommand += ' \\';
         }
