@@ -178,7 +178,7 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
     if (this.groupsByTab.length === 1) {
       const firstTabs = document.querySelectorAll('.only-one > :first-child');
       firstTabs.forEach(tab => {
-        if (tab && tab !== undefined && tab.outerHTML.startsWith('<mat-tab-header')) {
+        if (!!tab && tab.outerHTML.startsWith('<mat-tab-header')) {
           tab.remove();
         }
       });
