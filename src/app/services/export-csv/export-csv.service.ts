@@ -1,32 +1,33 @@
-import { Injectable, Pipe } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { ArlasCollaborativesearchService, ArlasConfigService } from '../startup/startup.service';
-import { Observable, from } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Contributor, Collaboration, projType } from 'arlas-web-core';
 import { TreeContributor, HistogramContributor } from 'arlas-web-contributors';
-import { RangeRequest, RangeResponse, AggregationResponse, Aggregation } from 'arlas-api';
+import { AggregationResponse, Aggregation, ComputationRequest, ComputationResponse } from 'arlas-api';
 import { getAggregationPrecision } from 'arlas-web-contributors/utils/histoswimUtils';
 import { map, flatMap } from 'rxjs/operators';
 import jp from 'jsonpath/jsonpath.min';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ArlasExportCsvService {
 
-  constructor(private collaborativesearchService: ArlasCollaborativesearchService, private configService: ArlasConfigService) { }
-
+  constructor(private collaborativesearchService: ArlasCollaborativesearchService, private configService: ArlasConfigService,
+    private translate: TranslateService) { }
 
   public export(contributor: Contributor, stayAtFirstLevel: boolean): Observable<Blob> {
     return this.compute(contributor).pipe(map(data => {
       const csvData = new Array<Array<string>>();
       const header = new Array<string>();
       (<TreeContributor>contributor).getAggregations().forEach(agg => {
-        header.push(agg.field);
+        header.push(this.translate.instant(agg.field));
       });
-      header.push('count');
+      header.push(this.translate.instant('count'));
       if ((<TreeContributor>contributor).getAggregations()[0].metrics) {
         (<TreeContributor>contributor).getAggregations()[0].metrics.forEach(m => {
-          header.push('metric.'.concat(m.collect_field).concat('.').concat(m.collect_fct.toString()));
+          header.push(this.translate.instant('metric.'.concat(m.collect_field).concat('.').concat(m.collect_fct.toString())));
         });
       }
       csvData.push(header);
@@ -69,17 +70,15 @@ export class ArlasExportCsvService {
     const field = (<HistogramContributor>contributor).getField();
     const aggregations = (<HistogramContributor>contributor).getAggregations();
     if (nbBuckets) {
-      const agg = this.collaborativesearchService.resolveButNotFieldRange([projType.range,
-      <RangeRequest>{ filter: null, field: field }], collaborations, contributor.identifier)
+      const agg = this.collaborativesearchService.resolveButNotComputation([projType.compute,
+      <ComputationRequest>{ filter: null, field: field, metric: ComputationRequest.MetricEnum.SPANNING }],
+      collaborations, contributor.identifier)
         .pipe(
-          map((rangeResponse: RangeResponse) => {
-            const dataRange = (rangeResponse.min !== undefined && rangeResponse.max !== undefined) ?
-              (rangeResponse.max - rangeResponse.min) : 0;
-            const range = (rangeResponse.min !== undefined && rangeResponse.max !== undefined) ? rangeResponse : null;
+          map((computationResponse: ComputationResponse) => {
+            const dataRange = computationResponse.value || 0;
             const aggregationPrecision = getAggregationPrecision(nbBuckets, dataRange, aggregations[0].type);
             const result = {
-              range: range,
-              aggregationPrecision: aggregationPrecision
+              aggregationPrecision
             };
             return result;
           }),

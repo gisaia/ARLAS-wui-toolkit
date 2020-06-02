@@ -1,7 +1,7 @@
 <div class="filters-chips--container">
   <mat-chip-list class="filters-chips">
     <span class="home-chip--label" (click)="removeAllFilters()"
-      matTooltip="{{ 'Clear all filters' | translate }}">{{title}}</span>
+      matTooltip="{{ 'Clear all filters' | translate }}">{{title | translate}}</span>
 
     <mat-icon class="filter-delimiter">keyboard_arrow_right</mat-icon>
 
@@ -16,7 +16,7 @@
       <mat-icon class="filter-delimiter">keyboard_arrow_right</mat-icon>
     </ng-container>
     <mat-basic-chip class="filter-chip filter-count" id="arlas-count">
-      {{countAll}}
+      {{countAll | formatNumber:NUMBER_FORMAT_CHAR}} {{unit | translate}}
     </mat-basic-chip>
   </mat-chip-list>
 </div>

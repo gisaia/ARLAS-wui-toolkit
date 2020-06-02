@@ -42,19 +42,19 @@ export class ArlasBookmarkService {
 
   constructor(private collaborativesearchService: ArlasCollaborativesearchService,
     private activatedRoute: ActivatedRoute, public snackBar: MatSnackBar,
-    private arlasStartupService: ArlasStartupService,
+    public arlasStartupService: ArlasStartupService,
     private configService: ArlasConfigService,
     private persistanceService: PersistenceService,
     private router: Router) {
     if (this.arlasStartupService.shouldRunApp) {
       if (!!this.configService.getConfig()['arlas']['persistence-server']
         && !!this.configService.getConfig()['arlas']['persistence-server']['url']) {
-        this.dataBase = new BookmarkPersistenceDatabase(this, this.persistanceService);
+        this.dataBase = new BookmarkPersistenceDatabase(this, this.persistanceService, this.arlasStartupService);
         this.dataBase.dataChange.subscribe(() => {
           this.bookMarkMap = this.dataBase.storageObjectMap;
         });
       } else {
-        this.dataBase = new BookmarkLocalDatabase(this);
+        this.dataBase = new BookmarkLocalDatabase(this, this.arlasStartupService);
         this.dataBase.dataChange.subscribe(() => {
           this.bookMarkMap = this.dataBase.storageObjectMap;
         });
@@ -182,7 +182,8 @@ export class ArlasBookmarkService {
       type: bookmark.type,
       color: bookmark.color,
       count: new Observable<0>(),
-      views: bookmark.views
+      views: bookmark.views,
+      collections: bookmark.collections
     };
     this.setBookMarkCount(initBookmark);
     return initBookmark;

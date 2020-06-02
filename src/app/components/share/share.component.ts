@@ -23,6 +23,8 @@ import { Aggregation, Filter } from 'arlas-api';
 import { projType } from 'arlas-web-core';
 import { ArlasSearchField } from '../../components/share/model/ArlasSearchField';
 import { ArlasCollaborativesearchService, ArlasConfigService } from '../../services/startup/startup.service';
+import { LayerSourceConfig, MapContributor } from 'arlas-web-contributors';
+import { Search } from 'arlas-tagger-api';
 
 /**
  * This component allows to build a _geoaggregate and/or _geosearch requests through a guiding stepper and obtain
@@ -58,14 +60,12 @@ export class ShareComponent {
 })
 export class ShareDialogComponent implements OnInit {
 
-  private aggType: projType.geoaggregate | projType.geosearch;
-  private aggTypeText = '_geoaggregate';
-  private agg: Aggregation;
-  private topoAgg: Aggregation;
-  private searchSize = '';
+  public sharableLayers: Array<LayerSourceConfig> = new Array();
+  private requestEndpoint: projType.geoaggregate | projType.geosearch;
+  private requestTextEndpoint = '_geoaggregate';
+  private request: Aggregation | Search;
   private includeFields = '';
   private sort = '';
-  public mapType: string;
 
   private maxForFeature: number;
   private maxForTopology: number;
@@ -107,6 +107,9 @@ export class ShareDialogComponent implements OnInit {
     public dialogRef: MatDialogRef<ShareDialogComponent>
   ) { }
 
+  public isSelected(field: ArlasSearchField): boolean {
+    return (this.selectedFields || []).some(f => f.label === field.label);
+  }
   public ngOnInit() {
     this.geojsonTypeGroup = this._formBuilder.group({
       geojsonType: ['', Validators.required]
@@ -132,12 +135,8 @@ export class ShareDialogComponent implements OnInit {
     this.excludedTypeString = this.excludedTypeString.substr(0, this.excludedTypeString.length - 2);
 
     this.configService.getValue('arlas.web.contributors').forEach(contrib => {
-      if (contrib.type === 'map' || contrib.type === 'topomap') {
-        this.mapType = contrib.type;
-        this.agg = contrib.aggregationmodels[0];
-        if (this.mapType === 'topomap') {
-          this.topoAgg = contrib.topo_aggregationmodels[0];
-        }
+      if (contrib.type === 'map') {
+        this.sharableLayers = contrib.layers_sources;
       }
     });
     this.collaborativeService.collaborations.forEach(element =>
@@ -154,16 +153,17 @@ export class ShareDialogComponent implements OnInit {
     const server = this.configService.getValue('arlas.server');
     /* STEP 2 */
     if (event.selectedIndex === 1) {
-      this.aggTypeText = '_geoaggregate';
-      this.aggType = projType.geoaggregate;
-      this.searchSize = '';
-      if (this.geojsonTypeGroup.get('geojsonType').value === 'feature') {
+      this.requestTextEndpoint = '_geoaggregate';
+      this.requestEndpoint = projType.geoaggregate;
+      const geojsonType: string = this.geojsonTypeGroup.get('geojsonType').value;
+      const source = this.sharableLayers.find(sl => sl.source === geojsonType);
+      if (geojsonType.startsWith('feature') && !geojsonType.startsWith('feature-metric')) {
         this.paramFormGroup.get('precision').disable();
         this.paramFormGroup.get('availableFields').enable();
-        this.aggTypeText = '_geosearch';
-
-        this.aggType = projType.geosearch;
-        this.searchSize = '&size=' + this.maxForFeature;
+        this.requestTextEndpoint = '_geosearch';
+        this.requestEndpoint = projType.geosearch;
+        this.request = MapContributor.getFeatureSearch(source) as Search;
+        this.request.page.size = this.maxForFeature;
         if (this.allFields.length === 0) {
           this.collaborativeService.describe(server.collection.name).subscribe(
             description => {
@@ -171,19 +171,28 @@ export class ShareDialogComponent implements OnInit {
               Object.keys(fields).forEach(fieldName => {
                 this.getFieldProperties(fields, fieldName);
               });
+              if (!!(<any>this.request).projection && !!(<any>this.request).projection.includes) {
+                (<any>this.request).projection.includes.split(',').forEach(f => {
+                  const selectedField = this.allFields.find(field => field.label === f);
+                  this.selectedFields.push(selectedField);
+                });
+              }
             },
             error => {
               this.collaborativeService.collaborationErrorBus.next(error);
             });
         }
-      } else if (this.geojsonTypeGroup.get('geojsonType').value === 'cluster') {
+      } else if (geojsonType.startsWith('cluster')) {
         this.paramFormGroup.get('precision').enable();
         this.paramFormGroup.get('availableFields').disable();
-      } else if (this.geojsonTypeGroup.get('geojsonType').value === 'topology') {
+        this.request = MapContributor.getClusterAggregration(source);
+      } else if (geojsonType.startsWith('feature-metric')) {
         this.isCopied = false;
-        this.topoAgg.size = this.maxForTopology.toString();
+        this.request = MapContributor.getTopologyAggregration(source);
+        this.request.size = this.maxForTopology.toString();
         this.displayedUrl = server.url + '/explore/' + server.collection.name + '/'
-          + this.aggTypeText + '/?' + this.collaborativeService.getUrl([this.aggType, [this.topoAgg]], this.filters) + '&flat=true';
+          + this.requestTextEndpoint + '/?'
+          + this.collaborativeService.getUrl([this.requestEndpoint, [this.request]], this.filters) + '&flat=true';
       }
     }
     /* STEP 3 */
@@ -191,7 +200,9 @@ export class ShareDialogComponent implements OnInit {
       this.isCopied = false;
       this.sort = '';
       this.includeFields = '';
-      if (this.geojsonTypeGroup.get('geojsonType').value === 'feature') {
+      const geojsonType: string = this.geojsonTypeGroup.get('geojsonType').value;
+      if (geojsonType.startsWith('feature') && !geojsonType.startsWith('feature-metric')) {
+        this.request = (this.request as Search);
 
         if (this.selectedFields.length > 0) {
           this.includeFields = '&include=';
@@ -203,13 +214,21 @@ export class ShareDialogComponent implements OnInit {
         if (this.selectedOrderField) {
           this.sort = '&sort=' + (this.sortDirection === 'desc' ? '-' : '') + this.selectedOrderField.label;
         }
+        this.displayedUrl = server.url + '/explore/' + server.collection.name + '/'
+          + this.requestTextEndpoint + '/?'
+          + '&size=' + this.request.page.size
+          + '&returned_geometries=' +  this.request.returned_geometries
+          + this.sort
+          + this.includeFields
+          + '&flat=true';
       } else {
-        this.agg.interval.value = this.paramFormGroup.get('precision').value;
+        this.request = (this.request as Aggregation);
+        this.request.interval.value = this.paramFormGroup.get('precision').value;
+        this.displayedUrl = server.url + '/explore/' + server.collection.name + '/'
+          + this.requestTextEndpoint + '/?'
+          + this.collaborativeService.getUrl([this.requestEndpoint, [this.request as Aggregation]], this.filters) + '&flat=true';
       }
 
-      this.displayedUrl = server.url + '/explore/' + server.collection.name + '/'
-        + this.aggTypeText + '/?' + this.collaborativeService.getUrl([this.aggType, [this.agg]], this.filters)
-        + this.searchSize + this.includeFields + this.sort + '&flat=true';
     }
   }
   /**

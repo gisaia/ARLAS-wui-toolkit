@@ -34,5 +34,6 @@ export interface BookMark extends ArlasStorageObject {
   color: string;
   count: Observable<number>;
   views: number;
+  collections: string;
 
 }

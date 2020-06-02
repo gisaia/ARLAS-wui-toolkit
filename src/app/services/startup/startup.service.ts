@@ -19,7 +19,7 @@
 
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable, Injector, InjectionToken } from '@angular/core';
-import { Configuration, ExploreApi, CollectionsApi } from 'arlas-api';
+import { Configuration, ExploreApi, CollectionsApi, CollectionReferenceParameters } from 'arlas-api';
 import { DonutComponent, HistogramComponent, MapglComponent, PowerbarsComponent, MetricComponent } from 'arlas-web-components';
 import {
     HistogramContributor,
@@ -28,7 +28,6 @@ import {
     SwimLaneContributor,
     ChipsSearchContributor,
     DetailedHistogramContributor,
-    TopoMapContributor,
     TreeContributor,
     ComputeContributor
 } from 'arlas-web-contributors';
@@ -87,6 +86,7 @@ export class ArlasStartupService {
     public contributorRegistry: Map<string, any> = new Map<string, any>();
     public shouldRunApp = true;
     public analytics: Array<{ groupId: string, components: Array<any> }>;
+    public collectionsMap: Map<string, CollectionReferenceParameters> = new Map();
     public collectionId: string;
     public selectorById: string;
     public temporalContributor: Array<string> = new Array<string>();
@@ -119,7 +119,6 @@ export class ArlasStartupService {
                 .addSchema(SwimLaneContributor.getJsonSchema())
                 .addSchema(ResultListContributor.getJsonSchema())
                 .addSchema(MapContributor.getJsonSchema())
-                .addSchema(TopoMapContributor.getJsonSchema())
                 .addSchema(TreeContributor.getJsonSchema())
                 .addSchema(ChipsSearchContributor.getJsonSchema())
                 .addSchema(AnalyticsContributor.getJsonSchema())
@@ -235,6 +234,22 @@ export class ArlasStartupService {
         });
     }
 
+    public getCollections(data) {
+        return new Promise<any>((resolve, reject) => {
+            const collectionName = data.collection;
+            this.collaborativesearchService.describe(collectionName)
+                .subscribe(
+                    result => {
+                        this.collectionsMap.set(collectionName, result.params);
+                        this.collectionId = result.params.id_path;
+                        resolve(result);
+                    },
+                    error => {
+                        reject(error);
+                    });
+        });
+    }
+
     public buildContributor(data) {
         return new Promise<any>((resolve, reject) => {
             this.configService.getValue('arlas.web.contributors').forEach(contrib => {
@@ -266,17 +281,6 @@ export class ArlasStartupService {
                             }
                         );
                     });
-                } else if (contributorType === 'map' || contributorType === 'topomap') {
-                    const zoomToPrecisionCluster: Array<Array<number>> = contrib.zoomToPrecisionCluster;
-                    if (zoomToPrecisionCluster.filter(tab => (tab[1] - tab[2]) > 2).length > 0) {
-                        const errorMessage = 'Invalid values in map zoomToPrecisionCluster elements.' +
-                            'The difference between precision of geohash aggregation and' +
-                            ' level of geohash to retrieve data like tile' +
-                            ' must be less or equal to 2.';
-                        this.shouldRunApp = false;
-                        this.configService.setConfig({ error: [errorMessage] });
-                        this.errorStartUpServiceBus.next({ error: [errorMessage] });
-                    }
                 }
                 const contributor = ContributorBuilder.buildContributor(contributorType,
                     contributorIdentifier,
@@ -284,7 +288,6 @@ export class ArlasStartupService {
                     this.collaborativesearchService);
                 this.contributorRegistry.set(contributorIdentifier, contributor);
             });
-            this.collectionId = this.configService.getValue('arlas.server.collection.id');
             this.analytics = this.configService.getValue('arlas.web.analytics');
             this.arlasIsUp.next(true);
             resolve(data);
@@ -339,6 +342,7 @@ export class ArlasStartupService {
             .then((data) => this.setAuthentService(data))
             .then((data) => this.setCollaborativeService(data))
             .then((data) => this.testArlasUp(data))
+            .then((data) => this.getCollections(data))
             .then((data) => this.buildContributor(data))
             .catch((err: any) => {
                 console.error(err);
