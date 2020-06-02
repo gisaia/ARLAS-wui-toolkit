@@ -22,10 +22,13 @@ import { ArlasBookmarkService } from './bookmark.service';
 import { Guid } from '../../tools/utils';
 import { Observable } from 'rxjs';
 import { ArlasLocalDatabase } from '../../tools/arlasLocalDatabase';
+import { ArlasStartupService } from '../startup/startup.service';
 
 export class BookmarkLocalDatabase extends ArlasLocalDatabase<BookMark> {
 
-  constructor(public bookmarkService: ArlasBookmarkService) {
+  constructor(
+    public bookmarkService: ArlasBookmarkService,
+    public startupService: ArlasStartupService) {
     super('bookmark', bookmarkService);
   }
 
@@ -39,7 +42,8 @@ export class BookmarkLocalDatabase extends ArlasLocalDatabase<BookMark> {
       type: bookmark.type,
       color: bookmark.color,
       count: new Observable<0>(),
-      views: bookmark.views
+      views: bookmark.views,
+      collections: bookmark.collections
     };
     service.setBookMarkCount(initBookmark);
     return initBookmark;
@@ -75,7 +79,8 @@ export class BookmarkLocalDatabase extends ArlasLocalDatabase<BookMark> {
       type: type,
       color: color,
       count: new Observable<0>(),
-      views: bookmarkViews
+      views: bookmarkViews,
+      collections: Array.from(this.startupService.collectionsMap.keys()).sort().join(',')
     };
     this.bookmarkService.setBookMarkCount(bookMark);
     return bookMark;

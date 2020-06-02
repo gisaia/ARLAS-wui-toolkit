@@ -17,14 +17,15 @@
  * under the License.
  */
 
-import { Component, Output, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, Output, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs';
 import { ArlasBookmarkService } from '../../services/bookmark/bookmark.service';
-import { ArlasDataSource } from '../../tools/arlasDataSource';
 import { MatDialogRef, MatDialog, MatPaginator, PageEvent } from '@angular/material';
 import { BookMark } from '../../services/bookmark/model';
 import { BookmarkLocalDatabase } from '../../services/bookmark/bookmarkLocalDatabase';
 import { BookmarkPersistenceDatabase } from '../../services/bookmark/bookmarkPersistenceDatabase';
+import { ArlasStartupService } from 'app/services/startup/startup.service';
+import { BookmarkDataSource } from 'app/services/bookmark/bookmarkDataSource';
 
 @Component({
   selector: 'arlas-bookmark',
@@ -33,7 +34,7 @@ import { BookmarkPersistenceDatabase } from '../../services/bookmark/bookmarkPer
 })
 export class BookmarkComponent {
 
-  public bookmarks: ArlasDataSource | BookMark[];
+  public bookmarks: BookmarkDataSource | BookMark[];
   public columnsToDisplay = ['checked', 'name', 'date', 'count', 'actions'];
   public itemsCheck: Array<string> = new Array<string>();
   public disableCombine = true;
@@ -43,6 +44,7 @@ export class BookmarkComponent {
   public pageNumber = 0;
 
   public isPersistenceActive = false;
+  public currentCollections = '';
 
   @Output() public actions: Subject<{ action: string, id: string, geometry?: any }> = new Subject<any>();
 
@@ -50,20 +52,30 @@ export class BookmarkComponent {
 
   constructor(
     private bookmarkService: ArlasBookmarkService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private startupService: ArlasStartupService
   ) {
+    this.currentCollections = Array.from(this.startupService.collectionsMap.keys()).join(',');
     // Init component with data from persistence server, if defined and server is reachable
     if (this.bookmarkService.dataBase instanceof BookmarkPersistenceDatabase) {
-          this.isPersistenceActive = true;
-          this.bookmarkService.setPage(this.pageSize, this.pageNumber);
-          this.getBookmarksList();
-          (this.bookmarkService.dataBase as BookmarkPersistenceDatabase).dataChange
-            .subscribe((data: { total: number, items: BookMark[] }) => {
-              this.resultsLength = data.total;
-              this.bookmarks = data.items;
-            });
+      this.isPersistenceActive = true;
+      this.bookmarkService.setPage(this.pageSize, this.pageNumber);
+      this.getBookmarksList();
+      (this.bookmarkService.dataBase as BookmarkPersistenceDatabase).dataChange
+        .subscribe((data: { total: number, items: BookMark[] }) => {
+          this.resultsLength = data.total;
+          this.bookmarks = data.items.filter(bk => {
+            if (bk.collections) {
+              return bk.collections === this.currentCollections;
+            } else {
+              return false;
+            }
+          });
+        });
     } else {
-      this.bookmarks = new ArlasDataSource(this.bookmarkService.dataBase as BookmarkLocalDatabase);
+      const dataSource = new BookmarkDataSource(this.bookmarkService.dataBase as BookmarkLocalDatabase);
+      dataSource.filter = this.currentCollections;
+      this.bookmarks = dataSource;
     }
   }
 

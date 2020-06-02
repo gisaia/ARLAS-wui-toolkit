@@ -23,6 +23,7 @@ import { MatDialog } from '@angular/material';
 import { ArlasBookmarkService } from '../../services/bookmark/bookmark.service';
 import { BookmarkAddDialogComponent, BookmarkComponent } from '../bookmark/bookmark.component';
 import { BookmarkPersistenceDatabase } from '../../services/bookmark/bookmarkPersistenceDatabase';
+import { ArlasStartupService } from 'app/services/startup/startup.service';
 
 @Component({
   selector: 'arlas-bookmark-menu',
@@ -36,31 +37,46 @@ export class BookmarkMenuComponent implements OnInit {
 
   public topBookmarks: Array<BookMark>;
   public isBookmarkOpen = false;
+  public currentCollections = '';
 
   constructor(
     public dialog: MatDialog,
-    private bookmarkService: ArlasBookmarkService
+    private bookmarkService: ArlasBookmarkService,
+    private startupService: ArlasStartupService
   ) { }
 
   public ngOnInit(): void {
     this.icon = this.icon ? this.icon : 'view_list';
     this.nbTopBookmarks = this.nbTopBookmarks ? this.nbTopBookmarks : 3;
+    this.currentCollections = Array.from(this.startupService.collectionsMap.keys()).join(',');
 
     if (this.bookmarkService.dataBase instanceof BookmarkPersistenceDatabase) {
       (this.bookmarkService.dataBase as BookmarkPersistenceDatabase).dataChange
         .subscribe((bookmarks: { total: number, items: BookMark[] }) => {
-          const sortedBookmark = bookmarks.items.sort((a, b) => {
+          const sortedBookmark = bookmarks.items.filter(bk => {
+            if (bk.collections) {
+              return bk.collections === this.currentCollections;
+            } else {
+              return false;
+            }
+          }).sort((a, b) => {
             return (a.views < b.views ? -1 : 1) * (-1);
           });
           this.topBookmarks = sortedBookmark.slice(0, this.nbTopBookmarks);
         });
     } else {
       this.bookmarkService.dataBase.dataChange.subscribe(bookmarks => {
-          const sortedBookmark = bookmarks.sort((a, b) => {
-            return (a.views < b.views ? -1 : 1) * (-1);
-          });
-          this.topBookmarks = sortedBookmark.slice(0, this.nbTopBookmarks);
+        const sortedBookmark = bookmarks.filter(bk => {
+          if (bk.collections) {
+            return bk.collections === this.currentCollections;
+          } else {
+            return false;
+          }
+        }).sort((a, b) => {
+          return (a.views < b.views ? -1 : 1) * (-1);
         });
+        this.topBookmarks = sortedBookmark.slice(0, this.nbTopBookmarks);
+      });
     }
   }
 
