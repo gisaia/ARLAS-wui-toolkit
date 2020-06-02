@@ -13,7 +13,8 @@
     [showYTicks]="graphParam?.showYTicks" [showXLabels]="graphParam?.showXLabels" [showYLabels]="graphParam?.showYLabels" [ticksDateFormat]="graphParam?.ticksDateFormat"
     [isSmoothedCurve]="graphParam?.isSmoothedCurve" [barWeight]="graphParam?.barWeight" [paletteColors]="graphParam?.paletteColors"
     [applyOffsetOnAreaChart]="graphParam?.applyOffsetOnAreaChart" [displayOnlyIntervalsWithData]="graphParam?.displayOnlyIntervalsWithData"
-    [yAxisStartsFromZero]="graphParam?.yAxisStartsFromZero" [showStripes]="graphParam?.showStripes" [chartXLabel]="graphParam?.chartXLabel" [shortYLabels]="graphParam?.shortYLabels"></arlas-histogram>
+    [yAxisStartsFromZero]="graphParam?.yAxisStartsFromZero" [showStripes]="graphParam?.showStripes" [chartXLabel]="graphParam?.chartXLabel"
+    [shortYLabels]="graphParam?.shortYLabels" [xUnit]="graphParam?.xUnit" [yUnit]="graphParam?.yUnit"></arlas-histogram>
 </div>
 <div *ngIf="componentType === 'swimlane'">
   <div *ngIf="showSwimlaneDropDown" class="dropdownSwimlane">
@@ -43,7 +44,7 @@
     <mat-icon class="analytics-board-panel-icon export-csv">get_app</mat-icon>
   </button>
   <arlas-powerbars [customizedCssClass]="graphParam?.customizedCssClass" [powerbarTitle]="graphParam?.powerbarTitle" [displayFilterField]="graphParam?.displayFilter"
-    [inputData]="contributor?.treeData" [useColorService]="graphParam?.useColorService" [keysToColors]="graphParam?.keysToColors"
+    [inputData]="contributor?.treeData" [unit]="graphParam?.unit" [useColorService]="graphParam?.useColorService" [keysToColors]="graphParam?.keysToColors"
     [colorsSaturationWeight]="graphParam?.colorsSaturationWeight" (selectedPowerBarEvent)="contributor?.selectedNodesListChanged($event)"
     [selectedPaths]="contributor?.selectedNodesPathsList" (searchedTerm)="contributor?.updateTreeDataSearch($event)">
   </arlas-powerbars>
@@ -55,7 +56,7 @@
     <mat-icon class="analytics-board-panel-icon export-csv">get_app</mat-icon>
   </button>
   <arlas-donut [id]="graphParam?.id" [donutData]="contributor?.treeData" [opacity]="graphParam.opacity" [multiselectable]="graphParam?.multiselectable"
-    [selectedArcsList]="contributor?.selectedNodesPathsList" [diameter]="graphParam?.diameter" [keysToColors]="graphParam?.keysToColors" [colorsSaturationWeight]="graphParam?.colorsSaturationWeight"
+    [selectedArcsList]="contributor?.selectedNodesPathsList" [unit]="graphParam?.unit" [diameter]="graphParam?.diameter" [keysToColors]="graphParam?.keysToColors" [colorsSaturationWeight]="graphParam?.colorsSaturationWeight"
     (selectedNodesEvent)="contributor?.selectedNodesListChanged($event)" [customizedCssClass]="graphParam?.customizedCssClass">
   </arlas-donut>
 </div>
@@ -63,7 +64,7 @@
 <div *ngIf="componentType === 'resultlist'">
   <arlas-result-list style="height:100%" [rowItemList]="contributor?.data" [detailedDataRetriever]="contributor?.detailedDataRetriever"
     [fieldsConfiguration]="contributor?.fieldsConfiguration" [fieldsList]="contributor?.fieldsList" [filtersMap]="contributor?.filtersMap"
-    [dropDownMapValues]="contributor?.dropDownMapValues" (sortColumnEvent)="contributor?.sortColumn($event)" [fetchState]="contributor?.fetchState"
+    [dropDownMapValues]="contributor?.dropDownMapValues" (sortColumnEvent)="contributor?.sortColumn($event, true)" [fetchState]="contributor?.fetchState"
     (paginationEvent)="contributor?.getPage($event.reference, $event.whichPage)" (setFiltersEvent)="contributor?.setFilters($event)"
     [tableWidth]="graphParam.tableWidth" [globalActionsList]="graphParam.globalActionsList" [nLastLines]="graphParam.nLastLines"
     [detailedGridHeight]="graphParam.detailedGridHeight" [nbGridColumns]="graphParam.nbGridColumns" [indeterminatedItems]="this.indeterminatedItems"
