@@ -24,8 +24,8 @@ import { MatDialogRef, MatDialog, MatPaginator, PageEvent } from '@angular/mater
 import { BookMark } from '../../services/bookmark/model';
 import { BookmarkLocalDatabase } from '../../services/bookmark/bookmarkLocalDatabase';
 import { BookmarkPersistenceDatabase } from '../../services/bookmark/bookmarkPersistenceDatabase';
-import { ArlasStartupService } from 'app/services/startup/startup.service';
-import { BookmarkDataSource } from 'app/services/bookmark/bookmarkDataSource';
+import { BookmarkDataSource } from '../../services/bookmark/bookmarkDataSource';
+import { ArlasStartupService } from '../../services/startup/startup.service';
 
 @Component({
   selector: 'arlas-bookmark',

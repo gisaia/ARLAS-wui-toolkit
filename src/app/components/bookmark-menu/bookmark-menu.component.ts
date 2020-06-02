@@ -23,7 +23,8 @@ import { MatDialog } from '@angular/material';
 import { ArlasBookmarkService } from '../../services/bookmark/bookmark.service';
 import { BookmarkAddDialogComponent, BookmarkComponent } from '../bookmark/bookmark.component';
 import { BookmarkPersistenceDatabase } from '../../services/bookmark/bookmarkPersistenceDatabase';
-import { ArlasStartupService } from 'app/services/startup/startup.service';
+import { ArlasStartupService } from '../../services/startup/startup.service';
+
 
 @Component({
   selector: 'arlas-bookmark-menu',
