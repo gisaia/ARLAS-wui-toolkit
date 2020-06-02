@@ -23,13 +23,15 @@ import { Guid } from '../../tools/utils';
 import { Observable } from 'rxjs';
 import { PersistenceService } from '../persistence/persistence.service';
 import { ArlasPersistenceDatabase } from '../../tools/arlasPersistenceDatabase';
+import { ArlasStartupService } from '../startup/startup.service';
 
 
 export class BookmarkPersistenceDatabase extends ArlasPersistenceDatabase<BookMark> {
 
   constructor(
     public bookmarkService: ArlasBookmarkService,
-    public persistenceService: PersistenceService) {
+    public persistenceService: PersistenceService,
+    public startupService: ArlasStartupService) {
     super('bookmark', persistenceService, bookmarkService);
   }
 
@@ -43,7 +45,8 @@ export class BookmarkPersistenceDatabase extends ArlasPersistenceDatabase<BookMa
       type: bookmark.type,
       color: bookmark.color,
       count: new Observable<0>(),
-      views: bookmark.views
+      views: bookmark.views,
+      collections: bookmark.collections
     };
     service.setBookMarkCount(initBookmark);
     return initBookmark;
@@ -79,7 +82,8 @@ export class BookmarkPersistenceDatabase extends ArlasPersistenceDatabase<BookMa
       type: type,
       color: color,
       count: new Observable<0>(),
-      views: bookmarkViews
+      views: bookmarkViews,
+      collections: Array.from(this.startupService.collectionsMap.keys()).sort().join(',')
     };
     this.bookmarkService.setBookMarkCount(bookMark);
     return bookMark;
