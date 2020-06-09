@@ -42,7 +42,10 @@
           [displayOnlyIntervalsWithData]="detailedTimelineComponent?.input?.displayOnlyIntervalsWithData"
           [yAxisStartsFromZero]="detailedTimelineComponent?.input?.yAxisStartsFromZero"
           [showStripes]="detailedTimelineComponent?.input?.showStripes"
-
+          [chartXLabel]="detailedTimelineComponent?.input?.chartXLabel"
+          [shortYLabels]="detailedTimelineComponent?.input?.shortYLabels"
+          [xUnit]="detailedTimelineComponent?.input?.xUnit"
+          [yUnit]="detailedTimelineComponent?.input?.yUnit"
           ></arlas-histogram>
       </div>
       <div *ngIf="timelineComponent">
@@ -80,6 +83,10 @@
           [displayOnlyIntervalsWithData]="timelineComponent?.input?.displayOnlyIntervalsWithData"
           [yAxisStartsFromZero]="timelineComponent?.input?.yAxisStartsFromZero"
           [showStripes]="timelineComponent?.input?.showStripes"
+          [chartXLabel]="timelineComponent?.input?.chartXLabel"
+          [shortYLabels]="timelineComponent?.input?.shortYLabels"
+          [xUnit]="timelineComponent?.input?.xUnit"
+          [yUnit]="timelineComponent?.input?.yUnit"
           ></arlas-histogram>
       </div>
 </div>
