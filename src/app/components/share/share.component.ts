@@ -176,6 +176,10 @@ export class ShareDialogComponent implements OnInit {
                   const selectedField = this.allFields.find(field => field.label === f);
                   this.selectedFields.push(selectedField);
                 });
+                this.paramFormGroup.patchValue({
+                  'availableFields': this.selectedFields.map(v => v.label)
+                });
+                this.paramFormGroup.updateValueAndValidity();
               }
             },
             error => {

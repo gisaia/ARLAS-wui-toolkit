@@ -37,7 +37,7 @@
         <div class="share-feature-block">
           <div style="max-height: 40vh;overflow:auto;flex:3">
             <mat-selection-list role="listbox" formControlName="availableFields" #selectedList (selectionChange)=onSelectionChange(selectedList.selectedOptions.selected)>
-              <mat-list-option [selected]="isSelected(field)" *ngFor="let field of allFields">
+              <mat-list-option [value]="field.label" *ngFor="let field of allFields">
                 <p matLine title="{{ field.label }} - {{field.type}}">
                     {{ field.label }} - <span class="share-description">{{field.type}}</span>
                 </p>
