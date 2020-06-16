@@ -47,6 +47,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { LOCATION_INITIALIZED } from '@angular/common';
 import { ArlasConfigurationUpdaterService } from '../configuration-updater/configurationUpdater.service.js';
 import { getFieldProperties } from '../../tools/utils.js';
+import { EnvService } from '../env/env.service';
 
 @Injectable({
     providedIn: 'root'
@@ -104,7 +105,8 @@ export class ArlasStartupService {
         private injector: Injector,
         @Inject(FETCH_OPTIONS) private fetchOptions,
         private http: HttpClient, private translateService: TranslateService,
-        @Inject(CONFIG_UPDATER) private configUpdater) {
+        @Inject(CONFIG_UPDATER) private configUpdater,
+        private envService: EnvService) {
     }
 
     public getFGAService(): ArlasConfigurationUpdaterService {

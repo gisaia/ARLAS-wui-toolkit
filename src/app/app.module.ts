@@ -49,6 +49,7 @@ import { ShareDialogComponent } from './components/share/share.component';
 import { routing } from './app.routes';
 import { ArlasToolkitSharedModule } from './shared.module';
 import { ArlasConfigurationUpdaterService } from './services/configuration-updater/configurationUpdater.service';
+import { EnvServiceProvider } from './services/env/env.service.provider';
 
 
 
@@ -141,6 +142,7 @@ export const MY_CUSTOM_FORMATS = {
   declarations: [AppComponent],
   providers: [
     {provide: FETCH_OPTIONS, useValue: {}},
+    EnvServiceProvider,
     {
       provide: CONFIG_UPDATER,
       useValue: configUpdaterFactory

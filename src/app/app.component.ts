@@ -74,8 +74,8 @@ export class AppComponent implements AfterViewInit, OnInit {
       });
       this.collaborativeService.setCollaborations(dataModel);
     });
-    // this.collaborativeService.setCollaborations({});
-    // this.analytics = this.arlasStartupService.analytics;
+    this.collaborativeService.setCollaborations({});
+    this.analytics = this.arlasStartupService.analytics;
     // this.languages = ['en', 'fr', 'it', 'es', 'de', 'us', 'cn'];
   }
 

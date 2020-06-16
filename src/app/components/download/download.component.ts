@@ -23,6 +23,7 @@ import { ArlasSearchField } from '../share/model/ArlasSearchField';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { projType } from 'arlas-web-core';
 import { Filter } from 'arlas-api';
+import { EnvService } from '../../services/env/env.service';
 
 @Component({
   selector: 'arlas-download',
@@ -81,7 +82,8 @@ export class DownloadDialogComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private collaborativeService: ArlasCollaborativesearchService,
-    private configService: ArlasConfigService
+    private configService: ArlasConfigService,
+    private envService: EnvService
   ) { }
 
   public ngOnInit() {
@@ -98,7 +100,7 @@ export class DownloadDialogComponent implements OnInit {
     if (components.download) {
       this.downloadConfig = components.download;
     }
-    this.server = this.configService.getValue('arlas.server');
+    this.server = this.envService.serverUrl;
     this.collaborativeService.describe(this.server.collection.name).subscribe(
       description => {
         const fields = description.properties;
