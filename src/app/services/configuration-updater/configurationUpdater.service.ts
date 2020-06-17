@@ -19,6 +19,8 @@
 
 import { Injectable } from '@angular/core';
 import { Aggregation } from 'arlas-api';
+import { LayerSourceConfig } from 'arlas-web-contributors';
+import { VisualisationSetConfig } from 'arlas-web-components';
 
 @Injectable()
 export class ArlasConfigurationUpdaterService {
@@ -73,30 +75,6 @@ export class ArlasConfigurationUpdaterService {
             });
             /** swimlanes don't have xAxisField AND termField anymore */
           });
-        }
-        /** topomap contributors has a `topo_aggregationmodels` */
-        if (contributor.topo_aggregationmodels) {
-          contributor.topo_aggregationmodels.forEach((am: Aggregation) => {
-            if (!availableFields.has(am.field)) {
-              contributorsToRemove.add(contributor.identifier);
-            }
-            if (am.metrics) {
-              am.metrics.forEach(m => {
-                if (!availableFields.has(m.collect_field)) {
-                  contributorsToRemove.add(contributor.identifier);
-                }
-              });
-            }
-          });
-        }
-        /** topomap contributors have a `field_cardinality`*/
-        if (contributor.field_cardinality && !availableFields.has(contributor.field_cardinality)) {
-          contributorsToRemove.add(contributor.identifier);
-        }
-
-        /** map and topomap contributors have `geometry` AND `idFieldName` */
-        if (contributor.idFieldName && !availableFields.has(contributor.idFieldName)) {
-          contributorsToRemove.add(contributor.identifier);
         }
 
         /** chipssearch contributor */
@@ -204,6 +182,22 @@ export class ArlasConfigurationUpdaterService {
         if (idFeatureField && !availableFields.has(idFeatureField)) {
           delete mapComponentConfig.input.idFieldName;
         }
+        const layerSources = data.arlas.web.contributors.filter(contributor => contributor.type === 'map')[0].layers_sources;
+        /** remove layers from visualisation sets if their correponding source is removed from the contributor */
+        if (layerSources) {
+          const layers = new Set(layerSources.map(ls => ls.id));
+          const visualisationsSet: Array<VisualisationSetConfig> = mapComponentConfig.input.visualisations_sets;
+          if (visualisationsSet) {
+            const updatedVisualisationsSet: Array<VisualisationSetConfig> = [];
+            visualisationsSet.forEach(vs => {
+              vs.layers = new Set([...vs.layers].filter(l => layers.has(l)));
+              if (vs.layers.size > 0) {
+                updatedVisualisationsSet.push(vs);
+              }
+            });
+            mapComponentConfig.input.visualisations_sets = updatedVisualisationsSet;
+          }
+        }
       }
     }
     return data;
@@ -303,22 +297,61 @@ export class ArlasConfigurationUpdaterService {
    * @returns configuration object
    */
   public updateMapContributors(data, availableFields: Set<string>): any {
-    data.arlas.web.contributors.filter(contributor => contributor.type === 'map' || contributor.type === 'topomap').forEach(contributor => {
-      if (contributor.includeFeaturesFields) {
-        contributor.includeFeaturesFields = contributor.includeFeaturesFields.filter(f => availableFields.has(f));
+    data.arlas.web.contributors.filter(contributor => contributor.type === 'map').forEach(contributor => {
+      if (contributor.layers_sources) {
+        const updatedLayersSources: Array<LayerSourceConfig> = [];
+        contributor.layers_sources.forEach((ls: LayerSourceConfig) => {
+          let keepLs = true;
+          if (ls.include_fields) {
+            ls.include_fields = ls.include_fields.filter(f => availableFields.has(f));
+          }
+          if (ls.colors_from_fields) {
+            ls.colors_from_fields = ls.colors_from_fields.filter(f => availableFields.has(f));
+          }
+          if (ls.normalization_fields) {
+            ls.normalization_fields = ls.normalization_fields.filter(f =>
+              availableFields.has(f.on) && (!f.per || availableFields.has(f.per)));
+          }
+          if (ls.provided_fields) {
+            ls.provided_fields = ls.provided_fields.filter(f =>
+              availableFields.has(f.color) && (!f.label || availableFields.has(f.label)));
+          }
+          if (ls.metrics) {
+            ls.metrics = ls.metrics.filter(f => f.field === '' || availableFields.has(f.field));
+          }
+          keepLs = !ls.agg_geo_field || (ls.agg_geo_field && availableFields.has(ls.agg_geo_field));
+          if (keepLs) {
+            keepLs = !ls.raw_geometry || (ls.raw_geometry && availableFields.has(ls.raw_geometry.geometry));
+          }
+          if (keepLs && ls.raw_geometry && ls.raw_geometry.sort) {
+            ls.raw_geometry.sort = ls.raw_geometry.sort.split(',').filter(s => availableFields.has(s.replace('-', ''))).join(',');
+            if (ls.raw_geometry.sort === '') {
+              delete ls.raw_geometry.sort;
+            }
+          }
+          if (keepLs) {
+            keepLs = !ls.returned_geometry || (ls.returned_geometry && availableFields.has(ls.returned_geometry));
+          }
+          if (keepLs) {
+            keepLs = !ls.geometry_id || (ls.geometry_id && availableFields.has(ls.geometry_id));
+          }
+          if (keepLs) {
+            keepLs = !ls.geometry_support || (ls.geometry_support && availableFields.has(ls.geometry_support));
+          }
+          if (keepLs) {
+            updatedLayersSources.push(ls);
+          }
+        });
+        contributor.layers_sources = updatedLayersSources;
       }
-      if (contributor.colorGenerationFields) {
-        contributor.colorGenerationFields = contributor.colorGenerationFields.filter(f => availableFields.has(f));
+      if (contributor.geo_query_field && !availableFields.has(contributor.geo_query_field)) {
+          delete contributor.geo_query_field;
       }
-      if (contributor.colorGenerationFields) {
-        contributor.normalizationFields = contributor.normalizationFields
-          .filter(f => availableFields.has(f.on) && (!f.per || availableFields.has(f.per)));
-      }
-      if (contributor.geoQueryField && !availableFields.has(contributor.geoQueryField)) {
-          delete contributor.geoQueryField;
-      }
-      if (contributor.searchSort && !availableFields.has(contributor.searchSort)) {
-          delete contributor.searchSort;
+      if (contributor.search_sort) {
+        contributor.search_sort = contributor.search_sort.split(',').filter(s => availableFields.has(s.replace('-', ''))).join(',');
+        if (contributor.search_sort === '') {
+          delete contributor.search_sort;
+        }
       }
     });
     return data;

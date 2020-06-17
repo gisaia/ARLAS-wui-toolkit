@@ -17,12 +17,10 @@
  * under the License.
  */
 
-import { HttpClientModule } from '@angular/common/http';
 import { inject, TestBed } from '@angular/core/testing';
 import { OAuthLogger, OAuthModule, OAuthService, UrlHelperService } from 'angular-oauth2-oidc';
 import { AuthentificationService } from '../authentification/authentification.service';
 import { GET_OPTIONS } from '../persistence/persistence.service';
-import { ArlasConfigService, ArlasStartupService, ArlasCollaborativesearchService, CONFIG_UPDATER } from '../startup/startup.service';
 import { ArlasExtendService } from './extend.service';
 import {
   ArlasStartupService, ArlasConfigService, ArlasCollaborativesearchService,
@@ -37,37 +35,6 @@ import {
 import { ArlasConfigurationUpdaterService } from '../configuration-updater/configurationUpdater.service';
 
 describe('ArlasExtendService', () => {
-  beforeEach(() => TestBed.configureTestingModule({
-    imports: [
-      HttpClientModule,
-      TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } })
-    ],
-    providers: [
-      {
-        provide: ArlasStartupService,
-        useClass: ArlasStartupService,
-        deps: [ArlasConfigurationUpdaterService]
-      },
-      HttpClient, ArlasConfigService,
-      ArlasCollaborativesearchService, TranslateService, TranslateStore,
-      { provide: CONFIG_UPDATER, useValue: {} },
-      {
-        provide: ArlasConfigurationUpdaterService,
-        useClass: ArlasConfigurationUpdaterService
-      },
-      {provide: FETCH_OPTIONS, useValue: {}},
-    ]
-  }));
-
-  // beforeEach(() => TestBed.configureTestingModule({
-  //   providers: [
-  //     ArlasExtendService, ArlasCollaborativesearchService, TranslateService, TranslateStore
-  //   ],
-  //   imports: [
-  //     HttpClientModule,
-  //     TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } })
-  //   ]
-  // }));
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -80,7 +47,16 @@ describe('ArlasExtendService', () => {
         UrlHelperService,
         AuthentificationService,
         ArlasExtendService,
-        ArlasStartupService,
+        {
+          provide: ArlasStartupService,
+          useClass: ArlasStartupService,
+          deps: [ArlasConfigurationUpdaterService]
+        },
+        {
+          provide: ArlasConfigurationUpdaterService,
+          useClass: ArlasConfigurationUpdaterService
+        },
+        {provide: FETCH_OPTIONS, useValue: {}},
         ArlasCollaborativesearchService,
         { provide: GET_OPTIONS, useValue: {} },
         { provide: CONFIG_UPDATER, useValue: {} }

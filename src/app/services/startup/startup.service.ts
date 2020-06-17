@@ -286,15 +286,23 @@ export class ArlasStartupService {
      */
     public listAvailableFields(collectionName: string): Promise<Set<string>> {
       let availableFields = new Set<string>();
+      const hiddenAvailableFields = [];
       return this.collaborativesearchService.list(false).toPromise().then(
         (collectionDescriptions: Array<CollectionReferenceDescription>) => {
           collectionDescriptions.filter((cd: CollectionReferenceDescription) => cd.collection_name === collectionName)
           .forEach((cd: CollectionReferenceDescription) => {
-            availableFields = new Set(getFieldProperties(cd.properties).map(p => p.label));
+            availableFields = new Set(getFieldProperties(cd.properties).map(p => {
+              if (p.type === 'GEO_POINT') {
+                hiddenAvailableFields.push(p.label + '.lon');
+                hiddenAvailableFields.push(p.label + '.lat');
+              }
+              return p.label;
+            }));
             availableFields.add(cd.params.id_path);
             availableFields.add(cd.params.timestamp_path);
             availableFields.add(cd.params.geometry_path);
             availableFields.add(cd.params.centroid_path);
+            hiddenAvailableFields.forEach(f => availableFields.add(f));
         });
         return availableFields;
       });
