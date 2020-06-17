@@ -23,10 +23,11 @@ import { AoiComponent } from './aoi.component';
 import { MatTableModule, MatCheckboxModule, MatIconModule } from '@angular/material';
 import {
   ArlasStartupService, ArlasConfigService,
-  ArlasCollaborativesearchService, CONFIG_UPDATER
+  ArlasCollaborativesearchService, CONFIG_UPDATER, FETCH_OPTIONS
 } from '../../services/startup/startup.service';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateService, TranslateModule, TranslateFakeLoader, TranslateLoader } from '@ngx-translate/core';
+import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
 
 describe('AoiComponent', () => {
   let component: AoiComponent;
@@ -42,8 +43,17 @@ describe('AoiComponent', () => {
       declarations: [AoiComponent],
       providers: [
         ArlasConfigService, ArlasCollaborativesearchService,
-        ArlasStartupService, HttpClient, TranslateService,
-        { provide: CONFIG_UPDATER, useValue: {} }
+        {
+          provide: ArlasStartupService,
+          useClass: ArlasStartupService,
+          deps: [ArlasConfigurationUpdaterService]
+        }, HttpClient, TranslateService,
+        { provide: CONFIG_UPDATER, useValue: {} },
+        {
+          provide: ArlasConfigurationUpdaterService,
+          useClass: ArlasConfigurationUpdaterService
+        },
+        {provide: FETCH_OPTIONS, useValue: {}}
       ]
     })
       .compileComponents();

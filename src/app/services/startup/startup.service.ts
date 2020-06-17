@@ -19,7 +19,7 @@
 
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable, Injector, InjectionToken } from '@angular/core';
-import { Configuration, ExploreApi, CollectionsApi, CollectionReferenceParameters } from 'arlas-api';
+import { Configuration, ExploreApi, CollectionsApi, CollectionReferenceDescription, CollectionReferenceParameters } from 'arlas-api';
 import { DonutComponent, HistogramComponent, MapglComponent, PowerbarsComponent, MetricComponent } from 'arlas-web-components';
 import {
     HistogramContributor,
@@ -45,6 +45,8 @@ import * as rootContributorConfSchema from 'arlas-web-contributors/jsonSchemas/r
 import { Subject } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { LOCATION_INITIALIZED } from '@angular/common';
+import { ArlasConfigurationUpdaterService } from '../configuration-updater/configurationUpdater.service.js';
+import { getFieldProperties } from '../../tools/utils.js';
 
 @Injectable({
     providedIn: 'root'
@@ -79,7 +81,7 @@ export class ArlasCollaborativesearchService extends CollaborativesearchService 
 }
 
 export const CONFIG_UPDATER = new InjectionToken<Function>('config_updater');
-
+export const FETCH_OPTIONS = new InjectionToken<any>('fetch_options');
 
 @Injectable()
 export class ArlasStartupService {
@@ -93,15 +95,21 @@ export class ArlasStartupService {
     private errorMessagesList = new Array<string>();
     public errorStartUpServiceBus: Subject<any> = new Subject<any>();
     public arlasIsUp: Subject<boolean> = new Subject<boolean>();
+    public arlasExploreApi: ArlasExploreApi;
 
     constructor(
         private configService: ArlasConfigService,
         private collaborativesearchService: ArlasCollaborativesearchService,
+        private configurationUpdaterService: ArlasConfigurationUpdaterService,
         private injector: Injector,
+        @Inject(FETCH_OPTIONS) private fetchOptions,
         private http: HttpClient, private translateService: TranslateService,
         @Inject(CONFIG_UPDATER) private configUpdater) {
     }
 
+    public getFGAService(): ArlasConfigurationUpdaterService {
+      return this.configurationUpdaterService;
+    }
 
     public errorStartUp() {
         this.errorStartUpServiceBus.subscribe(e => console.error(e));
@@ -168,11 +176,39 @@ export class ArlasStartupService {
     }
 
     public setConfigService(data) {
-        return new Promise<any>((resolve, reject) => {
-            const newConfig = this.configUpdater(data);
-            this.configService.setConfig(newConfig);
-            resolve(newConfig);
-        });
+       /**First set the raw config data in order to create an ArlasExploreApi instance */
+       const newConfig = this.configUpdater(data);
+       this.configService.setConfig(newConfig);
+       const collectionName = this.configService.getValue('arlas.server.collection.name');
+       this.collaborativesearchService.setFetchOptions(this.fetchOptions);
+       const arlasUrl = this.configService.getValue('arlas.server.url');
+           const configuration: Configuration = new Configuration();
+           this.arlasExploreApi = new ArlasExploreApi(
+             configuration,
+             arlasUrl,
+             portableFetch
+           );
+       this.collaborativesearchService.setConfigService(this.configService);
+       this.collaborativesearchService.setExploreApi(this.arlasExploreApi);
+       return this.listAvailableFields(collectionName)
+           .then((availableFields: Set<string>) => this.applyFGA(newConfig, availableFields))
+           .then((d) => { this.configService.setConfig(d); return d; });
+    }
+
+    /**
+     * Applies FGA to explored collection
+     * @param data configuration object
+     * @param availableFields list of fields that are available for exploration
+     * @returns the updated configuration object
+     */
+    public applyFGA(data, availableFields: Set<string>): any {
+      const contributorsToRemove: Set<string> = this.configurationUpdaterService.getContributorsToRemove(data, availableFields);
+      let updatedConfig = this.configurationUpdaterService.removeContributors(data, contributorsToRemove);
+      updatedConfig = this.configurationUpdaterService.updateContributors(updatedConfig, availableFields);
+      updatedConfig = this.configurationUpdaterService.updateMapComponent(updatedConfig, availableFields);
+      updatedConfig = this.configurationUpdaterService.removeWidgets(updatedConfig, contributorsToRemove);
+      updatedConfig = this.configurationUpdaterService.removeTimelines(updatedConfig, contributorsToRemove);
+      return updatedConfig;
     }
 
     public setAuthentService(data) {
@@ -194,13 +230,7 @@ export class ArlasStartupService {
     public setCollaborativeService(data) {
         return new Promise<any>((resolve, reject) => {
             this.collaborativesearchService.setConfigService(this.configService);
-            const configuraiton: Configuration = new Configuration();
-            const arlasExploreApi: ArlasExploreApi = new ArlasExploreApi(
-                configuraiton,
-                this.configService.getValue('arlas.server.url'),
-                portableFetch
-            );
-            this.collaborativesearchService.setExploreApi(arlasExploreApi);
+            this.collaborativesearchService.setExploreApi(this.arlasExploreApi);
             this.collaborativesearchService.collection = this.configService.getValue('arlas.server.collection.name');
             this.collaborativesearchService.max_age = this.configService.getValue('arlas.server.max_age_cache');
             if (data[1]) {
@@ -248,6 +278,34 @@ export class ArlasStartupService {
                         reject(error);
                     });
         });
+    }
+     /**
+     * Lists the fields of `collectionName` that are available for exploration with `arlasExploreApi`
+     * @param collectionName collection name
+     * @returns available fields
+     */
+    public listAvailableFields(collectionName: string): Promise<Set<string>> {
+      let availableFields = new Set<string>();
+      const hiddenAvailableFields = [];
+      return this.collaborativesearchService.list(false).toPromise().then(
+        (collectionDescriptions: Array<CollectionReferenceDescription>) => {
+          collectionDescriptions.filter((cd: CollectionReferenceDescription) => cd.collection_name === collectionName)
+          .forEach((cd: CollectionReferenceDescription) => {
+            availableFields = new Set(getFieldProperties(cd.properties).map(p => {
+              if (p.type === 'GEO_POINT') {
+                hiddenAvailableFields.push(p.label + '.lon');
+                hiddenAvailableFields.push(p.label + '.lat');
+              }
+              return p.label;
+            }));
+            availableFields.add(cd.params.id_path);
+            availableFields.add(cd.params.timestamp_path);
+            availableFields.add(cd.params.geometry_path);
+            availableFields.add(cd.params.centroid_path);
+            hiddenAvailableFields.forEach(f => availableFields.add(f));
+        });
+        return availableFields;
+      });
     }
 
     public buildContributor(data) {

@@ -36,37 +36,42 @@ export class ArlasMapSettings implements MapSettingsService {
   }
 
   public getFilterGeometries(): Array<GeometrySelectModel> {
-    const geoFields = this.mapContributor.geoPointFields.concat(this.mapContributor.geoShapeFields);
     const filterGeometries = new Array<GeometrySelectModel>();
-    if (geoFields) {
-      geoFields.forEach(geoField => {
-        filterGeometries.push({
-          path: geoField,
-          selected: geoField === this.mapContributor.geoQueryField
+    if (this.mapContributor) {
+      const geoFields = this.mapContributor.geoPointFields.concat(this.mapContributor.geoShapeFields);
+      if (geoFields) {
+        geoFields.forEach(geoField => {
+          filterGeometries.push({
+            path: geoField,
+            selected: geoField === this.mapContributor.geoQueryField
+          });
         });
-      });
+      }
     }
     return filterGeometries;
   }
 
   public getOperations(): Array<OperationSelectModel> {
-    return [
-      {
-        operation: Expression.OpEnum.Within.toString(),
-        selected: Expression.OpEnum.Within === this.mapContributor.geoQueryOperation
-      },
-      {
-        operation: Expression.OpEnum.Notwithin.toString(),
-        selected: Expression.OpEnum.Notwithin === this.mapContributor.geoQueryOperation
-      },
-      {
-        operation: Expression.OpEnum.Intersects.toString(),
-        selected: Expression.OpEnum.Intersects === this.mapContributor.geoQueryOperation
-      },
-      {
-        operation: Expression.OpEnum.Notintersects.toString(),
-        selected: Expression.OpEnum.Notintersects === this.mapContributor.geoQueryOperation
-      }
-    ];
+    if (this.mapContributor) {
+      return [
+        {
+          operation: Expression.OpEnum.Within.toString(),
+          selected: Expression.OpEnum.Within === this.mapContributor.geoQueryOperation
+        },
+        {
+          operation: Expression.OpEnum.Notwithin.toString(),
+          selected: Expression.OpEnum.Notwithin === this.mapContributor.geoQueryOperation
+        },
+        {
+          operation: Expression.OpEnum.Intersects.toString(),
+          selected: Expression.OpEnum.Intersects === this.mapContributor.geoQueryOperation
+        },
+        {
+          operation: Expression.OpEnum.Notintersects.toString(),
+          selected: Expression.OpEnum.Notintersects === this.mapContributor.geoQueryOperation
+        }
+      ];
+    }
+    return [];
   }
 }

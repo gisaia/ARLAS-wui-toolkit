@@ -4,7 +4,7 @@ import { TimelineShortcutComponent } from './timeline-shortcut.component';
 import { DatePickerComponent } from '../../timeline/date-picker/date-picker.component';
 import {
   ArlasCollaborativesearchService, ArlasStartupService,
-  ArlasConfigService, CONFIG_UPDATER
+  ArlasConfigService, CONFIG_UPDATER, FETCH_OPTIONS
 } from '../../../services/startup/startup.service';
 import { OwlDateTimeModule, OWL_DATE_TIME_LOCALE } from '@gisaia-team/ng-pick-datetime';
 import { FormsModule } from '@angular/forms';
@@ -16,6 +16,7 @@ import {
 import { BrowserModule } from '@angular/platform-browser';
 import { GetTimeLabelPipe } from '../../../.../../pipes/get-time-label.pipe';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { ArlasConfigurationUpdaterService } from '../../../services/configuration-updater/configurationUpdater.service';
 
 describe('TimelineShortcutComponent', () => {
   let component: TimelineShortcutComponent;
@@ -34,9 +35,19 @@ describe('TimelineShortcutComponent', () => {
       ],
       providers: [
         { provide: OWL_DATE_TIME_LOCALE, useValue: 'fr' }, HttpClient,
-        ArlasCollaborativesearchService, ArlasStartupService, ArlasConfigService, TranslateService,
-        { provide: CONFIG_UPDATER, useValue: {} }
-
+        ArlasCollaborativesearchService,
+        {
+          provide: ArlasStartupService,
+          useClass: ArlasStartupService,
+          deps: [ArlasConfigurationUpdaterService]
+        },
+        ArlasConfigService, TranslateService,
+        { provide: CONFIG_UPDATER, useValue: {} },
+        {
+          provide: ArlasConfigurationUpdaterService,
+          useClass: ArlasConfigurationUpdaterService
+        },
+        {provide: FETCH_OPTIONS, useValue: {}}
       ]
     })
       .compileComponents();

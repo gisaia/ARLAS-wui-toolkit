@@ -2,21 +2,30 @@ import { TestBed } from '@angular/core/testing';
 
 import { ArlasWalkthroughService } from './walkthrough.service';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { ArlasCollaborativesearchService, ArlasStartupService, CONFIG_UPDATER } from '../startup/startup.service';
+import { ArlasCollaborativesearchService, ArlasStartupService, CONFIG_UPDATER, FETCH_OPTIONS } from '../startup/startup.service';
 import { ArlasMapSettings } from '../map-settings/map-settings.service';
 import { ArlasMapService } from '../map/map.service';
 import { TranslateService, TranslateStore, TranslateModule, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
+import { ArlasConfigurationUpdaterService } from '../configuration-updater/configurationUpdater.service';
 
 describe('ArlasWalkthroughService', () => {
   beforeEach(() => TestBed.configureTestingModule({
     providers: [
-      ArlasStartupService,
       ArlasWalkthroughService,
       HttpClient,
       TranslateService,
       TranslateStore,
+      {
+        provide: ArlasStartupService,
+        useClass: ArlasStartupService,
+        deps: [ArlasConfigurationUpdaterService]
+      },
       ArlasCollaborativesearchService,
-      ArlasMapSettings,
+      {
+        provide: ArlasConfigurationUpdaterService,
+        useClass: ArlasConfigurationUpdaterService
+      },
+      {provide: FETCH_OPTIONS, useValue: {}},      ArlasMapSettings,
       ArlasMapService,
       { provide: CONFIG_UPDATER, useValue: {} }
     ],

@@ -24,7 +24,7 @@ import { Aggregation, AggregationResponse, Filter } from 'arlas-api';
 import { ChipsSearchContributor } from 'arlas-web-contributors';
 import { projType, Collaboration } from 'arlas-web-core';
 import { ArlasCollaborativesearchService, ArlasConfigService } from '../../services/startup/startup.service';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, from } from 'rxjs';
 import { filter, flatMap, first, merge, startWith, pairwise, debounceTime, map } from 'rxjs/operators';
 
 @Component({
@@ -36,38 +36,26 @@ export class SearchComponent {
   public onLastBackSpace: Subject<boolean> = new Subject<boolean>();
   public searchCtrl: FormControl;
   public filteredSearch: Observable<any[]>;
-  public searches: Observable<AggregationResponse>;
-  private autocomplete_field: string;
-  private autocomplete_size: string;
   private keyEvent: Subject<number> = new Subject<number>();
-  private searchContributor: any;
-  private searchContributorId: string;
-
-  @Output() public valuesChangedEvent: Subject<string> = new Subject<string>();
+  @Input() private searchContributor: ChipsSearchContributor;
 
   constructor(private collaborativeService: ArlasCollaborativesearchService,
-    private configService: ArlasConfigService,
     private cdr: ChangeDetectorRef,
     public translate: TranslateService
   ) {
 
-    this.searchContributor = this.configService.getValue('arlas.web.contributors')
-      .find(contributor => contributor.type === 'chipssearch');
-    this.searchContributorId = this.searchContributor.identifier;
-    this.autocomplete_field = this.configService.getValue('arlas-wui.web.app.components.chipssearch.autocomplete_field');
-    this.autocomplete_size = this.configService.getValue('arlas-wui.web.app.components.chipssearch.autocomplete_size');
 
     this.searchCtrl = new FormControl();
 
     this.keyEvent.pipe(pairwise()).subscribe(l => {
-      if (l[1] === 0 && l[0] !== 0) {
-        this.collaborativeService.removeFilter(this.searchContributorId);
+      if (l[1] === 0 && l[0] !== 0 && this.searchContributor) {
+        this.collaborativeService.removeFilter(this.searchContributor.identifier);
         this.cdr.detectChanges();
       }
     });
 
     this.collaborativeService.contribFilterBus.pipe(
-      filter(contributor => contributor.identifier === this.searchContributorId),
+      filter(contributor => this.searchContributor && contributor.identifier === this.searchContributor.identifier),
       filter(contributor => (<ChipsSearchContributor>contributor).chipMapData.size !== 0),
       first()
     ).subscribe(
@@ -85,8 +73,9 @@ export class SearchComponent {
       }
     );
 
-    const contrib = Array.from(this.collaborativeService.registry.values()).find(contributor => contributor.identifier === 'chipssearch');
-    (contrib as ChipsSearchContributor).activateLastBackspace(this.onLastBackSpace);
+    if (this.searchContributor) {
+      this.searchContributor.activateLastBackspace(this.onLastBackSpace);
+    }
 
     const autocomplete = this.searchCtrl.valueChanges.pipe(
       debounceTime(250),
@@ -116,28 +105,25 @@ export class SearchComponent {
   }
 
   public filterSearch(search: string): Observable<AggregationResponse> {
-    if (this.autocomplete_size === undefined) {
-      // Default value to 20.
-      this.autocomplete_size = '20';
-    }
-    if (this.autocomplete_field) {
+    if (this.searchContributor && this.searchContributor.autocomplete_field) {
       const aggregation: Aggregation = {
         type: Aggregation.TypeEnum.Term,
-        field: this.autocomplete_field,
+        field: this.searchContributor.autocomplete_field,
         include: encodeURI(search) + '.*',
-        size: this.autocomplete_size
+        size: (this.searchContributor.autocomplete_size).toString()
       };
       const filterAgg: Filter = {
-        q: [[this.autocomplete_field + ':' + search + '*']]
+        q: [[this.searchContributor.autocomplete_field + ':' + search + '*']]
       };
-      this.searches = this.collaborativeService.resolveButNotAggregation(
+      return this.collaborativeService.resolveButNotAggregation(
         [projType.aggregate, [aggregation]],
         this.collaborativeService.collaborations,
-        this.searchContributorId,
+        this.searchContributor.identifier,
         filterAgg
       );
+    } else {
+      return from([]);
     }
-    return this.searches;
   }
 
   public onKeyUp(event: KeyboardEvent) {
@@ -146,7 +132,6 @@ export class SearchComponent {
     }
     if (event.keyCode === 13) {
       if (this.searchCtrl.value && this.searchCtrl.value.trim() !== '') {
-        this.valuesChangedEvent.next(this.searchCtrl.value);
         this.search(this.searchCtrl.value);
       }
     }
@@ -154,12 +139,11 @@ export class SearchComponent {
 
   public clickItemSearch(event) {
     (<ElementRef>event.option._element).nativeElement.focus();
-    this.valuesChangedEvent.next('"' + this.searchCtrl.value + '"');
     this.search('"' + this.searchCtrl.value + '"');
   }
 
   public search(value: string) {
-    if (value.trim() !== '') {
+    if (value.trim() !== '' && this.searchContributor) {
       const filter: Filter = {
         q: [[this.searchContributor.search_field + ':' + value.trim()]]
       };
@@ -169,7 +153,8 @@ export class SearchComponent {
         enabled: true
       };
 
-      this.collaborativeService.setFilter(this.searchContributorId, collaboration);
+      this.collaborativeService.setFilter(this.searchContributor.identifier, collaboration);
     }
   }
+
 }
