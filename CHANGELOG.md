@@ -1,8 +1,38 @@
 # Change Log
 
+## [v13.0.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v13.0.0) (2020-06-18)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v12.7.1...v13.0.0)
+
+**Breaking changes:**
+
+- Remove id collection from conf and fetch with a decribe [\#312](https://github.com/gisaia/ARLAS-wui-toolkit/issues/312)
+- \[Share\] Propose a sharable link for each layer on the map [\#304](https://github.com/gisaia/ARLAS-wui-toolkit/issues/304)
+
+**New stuff:**
+
+- Add unit to countAll [\#323](https://github.com/gisaia/ARLAS-wui-toolkit/issues/323)
+- Translate the headers of the exported csv files [\#321](https://github.com/gisaia/ARLAS-wui-toolkit/issues/321)
+- Enhance color service generated color [\#315](https://github.com/gisaia/ARLAS-wui-toolkit/issues/315)
+- Create a shared module [\#297](https://github.com/gisaia/ARLAS-wui-toolkit/issues/297)
+
+**Fixed bugs:**
+
+- \[Bookmark\] bookmarks have the scope of the current collection [\#309](https://github.com/gisaia/ARLAS-wui-toolkit/issues/309)
+- Download command contains not escaped characters [\#294](https://github.com/gisaia/ARLAS-wui-toolkit/issues/294)
+- Fix share component required export field [\#327](https://github.com/gisaia/ARLAS-wui-toolkit/pull/327) ([mbarbet](https://github.com/mbarbet))
+
+**Miscellaneous:**
+
+- \[Timeline\] Adapt range to v13.0.0 upgrade of the contributor [\#303](https://github.com/gisaia/ARLAS-wui-toolkit/issues/303)
+
 ## [v12.7.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v12.7.1) (2020-04-29)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v12.7.0...v12.7.1)
+
+**New stuff:**
+
+- Add x label text to histograms [\#299](https://github.com/gisaia/ARLAS-wui-toolkit/issues/299)
 
 ## [v12.7.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v12.7.0) (2020-04-10)
 
