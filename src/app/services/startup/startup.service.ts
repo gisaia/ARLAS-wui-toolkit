@@ -179,7 +179,6 @@ export class ArlasStartupService {
        /**First set the raw config data in order to create an ArlasExploreApi instance */
        const newConfig = this.configUpdater(data);
        this.configService.setConfig(newConfig);
-       const collectionName = this.configService.getValue('arlas.server.collection.name');
        this.collaborativesearchService.setFetchOptions(this.fetchOptions);
        const arlasUrl = this.configService.getValue('arlas.server.url');
            const configuration: Configuration = new Configuration();
@@ -190,18 +189,16 @@ export class ArlasStartupService {
            );
        this.collaborativesearchService.setConfigService(this.configService);
        this.collaborativesearchService.setExploreApi(this.arlasExploreApi);
-       return this.listAvailableFields(collectionName)
-           .then((availableFields: Set<string>) => this.applyFGA(newConfig, availableFields))
-           .then((d) => { this.configService.setConfig(d); return d; });
+       return data;
     }
 
     /**
-     * Applies FGA to explored collection
+     * Updates configuration by keeping only components/widgets that are availbale for exploration
      * @param data configuration object
      * @param availableFields list of fields that are available for exploration
      * @returns the updated configuration object
      */
-    public applyFGA(data, availableFields: Set<string>): any {
+    public updateConfiguration(data, availableFields: Set<string>): any {
       const contributorsToRemove: Set<string> = this.configurationUpdaterService.getContributorsToRemove(data, availableFields);
       let updatedConfig = this.configurationUpdaterService.removeContributors(data, contributorsToRemove);
       updatedConfig = this.configurationUpdaterService.updateContributors(updatedConfig, availableFields);
@@ -211,8 +208,30 @@ export class ArlasStartupService {
       return updatedConfig;
     }
 
+    public applyFGA(data, useAuthent) {
+      const collectionName = this.configService.getValue('arlas.server.collection.name');
+      if (useAuthent) {
+        const authService = this.injector.get('AuthentificationService')[0];
+        authService.canActivateProtectedRoutes.subscribe(isActivable => {
+            if (isActivable) {
+                this.collaborativesearchService.setFetchOptions({
+                    headers: {
+                        'Authorization': 'Bearer ' + authService.idToken
+                    }
+                });
+                return this.listAvailableFields(collectionName)
+                .then((availableFields: Set<string>) => this.updateConfiguration(data[0], availableFields))
+                .then((d) => { this.configService.setConfig(d); return d; });
+            }
+        });
+        return [null, useAuthent];
+      } else {
+        return this.listAvailableFields(collectionName)
+                .then((availableFields: Set<string>) => this.updateConfiguration(data[0], availableFields))
+                .then((d) => { this.configService.setConfig(d); return d; });
+      }
+    }
     public setAuthentService(data) {
-
         return new Promise<any>((resolve, reject) => {
             if (this.configService.getValue('arlas.authentification')) {
                 const useAuthentForArlas = this.configService.getValue('arlas.authentification.useAuthentForArlas');
@@ -222,29 +241,29 @@ export class ArlasStartupService {
                     resolve([data, useAuthentForArlas]);
                 });
             } else {
-                resolve(data);
+                resolve([data, false]);
             }
         });
     }
 
-    public setCollaborativeService(data) {
+    public setCollaborativeService(data, useAuthent) {
         return new Promise<any>((resolve, reject) => {
             this.collaborativesearchService.setConfigService(this.configService);
             this.collaborativesearchService.setExploreApi(this.arlasExploreApi);
             this.collaborativesearchService.collection = this.configService.getValue('arlas.server.collection.name');
             this.collaborativesearchService.max_age = this.configService.getValue('arlas.server.max_age_cache');
-            if (data[1]) {
-                const authService = this.injector.get('AuthentificationService')[0];
-                authService.canActivateProtectedRoutes.subscribe(isActivable => {
-                    if (isActivable) {
-                        this.collaborativesearchService.setFetchOptions({
-                            headers: {
-                                'Authorization': 'Bearer ' + authService.idToken
-                            }
-                        });
-                        resolve(data);
-                    }
-                });
+            if (useAuthent) {
+              const authService = this.injector.get('AuthentificationService')[0];
+              authService.canActivateProtectedRoutes.subscribe(isActivable => {
+                  if (isActivable) {
+                      this.collaborativesearchService.setFetchOptions({
+                          headers: {
+                              'Authorization': 'Bearer ' + authService.idToken
+                          }
+                      });
+                      resolve(data);
+                  }
+              });
             } else {
                 resolve(data);
             }
@@ -398,7 +417,8 @@ export class ArlasStartupService {
             .then((data) => this.translationLoaded(data))
             .then((data) => this.setConfigService(data))
             .then((data) => this.setAuthentService(data))
-            .then((data) => this.setCollaborativeService(data))
+            .then(([data, useAuthent]) => this.applyFGA(data, useAuthent))
+            .then(([data, useAuthent]) => this.setCollaborativeService(data, useAuthent))
             .then((data) => this.testArlasUp(data))
             .then((data) => this.getCollections(data))
             .then((data) => this.buildContributor(data))
