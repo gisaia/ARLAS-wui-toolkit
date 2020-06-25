@@ -1,5 +1,13 @@
 # Change Log
 
+## [v13.0.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v13.0.1) (2020-06-25)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v13.0.0...v13.0.1)
+
+**Fixed bugs:**
+
+- StartUp service : Apply authentication before fga [\#331](https://github.com/gisaia/ARLAS-wui-toolkit/issues/331)
+
 ## [v13.0.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v13.0.0) (2020-06-18)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v12.7.1...v13.0.0)
@@ -15,6 +23,7 @@
 - Translate the headers of the exported csv files [\#321](https://github.com/gisaia/ARLAS-wui-toolkit/issues/321)
 - Enhance color service generated color [\#315](https://github.com/gisaia/ARLAS-wui-toolkit/issues/315)
 - Create a shared module [\#297](https://github.com/gisaia/ARLAS-wui-toolkit/issues/297)
+- Add a configuration updater service that allows to apply fga [\#261](https://github.com/gisaia/ARLAS-wui-toolkit/issues/261)
 
 **Fixed bugs:**
 
