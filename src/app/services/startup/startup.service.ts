@@ -208,11 +208,11 @@ export class ArlasStartupService {
       return updatedConfig;
     }
 
-    public applyFGA(data) {
+    public applyFGA(data, useAuthent) {
       const collectionName = this.configService.getValue('arlas.server.collection.name');
-      this.listAvailableFields(collectionName)
+      return this.listAvailableFields(collectionName)
       .then((availableFields: Set<string>) => this.updateConfiguration(data[0], availableFields))
-      .then((d) => { this.configService.setConfig(d); return d; });
+      .then((d) => { this.configService.setConfig(d); return [d, useAuthent]; });
     }
     public setAuthentService(data) {
         return new Promise<any>((resolve, reject) => {
@@ -224,18 +224,18 @@ export class ArlasStartupService {
                     resolve([data, useAuthentForArlas]);
                 });
             } else {
-                resolve(data);
+                resolve([data, false]);
             }
         });
     }
 
-    public setCollaborativeService(data) {
+    public setCollaborativeService(data, useAuthent) {
         return new Promise<any>((resolve, reject) => {
             this.collaborativesearchService.setConfigService(this.configService);
             this.collaborativesearchService.setExploreApi(this.arlasExploreApi);
             this.collaborativesearchService.collection = this.configService.getValue('arlas.server.collection.name');
             this.collaborativesearchService.max_age = this.configService.getValue('arlas.server.max_age_cache');
-            if (data) {
+            if (useAuthent) {
                 const authService = this.injector.get('AuthentificationService')[0];
                 authService.canActivateProtectedRoutes.subscribe(isActivable => {
                     if (isActivable) {
@@ -400,8 +400,8 @@ export class ArlasStartupService {
             .then((data) => this.translationLoaded(data))
             .then((data) => this.setConfigService(data))
             .then((data) => this.setAuthentService(data))
-            .then((data) => this.applyFGA(data))
-            .then((data) => this.setCollaborativeService(data))
+            .then(([data, useAuthent]) => this.applyFGA(data, useAuthent))
+            .then(([data, useAuthent]) => this.setCollaborativeService(data, useAuthent))
             .then((data) => this.testArlasUp(data))
             .then((data) => this.getCollections(data))
             .then((data) => this.buildContributor(data))
