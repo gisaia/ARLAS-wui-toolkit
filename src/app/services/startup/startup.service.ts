@@ -210,27 +210,30 @@ export class ArlasStartupService {
 
     public applyFGA(data, useAuthent) {
       const collectionName = this.configService.getValue('arlas.server.collection.name');
-      if (useAuthent) {
-        const authService = this.injector.get('AuthentificationService')[0];
-        authService.canActivateProtectedRoutes.subscribe(isActivable => {
-            if (isActivable) {
-                this.collaborativesearchService.setFetchOptions({
-                    headers: {
-                        'Authorization': 'Bearer ' + authService.idToken
-                    }
-                });
-                return this.listAvailableFields(collectionName)
-                .then((availableFields: Set<string>) => this.updateConfiguration(data[0], availableFields))
-                .then((d) => { this.configService.setConfig(d); return d; });
-            }
-        });
-        return [null, useAuthent];
-      } else {
-        return this.listAvailableFields(collectionName)
-                .then((availableFields: Set<string>) => this.updateConfiguration(data[0], availableFields))
-                .then((d) => { this.configService.setConfig(d); return d; });
-      }
-    }
+      return new Promise<any>((resolve, reject) => {
+          if (useAuthent) {
+            const authService = this.injector.get('AuthentificationService')[0];
+            authService.canActivateProtectedRoutes.subscribe(isActivable => {
+                if (isActivable) {
+                    this.collaborativesearchService.setFetchOptions({
+                        headers: {
+                            'Authorization': 'Bearer ' + authService.idToken
+                        }
+                    });
+                    resolve(this.listAvailableFields(collectionName)
+                    .then((availableFields: Set<string>) => this.updateConfiguration(data[0], availableFields))
+                    .then((d) => { this.configService.setConfig(d); return [d, useAuthent]; }));
+                } else {
+                    resolve([null, useAuthent]);
+                }
+            });
+        } else {
+            resolve(this.listAvailableFields(collectionName)
+                    .then((availableFields: Set<string>) => this.updateConfiguration(data[0], availableFields))
+                    .then((d) => { this.configService.setConfig(d); return [d, useAuthent]; }));
+        }
+    });
+}
     public setAuthentService(data) {
         return new Promise<any>((resolve, reject) => {
             if (this.configService.getValue('arlas.authentification')) {
