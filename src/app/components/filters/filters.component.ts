@@ -54,6 +54,12 @@ export class FiltersComponent implements OnInit {
 
   /**
    * @Input : Angular
+   * @description Url to a logo to display next the title
+   */
+  @Input() public logoUrl;
+
+  /**
+   * @Output : Angular
    * @description This output emit app name on click on the title of the filter
    */
   @Output() public clickOnTitle: Subject<string> = new Subject<string>();
