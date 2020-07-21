@@ -4,12 +4,9 @@ import { Observable, from } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Configuration, CollectionReferenceDescription } from 'arlas-api';
 import * as portableFetch from 'portable-fetch';
-<<<<<<< HEAD
 import { getFieldProperties } from '../../tools/utils';
-=======
 import { EnvService } from '../env/env.service';
 
->>>>>>> Add environment service
 
 @Injectable()
 export class ArlasConfigurationDescriptor {

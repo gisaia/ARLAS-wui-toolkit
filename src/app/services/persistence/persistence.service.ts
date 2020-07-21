@@ -3,7 +3,6 @@ import * as portableFetch from 'portable-fetch';
 
 import { Observable } from 'rxjs/internal/Observable';
 import { from } from 'rxjs/internal/observable/from';
-import { ArlasConfigService } from '../startup/startup.service';
 import { Configuration, PersistenceApi, Data, DataResource } from 'arlas-persistence-api';
 import { EnvService } from '../env/env.service';
 
@@ -16,7 +15,6 @@ export class PersistenceService {
 
   private persistenceApi: PersistenceApi;
   constructor(
-    private configService: ArlasConfigService,
     @Inject(GET_OPTIONS) private getOptions,
     private envService: EnvService
   ) {
