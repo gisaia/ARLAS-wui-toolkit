@@ -436,7 +436,8 @@ export class ArlasStartupService {
               const error: Error = {
                 origin: 'ARLAS-persistence : ' + err.url,
                 message: 'Cannot fetch the configuration whose id is "' + configurationId + '"',
-                reason: 'Please check if ARLAS-persistence is up & running, if the requested configuration exists and if you have rights to access it.'
+                reason: 'Please check if ARLAS-persistence is up & running, ' +
+                  'if the requested configuration exists and if you have rights to access it.'
               };
               this.errorsQueue.push(error);
               return Promise.resolve(null);

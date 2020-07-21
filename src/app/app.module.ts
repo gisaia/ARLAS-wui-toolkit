@@ -101,10 +101,9 @@ export function getOptionsFactory(arlasAuthService: AuthentificationService): an
   const getOptions = () => {
     const token = !!arlasAuthService.accessToken ? arlasAuthService.accessToken : null;
     if (token !== null) {
-      console.log(token)
       return {
         headers: {
-          'X-Forwarded-User': 'MyToken'
+          'X-Forwarded-User': token
         }
       };
     } else {
