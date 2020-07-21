@@ -19,7 +19,7 @@
 import { APP_INITIALIZER, NgModule, forwardRef } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule } from '@angular/router';
+import { RouterModule, ROUTES } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { ColorGeneratorModule, ColorGeneratorLoader } from 'arlas-web-components';
 import { ArlasBookmarkService } from './services/bookmark/bookmark.service';
@@ -54,7 +54,7 @@ import { EnvServiceProvider } from './services/env/env.service.provider';
 
 
 export function startupServiceFactory(startupService: ArlasStartupService) {
-  const load = () => startupService.load('config.json?' + Date.now());
+  const load = () => startupService.load();
   return load;
 }
 
@@ -101,9 +101,10 @@ export function getOptionsFactory(arlasAuthService: AuthentificationService): an
   const getOptions = () => {
     const token = !!arlasAuthService.accessToken ? arlasAuthService.accessToken : null;
     if (token !== null) {
+      console.log(token)
       return {
         headers: {
-          'X-Forwarded-User': token
+          'X-Forwarded-User': 'MyToken'
         }
       };
     } else {
@@ -128,7 +129,6 @@ export const MY_CUSTOM_FORMATS = {
     ArlasToolkitSharedModule,
     BrowserModule,
     BrowserAnimationsModule,
-    RouterModule,
     routing,
     ColorGeneratorModule.forRoot({
       loader: {

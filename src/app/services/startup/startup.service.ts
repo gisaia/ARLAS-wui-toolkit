@@ -48,11 +48,13 @@ import { LOCATION_INITIALIZED } from '@angular/common';
 import { ArlasConfigurationUpdaterService } from '../configuration-updater/configurationUpdater.service.js';
 import { getFieldProperties } from '../../tools/utils.js';
 import { EnvService } from '../env/env.service';
+import { PersistenceService } from '../../services/persistence/persistence.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class ArlasConfigService extends ConfigService {
+    public errorsQueue = new Array<Error>();
     constructor() {
         super();
     }
@@ -84,6 +86,12 @@ export class ArlasCollaborativesearchService extends CollaborativesearchService 
 export const CONFIG_UPDATER = new InjectionToken<Function>('config_updater');
 export const FETCH_OPTIONS = new InjectionToken<any>('fetch_options');
 
+export interface Error {
+  origin: string;
+  message: string;
+  reason: string;
+}
+
 @Injectable()
 export class ArlasStartupService {
     public contributorRegistry: Map<string, any> = new Map<string, any>();
@@ -97,6 +105,8 @@ export class ArlasStartupService {
     public errorStartUpServiceBus: Subject<any> = new Subject<any>();
     public arlasIsUp: Subject<boolean> = new Subject<boolean>();
     public arlasExploreApi: ArlasExploreApi;
+    public errorsQueue = new Array<Error>();
+    private CONFIG_ID_QUERY_PARAM = 'config_id';
 
     constructor(
         private configService: ArlasConfigService,
@@ -106,7 +116,10 @@ export class ArlasStartupService {
         @Inject(FETCH_OPTIONS) private fetchOptions,
         private http: HttpClient, private translateService: TranslateService,
         @Inject(CONFIG_UPDATER) private configUpdater,
-        private envService: EnvService) {
+        private envService: EnvService,
+        private persistenceService: PersistenceService        ) {
+
+
     }
 
     public getFGAService(): ArlasConfigurationUpdaterService {
@@ -404,10 +417,34 @@ export class ArlasStartupService {
     }
 
 
-    public load(configRessource: string): Promise<any> {
-        let configData;
-        const ret = this.http
-            .get(configRessource)
+    public load(): Promise<any> {
+      const url = new URL(window.location.href);
+      const usePersistance = (this.envService.persistenceUrl && this.envService.persistenceUrl !== '');
+      const configurationId = url.searchParams.get(this.CONFIG_ID_QUERY_PARAM);
+      let configDataPromise;
+      let configData;
+      if (usePersistance && configurationId) {
+        // we use persistance and a configuration Id is provided
+        configDataPromise = this.persistenceService.get(configurationId).toPromise()
+            .then((s) => {
+              const config =  JSON.parse(JSON.parse(s.doc_value).config);
+              configData = config;
+              return Promise.resolve(config);
+            }).catch((err) => {
+              this.shouldRunApp = false;
+              console.error(err);
+              const error: Error = {
+                origin: 'ARLAS-persistence : ' + err.url,
+                message: 'Cannot fetch the configuration whose id is "' + configurationId + '"',
+                reason: 'Please check if ARLAS-persistence is up & running, if the requested configuration exists and if you have rights to access it.'
+              };
+              this.errorsQueue.push(error);
+              return Promise.resolve(null);
+            });
+      } else {
+        // persistence is not used, we use the config.json file mounted
+        configDataPromise = this.http
+            .get('config.json')
             .pipe(flatMap((response) => {
                 configData = response;
                 if (configData.extraConfigs !== undefined) {
@@ -417,21 +454,21 @@ export class ArlasStartupService {
                 } else {
                     return Promise.resolve(null);
                 }
-            })).toPromise()
-            .then(() => this.validateConfiguration(configData))
-            .then((data) => this.translationLoaded(data))
-            .then((data) => this.setConfigService(data))
-            .then((data) => this.setAuthentService(data))
-            .then(([data, useAuthent]) => this.applyFGA(data, useAuthent))
-            .then(([data, useAuthent]) => this.setCollaborativeService(data, useAuthent))
-            .then((data) => this.testArlasUp(data))
-            .then((data) => this.getCollections(data))
-            .then((data) => this.buildContributor(data))
-            .catch((err: any) => {
-                console.error(err);
-                return Promise.resolve(null);
-            });
-        return ret.then((x) => { });
+            })).toPromise();
+      }
+      return configDataPromise.then((s) => this.validateConfiguration(configData))
+        .then((data) => this.translationLoaded(data))
+        .then((data) => this.setConfigService(data))
+        .then((data) => this.setAuthentService(data))
+        .then(([data, useAuthent]) => this.applyFGA(data, useAuthent))
+        .then(([data, useAuthent]) => this.setCollaborativeService(data, useAuthent))
+        .then((data) => this.testArlasUp(data))
+        .then((data) => this.getCollections(data))
+        .then((data) => this.buildContributor(data))
+        .catch((err: any) => {
+            console.error(err);
+            return Promise.resolve(null);
+        }).then((x) => { });
     }
     private setAttribute(path, value, object) {
         const pathToList = path.split('.');
