@@ -52,10 +52,10 @@ export class ArlasPersistenceDatabase<T extends ArlasStorageObject> {
   }
 
   public add(storageObject: T) {
-    this.persistenceService.create(this.storageKey, JSON.stringify(storageObject)).subscribe(result => {
+    this.persistenceService.create(this.storageKey, 'config' + Date.now(), JSON.stringify(storageObject)).subscribe(result => {
       const newObj = storageObject;
       newObj['id'] = result.id;
-      this.persistenceService.update(result.id, JSON.stringify(newObj)).subscribe(result => {
+      this.persistenceService.update(result.id, JSON.stringify(newObj), Date.now()).subscribe(result => {
         this.list(this.page.size, this.page.number, 'desc');
       });
     });
@@ -85,7 +85,7 @@ export class ArlasPersistenceDatabase<T extends ArlasStorageObject> {
   }
 
   public update(id: string, storageObject: T) {
-    this.persistenceService.update(id, JSON.stringify(storageObject)).subscribe(result => {
+    this.persistenceService.update(id, JSON.stringify(storageObject), Date.now()).subscribe(result => {
       this.list(this.page.size, this.page.number, 'desc');
     });
   }

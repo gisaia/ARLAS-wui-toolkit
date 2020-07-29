@@ -99,11 +99,11 @@ export function configUpdaterFactory(x): any {
 
 export function getOptionsFactory(arlasAuthService: AuthentificationService): any {
   const getOptions = () => {
-    const token = !!arlasAuthService.accessToken ? arlasAuthService.accessToken : null;
+    const token = !!arlasAuthService.idToken ? arlasAuthService.idToken : null;
     if (token !== null) {
       return {
         headers: {
-          'X-Forwarded-User': token
+          Authorization: 'bearer ' + token
         }
       };
     } else {
