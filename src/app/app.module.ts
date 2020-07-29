@@ -19,7 +19,7 @@
 import { APP_INITIALIZER, NgModule, forwardRef } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule } from '@angular/router';
+import { RouterModule, ROUTES } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { ColorGeneratorModule, ColorGeneratorLoader } from 'arlas-web-components';
 import { ArlasBookmarkService } from './services/bookmark/bookmark.service';
@@ -49,11 +49,12 @@ import { ShareDialogComponent } from './components/share/share.component';
 import { routing } from './app.routes';
 import { ArlasToolkitSharedModule } from './shared.module';
 import { ArlasConfigurationUpdaterService } from './services/configuration-updater/configurationUpdater.service';
+import { EnvServiceProvider } from './services/env/env.service.provider';
 
 
 
 export function startupServiceFactory(startupService: ArlasStartupService) {
-  const load = () => startupService.load('config.json?' + Date.now());
+  const load = () => startupService.load();
   return load;
 }
 
@@ -127,7 +128,6 @@ export const MY_CUSTOM_FORMATS = {
     ArlasToolkitSharedModule,
     BrowserModule,
     BrowserAnimationsModule,
-    RouterModule,
     routing,
     ColorGeneratorModule.forRoot({
       loader: {
@@ -141,6 +141,7 @@ export const MY_CUSTOM_FORMATS = {
   declarations: [AppComponent],
   providers: [
     {provide: FETCH_OPTIONS, useValue: {}},
+    EnvServiceProvider,
     {
       provide: CONFIG_UPDATER,
       useValue: configUpdaterFactory

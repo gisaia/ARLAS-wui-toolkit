@@ -18,7 +18,7 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import { ArlasConfigService, ArlasCollaborativesearchService } from '../../services/startup/startup.service';
+import { ArlasConfigService, ArlasCollaborativesearchService, ArlasStartupService, Error } from '../../services/startup/startup.service';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { debounceTime, bufferWhen } from 'rxjs/operators';
 
@@ -33,10 +33,19 @@ import { debounceTime, bufferWhen } from 'rxjs/operators';
 export class ErrormodalComponent implements OnInit {
   public dialogRef: MatDialogRef<any>;
   constructor(public dialog: MatDialog, private configService: ArlasConfigService,
-    private collaborativeService: ArlasCollaborativesearchService) {
+    private collaborativeService: ArlasCollaborativesearchService, private arlasStartupService: ArlasStartupService) {
 
   }
   public ngOnInit() {
+    if (this.arlasStartupService.errorsQueue && this.arlasStartupService.errorsQueue.length > 0) {
+      this.openDialog();
+      this.dialogRef.componentInstance.messages = this.arlasStartupService.errorsQueue;
+    }
+
+    if (this.configService.errorsQueue && this.arlasStartupService.errorsQueue.length > 0) {
+      this.openDialog();
+      this.dialogRef.componentInstance.messages = this.configService.errorsQueue;
+    }
     this.configService.confErrorBus
     .pipe(bufferWhen(() => this.configService.confErrorBus.pipe(debounceTime(5000))))
       .subscribe(k => {
@@ -63,11 +72,9 @@ export class ErrormodalComponent implements OnInit {
 
 @Component({
   selector: 'arlas-tool-errormodal-msg',
-  template: '<h2>Application error</h2> ' +
-  '<ul> <div *ngFor=\"let message of messages\"> <li>{{message}}</li> </div> </ul>' +
-  '<button md-raised-button (click)=\"dialogRef.close()\">Close</button>',
+  templateUrl: './errormodalmsg.component.html',
 })
 export class ErrorModalMsgComponent {
-  public messages: Array<string>;
+  public messages: Array<Error>;
   constructor(public dialogRef: MatDialogRef<ErrorModalMsgComponent>) { }
 }

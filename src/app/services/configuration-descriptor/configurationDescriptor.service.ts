@@ -5,6 +5,8 @@ import { map } from 'rxjs/operators';
 import { Configuration, CollectionReferenceDescription } from 'arlas-api';
 import * as portableFetch from 'portable-fetch';
 import { getFieldProperties } from '../../tools/utils';
+import { EnvService } from '../env/env.service';
+
 
 @Injectable()
 export class ArlasConfigurationDescriptor {
@@ -15,12 +17,13 @@ export class ArlasConfigurationDescriptor {
 
   constructor(
     private collaborativesearchService: ArlasCollaborativesearchService,
-    private configService: ArlasConfigService
+    private configService: ArlasConfigService,
+    private envService: EnvService
   ) { }
 
   /**
    * @description Returns an Observable that contains the list of all collections
-   * declared in ARLAS-server (that is configurated in `arlas.server.url`)
+   * declared in ARLAS-server (that is configurated in env.js ( serverUrl )
    */
   public getAllCollections(): Observable<Array<string>> {
     return <Observable<Array<string>>>from(this.collaborativesearchService.list(false)).pipe(

@@ -25,6 +25,7 @@ import { Subject, Subscription, from, interval, Observable } from 'rxjs';
 import { ArlasCollaborativesearchService, ArlasConfigService } from '../startup/startup.service';
 import * as portableFetch from 'portable-fetch';
 import { TaggerResponse } from './model';
+import { EnvService } from '../env/env.service';
 
 @Injectable()
 export class ArlasTaggerWriteApi extends WriteApi {
@@ -60,11 +61,12 @@ export class ArlasTagService implements OnDestroy {
   constructor(
     private collaborativeSearchService: ArlasCollaborativesearchService,
     private configService: ArlasConfigService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private envService: EnvService
   ) {
     const configuraiton: Configuration = new Configuration();
-    this.taggerApi = new ArlasTaggerWriteApi(configuraiton, this.configService.getValue('arlas.tagger.url'), portableFetch);
-    this.statusApi = new ArlasTaggerStatusApi(configuraiton, this.configService.getValue('arlas.tagger.url'), portableFetch);
+    this.taggerApi = new ArlasTaggerWriteApi(configuraiton, this.envService.taggerUrl, portableFetch);
+    this.statusApi = new ArlasTaggerStatusApi(configuraiton, this.envService.taggerUrl, portableFetch);
     this.tagger = this.configService.getValue('arlas.tagger');
   }
 

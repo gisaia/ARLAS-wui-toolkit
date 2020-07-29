@@ -22,7 +22,8 @@
               "src/favicon.ico",
               "src/config.json",
               "src/silent-refresh.html",
-              "src/tour.json"
+              "src/tour.json",
+              "src/env.js"
             ],
             "styles": [
               "src/styles.css"
@@ -83,7 +84,8 @@
               "src/favicon.ico",
               "src/config.json",
               "src/silent-refresh.html",
-              "src/tour.json"
+              "src/tour.json",
+              "src/env.js"
 
             ]
           }
