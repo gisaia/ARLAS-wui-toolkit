@@ -34,12 +34,14 @@ import {
 import { AnalyticsContributor } from 'arlas-web-contributors/contributors/AnalyticsContributor';
 import * as portableFetch from 'portable-fetch';
 import * as arlasConfSchema from './arlasconfig.schema.json';
+import * as arlasSettingsSchema from './settings.schema.json';
 import * as draftSchema from 'ajv/lib/refs/json-schema-draft-06.json';
 import { CollaborativesearchService, ConfigService, Contributor } from 'arlas-web-core';
 import { projType } from 'arlas-web-core/models/projections';
 import { ContributorBuilder } from './contributorBuilder';
 import { flatMap } from 'rxjs/operators';
 import ajv from 'ajv';
+import YAML from 'js-yaml';
 import * as ajvKeywords from 'ajv-keywords/keywords/uniqueItemProperties';
 import * as rootContributorConfSchema from 'arlas-web-contributors/jsonSchemas/rootContributorConf.schema.json';
 import { Subject } from 'rxjs';
@@ -50,6 +52,8 @@ import { getFieldProperties } from '../../tools/utils.js';
 import { EnvService } from '../env/env.service';
 import { PersistenceService } from '../../services/persistence/persistence.service';
 import { DataWithLinks } from 'arlas-persistence-api';
+import { AuthentificationService, AuthentSetting } from '../authentification/authentification.service';
+
 
 @Injectable({
     providedIn: 'root'
@@ -108,6 +112,8 @@ export class ArlasStartupService {
     public arlasExploreApi: ArlasExploreApi;
     public errorsQueue = new Array<Error>();
     private CONFIG_ID_QUERY_PARAM = 'config_id';
+    private SETTINGS_FILE_NAME = 'settings.yaml';
+    private useAuthent = false;
 
     constructor(
         private configService: ArlasConfigService,
@@ -129,6 +135,27 @@ export class ArlasStartupService {
 
     public errorStartUp() {
         this.errorStartUpServiceBus.subscribe(e => console.error(e));
+    }
+
+
+    public validateSettings(settings) {
+      return new Promise<any>((resolve, reject) => {
+          const ajvObj = ajv();
+          ajvKeywords(ajvObj);
+          const validateConfig = ajvObj
+              .addMetaSchema(draftSchema.default)
+              .compile((<any>arlasSettingsSchema).default);
+          if (settings && validateConfig(settings) === false) {
+              const errorMessagesList = new Array<string>();
+              errorMessagesList.push(
+                  validateConfig.errors[0].dataPath + ' ' +
+                  validateConfig.errors[0].message
+              );
+              reject(new Error(errorMessagesList.join(' ')));
+          } else {
+              resolve(settings);
+          }
+      });
     }
 
     public validateConfiguration(data) {
@@ -224,6 +251,11 @@ export class ArlasStartupService {
       return updatedConfig;
     }
 
+    /**
+     * Retrieves fields that are available for exploration and updates the configuration to keep only corresponding widgets and components
+     * @param data configuration object
+     * @param useAuthent whether authentication is activated or not.
+     */
     public applyFGA(data, useAuthent) {
       const collectionName = this.configService.getValue('arlas.server.collection.name');
       return new Promise<any>((resolve, reject) => {
@@ -236,35 +268,119 @@ export class ArlasStartupService {
                             'Authorization': 'Bearer ' + authService.idToken
                         }
                     });
-                    resolve(this.listAvailableFields(collectionName)
-                    .then((availableFields: Set<string>) => this.updateConfiguration(data[0], availableFields))
-                    .then((d) => { this.configService.setConfig(d); return [d, useAuthent]; }));
+                    resolve(this.applyFGAPromise(data, collectionName, useAuthent));
                 } else {
                     resolve([null, useAuthent]);
                 }
             });
-        } else {
-            resolve(this.listAvailableFields(collectionName)
-                    .then((availableFields: Set<string>) => this.updateConfiguration(data[0], availableFields))
-                    .then((d) => { this.configService.setConfig(d); return [d, useAuthent]; }));
-        }
-    });
-}
-    public setAuthentService(data) {
-        return new Promise<any>((resolve, reject) => {
-            if (this.configService.getValue('arlas.authentification')) {
-                const useAuthentForArlas = this.configService.getValue('arlas.authentification.useAuthentForArlas');
-                const useDiscovery = this.configService.getValue('arlas.authentification.useDiscovery');
-                const authService = this.injector.get('AuthentificationService')[0];
-                authService.initAuthService(this.configService, useDiscovery, useAuthentForArlas).then(() => {
-                    resolve([data, useAuthentForArlas]);
-                });
-            } else {
-                resolve([data, false]);
-            }
-        });
+          } else {
+              resolve(this.applyFGAPromise(data, collectionName, useAuthent));
+          }
+      });
     }
 
+    /**
+     * - Fetches and parses the `settings.yaml`.
+     * - Validates it against the correponding schema
+     * - if authentication is configured, trigger authentication service that redirects to login page if it's the first time and fetches
+     * the appropriate token
+     * @returns ARLAS settings object Promise
+     */
+    public applyAppSettings(): Promise<ArlasSettings> {
+      return this.http.get(this.SETTINGS_FILE_NAME, {responseType: 'text'}).toPromise()
+        .catch((err) => {
+          // application should not run if the settings.yaml file is absent
+          this.shouldRunApp = false;
+          console.error(err);
+          const error: Error = {
+            origin: this.SETTINGS_FILE_NAME + ' file',
+            message: 'Cannot read "' + this.SETTINGS_FILE_NAME + '" file',
+            reason: 'Please check if "' + this.SETTINGS_FILE_NAME + '" is in "src" folder'
+          };
+          this.errorsQueue.push(error);
+          return {};
+        })
+        .then(s => {
+          // parses the yaml file and validates it against the correponding schema
+          const settings: ArlasSettings = YAML.safeLoad(s);
+          return this.validateSettings(settings);
+        })
+        .catch((err: any) => {
+          // application should not run if the settings.yaml file is not valid
+          this.shouldRunApp = false;
+          console.error(err);
+          const error = {
+              origin: 'ARLAS-wui `' + this.SETTINGS_FILE_NAME + '` file',
+              message: err.toString().replace('Error:', ''),
+              reason: 'Please check that the `src/' + this.SETTINGS_FILE_NAME + '` file is valid.'
+          };
+          this.errorsQueue.push(error);
+          return Promise.resolve(null);
+        })
+        .then((settings: ArlasSettings) => {
+          // if authentication is configured, trigger authentication service that redirects to login page if it's the first time and fetches
+          // the appropriate token
+          if (settings) {
+            const authent: AuthentSetting = settings.authentication;
+            if (authent && authent.use_authent === true) {
+              this.useAuthent = settings.authentication.use_authent;
+              const useDiscovery = authent.use_discovery;
+              const authService: AuthentificationService = this.injector.get('AuthentificationService')[0];
+              authService.initAuthService(authent, useDiscovery, this.useAuthent).then(() => settings);
+            }
+          }
+          return settings;
+      });
+    }
+
+    /**
+     * - Fetches the configuration file from ARLAS-persistence if it's configurated, otherwise fetches the config.json in "src" folder.
+     * - Validates the configuration against the corresponding schema
+     * @param settings Arlas Settings object
+     * @returns ARLAS Configuration object Promise
+     */
+    public getAppConfigurationObject(settings: ArlasSettings): Promise<any> {
+        let configData;
+        const url = new URL(window.location.href);
+        const usePersistance = (this.envService.persistenceUrl && this.envService.persistenceUrl !== '');
+        const configurationId = url.searchParams.get(this.CONFIG_ID_QUERY_PARAM);
+        let configDataPromise: Promise<any>;
+        if (usePersistance && configurationId) {
+          // we use persistance and a configuration Id is provided
+          configDataPromise = this.persistenceService.get(configurationId).toPromise()
+              .then((s: DataWithLinks) => {
+                const config =  JSON.parse(s.doc_value);
+                configData = config;
+                return Promise.resolve(config);
+              }).catch((err) => {
+                this.shouldRunApp = false;
+                console.error(err);
+                const error: Error = {
+                  origin: 'ARLAS-persistence : ' + err.url,
+                  message: 'Cannot fetch the configuration whose id is "' + configurationId + '"',
+                  reason: 'Please check if ARLAS-persistence is up & running, ' +
+                    'if the requested configuration exists and if you have rights to access it.'
+                };
+                this.errorsQueue.push(error);
+                return Promise.resolve(configData);
+              });
+        } else {
+          // persistence is not used, we use the config.json file mounted
+          configDataPromise = this.http
+              .get('config.json')
+              .pipe(flatMap((response) => {
+                  configData = response;
+                  if (configData.extraConfigs !== undefined) {
+                      const promises = new Array<Promise<any>>();
+                      configData.extraConfigs.forEach(extraConfig => promises.push(this.loadExtraConfig(extraConfig, configData)));
+                      return Promise.all(promises).then(() => configData);
+                  } else {
+                      return Promise.resolve(configData);
+                  }
+              })).toPromise();
+        }
+        return configDataPromise.then(configObject => this.validateConfiguration(configObject));
+    }
     public setCollaborativeService(data, useAuthent) {
         return new Promise<any>((resolve, reject) => {
             this.collaborativesearchService.setConfigService(this.configService);
@@ -419,59 +535,34 @@ export class ArlasStartupService {
 
 
     public load(): Promise<any> {
-      const url = new URL(window.location.href);
-      const usePersistance = (this.envService.persistenceUrl && this.envService.persistenceUrl !== '');
-      const configurationId = url.searchParams.get(this.CONFIG_ID_QUERY_PARAM);
-      let configDataPromise;
-      let configData;
-      if (usePersistance && configurationId) {
-        // we use persistance and a configuration Id is provided
-        configDataPromise = this.persistenceService.get(configurationId).toPromise()
-            .then((s: DataWithLinks) => {
-              const config =  JSON.parse(s.doc_value);
-              configData = config;
-              return Promise.resolve(config);
-            }).catch((err) => {
-              this.shouldRunApp = false;
-              console.error(err);
-              const error: Error = {
-                origin: 'ARLAS-persistence : ' + err.url,
-                message: 'Cannot fetch the configuration whose id is "' + configurationId + '"',
-                reason: 'Please check if ARLAS-persistence is up & running, ' +
-                  'if the requested configuration exists and if you have rights to access it.'
-              };
-              this.errorsQueue.push(error);
-              return Promise.resolve(null);
-            });
-      } else {
-        // persistence is not used, we use the config.json file mounted
-        configDataPromise = this.http
-            .get('config.json')
-            .pipe(flatMap((response) => {
-                configData = response;
-                if (configData.extraConfigs !== undefined) {
-                    const promises = new Array<Promise<any>>();
-                    configData.extraConfigs.forEach(extraConfig => promises.push(this.loadExtraConfig(extraConfig, configData)));
-                    return Promise.all(promises);
-                } else {
-                    return Promise.resolve(null);
-                }
-            })).toPromise();
-      }
-      return configDataPromise.then((s) => this.validateConfiguration(configData))
+      return this.applyAppSettings()
+        .then((s: ArlasSettings) => this.getAppConfigurationObject(s))
         .then((data) => this.translationLoaded(data))
         .then((data) => this.setConfigService(data))
-        .then((data) => this.setAuthentService(data))
-        .then(([data, useAuthent]) => this.applyFGA(data, useAuthent))
-        .then(([data, useAuthent]) => this.setCollaborativeService(data, useAuthent))
+        .then((data) => this.applyFGA(data, this.useAuthent === true))
+        .then((data) => this.setCollaborativeService(data, this.useAuthent === true))
         .then((data) => this.testArlasUp(data))
         .then((data) => this.getCollections(data))
         .then((data) => this.buildContributor(data))
         .catch((err: any) => {
+            this.shouldRunApp = false;
             console.error(err);
+            let message = '';
+            if (err.url) {
+              message = '- A server error occured \n' + '   - url: ' + err.url + '\n' + '   - status : ' + err.status;
+            } else {
+              message = err.toString();
+            }
+            const error = {
+                origin: 'ARLAS-wui runtime',
+                message: message,
+                reason: ''
+            };
+            this.errorsQueue.push(error);
             return Promise.resolve(null);
         }).then((x) => { });
     }
+
     private setAttribute(path, value, object) {
         const pathToList = path.split('.');
         const pathLength = pathToList.length;
@@ -486,12 +577,41 @@ export class ArlasStartupService {
         object[pathToList[pathLength - 1]] = value;
     }
 
+    /**
+     * Retrieves fields that are available for exploration and updates the configuration to keep only corresponding widgets and components
+     * @param data configuration object
+     * @param collectionName Name of the explored collection
+     * @param useAuthent whether authentication is activated or not.
+     *
+     * @code 001
+     */
+    private applyFGAPromise(data, collectionName, useAuthent) {
+      return this.listAvailableFields(collectionName)
+                    .then((availableFields: Set<string>) => this.updateConfiguration(data[0], availableFields))
+                    .then((d) => { this.configService.setConfig(d); return [d, useAuthent]; })
+                    .catch(err => {
+                      this.shouldRunApp = false;
+                      console.error(err);
+                      const error = {
+                          origin: 'ARLAS-wui runtime: an error occured while updating the configuration. Code: 001',
+                          message: err.message,
+                          reason: 'Please feel free to create an issue in "https://github.com/gisaia/ARLAS-wui-toolkit/issues"'
+                      };
+                      this.errorsQueue.push(error);
+                      return Promise.resolve(null);
+                    });
+    }
+
 }
 
 export interface ExtraConfig {
     configPath: string;
     replacedAttribute: string;
     replacer: string;
+}
+
+export interface ArlasSettings {
+  authentication?: AuthentSetting;
 }
 
 

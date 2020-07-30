@@ -11,6 +11,7 @@ var histogramConf = require('../arlas-web-components/histogram/histogram.schema.
 var swimlaneConf = require('../arlas-web-components/histogram/swimlane.schema.json');
 var powerbarsConf = require('../arlas-web-components/powerbars/powerbars.schema.json');
 var arlasconfig = require('./services/startup/arlasconfig.schema.json')
+var arlassettings = require('../settings.schema.yaml')
 var config = require('../../src/config.json')
 
 var error = clc.red.bold;

@@ -1,0 +1,19 @@
+########################################################
+############   AUTHENTICATION SETTINGS   ###############
+########################################################
+authentication:
+  use_authent: ${ARLAS_USE_AUTHENT:-false}
+  use_discovery: ${ARLAS_USE_DISCOVERY:-false}
+  issuer: ${ARLAS_AUTHENT_ISSUER}
+  client_id: ${ARLAS_CLIENT_ID}
+  token_endpoint: ${ARLAS_TOKEN_ENDPOINT}
+  userinfo_endpoint: ${ARLAS_USERINFO_ENDPOINT}
+  login_url: ${ARLAS_LOGIN_URL}
+  scope: ${ARLAS_AUTHENT_SCOPE}
+  response_type: ${ARLAS_AUTHENT_RESPONSE_TYPE}
+  jwks_endpoint: ${ARLAS_JWS_ENDPOINT}
+  silent_refresh_timeout: ${ARLAS_AUTHENT_SILENT_REFRESH_TIMEOUT}
+  timeout_factor: ${ARLAS_AUTHENT_TIMEOUT_FACTOR}
+  session_checks_enabled: ${ARLAS_AUTHENT_SESSION_CHECKS_ENABLED}
+  show_debug_information: ${ARLAS_AUTHENT_DEBUG}
+  clear_hash_after_login: ${ARLAS_AUTHENT_CLEAR_HASH}

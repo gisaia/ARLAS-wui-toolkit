@@ -13,7 +13,7 @@ import { ArlasConfigService } from '../startup/startup.service';
 export class AuthentificationService {
 
   public authConfig: AuthConfig;
-  public authConfigValue: any;
+  public authConfigValue: AuthentSetting;
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
   public isAuthenticated = this.isAuthenticatedSubject.asObservable();
   private isDoneLoadingSubject = new ReplaySubject<boolean>();
@@ -37,19 +37,19 @@ export class AuthentificationService {
 
   }
 
-  public initAuthService(configService, useDiscovery?: boolean, forceConnect?: boolean): Promise<void> {
-    this.authConfigValue = configService.getValue('arlas.authentification');
+  public initAuthService(authentSettings: AuthentSetting, useDiscovery?: boolean, forceConnect?: boolean): Promise<void> {
+    this.authConfigValue = authentSettings;
     if (this.authConfigValue) {
-      if (useDiscovery || this.authConfigValue['jwksEndpoint'] === undefined) {
+      if (useDiscovery || this.authConfigValue['jwks_endpoint'] === undefined) {
         this.authConfig = this.getAuthConfig(this.authConfigValue);
         this.setupAuthService();
         return this.runInitialLoginSequence(useDiscovery, forceConnect);
       }
     } else {
       // Call jwks endpoint to set in config
-      if (this.authConfigValue['tokenEndpoint'] && this.authConfigValue['userinfoEndpoint']
-        && this.authConfigValue['loginUrl'] && this.authConfigValue['jwksEndpoint']) {
-        return this.http.get(this.authConfigValue['jwksEndpoint']).toPromise()
+      if (this.authConfigValue['token_endpoint'] && this.authConfigValue['userinfo_endpoint']
+        && this.authConfigValue['login_url'] && this.authConfigValue['jwks_endpoint']) {
+        return this.http.get(this.authConfigValue['jwks_endpoint']).toPromise()
           .then(jwks => {
             this.authConfig = this.getAuthConfig(this.authConfigValue, jwks);
             this.setupAuthService();
@@ -64,7 +64,6 @@ export class AuthentificationService {
 
   public runInitialLoginSequence(useDiscovery?: boolean, forceConnect?: boolean): Promise<void> {
     let startToLogin: Promise<any>;
-
     if (useDiscovery) {
       startToLogin = this.oauthService.loadDiscoveryDocument()
         .then(() => this.oauthService.tryLogin());
@@ -127,61 +126,66 @@ export class AuthentificationService {
   }
 
 
-  private getAuthConfig(authConfigValue, jwks?): AuthConfig {
+  private getAuthConfig(authConfigValue: AuthentSetting, jwks?): AuthConfig {
     let authServiceConfig: AuthConfig;
     let url = window.location.origin.concat(window.location.pathname);
     if (url.slice(-1) !== '/') {
       url = url.concat('/');
     }
     if (authConfigValue) {
-      if (authConfigValue['useDiscovery']) {
-        authServiceConfig = {
-          clientId: authConfigValue['clientId'],
-          issuer: authConfigValue['issuer'],
-          scope: authConfigValue['scope'],
-          responseType: authConfigValue['responseType'],
-          redirectUri: authConfigValue['redirectUri'] !== undefined ? authConfigValue['redirectUri'] : url + 'callback',
-          silentRefreshRedirectUri: authConfigValue['silentRefreshRedirectUri'] !== undefined ?
-            authConfigValue['silentRefreshRedirectUri'] : url + 'silent-refresh.html',
-          timeoutFactor: authConfigValue['timeoutFactor'] !== undefined ? authConfigValue['timeoutFactor'] : 0.75,
-          sessionChecksEnabled: authConfigValue['sessionChecksEnabled'] !== undefined ? authConfigValue['sessionChecksEnabled'] : true,
-          showDebugInformation: authConfigValue['showDebugInformation'] !== undefined ? authConfigValue['showDebugInformation'] : false,
-          silentRefreshTimeout: authConfigValue['silentRefreshTimeout'] !== undefined ? authConfigValue['silentRefreshTimeout'] : 5000,
-          clearHashAfterLogin: authConfigValue['clearHashAfterLogin'] !== undefined ? authConfigValue['clearHashAfterLogin'] : false,
-          disableAtHashCheck: authConfigValue['disableAtHashCheck'] !== undefined ? authConfigValue['disableAtHashCheck'] : false,
-          requireHttps: authConfigValue['requireHttps'] !== undefined ? authConfigValue['requireHttps'] : true
-        };
-        if (authConfigValue['dummyClientSecret'] !== undefined) {
-          authServiceConfig['dummyClientSecret'] = authConfigValue['dummyClientSecret'];
-        }
-      } else {
-        authServiceConfig = {
-          clientId: authConfigValue['clientId'],
-          issuer: authConfigValue['issuer'],
-          scope: authConfigValue['scope'],
-          responseType: authConfigValue['responseType'],
-          tokenEndpoint: authConfigValue['tokenEndpoint'],
-          userinfoEndpoint: authConfigValue['userinfoEndpoint'],
-          loginUrl: authConfigValue['loginUrl'],
-          redirectUri: authConfigValue['redirectUri'] !== undefined ? authConfigValue['redirectUri'] : url + 'callback',
-          silentRefreshRedirectUri: authConfigValue['silentRefreshRedirectUri'] !== undefined ?
-            authConfigValue['silentRefreshRedirectUri'] : url + 'silent-refresh.html',
-          timeoutFactor: authConfigValue['timeoutFactor'] !== undefined ? authConfigValue['timeoutFactor'] : 0.75,
-          sessionChecksEnabled: authConfigValue['sessionChecksEnabled'] !== undefined ? authConfigValue['sessionChecksEnabled'] : true,
-          showDebugInformation: authConfigValue['showDebugInformation'] !== undefined ? authConfigValue['showDebugInformation'] : false,
-          silentRefreshTimeout: authConfigValue['silentRefreshTimeout'] !== undefined ? authConfigValue['silentRefreshTimeout'] : 5000,
-          clearHashAfterLogin: authConfigValue['clearHashAfterLogin'] !== undefined ? authConfigValue['clearHashAfterLogin'] : false,
-          disableAtHashCheck: authConfigValue['disableAtHashCheck'] !== undefined ? authConfigValue['disableAtHashCheck'] : false,
-          requireHttps: authConfigValue['requireHttps'] !== undefined ? authConfigValue['requireHttps'] : true
-        };
+      authServiceConfig = {
+        clientId: authConfigValue['client_id'],
+        issuer: authConfigValue['issuer'],
+        scope: authConfigValue['scope'],
+        responseType: authConfigValue['response_type'],
+        redirectUri: authConfigValue['redirect_uri'] !== undefined ? authConfigValue['redirect_uri'] : url + 'callback',
+        silentRefreshRedirectUri: authConfigValue['silent_refresh_redirect_uri'] !== undefined ?
+          authConfigValue['silent_refresh_redirect_uri'] : url + 'silent-refresh.html',
+        timeoutFactor: authConfigValue['timeout_factor'] !== undefined ? authConfigValue['timeout_factor'] : 0.75,
+        sessionChecksEnabled: authConfigValue['session_checks_enabled'] !== undefined ? authConfigValue['session_checks_enabled'] : true,
+        showDebugInformation: authConfigValue['show_debug_information'] !== undefined ? authConfigValue['show_debug_information'] : false,
+        silentRefreshTimeout: authConfigValue['silent_refresh_timeout'] !== undefined ? authConfigValue['silent_refresh_timeout'] : 5000,
+        clearHashAfterLogin: authConfigValue['clear_hash_after_login'] !== undefined ? authConfigValue['clear_hash_after_login'] : false,
+        disableAtHashCheck: authConfigValue['disable_at_hash_check'] !== undefined ? authConfigValue['disable_at_hash_check'] : false,
+        requireHttps: authConfigValue['require_https'] !== undefined ? authConfigValue['require_https'] : true
+      };
+      if (authConfigValue['dummy_client_secret'] !== undefined) {
+        authServiceConfig.dummyClientSecret = authConfigValue['dummy_client_secret'];
+      }
+      if (!authConfigValue['use_discovery']) {
+        authServiceConfig.tokenEndpoint = authConfigValue['token_endpoint'];
+        authServiceConfig.userinfoEndpoint = authConfigValue['userinfo_endpoint'];
+        authServiceConfig.loginUrl = authConfigValue['login_url'];
         if (jwks !== undefined) {
           authServiceConfig['jwks'] = jwks;
-        }
-        if (authConfigValue['dummyClientSecret'] !== undefined) {
-          authServiceConfig['dummyClientSecret'] = authConfigValue['dummyClientSecret'];
         }
       }
     }
     return authServiceConfig;
   }
+}
+
+
+export interface AuthentSetting {
+  use_discovery?: boolean;
+  use_authent?: boolean;
+  client_id?: string;
+  issuer?: string;
+  scope?: string;
+  response_type?: string;
+  redirect_uri?: string;
+  silent_refresh_redirect_uri?: string;
+  silent_refresh_timeout?: number;
+  timeout_factor?: number;
+  session_checks_enabled?: boolean;
+  show_debug_information?: boolean;
+  clear_hash_after_login?: boolean;
+  disable_at_hash_check?: boolean;
+  require_https?: boolean;
+  dummy_client_secret?: string;
+  userinfo_endpoint?: string;
+  token_endpoint?: string;
+  jwks_endpoint?: string;
+  login_url?: string;
+
 }
