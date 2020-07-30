@@ -49,6 +49,7 @@ import { ArlasConfigurationUpdaterService } from '../configuration-updater/confi
 import { getFieldProperties } from '../../tools/utils.js';
 import { EnvService } from '../env/env.service';
 import { PersistenceService } from '../../services/persistence/persistence.service';
+import { DataWithLinks } from 'arlas-persistence-api';
 
 @Injectable({
     providedIn: 'root'
@@ -426,8 +427,8 @@ export class ArlasStartupService {
       if (usePersistance && configurationId) {
         // we use persistance and a configuration Id is provided
         configDataPromise = this.persistenceService.get(configurationId).toPromise()
-            .then((s) => {
-              const config =  JSON.parse(JSON.parse(s.doc_value).config);
+            .then((s: DataWithLinks) => {
+              const config =  JSON.parse(s.doc_value);
               configData = config;
               return Promise.resolve(config);
             }).catch((err) => {

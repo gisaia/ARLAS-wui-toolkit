@@ -41,11 +41,6 @@ export class ErrormodalComponent implements OnInit {
       this.openDialog();
       this.dialogRef.componentInstance.messages = this.arlasStartupService.errorsQueue;
     }
-
-    if (this.configService.errorsQueue && this.arlasStartupService.errorsQueue.length > 0) {
-      this.openDialog();
-      this.dialogRef.componentInstance.messages = this.configService.errorsQueue;
-    }
     this.configService.confErrorBus
     .pipe(bufferWhen(() => this.configService.confErrorBus.pipe(debounceTime(5000))))
       .subscribe(k => {
