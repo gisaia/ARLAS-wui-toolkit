@@ -52,6 +52,6 @@ export class PersistenceService {
 
 }
 
-export interface PersitenceSetting {
+export interface PersistenceSetting {
   url: string;
 }

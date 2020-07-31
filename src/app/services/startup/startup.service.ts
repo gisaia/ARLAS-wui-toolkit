@@ -49,7 +49,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { LOCATION_INITIALIZED } from '@angular/common';
 import { ArlasConfigurationUpdaterService } from '../configuration-updater/configurationUpdater.service.js';
 import { getFieldProperties } from '../../tools/utils.js';
-import { PersistenceService, PersitenceSetting } from '../../services/persistence/persistence.service';
+import { PersistenceService, PersistenceSetting } from '../../services/persistence/persistence.service';
 import { DataWithLinks } from 'arlas-persistence-api';
 import { AuthentificationService, AuthentSetting } from '../authentification/authentification.service';
 
@@ -336,7 +336,7 @@ export class ArlasStartupService {
      */
     public getAppConfigurationObject(settings: ArlasSettings): Promise<any> {
         const url = new URL(window.location.href);
-        const usePersistance = (settings && settings.persistence && settings.persistence.url && settings.persistence.url !== '');
+        const usePersistence = (settings && settings.persistence && settings.persistence.url && settings.persistence.url !== '');
         const configurationId = url.searchParams.get(CONFIG_ID_QUERY_PARAM);
         return new Promise<any>((resolve, reject) => {
           if (this.useAuthent) {
@@ -351,10 +351,10 @@ export class ArlasStartupService {
                 } else {
                   this.persistenceService.setOptions({});
                 }
-                resolve(this.getAppConfigurationObjectPromise(usePersistance, configurationId));
+                resolve(this.getAppConfigurationObjectPromise(usePersistence, configurationId));
             });
           } else {
-            resolve(this.getAppConfigurationObjectPromise(usePersistance, configurationId));
+            resolve(this.getAppConfigurationObjectPromise(usePersistence, configurationId));
           }
       });
 
@@ -583,15 +583,15 @@ export class ArlasStartupService {
     /**
      * - Fetches the configuration file from ARLAS-persistence if it's configurated, otherwise fetches the config.json in "src" folder.
      * - Validates the configuration against the corresponding schema
-     * @param usePersistance whether to use persistence or not
+     * @param usePersistence whether to use persistence or not
      * @param configurationId Optional. Configuration id to be fetched from the persistence server
      */
-    private getAppConfigurationObjectPromise(usePersistance: boolean, configurationId?: string): Promise<any> {
+    private getAppConfigurationObjectPromise(usePersistence: boolean, configurationId?: string): Promise<any> {
       let configDataPromise: Promise<any>;
       let configData;
-      if (usePersistance && configurationId) {
+      if (usePersistence && configurationId) {
 
-        // we use persistance and a configuration Id is provided
+        // we use persistence and a configuration Id is provided
         const authService = this.injector.get('AuthentificationService')[0];
         const token = !!authService.idToken ? authService.idToken : null;
         if (token !== null) {
@@ -647,7 +647,7 @@ export interface ExtraConfig {
 
 export interface ArlasSettings {
   authentication?: AuthentSetting;
-  persistence?: PersitenceSetting;
+  persistence?: PersistenceSetting;
 }
 
 

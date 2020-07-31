@@ -33,15 +33,14 @@ export class ArlasExtendService {
   constructor(
     private arlasStartupService: ArlasStartupService,
     private configService: ArlasConfigService,
-    private persistanceService: PersistenceService) {
+    private persistenceService: PersistenceService) {
     if (this.arlasStartupService.shouldRunApp) {
       if (!!this.configService.getConfig()['arlas']['persistence-server']
         && !!this.configService.getConfig()['arlas']['persistence-server']['url']) {
-        this.dataBase = new ExtendPersistenceDatabase(this.persistanceService);
+        this.dataBase = new ExtendPersistenceDatabase(this.persistenceService);
         this.dataBase.dataChange.subscribe(() => {
           this.extendMap = this.dataBase.storageObjectMap;
         });
-
       } else {
         this.dataBase = new ExtendLocalDatabase();
         this.dataBase.dataChange.subscribe(() => {
