@@ -14,6 +14,7 @@ export const GET_OPTIONS = new InjectionToken<Function>('get_options');
 export class PersistenceService {
 
   private persistenceApi: PersistApi;
+  private options;
   constructor(
     @Inject(GET_OPTIONS) private getOptions,
     private envService: EnvService
@@ -21,27 +22,36 @@ export class PersistenceService {
     const configuraiton = new Configuration();
     const baseUrl = this.envService.persistenceUrl;
     this.persistenceApi = new PersistApi(configuraiton, baseUrl, portableFetch);
+    this.setOptions(this.getOptions());
   }
 
 
   public delete(id: string): Observable<DataWithLinks> {
-    return from(this.persistenceApi.deleteById(id, false, this.getOptions()));
+    return from(this.persistenceApi.deleteById(id, false, this.options));
   }
 
   public create(zone: string, name: string, value: string, readers?: string[], writers?: string[]): Observable<DataWithLinks> {
-    return from(this.persistenceApi.create(zone, name, value, readers, writers, false, this.getOptions()));
+    return from(this.persistenceApi.create(zone, name, value, readers, writers, false, this.options));
 
   }
   public get(id: string): Observable<DataWithLinks> {
-    return from(this.persistenceApi.getById(id, false, this.getOptions()));
+    return from(this.persistenceApi.getById(id, false, this.options));
   }
   public list(zone: string, size: number, page: number, order: string): Observable<DataResource> {
-    return from(this.persistenceApi.list(zone, size, page, order, false, this.getOptions()));
+    return from(this.persistenceApi.list(zone, size, page, order, false, this.options));
 
   }
   public update(id: string, value: string, lastUpdate: number, name?: string,
     readers?: string[], writers?: string[]): Observable<DataWithLinks> {
-      return from(this.persistenceApi.update(id, value, lastUpdate, name, readers, writers, false, this.getOptions()));
+      return from(this.persistenceApi.update(id, value, lastUpdate, name, readers, writers, false, this.options));
   }
 
+  public setOptions(options): void {
+    this.options = options;
+  }
+
+}
+
+export interface PersistenceSetting {
+  url: string;
 }

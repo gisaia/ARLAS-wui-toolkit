@@ -9,99 +9,111 @@
       "description": "Configuration of Oauth2 OIDC connection",
       "type": "object",
       "properties": {
-          "use_authent": {
-              "description": "Defines whether we use authent in arlas server backend",
-              "type": "boolean"
-          },
-          "use_discovery": {
-              "description": "Defines whether we use document discovery service",
-              "type": "boolean"
-          },
-          "client_id": {
-              "description": "The client's id as registered with the auth server",
-              "type": "string"
-          },
-          "issuer": {
-              "description": "The issuer's uri.",
-              "type": "string"
-          },
-          "redirect_uri": {
-              "description": "The client's redirectUri as registered with the auth server",
-              "type": "string"
-          },
-          "silent_refresh_redirect_uri": {
-              "description": "The client's silentRefreshRedirectUri as registered with the auth server",
-              "type": "string"
-          },
-          "scope": {
-              "description": "The requested scopes, e.g:'openid profile'",
-              "type": "string"
-          },
-          "token_endpoint": {
-              "description": "Url of the token endpoint as defined by OpenId Connect and OAuth 2. Mandatory if use_discovery is false.",
-              "type": "string"
-          },
-          "userinfo_endpoint": {
-              "description": "Url of the userinfo endpoint as defined by OpenId Connect. Mandatory if use_discovery is false.",
-              "type": "string"
-          },
-          "jwks_endpoint": {
-              "description": "JSON Web Key Set (https://tools.ietf.org/html/rfc7517) with keys used to validate received id_tokens. This is taken out of the disovery document.. Mandatory if use_discovery is false.",
-              "type": "string"
-          },
-          "login_url": {
-              "description": "The auth server's endpoint that allows to log the user in when using implicit flow. Mandatory if use_discovery is false.",
-              "type": "string"
-          },
-          "show_debug_information": {
-              "description": "Defines whether additional debug information should  be shown at the console",
-              "type": "boolean"
-          },
-          "require_https": {
-              "description": "Defines whether https is required.",
-              "type": "boolean"
-          },
-          "response_type": {
-              "description": "Response type values, e.g: 'id_token token'",
-              "type": "string"
-          },
-          "silent_refresh_timeout": {
-              "description": "Timeout for silent refresh.",
-              "type": "number"
-          },
-          "timeout_factor": {
-              "description": "Defines when the token_timeout event should be raised.If you set this to the default value 0.75, the event s triggered after 75% of the token's life time.",
-              "type": "number"
-          },
-          "session_checks_enabled": {
-              "description": "If true, the lib will try to check whether the user is still logged in on a regular basis as described",
-              "type": "boolean"
-          },
-          "clear_hash_after_login": {
-              "description": "Defines whether to clear the hash fragment after logging in.",
-              "type": "boolean"
-          },
-          "storage": {
-              "description": "Defines where authentication information is stocked. `localstorage` by default",
-              "enum": [
-                  "localstorage",
-                  "sessionstorage"
-              ]
-          },
-          "disable_at_hash_check": {
-              "description": "This property has been introduced to disable at_hash checks and is indented for Identity Provider that does not deliver an at_hash EVEN THOUGH its recommended by the OIDC specs.",
-              "type": "boolean"
-          },
-          "dummy_client_secret": {
-              "description": "dummy string for tests. DO NOT USE IT in production environment.",
-              "type": "string"
-          }
+        "use_authent": {
+          "description": "Defines whether we use authent in arlas server backend",
+          "type": "boolean"
+        },
+        "use_discovery": {
+          "description": "Defines whether we use document discovery service",
+          "type": "boolean"
+        },
+        "client_id": {
+          "description": "The client's id as registered with the auth server",
+          "type": "string"
+        },
+        "issuer": {
+          "description": "The issuer's uri.",
+          "type": "string"
+        },
+        "redirect_uri": {
+          "description": "The client's redirectUri as registered with the auth server",
+          "type": "string"
+        },
+        "silent_refresh_redirect_uri": {
+          "description": "The client's silentRefreshRedirectUri as registered with the auth server",
+          "type": "string"
+        },
+        "scope": {
+          "description": "The requested scopes, e.g:'openid profile'",
+          "type": "string"
+        },
+        "token_endpoint": {
+          "description": "Url of the token endpoint as defined by OpenId Connect and OAuth 2. Mandatory if use_discovery is false.",
+          "type": "string"
+        },
+        "userinfo_endpoint": {
+          "description": "Url of the userinfo endpoint as defined by OpenId Connect. Mandatory if use_discovery is false.",
+          "type": "string"
+        },
+        "jwks_endpoint": {
+          "description": "JSON Web Key Set (https://tools.ietf.org/html/rfc7517) with keys used to validate received id_tokens. This is taken out of the disovery document.. Mandatory if use_discovery is false.",
+          "type": "string"
+        },
+        "login_url": {
+          "description": "The auth server's endpoint that allows to log the user in when using implicit flow. Mandatory if use_discovery is false.",
+          "type": "string"
+        },
+        "show_debug_information": {
+          "description": "Defines whether additional debug information should  be shown at the console",
+          "type": "boolean"
+        },
+        "require_https": {
+          "description": "Defines whether https is required.",
+          "type": "boolean"
+        },
+        "response_type": {
+          "description": "Response type values, e.g: 'id_token token'",
+          "type": "string"
+        },
+        "silent_refresh_timeout": {
+          "description": "Timeout for silent refresh.",
+          "type": "number"
+        },
+        "timeout_factor": {
+          "description": "Defines when the token_timeout event should be raised.If you set this to the default value 0.75, the event s triggered after 75% of the token's life time.",
+          "type": "number"
+        },
+        "session_checks_enabled": {
+          "description": "If true, the lib will try to check whether the user is still logged in on a regular basis as described",
+          "type": "boolean"
+        },
+        "clear_hash_after_login": {
+          "description": "Defines whether to clear the hash fragment after logging in.",
+          "type": "boolean"
+        },
+        "storage": {
+          "description": "Defines where authentication information is stocked. `localstorage` by default",
+          "enum": [
+            "localstorage",
+            "sessionstorage"
+          ]
+        },
+        "disable_at_hash_check": {
+          "description": "This property has been introduced to disable at_hash checks and is indented for Identity Provider that does not deliver an at_hash EVEN THOUGH its recommended by the OIDC specs.",
+          "type": "boolean"
+        },
+        "dummy_client_secret": {
+          "description": "dummy string for tests. DO NOT USE IT in production environment.",
+          "type": "string"
+        }
       },
       "required": [
-          "use_authent",
-          "use_discovery",
-          "client_id",
-          "issuer"
+        "use_authent",
+        "use_discovery",
+        "client_id",
+        "issuer"
+      ]
+    },
+    "persistence": {
+      "description": "Configuration of ARLAS-persistence server",
+      "properties": {
+        "url": {
+          "type": "string",
+          "description": "URL to the ARLAS-persistence server"
+        }
+      },
+      "required": [
+        "url"
       ]
     }
   }

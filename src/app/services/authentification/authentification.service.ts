@@ -1,11 +1,9 @@
-import { Inject, Injectable, Injector } from '@angular/core';
-import { OAuthService, JwksValidationHandler, AuthConfig, OAuthErrorEvent } from 'angular-oauth2-oidc';
+import { Injectable } from '@angular/core';
+import { OAuthService, AuthConfig, OAuthErrorEvent } from 'angular-oauth2-oidc';
 import { BehaviorSubject, ReplaySubject, Observable, combineLatest } from 'rxjs';
 import { map } from 'rxjs/internal/operators/map';
-import { filter } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
-import { ArlasConfigService } from '../startup/startup.service';
+import { CONFIG_ID_QUERY_PARAM } from '../startup/startup.service';
 
 @Injectable({
   providedIn: 'root'
@@ -140,7 +138,7 @@ export class AuthentificationService {
         responseType: authConfigValue['response_type'],
         redirectUri: authConfigValue['redirect_uri'] !== undefined ? authConfigValue['redirect_uri'] : url + 'callback',
         silentRefreshRedirectUri: authConfigValue['silent_refresh_redirect_uri'] !== undefined ?
-          authConfigValue['silent_refresh_redirect_uri'] : url + 'silent-refresh.html',
+        authConfigValue['silent_refresh_redirect_uri'] : url + 'silent-refresh.html',
         timeoutFactor: authConfigValue['timeout_factor'] !== undefined ? authConfigValue['timeout_factor'] : 0.75,
         sessionChecksEnabled: authConfigValue['session_checks_enabled'] !== undefined ? authConfigValue['session_checks_enabled'] : true,
         showDebugInformation: authConfigValue['show_debug_information'] !== undefined ? authConfigValue['show_debug_information'] : false,
@@ -161,16 +159,21 @@ export class AuthentificationService {
         }
       }
     }
+    // include the config_id query parameter in the redirectUrl
+    const configId = (new URL(window.location.href)).searchParams.get(CONFIG_ID_QUERY_PARAM);
+    if (configId) {
+      authServiceConfig.redirectUri = authServiceConfig.redirectUri + '?' + CONFIG_ID_QUERY_PARAM + '=' + configId;
+    }
     return authServiceConfig;
   }
 }
 
 
 export interface AuthentSetting {
-  use_discovery?: boolean;
-  use_authent?: boolean;
-  client_id?: string;
-  issuer?: string;
+  use_discovery: boolean;
+  use_authent: boolean;
+  client_id: string;
+  issuer: string;
   scope?: string;
   response_type?: string;
   redirect_uri?: string;
@@ -187,5 +190,4 @@ export interface AuthentSetting {
   token_endpoint?: string;
   jwks_endpoint?: string;
   login_url?: string;
-
 }

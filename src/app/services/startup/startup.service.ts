@@ -49,8 +49,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { LOCATION_INITIALIZED } from '@angular/common';
 import { ArlasConfigurationUpdaterService } from '../configuration-updater/configurationUpdater.service.js';
 import { getFieldProperties } from '../../tools/utils.js';
-import { EnvService } from '../env/env.service';
-import { PersistenceService } from '../../services/persistence/persistence.service';
+import { PersistenceService, PersistenceSetting } from '../../services/persistence/persistence.service';
 import { DataWithLinks } from 'arlas-persistence-api';
 import { AuthentificationService, AuthentSetting } from '../authentification/authentification.service';
 
@@ -96,6 +95,8 @@ export interface Error {
   message: string;
   reason: string;
 }
+export const CONFIG_ID_QUERY_PARAM = 'config_id';
+export const SETTINGS_FILE_NAME = 'settings.yaml';
 
 @Injectable()
 export class ArlasStartupService {
@@ -111,8 +112,6 @@ export class ArlasStartupService {
     public arlasIsUp: Subject<boolean> = new Subject<boolean>();
     public arlasExploreApi: ArlasExploreApi;
     public errorsQueue = new Array<Error>();
-    private CONFIG_ID_QUERY_PARAM = 'config_id';
-    private SETTINGS_FILE_NAME = 'settings.yaml';
     private useAuthent = false;
 
     constructor(
@@ -123,11 +122,7 @@ export class ArlasStartupService {
         @Inject(FETCH_OPTIONS) private fetchOptions,
         private http: HttpClient, private translateService: TranslateService,
         @Inject(CONFIG_UPDATER) private configUpdater,
-        private envService: EnvService,
-        private persistenceService: PersistenceService        ) {
-
-
-    }
+        private persistenceService: PersistenceService) {}
 
     public getFGAService(): ArlasConfigurationUpdaterService {
       return this.configurationUpdaterService;
@@ -287,15 +282,15 @@ export class ArlasStartupService {
      * @returns ARLAS settings object Promise
      */
     public applyAppSettings(): Promise<ArlasSettings> {
-      return this.http.get(this.SETTINGS_FILE_NAME, {responseType: 'text'}).toPromise()
+      return this.http.get(SETTINGS_FILE_NAME, {responseType: 'text'}).toPromise()
         .catch((err) => {
           // application should not run if the settings.yaml file is absent
           this.shouldRunApp = false;
           console.error(err);
           const error: Error = {
-            origin: this.SETTINGS_FILE_NAME + ' file',
-            message: 'Cannot read "' + this.SETTINGS_FILE_NAME + '" file',
-            reason: 'Please check if "' + this.SETTINGS_FILE_NAME + '" is in "src" folder'
+            origin: SETTINGS_FILE_NAME + ' file',
+            message: 'Cannot read "' + SETTINGS_FILE_NAME + '" file',
+            reason: 'Please check if "' + SETTINGS_FILE_NAME + '" is in "src" folder'
           };
           this.errorsQueue.push(error);
           return {};
@@ -310,9 +305,9 @@ export class ArlasStartupService {
           this.shouldRunApp = false;
           console.error(err);
           const error = {
-              origin: 'ARLAS-wui `' + this.SETTINGS_FILE_NAME + '` file',
+              origin: 'ARLAS-wui `' + SETTINGS_FILE_NAME + '` file',
               message: err.toString().replace('Error:', ''),
-              reason: 'Please check that the `src/' + this.SETTINGS_FILE_NAME + '` file is valid.'
+              reason: 'Please check that the `src/' + SETTINGS_FILE_NAME + '` file is valid.'
           };
           this.errorsQueue.push(error);
           return Promise.resolve(null);
@@ -340,46 +335,29 @@ export class ArlasStartupService {
      * @returns ARLAS Configuration object Promise
      */
     public getAppConfigurationObject(settings: ArlasSettings): Promise<any> {
-        let configData;
         const url = new URL(window.location.href);
-        const usePersistance = (this.envService.persistenceUrl && this.envService.persistenceUrl !== '');
-        const configurationId = url.searchParams.get(this.CONFIG_ID_QUERY_PARAM);
-        let configDataPromise: Promise<any>;
-        if (usePersistance && configurationId) {
-          // we use persistance and a configuration Id is provided
-          configDataPromise = this.persistenceService.get(configurationId).toPromise()
-              .then((s: DataWithLinks) => {
-                const config =  JSON.parse(s.doc_value);
-                configData = config;
-                return Promise.resolve(config);
-              }).catch((err) => {
-                this.shouldRunApp = false;
-                console.error(err);
-                const error: Error = {
-                  origin: 'ARLAS-persistence : ' + err.url,
-                  message: 'Cannot fetch the configuration whose id is "' + configurationId + '"',
-                  reason: 'Please check if ARLAS-persistence is up & running, ' +
-                    'if the requested configuration exists and if you have rights to access it.'
-                };
-                this.errorsQueue.push(error);
-                return Promise.resolve(configData);
-              });
-        } else {
-          // persistence is not used, we use the config.json file mounted
-          configDataPromise = this.http
-              .get('config.json')
-              .pipe(flatMap((response) => {
-                  configData = response;
-                  if (configData.extraConfigs !== undefined) {
-                      const promises = new Array<Promise<any>>();
-                      configData.extraConfigs.forEach(extraConfig => promises.push(this.loadExtraConfig(extraConfig, configData)));
-                      return Promise.all(promises).then(() => configData);
-                  } else {
-                      return Promise.resolve(configData);
-                  }
-              })).toPromise();
-        }
-        return configDataPromise.then(configObject => this.validateConfiguration(configObject));
+        const usePersistence = (settings && settings.persistence && settings.persistence.url && settings.persistence.url !== '');
+        const configurationId = url.searchParams.get(CONFIG_ID_QUERY_PARAM);
+        return new Promise<any>((resolve, reject) => {
+          if (this.useAuthent) {
+            const authService = this.injector.get('AuthentificationService')[0];
+            authService.canActivateProtectedRoutes.subscribe(isActivable => {
+                if (isActivable) {
+                  this.persistenceService.setOptions({
+                    headers: {
+                      Authorization: 'bearer ' + authService.idToken
+                    }
+                  });
+                } else {
+                  this.persistenceService.setOptions({});
+                }
+                resolve(this.getAppConfigurationObjectPromise(usePersistence, configurationId));
+            });
+          } else {
+            resolve(this.getAppConfigurationObjectPromise(usePersistence, configurationId));
+          }
+      });
+
     }
     public setCollaborativeService(data, useAuthent) {
         return new Promise<any>((resolve, reject) => {
@@ -602,6 +580,63 @@ export class ArlasStartupService {
                     });
     }
 
+    /**
+     * - Fetches the configuration file from ARLAS-persistence if it's configurated, otherwise fetches the config.json in "src" folder.
+     * - Validates the configuration against the corresponding schema
+     * @param usePersistence whether to use persistence or not
+     * @param configurationId Optional. Configuration id to be fetched from the persistence server
+     */
+    private getAppConfigurationObjectPromise(usePersistence: boolean, configurationId?: string): Promise<any> {
+      let configDataPromise: Promise<any>;
+      let configData;
+      if (usePersistence && configurationId) {
+
+        // we use persistence and a configuration Id is provided
+        const authService = this.injector.get('AuthentificationService')[0];
+        const token = !!authService.idToken ? authService.idToken : null;
+        if (token !== null) {
+          this.persistenceService.setOptions({
+            headers: {              Authorization: 'bearer ' + token
+          }
+          });
+        } else {
+          this.persistenceService.setOptions({});
+        }
+        configDataPromise = this.persistenceService.get(configurationId).toPromise()
+            .then((s: DataWithLinks) => {
+              const config =  JSON.parse(s.doc_value);
+              configData = config;
+              return Promise.resolve(config);
+            }).catch((err) => {
+              this.shouldRunApp = false;
+              console.error(err);
+              const error: Error = {
+                origin: 'ARLAS-persistence : ' + err.url,
+                message: 'Cannot fetch the configuration whose id is "' + configurationId + '"',
+                reason: 'Please check if ARLAS-persistence is up & running, ' +
+                  'if the requested configuration exists and if you have rights to access it.'
+              };
+              this.errorsQueue.push(error);
+              return Promise.resolve(configData);
+            });
+      } else {
+        // persistence is not used, we use the config.json file mounted
+        configDataPromise = this.http
+            .get('config.json')
+            .pipe(flatMap((response) => {
+                configData = response;
+                if (configData.extraConfigs !== undefined) {
+                    const promises = new Array<Promise<any>>();
+                    configData.extraConfigs.forEach(extraConfig => promises.push(this.loadExtraConfig(extraConfig, configData)));
+                    return Promise.all(promises).then(() => configData);
+                } else {
+                    return Promise.resolve(configData);
+                }
+            })).toPromise();
+      }
+      return configDataPromise.then(configObject => this.validateConfiguration(configObject));
+    }
+
 }
 
 export interface ExtraConfig {
@@ -612,6 +647,7 @@ export interface ExtraConfig {
 
 export interface ArlasSettings {
   authentication?: AuthentSetting;
+  persistence?: PersistenceSetting;
 }
 
 
