@@ -22,7 +22,7 @@ export class PersistenceService {
     const configuraiton = new Configuration();
     const baseUrl = this.envService.persistenceUrl;
     this.persistenceApi = new PersistApi(configuraiton, baseUrl, portableFetch);
-    this.setOptions(this.getOptions);
+    this.setOptions(this.getOptions());
   }
 
 
