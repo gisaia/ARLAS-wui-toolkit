@@ -21,7 +21,8 @@ export {
   ArlasExploreApi,
   ArlasStartupService,
   ArlasCollaborativesearchService,
-  ArlasConfigService
+  ArlasConfigService,
+  ArlasSettings
 } from './services/startup/startup.service';
 export { ArlasBookmarkService } from './services/bookmark/bookmark.service';
 export { ArlasAoiService } from './services/aoi/aoi.service';
@@ -32,3 +33,5 @@ export { ArlasToolKitModule } from './app.module';
 export { ArlasToolkitSharedModule } from './shared.module';
 export { ArlasDataSource } from './tools/arlasDataSource';
 export { ArlasTaggerModule } from './tagger.module';
+export { AuthentSetting } from './services/authentification/authentification.service';
+export { PersitenceSetting } from './services/persistence/persistence.service';
