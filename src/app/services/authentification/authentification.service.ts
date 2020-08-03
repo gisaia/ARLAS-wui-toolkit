@@ -5,6 +5,8 @@ import { map } from 'rxjs/internal/operators/map';
 import { HttpClient } from '@angular/common/http';
 import { CONFIG_ID_QUERY_PARAM } from '../startup/startup.service';
 
+export const NOT_CONFIGURED = 'NOT_CONFIGURED';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -103,6 +105,15 @@ export class AuthentificationService {
   public get idToken() { return this.oauthService.getIdToken(); }
   public get logoutUrl() { return this.oauthService.logoutUrl; }
 
+  public areSettingsValid(authentSetting: AuthentSetting) {
+    if (authentSetting) {
+      if (authentSetting.client_id === NOT_CONFIGURED || authentSetting.issuer === NOT_CONFIGURED) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   private setupAuthService() {
     this.oauthService.configure(this.authConfig);
     // Useful for debugging:
@@ -136,9 +147,11 @@ export class AuthentificationService {
         issuer: authConfigValue['issuer'],
         scope: authConfigValue['scope'],
         responseType: authConfigValue['response_type'],
-        redirectUri: authConfigValue['redirect_uri'] !== undefined ? authConfigValue['redirect_uri'] : url + 'callback',
-        silentRefreshRedirectUri: authConfigValue['silent_refresh_redirect_uri'] !== undefined ?
-        authConfigValue['silent_refresh_redirect_uri'] : url + 'silent-refresh.html',
+        redirectUri: (authConfigValue['redirect_uri'] !== undefined && authConfigValue['redirect_uri'] !== NOT_CONFIGURED) ?
+          authConfigValue['redirect_uri'] : url + 'callback',
+        silentRefreshRedirectUri: (authConfigValue['silent_refresh_redirect_uri'] !== undefined
+          && authConfigValue['silent_refresh_redirect_uri'] !== NOT_CONFIGURED) ?
+            authConfigValue['silent_refresh_redirect_uri'] : url + 'silent-refresh.html',
         timeoutFactor: authConfigValue['timeout_factor'] !== undefined ? authConfigValue['timeout_factor'] : 0.75,
         sessionChecksEnabled: authConfigValue['session_checks_enabled'] !== undefined ? authConfigValue['session_checks_enabled'] : true,
         showDebugInformation: authConfigValue['show_debug_information'] !== undefined ? authConfigValue['show_debug_information'] : false,
@@ -147,7 +160,7 @@ export class AuthentificationService {
         disableAtHashCheck: authConfigValue['disable_at_hash_check'] !== undefined ? authConfigValue['disable_at_hash_check'] : false,
         requireHttps: authConfigValue['require_https'] !== undefined ? authConfigValue['require_https'] : true
       };
-      if (authConfigValue['dummy_client_secret'] !== undefined) {
+      if (authConfigValue['dummy_client_secret'] !== undefined && authConfigValue['dummy_client_secret'] !== NOT_CONFIGURED) {
         authServiceConfig.dummyClientSecret = authConfigValue['dummy_client_secret'];
       }
       if (!authConfigValue['use_discovery']) {
