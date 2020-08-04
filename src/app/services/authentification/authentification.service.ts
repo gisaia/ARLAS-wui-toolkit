@@ -105,13 +105,28 @@ export class AuthentificationService {
   public get idToken() { return this.oauthService.getIdToken(); }
   public get logoutUrl() { return this.oauthService.logoutUrl; }
 
-  public areSettingsValid(authentSetting: AuthentSetting) {
-    if (authentSetting) {
-      if (authentSetting.client_id === NOT_CONFIGURED || authentSetting.issuer === NOT_CONFIGURED) {
-        return false;
+  public areSettingsValid(authentSetting: AuthentSetting): [boolean, string] {
+    let valid = true;
+    const missingInfo = [];
+    if (authentSetting && authentSetting.use_authent) {
+      if (!authentSetting.client_id || authentSetting.client_id === NOT_CONFIGURED) {
+        valid = false;
+        missingInfo.push('client_id');
+      }
+      if (!authentSetting.issuer || authentSetting.issuer === NOT_CONFIGURED) {
+        valid = false;
+        missingInfo.push('issuer');
+      }
+      if (!authentSetting.scope || authentSetting.scope === NOT_CONFIGURED) {
+        valid = false;
+        missingInfo.push('scope');
+      }
+      if (!authentSetting.response_type || authentSetting.response_type === NOT_CONFIGURED) {
+        valid = false;
+        missingInfo.push('response_type');
       }
     }
-    return true;
+    return [valid, missingInfo.join(',')];
   }
 
   private setupAuthService() {
@@ -184,6 +199,7 @@ export class AuthentificationService {
 
 export interface AuthentSetting {
   use_discovery: boolean;
+  force_connect: boolean;
   use_authent: boolean;
   client_id: string;
   issuer: string;
