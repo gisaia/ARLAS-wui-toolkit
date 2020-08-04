@@ -317,15 +317,14 @@ export class ArlasStartupService {
             // redirects to login page if it's the first time and fetches the appropriate token
             if (settings) {
               const authent: AuthentSetting = settings.authentication;
-              if (authent) {
+              if (authent && authent.use_authent) {
                 this.useAuthent = authent.use_authent;
-                const useDiscovery = authent.use_discovery;
                 const authService: AuthentificationService = this.injector.get('AuthentificationService')[0];
-                if (!authService.areSettingsValid(authent)) {
-                  const err = 'Authentication is set while "issuer" and/or "client_id" are not configured';
+                if (!authService.areSettingsValid(authent)[0]) {
+                  const err = 'Authentication is set while ' + authService.areSettingsValid(authent)[1] + ' are not configured';
                   reject(err);
                 }
-                resolve(authService.initAuthService(authent, useDiscovery, this.useAuthent).then(() => settings));
+                resolve(authService.initAuthService(authent, authent.use_discovery, authent.force_connect).then(() => settings));
               }
             }
             return resolve(settings);
