@@ -80,7 +80,7 @@ export class AppComponent implements AfterViewInit, OnInit {
   }
 
   public ngAfterViewInit(): void {
-    if (this.configService.getConfig()['error'] !== undefined) {
+    if (this.configService.getConfig() && this.configService.getConfig()['error'] !== undefined) {
       this.configService.confErrorBus.next(this.configService.getConfig()['error']);
     } else if (this.arlasStartupService.shouldRunApp) {
       this.activatedRoute.queryParams

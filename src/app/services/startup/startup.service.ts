@@ -312,20 +312,36 @@ export class ArlasStartupService {
           this.errorsQueue.push(error);
           return Promise.resolve(null);
         })
-        .then((settings: ArlasSettings) => {
-          // if authentication is configured, trigger authentication service that redirects to login page if it's the first time and fetches
-          // the appropriate token
-          if (settings) {
-            const authent: AuthentSetting = settings.authentication;
-            if (authent && authent.use_authent === true) {
-              this.useAuthent = settings.authentication.use_authent;
-              const useDiscovery = authent.use_discovery;
-              const authService: AuthentificationService = this.injector.get('AuthentificationService')[0];
-              authService.initAuthService(authent, useDiscovery, this.useAuthent).then(() => settings);
+        .then((settings: ArlasSettings) => new Promise((resolve, reject) => {
+            // if authentication is configured, trigger authentication service that
+            // redirects to login page if it's the first time and fetches the appropriate token
+            if (settings) {
+              const authent: AuthentSetting = settings.authentication;
+              if (authent) {
+                this.useAuthent = authent.use_authent;
+                const useDiscovery = authent.use_discovery;
+                const authService: AuthentificationService = this.injector.get('AuthentificationService')[0];
+                if (!authService.areSettingsValid(authent)) {
+                  const err = 'Authentication is set while "issuer" and/or "client_id" are not configured';
+                  reject(err);
+                }
+                resolve(authService.initAuthService(authent, useDiscovery, this.useAuthent).then(() => settings));
+              }
             }
-          }
-          return settings;
-      });
+            return resolve(settings);
+        }))
+        .catch((err: any) => {
+          // application should not run if the settings.yaml file is not valid
+          this.shouldRunApp = false;
+          console.error(err);
+          const error = {
+              origin: 'ARLAS-wui `' + SETTINGS_FILE_NAME + '` file',
+              message: err.toString().replace('Error:', ''),
+              reason: 'Please check if "issuer" and/or "client_id" are configured the `' + SETTINGS_FILE_NAME + '` file .'
+          };
+          this.errorsQueue.push(error);
+          throw new Error(err);
+        });
     }
 
     /**
@@ -340,7 +356,7 @@ export class ArlasStartupService {
         const configurationId = url.searchParams.get(CONFIG_ID_QUERY_PARAM);
         return new Promise<any>((resolve, reject) => {
           if (this.useAuthent) {
-            const authService = this.injector.get('AuthentificationService')[0];
+            const authService: AuthentificationService = this.injector.get('AuthentificationService')[0];
             authService.canActivateProtectedRoutes.subscribe(isActivable => {
                 if (isActivable) {
                   this.persistenceService.setOptions({
