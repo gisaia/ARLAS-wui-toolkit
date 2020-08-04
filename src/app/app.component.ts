@@ -22,7 +22,8 @@ import { Location } from '@angular/common';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { of } from 'rxjs';
 import { pairwise, take, timeoutWith } from 'rxjs/operators';
-import { ArlasCollaborativesearchService, ArlasStartupService, ArlasConfigService } from './services/startup/startup.service';
+import { ArlasCollaborativesearchService, ArlasStartupService, ArlasConfigService,
+  CONFIG_ID_QUERY_PARAM } from './services/startup/startup.service';
 
 
 @Component({
@@ -53,8 +54,9 @@ export class AppComponent implements AfterViewInit, OnInit {
       if (this.activatedRoute.snapshot.queryParams['extend']) {
         queryParams['extend'] = this.activatedRoute.snapshot.queryParams['extend'];
       }
-      if (this.activatedRoute.snapshot.queryParams['map_styles']) {
-        queryParams['map_styles'] = this.activatedRoute.snapshot.queryParams['map_styles'];
+      // CONFIG_ID_QUERY_PARAM = config_id
+      if (this.activatedRoute.snapshot.queryParams[CONFIG_ID_QUERY_PARAM]) {
+        queryParams[CONFIG_ID_QUERY_PARAM] = this.activatedRoute.snapshot.queryParams[CONFIG_ID_QUERY_PARAM];
       }
       if (collaborationEvent.id !== 'url') {
         this.router.navigate(['.'], { queryParams: queryParams });
