@@ -112,7 +112,7 @@ export class ArlasStartupService {
     public arlasIsUp: Subject<boolean> = new Subject<boolean>();
     public arlasExploreApi: ArlasExploreApi;
     public errorsQueue = new Array<Error>();
-    private useAuthent = false;
+    private forceConnect = false;
 
     constructor(
         private configService: ArlasConfigService,
@@ -318,13 +318,13 @@ export class ArlasStartupService {
             if (settings) {
               const authent: AuthentSetting = settings.authentication;
               if (authent && authent.use_authent) {
-                this.useAuthent = authent.use_authent;
+                this.forceConnect = authent.use_authent && authent.force_connect;
                 const authService: AuthentificationService = this.injector.get('AuthentificationService')[0];
                 if (!authService.areSettingsValid(authent)[0]) {
                   const err = 'Authentication is set while ' + authService.areSettingsValid(authent)[1] + ' are not configured';
                   reject(err);
                 }
-                resolve(authService.initAuthService(authent, authent.use_discovery, authent.force_connect).then(() => settings));
+                resolve(authService.initAuthService(authent).then(() => settings));
               }
             }
             return resolve(settings);
@@ -336,7 +336,7 @@ export class ArlasStartupService {
           const error = {
               origin: 'ARLAS-wui `' + SETTINGS_FILE_NAME + '` file',
               message: err.toString().replace('Error:', ''),
-              reason: 'Please check if "issuer" and/or "client_id" are configured the `' + SETTINGS_FILE_NAME + '` file .'
+              reason: 'Please check if authentication is well configured in `' + SETTINGS_FILE_NAME + '` file .'
           };
           this.errorsQueue.push(error);
           throw new Error(err);
@@ -354,7 +354,7 @@ export class ArlasStartupService {
         const usePersistence = (settings && settings.persistence && settings.persistence.url && settings.persistence.url !== '');
         const configurationId = url.searchParams.get(CONFIG_ID_QUERY_PARAM);
         return new Promise<any>((resolve, reject) => {
-          if (this.useAuthent) {
+          if (this.forceConnect) {
             const authService: AuthentificationService = this.injector.get('AuthentificationService')[0];
             authService.canActivateProtectedRoutes.subscribe(isActivable => {
                 if (isActivable) {
@@ -532,8 +532,8 @@ export class ArlasStartupService {
         .then((s: ArlasSettings) => this.getAppConfigurationObject(s))
         .then((data) => this.translationLoaded(data))
         .then((data) => this.setConfigService(data))
-        .then((data) => this.applyFGA(data, this.useAuthent === true))
-        .then((data) => this.setCollaborativeService(data, this.useAuthent === true))
+        .then((data) => this.applyFGA(data, this.forceConnect === true))
+        .then((data) => this.setCollaborativeService(data, this.forceConnect === true))
         .then((data) => this.testArlasUp(data))
         .then((data) => this.getCollections(data))
         .then((data) => this.buildContributor(data))
