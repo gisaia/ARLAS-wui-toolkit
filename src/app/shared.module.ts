@@ -36,7 +36,6 @@ import { AoiComponent } from './components/aoi/aoi.component';
 import { BookmarkComponent, BookmarkAddDialogComponent } from './components/bookmark/bookmark.component';
 import { BookmarkMenuComponent } from './components/bookmark-menu/bookmark-menu.component';
 import { ProgressSpinnerComponent } from './components/progress-spinner/progress-spinner.component';
-import { AppComponent } from './app.component';
 import { GetTimeLabelPipe } from './pipes/get-time-label.pipe';
 import { ResultsModule } from 'arlas-web-components/components/results/results.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -59,6 +58,7 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule, OwlMomentDateTimeModule } f
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { FormatNumberModule } from 'arlas-web-components';
+import { ErrorModalModule } from './components/errormodal/errormodal.module';
 
 
 export class CustomTranslateLoader implements TranslateLoader {
@@ -121,6 +121,7 @@ export class CustomTranslateLoader implements TranslateLoader {
         ReactiveFormsModule,
         ResultsModule,
         FormatNumberModule,
+        ErrorModalModule,
         TranslateModule.forRoot({
             loader: {
               provide: TranslateLoader,
@@ -139,8 +140,6 @@ export class CustomTranslateLoader implements TranslateLoader {
         DatePickerComponent,
         DownloadComponent,
         DownloadDialogComponent,
-        ErrormodalComponent,
-        ErrorModalMsgComponent,
         ExcludeTypePipe,
         ExtendComponent,
         FiltersComponent,
@@ -166,8 +165,6 @@ export class CustomTranslateLoader implements TranslateLoader {
         DatePickerComponent,
         DownloadComponent,
         DownloadDialogComponent,
-        ErrormodalComponent,
-        ErrorModalMsgComponent,
         ExcludeTypePipe,
         ExtendComponent,
         FiltersComponent,

@@ -53,6 +53,7 @@ import { PersistenceService, PersistenceSetting } from '../../services/persisten
 import { DataWithLinks } from 'arlas-persistence-api';
 import { AuthentificationService, AuthentSetting, NOT_CONFIGURED } from '../authentification/authentification.service';
 import { ArlasSettingsService } from '../settings/arlas.settings.service';
+import { ErrorService } from '../error/error.service';
 
 
 @Injectable({
@@ -112,7 +113,6 @@ export class ArlasStartupService {
     public errorStartUpServiceBus: Subject<any> = new Subject<any>();
     public arlasIsUp: Subject<boolean> = new Subject<boolean>();
     public arlasExploreApi: ArlasExploreApi;
-    public errorsQueue = new Array<Error>();
 
     constructor(
         private settingsService: ArlasSettingsService,
@@ -123,7 +123,8 @@ export class ArlasStartupService {
         @Inject(FETCH_OPTIONS) private fetchOptions,
         private http: HttpClient, private translateService: TranslateService,
         @Inject(CONFIG_UPDATER) private configUpdater,
-        private persistenceService: PersistenceService) {}
+        private persistenceService: PersistenceService,
+        private errorService: ErrorService) {}
 
     public getFGAService(): ArlasConfigurationUpdaterService {
       return this.configurationUpdaterService;
@@ -270,7 +271,7 @@ export class ArlasStartupService {
                           message: err.message,
                           reason: 'Please feel free to create an issue in "https://github.com/gisaia/ARLAS-wui-toolkit/issues"'
                       };
-                      this.errorsQueue.push(error);
+                      this.errorService.errorsQueue.push(error);
                       return Promise.resolve(null);
                     });
     }
@@ -291,7 +292,7 @@ export class ArlasStartupService {
             message: 'Cannot read "' + SETTINGS_FILE_NAME + '" file',
             reason: 'Please check if "' + SETTINGS_FILE_NAME + '" is in "src" folder'
           };
-          this.errorsQueue.push(error);
+          this.errorService.errorsQueue.push(error);
           return {};
         })
         .then(s => {
@@ -308,7 +309,7 @@ export class ArlasStartupService {
               message: err.toString().replace('Error:', ''),
               reason: 'Please check that the `src/' + SETTINGS_FILE_NAME + '` file is valid.'
           };
-          this.errorsQueue.push(error);
+          this.errorService.errorsQueue.push(error);
           return Promise.reject(err);
         })
         .then(s => {
@@ -346,7 +347,7 @@ export class ArlasStartupService {
             message: err.toString().replace('Error:', ''),
             reason: 'Please check if authentication is well configured in `' + SETTINGS_FILE_NAME + '` file .'
         };
-        this.errorsQueue.push(error);
+        this.errorService.errorsQueue.push(error);
         throw new Error(err);
       });
     }
@@ -413,7 +414,7 @@ export class ArlasStartupService {
                     reason: 'Please check if ARLAS-persistence is up & running, ' +
                       'if the requested configuration exists and if you have rights to access it.'
                   };
-                  this.errorsQueue.push(error);
+                  this.errorService.errorsQueue.push(error);
                   return Promise.resolve(configData);
                 });
           } else {
@@ -595,12 +596,12 @@ export class ArlasStartupService {
             } else {
               message = err.toString();
             }
-            const error = {
+            const error: Error = {
                 origin: 'ARLAS-wui runtime',
                 message: message,
                 reason: ''
             };
-            this.errorsQueue.push(error);
+            this.errorService.errorsQueue.push(error);
             return Promise.resolve(null);
         }).then((x) => { });
     }
