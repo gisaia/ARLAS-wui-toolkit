@@ -5,7 +5,6 @@ import { map } from 'rxjs/operators';
 import { Configuration, CollectionReferenceDescription } from 'arlas-api';
 import * as portableFetch from 'portable-fetch';
 import { getFieldProperties } from '../../tools/utils';
-import { EnvService } from '../env/env.service';
 
 
 @Injectable()
@@ -18,7 +17,6 @@ export class ArlasConfigurationDescriptor {
   constructor(
     private collaborativesearchService: ArlasCollaborativesearchService,
     private configService: ArlasConfigService,
-    private envService: EnvService
   ) { }
 
   /**
@@ -43,9 +41,9 @@ export class ArlasConfigurationDescriptor {
    * If no `types` are specified, then all the fields are returned.
    */
   public getFields(types?: Array<string>): Observable<Array<{ label: string, type: string }>> {
-    const configuraiton: Configuration = new Configuration();
+    const configuration: Configuration = new Configuration();
     const arlasExploreApi: ArlasExploreApi = new ArlasExploreApi(
-      configuraiton,
+      configuration,
       this.configService.getValue('arlas.server.url'),
       portableFetch
     );

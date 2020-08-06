@@ -25,7 +25,6 @@ import { ArlasSearchField } from '../../components/share/model/ArlasSearchField'
 import { ArlasCollaborativesearchService, ArlasConfigService } from '../../services/startup/startup.service';
 import { LayerSourceConfig, MapContributor } from 'arlas-web-contributors';
 import { Search } from 'arlas-tagger-api';
-import { EnvService } from '../../services/env/env.service';
 
 /**
  * This component allows to build a _geoaggregate and/or _geosearch requests through a guiding stepper and obtain
@@ -101,12 +100,14 @@ export class ShareDialogComponent implements OnInit {
   public excludedTypeString = '';
   public shareConfig: any;
 
+  // for now, the ARLAS-server url is fetched from the config in the startup service.
+  // we should do the same everywhere, otherwise we will have two sources (settings.yaml (it was env.js) & config.json) to configure
+  // the server, and this can lead to incoherences
   constructor(
     private _formBuilder: FormBuilder,
     private collaborativeService: ArlasCollaborativesearchService,
     private configService: ArlasConfigService,
-    public dialogRef: MatDialogRef<ShareDialogComponent>,
-    private envService: EnvService
+    public dialogRef: MatDialogRef<ShareDialogComponent>
   ) { }
 
   public isSelected(field: ArlasSearchField): boolean {
@@ -196,7 +197,7 @@ export class ShareDialogComponent implements OnInit {
         this.isCopied = false;
         this.request = MapContributor.getTopologyAggregration(source);
         this.request.size = this.maxForTopology.toString();
-        this.displayedUrl = this.envService.serverUrl + '/explore/' + server.collection.name + '/'
+        this.displayedUrl = server.url + '/explore/' + server.collection.name + '/'
           + this.requestTextEndpoint + '/?'
           + this.collaborativeService.getUrl([this.requestEndpoint, [this.request]], this.filters) + '&flat=true';
       }
@@ -220,7 +221,7 @@ export class ShareDialogComponent implements OnInit {
         if (this.selectedOrderField) {
           this.sort = '&sort=' + (this.sortDirection === 'desc' ? '-' : '') + this.selectedOrderField.label;
         }
-        this.displayedUrl = this.envService.serverUrl + '/explore/' + server.collection.name + '/'
+        this.displayedUrl = server.url + '/explore/' + server.collection.name + '/'
           + this.requestTextEndpoint + '/?'
           + '&size=' + this.request.page.size
           + '&returned_geometries=' +  this.request.returned_geometries
@@ -230,7 +231,7 @@ export class ShareDialogComponent implements OnInit {
       } else {
         this.request = (this.request as Aggregation);
         this.request.interval.value = this.paramFormGroup.get('precision').value;
-        this.displayedUrl = this.envService.serverUrl + '/explore/' + server.collection.name + '/'
+        this.displayedUrl = server.url + '/explore/' + server.collection.name + '/'
           + this.requestTextEndpoint + '/?'
           + this.collaborativeService.getUrl([this.requestEndpoint, [this.request as Aggregation]], this.filters) + '&flat=true';
       }

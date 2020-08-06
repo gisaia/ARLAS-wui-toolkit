@@ -19,7 +19,6 @@
 import { APP_INITIALIZER, NgModule, forwardRef } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule, ROUTES } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { ColorGeneratorModule, ColorGeneratorLoader } from 'arlas-web-components';
 import { ArlasBookmarkService } from './services/bookmark/bookmark.service';
@@ -38,7 +37,7 @@ import { AuthentificationService } from './services/authentification/authentific
 import { ArlasMapSettings } from './services/map-settings/map-settings.service';
 import { ArlasExportCsvService } from './services/export-csv/export-csv.service';
 import { ArlasMapService } from './services/map/map.service';
-import { GET_OPTIONS } from './services/persistence/persistence.service';
+import { GET_OPTIONS, PersistenceService } from './services/persistence/persistence.service';
 import { ArlasTranslateIntl } from './components/timeline/date-picker/ArlasTranslateIntl';
 import { AppComponent } from './app.component';
 import { BookmarkAddDialogComponent, BookmarkComponent } from './components/bookmark/bookmark.component';
@@ -49,13 +48,17 @@ import { ShareDialogComponent } from './components/share/share.component';
 import { routing } from './app.routes';
 import { ArlasToolkitSharedModule } from './shared.module';
 import { ArlasConfigurationUpdaterService } from './services/configuration-updater/configurationUpdater.service';
-import { EnvServiceProvider } from './services/env/env.service.provider';
+import { ArlasSettingsService } from './services/settings/arlas.settings.service';
 
 
 
 export function startupServiceFactory(startupService: ArlasStartupService) {
   const load = () => startupService.load();
   return load;
+}
+
+export function settingsServiceFactory(settings: ArlasSettingsService) {
+  return settings;
 }
 
 export function configServiceFactory(config: ArlasConfigService) {
@@ -76,16 +79,15 @@ export function localDatePickerFactory(translate: TranslateService) {
 }
 
 // We need a factory since localStorage is not available at AOT build time
-export function storageFactory(config: ArlasConfigService): OAuthStorage {
-  if (config.getValue('arlas.authentification.storage') !== undefined) {
-    if (config.getValue('arlas.authentification.storage') === 'localStorage') {
+export function storageFactory(settingsService: ArlasSettingsService): OAuthStorage {
+  if (!!settingsService.settings && !!settingsService.settings.authentication && !!settingsService.settings.authentication.storage) {
+    if (settingsService.settings.authentication.storage === 'localStorage') {
       return localStorage;
     } else {
       return sessionStorage;
     }
   } else {
     return localStorage;
-
   }
 }
 
@@ -140,14 +142,14 @@ export const MY_CUSTOM_FORMATS = {
   exports: [AppComponent],
   declarations: [AppComponent],
   providers: [
-    {provide: FETCH_OPTIONS, useValue: {}},
-    EnvServiceProvider,
+    { provide: FETCH_OPTIONS, useValue: {} },
     {
       provide: CONFIG_UPDATER,
       useValue: configUpdaterFactory
     },
     forwardRef(() => ArlasAoiService),
     forwardRef(() => ArlasBookmarkService),
+    forwardRef(() => ArlasSettingsService),
     forwardRef(() => ArlasConfigService),
     forwardRef(() => ArlasCollaborativesearchService),
     forwardRef(() => AuthentificationService),
@@ -159,6 +161,7 @@ export const MY_CUSTOM_FORMATS = {
     forwardRef(() => ArlasExtendService),
     forwardRef(() => ArlasWalkthroughService),
     forwardRef(() => ArlasExportCsvService),
+    forwardRef(() => PersistenceService),
     {
       provide: ArlasConfigurationUpdaterService,
       useClass: ArlasConfigurationUpdaterService
@@ -167,6 +170,12 @@ export const MY_CUSTOM_FORMATS = {
       provide: APP_INITIALIZER,
       useFactory: startupServiceFactory,
       deps: [ArlasStartupService],
+      multi: true
+    },
+    {
+      provide: 'ArlasSettingsService',
+      useFactory: settingsServiceFactory,
+      deps: [ArlasSettingsService],
       multi: true
     },
     {

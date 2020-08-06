@@ -1,4 +1,4 @@
-import { TestBed, inject } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
 import {
   ArlasStartupService, ArlasConfigService, ArlasCollaborativesearchService,
@@ -11,6 +11,7 @@ import {
   TranslateFakeLoader, TranslateStore
 } from '@ngx-translate/core';
 import { ArlasConfigurationUpdaterService } from '../configuration-updater/configurationUpdater.service';
+import { ArlasSettingsService } from '../settings/arlas.settings.service';
 
 describe('ArlasStartupService', () => {
   beforeEach(() => {
@@ -25,10 +26,12 @@ describe('ArlasStartupService', () => {
           provide: ArlasConfigurationUpdaterService,
           useClass: ArlasConfigurationUpdaterService
         },
-        ArlasConfigService, ArlasCollaborativesearchService,
+        ArlasConfigService,
+        ArlasCollaborativesearchService,
+        ArlasSettingsService,
         TranslateService, TranslateStore,
         { provide: CONFIG_UPDATER, useValue: {} },
-        {provide: FETCH_OPTIONS, useValue: {}},
+        { provide: FETCH_OPTIONS, useValue: {} },
       ],
       imports: [
         HttpClientModule,

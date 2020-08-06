@@ -1,18 +1,18 @@
 import { TestBed, inject } from '@angular/core/testing';
-
 import { PersistenceService, GET_OPTIONS } from './persistence.service';
 import { HttpClientModule } from '@angular/common/http';
 import { OAuthService, OAuthModule, OAuthLogger, UrlHelperService } from 'angular-oauth2-oidc';
-import { ArlasConfigService } from '../startup/startup.service';
 import { AuthentificationService } from '../authentification/authentification.service';
 import { getOptionsFactory } from './../../app.module';
+import { ArlasSettingsService } from '../settings/arlas.settings.service';
 
 
 describe('PersistenceService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientModule, OAuthModule],
-      providers: [ArlasConfigService,
+      providers: [
+        ArlasSettingsService,
         OAuthService,
         OAuthLogger,
         UrlHelperService,
@@ -27,11 +27,10 @@ describe('PersistenceService', () => {
     });
   });
 
-  it('should be created', inject([ArlasConfigService],
-    (arlasConfigService: ArlasConfigService) => {
+  it('should be created', inject([ArlasSettingsService],
+    (arlasSettingsSerivce: ArlasSettingsService) => {
       const service: PersistenceService = TestBed.get(PersistenceService);
       expect(service).toBeTruthy();
-      expect(arlasConfigService).toBeTruthy();
-
+      expect(arlasSettingsSerivce).toBeTruthy();
     }));
 });

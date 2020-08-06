@@ -25,7 +25,6 @@ import { Subject, Subscription, from, interval, Observable } from 'rxjs';
 import { ArlasCollaborativesearchService, ArlasConfigService } from '../startup/startup.service';
 import * as portableFetch from 'portable-fetch';
 import { TaggerResponse } from './model';
-import { EnvService } from '../env/env.service';
 
 @Injectable()
 export class ArlasTaggerWriteApi extends WriteApi {
@@ -61,13 +60,17 @@ export class ArlasTagService implements OnDestroy {
   constructor(
     private collaborativeSearchService: ArlasCollaborativesearchService,
     private configService: ArlasConfigService,
-    private snackBar: MatSnackBar,
-    private envService: EnvService
+    private snackBar: MatSnackBar
   ) {
-    const configuraiton: Configuration = new Configuration();
-    this.taggerApi = new ArlasTaggerWriteApi(configuraiton, this.envService.taggerUrl, portableFetch);
-    this.statusApi = new ArlasTaggerStatusApi(configuraiton, this.envService.taggerUrl, portableFetch);
+    // for now, the ARLAS-tagger url  and collection name are fetched from the config.
+    // we should keep doing it for now, otherwise we will have two sources (settings.yaml (it was env.js) & config.json) to configure
+    // the taggger, and this can lead to incoherences
+    const configuration: Configuration = new Configuration();
     this.tagger = this.configService.getValue('arlas.tagger');
+    if (this.tagger && this.tagger.url) {
+      this.taggerApi = new ArlasTaggerWriteApi(configuration, this.tagger.url, portableFetch);
+      this.statusApi = new ArlasTaggerStatusApi(configuration, this.tagger.url, portableFetch);
+    }
   }
 
   public addTag(path: string, value: string | number, propagateField?: string, propagateUrl?: string, operationName?: string) {
