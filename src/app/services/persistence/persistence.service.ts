@@ -4,7 +4,7 @@ import * as portableFetch from 'portable-fetch';
 import { Observable } from 'rxjs/internal/Observable';
 import { from } from 'rxjs/internal/observable/from';
 import { Configuration, PersistApi, DataResource, DataWithLinks } from 'arlas-persistence-api';
-import { EnvService } from '../env/env.service';
+import { ArlasSettingsService } from '../settings/arlas.settings.service';
 
 export const GET_OPTIONS = new InjectionToken<Function>('get_options');
 
@@ -17,14 +17,15 @@ export class PersistenceService {
   private options;
   constructor(
     @Inject(GET_OPTIONS) private getOptions,
-    private envService: EnvService
+    private settingsService: ArlasSettingsService
   ) {
-    const configuraiton = new Configuration();
-    const baseUrl = this.envService.persistenceUrl;
-    this.persistenceApi = new PersistApi(configuraiton, baseUrl, portableFetch);
     this.setOptions(this.getOptions());
+    const persistenceSettings = this.settingsService.getPersistenceSettings();
+    if (!this.persistenceApi && !!persistenceSettings) {
+      const configuration = new Configuration();
+      this.persistenceApi = new PersistApi(configuration, persistenceSettings.url, portableFetch);
+    }
   }
-
 
   public delete(id: string): Observable<DataWithLinks> {
     return from(this.persistenceApi.deleteById(id, false, this.options));

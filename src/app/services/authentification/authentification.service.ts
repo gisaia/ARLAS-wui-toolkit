@@ -237,4 +237,5 @@ export interface AuthentSetting {
   token_endpoint?: string;
   jwks_endpoint?: string;
   login_url?: string;
+  storage?: string;
 }

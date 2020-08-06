@@ -52,6 +52,7 @@ import { getFieldProperties } from '../../tools/utils.js';
 import { PersistenceService, PersistenceSetting } from '../../services/persistence/persistence.service';
 import { DataWithLinks } from 'arlas-persistence-api';
 import { AuthentificationService, AuthentSetting, NOT_CONFIGURED } from '../authentification/authentification.service';
+import { ArlasSettingsService } from '../settings/arlas.settings.service';
 
 
 @Injectable({
@@ -114,6 +115,7 @@ export class ArlasStartupService {
     public errorsQueue = new Array<Error>();
 
     constructor(
+        private settingsService: ArlasSettingsService,
         private configService: ArlasConfigService,
         private collaborativesearchService: ArlasCollaborativesearchService,
         private configurationUpdaterService: ArlasConfigurationUpdaterService,
@@ -212,6 +214,12 @@ export class ArlasStartupService {
         });
     }
 
+    /**
+     * - Sets the configuration object in ArlasConfigService.
+     * - Sets the ArlasConfigService instance in ArlasCollaborativeSearchService
+     * @param data configation object
+     * @returns the same configuration object
+     */
     public setConfigService(data) {
        /**First set the raw config data in order to create an ArlasExploreApi instance */
        const newConfig = this.configUpdater(data);
@@ -302,6 +310,10 @@ export class ArlasStartupService {
           };
           this.errorsQueue.push(error);
           return Promise.reject(err);
+        })
+        .then(s => {
+          this.settingsService.setSettings(s);
+          return s;
         });
     }
     /**
