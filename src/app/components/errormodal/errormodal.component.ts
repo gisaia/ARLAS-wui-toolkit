@@ -18,9 +18,9 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import { ArlasConfigService, ArlasCollaborativesearchService, ArlasStartupService, Error } from '../../services/startup/startup.service';
+import { Error } from '../../services/startup/startup.service';
 import { MatDialog, MatDialogRef } from '@angular/material';
-import { debounceTime, bufferWhen } from 'rxjs/operators';
+import { ErrorService } from '../../services/error/error.service';
 
 /**
  * This component displays error messages due to misconfiguration of ARLAS-wui or to a broken connection to ARLAS-server.
@@ -32,33 +32,18 @@ import { debounceTime, bufferWhen } from 'rxjs/operators';
 })
 export class ErrormodalComponent implements OnInit {
   public dialogRef: MatDialogRef<any>;
-  constructor(public dialog: MatDialog, private configService: ArlasConfigService,
-    private collaborativeService: ArlasCollaborativesearchService, private arlasStartupService: ArlasStartupService) {
+  constructor(public dialog: MatDialog, private errorService: ErrorService) {
 
   }
   public ngOnInit() {
-    if (this.arlasStartupService.errorsQueue && this.arlasStartupService.errorsQueue.length > 0) {
+    if (this.errorService.errorsQueue && this.errorService.errorsQueue.length > 0) {
       this.openDialog();
-      this.dialogRef.componentInstance.messages = this.arlasStartupService.errorsQueue;
+      this.dialogRef.componentInstance.messages = this.errorService.errorsQueue;
     }
-    this.configService.confErrorBus
-    .pipe(bufferWhen(() => this.configService.confErrorBus.pipe(debounceTime(5000))))
-      .subscribe(k => {
-        this.openDialog();
-        const listError = [];
-        if (this.configService.getConfig()['error'] === undefined) {
-          k.forEach(m => listError.push('Key configuration problem : \n' + m + ' missing'));
-        } else {
-          listError.push('Current configuration has some problems :');
-          (<any>k[0]).forEach(m => listError.push(m));
-        }
-        this.dialogRef.componentInstance.messages = listError;
-      });
-    this.collaborativeService.collaborationErrorBus
-      .pipe(bufferWhen(() => this.collaborativeService.collaborationErrorBus.pipe(debounceTime(5000))))
-      .subscribe(response => {
-        console.log(response);
-      });
+    this.errorService.errorEmitter.subscribe((err: Error) => {
+      this.openDialog();
+      this.dialogRef.componentInstance.messages = [err];
+    });
   }
   public openDialog() {
     this.dialogRef = this.dialog.open(ErrorModalMsgComponent);

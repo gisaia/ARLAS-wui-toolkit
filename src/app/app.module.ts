@@ -49,6 +49,8 @@ import { routing } from './app.routes';
 import { ArlasToolkitSharedModule } from './shared.module';
 import { ArlasConfigurationUpdaterService } from './services/configuration-updater/configurationUpdater.service';
 import { ArlasSettingsService } from './services/settings/arlas.settings.service';
+import { ErrorModalModule } from './components/errormodal/errormodal.module';
+import { ErrorService } from './services/error/error.service';
 
 
 
@@ -137,6 +139,7 @@ export const MY_CUSTOM_FORMATS = {
         useClass: ArlasColorGeneratorLoader
       }
     }),
+    ErrorModalModule,
     OAuthModule.forRoot()
   ],
   exports: [AppComponent],
@@ -162,6 +165,7 @@ export const MY_CUSTOM_FORMATS = {
     forwardRef(() => ArlasWalkthroughService),
     forwardRef(() => ArlasExportCsvService),
     forwardRef(() => PersistenceService),
+    forwardRef(() => ErrorService),
     {
       provide: ArlasConfigurationUpdaterService,
       useClass: ArlasConfigurationUpdaterService

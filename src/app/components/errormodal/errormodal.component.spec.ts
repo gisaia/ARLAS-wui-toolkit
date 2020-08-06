@@ -1,9 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ErrormodalComponent } from './errormodal.component';
-import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from '../../services/startup/startup.service';
 import { MatDialogModule } from '@angular/material';
-import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
+import { ErrorService } from 'app/services/error/error.service';
 
 describe('ErrormodalComponent', () => {
   let component: ErrormodalComponent;
@@ -12,16 +11,8 @@ describe('ErrormodalComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ErrormodalComponent],
-      providers: [ArlasCollaborativesearchService, ArlasConfigService,
-        {
-          provide: ArlasStartupService,
-          useClass: ArlasStartupService,
-          deps: [ArlasConfigurationUpdaterService]
-        },
-        {
-          provide: ArlasConfigurationUpdaterService,
-          useClass: ArlasConfigurationUpdaterService
-        }
+      providers: [
+        ErrorService
       ],
       imports: [MatDialogModule]
     })

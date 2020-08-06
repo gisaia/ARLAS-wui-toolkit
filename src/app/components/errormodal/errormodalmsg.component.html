@@ -1,10 +1,10 @@
 <h2>{{'Application error' | translate }}</h2>
     <div *ngFor="let message of messages" style="border-bottom: 1px solid #dadada;border-top: 1px solid #dadada">
       <div style="font-weight: bold;">{{'Error' | translate}}</div>
-      <div style="padding-left: 5px;">{{message.message | translate}}</div>
+      <div style="padding-left: 5px;white-space: pre-wrap;">{{message.message | translate}}</div>
       <div style="font-weight: bold;">{{'Origin' | translate}}</div>
-      <div style="padding-left: 5px;">{{message.origin | translate}}</div>
+      <div style="padding-left: 5px;white-space: pre-wrap;">{{message.origin | translate}}</div>
       <div style="font-weight: bold;">{{'What to do' | translate}}</div>
-      <div style="padding-left: 5px;">{{message.reason | translate}}</div>
+      <div style="padding-left: 5px;white-space: pre-wrap;">{{message.reason | translate}}</div>
     </div>
 <button md-raised-button (click)="dialogRef.close()">{{'Close' | translate }}</button>
