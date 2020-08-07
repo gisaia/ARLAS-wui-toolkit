@@ -314,6 +314,7 @@ export class ArlasStartupService {
         })
         .then(s => {
           this.settingsService.setSettings(s);
+          this.persistenceService.createPersistenceApiInstance();
           return s;
         });
     }

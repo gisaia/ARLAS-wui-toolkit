@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/internal/Observable';
 import { from } from 'rxjs/internal/observable/from';
 import { Configuration, PersistApi, DataResource, DataWithLinks } from 'arlas-persistence-api';
 import { ArlasSettingsService } from '../settings/arlas.settings.service';
+import { map, flatMap } from 'rxjs/operators';
 
 export const GET_OPTIONS = new InjectionToken<Function>('get_options');
 
@@ -15,15 +16,21 @@ export class PersistenceService {
 
   private persistenceApi: PersistApi;
   private options;
+  public isAvailable = false;
   constructor(
     @Inject(GET_OPTIONS) private getOptions,
     private settingsService: ArlasSettingsService
   ) {
     this.setOptions(this.getOptions());
+    this.createPersistenceApiInstance();
+  }
+
+  public createPersistenceApiInstance(): void {
     const persistenceSettings = this.settingsService.getPersistenceSettings();
     if (!this.persistenceApi && !!persistenceSettings) {
       const configuration = new Configuration();
       this.persistenceApi = new PersistApi(configuration, persistenceSettings.url, portableFetch);
+      this.isAvailable = true;
     }
   }
 
@@ -45,6 +52,15 @@ export class PersistenceService {
   public update(id: string, value: string, lastUpdate: number, name?: string,
     readers?: string[], writers?: string[]): Observable<DataWithLinks> {
       return from(this.persistenceApi.update(id, value, lastUpdate, name, readers, writers, false, this.options));
+  }
+
+  public duplicate(zone: string, id: string, newName?: string): Observable<DataWithLinks> {
+    return this.get(id).pipe(
+      map(data =>  {
+        return this.create(zone, data.doc_value, newName ? newName : 'Copy of ' + data.doc_key);
+      }),
+      flatMap(a => a)
+    );
   }
 
   public setOptions(options): void {
