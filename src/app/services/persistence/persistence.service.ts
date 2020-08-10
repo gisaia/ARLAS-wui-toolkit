@@ -57,7 +57,7 @@ export class PersistenceService {
   public duplicate(zone: string, id: string, newName?: string): Observable<DataWithLinks> {
     return this.get(id).pipe(
       map(data =>  {
-        return this.create(zone, data.doc_value, newName ? newName : 'Copy of ' + data.doc_key);
+        return this.create(zone, newName ? newName : 'Copy of ' + data.doc_key, data.doc_value);
       }),
       flatMap(a => a)
     );
