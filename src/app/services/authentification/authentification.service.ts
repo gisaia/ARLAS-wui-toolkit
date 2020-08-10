@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { OAuthService, AuthConfig, OAuthErrorEvent } from 'angular-oauth2-oidc';
-import { BehaviorSubject, ReplaySubject, Observable, combineLatest } from 'rxjs';
+import { OAuthService, AuthConfig, OAuthErrorEvent, UserInfo } from 'angular-oauth2-oidc';
+import { BehaviorSubject, ReplaySubject, Observable, combineLatest, from } from 'rxjs';
 import { map } from 'rxjs/internal/operators/map';
 import { HttpClient } from '@angular/common/http';
 import { CONFIG_ID_QUERY_PARAM } from '../startup/startup.service';
@@ -145,6 +145,13 @@ export class AuthentificationService {
       }
     }
     return [valid, missingInfo.join('\n')];
+  }
+
+  /**
+   * Return an observable of the user Auth0 profile
+   */
+  public loadUserInfo(): Observable<UserInfo> {
+    return from(this.oauthService.loadUserProfile());
   }
 
   private setupAuthService() {
