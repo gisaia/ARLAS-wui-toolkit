@@ -57,6 +57,10 @@
           "description": "The auth server's endpoint that allows to log the user in when using implicit flow. Mandatory if use_discovery is false.",
           "type": "string"
         },
+        "logout_url": {
+          "description": "Redirecting the user to this URL (https://YOUR_DOMAIN/v2/logout) clears all Single Sign-on (SSO) cookies set by Auth0 for the user. If you want to navigate the user to a specific URL after the logout, set that URL at the returnTo parameter. Check https://auth0.com/docs/api/authentication?javascript#logout ",
+          "type": "string"
+        },
         "show_debug_information": {
           "description": "Defines whether additional debug information should  be shown at the console",
           "type": "boolean"

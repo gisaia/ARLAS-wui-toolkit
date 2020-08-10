@@ -35,3 +35,4 @@ export { ArlasDataSource } from './tools/arlasDataSource';
 export { ArlasTaggerModule } from './tagger.module';
 export { AuthentSetting } from './services/authentification/authentification.service';
 export { PersistenceSetting } from './services/persistence/persistence.service';
+export { ErrorService } from './services/error/error.service';

@@ -196,6 +196,9 @@ export class AuthentificationService {
       if (authConfigValue['dummy_client_secret'] !== undefined && authConfigValue['dummy_client_secret'] !== NOT_CONFIGURED) {
         authServiceConfig.dummyClientSecret = authConfigValue['dummy_client_secret'];
       }
+      if (authConfigValue['logout_url'] !== undefined && authConfigValue['logout_url'] !== NOT_CONFIGURED) {
+        authServiceConfig.logoutUrl = authConfigValue['logout_url'];
+      }
       if (!authConfigValue['use_discovery']) {
         authServiceConfig.tokenEndpoint = authConfigValue['token_endpoint'];
         authServiceConfig.userinfoEndpoint = authConfigValue['userinfo_endpoint'];
@@ -237,5 +240,6 @@ export interface AuthentSetting {
   token_endpoint?: string;
   jwks_endpoint?: string;
   login_url?: string;
+  logout_url?: string;
   storage?: string;
 }
