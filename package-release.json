@@ -25,7 +25,7 @@
     "@types/d3-shape": "^1.2.4",
     "ajv": "^6.4.0",
     "ajv-keywords": "^3.4.0",
-    "angular-oauth2-oidc": "^8.0.4",
+    "angular-oauth2-oidc": "~10.0.3",
     "arlas-persistence-api": "13.0.0-beta.2",
     "arlas-tagger-api": "~12.0.1",
     "arlas-web-components": "~13.0.0",
