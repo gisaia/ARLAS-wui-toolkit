@@ -36,7 +36,7 @@ export class ArlasConfigurationUpdaterService {
    */
   public getContributorsToRemove(data, availableFields: Set<string>): Set<string> {
     const contributorsToRemove = new Set<string>();
-    if (data) {
+    if (data && data.arlas && data.arlas.web && data.arlas.web.contributors) {
       /** the conf is validated before; therefore, `arlas.web.contributors` is defined */
       data.arlas.web.contributors.forEach(contributor => {
         /** check if aggregation model has a non-available field (in bucket aggregation AND metrics) */
@@ -106,7 +106,7 @@ export class ArlasConfigurationUpdaterService {
    * @returns configuration object
    */
   public removeContributors(data, contributorsToRemove: Set<string>): any {
-    if (data) {
+    if (data && data.arlas && data.arlas.web && data.arlas.web.contributors) {
       data.arlas.web.contributors = data.arlas.web.contributors.filter(contributor =>
         !contributorsToRemove.has(contributor.identifier));
     }
@@ -120,7 +120,7 @@ export class ArlasConfigurationUpdaterService {
    * @returns configuration object
    */
   public removeWidgets(data, contributorsToRemove: Set<string>): any {
-    if (data) {
+    if (data && data.arlas && data.arlas.web && data.arlas.web.analytics) {
       data.arlas.web.analytics.forEach(widget => {
         widget.components = widget.components.filter(c => !contributorsToRemove.has(c.contributorId));
       });
@@ -136,7 +136,7 @@ export class ArlasConfigurationUpdaterService {
    * @returns configuration object
    */
   public removeTimelines(data, contributorsToRemove: Set<string>): any {
-    if (data) {
+    if (data && data.arlas && data.arlas.web) {
       const components = data.arlas.web.components;
       if (components) {
         if (components.timeline) {
@@ -175,7 +175,7 @@ export class ArlasConfigurationUpdaterService {
    * @returns configuration object
    */
   public updateMapComponent(data, availableFields: Set<string>): any {
-    if (data && data.arlas.web.components) {
+    if (data && data.arlas && data.arlas.web && data.arlas.web.components) {
       const mapComponentConfig = data.arlas.web.components.mapgl;
       if (mapComponentConfig && mapComponentConfig.input) {
         const idFeatureField = mapComponentConfig.input.idFieldName;
@@ -210,83 +210,85 @@ export class ArlasConfigurationUpdaterService {
    * @returns configuration object
    */
   public updateResultListContributor(data, availableFields: Set<string>): any {
-    data.arlas.web.contributors.filter(contributor => contributor.type === 'resultlist').forEach(contributor => {
-      if (contributor.fieldsConfiguration) {
-        const fc = contributor.fieldsConfiguration;
-        /** remove imageFieldName */
-        if (fc.imageFieldName && !availableFields.has(fc.imageFieldName)) {
-          delete fc.imageFieldName;
-          delete fc.urlImageTemplate;
-        }
-        /** remove thumbnailFieldName */
-        if (fc.thumbnailFieldName && !availableFields.has(fc.thumbnailFieldName)) {
-          delete fc.thumbnailFieldName;
-          delete fc.urlThumbnailTemplate;
-        }
-        /** remove urlImageTemplate */
-        if (fc.urlImageTemplate) {
-          const url = fc.urlImageTemplate;
-          const eventualField = url.substring(
-            url.lastIndexOf('{') + 1,
-            url.lastIndexOf('}')
-          );
-          if (eventualField && eventualField.length > 0 && !availableFields.has(eventualField)) {
-            delete fc.imageEnabled;
+    if (data && data.arlas && data.arlas.web && data.arlas.web.contributors) {
+      data.arlas.web.contributors.filter(contributor => contributor.type === 'resultlist').forEach(contributor => {
+        if (contributor.fieldsConfiguration) {
+          const fc = contributor.fieldsConfiguration;
+          /** remove imageFieldName */
+          if (fc.imageFieldName && !availableFields.has(fc.imageFieldName)) {
+            delete fc.imageFieldName;
             delete fc.urlImageTemplate;
           }
-        }
-        /** remove urlThumbnailTemplate */
-        if (fc.urlThumbnailTemplate) {
-          const url = fc.urlThumbnailTemplate;
-          const eventualField = url.substring(
-            url.lastIndexOf('{') + 1,
-            url.lastIndexOf('}')
-          );
-          if (eventualField && eventualField.length > 0 && !availableFields.has(eventualField)) {
-            delete fc.thumbnailEnabled;
+          /** remove thumbnailFieldName */
+          if (fc.thumbnailFieldName && !availableFields.has(fc.thumbnailFieldName)) {
+            delete fc.thumbnailFieldName;
             delete fc.urlThumbnailTemplate;
           }
-        }
-        /** remove titleFieldNames.fieldPath */
-        if (fc.titleFieldNames) {
-          fc.titleFieldNames = fc.titleFieldNames.filter(t => availableFields.has(t.fieldPath));
-        }
-        /** remove tooltipFieldNames.fieldPath */
-        if (fc.tooltipFieldNames) {
-          fc.tooltipFieldNames = fc.tooltipFieldNames.filter(t => availableFields.has(t.fieldPath));
-        }
-        /** remove iconCssClass */
-        if (fc.iconCssClass && !availableFields.has(fc.iconCssClass)) {
-          delete fc.iconCssClass;
-        }
-        /** remove iconColorFieldName */
-        if (fc.iconColorFieldName && !availableFields.has(fc.iconColorFieldName)) {
-          delete fc.iconColorFieldName;
-        }
-      }
-      /** remove columns */
-      if (contributor.columns) {
-        contributor.columns = contributor.columns.filter(c => availableFields.has(c.fieldName));
-      }
-      /** remove details */
-      if (contributor.details) {
-        contributor.details.forEach(detail => {
-          if (detail.fields) {
-            detail.fields = detail.fields.filter(field => availableFields.has(field.path));
+          /** remove urlImageTemplate */
+          if (fc.urlImageTemplate) {
+            const url = fc.urlImageTemplate;
+            const eventualField = url.substring(
+              url.lastIndexOf('{') + 1,
+              url.lastIndexOf('}')
+            );
+            if (eventualField && eventualField.length > 0 && !availableFields.has(eventualField)) {
+              delete fc.imageEnabled;
+              delete fc.urlImageTemplate;
+            }
           }
-        });
-        contributor.details = contributor.details.filter(detail => (detail.fields && detail.fields.length > 0));
-      }
-      /** remove attachments */
-      if (contributor.attachments) {
-        contributor.attachments = contributor.attachments.filter(a => availableFields.has(a.attachmentsField) &&
-          availableFields.has(a.attachementUrlField));
-      }
-      /** remove metadata fields */
-      if (contributor.includeMetadata)  {
-        contributor.includeMetadata = contributor.includeMetadata.filter(f => availableFields.has(f));
-      }
-    });
+          /** remove urlThumbnailTemplate */
+          if (fc.urlThumbnailTemplate) {
+            const url = fc.urlThumbnailTemplate;
+            const eventualField = url.substring(
+              url.lastIndexOf('{') + 1,
+              url.lastIndexOf('}')
+            );
+            if (eventualField && eventualField.length > 0 && !availableFields.has(eventualField)) {
+              delete fc.thumbnailEnabled;
+              delete fc.urlThumbnailTemplate;
+            }
+          }
+          /** remove titleFieldNames.fieldPath */
+          if (fc.titleFieldNames) {
+            fc.titleFieldNames = fc.titleFieldNames.filter(t => availableFields.has(t.fieldPath));
+          }
+          /** remove tooltipFieldNames.fieldPath */
+          if (fc.tooltipFieldNames) {
+            fc.tooltipFieldNames = fc.tooltipFieldNames.filter(t => availableFields.has(t.fieldPath));
+          }
+          /** remove iconCssClass */
+          if (fc.iconCssClass && !availableFields.has(fc.iconCssClass)) {
+            delete fc.iconCssClass;
+          }
+          /** remove iconColorFieldName */
+          if (fc.iconColorFieldName && !availableFields.has(fc.iconColorFieldName)) {
+            delete fc.iconColorFieldName;
+          }
+        }
+        /** remove columns */
+        if (contributor.columns) {
+          contributor.columns = contributor.columns.filter(c => availableFields.has(c.fieldName));
+        }
+        /** remove details */
+        if (contributor.details) {
+          contributor.details.forEach(detail => {
+            if (detail.fields) {
+              detail.fields = detail.fields.filter(field => availableFields.has(field.path));
+            }
+          });
+          contributor.details = contributor.details.filter(detail => (detail.fields && detail.fields.length > 0));
+        }
+        /** remove attachments */
+        if (contributor.attachments) {
+          contributor.attachments = contributor.attachments.filter(a => availableFields.has(a.attachmentsField) &&
+            availableFields.has(a.attachementUrlField));
+        }
+        /** remove metadata fields */
+        if (contributor.includeMetadata)  {
+          contributor.includeMetadata = contributor.includeMetadata.filter(f => availableFields.has(f));
+        }
+      });
+    }
     return data;
   }
 
@@ -297,63 +299,65 @@ export class ArlasConfigurationUpdaterService {
    * @returns configuration object
    */
   public updateMapContributors(data, availableFields: Set<string>): any {
-    data.arlas.web.contributors.filter(contributor => contributor.type === 'map').forEach(contributor => {
-      if (contributor.layers_sources) {
-        const updatedLayersSources: Array<LayerSourceConfig> = [];
-        contributor.layers_sources.forEach((ls: LayerSourceConfig) => {
-          let keepLs = true;
-          if (ls.include_fields) {
-            ls.include_fields = ls.include_fields.filter(f => availableFields.has(f));
-          }
-          if (ls.colors_from_fields) {
-            ls.colors_from_fields = ls.colors_from_fields.filter(f => availableFields.has(f));
-          }
-          if (ls.normalization_fields) {
-            ls.normalization_fields = ls.normalization_fields.filter(f =>
-              availableFields.has(f.on) && (!f.per || availableFields.has(f.per)));
-          }
-          if (ls.provided_fields) {
-            ls.provided_fields = ls.provided_fields.filter(f =>
-              availableFields.has(f.color) && (!f.label || availableFields.has(f.label)));
-          }
-          if (ls.metrics) {
-            ls.metrics = ls.metrics.filter(f => f.field === '' || availableFields.has(f.field));
-          }
-          keepLs = !ls.agg_geo_field || (ls.agg_geo_field && availableFields.has(ls.agg_geo_field));
-          if (keepLs) {
-            keepLs = !ls.raw_geometry || (ls.raw_geometry && availableFields.has(ls.raw_geometry.geometry));
-          }
-          if (keepLs && ls.raw_geometry && ls.raw_geometry.sort) {
-            ls.raw_geometry.sort = ls.raw_geometry.sort.split(',').filter(s => availableFields.has(s.replace('-', ''))).join(',');
-            if (ls.raw_geometry.sort === '') {
-              delete ls.raw_geometry.sort;
+    if (data && data.arlas && data.arlas.web && data.arlas.web.contributors) {
+      data.arlas.web.contributors.filter(contributor => contributor.type === 'map').forEach(contributor => {
+        if (contributor.layers_sources) {
+          const updatedLayersSources: Array<LayerSourceConfig> = [];
+          contributor.layers_sources.forEach((ls: LayerSourceConfig) => {
+            let keepLs = true;
+            if (ls.include_fields) {
+              ls.include_fields = ls.include_fields.filter(f => availableFields.has(f));
             }
-          }
-          if (keepLs) {
-            keepLs = !ls.returned_geometry || (ls.returned_geometry && availableFields.has(ls.returned_geometry));
-          }
-          if (keepLs) {
-            keepLs = !ls.geometry_id || (ls.geometry_id && availableFields.has(ls.geometry_id));
-          }
-          if (keepLs) {
-            keepLs = !ls.geometry_support || (ls.geometry_support && availableFields.has(ls.geometry_support));
-          }
-          if (keepLs) {
-            updatedLayersSources.push(ls);
-          }
-        });
-        contributor.layers_sources = updatedLayersSources;
-      }
-      if (contributor.geo_query_field && !availableFields.has(contributor.geo_query_field)) {
-          delete contributor.geo_query_field;
-      }
-      if (contributor.search_sort) {
-        contributor.search_sort = contributor.search_sort.split(',').filter(s => availableFields.has(s.replace('-', ''))).join(',');
-        if (contributor.search_sort === '') {
-          delete contributor.search_sort;
+            if (ls.colors_from_fields) {
+              ls.colors_from_fields = ls.colors_from_fields.filter(f => availableFields.has(f));
+            }
+            if (ls.normalization_fields) {
+              ls.normalization_fields = ls.normalization_fields.filter(f =>
+                availableFields.has(f.on) && (!f.per || availableFields.has(f.per)));
+            }
+            if (ls.provided_fields) {
+              ls.provided_fields = ls.provided_fields.filter(f =>
+                availableFields.has(f.color) && (!f.label || availableFields.has(f.label)));
+            }
+            if (ls.metrics) {
+              ls.metrics = ls.metrics.filter(f => f.field === '' || availableFields.has(f.field));
+            }
+            keepLs = !ls.agg_geo_field || (ls.agg_geo_field && availableFields.has(ls.agg_geo_field));
+            if (keepLs) {
+              keepLs = !ls.raw_geometry || (ls.raw_geometry && availableFields.has(ls.raw_geometry.geometry));
+            }
+            if (keepLs && ls.raw_geometry && ls.raw_geometry.sort) {
+              ls.raw_geometry.sort = ls.raw_geometry.sort.split(',').filter(s => availableFields.has(s.replace('-', ''))).join(',');
+              if (ls.raw_geometry.sort === '') {
+                delete ls.raw_geometry.sort;
+              }
+            }
+            if (keepLs) {
+              keepLs = !ls.returned_geometry || (ls.returned_geometry && availableFields.has(ls.returned_geometry));
+            }
+            if (keepLs) {
+              keepLs = !ls.geometry_id || (ls.geometry_id && availableFields.has(ls.geometry_id));
+            }
+            if (keepLs) {
+              keepLs = !ls.geometry_support || (ls.geometry_support && availableFields.has(ls.geometry_support));
+            }
+            if (keepLs) {
+              updatedLayersSources.push(ls);
+            }
+          });
+          contributor.layers_sources = updatedLayersSources;
         }
-      }
-    });
+        if (contributor.geo_query_field && !availableFields.has(contributor.geo_query_field)) {
+            delete contributor.geo_query_field;
+        }
+        if (contributor.search_sort) {
+          contributor.search_sort = contributor.search_sort.split(',').filter(s => availableFields.has(s.replace('-', ''))).join(',');
+          if (contributor.search_sort === '') {
+            delete contributor.search_sort;
+          }
+        }
+      });
+    }
     return data;
   }
 
@@ -364,11 +368,13 @@ export class ArlasConfigurationUpdaterService {
    * @returns configuration object
    */
   public updateChipSearchContributors(data, availableFields: Set<string>): any {
-    data.arlas.web.contributors.filter(contributor => contributor.type === 'chipssearch').forEach(contributor => {
-      if (contributor.autocomplete_field && !availableFields.has(contributor.autocomplete_field)) {
-          delete contributor.autocomplete_field;
-      }
-    });
+    if (data && data.arlas && data.arlas.web && data.arlas.web.contributors) {
+      data.arlas.web.contributors.filter(contributor => contributor.type === 'chipssearch').forEach(contributor => {
+        if (contributor.autocomplete_field && !availableFields.has(contributor.autocomplete_field)) {
+            delete contributor.autocomplete_field;
+        }
+      });
+    }
     return data;
   }
 }
