@@ -106,18 +106,14 @@ export class ConfigMenuComponent implements OnInit, OnChanges {
       }
       case ConfigActionEnum.DUPLICATE: {
         //  Open a modal to enter the name of a new configuration based on the selected one.
-        this.getDialogRef(action)
-          .subscribe(result => {
-            this.persistenceService.duplicate(this.zone, result[1],
-              result[0]).subscribe(data => this.actionExecutedEmitter.next(), error => {
-                const err: Error = {
-                  origin: 'Configuration duplication error',
-                  message: error.toString(),
-                  reason: ''
-                };
-                this.errorService.errorEmitter.next(err);
-              });
-          });
+        const dialogRef = this.dialog.open(ActionModalComponent, {
+          data: {
+            name: action.name,
+            configId: action.configId,
+            type: action.type
+          }
+        });
+        dialogRef.afterClosed().subscribe(() => this.actionExecutedEmitter.next());
         break;
       }
       case ConfigActionEnum.SHARE: {
@@ -143,6 +139,7 @@ export class ConfigMenuComponent implements OnInit, OnChanges {
         type: action.type
       }
     });
+
     return dialogRef.afterClosed().pipe(filter(result => result !== false));
   }
 

@@ -4,6 +4,7 @@ import { ConfigMenuComponent } from './config-menu.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatMenuModule, MatIconModule, MatButtonModule } from '@angular/material';
 import { ActionModalModule } from '../action-modal/action-modal.module';
+import { ErrorService } from '../../../services/error/error.service';
 
 @NgModule({
   imports: [
@@ -19,6 +20,9 @@ import { ActionModalModule } from '../action-modal/action-modal.module';
   ],
   declarations: [
     ConfigMenuComponent
+  ],
+  providers: [
+    ErrorService,
   ]
 })
 export class ConfigMenuModule { }
