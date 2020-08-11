@@ -41,7 +41,8 @@ export enum ConfigActionEnum {
   DELETE,
   EDIT,
   DUPLICATE,
-  SHARE
+  SHARE,
+  CREATE
 }
 
 @Component({

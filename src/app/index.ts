@@ -17,6 +17,7 @@
  * under the License.
  */
 
+
 export {
   ArlasExploreApi,
   ArlasStartupService,
@@ -36,3 +37,4 @@ export { ArlasTaggerModule } from './tagger.module';
 export { AuthentSetting } from './services/authentification/authentification.service';
 export { PersistenceSetting } from './services/persistence/persistence.service';
 export { ErrorService } from './services/error/error.service';
+export { ConfigActionEnum, ConfigAction } from './components/config-manager/config-menu/config-menu.component';
