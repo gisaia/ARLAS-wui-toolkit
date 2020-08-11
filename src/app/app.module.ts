@@ -51,6 +51,7 @@ import { ArlasConfigurationUpdaterService } from './services/configuration-updat
 import { ArlasSettingsService } from './services/settings/arlas.settings.service';
 import { ErrorModalModule } from './components/errormodal/errormodal.module';
 import { ErrorService } from './services/error/error.service';
+import { ConfigMenuModule } from './components/config-manager/config-menu/config-menu.module';
 
 
 
@@ -140,6 +141,7 @@ export const MY_CUSTOM_FORMATS = {
       }
     }),
     ErrorModalModule,
+    ConfigMenuModule,
     OAuthModule.forRoot()
   ],
   exports: [AppComponent],
