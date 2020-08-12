@@ -1,15 +1,15 @@
-<div *ngIf="type=== ConfigAction.DELETE">
-    <h2 mat-dialog-title>{{'Delete' | translate }} {{name}}?</h2>
-    <mat-dialog-content>{{'This will delete' | translate}} {{name}} {{'element and cannot be undone.' | translate}}</mat-dialog-content>
+<div *ngIf="action.type=== ConfigAction.DELETE">
+    <h2 mat-dialog-title>{{'Delete' | translate}} {{action.config.name}}?</h2>
+    <mat-dialog-content>{{'This will delete' | translate}} {{action.config.name}} {{'element and cannot be undone.' | translate}}</mat-dialog-content>
     <mat-dialog-actions>
         <button mat-button [mat-dialog-close]="false">{{'Cancel' | translate}}</button>
         <!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->
-        <button mat-button [mat-dialog-close]="configId">{{'Delete' | translate}}</button>
+        <button mat-button [mat-dialog-close]="action.config.id">{{'Delete' | translate}}</button>
     </mat-dialog-actions>
 </div>
 
-<div *ngIf="type=== ConfigAction.DUPLICATE">
-    <h2 mat-dialog-title>{{'Duplicate' | translate}} {{name}}?</h2>
+<div *ngIf="action.type=== ConfigAction.DUPLICATE">
+    <h2 mat-dialog-title>{{'Duplicate' | translate}} {{action.config.name}}?</h2>
     <div mat-dialog-content>
         <mat-form-field class="example-form-field">
             <mat-label>{{'New name' | translate}}</mat-label>
@@ -21,12 +21,12 @@
         <span style="color: red; display: block;">{{duplicateError | translate}}</span>
     </div>
     <div mat-dialog-actions>
-        <button mat-raised-button class="modal_button" color="primary" (click)="duplicate(value, configId)">{{ 'Duplicate' | translate}}</button>
+        <button mat-raised-button class="modal_button" color="primary" (click)="duplicate(value, action.config.id)">{{ 'Duplicate' | translate}}</button>
         <button mat-raised-button class="modal_button" [mat-dialog-close]="false">{{ 'Cancel' | translate}}</button>
     </div>
 </div>
 
-<div *ngIf="type=== ConfigAction.CREATE">
+<div *ngIf="action.type=== ConfigAction.CREATE">
   <h2 mat-dialog-title>{{'Add a new configuration' | translate}}</h2>
   <div mat-dialog-content>
       <mat-form-field class="example-form-field">
@@ -41,5 +41,12 @@
   <div mat-dialog-actions>
       <button mat-raised-button class="modal_button" color="primary" (click)="create(value)">{{ 'Create' | translate }}</button>
       <button mat-raised-button class="modal_button" [mat-dialog-close]="false">{{ 'Cancel' | translate }}</button>
+  </div>
+</div>
+
+<div *ngIf="action.type=== ConfigAction.SHARE">
+  <h2 mat-dialog-title>{{'Share configuration' | translate}}</h2>
+  <div mat-dialog-content>
+      <arlas-share-config [config]="action.config" (updateEmitter)="closeShare($event)" ></arlas-share-config>
   </div>
 </div>
