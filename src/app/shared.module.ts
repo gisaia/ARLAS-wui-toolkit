@@ -59,6 +59,7 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { FormatNumberModule } from 'arlas-web-components';
 import { ErrorModalModule } from './components/errormodal/errormodal.module';
+import { ConfigMenuModule } from './components/config-manager/config-menu/config-menu.module';
 
 
 export class CustomTranslateLoader implements TranslateLoader {
@@ -120,6 +121,7 @@ export class CustomTranslateLoader implements TranslateLoader {
         PowerbarsModule,
         ReactiveFormsModule,
         ResultsModule,
+        ConfigMenuModule,
         FormatNumberModule,
         ErrorModalModule,
         TranslateModule.forRoot({
