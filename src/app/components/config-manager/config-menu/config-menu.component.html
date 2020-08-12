@@ -6,31 +6,31 @@
     <div *ngIf="action.type === ConfigAction.VIEW" >
       <button mat-menu-item (click)="onActionClick(action)">
         <mat-icon>launch</mat-icon>
-        <span>View</span>
+        <span>{{'View' | translate}}</span>
       </button>
     </div>
     <div *ngIf="action.type === ConfigAction.SHARE" >
       <button mat-menu-item (click)="onActionClick(action)">
         <mat-icon>share</mat-icon>
-        <span>Share</span>
+        <span>{{'Share' | translate}}</span>
       </button>
     </div>
     <div *ngIf="action.type === ConfigAction.EDIT" >
       <button mat-menu-item [disabled]="!action.enabled" (click)="onActionClick(action)">
         <mat-icon>create</mat-icon>
-        <span>Edit</span>
+        <span>{{'Edit' | translate}}</span>
       </button>
     </div>
     <div *ngIf="action.type === ConfigAction.DUPLICATE">
       <button mat-menu-item (click)="onActionClick(action)">
         <mat-icon>filter_none</mat-icon>
-        <span>Duplicate</span>
+        <span>{{'Duplicate' | translate}}</span>
       </button>
     </div>
     <div *ngIf="action.type === ConfigAction.DELETE">
       <button mat-menu-item [disabled]="!action.enabled" (click)="onActionClick(action)">
         <mat-icon>delete</mat-icon>
-        <span>Delete</span>
+        <span>{{'Delete' | translate}}</span>
       </button>
     </div>
   </div>

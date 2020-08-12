@@ -52,6 +52,8 @@ import { ArlasSettingsService } from './services/settings/arlas.settings.service
 import { ErrorModalModule } from './components/errormodal/errormodal.module';
 import { ErrorService } from './services/error/error.service';
 import { ConfigMenuModule } from './components/config-manager/config-menu/config-menu.module';
+import { PaginatorI18n } from './tools/paginatori18n';
+import { MatPaginatorIntl } from '@angular/material/paginator/typings/paginator-intl';
 
 
 
@@ -80,6 +82,13 @@ export function walkthroughServiceFactory(walkthroughService: ArlasWalkthroughSe
 export function localDatePickerFactory(translate: TranslateService) {
   return translate.currentLang;
 }
+
+export function paginatori18nFactory(translate: TranslateService){
+  const paginatori18n = ()=>new PaginatorI18n(translate).getPaginatorIntl();
+  return paginatori18n;
+}
+
+
 
 // We need a factory since localStorage is not available at AOT build time
 export function storageFactory(settingsService: ArlasSettingsService): OAuthStorage {
@@ -226,7 +235,12 @@ export const MY_CUSTOM_FORMATS = {
       provide: GET_OPTIONS,
       useFactory: getOptionsFactory,
       deps: [AuthentificationService]
-    }
+    },
+    {
+      provide: MatPaginatorIntl, 
+      deps: [TranslateService],
+      useFactory:paginatori18nFactory
+    },
   ],
   bootstrap: [AppComponent],
   entryComponents: [
