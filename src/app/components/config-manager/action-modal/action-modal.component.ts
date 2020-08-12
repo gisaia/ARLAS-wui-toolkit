@@ -33,6 +33,16 @@ export class ActionModalComponent {
         this.duplicateError = '';
         this.dialogRef.close();
       },
+        error => {
+          this.duplicateError = 'A configuration with this name exists already, please choose another name.';
+        });
+  }
+
+  public create(name: string) {
+    this.persistenceService.create('config.json', name, '{}', [], []).subscribe(data => {
+      this.duplicateError = '';
+      this.dialogRef.close(data.id);
+    },
       error => {
         this.duplicateError = 'A configuration with this name exists already, please choose another name.';
       });
