@@ -631,6 +631,8 @@ export interface ExtraConfig {
 export interface ArlasSettings {
   authentication?: AuthentSetting;
   persistence?: PersistenceSetting;
+  arlas_wui_url?:string;
+  alras_builder_url?:string;
 }
 
 

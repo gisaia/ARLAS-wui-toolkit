@@ -17,4 +17,12 @@ export class ArlasSettingsService {
   public getPersistenceSettings(): PersistenceSetting {
     return !!this.settings && !!this.settings.persistence ? this.settings.persistence : undefined;
   }
+
+  public getArlasWuiUrl():string {
+    return !!this.settings && !!this.settings.arlas_wui_url ? this.settings.arlas_wui_url : undefined;
+  }
+
+  public getArlasBuilderUrl():string {
+    return !!this.settings && !!this.settings.alras_builder_url ? this.settings.alras_builder_url : undefined;
+  }
 }
