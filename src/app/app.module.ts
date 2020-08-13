@@ -84,11 +84,9 @@ export function localDatePickerFactory(translate: TranslateService) {
 }
 
 export function paginatori18nFactory(translate: TranslateService) {
-  const paginatori18n = () => new PaginatorI18n(translate).getPaginatorIntl();
+  const paginatori18n = (translate) => new PaginatorI18n(translate).getPaginatorIntl();
   return paginatori18n;
 }
-
-
 
 // We need a factory since localStorage is not available at AOT build time
 export function storageFactory(settingsService: ArlasSettingsService): OAuthStorage {
@@ -150,7 +148,6 @@ export const MY_CUSTOM_FORMATS = {
       }
     }),
     ErrorModalModule,
-    ConfigMenuModule,
     OAuthModule.forRoot()
   ],
   exports: [AppComponent],
