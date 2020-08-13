@@ -1,10 +1,10 @@
-<div *ngIf="action.type=== ConfigAction.DELETE">
+<div *ngIf="action.type === ConfigAction.DELETE">
     <h2 mat-dialog-title>{{'Delete' | translate}} {{action.config.name}}?</h2>
     <mat-dialog-content>{{'This will delete' | translate}} {{action.config.name}} {{'element and cannot be undone.' | translate}}</mat-dialog-content>
     <mat-dialog-actions>
-        <button mat-button [mat-dialog-close]="false">{{'Cancel' | translate}}</button>
         <!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->
-        <button mat-button [mat-dialog-close]="action.config.id">{{'Delete' | translate}}</button>
+        <button mat-raised-button class="modal_button" color="primary"  [mat-dialog-close]="action.config.id">{{'Delete' | translate}}</button>
+        <button mat-raised-button class="modal_button" [mat-dialog-close]="false">{{'Cancel' | translate}}</button>
     </mat-dialog-actions>
 </div>
 

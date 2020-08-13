@@ -86,12 +86,13 @@ export class ConfigMenuComponent implements OnInit {
         if (action.url && action.config && action.config.id && action.configIdParam) {
           this.openUrl(action.url.concat('/?' + action.configIdParam + '=').concat(action.config.id));
         }
+        this.actionExecutedEmitter.next(action);
         break;
       }
       case ConfigActionEnum.DELETE: {
         // Open a confirm modal to validate this choice. Available only if updatable is true for this object
         this.getDialogRef(action).subscribe(id => {
-          this.persistenceService.delete(id).subscribe(data => this.actionExecutedEmitter.next(), error => {
+          this.persistenceService.delete(id).subscribe(data => this.actionExecutedEmitter.next(action), error => {
             const err: Error = {
               origin: 'Configuration deletion error',
               message: error.toString(),
@@ -107,36 +108,13 @@ export class ConfigMenuComponent implements OnInit {
         if (action.url && action.config && action.config.id) {
           this.openUrl(action.url.concat(action.config.id));
         }
+        this.actionExecutedEmitter.next(action);
         break;
       }
-      case ConfigActionEnum.DUPLICATE: {
-        if (action.config && action.config.id) {
-          //  Open a modal to enter the name of a new configuration based on the selected one.
-          const dialogRef = this.dialog.open(ActionModalComponent, {
-            data: {
-              config: action.config,
-              type: action.type
-            }
-          });
-          dialogRef.afterClosed().subscribe(() => this.actionExecutedEmitter.next());
-        }
-        break;
-      }
+      case ConfigActionEnum.DUPLICATE:
       case ConfigActionEnum.SHARE: {
-        // Open a modal to set the permissions read/write for each group
-        // call persistence API to retrieve group for the zone
-        // open share component
-        // select group
-        // update the data with the PUT endpoint of persistence
         if (action.config && action.config.id) {
-          //  Open a modal to enter the name of a new configuration based on the selected one.
-          const dialogRef = this.dialog.open(ActionModalComponent, {
-            data: {
-              config: action.config,
-              type: action.type
-            }
-          });
-          dialogRef.afterClosed().subscribe(() => this.actionExecutedEmitter.next());
+          this.getDialogRef(action).subscribe(() => this.actionExecutedEmitter.next(action));
         }
         break;
       }
@@ -149,13 +127,8 @@ export class ConfigMenuComponent implements OnInit {
 
   private getDialogRef(action: ConfigAction) {
     const dialogRef = this.dialog.open(ActionModalComponent, {
-      data: {
-        name: action.name,
-        configId: action.config.id,
-        type: action.type
-      }
+      data: action
     });
-
     return dialogRef.afterClosed().pipe(filter(result => result !== false));
   }
 
