@@ -23,6 +23,7 @@ import { Config } from '../config-menu/config-menu.component';
 
 export interface PersistenceGroup {
   name: string;
+  label: string;
   reader: boolean;
   writer: boolean;
 }
@@ -41,13 +42,13 @@ export class ShareConfigComponent implements OnInit {
 
   }
   public ngOnInit() {
-    console.log(this.config);
     this.persistenceService.getGroupsByZone(this.config.zone).subscribe((s: any) => {
       this.groups = new Array();
       s.forEach(g => {
         const paths = g.split('/');
         const group: PersistenceGroup = {
-          name: paths[paths.length - 1],
+          name: g,
+          label: paths[paths.length - 1],
           reader: (new Set(this.config.readers)).has(g),
           writer: (new Set(this.config.writers)).has(g)
         };
