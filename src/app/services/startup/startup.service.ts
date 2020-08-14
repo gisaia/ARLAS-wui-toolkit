@@ -632,7 +632,7 @@ export interface ArlasSettings {
     authentication?: AuthentSetting;
     persistence?: PersistenceSetting;
     arlas_wui_url?: string;
-    alras_builder_url?: string;
+    arlas_builder_url?: string;
 }
 
 
