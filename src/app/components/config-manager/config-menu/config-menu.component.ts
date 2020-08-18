@@ -127,6 +127,7 @@ export class ConfigMenuComponent implements OnInit {
 
   private getDialogRef(action: ConfigAction) {
     const dialogRef = this.dialog.open(ActionModalComponent, {
+      disableClose: true,
       data: action
     });
     return dialogRef.afterClosed().pipe(filter(result => result !== false));
