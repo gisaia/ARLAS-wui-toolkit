@@ -8,7 +8,7 @@ import { PersistenceSetting } from '../persistence/persistence.service';
 export class ArlasSettingsService {
   public settings: ArlasSettings;
 
-  constructor() {}
+  constructor() { }
 
   public setSettings(settings: ArlasSettings): void {
     this.settings = settings;
@@ -16,5 +16,13 @@ export class ArlasSettingsService {
 
   public getPersistenceSettings(): PersistenceSetting {
     return !!this.settings && !!this.settings.persistence ? this.settings.persistence : undefined;
+  }
+
+  public getArlasWuiUrl(): string {
+    return !!this.settings && !!this.settings.arlas_wui_url ? this.settings.arlas_wui_url : undefined;
+  }
+
+  public getArlasBuilderUrl(): string {
+    return !!this.settings && !!this.settings.arlas_builder_url ? this.settings.arlas_builder_url : undefined;
   }
 }

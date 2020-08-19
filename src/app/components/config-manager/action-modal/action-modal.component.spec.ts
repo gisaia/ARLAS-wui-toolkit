@@ -14,6 +14,7 @@ import { AuthentificationService } from '../../../services/authentification/auth
 import { getOptionsFactory } from '../../../app.module';
 import { OAuthLogger, OAuthService, UrlHelperService } from 'angular-oauth2-oidc';
 import { HttpClientModule } from '@angular/common/http';
+import { ShareConfigModule } from '../share-config/share-config.module';
 
 describe('ActionModalComponent', () => {
   let component: ActionModalComponent;
@@ -34,7 +35,8 @@ describe('ActionModalComponent', () => {
         MatInputModule,
         MatButtonModule,
         FormsModule,
-        HttpClientModule
+        HttpClientModule,
+        ShareConfigModule
       ],
       providers: [
         AuthentificationService,

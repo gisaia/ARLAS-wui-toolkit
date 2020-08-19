@@ -10,7 +10,7 @@
       </button>
     </div>
     <div *ngIf="action.type === ConfigAction.SHARE" >
-      <button mat-menu-item (click)="onActionClick(action)">
+      <button mat-menu-item [disabled]="!action.enabled" (click)="onActionClick(action)">
         <mat-icon>share</mat-icon>
         <span>{{'Share' | translate}}</span>
       </button>

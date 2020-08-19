@@ -1,0 +1,24 @@
+<mat-table [dataSource]="groups" class="group-table-items">
+  <ng-container matColumnDef="group">
+    <mat-header-cell *matHeaderCellDef class="group-cell">{{ 'group' | translate }} </mat-header-cell>
+    <mat-cell *matCellDef="let group" class="group-cell"> {{group.label}} </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="reader">
+    <mat-header-cell *matHeaderCellDef>{{ 'reading' | translate }} </mat-header-cell>
+    <mat-cell *matCellDef="let group">
+      <mat-checkbox  color="primary" [checked]="group.reader" (change)="changeReader($event, group)"></mat-checkbox>
+    </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="writer">
+    <mat-header-cell *matHeaderCellDef>{{ 'writing' | translate }} </mat-header-cell>
+    <mat-cell *matCellDef="let group">
+      <mat-checkbox color="primary"  [checked]="group.writer" (change)="changeWriter($event, group)"></mat-checkbox>
+    </mat-cell>
+  </ng-container>
+  <mat-header-row class="group-row" *matHeaderRowDef="['group', 'reader', 'writer']"></mat-header-row>
+  <mat-row class="group-row" *matRowDef="let myRowData; columns: ['group', 'reader', 'writer']"></mat-row>
+</mat-table>
+<div mat-dialog-actions class="share-container">
+  <button mat-raised-button class="modal_button share-button" color="primary" (click)="updateGroups()">{{ 'Share' | translate }}</button>
+  <button mat-raised-button class="modal_button" (click)="close()" >{{ 'Cancel' | translate }}</button>
+</div>

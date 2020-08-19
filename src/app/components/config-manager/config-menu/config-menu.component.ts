@@ -32,8 +32,18 @@ export interface ConfigAction {
   enabled?: boolean;
   name?: string;
   url?: string;
-  configId?: string;
   configIdParam?: string;
+  config: Config;
+}
+
+export interface Config {
+  id: string;
+  name: string;
+  value: string;
+  lastUpdate: number;
+  readers: Array<string>;
+  writers: Array<string>;
+  zone: string;
 }
 
 export enum ConfigActionEnum {
@@ -50,7 +60,7 @@ export enum ConfigActionEnum {
   templateUrl: './config-menu.component.html',
   styleUrls: ['./config-menu.component.css']
 })
-export class ConfigMenuComponent implements OnInit, OnChanges {
+export class ConfigMenuComponent implements OnInit {
   @Input() public actions: Array<ConfigAction>;
   @Input() public zone: string;
 
@@ -68,26 +78,21 @@ export class ConfigMenuComponent implements OnInit, OnChanges {
 
   }
 
-  public ngOnChanges(changes: SimpleChanges): void {
-    if (changes['actions'] !== undefined) {
-      console.log('change');
-    }
-  }
-
   public onActionClick(action: ConfigAction): void {
     switch (action.type) {
       case ConfigActionEnum.VIEW: {
         // redirect to arlas-wui-app with config ID;
         // http://localhost:4200/?config_id=50322281-d279-11ea-9fd1-0242ac160002
-        if (action.url && action.configId && action.configIdParam) {
-          this.openUrl(action.url.concat('/?' + action.configIdParam + '=').concat(action.configId));
+        if (action.url && action.config && action.config.id && action.configIdParam) {
+          this.openUrl(action.url.concat('/?' + action.configIdParam + '=').concat(action.config.id));
         }
+        this.actionExecutedEmitter.next(action);
         break;
       }
       case ConfigActionEnum.DELETE: {
         // Open a confirm modal to validate this choice. Available only if updatable is true for this object
         this.getDialogRef(action).subscribe(id => {
-          this.persistenceService.delete(id).subscribe(data => this.actionExecutedEmitter.next(), error => {
+          this.persistenceService.delete(id).subscribe(data => this.actionExecutedEmitter.next(action), error => {
             const err: Error = {
               origin: 'Configuration deletion error',
               message: error.toString(),
@@ -100,29 +105,17 @@ export class ConfigMenuComponent implements OnInit, OnChanges {
       }
       case ConfigActionEnum.EDIT: {
         // redirect to arlas wui-builer with config ID
-        if (action.url && action.configId) {
-          this.openUrl(action.url.concat(action.configId));
+        if (action.url && action.config && action.config.id) {
+          this.openUrl(action.url.concat(action.config.id));
         }
+        this.actionExecutedEmitter.next(action);
         break;
       }
-      case ConfigActionEnum.DUPLICATE: {
-        //  Open a modal to enter the name of a new configuration based on the selected one.
-        const dialogRef = this.dialog.open(ActionModalComponent, {
-          data: {
-            name: action.name,
-            configId: action.configId,
-            type: action.type
-          }
-        });
-        dialogRef.afterClosed().subscribe(() => this.actionExecutedEmitter.next());
-        break;
-      }
+      case ConfigActionEnum.DUPLICATE:
       case ConfigActionEnum.SHARE: {
-        // Open a modal to set the permissions read/write for each group
-        // call persistence API to retrieve group for the zone
-        // open share component
-        // select group
-        // update the data with the PUT endpoint of persistence
+        if (action.config && action.config.id) {
+          this.getDialogRef(action).subscribe(() => this.actionExecutedEmitter.next(action));
+        }
         break;
       }
       default: {
@@ -134,13 +127,9 @@ export class ConfigMenuComponent implements OnInit, OnChanges {
 
   private getDialogRef(action: ConfigAction) {
     const dialogRef = this.dialog.open(ActionModalComponent, {
-      data: {
-        name: action.name,
-        configId: action.configId,
-        type: action.type
-      }
+      disableClose: true,
+      data: action
     });
-
     return dialogRef.afterClosed().pipe(filter(result => result !== false));
   }
 

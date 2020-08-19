@@ -63,6 +63,10 @@ export class PersistenceService {
     );
   }
 
+  public getGroupsByZone(zone: string) {
+    return from(this.persistenceApi.getGroupsByZone(zone, false, this.options));
+  }
+
   public setOptions(options): void {
     this.options = options;
   }

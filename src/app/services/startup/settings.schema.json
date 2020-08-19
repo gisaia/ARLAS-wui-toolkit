@@ -124,6 +124,14 @@
       "required": [
         "url"
       ]
+    },
+    "arlas_wui_url": {
+      "description": "Url of arlas wui app",
+      "type": "string"
+    },
+    "arlas_builder_url": {
+      "description": "Url of arlas builder app",
+      "type": "string"
     }
   }
 }

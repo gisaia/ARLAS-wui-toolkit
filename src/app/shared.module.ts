@@ -60,6 +60,8 @@ import { Observable } from 'rxjs';
 import { FormatNumberModule } from 'arlas-web-components';
 import { ErrorModalModule } from './components/errormodal/errormodal.module';
 import { ConfigMenuModule } from './components/config-manager/config-menu/config-menu.module';
+import { UserInfo } from 'angular-oauth2-oidc';
+import { UserInfosComponent } from './components/user-infos/user-infos.component';
 
 
 export class CustomTranslateLoader implements TranslateLoader {
@@ -153,7 +155,8 @@ export class CustomTranslateLoader implements TranslateLoader {
         TimelineComponent,
         TimelineShortcutComponent,
         WidgetComponent,
-        ProgressSpinnerComponent
+        ProgressSpinnerComponent,
+        UserInfosComponent
     ],
 
 
@@ -178,7 +181,8 @@ export class CustomTranslateLoader implements TranslateLoader {
         TimelineComponent,
         TimelineShortcutComponent,
         WidgetComponent,
-        ProgressSpinnerComponent
+        ProgressSpinnerComponent,
+        UserInfosComponent
     ]
 
 
