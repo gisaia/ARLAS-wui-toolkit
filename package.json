@@ -43,6 +43,7 @@
     "arlas-web-contributors": "~13.0.0",
     "cli-color": "^1.2.0",
     "core-js": "^2.4.1",
+    "fetch-intercept": "^2.3.1",
     "hopscotch": "0.3.1",
     "js-yaml": "^3.14.0",
     "rxjs": "~6.5.3",
