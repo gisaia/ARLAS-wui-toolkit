@@ -23,7 +23,9 @@ export {
   ArlasStartupService,
   ArlasCollaborativesearchService,
   ArlasConfigService,
-  ArlasSettings
+  ArlasSettings,
+  ArlasServerSetting,
+  ArlasTaggerSetting
 } from './services/startup/startup.service';
 export { ArlasBookmarkService } from './services/bookmark/bookmark.service';
 export { ArlasAoiService } from './services/aoi/aoi.service';

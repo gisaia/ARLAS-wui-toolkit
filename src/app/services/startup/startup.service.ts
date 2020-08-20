@@ -631,8 +631,16 @@ export interface ExtraConfig {
 export interface ArlasSettings {
     authentication?: AuthentSetting;
     persistence?: PersistenceSetting;
+    server?: ArlasServerSetting;
+    tagger?: ArlasTaggerSetting;
     arlas_wui_url?: string;
     arlas_builder_url?: string;
 }
 
+export interface ArlasServerSetting {
+  url: string;
+}
 
+export interface ArlasTaggerSetting {
+  url: string;
+}

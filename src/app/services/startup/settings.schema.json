@@ -125,6 +125,30 @@
         "url"
       ]
     },
+    "server": {
+      "description": "Configuration of ARLAS-server",
+      "properties": {
+        "url": {
+          "type": "string",
+          "description": "URL to the ARLAS-server"
+        }
+      },
+      "required": [
+        "url"
+      ]
+    },
+    "tagger": {
+      "description": "Configuration of ARLAS-tagger server",
+      "properties": {
+        "url": {
+          "type": "string",
+          "description": "URL to the ARLAS-tagger server"
+        }
+      },
+      "required": [
+        "url"
+      ]
+    },
     "arlas_wui_url": {
       "description": "Url of arlas wui app",
       "type": "string"
