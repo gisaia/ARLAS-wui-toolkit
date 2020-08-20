@@ -47,13 +47,13 @@ import { HistogramModule } from 'arlas-web-components/components/histogram/histo
 import { MetricModule } from 'arlas-web-components/components/metric/metric.module';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import {
-    MatButtonModule, MatCardModule, MatDialogModule,
-    MatExpansionModule, MatIconModule, MatRadioModule, MatChipsModule, MatSelectModule,
-    MatStepperModule, MatSnackBarModule, MatInputModule, MatProgressBarModule, MatListModule,
-    MatTooltipModule, MatTableModule, MatCheckboxModule,
-    MatFormFieldModule, MatProgressSpinnerModule, MatTabsModule, MatPaginatorModule
-  } from '@angular/material';
-  import { MatAutocompleteModule } from '@angular/material';
+  MatButtonModule, MatCardModule, MatDialogModule,
+  MatExpansionModule, MatIconModule, MatRadioModule, MatChipsModule, MatSelectModule,
+  MatStepperModule, MatSnackBarModule, MatInputModule, MatProgressBarModule, MatListModule,
+  MatTooltipModule, MatTableModule, MatCheckboxModule,
+  MatFormFieldModule, MatProgressSpinnerModule, MatTabsModule, MatPaginatorModule
+} from '@angular/material';
+import { MatAutocompleteModule } from '@angular/material';
 import { OwlDateTimeModule, OwlNativeDateTimeModule, OwlMomentDateTimeModule } from '@gisaia-team/ng-pick-datetime';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
@@ -62,129 +62,141 @@ import { ErrorModalModule } from './components/errormodal/errormodal.module';
 import { ConfigMenuModule } from './components/config-manager/config-menu/config-menu.module';
 import { UserInfo } from 'angular-oauth2-oidc';
 import { UserInfosComponent } from './components/user-infos/user-infos.component';
+import { ReconnectDialogComponent } from './components/reconnect-dialog/reconnect-dialog.component';
+import { FetchInterceptorService } from './services/interceptor/fetch-interceptor.service';
+import { ActionModalComponent } from './components/config-manager/action-modal/action-modal.component';
+import { ActionModalModule } from './components/config-manager/action-modal/action-modal.module';
 
 
 export class CustomTranslateLoader implements TranslateLoader {
 
-    constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { }
 
-    public getTranslation(lang: string): Observable<any> {
-      const apiAddress = 'assets/i18n/' + lang + '.json?' + Date.now();
-      return Observable.create(observer => {
-        this.http.get(apiAddress).subscribe(
-          res => {
-            observer.next(res);
-            observer.complete();
-          },
-          error => {
-            // failed to retrieve requested language file, use default
-            observer.complete(); // => Default language is already loaded
-          }
-        );
-      });
-    }
+  public getTranslation(lang: string): Observable<any> {
+    const apiAddress = 'assets/i18n/' + lang + '.json?' + Date.now();
+    return Observable.create(observer => {
+      this.http.get(apiAddress).subscribe(
+        res => {
+          observer.next(res);
+          observer.complete();
+        },
+        error => {
+          // failed to retrieve requested language file, use default
+          observer.complete(); // => Default language is already loaded
+        }
+      );
+    });
   }
+}
 
 @NgModule({
 
-    imports: [
-        CommonModule,
-        DonutModule,
-        DragDropModule,
-        FormsModule,
-        HistogramModule,
-        MetricModule,
-        HttpClientModule,
-        MatAutocompleteModule,
-        MatButtonModule,
-        MatCardModule,
-        MatCheckboxModule,
-        MatChipsModule,
-        MatDialogModule,
-        MatExpansionModule,
-        MatIconModule,
-        MatInputModule,
-        MatListModule,
-        MatProgressBarModule,
-        MatRadioModule,
-        MatFormFieldModule,
-        MatPaginatorModule,
-        MatProgressBarModule,
-        MatProgressSpinnerModule,
-        MatSelectModule,
-        MatSnackBarModule,
-        MatStepperModule,
-        MatTableModule,
-        MatTabsModule,
-        MatTooltipModule,
-        OwlDateTimeModule,
-        OwlNativeDateTimeModule,
-        OwlMomentDateTimeModule,
-        PowerbarsModule,
-        ReactiveFormsModule,
-        ResultsModule,
-        ConfigMenuModule,
-        FormatNumberModule,
-        ErrorModalModule,
-        TranslateModule.forRoot({
-            loader: {
-              provide: TranslateLoader,
-              useClass: CustomTranslateLoader,
-              deps: [HttpClient]
-            }
-          })
-      ],
-    exports: [
-        AnalyticsBoardComponent,
-        AoiComponent,
-        BookmarkComponent,
-        BookmarkAddDialogComponent,
-        BookmarkMenuComponent,
-        ConfirmModalComponent,
-        DatePickerComponent,
-        DownloadComponent,
-        DownloadDialogComponent,
-        ExcludeTypePipe,
-        ExtendComponent,
-        FiltersComponent,
-        GetTimeLabelPipe,
-        LanguageSwitcherComponent,
-        SearchComponent,
-        ShareComponent,
-        ShareDialogComponent,
-        TimelineComponent,
-        TimelineShortcutComponent,
-        WidgetComponent,
-        ProgressSpinnerComponent,
-        UserInfosComponent
-    ],
+  imports: [
+    ActionModalModule,
+    CommonModule,
+    DonutModule,
+    DragDropModule,
+    FormsModule,
+    HistogramModule,
+    MetricModule,
+    HttpClientModule,
+    MatAutocompleteModule,
+    MatButtonModule,
+    MatCardModule,
+    MatCheckboxModule,
+    MatChipsModule,
+    MatDialogModule,
+    MatExpansionModule,
+    MatIconModule,
+    MatInputModule,
+    MatListModule,
+    MatProgressBarModule,
+    MatRadioModule,
+    MatFormFieldModule,
+    MatPaginatorModule,
+    MatProgressBarModule,
+    MatProgressSpinnerModule,
+    MatSelectModule,
+    MatSnackBarModule,
+    MatStepperModule,
+    MatTableModule,
+    MatTabsModule,
+    MatTooltipModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
+    OwlMomentDateTimeModule,
+    PowerbarsModule,
+    ReactiveFormsModule,
+    ResultsModule,
+    ConfigMenuModule,
+    FormatNumberModule,
+    ErrorModalModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useClass: CustomTranslateLoader,
+        deps: [HttpClient]
+      }
+    })
+  ],
+  exports: [
+    AnalyticsBoardComponent,
+    AoiComponent,
+    BookmarkComponent,
+    BookmarkAddDialogComponent,
+    BookmarkMenuComponent,
+    ConfirmModalComponent,
+    DatePickerComponent,
+    DownloadComponent,
+    DownloadDialogComponent,
+    ExcludeTypePipe,
+    ExtendComponent,
+    FiltersComponent,
+    GetTimeLabelPipe,
+    LanguageSwitcherComponent,
+    SearchComponent,
+    ShareComponent,
+    ShareDialogComponent,
+    TimelineComponent,
+    TimelineShortcutComponent,
+    WidgetComponent,
+    ProgressSpinnerComponent,
+    UserInfosComponent,
+    ReconnectDialogComponent
+  ],
 
 
-    declarations: [
-        AnalyticsBoardComponent,
-        AoiComponent,
-        BookmarkComponent,
-        BookmarkAddDialogComponent,
-        BookmarkMenuComponent,
-        ConfirmModalComponent,
-        DatePickerComponent,
-        DownloadComponent,
-        DownloadDialogComponent,
-        ExcludeTypePipe,
-        ExtendComponent,
-        FiltersComponent,
-        GetTimeLabelPipe,
-        LanguageSwitcherComponent,
-        SearchComponent,
-        ShareComponent,
-        ShareDialogComponent,
-        TimelineComponent,
-        TimelineShortcutComponent,
-        WidgetComponent,
-        ProgressSpinnerComponent,
-        UserInfosComponent
-    ]
-
-
+  declarations: [
+    AnalyticsBoardComponent,
+    AoiComponent,
+    BookmarkComponent,
+    BookmarkAddDialogComponent,
+    BookmarkMenuComponent,
+    ConfirmModalComponent,
+    DatePickerComponent,
+    DownloadComponent,
+    DownloadDialogComponent,
+    ExcludeTypePipe,
+    ExtendComponent,
+    FiltersComponent,
+    GetTimeLabelPipe,
+    LanguageSwitcherComponent,
+    SearchComponent,
+    ShareComponent,
+    ShareDialogComponent,
+    TimelineComponent,
+    TimelineShortcutComponent,
+    WidgetComponent,
+    ProgressSpinnerComponent,
+    UserInfosComponent,
+    ReconnectDialogComponent
+  ],
+  providers: [
+    FetchInterceptorService
+  ],
+  entryComponents: [
+    ReconnectDialogComponent,
+    ActionModalComponent,
+    UserInfosComponent]
 })
 export class ArlasToolkitSharedModule { }

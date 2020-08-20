@@ -29,7 +29,7 @@ export class PersistenceService {
     const persistenceSettings = this.settingsService.getPersistenceSettings();
     if (!this.persistenceApi && !!persistenceSettings) {
       const configuration = new Configuration();
-      this.persistenceApi = new PersistApi(configuration, persistenceSettings.url, portableFetch);
+      this.persistenceApi = new PersistApi(configuration, persistenceSettings.url, window.fetch);
       this.isAvailable = true;
     }
   }

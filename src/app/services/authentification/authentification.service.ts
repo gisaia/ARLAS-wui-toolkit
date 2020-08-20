@@ -1,9 +1,10 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Pipe } from '@angular/core';
 import { OAuthService, AuthConfig, OAuthErrorEvent, UserInfo } from 'angular-oauth2-oidc';
 import { BehaviorSubject, ReplaySubject, Observable, combineLatest, from } from 'rxjs';
 import { map } from 'rxjs/internal/operators/map';
 import { HttpClient } from '@angular/common/http';
 import { CONFIG_ID_QUERY_PARAM } from '../startup/startup.service';
+import { filter } from 'rxjs/internal/operators/filter';
 
 export const NOT_CONFIGURED = 'NOT_CONFIGURED';
 
@@ -18,6 +19,8 @@ export class AuthentificationService {
   public isAuthenticated = this.isAuthenticatedSubject.asObservable();
   private isDoneLoadingSubject = new ReplaySubject<boolean>();
   public isDoneLoading = this.isDoneLoadingSubject.asObservable();
+
+  public silentRefreshErrorSubject;
   /**
    * Publishes `true` if and only if (a) all the asynchronous initial
    * login calls have completed or errorred, and (b) the user ended up
@@ -34,7 +37,8 @@ export class AuthentificationService {
   ).pipe(map(values => values.every(b => b)));
   constructor(private oauthService: OAuthService, private http: HttpClient
   ) {
-
+    this.silentRefreshErrorSubject = this.oauthService.events.pipe(filter(e => e instanceof OAuthErrorEvent),
+      filter((e: OAuthErrorEvent) => e.type === 'silent_refresh_error' || e.type === 'silent_refresh_timeout'));
   }
 
   public initAuthService(authentSettings: AuthentSetting): Promise<void> {
@@ -191,7 +195,7 @@ export class AuthentificationService {
           authConfigValue['redirect_uri'] : url + 'callback',
         silentRefreshRedirectUri: (authConfigValue['silent_refresh_redirect_uri'] !== undefined
           && authConfigValue['silent_refresh_redirect_uri'] !== NOT_CONFIGURED) ?
-            authConfigValue['silent_refresh_redirect_uri'] : url + 'silent-refresh.html',
+          authConfigValue['silent_refresh_redirect_uri'] : url + 'silent-refresh.html',
         timeoutFactor: authConfigValue['timeout_factor'] !== undefined ? authConfigValue['timeout_factor'] : 0.75,
         sessionChecksEnabled: authConfigValue['session_checks_enabled'] !== undefined ? authConfigValue['session_checks_enabled'] : true,
         showDebugInformation: authConfigValue['show_debug_information'] !== undefined ? authConfigValue['show_debug_information'] : false,

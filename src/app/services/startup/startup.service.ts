@@ -32,7 +32,6 @@ import {
     ComputeContributor
 } from 'arlas-web-contributors';
 import { AnalyticsContributor } from 'arlas-web-contributors/contributors/AnalyticsContributor';
-import * as portableFetch from 'portable-fetch';
 import * as arlasConfSchema from './arlasconfig.schema.json';
 import * as arlasSettingsSchema from './settings.schema.json';
 import * as draftSchema from 'ajv/lib/refs/json-schema-draft-06.json';
@@ -54,6 +53,7 @@ import { DataWithLinks } from 'arlas-persistence-api';
 import { AuthentificationService, AuthentSetting, NOT_CONFIGURED } from '../authentification/authentification.service';
 import { ArlasSettingsService } from '../settings/arlas.settings.service';
 import { ErrorService } from '../error/error.service';
+import { FetchInterceptorService } from '../interceptor/fetch-interceptor.service';
 
 
 @Injectable({
@@ -124,7 +124,7 @@ export class ArlasStartupService {
         private http: HttpClient, private translateService: TranslateService,
         @Inject(CONFIG_UPDATER) private configUpdater,
         private persistenceService: PersistenceService,
-        private errorService: ErrorService) { }
+        private errorService: ErrorService, private fetchInterceptorService: FetchInterceptorService) { }
 
     public getFGAService(): ArlasConfigurationUpdaterService {
         return this.configurationUpdaterService;
@@ -231,7 +231,7 @@ export class ArlasStartupService {
         this.arlasExploreApi = new ArlasExploreApi(
             configuration,
             arlasUrl,
-            portableFetch
+            window.fetch
         );
         this.collaborativesearchService.setConfigService(this.configService);
         this.collaborativesearchService.setExploreApi(this.arlasExploreApi);
@@ -362,6 +362,14 @@ export class ArlasStartupService {
             const useAuthent = !!settings && !!settings.authentication && !!settings.authentication.use_authent;
             if (useAuthent) {
                 const authService: AuthentificationService = this.injector.get('AuthentificationService')[0];
+                const usePersistence = (!!settings && !!settings.persistence && !!settings.persistence.url
+                    && settings.persistence.url !== '' && settings.persistence.url !== NOT_CONFIGURED);
+                if (usePersistence) {
+                    // To open reconnect dialog on silent refresh failed
+                    authService.silentRefreshErrorSubject.subscribe(error => this.persistenceService.list('config.json', 10, 1, 'asc'))
+                        .subscribe(data => { return; });
+                }
+                this.fetchInterceptorService.applyInterceptor();
                 authService.canActivateProtectedRoutes.subscribe(isActivable => {
                     if (isActivable) {
                         // ARLAS-persistence
@@ -380,6 +388,7 @@ export class ArlasStartupService {
                     this.collaborativesearchService.setFetchOptions(this.fetchOptions);
                     resolve(settings);
                 });
+
             } else {
                 this.persistenceService.setOptions({});
                 resolve(settings);
