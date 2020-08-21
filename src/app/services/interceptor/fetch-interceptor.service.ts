@@ -29,6 +29,7 @@ export class FetchInterceptorService {
           // Modify the reponse object
           let code = response.status;
           if (code === 401 || code === 403) {
+            // Check if the response comes from a call to a non arlas public uri
             if (!!response.headers.get('WWW-Authenticate')) {
               code = 403;
             }

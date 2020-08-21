@@ -69,8 +69,7 @@ export class ConfigMenuComponent implements OnInit {
   public ConfigAction = ConfigActionEnum;
   constructor(
     private dialog: MatDialog,
-    private persistenceService: PersistenceService,
-    private errorService: ErrorService
+    private persistenceService: PersistenceService
   ) {
 
   }
@@ -92,14 +91,7 @@ export class ConfigMenuComponent implements OnInit {
       case ConfigActionEnum.DELETE: {
         // Open a confirm modal to validate this choice. Available only if updatable is true for this object
         this.getDialogRef(action).subscribe(id => {
-          this.persistenceService.delete(id).subscribe(data => this.actionExecutedEmitter.next(action), error => {
-            const err: Error = {
-              origin: 'Configuration deletion error',
-              message: error.toString(),
-              reason: ''
-            };
-            this.errorService.errorEmitter.next(err);
-          });
+          this.persistenceService.delete(id).subscribe(data => this.actionExecutedEmitter.next(action));
         });
         break;
       }
