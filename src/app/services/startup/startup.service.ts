@@ -366,8 +366,8 @@ export class ArlasStartupService {
                     && settings.persistence.url !== '' && settings.persistence.url !== NOT_CONFIGURED);
                 if (usePersistence) {
                     // To open reconnect dialog on silent refresh failed
-                    authService.silentRefreshErrorSubject.subscribe(error => this.persistenceService.list('config.json', 10, 1, 'asc'))
-                        .subscribe(data => { return; });
+                    authService.silentRefreshErrorSubject.subscribe(error =>
+                        this.persistenceService.list('config.json', 10, 1, 'asc').subscribe(data => { return; }));
                 }
                 this.fetchInterceptorService.applyInterceptor();
                 authService.canActivateProtectedRoutes.subscribe(isActivable => {
