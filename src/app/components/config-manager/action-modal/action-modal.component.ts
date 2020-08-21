@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { Component, Inject} from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ConfigActionEnum, ConfigAction } from '../config-menu/config-menu.component';
 import { PersistenceService } from '../../../services/persistence/persistence.service';
@@ -38,9 +38,9 @@ export class ActionModalComponent {
   constructor(
     @Inject(MAT_DIALOG_DATA) data: ConfigAction,
     private dialogRef: MatDialogRef<ActionModalComponent>,
-    private persistenceService: PersistenceService,
-    private errorService: ErrorService) {
-      this.action = data;
+    private persistenceService: PersistenceService
+  ) {
+    this.action = data;
   }
 
   public duplicate(value: string, configId: string) {
@@ -67,15 +67,6 @@ export class ActionModalComponent {
   public closeShare(event: [boolean, any]) {
     // update share is successful, close dialog
     if (event[0]) {
-      this.dialogRef.close();
-    } else {
-      // update share is not successfull
-      const error: Error = {
-        origin: 'Share config',
-        message: event[1].toString(),
-        reason: 'Check if ARLAS-persistence is running and well configured with Hub'
-      };
-      this.errorService.errorEmitter.next(error);
       this.dialogRef.close();
     }
   }
