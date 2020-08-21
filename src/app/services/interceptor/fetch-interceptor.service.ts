@@ -27,9 +27,13 @@ export class FetchInterceptorService {
         },
         response: (response) => {
           // Modify the reponse object
-          if (response.status === 401 || response.status === 403) {
+          let code = response.status;
+          if (code === 401 || code === 403) {
+            if (!!response.headers.get('WWW-Authenticate')) {
+              code = 403;
+            }
             // Propose to reconnect or stay disconnected
-            this.dialog.open(ReconnectDialogComponent, { disableClose: true, data: { code: response.status } });
+            this.dialog.open(ReconnectDialogComponent, { disableClose: true, data: { code: code } });
           }
           return response;
         },
