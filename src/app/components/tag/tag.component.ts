@@ -124,9 +124,11 @@ export class TagDialogComponent implements OnInit {
     this.collaborativeSearchService.describe(this.server.collection.name).subscribe(
       description => {
         const fields = description.properties;
-        Object.keys(fields).forEach(fieldName => {
-          this.getFieldProperties(fields, fieldName);
-        });
+        if (fields) {
+          Object.keys(fields).forEach(fieldName => {
+            this.getFieldProperties(fields, fieldName);
+          });
+        }
       },
       error => {
         this.collaborativeSearchService.collaborationErrorBus.next(error);

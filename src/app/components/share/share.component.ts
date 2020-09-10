@@ -129,7 +129,7 @@ export class ShareDialogComponent implements OnInit {
     this.maxForFeature = this.shareConfig['max_for_feature'];
     this.maxForTopology = (
       this.shareConfig['max_for_topology'] ?
-      this.shareConfig['max_for_topology'] : 1000
+        this.shareConfig['max_for_topology'] : 1000
     );
     this.shareConfig['sort_excluded_type'].forEach(element => {
       this.excludedType.add(element);
@@ -171,9 +171,11 @@ export class ShareDialogComponent implements OnInit {
           this.collaborativeService.describe(server.collection.name).subscribe(
             description => {
               const fields = description.properties;
-              Object.keys(fields).forEach(fieldName => {
-                this.getFieldProperties(fields, fieldName);
-              });
+              if (fields) {
+                Object.keys(fields).forEach(fieldName => {
+                  this.getFieldProperties(fields, fieldName);
+                });
+              }
               if (!!(<any>this.request).projection && !!(<any>this.request).projection.includes) {
                 (<any>this.request).projection.includes.split(',').forEach(f => {
                   const selectedField = this.allFields.find(field => field.label === f);
@@ -224,7 +226,7 @@ export class ShareDialogComponent implements OnInit {
         this.displayedUrl = server.url + '/explore/' + server.collection.name + '/'
           + this.requestTextEndpoint + '/?'
           + '&size=' + this.request.page.size
-          + '&returned_geometries=' +  this.request.returned_geometries
+          + '&returned_geometries=' + this.request.returned_geometries
           + this.sort
           + this.includeFields
           + '&flat=true';
