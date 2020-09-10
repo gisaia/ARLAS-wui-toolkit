@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ArlasConfigService, ArlasCollaborativesearchService, ArlasExploreApi, ArlasCollectionApi } from '../startup/startup.service';
 import { Observable, from } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, filter } from 'rxjs/operators';
 import { Configuration, CollectionReferenceDescription } from 'arlas-api';
 import * as portableFetch from 'portable-fetch';
 import { getFieldProperties } from '../../tools/utils';
@@ -49,6 +49,7 @@ export class ArlasConfigurationDescriptor {
     );
     this.collaborativesearchService.setExploreApi(arlasExploreApi);
     return this.collaborativesearchService.describe(this.configService.getValue('arlas.server.collection.name')).pipe(
+      filter(description => description.properties !== undefined),
       map(description => getFieldProperties(description.properties)),
       map(fields => types ? fields.filter(field => types.find(type => type === field.type) !== undefined)
         : fields)

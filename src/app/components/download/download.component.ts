@@ -104,9 +104,11 @@ export class DownloadDialogComponent implements OnInit {
     this.collaborativeService.describe(this.server.collection.name).subscribe(
       description => {
         const fields = description.properties;
-        Object.keys(fields).forEach(fieldName => {
-          this.getFieldProperties(fields, fieldName);
-        });
+        if (fields) {
+          Object.keys(fields).forEach(fieldName => {
+            this.getFieldProperties(fields, fieldName);
+          });
+        }
       },
       error => {
         this.collaborativeService.collaborationErrorBus.next(error);
@@ -212,7 +214,7 @@ export class DownloadDialogComponent implements OnInit {
         });
       }
     } else {
-        this.allFields.push({ label: (parentPrefix ? parentPrefix : '') + fieldName, type: fieldList[fieldName].type });
+      this.allFields.push({ label: (parentPrefix ? parentPrefix : '') + fieldName, type: fieldList[fieldName].type });
     }
   }
 
