@@ -17,23 +17,36 @@
  * under the License.
  */
 
-import { APP_BASE_HREF } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
-import { inject, TestBed } from '@angular/core/testing';
-import { MatSnackBarModule } from '@angular/material';
-import { RouterModule } from '@angular/router';
-import { ArlasToolKitModule } from '../../app.module';
-import { routing } from '../../app.routes';
-import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from '../startup/startup.service';
+import { TestBed, inject } from '@angular/core/testing';
+
 import { ArlasBookmarkService } from './bookmark.service';
+import { ArlasCollaborativesearchService, ArlasStartupService, ArlasConfigService } from '../startup/startup.service';
+import { MatSnackBarModule } from '@angular/material';
+import { ActivatedRoute, Router} from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+import { HttpClientModule } from '@angular/common/http';
+import { APP_BASE_HREF } from '@angular/common';
+import { ArlasConfigurationUpdaterService } from '../configuration-updater/configurationUpdater.service';
+import { of } from 'rxjs';
 
-
-describe('BookmarkService', () => {
+describe('ArlasBookmarkService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [ArlasBookmarkService, ArlasCollaborativesearchService, ArlasConfigService,
-        { provide: APP_BASE_HREF, useValue: '/' }, ArlasStartupService],
-      imports: [MatSnackBarModule, RouterModule, HttpClientModule, routing, ArlasToolKitModule]
+      imports: [MatSnackBarModule, RouterTestingModule, HttpClientModule],
+      providers: [
+        ArlasBookmarkService,
+        {
+          provide: ArlasStartupService,
+          useClass: ArlasStartupService,
+          deps: [ArlasConfigurationUpdaterService]
+        },
+        {
+          provide: ArlasConfigurationUpdaterService,
+          useClass: ArlasConfigurationUpdaterService
+        },
+        ArlasCollaborativesearchService, { provide: APP_BASE_HREF, useValue: '/' },
+        ArlasConfigService
+      ]
 
     });
   });

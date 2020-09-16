@@ -21,18 +21,30 @@ import { TestBed, inject } from '@angular/core/testing';
 import { HttpClientModule } from '@angular/common/http';
 import { MatSnackBarModule } from '@angular/material';
 import { ArlasToolKitModule } from '../../app.module';
-import { ArlasCollaborativesearchService } from '../startup/startup.service';
+import { ArlasCollaborativesearchService, ArlasStartupService } from '../startup/startup.service';
 import { ArlasTagService } from './tag.service';
+import { ArlasConfigurationUpdaterService } from '../configuration-updater/configurationUpdater.service';
 
 describe('ArlasTagService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [ArlasTagService, ArlasCollaborativesearchService, { provide: APP_BASE_HREF, useValue: '/' }],
-      imports: [MatSnackBarModule, HttpClientModule, ArlasToolKitModule]
+      providers: [
+        {
+          provide: ArlasStartupService,
+          useClass: ArlasStartupService,
+          deps: [ArlasConfigurationUpdaterService]
+        },
+        {
+          provide: ArlasConfigurationUpdaterService,
+          useClass: ArlasConfigurationUpdaterService
+        },
+        ArlasTagService, ArlasCollaborativesearchService, { provide: APP_BASE_HREF, useValue: '/' }],
+      imports: [MatSnackBarModule, HttpClientModule]
     });
   });
 
-  it('should be created', inject([ArlasTagService], (service: ArlasTagService) => {
+  it('should be created', (() => {
+    const service: ArlasTagService = TestBed.get(ArlasTagService);
     expect(service).toBeTruthy();
   }));
 });

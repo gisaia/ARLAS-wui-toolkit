@@ -47,7 +47,7 @@ import { WidgetComponent } from './components/widget/widget.component';
 import { ArlasBookmarkService } from './services/bookmark/bookmark.service';
 import {
   ArlasCollaborativesearchService, ArlasStartupService,
-  ArlasConfigService, CONFIG_UPDATER
+  ArlasConfigService, CONFIG_UPDATER, FETCH_OPTIONS
 } from './services/startup/startup.service';
 import { ArlasAoiService } from './services/aoi/aoi.service';
 import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.component';
@@ -80,6 +80,7 @@ import { ArlasExportCsvService } from './services/export-csv/export-csv.service'
 import { ArlasMapService } from './services/map/map.service';
 import { ProgressSpinnerComponent } from './components/progress-spinner/progress-spinner.component';
 import { GET_OPTIONS } from './services/persistence/persistence.service';
+import { ArlasConfigurationUpdaterService } from './services/configuration-updater/configurationUpdater.service';
 
 
 export class CustomTranslateLoader implements TranslateLoader {
@@ -104,7 +105,6 @@ export class CustomTranslateLoader implements TranslateLoader {
 }
 
 export function startupServiceFactory(startupService: ArlasStartupService) {
-
   const load = () => startupService.load('config.json?' + Date.now());
   return load;
 }
@@ -275,6 +275,7 @@ export const MY_CUSTOM_FORMATS = {
     OAuthModule.forRoot()
   ],
   providers: [
+    {provide: FETCH_OPTIONS, useValue: {}},
     {
       provide: CONFIG_UPDATER,
       useValue: configUpdaterFactory
@@ -292,7 +293,10 @@ export const MY_CUSTOM_FORMATS = {
     forwardRef(() => ArlasExtendService),
     forwardRef(() => ArlasWalkthroughService),
     forwardRef(() => ArlasExportCsvService),
-
+    {
+      provide: ArlasConfigurationUpdaterService,
+      useClass: ArlasConfigurationUpdaterService
+    },
     {
       provide: APP_INITIALIZER,
       useFactory: startupServiceFactory,

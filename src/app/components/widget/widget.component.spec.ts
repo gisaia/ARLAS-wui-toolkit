@@ -2,11 +2,13 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { WidgetComponent } from './widget.component';
 import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService,
-  CONFIG_UPDATER } from '../../services/startup/startup.service';
+  CONFIG_UPDATER,
+  FETCH_OPTIONS} from '../../services/startup/startup.service';
 import { HistogramModule, ResultsModule, DonutModule, MetricModule, PowerbarsModule } from 'arlas-web-components';
 import { MatSelectModule, MatTooltipModule, MatIconModule } from '@angular/material';
 import { HttpClientModule } from '@angular/common/http';
 import { TranslateModule, TranslateService, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
+import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
 
 describe('WidgetComponent', () => {
   let component: WidgetComponent;
@@ -15,8 +17,20 @@ describe('WidgetComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [WidgetComponent],
-      providers: [ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService, TranslateService,
-        {provide: CONFIG_UPDATER, useValue: {}}],
+      providers: [ArlasCollaborativesearchService, ArlasConfigService,
+        {
+          provide: ArlasStartupService,
+          useClass: ArlasStartupService,
+          deps: [ArlasConfigurationUpdaterService]
+        },
+        TranslateService,
+        {provide: CONFIG_UPDATER, useValue: {}},
+        {
+          provide: ArlasConfigurationUpdaterService,
+          useClass: ArlasConfigurationUpdaterService
+        },
+        {provide: FETCH_OPTIONS, useValue: {}},
+      ],
       imports: [
         HistogramModule,
         PowerbarsModule,

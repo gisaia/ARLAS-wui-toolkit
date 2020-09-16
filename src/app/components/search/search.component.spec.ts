@@ -25,10 +25,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
   ArlasCollaborativesearchService,
   ArlasConfigService,
-  ArlasStartupService, CONFIG_UPDATER
+  ArlasStartupService, CONFIG_UPDATER, FETCH_OPTIONS
 } from '../../services/startup/startup.service';
 import { SearchComponent } from './search.component';
 import { TranslateModule, TranslateService, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
+import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
 
 
 describe('SearchComponent', () => {
@@ -45,9 +46,19 @@ describe('SearchComponent', () => {
       ],
       declarations: [SearchComponent],
       providers: [
-        ArlasConfigService, ArlasCollaborativesearchService, ArlasStartupService,
+        ArlasConfigService, ArlasCollaborativesearchService,
+        {
+          provide: ArlasStartupService,
+          useClass: ArlasStartupService,
+          deps: [ArlasConfigurationUpdaterService]
+        },
         HttpClient, TranslateService,
-        { provide: CONFIG_UPDATER, useValue: {} }
+        { provide: CONFIG_UPDATER, useValue: {} },
+        {
+          provide: ArlasConfigurationUpdaterService,
+          useClass: ArlasConfigurationUpdaterService
+        },
+        {provide: FETCH_OPTIONS, useValue: {}}
       ]
     })
       .compileComponents();

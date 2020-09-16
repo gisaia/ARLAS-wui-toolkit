@@ -12,10 +12,12 @@ import {
   MatProgressBarModule
 } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from '../../services/startup/startup.service';
+import { ArlasCollaborativesearchService,
+  ArlasConfigService, ArlasStartupService, FETCH_OPTIONS } from '../../services/startup/startup.service';
 import { TagComponent } from './tag.component';
 import { ArlasTagService } from '../../services/tag/tag.service';
 import { MatSnackBarModule } from '@angular/material';
+import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
 
 
 describe('TagComponent', () => {
@@ -31,7 +33,19 @@ describe('TagComponent', () => {
         MatRadioModule, MatSelectModule, MatProgressBarModule, MatSnackBarModule
       ],
       declarations: [TagComponent],
-      providers: [ArlasConfigService, ArlasCollaborativesearchService, ArlasStartupService, ArlasTagService]
+      providers: [ArlasConfigService, ArlasCollaborativesearchService,
+        {
+          provide: ArlasStartupService,
+          useClass: ArlasStartupService,
+          deps: [ArlasConfigurationUpdaterService]
+        },
+        ArlasTagService,
+        {
+          provide: ArlasConfigurationUpdaterService,
+          useClass: ArlasConfigurationUpdaterService
+        },
+        {provide: FETCH_OPTIONS, useValue: {}},
+      ]
     })
       .compileComponents();
   }));
