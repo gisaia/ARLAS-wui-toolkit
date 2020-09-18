@@ -1,5 +1,28 @@
 # Change Log
 
+## [v12.7.3](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v12.7.3) (2020-09-18)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v12.7.2...v12.7.3)
+
+**Breaking changes:**
+
+- Create a settings file for the app that allows to configure authent [\#345](https://github.com/gisaia/ARLAS-wui-toolkit/issues/345)
+
+**New stuff:**
+
+- Add would you login after logout modal [\#361](https://github.com/gisaia/ARLAS-wui-toolkit/issues/361)
+- Add user info components [\#360](https://github.com/gisaia/ARLAS-wui-toolkit/issues/360)
+- Add a share configuration component [\#358](https://github.com/gisaia/ARLAS-wui-toolkit/issues/358)
+- Add a menu to manage configurations [\#357](https://github.com/gisaia/ARLAS-wui-toolkit/issues/357)
+- Include configuration of ARLAS-persistence in settings.yaml file [\#346](https://github.com/gisaia/ARLAS-wui-toolkit/issues/346)
+- Load configuration file from ARLAS-persistence [\#344](https://github.com/gisaia/ARLAS-wui-toolkit/issues/344)
+- Add fetch interceptor & reconnect modal [\#363](https://github.com/gisaia/ARLAS-wui-toolkit/pull/363) ([mbarbet](https://github.com/mbarbet))
+- Feature/add fga [\#262](https://github.com/gisaia/ARLAS-wui-toolkit/pull/262) ([MohamedHamouGisaia](https://github.com/MohamedHamouGisaia))
+
+**Fixed bugs:**
+
+- Fix describe call if no properties are returned  [\#367](https://github.com/gisaia/ARLAS-wui-toolkit/issues/367)
+
 ## [v12.7.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v12.7.2) (2020-06-30)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v13.0.2...v12.7.2)
