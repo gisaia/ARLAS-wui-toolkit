@@ -54,6 +54,7 @@ import { AuthentificationService, AuthentSetting, NOT_CONFIGURED } from '../auth
 import { ArlasSettingsService } from '../settings/arlas.settings.service';
 import { ErrorService } from '../error/error.service';
 import { FetchInterceptorService } from '../interceptor/fetch-interceptor.service';
+import { CONFIG_ID_QUERY_PARAM } from '../../tools/utils';
 
 
 @Injectable({
@@ -97,7 +98,6 @@ export interface Error {
     message: string;
     reason: string;
 }
-export const CONFIG_ID_QUERY_PARAM = 'config_id';
 export const SETTINGS_FILE_NAME = 'settings.yaml';
 
 @Injectable()
@@ -113,18 +113,20 @@ export class ArlasStartupService {
     public errorStartUpServiceBus: Subject<any> = new Subject<any>();
     public arlasIsUp: Subject<boolean> = new Subject<boolean>();
     public arlasExploreApi: ArlasExploreApi;
+    public configurationUpdaterService: ArlasConfigurationUpdaterService;
 
     constructor(
         private settingsService: ArlasSettingsService,
         private configService: ArlasConfigService,
         private collaborativesearchService: ArlasCollaborativesearchService,
-        private configurationUpdaterService: ArlasConfigurationUpdaterService,
         private injector: Injector,
         @Inject(FETCH_OPTIONS) private fetchOptions,
         private http: HttpClient, private translateService: TranslateService,
         @Inject(CONFIG_UPDATER) private configUpdater,
         private persistenceService: PersistenceService,
-        private errorService: ErrorService, private fetchInterceptorService: FetchInterceptorService) { }
+        private errorService: ErrorService, private fetchInterceptorService: FetchInterceptorService) {
+        this.configurationUpdaterService = new ArlasConfigurationUpdaterService;
+    }
 
     public getFGAService(): ArlasConfigurationUpdaterService {
         return this.configurationUpdaterService;

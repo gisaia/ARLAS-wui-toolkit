@@ -22,10 +22,11 @@ import { Location } from '@angular/common';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { of } from 'rxjs';
 import { pairwise, take, timeoutWith } from 'rxjs/operators';
-import { ArlasCollaborativesearchService, ArlasStartupService, ArlasConfigService,
-  CONFIG_ID_QUERY_PARAM } from './services/startup/startup.service';
+import {
+  ArlasCollaborativesearchService, ArlasStartupService, ArlasConfigService
+} from './services/startup/startup.service';
 
-
+import { CONFIG_ID_QUERY_PARAM } from './tools/utils';
 @Component({
   selector: 'arlas-tool-root',
   templateUrl: './app.component.html',
@@ -54,7 +55,6 @@ export class AppComponent implements AfterViewInit, OnInit {
       if (this.activatedRoute.snapshot.queryParams['extend']) {
         queryParams['extend'] = this.activatedRoute.snapshot.queryParams['extend'];
       }
-      // CONFIG_ID_QUERY_PARAM = config_id
       if (this.activatedRoute.snapshot.queryParams[CONFIG_ID_QUERY_PARAM]) {
         queryParams[CONFIG_ID_QUERY_PARAM] = this.activatedRoute.snapshot.queryParams[CONFIG_ID_QUERY_PARAM];
       }
