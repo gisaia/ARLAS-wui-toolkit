@@ -66,18 +66,26 @@ import { ReconnectDialogComponent } from './components/reconnect-dialog/reconnec
 import { FetchInterceptorService } from './services/interceptor/fetch-interceptor.service';
 import { ActionModalComponent } from './components/config-manager/action-modal/action-modal.component';
 import { ActionModalModule } from './components/config-manager/action-modal/action-modal.module';
-
+import en from 'arlas-web-components/assets/i18n/en.json';
+import fr from 'arlas-web-components/assets/i18n/fr.json';
 
 export class CustomTranslateLoader implements TranslateLoader {
 
   constructor(private http: HttpClient) { }
 
   public getTranslation(lang: string): Observable<any> {
-    const apiAddress = 'assets/i18n/' + lang + '.json?' + Date.now();
+    const apiAddress = './assets/i18n/' + lang + '.json?' + Date.now();
     return Observable.create(observer => {
       this.http.get(apiAddress).subscribe(
         res => {
-          observer.next(res);
+          let merged = res;
+          // Properties in res will overwrite those in fr.
+          if (lang === 'fr') {
+            merged = { ...fr, ...res };
+          } else if (lang === 'en') {
+            merged = { ...en, ...res };
+          }
+          observer.next(merged);
           observer.complete();
         },
         error => {
