@@ -47,7 +47,6 @@ import { ErrorModalMsgComponent } from './components/errormodal/errormodal.compo
 import { ShareDialogComponent } from './components/share/share.component';
 import { routing } from './app.routes';
 import { ArlasToolkitSharedModule } from './shared.module';
-import { ArlasConfigurationUpdaterService } from './services/configuration-updater/configurationUpdater.service';
 import { ArlasSettingsService } from './services/settings/arlas.settings.service';
 import { ErrorModalModule } from './components/errormodal/errormodal.module';
 import { ErrorService } from './services/error/error.service';
@@ -174,10 +173,6 @@ export const MY_CUSTOM_FORMATS = {
     forwardRef(() => ArlasExportCsvService),
     forwardRef(() => PersistenceService),
     forwardRef(() => ErrorService),
-    {
-      provide: ArlasConfigurationUpdaterService,
-      useClass: ArlasConfigurationUpdaterService
-    },
     {
       provide: APP_INITIALIZER,
       useFactory: startupServiceFactory,

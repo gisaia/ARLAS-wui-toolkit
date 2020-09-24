@@ -19,10 +19,11 @@
 
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { ConfigActionEnum, ConfigAction } from '../config-menu/config-menu.component';
 import { PersistenceService } from '../../../services/persistence/persistence.service';
 import { Error } from '../../../services/startup/startup.service';
 import { ErrorService } from '../../../services/error/error.service';
+import { ConfigAction, ConfigActionEnum } from '../../../tools/utils';
+
 @Component({
   selector: 'arlas-action-modal',
   templateUrl: './action-modal.component.html',

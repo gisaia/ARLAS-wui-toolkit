@@ -14,6 +14,10 @@ export class ArlasSettingsService {
     this.settings = settings;
   }
 
+  public getSettings(): ArlasSettings {
+    return this.settings;
+  }
+
   public getPersistenceSettings(): PersistenceSetting {
     return !!this.settings && !!this.settings.persistence ? this.settings.persistence : undefined;
   }

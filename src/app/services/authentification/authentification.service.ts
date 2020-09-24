@@ -3,7 +3,7 @@ import { OAuthService, AuthConfig, OAuthErrorEvent, UserInfo } from 'angular-oau
 import { BehaviorSubject, ReplaySubject, Observable, combineLatest, from } from 'rxjs';
 import { map } from 'rxjs/internal/operators/map';
 import { HttpClient } from '@angular/common/http';
-import { CONFIG_ID_QUERY_PARAM } from '../startup/startup.service';
+import { CONFIG_ID_QUERY_PARAM } from '../../tools/utils';
 import { filter } from 'rxjs/internal/operators/filter';
 
 export const NOT_CONFIGURED = 'NOT_CONFIGURED';

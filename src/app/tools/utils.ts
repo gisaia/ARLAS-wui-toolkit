@@ -19,6 +19,36 @@
 
 import { Filter } from 'arlas-api';
 
+export const CONFIG_ID_QUERY_PARAM = 'config_id';
+
+export interface ConfigAction {
+  type: ConfigActionEnum;
+  enabled?: boolean;
+  name?: string;
+  url?: string;
+  configIdParam?: string;
+  config: Config;
+}
+
+export interface Config {
+  id: string;
+  name: string;
+  value: string;
+  lastUpdate: number;
+  readers: Array<string>;
+  writers: Array<string>;
+  zone: string;
+}
+
+export enum ConfigActionEnum {
+  VIEW,
+  DELETE,
+  EDIT,
+  DUPLICATE,
+  SHARE,
+  CREATE
+}
+
 export interface ArlasStorageObject {
   id: string;
   date: Date;

@@ -45,18 +45,22 @@ export class PersistenceService {
   public get(id: string): Observable<DataWithLinks> {
     return from(this.persistenceApi.getById(id, false, this.options));
   }
+
+  public getByZoneKey(zone: string, key: string): Observable<DataWithLinks> {
+    return from(this.persistenceApi.getByKey(zone, key, false, this.options));
+  }
   public list(zone: string, size: number, page: number, order: string): Observable<DataResource> {
     return from(this.persistenceApi.list(zone, size, page, order, false, this.options));
 
   }
   public update(id: string, value: string, lastUpdate: number, name?: string,
     readers?: string[], writers?: string[]): Observable<DataWithLinks> {
-      return from(this.persistenceApi.update(id, value, lastUpdate, name, readers, writers, false, this.options));
+    return from(this.persistenceApi.update(id, value, lastUpdate, name, readers, writers, false, this.options));
   }
 
   public duplicate(zone: string, id: string, newName?: string): Observable<DataWithLinks> {
     return this.get(id).pipe(
-      map(data =>  {
+      map(data => {
         return this.create(zone, newName ? newName : 'Copy of ' + data.doc_key, data.doc_value);
       }),
       flatMap(a => a)

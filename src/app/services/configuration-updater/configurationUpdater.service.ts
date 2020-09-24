@@ -22,7 +22,6 @@ import { Aggregation } from 'arlas-api';
 import { LayerSourceConfig } from 'arlas-web-contributors';
 import { VisualisationSetConfig } from 'arlas-web-components';
 
-@Injectable()
 export class ArlasConfigurationUpdaterService {
 
   constructor() {
@@ -34,7 +33,7 @@ export class ArlasConfigurationUpdaterService {
    * @param availableFields list of fields available for exploration
    * @returns configuration object
    */
-  public getContributorsToRemove(data, availableFields: Set<string>): Set<string> {
+    public getContributorsToRemove(data, availableFields: Set<string>): Set<string> {
     const contributorsToRemove = new Set<string>();
     if (data && data.arlas && data.arlas.web && data.arlas.web.contributors) {
       /** the conf is validated before; therefore, `arlas.web.contributors` is defined */

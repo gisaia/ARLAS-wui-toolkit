@@ -13,7 +13,9 @@
     "tslint": "ng lint",
     "gulp": "gulp",
     "build-release": "ngc -p tsconfig-build.json && cp -R  dist/src/app/* dist/ && gulp",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "i18n:init": "ngx-translate-extract --input ./src --output ./src/assets/i18n/template.json s--key-as-default-value --replace --format json",
+    "i18n:extract": "ngx-translate-extract --input ./src --output ./src/assets/i18n/{en,fr}.json --format json"
   },
   "repository": {
     "type": "git",
@@ -54,10 +56,13 @@
     "@angular/cli": "8.3.9",
     "@angular/compiler-cli": "~8.2.10",
     "@angular/language-service": "~8.2.10",
+    "@biesbjerg/ngx-translate-extract": "7.0.2",
+    "@biesbjerg/ngx-translate-extract-marker": "1.0.0",
     "@types/jasmine": "2.8.8",
     "@types/jasminewd2": "~2.0.2",
     "@types/node": "^8.10.36",
     "codelyzer": "^5.1.2",
+    "node": "^11.0.0",
     "gulp": "^4.0.0",
     "gulp-clean": "^0.4.0",
     "gulp-sourcemaps": "^2.6.0",

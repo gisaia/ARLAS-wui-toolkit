@@ -19,7 +19,7 @@
 
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { PersistenceService } from '../../../services/persistence/persistence.service';
-import { Config } from '../config-menu/config-menu.component';
+import { Config } from '../../../tools/utils';
 
 export interface PersistenceGroup {
   name: string;

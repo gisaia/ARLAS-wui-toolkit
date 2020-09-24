@@ -52,6 +52,11 @@ function copyData() {
       .pipe(gulp.dest('dist/'));
   };
 
+function copyAssetsi18n() {
+    return gulp.src('./src/assets/i18n/*')
+        .pipe(gulp.dest('./dist/assets/i18n'));
+}
+
 gulp.task('build:clean-dist-node_modules', cleanDistNodeModules);
 gulp.task('build:clean-dist-src', cleanDistSrc);
 gulp.task('build:copy-html', copyHtml);
@@ -60,6 +65,7 @@ gulp.task('build:copy-js', copyJS);
 gulp.task('build:copy-script-js', copyscriptJS);
 gulp.task('build:copy-css', copyScss);
 gulp.task('build:copy-json', copyData);
+gulp.task('build:copy-assets-i18n', copyAssetsi18n);
 gulp.task('build:inline-resources', inlineResource);
 
 gulp.task('default', gulp.series(
@@ -71,5 +77,6 @@ gulp.task('default', gulp.series(
   'build:clean-dist-node_modules',
   'build:clean-dist-src',
   'build:copy-json',
+  'build:copy-assets-i18n',
   'build:inline-resources'
 ));

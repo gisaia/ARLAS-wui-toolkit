@@ -25,35 +25,7 @@ import { PersistenceService } from '../../../services/persistence/persistence.se
 import { Subject } from 'rxjs';
 import { ErrorService } from '../../../services/error/error.service';
 import { Error } from '../../../services/startup/startup.service';
-
-
-export interface ConfigAction {
-  type: ConfigActionEnum;
-  enabled?: boolean;
-  name?: string;
-  url?: string;
-  configIdParam?: string;
-  config: Config;
-}
-
-export interface Config {
-  id: string;
-  name: string;
-  value: string;
-  lastUpdate: number;
-  readers: Array<string>;
-  writers: Array<string>;
-  zone: string;
-}
-
-export enum ConfigActionEnum {
-  VIEW,
-  DELETE,
-  EDIT,
-  DUPLICATE,
-  SHARE,
-  CREATE
-}
+import { ConfigAction, ConfigActionEnum } from '../../../tools/utils';
 
 @Component({
   selector: 'arlas-config-menu',
