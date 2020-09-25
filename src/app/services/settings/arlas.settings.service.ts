@@ -29,4 +29,8 @@ export class ArlasSettingsService {
   public getArlasBuilderUrl(): string {
     return !!this.settings && !!this.settings.arlas_builder_url ? this.settings.arlas_builder_url : undefined;
   }
+
+  public getArlasHubUrl(): string {
+    return !!this.settings && !!this.settings.arlas_hub_url ? this.settings.arlas_hub_url : undefined;
+  }
 }

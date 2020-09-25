@@ -17,7 +17,6 @@
  * under the License.
  */
 
-import { Injectable } from '@angular/core';
 import { Aggregation } from 'arlas-api';
 import { LayerSourceConfig } from 'arlas-web-contributors';
 import { VisualisationSetConfig } from 'arlas-web-components';
