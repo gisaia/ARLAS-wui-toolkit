@@ -1,6 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { AuthentificationService } from '../../services/authentification/authentification.service';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 @Component({
   selector: 'arlas-tool-invalid-config-dialog',
   templateUrl: './invalid-config-dialog.component.html',

@@ -1,47 +1,33 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
 
-import { ReconnectDialogComponent } from './reconnect-dialog.component';
-import { MatDialogModule, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { GET_OPTIONS } from '../../services/persistence/persistence.service';
-import { AuthentificationService } from '../../services/authentification/authentification.service';
-import { getOptionsFactory } from '../../app.module';
-import { OAuthService, OAuthModule, OAuthLogger, UrlHelperService } from 'angular-oauth2-oidc';
+import { InvalidConfigDialogComponent } from './invalid-config-dialog.component';
+import { MatDialogModule, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HttpClientModule } from '@angular/common/http';
 
 describe('ReconnectDialogComponent', () => {
-  let component: ReconnectDialogComponent;
-  let fixture: ComponentFixture<ReconnectDialogComponent>;
+  let component: InvalidConfigDialogComponent;
+  let fixture: ComponentFixture<InvalidConfigDialogComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ReconnectDialogComponent],
+      declarations: [InvalidConfigDialogComponent],
       providers: [
-        AuthentificationService,
-        OAuthService,
-        OAuthLogger,
-        UrlHelperService,
         {
           provide: MAT_DIALOG_DATA,
           useValue: {}
         },
-        {
-          provide: GET_OPTIONS,
-          useFactory: getOptionsFactory,
-          deps: [AuthentificationService]
-        }
       ],
       imports: [
         TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }),
         MatDialogModule,
-        OAuthModule,
         HttpClientModule]
     })
       .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ReconnectDialogComponent);
+    fixture = TestBed.createComponent(InvalidConfigDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

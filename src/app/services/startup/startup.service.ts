@@ -35,7 +35,7 @@ import { AnalyticsContributor } from 'arlas-web-contributors/contributors/Analyt
 import * as arlasConfSchema from './arlasconfig.schema.json';
 import * as arlasSettingsSchema from './settings.schema.json';
 import * as draftSchema from 'ajv/lib/refs/json-schema-draft-06.json';
-import { CollaborativesearchService, ConfigService, Contributor } from 'arlas-web-core';
+import { CollaborativesearchService, ConfigService } from 'arlas-web-core';
 import { projType } from 'arlas-web-core/models/projections';
 import { ContributorBuilder } from './contributorBuilder';
 import { flatMap } from 'rxjs/operators';
@@ -55,7 +55,6 @@ import { ArlasSettingsService } from '../settings/arlas.settings.service';
 import { ErrorService } from '../error/error.service';
 import { FetchInterceptorService } from '../interceptor/fetch-interceptor.service';
 import { CONFIG_ID_QUERY_PARAM } from '../../tools/utils';
-import { config } from '../../../../protractor.conf';
 
 
 @Injectable({
