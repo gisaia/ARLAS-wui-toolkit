@@ -644,6 +644,7 @@ export interface ArlasSettings {
     persistence?: PersistenceSetting;
     arlas_wui_url?: string;
     arlas_builder_url?: string;
+    arlas_hub_url?: string;
 }
 
 
