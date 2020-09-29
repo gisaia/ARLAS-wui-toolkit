@@ -55,6 +55,7 @@ import { ArlasSettingsService } from '../settings/arlas.settings.service';
 import { ErrorService } from '../error/error.service';
 import { FetchInterceptorService } from '../interceptor/fetch-interceptor.service';
 import { CONFIG_ID_QUERY_PARAM } from '../../tools/utils';
+import { config } from '../../../../protractor.conf';
 
 
 @Injectable({
@@ -104,6 +105,7 @@ export const SETTINGS_FILE_NAME = 'settings.yaml';
 export class ArlasStartupService {
     public contributorRegistry: Map<string, any> = new Map<string, any>();
     public shouldRunApp = true;
+    public emptyMode = false;
     public analytics: Array<{ groupId: string, components: Array<any> }>;
     public collectionsMap: Map<string, CollectionReferenceParameters> = new Map();
     public collectionId: string;
@@ -226,17 +228,19 @@ export class ArlasStartupService {
     public setConfigService(data) {
         /**First set the raw config data in order to create an ArlasExploreApi instance */
         const newConfig = this.configUpdater(data);
-        this.configService.setConfig(newConfig);
-        this.collaborativesearchService.setFetchOptions(this.fetchOptions);
-        const arlasUrl = this.configService.getValue('arlas.server.url');
-        const configuration: Configuration = new Configuration();
-        this.arlasExploreApi = new ArlasExploreApi(
-            configuration,
-            arlasUrl,
-            window.fetch
-        );
-        this.collaborativesearchService.setConfigService(this.configService);
-        this.collaborativesearchService.setExploreApi(this.arlasExploreApi);
+        if (!this.emptyMode) {
+          this.configService.setConfig(newConfig);
+          this.collaborativesearchService.setFetchOptions(this.fetchOptions);
+          const arlasUrl = this.configService.getValue('arlas.server.url');
+          const configuration: Configuration = new Configuration();
+          this.arlasExploreApi = new ArlasExploreApi(
+              configuration,
+              arlasUrl,
+              window.fetch
+          );
+          this.collaborativesearchService.setConfigService(this.configService);
+          this.collaborativesearchService.setExploreApi(this.arlasExploreApi);
+        }
         return data;
     }
 
@@ -247,13 +251,17 @@ export class ArlasStartupService {
      * @returns the updated configuration object
      */
     public updateConfiguration(data, availableFields: Set<string>): any {
-        const contributorsToRemove: Set<string> = this.configurationUpdaterService.getContributorsToRemove(data, availableFields);
-        let updatedConfig = this.configurationUpdaterService.removeContributors(data, contributorsToRemove);
-        updatedConfig = this.configurationUpdaterService.updateContributors(updatedConfig, availableFields);
-        updatedConfig = this.configurationUpdaterService.updateMapComponent(updatedConfig, availableFields);
-        updatedConfig = this.configurationUpdaterService.removeWidgets(updatedConfig, contributorsToRemove);
-        updatedConfig = this.configurationUpdaterService.removeTimelines(updatedConfig, contributorsToRemove);
-        return updatedConfig;
+        if (!this.emptyMode) {
+          const contributorsToRemove: Set<string> = this.configurationUpdaterService.getContributorsToRemove(data, availableFields);
+          let updatedConfig = this.configurationUpdaterService.removeContributors(data, contributorsToRemove);
+          updatedConfig = this.configurationUpdaterService.updateContributors(updatedConfig, availableFields);
+          updatedConfig = this.configurationUpdaterService.updateMapComponent(updatedConfig, availableFields);
+          updatedConfig = this.configurationUpdaterService.removeWidgets(updatedConfig, contributorsToRemove);
+          updatedConfig = this.configurationUpdaterService.removeTimelines(updatedConfig, contributorsToRemove);
+          return updatedConfig;
+        } else {
+          return data;
+        }
     }
 
     /**
@@ -261,21 +269,25 @@ export class ArlasStartupService {
      * @param data configuration object
      */
     public applyFGA(data) {
-        const collectionName = this.configService.getValue('arlas.server.collection.name');
-        return this.listAvailableFields(collectionName)
-            .then((availableFields: Set<string>) => this.updateConfiguration(data[0], availableFields))
-            .then((d) => { this.configService.setConfig(d); return d; })
-            .catch(err => {
-                this.shouldRunApp = false;
-                console.error(err);
-                const error = {
-                    origin: 'ARLAS-wui runtime: an error occured while updating the configuration. Code: 001',
-                    message: err.message,
-                    reason: 'Please feel free to create an issue in "https://github.com/gisaia/ARLAS-wui-toolkit/issues"'
-                };
-                this.errorService.errorsQueue.push(error);
-                return Promise.resolve(null);
-            });
+        if (!this.emptyMode) {
+          const collectionName = this.configService.getValue('arlas.server.collection.name');
+          return this.listAvailableFields(collectionName)
+              .then((availableFields: Set<string>) => this.updateConfiguration(data[0], availableFields))
+              .then((d) => { this.configService.setConfig(d); return d; })
+              .catch(err => {
+                  this.shouldRunApp = false;
+                  console.error(err);
+                  const error = {
+                      origin: 'ARLAS-wui runtime: an error occured while updating the configuration. Code: 001',
+                      message: err.message,
+                      reason: 'Please feel free to create an issue in "https://github.com/gisaia/ARLAS-wui-toolkit/issues"'
+                  };
+                  this.errorService.errorsQueue.push(error);
+                  return Promise.resolve(null);
+              });
+        } else {
+          return Promise.resolve({});
+        }
     }
 
     /**
@@ -409,27 +421,36 @@ export class ArlasStartupService {
             && settings.persistence.url !== '' && settings.persistence.url !== NOT_CONFIGURED);
         const configurationId = url.searchParams.get(CONFIG_ID_QUERY_PARAM);
         return new Promise<any>((resolve, reject) => {
-            let configDataPromise: Promise<any>;
+            let configDataPromise = Promise.resolve(null);
             let configData;
-            if (usePersistence && configurationId) {
-                configDataPromise = this.persistenceService.get(configurationId).toPromise()
-                    .then((s: DataWithLinks) => {
-                        const config = JSON.parse(s.doc_value);
-                        configData = config;
-                        return Promise.resolve(config);
-                    }).catch((err) => {
+            if (usePersistence) {
+              if (!!configurationId) {
+                  configDataPromise = this.persistenceService.get(configurationId).toPromise()
+                      .then((s: DataWithLinks) => {
+                      const config = JSON.parse(s.doc_value);
+                      configData = config;
+                      return Promise.resolve(config);
+                  }).catch((err) => {
+                      if (err.toString() === 'TypeError: Failed to fetch') {
                         this.shouldRunApp = false;
                         console.error(err);
                         const error: Error = {
-                            origin: 'ARLAS-persistence : ' + err.url,
-                            message: 'Cannot fetch the configuration whose id is "' + configurationId + '"',
-                            reason: 'Please check if ARLAS-persistence is up & running, ' +
-                                'if the requested configuration exists and if you have rights to access it.'
+                            origin: 'ARLAS-persistence is unreachable',
+                            message: 'Cannot reach ARLAS-persistence at the configured URL',
+                            reason: 'Please check if ARLAS-persistence is up & running'
                         };
                         this.errorService.errorsQueue.push(error);
-                        return Promise.resolve(configData);
-                    });
-            } else {
+                      } else {
+                        // this mode will allow us to start an
+                        this.emptyMode = true;
+                        this.fetchInterceptorService.interceptInvalidConfig(configurationId);
+                        return Promise.resolve(null);
+                      }
+                  });
+              } else {
+                this.emptyMode = true;
+              }
+          } else {
                 // persistence is not used, we use the config.json file mounted
                 configDataPromise = this.http
                     .get('config.json')
@@ -444,47 +465,63 @@ export class ArlasStartupService {
                         }
                     })).toPromise();
             }
-            resolve(configDataPromise.then(configObject => this.validateConfiguration(configObject)));
+            resolve(configDataPromise.then(configObject => {
+              if (!this.emptyMode) {
+                return this.validateConfiguration(configObject);
+              } else {
+                return Promise.resolve({});
+              }
+            }));
         });
     }
 
     public setCollaborativeService(data) {
-        return new Promise<any>((resolve, reject) => {
+        if (!this.emptyMode) {
+          return new Promise<any>((resolve, reject) => {
             this.collaborativesearchService.setConfigService(this.configService);
             this.collaborativesearchService.setExploreApi(this.arlasExploreApi);
             this.collaborativesearchService.collection = this.configService.getValue('arlas.server.collection.name');
             this.collaborativesearchService.max_age = this.configService.getValue('arlas.server.max_age_cache');
             resolve(data);
         });
+        }
     }
 
     public testArlasUp(configData) {
-        return new Promise<any>((resolve, reject) => {
-            this.collaborativesearchService.resolveHits([projType.count, {}], this.collaborativesearchService.collaborations)
-                .subscribe(
-                    result => {
-                        resolve(result);
-                    },
-                    error => {
-                        reject(error);
-                    });
-        });
+        if (!this.emptyMode) {
+          return new Promise<any>((resolve, reject) => {
+              this.collaborativesearchService.resolveHits([projType.count, {}], this.collaborativesearchService.collaborations)
+                  .subscribe(
+                      result => {
+                          resolve(result);
+                      },
+                      error => {
+                          reject(error);
+                      });
+          });
+        } else {
+          return Promise.resolve(configData);
+        }
     }
 
     public getCollections(data) {
-        return new Promise<any>((resolve, reject) => {
-            const collectionName = data.collection;
-            this.collaborativesearchService.describe(collectionName)
-                .subscribe(
-                    result => {
-                        this.collectionsMap.set(collectionName, result.params);
-                        this.collectionId = result.params.id_path;
-                        resolve(result);
-                    },
-                    error => {
-                        reject(error);
-                    });
-        });
+        if (!this.emptyMode) {
+          return new Promise<any>((resolve, reject) => {
+              const collectionName = data.collection;
+              this.collaborativesearchService.describe(collectionName)
+                  .subscribe(
+                      result => {
+                          this.collectionsMap.set(collectionName, result.params);
+                          this.collectionId = result.params.id_path;
+                          resolve(result);
+                      },
+                      error => {
+                          reject(error);
+                      });
+          });
+        } else {
+            return Promise.resolve(data);
+        }
     }
     /**
     * Lists the fields of `collectionName` that are available for exploration with `arlasExploreApi`
@@ -516,7 +553,8 @@ export class ArlasStartupService {
     }
 
     public buildContributor(data) {
-        return new Promise<any>((resolve, reject) => {
+        if (!this.emptyMode) {
+          return new Promise<any>((resolve, reject) => {
             this.configService.getValue('arlas.web.contributors').forEach(contrib => {
                 const contributorType = contrib.type;
                 const contributorIdentifier = contrib.identifier;
@@ -556,7 +594,10 @@ export class ArlasStartupService {
             this.analytics = this.configService.getValue('arlas.web.analytics');
             this.arlasIsUp.next(true);
             resolve(data);
-        });
+          });
+        } else {
+          return Promise.resolve(data);
+        }
     }
 
 
