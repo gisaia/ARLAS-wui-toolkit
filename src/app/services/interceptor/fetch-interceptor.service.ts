@@ -3,6 +3,7 @@ import fetchIntercept from 'fetch-intercept';
 import { MatDialog } from '@angular/material/dialog';
 import { ReconnectDialogComponent } from '../../components/reconnect-dialog/reconnect-dialog.component';
 import { ArlasSettingsService } from '../settings/arlas.settings.service';
+import { InvalidConfigDialogComponent } from '../../components/invalid-config-dialog/invalid-config-dialog.component';
 
 @Injectable({
   providedIn: 'root'
@@ -34,7 +35,7 @@ export class FetchInterceptorService {
               code = 403;
             }
             // Propose to reconnect or stay disconnected
-            this.dialog.open(ReconnectDialogComponent, { disableClose: true, data: { code: code } });
+            this.dialog.open(ReconnectDialogComponent, { disableClose: true, data: { code } });
           }
           return response;
         },
@@ -44,5 +45,9 @@ export class FetchInterceptorService {
         }
       });
     }
+  }
+
+  public interceptInvalidConfig(configId: string) {
+    this.dialog.open(InvalidConfigDialogComponent, { disableClose: true, data: { configId } });
   }
 }

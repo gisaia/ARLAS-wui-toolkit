@@ -46,7 +46,7 @@ export class ArlasBookmarkService {
     private configService: ArlasConfigService,
     private persistenceService: PersistenceService,
     private router: Router) {
-    if (this.arlasStartupService.shouldRunApp) {
+    if (this.arlasStartupService.shouldRunApp && !this.arlasStartupService.emptyMode) {
       if (!!this.configService.getConfig()['arlas']['persistence-server']
         && !!this.configService.getConfig()['arlas']['persistence-server']['url']) {
         this.dataBase = new BookmarkPersistenceDatabase(this, this.persistenceService, this.arlasStartupService);

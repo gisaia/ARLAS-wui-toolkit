@@ -68,6 +68,7 @@ import { ActionModalComponent } from './components/config-manager/action-modal/a
 import { ActionModalModule } from './components/config-manager/action-modal/action-modal.module';
 import en from 'arlas-web-components/assets/i18n/en.json';
 import fr from 'arlas-web-components/assets/i18n/fr.json';
+import { InvalidConfigDialogComponent } from './components/invalid-config-dialog/invalid-config-dialog.component';
 
 export class CustomTranslateLoader implements TranslateLoader {
 
@@ -197,13 +198,15 @@ export class CustomTranslateLoader implements TranslateLoader {
     WidgetComponent,
     ProgressSpinnerComponent,
     UserInfosComponent,
-    ReconnectDialogComponent
+    ReconnectDialogComponent,
+    InvalidConfigDialogComponent
   ],
   providers: [
     FetchInterceptorService
   ],
   entryComponents: [
     ReconnectDialogComponent,
+    InvalidConfigDialogComponent,
     ActionModalComponent,
     UserInfosComponent]
 })
