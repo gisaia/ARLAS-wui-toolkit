@@ -563,11 +563,11 @@
                     ]
                 },
                 "server": {
-                    "description": "Configuration of ARLAS Web Server",
+                    "description": "Configuration of ARLAS-server",
                     "type": "object",
                     "properties": {
                         "url": {
-                            "description": "URL of ARLAS Web Server",
+                            "description": "URL of ARLAS-server",
                             "type": "string"
                         },
                         "collection": {
@@ -592,6 +592,21 @@
                         "url",
                         "collection"
                     ]
+                },
+                "tagger": {
+                    "description": "Configuration of ARLAS-tagger",
+                    "type": "object",
+                    "properties": {
+                        "url": {
+                            "description": "URL of ARLAS-tagger",
+                            "type": "string"
+                        },
+                        "collection": {
+                          "description": "Name of ARLAS Collection",
+                          "type": "string"
+                        }
+
+                    }
                 }
             },
             "required": [

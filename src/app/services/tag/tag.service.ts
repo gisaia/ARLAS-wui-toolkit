@@ -141,7 +141,7 @@ export class ArlasTagService implements OnDestroy {
     this.isProcessing = true;
 
     if (mode === 'tag') {
-      from(this.taggerApi.tagPost(this.tagger.collection.name, data)).subscribe(
+      from(this.taggerApi.tagPost(this.tagger.collection, data)).subscribe(
         (response: TaggerResponse) => {
           this.snackBar.open('Tag task running', '', snackConfig);
           this.status.next(new Map<string, boolean>().set(mode, true));
@@ -162,7 +162,7 @@ export class ArlasTagService implements OnDestroy {
         }
       );
     } else {
-      from(this.taggerApi.untagPost(this.tagger.collection.name, data)).subscribe(
+      from(this.taggerApi.untagPost(this.tagger.collection, data)).subscribe(
         (response: TaggerResponse) => {
           this.snackBar.open('Untag task running', '', snackConfig);
           this.status.next(new Map<string, boolean>().set(mode, true));
@@ -186,7 +186,7 @@ export class ArlasTagService implements OnDestroy {
   }
 
   public followStatus(response: any) {
-    from(this.statusApi.taggingGet(this.tagger.collection.name, response.id)).subscribe(
+    from(this.statusApi.taggingGet(this.tagger.collection, response.id)).subscribe(
       (response: TaggerResponse) => {
         this.processStatus.set(response.id, response);
         if (response.progress === 100) {
@@ -197,7 +197,7 @@ export class ArlasTagService implements OnDestroy {
   }
 
   public list(): Observable<TagRefRequest[]> {
-    return from(this.statusApi.taggingGetList(this.tagger.collection.name));
+    return from(this.statusApi.taggingGetList(this.tagger.collection));
   }
 
   public unfollowStatus(responseId: string) {

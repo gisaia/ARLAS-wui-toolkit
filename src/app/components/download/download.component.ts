@@ -100,7 +100,7 @@ export class DownloadDialogComponent implements OnInit {
     // for now, the ARLAS-server url is fetched from the config in the startup service.
     // we should do the same everywhere, otherwise we will have two sources (settings.yaml (it was env.js) & config.json) to configure
     // the server, and this can lead to incoherences
-    this.server = this.configService.getValue('arlas.server.url');
+    this.server = this.configService.getValue('arlas.server');
     this.collaborativeService.describe(this.server.collection.name).subscribe(
       description => {
         const fields = description.properties;
