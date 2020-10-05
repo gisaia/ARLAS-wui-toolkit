@@ -77,7 +77,7 @@ export class WidgetComponent implements OnInit {
   @Output() public outEvents: Subject<{ origin: string, event: string, data?: any }>
     = new Subject<{ origin: string, event: string, data?: any }>();
 
-  @ViewChild('histogram', {static: false}) public histogramComponent: HistogramComponent;
+  @ViewChild('histogram', { static: false }) public histogramComponent: HistogramComponent;
 
   constructor(private arlasStartupService: ArlasStartupService,
     private cdr: ChangeDetectorRef, private componentFactoryResolver: ComponentFactoryResolver,
@@ -90,8 +90,10 @@ export class WidgetComponent implements OnInit {
     this.contributor = this.arlasStartupService.contributorRegistry.get(this.contributorId);
     if (this.componentType === 'swimlane') {
       this.swimlanes = this.contributor.getConfigValue('swimlanes');
-      this.showSwimlaneDropDown = this.swimlanes.length > 1;
-      this.swimSelected = this.swimlanes[0];
+      if (this.swimlanes) {
+        this.showSwimlaneDropDown = this.swimlanes.length > 1;
+        this.swimSelected = this.swimlanes[0];
+      }
     }
     this.setComponentInput(this.graphParam);
   }
