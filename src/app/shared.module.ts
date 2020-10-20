@@ -57,7 +57,7 @@ import { MatAutocompleteModule } from '@angular/material';
 import { OwlDateTimeModule, OwlNativeDateTimeModule, OwlMomentDateTimeModule } from '@gisaia-team/ng-pick-datetime';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { FormatNumberModule } from 'arlas-web-components';
+import { FormatNumberModule, ColorGeneratorModule, ColorGeneratorLoader } from 'arlas-web-components';
 import { ErrorModalModule } from './components/errormodal/errormodal.module';
 import { ConfigMenuModule } from './components/config-manager/config-menu/config-menu.module';
 import { UserInfo } from 'angular-oauth2-oidc';
@@ -69,6 +69,7 @@ import { ActionModalModule } from './components/config-manager/action-modal/acti
 import en from 'arlas-web-components/assets/i18n/en.json';
 import fr from 'arlas-web-components/assets/i18n/fr.json';
 import { InvalidConfigDialogComponent } from './components/invalid-config-dialog/invalid-config-dialog.component';
+import { ArlasColorGeneratorLoader } from './services/color-generator-loader/color-generator-loader.service';
 
 export class CustomTranslateLoader implements TranslateLoader {
 
@@ -140,6 +141,12 @@ export class CustomTranslateLoader implements TranslateLoader {
     ConfigMenuModule,
     FormatNumberModule,
     ErrorModalModule,
+    ColorGeneratorModule.forRoot({
+      loader: {
+        provide: ColorGeneratorLoader,
+        useClass: ArlasColorGeneratorLoader
+      }
+    }),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
