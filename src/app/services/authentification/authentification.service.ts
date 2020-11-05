@@ -1,10 +1,11 @@
-import { Injectable, Pipe } from '@angular/core';
-import { OAuthService, AuthConfig, OAuthErrorEvent, UserInfo } from 'angular-oauth2-oidc';
-import { BehaviorSubject, ReplaySubject, Observable, combineLatest, from } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { OAuthService, AuthConfig, OAuthErrorEvent, OAuthStorage, UserInfo } from 'angular-oauth2-oidc';
+import { BehaviorSubject, ReplaySubject, Observable, combineLatest } from 'rxjs';
 import { map } from 'rxjs/internal/operators/map';
 import { HttpClient } from '@angular/common/http';
 import { CONFIG_ID_QUERY_PARAM } from '../../tools/utils';
 import { filter } from 'rxjs/internal/operators/filter';
+import { from } from 'rxjs/internal/observable/from';
 
 export const NOT_CONFIGURED = 'NOT_CONFIGURED';
 
@@ -44,9 +45,10 @@ export class AuthentificationService {
   public initAuthService(authentSettings: AuthentSetting): Promise<void> {
     this.authConfigValue = authentSettings;
     if (this.authConfigValue) {
+      const storage = this.authConfigValue['storage'] === 'localstorage' ? localStorage : sessionStorage;
       if (authentSettings.use_discovery || this.authConfigValue['jwks_endpoint'] === undefined) {
         this.authConfig = this.getAuthConfig(this.authConfigValue);
-        this.setupAuthService();
+        this.setupAuthService(storage);
         return this.runInitialLoginSequence(authentSettings.use_discovery, authentSettings.force_connect);
       } else {
         // Call jwks endpoint to set in config
@@ -55,7 +57,7 @@ export class AuthentificationService {
           return this.http.get(this.authConfigValue['jwks_endpoint']).toPromise()
             .then(jwks => {
               this.authConfig = this.getAuthConfig(this.authConfigValue, jwks);
-              this.setupAuthService();
+              this.setupAuthService(storage);
               this.runInitialLoginSequence(false, authentSettings.force_connect);
             });
         } else {
@@ -155,10 +157,11 @@ export class AuthentificationService {
    * Return an observable of the user Auth0 profile
    */
   public loadUserInfo(): Observable<UserInfo> {
-    return from(this.oauthService.loadUserProfile());
+    return from(<Promise<UserInfo>>this.oauthService.loadUserProfile());
   }
 
-  private setupAuthService() {
+  private setupAuthService(storage: OAuthStorage) {
+    this.oauthService.setStorage(storage);
     this.oauthService.configure(this.authConfig);
     // Useful for debugging:
     if (this.authConfig['showDebugInformation']) {
