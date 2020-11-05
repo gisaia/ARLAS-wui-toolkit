@@ -126,24 +126,6 @@ export function localDatePickerFactory(translate: TranslateService) {
   return translate.currentLang;
 }
 
-// We need a factory since localStorage is not available at AOT build time
-export function storageFactory(config: ArlasConfigService): OAuthStorage {
-  if (config.getValue('arlas.authentification.storage') !== undefined) {
-    if (config.getValue('arlas.authentification.storage') === 'localStorage') {
-      return localStorage;
-    } else {
-      return sessionStorage;
-    }
-  } else {
-    return localStorage;
-
-  }
-}
-
-export function getAuthModuleConfig(): OAuthModuleConfig {
-  return <OAuthModuleConfig>{};
-}
-
 export function configUpdaterFactory(x): any {
   return x[0];
 }
@@ -328,18 +310,8 @@ export const MY_CUSTOM_FORMATS = {
     },
     { provide: OwlDateTimeIntl, useClass: ArlasTranslateIntl, deps: [TranslateService] },
     {
-      provide: OAuthModuleConfig,
-      deps: [ArlasConfigService],
-      useFactory: getAuthModuleConfig
-    },
-    {
       provide: ValidationHandler,
       useClass: JwksValidationHandler
-    },
-    {
-      provide: OAuthStorage,
-      deps: [ArlasConfigService],
-      useFactory: storageFactory
     },
     {
       provide: GET_OPTIONS,

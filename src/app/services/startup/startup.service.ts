@@ -96,15 +96,16 @@ export class ArlasStartupService {
     public errorStartUpServiceBus: Subject<any> = new Subject<any>();
     public arlasIsUp: Subject<boolean> = new Subject<boolean>();
     public arlasExploreApi: ArlasExploreApi;
+    public configurationUpdaterService: ArlasConfigurationUpdaterService;
 
     constructor(
         private configService: ArlasConfigService,
         private collaborativesearchService: ArlasCollaborativesearchService,
-        private configurationUpdaterService: ArlasConfigurationUpdaterService,
         private injector: Injector,
         @Inject(FETCH_OPTIONS) private fetchOptions,
         private http: HttpClient, private translateService: TranslateService,
         @Inject(CONFIG_UPDATER) private configUpdater) {
+        this.configurationUpdaterService = new ArlasConfigurationUpdaterService;
     }
 
     public getFGAService(): ArlasConfigurationUpdaterService {

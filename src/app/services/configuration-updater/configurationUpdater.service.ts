@@ -20,7 +20,6 @@
 import { Injectable } from '@angular/core';
 import { Aggregation } from 'arlas-api';
 
-@Injectable()
 export class ArlasConfigurationUpdaterService {
 
   constructor() {
