@@ -1,5 +1,5 @@
 import { Inject, Injectable, Injector } from '@angular/core';
-import { OAuthService, JwksValidationHandler, AuthConfig, OAuthErrorEvent } from 'angular-oauth2-oidc';
+import { OAuthService, JwksValidationHandler, AuthConfig, OAuthErrorEvent, OAuthStorage } from 'angular-oauth2-oidc';
 import { BehaviorSubject, ReplaySubject, Observable, combineLatest } from 'rxjs';
 import { map } from 'rxjs/internal/operators/map';
 import { filter } from 'rxjs/operators';
@@ -40,24 +40,25 @@ export class AuthentificationService {
   public initAuthService(configService, useDiscovery?: boolean, forceConnect?: boolean): Promise<void> {
     this.authConfigValue = configService.getValue('arlas.authentification');
     if (this.authConfigValue) {
+      const storage = this.authConfigValue['storage'] === 'localstorage' ? localStorage : sessionStorage;
       if (useDiscovery || this.authConfigValue['jwksEndpoint'] === undefined) {
         this.authConfig = this.getAuthConfig(this.authConfigValue);
-        this.setupAuthService();
+        this.setupAuthService(storage);
         return this.runInitialLoginSequence(useDiscovery, forceConnect);
-      }
-    } else {
-      // Call jwks endpoint to set in config
-      if (this.authConfigValue['tokenEndpoint'] && this.authConfigValue['userinfoEndpoint']
-        && this.authConfigValue['loginUrl'] && this.authConfigValue['jwksEndpoint']) {
-        return this.http.get(this.authConfigValue['jwksEndpoint']).toPromise()
-          .then(jwks => {
-            this.authConfig = this.getAuthConfig(this.authConfigValue, jwks);
-            this.setupAuthService();
-            this.runInitialLoginSequence(false, forceConnect);
-          });
       } else {
-        console.error('Authentification config error : if useDiscovery ' +
-          'is set to false in configuration,  tokenEndpoint,userinfoEndpoint,loginUrl and jwksEndpoint must be defined.');
+        // Call jwks endpoint to set in config
+        if (this.authConfigValue['tokenEndpoint'] && this.authConfigValue['userinfoEndpoint']
+          && this.authConfigValue['loginUrl'] && this.authConfigValue['jwksEndpoint']) {
+          return this.http.get(this.authConfigValue['jwksEndpoint']).toPromise()
+            .then(jwks => {
+              this.authConfig = this.getAuthConfig(this.authConfigValue, jwks);
+              this.setupAuthService(storage);
+              this.runInitialLoginSequence(false, forceConnect);
+            });
+        } else {
+          console.error('Authentification config error : if useDiscovery ' +
+            'is set to false in configuration,  tokenEndpoint,userinfoEndpoint,loginUrl and jwksEndpoint must be defined.');
+        }
       }
     }
   }
@@ -106,7 +107,8 @@ export class AuthentificationService {
   public get idToken() { return this.oauthService.getIdToken(); }
   public get logoutUrl() { return this.oauthService.logoutUrl; }
 
-  private setupAuthService() {
+  private setupAuthService(storage: OAuthStorage) {
+    this.oauthService.setStorage(storage);
     this.oauthService.configure(this.authConfig);
     // Useful for debugging:
     if (this.authConfig['showDebugInformation']) {
