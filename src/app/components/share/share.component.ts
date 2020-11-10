@@ -26,6 +26,9 @@ import { ArlasCollaborativesearchService, ArlasConfigService } from '../../servi
 import { LayerSourceConfig, MapContributor } from 'arlas-web-contributors';
 import { Search } from 'arlas-tagger-api';
 
+export interface ShareLayerSourceConfig extends LayerSourceConfig {
+  visualisationName: string;
+}
 /**
  * This component allows to build a _geoaggregate and/or _geosearch requests through a guiding stepper and obtain
  * a Get request URL at the end.
@@ -60,7 +63,7 @@ export class ShareComponent {
 })
 export class ShareDialogComponent implements OnInit {
 
-  public sharableLayers: Array<LayerSourceConfig> = new Array();
+  public sharableLayers: Array<ShareLayerSourceConfig> = new Array();
   private requestEndpoint: projType.geoaggregate | projType.geosearch;
   private requestTextEndpoint = '_geoaggregate';
   private request: Aggregation | Search;
@@ -139,7 +142,19 @@ export class ShareDialogComponent implements OnInit {
 
     this.configService.getValue('arlas.web.contributors').forEach(contrib => {
       if (contrib.type === 'map') {
-        this.sharableLayers = contrib.layers_sources;
+        this.sharableLayers = Object.assign([], contrib.layers_sources);
+        const visualisationSets = this.configService.getValue('arlas.web.components').mapgl.input.visualisations_sets;
+        this.sharableLayers.forEach((ls) => {
+          const visualisation = visualisationSets.find(v => {
+            const layersSet = new Set(v.layers);
+            return layersSet.has(ls.id);
+          });
+          if (visualisation) {
+            ls.visualisationName = visualisation.name;
+          } else {
+            ls.visualisationName = '';
+          }
+        });
       }
     });
     this.collaborativeService.collaborations.forEach(element =>
@@ -158,15 +173,17 @@ export class ShareDialogComponent implements OnInit {
     if (event.selectedIndex === 1) {
       this.requestTextEndpoint = '_geoaggregate';
       this.requestEndpoint = projType.geoaggregate;
-      const geojsonType: string = this.geojsonTypeGroup.get('geojsonType').value;
-      const source = this.sharableLayers.find(sl => sl.source === geojsonType);
-      if (geojsonType.startsWith('feature') && !geojsonType.startsWith('feature-metric')) {
+      const geojsonType: { source: string, id: string } = this.geojsonTypeGroup.get('geojsonType').value;
+      const layerSource = this.sharableLayers.find(sl => sl.id === geojsonType.id);
+      if (layerSource.source.startsWith('feature') && !layerSource.source.startsWith('feature-metric')) {
         this.paramFormGroup.get('precision').disable();
         this.paramFormGroup.get('availableFields').enable();
         this.requestTextEndpoint = '_geosearch';
         this.requestEndpoint = projType.geosearch;
-        this.request = MapContributor.getFeatureSearch(source) as Search;
+        this.request = MapContributor.getFeatureSearch(layerSource) as Search;
         this.request.page.size = this.maxForFeature;
+        this.allFields = [];
+        this.selectedFields = [];
         if (this.allFields.length === 0) {
           this.collaborativeService.describe(server.collection.name).subscribe(
             description => {
@@ -191,13 +208,13 @@ export class ShareDialogComponent implements OnInit {
               this.collaborativeService.collaborationErrorBus.next(error);
             });
         }
-      } else if (geojsonType.startsWith('cluster')) {
+      } else if (layerSource.source.startsWith('cluster')) {
         this.paramFormGroup.get('precision').enable();
         this.paramFormGroup.get('availableFields').disable();
-        this.request = MapContributor.getClusterAggregration(source);
-      } else if (geojsonType.startsWith('feature-metric')) {
+        this.request = MapContributor.getClusterAggregration(layerSource);
+      } else if (layerSource.source.startsWith('feature-metric')) {
         this.isCopied = false;
-        this.request = MapContributor.getTopologyAggregration(source);
+        this.request = MapContributor.getTopologyAggregration(layerSource);
         this.request.size = this.maxForTopology.toString();
         this.displayedUrl = server.url + '/explore/' + server.collection.name + '/'
           + this.requestTextEndpoint + '/?'
@@ -209,8 +226,8 @@ export class ShareDialogComponent implements OnInit {
       this.isCopied = false;
       this.sort = '';
       this.includeFields = '';
-      const geojsonType: string = this.geojsonTypeGroup.get('geojsonType').value;
-      if (geojsonType.startsWith('feature') && !geojsonType.startsWith('feature-metric')) {
+      const geojsonType: { source: string, id: string } = this.geojsonTypeGroup.get('geojsonType').value;
+      if (geojsonType.source.startsWith('feature') && !geojsonType.source.startsWith('feature-metric')) {
         this.request = (this.request as Search);
 
         if (this.selectedFields.length > 0) {

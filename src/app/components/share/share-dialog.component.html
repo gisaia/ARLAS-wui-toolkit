@@ -3,7 +3,7 @@
     <form [formGroup]="geojsonTypeGroup">
       <ng-template matStepLabel>{{'Mode' | translate}}</ng-template>
       <mat-radio-group class="share-radio-group" formControlName="geojsonType">
-        <mat-radio-button *ngFor="let layer of sharableLayers" [value]="layer.source" class="share-radio-button">{{ layer.id | translate}}</mat-radio-button>
+        <mat-radio-button *ngFor="let layer of sharableLayers" [value]="{source: layer.source, id: layer.id}" class="share-radio-button">{{ layer?.visualisationName | translate}} - {{ layer.id | translate}}</mat-radio-button>
       </mat-radio-group>
       <div>
         <mat-divider style="margin-top:15px;"></mat-divider>
@@ -11,10 +11,10 @@
       </div>
     </form>
   </mat-step>
-  <mat-step [stepControl]="paramFormGroup" *ngIf="!geojsonTypeGroup.get('geojsonType').value.startsWith('feature-metric')">
+  <mat-step [stepControl]="paramFormGroup" *ngIf="!geojsonTypeGroup.get('geojsonType').value?.source?.startsWith('feature-metric')">
     <form [formGroup]="paramFormGroup">
       <ng-template matStepLabel>{{'Parameters' | translate}}</ng-template>
-      <div *ngIf="geojsonTypeGroup.get('geojsonType').value.startsWith('cluster')">
+      <div *ngIf="geojsonTypeGroup.get('geojsonType').value?.source?.startsWith('cluster')">
         <mat-form-field>
           <mat-select placeholder="{{'Desired precision' | translate}}" formControlName="precision" matInput required>
             <mat-option *ngFor="let val of precisions" [value]="val[0]">
@@ -23,7 +23,7 @@
           </mat-select>
         </mat-form-field>
       </div>
-      <div *ngIf="geojsonTypeGroup.get('geojsonType').value.startsWith('feature')" class="fields-form">
+      <div *ngIf="geojsonTypeGroup.get('geojsonType').value?.source?.startsWith('feature')" class="fields-form">
         <div class="share-feature-block">
             <div style="flex:3" class="share-title-list">
                 <mat-label>{{'Available fields' | translate}}</mat-label>
