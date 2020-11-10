@@ -65,7 +65,6 @@
 	"Continue": "Continue",
 	"Unauthorized action": "Unauthorized action",
 	"You are not authorized to access at this ressource.": "You are not authorized to access at this ressource.",
-	"searchPlaceholder": "Search...",
 	"Mode": "Mode",
 	"Desired precision": "Desired precision",
 	"Types": "Types",
@@ -119,5 +118,6 @@
 	"FIRST_PAGE_LABEL": "First page",
 	"LAST_PAGE_LABEL": "Last page",
 	"RANGE_PAGE_LABEL_1": "0 of {{length}}",
-	"RANGE_PAGE_LABEL_2": "{{startIndex}} - {{endIndex}} of {{length}}"
+	"RANGE_PAGE_LABEL_2": "{{startIndex}} - {{endIndex}} of {{length}}",
+	"searchPlaceholder": "Search..."
 }

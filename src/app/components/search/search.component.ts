@@ -33,11 +33,11 @@ import { filter, flatMap, first, merge, startWith, pairwise, debounceTime, map }
   styleUrls: ['./search.component.css']
 })
 export class SearchComponent {
+  @Input() public searchContributor: ChipsSearchContributor;
   public onLastBackSpace: Subject<boolean> = new Subject<boolean>();
   public searchCtrl: FormControl;
   public filteredSearch: Observable<any[]>;
   private keyEvent: Subject<number> = new Subject<number>();
-  @Input() private searchContributor: ChipsSearchContributor;
 
   constructor(private collaborativeService: ArlasCollaborativesearchService,
     private cdr: ChangeDetectorRef,
