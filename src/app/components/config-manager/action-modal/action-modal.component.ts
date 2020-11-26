@@ -20,9 +20,8 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { PersistenceService } from '../../../services/persistence/persistence.service';
-import { Error } from '../../../services/startup/startup.service';
-import { ErrorService } from '../../../services/error/error.service';
 import { ConfigAction, ConfigActionEnum } from '../../../tools/utils';
+import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 
 @Component({
   selector: 'arlas-action-modal',
@@ -45,24 +44,27 @@ export class ActionModalComponent {
   }
 
   public duplicate(value: string, configId: string) {
-    this.persistenceService.duplicate('config.json', configId,
-      value).subscribe(data => {
-        this.duplicateError = '';
-        this.dialogRef.close();
-      },
+    this.persistenceService.duplicate('config.json', configId, value)
+      .subscribe(
+        () => {
+          this.duplicateError = '';
+          this.dialogRef.close();
+        },
         error => {
-          this.duplicateError = 'A configuration with this name exists already, please choose another name.';
+          this.duplicateError = this.errorMessage(error.status);
         });
   }
 
   public create(name: string) {
-    this.persistenceService.create('config.json', name, '{}', [], []).subscribe(data => {
-      this.duplicateError = '';
-      this.dialogRef.close(data.id);
-    },
-      error => {
-        this.duplicateError = 'A configuration with this name exists already, please choose another name.';
-      });
+    this.persistenceService.create('config.json', name, '{}', [], [])
+      .subscribe(
+        data => {
+          this.duplicateError = '';
+          this.dialogRef.close(data.id);
+        },
+        error => {
+          this.duplicateError = this.errorMessage(error.status);
+        });
   }
 
   public closeShare(event: [boolean, any]) {
@@ -70,6 +72,21 @@ export class ActionModalComponent {
     if (event[0]) {
       this.dialogRef.close();
     }
+  }
+
+  public errorMessage(errorCode: number): string {
+    let message = '';
+    switch (errorCode) {
+      case 401:
+        message = marker('Unauthorized to create a dashboard, you need to log in');
+        break;
+      case 403:
+        message = marker('Missing permissions to create a dashboard');
+        break;
+      default:
+        message = marker('A configuration with this name exists already, please choose another name');
+    }
+    return message;
   }
 
 
