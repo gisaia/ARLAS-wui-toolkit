@@ -66,6 +66,26 @@ export class ArlasColorGeneratorLoader implements ColorGeneratorLoader {
     return tinycolor.default(color).isDark() ? '#ffffff' : '#000000';
   }
 
+  /**
+   * updates the color of the given keyword if the keyword exists already. Otherwise it adds the new keyword and the corresponding color
+   * @param keyword
+   * @param color
+   */
+  public updateKeywordColor(keyword: string, color: string): void {
+    const existingColor = this.keysToColorsMap.get(keyword);
+    if (!existingColor) {
+      this.keysToColorsMap.set(keyword, color);
+      this.keysToColors.push([keyword, color]);
+    } else {
+      this.keysToColorsMap.set(keyword, color);
+      /** rebuilt list from scratch */
+      this.keysToColors = [];
+      this.keysToColorsMap.forEach((c, k) => {
+        this.keysToColors.push([k, c]);
+      });
+    }
+  }
+
   private getHexColor(key: string, saturationWeight: number): string {
     const text = key + ':' + key.split('').reverse().join('') + ':'  + key;
     // string to int
