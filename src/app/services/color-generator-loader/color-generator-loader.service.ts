@@ -18,6 +18,7 @@ import * as tinycolor from 'tinycolor2';
  */
 @Injectable()
 export class ArlasColorGeneratorLoader implements ColorGeneratorLoader {
+  // TODO: keysToColors should be private and only accessed with setters and getters
   public keysToColors: Array<[string, string]> = new Array<[string, string]>();
   public colorsSaturationWeight: number;
   public keysToColorsMap: Map<string, string> = new Map<string, string>();
@@ -84,6 +85,15 @@ export class ArlasColorGeneratorLoader implements ColorGeneratorLoader {
         this.keysToColors.push([k, c]);
       });
     }
+  }
+
+  /**
+   * Set the keyToColors list. Updates the keysToColorsMap in order to be up to date with the list
+   */
+  public setKeysToColors(keysToColors: Array<[string, string]>): void {
+    this.keysToColors = keysToColors;
+    this.keysToColorsMap = new Map<string, string>();
+    this.keysToColors.forEach(item => { this.keysToColorsMap.set(item[0], item[1]); });
   }
 
   private getHexColor(key: string, saturationWeight: number): string {
