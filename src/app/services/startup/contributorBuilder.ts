@@ -29,13 +29,15 @@ import {
     MapContributor
 } from 'arlas-web-contributors';
 import { ArlasConfigService, ArlasCollaborativesearchService } from './startup.service';
+import { ArlasColorGeneratorLoader } from '../color-generator-loader/color-generator-loader.service';
 
 export class ContributorBuilder {
 
     public static buildContributor(contributorType: string,
         identifier: string,
         configService: ArlasConfigService,
-        collaborativesearchService: ArlasCollaborativesearchService): any {
+        collaborativesearchService: ArlasCollaborativesearchService,
+        colorGenerator?: ArlasColorGeneratorLoader): any {
 
         const config = configService.getValue('arlas.web.contributors').find( contrib =>
           contrib.type === contributorType && contrib.identifier ===  identifier
@@ -59,7 +61,7 @@ export class ContributorBuilder {
                 contributor = new ResultListContributor(identifier, collaborativesearchService, configService);
                 break;
             case 'map':
-                contributor = new MapContributor(identifier, collaborativesearchService, configService);
+                contributor = new MapContributor(identifier, collaborativesearchService, configService, colorGenerator);
                 (contributor as MapContributor).updateData = false;
                 break;
             case 'swimlane':
