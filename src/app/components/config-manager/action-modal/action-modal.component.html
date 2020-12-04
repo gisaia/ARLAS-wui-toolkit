@@ -27,7 +27,7 @@
 </div>
 
 <div *ngIf="action.type=== ConfigAction.CREATE">
-  <h2 mat-dialog-title>{{'Add a new configuration' | translate}}</h2>
+  <h2 mat-dialog-title>{{'Add a new dashboard' | translate}}</h2>
   <div mat-dialog-content>
       <mat-form-field class="example-form-field">
           <mat-label>{{'Name' | translate}}</mat-label>
@@ -45,7 +45,7 @@
 </div>
 
 <div *ngIf="action.type=== ConfigAction.SHARE">
-  <h2 mat-dialog-title>{{'Share configuration' | translate}}</h2>
+  <h2 mat-dialog-title>{{'Share dashboard' | translate}}</h2>
   <div mat-dialog-content>
       <arlas-share-config [config]="action.config" (updateEmitter)="closeShare($event)" ></arlas-share-config>
   </div>
