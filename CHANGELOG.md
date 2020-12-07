@@ -1,11 +1,32 @@
 # Change Log
 
+## [v14.1.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v14.1.0) (2020-12-07)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v14.1.0-beta.0...v14.1.0)
+
+## [v14.1.0-beta.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v14.1.0-beta.0) (2020-12-01)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v14.0.1...v14.1.0-beta.0)
+
+**New stuff:**
+
+- Update properly keywords colors in ArlasColorGenearorLoader [\#390](https://github.com/gisaia/ARLAS-wui-toolkit/issues/390)
+
+**Fixed bugs:**
+
+- \[Config manager \] Wrong error message when I try to duplicate/create [\#389](https://github.com/gisaia/ARLAS-wui-toolkit/issues/389)
+
 ## [v14.0.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v14.0.1) (2020-11-10)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v14.0.0...v14.0.1)
 
+**New stuff:**
+
+- Layer names that are translated the same are not distinguishable  [\#384](https://github.com/gisaia/ARLAS-wui-toolkit/issues/384)
+
 **Fixed bugs:**
 
+- Layers should be distinguished by their ids [\#385](https://github.com/gisaia/ARLAS-wui-toolkit/issues/385)
 - The place holder for search bar is not configurable [\#382](https://github.com/gisaia/ARLAS-wui-toolkit/issues/382)
 
 ## [v14.0.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v14.0.0) (2020-11-09)
