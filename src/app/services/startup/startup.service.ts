@@ -685,6 +685,13 @@ export interface ArlasSettings {
     arlas_wui_url?: string;
     arlas_builder_url?: string;
     arlas_hub_url?: string;
+    links?: LinkSettings[];
+}
+
+export interface LinkSettings {
+  name: string;
+  url: string;
+  icon: string;
 }
 
 

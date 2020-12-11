@@ -70,6 +70,7 @@ import en from 'arlas-web-components/assets/i18n/en.json';
 import fr from 'arlas-web-components/assets/i18n/fr.json';
 import { InvalidConfigDialogComponent } from './components/invalid-config-dialog/invalid-config-dialog.component';
 import { ArlasColorGeneratorLoader } from './services/color-generator-loader/color-generator-loader.service';
+import { LinkComponent } from './components/link/link.component';
 
 export class CustomTranslateLoader implements TranslateLoader {
 
@@ -170,6 +171,7 @@ export class CustomTranslateLoader implements TranslateLoader {
     FiltersComponent,
     GetTimeLabelPipe,
     LanguageSwitcherComponent,
+    LinkComponent,
     SearchComponent,
     ShareComponent,
     ShareDialogComponent,
@@ -197,6 +199,7 @@ export class CustomTranslateLoader implements TranslateLoader {
     FiltersComponent,
     GetTimeLabelPipe,
     LanguageSwitcherComponent,
+    LinkComponent,
     SearchComponent,
     ShareComponent,
     ShareDialogComponent,

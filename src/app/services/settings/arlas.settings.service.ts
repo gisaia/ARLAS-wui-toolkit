@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ArlasSettings } from '../startup/startup.service';
+import { ArlasSettings, LinkSettings } from '../startup/startup.service';
 import { PersistenceSetting } from '../persistence/persistence.service';
 
 @Injectable({
@@ -32,5 +32,9 @@ export class ArlasSettingsService {
 
   public getArlasHubUrl(): string {
     return !!this.settings && !!this.settings.arlas_hub_url ? this.settings.arlas_hub_url : undefined;
+  }
+
+  public getLinksSettings(): LinkSettings[] {
+    return !!this.settings && !!this.settings.links ? this.settings.links : undefined;
   }
 }
