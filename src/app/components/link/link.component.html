@@ -1,0 +1,7 @@
+<mat-nav-list>
+  <mat-list-item *ngFor="let link of links">
+    <button matTooltip="{{ link.name | translate}}" mat-icon-button (click)="navigateTo(link.url)">
+      <mat-icon>{{link.icon}}</mat-icon>
+    </button>
+  </mat-list-item>
+</mat-nav-list>
