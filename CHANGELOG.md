@@ -1,5 +1,17 @@
 # Change Log
 
+## [v14.1.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v14.1.1) (2020-12-18)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v14.1.0...v14.1.1)
+
+**New stuff:**
+
+- Manage static links [\#398](https://github.com/gisaia/ARLAS-wui-toolkit/issues/398)
+
+**Fixed bugs:**
+
+- Enhance error message for not existing configs ids [\#397](https://github.com/gisaia/ARLAS-wui-toolkit/issues/397)
+
 ## [v14.1.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v14.1.0) (2020-12-07)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v14.1.0-beta.0...v14.1.0)
