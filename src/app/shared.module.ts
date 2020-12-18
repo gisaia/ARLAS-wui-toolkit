@@ -180,7 +180,8 @@ export class CustomTranslateLoader implements TranslateLoader {
     WidgetComponent,
     ProgressSpinnerComponent,
     UserInfosComponent,
-    ReconnectDialogComponent
+    ReconnectDialogComponent,
+    InvalidConfigDialogComponent
   ],
 
 
