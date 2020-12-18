@@ -188,8 +188,8 @@ export class ArlasConfigurationUpdaterService {
           if (visualisationsSet) {
             const updatedVisualisationsSet: Array<VisualisationSetConfig> = [];
             visualisationsSet.forEach(vs => {
-              vs.layers = new Set([...vs.layers].filter(l => layers.has(l)));
-              if (vs.layers.size > 0) {
+              vs.layers = vs.layers.filter(l => layers.has(l));
+              if (vs.layers.length > 0) {
                 updatedVisualisationsSet.push(vs);
               }
             });
