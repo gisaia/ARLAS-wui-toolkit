@@ -37,4 +37,8 @@ export class ArlasSettingsService {
   public getLinksSettings(): LinkSettings[] {
     return !!this.settings && !!this.settings.links ? this.settings.links : undefined;
   }
+
+  public getTicketingKey(): string {
+    return !!this.settings && !!this.settings.ticketing_key && this.settings.ticketing_key !== '' ? this.settings.ticketing_key : undefined;
+  }
 }
