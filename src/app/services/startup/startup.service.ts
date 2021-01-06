@@ -686,6 +686,7 @@ export interface ArlasSettings {
     arlas_builder_url?: string;
     arlas_hub_url?: string;
     links?: LinkSettings[];
+    ticketing_key?: string;
 }
 
 export interface LinkSettings {
