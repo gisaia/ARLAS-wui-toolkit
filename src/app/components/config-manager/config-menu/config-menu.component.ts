@@ -17,15 +17,15 @@
  * under the License.
  */
 
-import { Component, OnInit, Input, Output, OnChanges, SimpleChanges } from '@angular/core';
-import { ActionModalComponent } from '../action-modal/action-modal.component';
+import { Component, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { filter } from 'rxjs/operators';
-import { PersistenceService } from '../../../services/persistence/persistence.service';
+import { Resource } from 'arlas-permissions-api';
 import { Subject } from 'rxjs';
-import { ErrorService } from '../../../services/error/error.service';
-import { Error } from '../../../services/startup/startup.service';
+import { filter } from 'rxjs/operators';
+import { PermissionService } from '../../../services/permission/permission.service';
+import { PersistenceService } from '../../../services/persistence/persistence.service';
 import { ConfigAction, ConfigActionEnum } from '../../../tools/utils';
+import { ActionModalComponent } from '../action-modal/action-modal.component';
 
 @Component({
   selector: 'arlas-config-menu',
@@ -39,14 +39,19 @@ export class ConfigMenuComponent implements OnInit {
   @Output() public actionExecutedEmitter = new Subject();
 
   public ConfigAction = ConfigActionEnum;
+  public canCreateDashboard = false;
+
   constructor(
     private dialog: MatDialog,
-    private persistenceService: PersistenceService
+    private persistenceService: PersistenceService,
+    private permissionService: PermissionService
   ) {
 
   }
   public ngOnInit() {
-
+    this.permissionService.get('persist/resource/config.json').subscribe((resources: Resource[]) => {
+      this.canCreateDashboard = (resources.filter(r => r.verb === 'POST').length > 0);
+    });
   }
 
   public onActionClick(action: ConfigAction): void {
