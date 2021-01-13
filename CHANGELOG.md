@@ -1,5 +1,66 @@
 # Change Log
 
+## [v14.1.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v14.1.1) (2020-12-18)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v14.1.0...v14.1.1)
+
+**New stuff:**
+
+- Manage static links [\#398](https://github.com/gisaia/ARLAS-wui-toolkit/issues/398)
+
+**Fixed bugs:**
+
+- Enhance error message for not existing configs ids [\#397](https://github.com/gisaia/ARLAS-wui-toolkit/issues/397)
+
+## [v14.1.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v14.1.0) (2020-12-07)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v14.1.0-beta.0...v14.1.0)
+
+## [v14.1.0-beta.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v14.1.0-beta.0) (2020-12-01)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v14.0.1...v14.1.0-beta.0)
+
+**New stuff:**
+
+- Update properly keywords colors in ArlasColorGenearorLoader [\#390](https://github.com/gisaia/ARLAS-wui-toolkit/issues/390)
+
+**Fixed bugs:**
+
+- \[Config manager \] Wrong error message when I try to duplicate/create [\#389](https://github.com/gisaia/ARLAS-wui-toolkit/issues/389)
+
+## [v14.0.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v14.0.1) (2020-11-10)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v14.0.0...v14.0.1)
+
+**New stuff:**
+
+- Layer names that are translated the same are not distinguishable  [\#384](https://github.com/gisaia/ARLAS-wui-toolkit/issues/384)
+
+**Fixed bugs:**
+
+- Layers should be distinguished by their ids [\#385](https://github.com/gisaia/ARLAS-wui-toolkit/issues/385)
+- The place holder for search bar is not configurable [\#382](https://github.com/gisaia/ARLAS-wui-toolkit/issues/382)
+
+## [v14.0.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v14.0.0) (2020-11-09)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v12.7.4...v14.0.0)
+
+**Fixed bugs:**
+
+- authentication is always stored in localstorage [\#378](https://github.com/gisaia/ARLAS-wui-toolkit/issues/378)
+
+## [v12.7.4](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v12.7.4) (2020-11-05)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v14.0.0-rc.2...v12.7.4)
+
+## [v14.0.0-rc.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v14.0.0-rc.2) (2020-09-30)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v14.0.0-rc.1...v14.0.0-rc.2)
+
+## [v14.0.0-rc.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v14.0.0-rc.1) (2020-09-29)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v12.7.3...v14.0.0-rc.1)
+
 ## [v12.7.3](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v12.7.3) (2020-09-18)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v12.7.2...v12.7.3)
