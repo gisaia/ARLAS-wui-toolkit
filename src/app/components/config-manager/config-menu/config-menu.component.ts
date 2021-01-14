@@ -20,10 +20,10 @@
 import { Component, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Resource } from 'arlas-permissions-api';
-import { Subject } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { PermissionService } from '../../../services/permission/permission.service';
 import { PersistenceService } from '../../../services/persistence/persistence.service';
+import { Subject } from 'rxjs';
 import { ConfigAction, ConfigActionEnum } from '../../../tools/utils';
 import { ActionModalComponent } from '../action-modal/action-modal.component';
 
@@ -68,7 +68,27 @@ export class ConfigMenuComponent implements OnInit {
       case ConfigActionEnum.DELETE: {
         // Open a confirm modal to validate this choice. Available only if updatable is true for this object
         this.getDialogRef(action).subscribe(id => {
-          this.persistenceService.delete(id).subscribe(data => this.actionExecutedEmitter.next(action));
+          this.persistenceService.get(id).subscribe(
+            data => {
+              const key = data.doc_key;
+              this.persistenceService.existByZoneKey('i18n', key.concat('_fr')).subscribe(
+                exist => {
+                  if (exist.exists) {
+                    this.persistenceService.getByZoneKey('i18n', key.concat('_fr'))
+                      .subscribe(i18nFr => this.persistenceService.delete(i18nFr.id).subscribe(d => { }));
+                  }
+                }
+              );
+              this.persistenceService.existByZoneKey('i18n', key.concat('_en')).subscribe(
+                exist => {
+                  if (exist.exists) {
+                    this.persistenceService.getByZoneKey('i18n', key.concat('_en'))
+                      .subscribe(i18nEn => this.persistenceService.delete(i18nEn.id).subscribe(d => { }));
+                  }
+                }
+              );
+              this.persistenceService.delete(id).subscribe(data => this.actionExecutedEmitter.next(action));
+            });
         });
         break;
       }
