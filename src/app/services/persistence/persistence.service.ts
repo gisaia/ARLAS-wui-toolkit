@@ -3,7 +3,7 @@ import * as portableFetch from 'portable-fetch';
 
 import { Observable } from 'rxjs/internal/Observable';
 import { from } from 'rxjs/internal/observable/from';
-import { Configuration, PersistApi, DataResource, DataWithLinks } from 'arlas-persistence-api';
+import { Configuration, PersistApi, DataResource, DataWithLinks, Exists } from 'arlas-persistence-api';
 import { ArlasSettingsService } from '../settings/arlas.settings.service';
 import { map, flatMap } from 'rxjs/operators';
 
@@ -49,6 +49,14 @@ export class PersistenceService {
   public getByZoneKey(zone: string, key: string): Observable<DataWithLinks> {
     return from(this.persistenceApi.getByKey(zone, key, false, this.options));
   }
+
+  public exist(id: string): Observable<Exists> {
+    return from(this.persistenceApi.existsById(id, false, this.options));
+  }
+  public existByZoneKey(zone: string, key: string): Observable<Exists> {
+    return from(this.persistenceApi.existsByKey(zone, key, false, this.options));
+  }
+
   public list(zone: string, size: number, page: number, order: string): Observable<DataResource> {
     return from(this.persistenceApi.list(zone, size, page, order, false, this.options));
 
