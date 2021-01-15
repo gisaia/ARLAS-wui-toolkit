@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ArlasSettings, LinkSettings } from '../startup/startup.service';
 import { PersistenceSetting } from '../persistence/persistence.service';
+import { PermissionSetting } from '../permission/permission.service';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,10 @@ export class ArlasSettingsService {
 
   public getPersistenceSettings(): PersistenceSetting {
     return !!this.settings && !!this.settings.persistence ? this.settings.persistence : undefined;
+  }
+
+  public getPermissionSettings(): PermissionSetting {
+    return !!this.settings && !!this.settings.permission ? this.settings.permission : undefined;
   }
 
   public getArlasWuiUrl(): string {

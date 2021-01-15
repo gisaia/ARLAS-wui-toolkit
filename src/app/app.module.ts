@@ -50,9 +50,9 @@ import { ArlasToolkitSharedModule } from './shared.module';
 import { ArlasSettingsService } from './services/settings/arlas.settings.service';
 import { ErrorModalModule } from './components/errormodal/errormodal.module';
 import { ErrorService } from './services/error/error.service';
-import { ConfigMenuModule } from './components/config-manager/config-menu/config-menu.module';
 import { PaginatorI18n } from './tools/paginatori18n';
 import { MatPaginatorIntl } from '@angular/material/paginator/';
+import { PermissionService } from './services/permission/permission.service';
 
 
 
@@ -155,6 +155,7 @@ export const MY_CUSTOM_FORMATS = {
     forwardRef(() => ArlasWalkthroughService),
     forwardRef(() => ArlasExportCsvService),
     forwardRef(() => PersistenceService),
+    forwardRef(() => PermissionService),
     forwardRef(() => ErrorService),
     {
       provide: APP_INITIALIZER,

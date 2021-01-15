@@ -125,6 +125,18 @@
         "url"
       ]
     },
+    "permission": {
+      "description": "Configuration of ARLAS-permission server",
+      "properties": {
+        "url": {
+          "type": "string",
+          "description": "URL to the ARLAS-permission server"
+        }
+      },
+      "required": [
+        "url"
+      ]
+    },
     "arlas_wui_url": {
       "description": "Url of arlas wui app",
       "type": "string"

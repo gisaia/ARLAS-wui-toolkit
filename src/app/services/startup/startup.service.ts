@@ -55,6 +55,7 @@ import { ArlasSettingsService } from '../settings/arlas.settings.service';
 import { ErrorService } from '../error/error.service';
 import { FetchInterceptorService } from '../interceptor/fetch-interceptor.service';
 import { CONFIG_ID_QUERY_PARAM } from '../../tools/utils';
+import { PermissionSetting } from '../permission/permission.service';
 
 
 @Injectable({
@@ -682,6 +683,7 @@ export interface ExtraConfig {
 export interface ArlasSettings {
     authentication?: AuthentSetting;
     persistence?: PersistenceSetting;
+    permission?: PermissionSetting;
     arlas_wui_url?: string;
     arlas_builder_url?: string;
     arlas_hub_url?: string;
