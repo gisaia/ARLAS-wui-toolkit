@@ -1,5 +1,21 @@
 # Change Log
 
+## [v14.2.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v14.2.0) (2021-01-18)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v12.7.4...v14.2.0)
+
+**New stuff:**
+
+- Integrate arlas-permission to config-menu component [\#400](https://github.com/gisaia/ARLAS-wui-toolkit/issues/400)
+
+**Fixed bugs:**
+
+- Move biesbjerg dependencies from dev to main, and add in package-release [\#403](https://github.com/gisaia/ARLAS-wui-toolkit/issues/403)
+
+## [v12.7.4](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v12.7.4) (2021-01-13)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v14.1.1...v12.7.4)
+
 ## [v14.1.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v14.1.1) (2020-12-18)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v14.1.0...v14.1.1)
