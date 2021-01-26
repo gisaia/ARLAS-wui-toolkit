@@ -25,14 +25,16 @@ import { ArlasSearchField } from '../../components/share/model/ArlasSearchField'
 import { ArlasCollaborativesearchService, ArlasConfigService } from '../../services/startup/startup.service';
 import { LayerSourceConfig, MapContributor } from 'arlas-web-contributors';
 import { Search } from 'arlas-tagger-api';
+import * as FileSaver from 'file-saver';
+import { TranslateService } from '@ngx-translate/core';
+
 
 export interface ShareLayerSourceConfig extends LayerSourceConfig {
   visualisationName: string;
 }
 /**
- * This component allows to build a _geoaggregate and/or _geosearch requests through a guiding stepper and obtain
- * a Get request URL at the end.
- * You can use this url to show your geographic data in standard GIS applications.
+ * This component allows to build a _geoaggregate and/or _geosearch requests through a guiding stepper and download the request result
+ * as a json file after clicking on a "Download" button
  * Note: This component is binded to ARLAS-wui configuration.
  */
 @Component({
@@ -64,15 +66,10 @@ export class ShareComponent {
 export class ShareDialogComponent implements OnInit {
 
   public sharableLayers: Array<ShareLayerSourceConfig> = new Array();
-  private requestEndpoint: projType.geoaggregate | projType.geosearch;
-  private requestTextEndpoint = '_geoaggregate';
   private request: Aggregation | Search;
-  private includeFields = '';
-  private sort = '';
 
   private maxForFeature: number;
   private maxForTopology: number;
-  private filters: Array<Filter> = new Array<Filter>();
 
   public displayedUrl: string;
   public precisions = [
@@ -90,7 +87,8 @@ export class ShareDialogComponent implements OnInit {
     [12, '3.7cm x 1.9cm']
   ];
 
-  public isCopied = false;
+  public isGeojsonDownloaded = false;
+  public isShapefileDownloaded = false;
   public geojsonTypeGroup: FormGroup;
   public paramFormGroup: FormGroup;
 
@@ -110,7 +108,8 @@ export class ShareDialogComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private collaborativeService: ArlasCollaborativesearchService,
     private configService: ArlasConfigService,
-    public dialogRef: MatDialogRef<ShareDialogComponent>
+    public dialogRef: MatDialogRef<ShareDialogComponent>,
+    public translate: TranslateService
   ) { }
 
   public isSelected(field: ArlasSearchField): boolean {
@@ -157,9 +156,6 @@ export class ShareDialogComponent implements OnInit {
         });
       }
     });
-    this.collaborativeService.collaborations.forEach(element =>
-      this.filters.push(element.filter)
-    );
   }
 
 
@@ -171,15 +167,11 @@ export class ShareDialogComponent implements OnInit {
     const server = this.configService.getValue('arlas.server');
     /* STEP 2 */
     if (event.selectedIndex === 1) {
-      this.requestTextEndpoint = '_geoaggregate';
-      this.requestEndpoint = projType.geoaggregate;
       const geojsonType: { source: string, id: string } = this.geojsonTypeGroup.get('geojsonType').value;
       const layerSource = this.sharableLayers.find(sl => sl.id === geojsonType.id);
       if (layerSource.source.startsWith('feature') && !layerSource.source.startsWith('feature-metric')) {
         this.paramFormGroup.get('precision').disable();
         this.paramFormGroup.get('availableFields').enable();
-        this.requestTextEndpoint = '_geosearch';
-        this.requestEndpoint = projType.geosearch;
         this.request = MapContributor.getFeatureSearch(layerSource) as Search;
         this.request.page.size = this.maxForFeature;
         this.allFields = [];
@@ -213,66 +205,60 @@ export class ShareDialogComponent implements OnInit {
         this.paramFormGroup.get('availableFields').disable();
         this.request = MapContributor.getClusterAggregration(layerSource);
       } else if (layerSource.source.startsWith('feature-metric')) {
-        this.isCopied = false;
+        this.isGeojsonDownloaded = false;
+        this.isShapefileDownloaded = false;
         this.request = MapContributor.getTopologyAggregration(layerSource);
         this.request.size = this.maxForTopology.toString();
-        this.displayedUrl = server.url + '/explore/' + server.collection.name + '/'
-          + this.requestTextEndpoint + '/?'
-          + this.collaborativeService.getUrl([this.requestEndpoint, [this.request]], this.filters) + '&flat=true';
       }
     }
     /* STEP 3 */
     if (event.selectedIndex === 2) {
-      this.isCopied = false;
-      this.sort = '';
-      this.includeFields = '';
-      const geojsonType: { source: string, id: string } = this.geojsonTypeGroup.get('geojsonType').value;
-      if (geojsonType.source.startsWith('feature') && !geojsonType.source.startsWith('feature-metric')) {
-        this.request = (this.request as Search);
-
-        if (this.selectedFields.length > 0) {
-          this.includeFields = '&include=';
-          this.selectedFields.forEach(field =>
-            this.includeFields += field.label + ','
-          );
-        }
-
-        if (this.selectedOrderField) {
-          this.sort = '&sort=' + (this.sortDirection === 'desc' ? '-' : '') + this.selectedOrderField.label;
-        }
-        this.displayedUrl = server.url + '/explore/' + server.collection.name + '/'
-          + this.requestTextEndpoint + '/?'
-          + '&size=' + this.request.page.size
-          + '&returned_geometries=' + this.request.returned_geometries
-          + this.sort
-          + this.includeFields
-          + '&flat=true';
-      } else {
-        this.request = (this.request as Aggregation);
-        this.request.interval.value = this.paramFormGroup.get('precision').value;
-        this.displayedUrl = server.url + '/explore/' + server.collection.name + '/'
-          + this.requestTextEndpoint + '/?'
-          + this.collaborativeService.getUrl([this.requestEndpoint, [this.request as Aggregation]], this.filters) + '&flat=true';
-      }
-
+      this.isGeojsonDownloaded = false;
+      this.isShapefileDownloaded = false;
     }
   }
+
+
   /**
-   * Copies a text in your clipboard
-   * @param text Text to copy
+   * @param geojsonType Param containing info about the chosen layer to export
+   * @description Builds and executes a geosearch/geoaggregate request based on the chosen param of the form
+   * and export the result as json file.
+   * The exported file name is layerId-date-geojson.json
    */
-  public copyTextToClipboard(text: string) {
-    const textArea = document.createElement('textarea');
-    textArea.value = text;
-    document.body.appendChild(textArea);
-    textArea.select();
-    try {
-      this.isCopied = document.execCommand('copy');
-    } catch (err) {
-      this.isCopied = false;
+  public exportGeojson(geojsonType) {
+    const fileDate = Date.now();
+    if (geojsonType.source.startsWith('feature') && !geojsonType.source.startsWith('feature-metric')) {
+      this.request = (this.request as Search);
+      /** add chosen fields to include in the request */
+      if (!!this.selectedFields && this.selectedFields.length > 0) {
+        const include = [];
+        this.selectedFields.forEach(field => {
+          include.push(field.label);
+        });
+        /** incude param is comma separated field paths */
+        this.request.projection.includes = include.join(',');
+      }
+      /** add sort on chosen fields to the request */
+      if (!!this.selectedOrderField) {
+        this.request.page.sort = (this.sortDirection === 'desc' ? '-' : '') + this.selectedOrderField.label;
+      }
+      this.collaborativeService.resolveButNotFeatureCollection([projType.geosearch, this.request],
+        this.collaborativeService.collaborations).subscribe(f => {
+        this.saveJson(f, (this.translate.instant(geojsonType.id) + '').toLowerCase().replace(/ /g, '_') + '-' + fileDate + '-geojson.json');
+      });
+    } else {
+      this.request = (this.request as Aggregation);
+      if (geojsonType.source.startsWith('cluster')) {
+        this.request.interval.value = this.paramFormGroup.get('precision').value;
+      }
+      this.collaborativeService.resolveButNotFeatureCollection([projType.geoaggregate, [this.request]],
+        this.collaborativeService.collaborations).subscribe(f => {
+        this.saveJson(f, (this.translate.instant(geojsonType.id) + '').toLowerCase().replace(/ /g, '_') + '-' + fileDate + '-geojson.json');
+      });
     }
-    document.body.removeChild(textArea);
+    this.isGeojsonDownloaded = true;
   }
+
 
   public onSelectionChange(selectedOptionsList) {
     this.selectedFields = new Array<ArlasSearchField>();
@@ -293,6 +279,29 @@ export class ShareDialogComponent implements OnInit {
     } else {
       this.allFields.push({ label: (parentPrefix ? parentPrefix : '') + fieldName, type: fieldList[fieldName].type });
     }
+  }
+
+  private saveJson(json: any, filename: string, separator?: string) {
+    const blob = new Blob([JSON.stringify(json, (key, value) => {
+      if (!!separator && value && typeof value === 'object' && !Array.isArray(value)) {
+        // convert keys to snake- or kebab-case (eventually other) according to the separator.
+        // In fact we cannot declare a property with a snake-cased name,
+        // (so in models interfaces properties are are camel case)
+        const replacement = {};
+        for (const k in value) {
+          if (Object.hasOwnProperty.call(value, k)) {
+            replacement[
+              k.match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g)
+                .map(x => x.toLowerCase())
+                .join(separator)
+            ] = value[k];
+          }
+        }
+        return replacement;
+      }
+      return value;
+    }, 2)], { type: 'application/json;charset=utf-8' });
+    FileSaver.saveAs(blob, filename);
   }
 
 }

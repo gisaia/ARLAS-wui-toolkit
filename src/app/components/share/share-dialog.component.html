@@ -90,13 +90,18 @@
     </form>
   </mat-step>
   <mat-step>
-    <ng-template matStepLabel>{{ 'Get url' | translate}}</ng-template>
+    <ng-template matStepLabel>{{ 'Download' | translate}}</ng-template>
     <div style="display:flex;flex-direction:row" class="share-block">
-      <input matInput value="{{displayedUrl}}" class="share-url" #url>
-      <button mat-raised-button color="accent" class="share-copy-url" [class.btn-success]="isCopied" (click)="copyTextToClipboard(url.value)">
-        <mat-icon [hidden]="!isCopied">check</mat-icon>
-        {{ 'Copy URL' | translate}}
+      <button mat-raised-button color="accent" class="export-button" [class.btn-success]="isGeojsonDownloaded" (click)="exportGeojson(geojsonTypeGroup.get('geojsonType').value)">
+        <mat-icon [hidden]="!isGeojsonDownloaded">get_app</mat-icon>
+        {{ 'Export as Geojson' | translate}}
       </button>
+
+      <!-- todo Shapefile-->
+      <!-- <button mat-raised-button color="accent" class="export-button" [class.btn-success]="isShapefileDownloaded" >
+        <mat-icon [hidden]="!isShapefileDownloaded">get_app</mat-icon>
+        {{ 'Export as Shapefile' | translate}}
+      </button> -->
     </div>
     <div>
       <mat-divider style="margin-top:15px;"></mat-divider>
