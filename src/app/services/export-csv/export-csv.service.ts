@@ -92,7 +92,7 @@ export class ArlasExportCsvService {
         );
       return agg;
     } else {
-      return this.collaborativesearchService.resolveAggregation(
+      return this.collaborativesearchService.resolveButNotAggregation(
         [projType.aggregate, aggregations], collaborations);
     }
   }
