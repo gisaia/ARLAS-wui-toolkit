@@ -63,6 +63,7 @@ import { PermissionSetting } from '../permission/permission.service';
 })
 export class ArlasConfigService extends ConfigService {
     public errorsQueue = new Array<Error>();
+    public appName = '';
     constructor() {
         super();
     }
@@ -428,6 +429,7 @@ export class ArlasStartupService {
                   configDataPromise = this.persistenceService.get(configurationId).toPromise()
                       .then((s: DataWithLinks) => {
                       const config = JSON.parse(s.doc_value);
+                      this.configService.appName = s.doc_key;
                       configData = config;
                       return Promise.resolve(config);
                   }).catch((err) => {
