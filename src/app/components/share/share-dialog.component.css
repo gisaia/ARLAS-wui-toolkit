@@ -14,9 +14,10 @@
   flex:3;
 }
 
-.share-copy-url{
+.export-button{
   flex:1;
   font-weight: 200;
+  margin: 0 10px;
 }
 
 .share-description{
