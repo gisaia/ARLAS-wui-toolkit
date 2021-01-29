@@ -1,5 +1,17 @@
 # Change Log
 
+## [v14.3.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v14.3.0) (2021-01-29)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v14.2.0...v14.3.0)
+
+**New stuff:**
+
+- replace share link with a download button [\#408](https://github.com/gisaia/ARLAS-wui-toolkit/issues/408)
+
+**Fixed bugs:**
+
+- Exporting the widget as CSV ignores the widget's current filter [\#411](https://github.com/gisaia/ARLAS-wui-toolkit/issues/411)
+
 ## [v14.2.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v14.2.0) (2021-01-18)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v12.7.4...v14.2.0)
