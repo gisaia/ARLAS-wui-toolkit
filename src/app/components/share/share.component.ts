@@ -27,6 +27,8 @@ import { LayerSourceConfig, MapContributor } from 'arlas-web-contributors';
 import { Search } from 'arlas-tagger-api';
 import * as FileSaver from 'file-saver';
 import { TranslateService } from '@ngx-translate/core';
+import { HttpClient } from '@angular/common/http';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 
 export interface ShareLayerSourceConfig extends LayerSourceConfig {
@@ -109,7 +111,9 @@ export class ShareDialogComponent implements OnInit {
     private collaborativeService: ArlasCollaborativesearchService,
     private configService: ArlasConfigService,
     public dialogRef: MatDialogRef<ShareDialogComponent>,
-    public translate: TranslateService
+    public translate: TranslateService,
+    private spinner: NgxSpinnerService,
+    public http: HttpClient
   ) { }
 
   public isSelected(field: ArlasSearchField): boolean {
@@ -226,6 +230,7 @@ export class ShareDialogComponent implements OnInit {
    * The exported file name is layerId-date-geojson.json
    */
   public exportGeojson(geojsonType) {
+    this.spinner.show('downloadgeojson');
     const fileDate = Date.now();
     if (geojsonType.source.startsWith('feature') && !geojsonType.source.startsWith('feature-metric')) {
       this.request = (this.request as Search);
@@ -245,6 +250,7 @@ export class ShareDialogComponent implements OnInit {
       this.collaborativeService.resolveButNotFeatureCollection([projType.geosearch, this.request],
         this.collaborativeService.collaborations).subscribe(f => {
         this.saveJson(f, (this.translate.instant(geojsonType.id) + '').toLowerCase().replace(/ /g, '_') + '-' + fileDate + '-geojson.json');
+        this.spinner.hide('downloadgeojson');
       });
     } else {
       this.request = (this.request as Aggregation);
@@ -254,9 +260,55 @@ export class ShareDialogComponent implements OnInit {
       this.collaborativeService.resolveButNotFeatureCollection([projType.geoaggregate, [this.request]],
         this.collaborativeService.collaborations).subscribe(f => {
         this.saveJson(f, (this.translate.instant(geojsonType.id) + '').toLowerCase().replace(/ /g, '_') + '-' + fileDate + '-geojson.json');
+        this.spinner.hide('downloadgeojson');
       });
     }
     this.isGeojsonDownloaded = true;
+  }
+
+  public exportShapefile(geojsonType) {
+    this.spinner.show('downloadshapefile');
+    const fileDate = Date.now();
+    if (geojsonType.source.startsWith('feature') && !geojsonType.source.startsWith('feature-metric')) {
+      this.request = (this.request as Search);
+      /** add chosen fields to include in the request */
+      if (!!this.selectedFields && this.selectedFields.length > 0) {
+        const include = [];
+        this.selectedFields.forEach(field => {
+          include.push(field.label);
+        });
+        /** incude param is comma separated field paths */
+        this.request.projection.includes = include.join(',');
+      }
+      /** add sort on chosen fields to the request */
+      if (!!this.selectedOrderField) {
+        this.request.page.sort = (this.sortDirection === 'desc' ? '-' : '') + this.selectedOrderField.label;
+      }
+      this.collaborativeService.resolveButNotShapefile([projType.shapesearch, this.request],
+        this.collaborativeService.collaborations).subscribe( data => {
+          const blob = new Blob([data], {
+            type: 'application/zip'
+          });
+          const url = window.URL.createObjectURL(blob);
+          window.open(url);
+          this.spinner.hide('downloadshapefile');
+        });
+    } else {
+      this.request = (this.request as Aggregation);
+      if (geojsonType.source.startsWith('cluster')) {
+        this.request.interval.value = this.paramFormGroup.get('precision').value;
+      }
+      this.collaborativeService.resolveButNotShapefile([projType.shapeaggregate, [this.request]],
+        this.collaborativeService.collaborations).subscribe( data => {
+          const blob = new Blob([data], {
+            type: 'application/zip'
+          });
+          const url = window.URL.createObjectURL(blob);
+          window.open(url);
+          this.spinner.hide('downloadshapefile');
+        });
+    }
+    this.isShapefileDownloaded = true;
   }
 
 

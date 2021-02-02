@@ -51,6 +51,7 @@
     "fetch-intercept": "^2.3.1",
     "hopscotch": "0.3.1",
     "js-yaml": "^3.14.0",
+    "ngx-spinner": "^8.1.0",
     "rxjs": "~6.5.3",
     "zone.js": "^0.9.1"
   },
