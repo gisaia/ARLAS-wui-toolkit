@@ -68,6 +68,7 @@
 	"are excluded": "are excluded",
 	"Download": "Download",
 	"Export as Geojson": "Export as Geojson",
+	"Click to download the chosen layer as a Geojson file": "Click to download the chosen layer as a Geojson file",
 	"Operation name": "Operation name",
 	"Field to tag": "Field to tag",
 	"Value of tag": "Value of tag",

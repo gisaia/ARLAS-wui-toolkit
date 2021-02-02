@@ -19,7 +19,7 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material';
-import { Aggregation, Filter } from 'arlas-api';
+import { Aggregation } from 'arlas-api';
 import { projType } from 'arlas-web-core';
 import { ArlasSearchField } from '../../components/share/model/ArlasSearchField';
 import { ArlasCollaborativesearchService, ArlasConfigService } from '../../services/startup/startup.service';
@@ -27,6 +27,7 @@ import { LayerSourceConfig, MapContributor } from 'arlas-web-contributors';
 import { Search } from 'arlas-tagger-api';
 import * as FileSaver from 'file-saver';
 import { TranslateService } from '@ngx-translate/core';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 
 export interface ShareLayerSourceConfig extends LayerSourceConfig {
@@ -87,8 +88,6 @@ export class ShareDialogComponent implements OnInit {
     [12, '3.7cm x 1.9cm']
   ];
 
-  public isGeojsonDownloaded = false;
-  public isShapefileDownloaded = false;
   public geojsonTypeGroup: FormGroup;
   public paramFormGroup: FormGroup;
 
@@ -109,6 +108,7 @@ export class ShareDialogComponent implements OnInit {
     private collaborativeService: ArlasCollaborativesearchService,
     private configService: ArlasConfigService,
     public dialogRef: MatDialogRef<ShareDialogComponent>,
+    private spinner: NgxSpinnerService,
     public translate: TranslateService
   ) { }
 
@@ -205,16 +205,9 @@ export class ShareDialogComponent implements OnInit {
         this.paramFormGroup.get('availableFields').disable();
         this.request = MapContributor.getClusterAggregration(layerSource);
       } else if (layerSource.source.startsWith('feature-metric')) {
-        this.isGeojsonDownloaded = false;
-        this.isShapefileDownloaded = false;
         this.request = MapContributor.getTopologyAggregration(layerSource);
         this.request.size = this.maxForTopology.toString();
       }
-    }
-    /* STEP 3 */
-    if (event.selectedIndex === 2) {
-      this.isGeojsonDownloaded = false;
-      this.isShapefileDownloaded = false;
     }
   }
 
@@ -226,6 +219,7 @@ export class ShareDialogComponent implements OnInit {
    * The exported file name is layerId-date-geojson.json
    */
   public exportGeojson(geojsonType) {
+    this.spinner.show('downloadgeojson');
     const fileDate = Date.now();
     if (geojsonType.source.startsWith('feature') && !geojsonType.source.startsWith('feature-metric')) {
       this.request = (this.request as Search);
@@ -245,6 +239,7 @@ export class ShareDialogComponent implements OnInit {
       this.collaborativeService.resolveButNotFeatureCollection([projType.geosearch, this.request],
         this.collaborativeService.collaborations).subscribe(f => {
         this.saveJson(f, (this.translate.instant(geojsonType.id) + '').toLowerCase().replace(/ /g, '_') + '-' + fileDate + '-geojson.json');
+        this.spinner.hide('downloadgeojson');
       });
     } else {
       this.request = (this.request as Aggregation);
@@ -254,9 +249,9 @@ export class ShareDialogComponent implements OnInit {
       this.collaborativeService.resolveButNotFeatureCollection([projType.geoaggregate, [this.request]],
         this.collaborativeService.collaborations).subscribe(f => {
         this.saveJson(f, (this.translate.instant(geojsonType.id) + '').toLowerCase().replace(/ /g, '_') + '-' + fileDate + '-geojson.json');
+        this.spinner.hide('downloadgeojson');
       });
     }
-    this.isGeojsonDownloaded = true;
   }
 
 

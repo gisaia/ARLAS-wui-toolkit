@@ -60,7 +60,6 @@ import { Observable } from 'rxjs';
 import { FormatNumberModule, ColorGeneratorModule, ColorGeneratorLoader } from 'arlas-web-components';
 import { ErrorModalModule } from './components/errormodal/errormodal.module';
 import { ConfigMenuModule } from './components/config-manager/config-menu/config-menu.module';
-import { UserInfo } from 'angular-oauth2-oidc';
 import { UserInfosComponent } from './components/user-infos/user-infos.component';
 import { ReconnectDialogComponent } from './components/reconnect-dialog/reconnect-dialog.component';
 import { FetchInterceptorService } from './services/interceptor/fetch-interceptor.service';
@@ -71,6 +70,7 @@ import fr from 'arlas-web-components/assets/i18n/fr.json';
 import { InvalidConfigDialogComponent } from './components/invalid-config-dialog/invalid-config-dialog.component';
 import { ArlasColorGeneratorLoader } from './services/color-generator-loader/color-generator-loader.service';
 import { LinkComponent } from './components/link/link.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 export class CustomTranslateLoader implements TranslateLoader {
 
@@ -142,6 +142,7 @@ export class CustomTranslateLoader implements TranslateLoader {
     ConfigMenuModule,
     FormatNumberModule,
     ErrorModalModule,
+    NgxSpinnerModule,
     ColorGeneratorModule.forRoot({
       loader: {
         provide: ColorGeneratorLoader,
