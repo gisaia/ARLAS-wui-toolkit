@@ -1,39 +1,39 @@
 .share-radio-group {
   display: inline-flex;
   flex-direction: column;
-  padding:10px;
-  flex:1;
+  padding: 10px;
+  flex: 1;
 }
 
 .share-radio-button {
   margin: 5px;
 }
 
-.share-url{
+.share-url {
   width: 100%;
-  flex:3;
+  flex: 3;
 }
 
-.export-button{
-  flex:1;
+.export-button {
   font-weight: 200;
   margin: 0 10px;
+  width: 200px
 }
 
-.share-description{
+.share-description {
   font-size: 15px;
   font-weight: 300;
 }
 
-.share-stepper-button:focus{
+.share-stepper-button:focus {
   outline: none;
 }
 
-.share-form-field{
-  flex:2;
+.share-form-field {
+  flex: 2;
 }
 
-.share-title-list{
+.share-title-list {
   -ms-flex-line-pack: center;
   align-content: center;
   -webkit-box-align: center;
@@ -44,52 +44,52 @@
   -ms-flex-pack: center;
   justify-content: center;
   padding: 8px 20px;
-  color: rgba(0,0,0,.54);
-  background: rgba(0,0,0,.03);
+  color: rgba(0, 0, 0, 0.54);
+  background: rgba(0, 0, 0, 0.03);
 }
 
-.share-feature-block{
-  display:flex;
-  flex-direction:row;
-  justify-content: space-between
+.share-feature-block {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
-.share-feature-button{
-  display:flex;
-  flex-direction:column;
-  flex:1;
+.share-feature-button {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
   align-items: center;
   justify-content: center;
 }
 
-.share-button{
+.share-button {
   min-width: 55px;
 }
-
-.share-block .btn-success{
-  background-color: #4CAF50;
+.share-block {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
-
-.share-block .btn-success mat-icon{
+.share-block .btn-success mat-icon {
   font-size: 20px;
   width: 20px;
   height: 20px;
 }
 
-.fields-additional-selection{
+.fields-additional-selection {
   opacity: 0.75;
   font-size: 0.75em;
 }
 
-.fields-form{
+.fields-form {
   display: flex;
   flex-direction: column;
 }
 
-.share-order-field .mat-select-content{
+.share-order-field .mat-select-content {
   font-size: 13px;
 }
 
-.share-stepper{
+.share-stepper {
   width: 45vw;
 }
