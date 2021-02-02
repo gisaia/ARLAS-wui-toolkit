@@ -91,21 +91,24 @@
   </mat-step>
   <mat-step>
     <ng-template matStepLabel>{{ 'Download' | translate}}</ng-template>
+    <ngx-spinner [name]="'downloadgeojson'" bdOpacity="0.2" bdColor="rgba(51,51,51,0.6)" size="small" color="#fff"
+      type="ball-clip-rotate" [fullScreen]="false">
+      <p style="color: white"> {{'Downloading Geojson file' }} </p>
+    </ngx-spinner>
+    <ngx-spinner [name]="'downloadshapefile'" bdOpacity="0.2" bdColor="rgba(51,51,51,0.6)" size="small" color="#fff"
+      type="ball-clip-rotate" [fullScreen]="false">
+      <p style="color: white"> {{'Downloading Shapefile' }} </p>
+    </ngx-spinner>
     <div class="share-block">
-      <ngx-spinner [name]="'downloadgeojson'" bdOpacity="0.2" bdColor="rgba(51,51,51,0.6)" size="small" color="#fff"
-        type="ball-clip-rotate" [fullScreen]="false">
-        <p style="color: white"> {{'Downloading Geojson' }} </p>
-      </ngx-spinner>
       <button mat-stroked-button color="basic" class="export-button" matTooltip="{{'Click to download the chosen layer as a Geojson file'  | translate}}" (click)="exportGeojson(geojsonTypeGroup.get('geojsonType').value)">
         <mat-icon>get_app</mat-icon>
-        {{ 'Export as Geojson' | translate}}
+        {{ 'Download Geojson' | translate}}
       </button>
 
-      <!-- todo Shapefile-->
-      <!-- <button mat-raised-button color="accent" class="export-button" [class.btn-success]="isShapefileDownloaded" >
-        <mat-icon [hidden]="!isShapefileDownloaded">get_app</mat-icon>
-        {{ 'Export as Shapefile' | translate}}
-      </button> -->
+      <button mat-stroked-button color="basic" class="export-button" matTooltip="{{'Click to download the chosen layer as a zipped Shapefile'  | translate}}" (click)="exportShapefile(geojsonTypeGroup.get('geojsonType').value)" >
+        <mat-icon>get_app</mat-icon>
+        {{ 'Download Shapefile' | translate}}
+      </button>
     </div>
     <div>
       <mat-divider style="margin-top:15px;"></mat-divider>
