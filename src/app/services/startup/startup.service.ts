@@ -483,7 +483,8 @@ export class ArlasStartupService {
             this.collaborativesearchService.setConfigService(this.configService);
             this.collaborativesearchService.setExploreApi(this.arlasExploreApi);
             this.collaborativesearchService.collection = this.configService.getValue('arlas.server.collection.name');
-            this.collaborativesearchService.max_age = this.configService.getValue('arlas.server.max_age_cache');
+            const max_age = this.configService.getValue('arlas.server.max_age_cache');
+            this.collaborativesearchService.max_age = max_age !== undefined ? max_age : 120;
             resolve(data);
         });
         }
