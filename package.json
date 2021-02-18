@@ -76,6 +76,7 @@
     "karma-jasmine-html-reporter": "^0.2.2",
     "protractor": "~5.4.0",
     "puppeteer": "^1.13.0",
+    "run-parallel": "1.1.10",
     "run-sequence": "^2.0.0",
     "ts-node": "~7.0.0",
     "tslint": "~5.16.0",
