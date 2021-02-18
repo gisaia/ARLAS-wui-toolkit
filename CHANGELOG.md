@@ -1,5 +1,13 @@
 # Change Log
 
+## [v15.0.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v15.0.0) (2021-02-18)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v15.0.0-beta.0...v15.0.0)
+
+## [v15.0.0-beta.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v15.0.0-beta.0) (2021-02-04)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v14.3.2...v15.0.0-beta.0)
+
 ## [v14.3.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v14.3.2) (2021-02-03)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v14.3.1...v14.3.2)
