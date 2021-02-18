@@ -254,6 +254,50 @@ export class ShareDialogComponent implements OnInit {
     }
   }
 
+  public exportShapefile(geojsonType) {
+    this.spinner.show('downloadshapefile');
+    const fileDate = Date.now();
+    if (geojsonType.source.startsWith('feature') && !geojsonType.source.startsWith('feature-metric')) {
+      this.request = (this.request as Search);
+      /** add chosen fields to include in the request */
+      if (!!this.selectedFields && this.selectedFields.length > 0) {
+        const include = [];
+        this.selectedFields.forEach(field => {
+          include.push(field.label);
+        });
+        /** incude param is comma separated field paths */
+        this.request.projection.includes = include.join(',');
+      }
+      /** add sort on chosen fields to the request */
+      if (!!this.selectedOrderField) {
+        this.request.page.sort = (this.sortDirection === 'desc' ? '-' : '') + this.selectedOrderField.label;
+      }
+      this.collaborativeService.resolveButNotShapefile([projType.shapesearch, this.request],
+        this.collaborativeService.collaborations).subscribe( data => {
+          const blob = new Blob([data], {
+            type: 'application/zip'
+          });
+          const url = window.URL.createObjectURL(blob);
+          window.open(url);
+          this.spinner.hide('downloadshapefile');
+        });
+    } else {
+      this.request = (this.request as Aggregation);
+      if (geojsonType.source.startsWith('cluster')) {
+        this.request.interval.value = this.paramFormGroup.get('precision').value;
+      }
+      this.collaborativeService.resolveButNotShapefile([projType.shapeaggregate, [this.request]],
+        this.collaborativeService.collaborations).subscribe( data => {
+          const blob = new Blob([data], {
+            type: 'application/zip'
+          });
+          const url = window.URL.createObjectURL(blob);
+          window.open(url);
+          this.spinner.hide('downloadshapefile');
+        });
+    }
+  }
+
 
   public onSelectionChange(selectedOptionsList) {
     this.selectedFields = new Array<ArlasSearchField>();
