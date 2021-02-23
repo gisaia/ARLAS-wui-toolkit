@@ -19,7 +19,6 @@ under the License.
 import { NgModule } from '@angular/core';
 import { ExtendComponent } from './components/extend/extend.component';
 import { AnalyticsBoardComponent } from './components/analytics-board/analytics-board.component';
-import { ErrorModalMsgComponent, ErrormodalComponent } from './components/errormodal/errormodal.component';
 import { LanguageSwitcherComponent } from './components/language-switcher/language-switcher.component';
 import { ExcludeTypePipe } from './components/share/exclude-type.pipe';
 import { ShareComponent, ShareDialogComponent } from './components/share/share.component';
@@ -71,6 +70,8 @@ import { InvalidConfigDialogComponent } from './components/invalid-config-dialog
 import { ArlasColorGeneratorLoader } from './services/color-generator-loader/color-generator-loader.service';
 import { LinkComponent } from './components/link/link.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { LayerIdToName } from 'arlas-web-components';
+
 
 export class CustomTranslateLoader implements TranslateLoader {
 
@@ -182,7 +183,8 @@ export class CustomTranslateLoader implements TranslateLoader {
     ProgressSpinnerComponent,
     UserInfosComponent,
     ReconnectDialogComponent,
-    InvalidConfigDialogComponent
+    InvalidConfigDialogComponent,
+    LayerIdToName
   ],
 
 
@@ -211,7 +213,8 @@ export class CustomTranslateLoader implements TranslateLoader {
     ProgressSpinnerComponent,
     UserInfosComponent,
     ReconnectDialogComponent,
-    InvalidConfigDialogComponent
+    InvalidConfigDialogComponent,
+    LayerIdToName
   ],
   providers: [
     FetchInterceptorService
