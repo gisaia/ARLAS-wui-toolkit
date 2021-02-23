@@ -56,7 +56,7 @@ import { MatAutocompleteModule } from '@angular/material';
 import { OwlDateTimeModule, OwlNativeDateTimeModule, OwlMomentDateTimeModule } from '@gisaia-team/ng-pick-datetime';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { FormatNumberModule, ColorGeneratorModule, ColorGeneratorLoader } from 'arlas-web-components';
+import { FormatNumberModule, ColorGeneratorModule, ColorGeneratorLoader, MapglLegendModule } from 'arlas-web-components';
 import { ErrorModalModule } from './components/errormodal/errormodal.module';
 import { ConfigMenuModule } from './components/config-manager/config-menu/config-menu.module';
 import { UserInfosComponent } from './components/user-infos/user-infos.component';
@@ -144,6 +144,7 @@ export class CustomTranslateLoader implements TranslateLoader {
     FormatNumberModule,
     ErrorModalModule,
     NgxSpinnerModule,
+    MapglLegendModule,
     ColorGeneratorModule.forRoot({
       loader: {
         provide: ColorGeneratorLoader,
@@ -183,8 +184,7 @@ export class CustomTranslateLoader implements TranslateLoader {
     ProgressSpinnerComponent,
     UserInfosComponent,
     ReconnectDialogComponent,
-    InvalidConfigDialogComponent,
-    LayerIdToName
+    InvalidConfigDialogComponent
   ],
 
 
@@ -213,8 +213,7 @@ export class CustomTranslateLoader implements TranslateLoader {
     ProgressSpinnerComponent,
     UserInfosComponent,
     ReconnectDialogComponent,
-    InvalidConfigDialogComponent,
-    LayerIdToName
+    InvalidConfigDialogComponent
   ],
   providers: [
     FetchInterceptorService
