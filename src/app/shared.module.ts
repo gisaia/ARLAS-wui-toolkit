@@ -19,7 +19,6 @@ under the License.
 import { NgModule } from '@angular/core';
 import { ExtendComponent } from './components/extend/extend.component';
 import { AnalyticsBoardComponent } from './components/analytics-board/analytics-board.component';
-import { ErrorModalMsgComponent, ErrormodalComponent } from './components/errormodal/errormodal.component';
 import { LanguageSwitcherComponent } from './components/language-switcher/language-switcher.component';
 import { ExcludeTypePipe } from './components/share/exclude-type.pipe';
 import { ShareComponent, ShareDialogComponent } from './components/share/share.component';
@@ -57,7 +56,7 @@ import { MatAutocompleteModule } from '@angular/material';
 import { OwlDateTimeModule, OwlNativeDateTimeModule, OwlMomentDateTimeModule } from '@gisaia-team/ng-pick-datetime';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { FormatNumberModule, ColorGeneratorModule, ColorGeneratorLoader } from 'arlas-web-components';
+import { FormatNumberModule, ColorGeneratorModule, ColorGeneratorLoader, MapglLegendModule } from 'arlas-web-components';
 import { ErrorModalModule } from './components/errormodal/errormodal.module';
 import { ConfigMenuModule } from './components/config-manager/config-menu/config-menu.module';
 import { UserInfosComponent } from './components/user-infos/user-infos.component';
@@ -71,6 +70,8 @@ import { InvalidConfigDialogComponent } from './components/invalid-config-dialog
 import { ArlasColorGeneratorLoader } from './services/color-generator-loader/color-generator-loader.service';
 import { LinkComponent } from './components/link/link.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { LayerIdToName } from 'arlas-web-components';
+
 
 export class CustomTranslateLoader implements TranslateLoader {
 
@@ -143,6 +144,7 @@ export class CustomTranslateLoader implements TranslateLoader {
     FormatNumberModule,
     ErrorModalModule,
     NgxSpinnerModule,
+    MapglLegendModule,
     ColorGeneratorModule.forRoot({
       loader: {
         provide: ColorGeneratorLoader,
