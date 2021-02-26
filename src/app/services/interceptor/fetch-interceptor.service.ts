@@ -35,7 +35,10 @@ export class FetchInterceptorService {
               code = 403;
             }
             // Propose to reconnect or stay disconnected
-            this.dialog.open(ReconnectDialogComponent, { disableClose: true, data: { code } });
+            // Open just one modal
+            if (!this.dialog.openDialogs || !this.dialog.openDialogs.length) {
+              this.dialog.open(ReconnectDialogComponent, { disableClose: true, data: { code } });
+            }
           }
           return response;
         },
