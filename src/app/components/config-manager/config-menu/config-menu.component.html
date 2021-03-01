@@ -27,6 +27,12 @@
         <span>{{'Duplicate' | translate}}</span>
       </button>
     </div>
+    <div *ngIf="action.type === ConfigAction.RENAME">
+      <button mat-menu-item [disabled]="!action.enabled" (click)="onActionClick(action)">
+        <mat-icon>drive_file_rename_outline</mat-icon>
+        <span>{{'Rename' | translate}}</span>
+      </button>
+    </div>
     <div *ngIf="action.type === ConfigAction.DELETE">
       <button mat-menu-item [disabled]="!action.enabled" (click)="onActionClick(action)">
         <mat-icon>delete</mat-icon>

@@ -13,15 +13,33 @@
     <div mat-dialog-content>
         <mat-form-field class="example-form-field">
             <mat-label>{{'New name' | translate}}</mat-label>
-            <input matInput type="text" [(ngModel)]="value" (focus)="duplicateError=''">
+            <input matInput type="text" [(ngModel)]="value" (focus)="errorMessage=''">
             <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
             <mat-icon>close</mat-icon>
             </button>
         </mat-form-field>
-        <span style="color: red; display: block;">{{duplicateError | translate}}</span>
+        <span style="color: red; display: block;">{{errorMessage | translate}}</span>
     </div>
     <div mat-dialog-actions>
         <button mat-raised-button class="modal_button" color="primary" (click)="duplicate(value, action.config.id)">{{ 'Duplicate' | translate}}</button>
+        <button mat-raised-button class="modal_button" [mat-dialog-close]="false">{{ 'Cancel' | translate}}</button>
+    </div>
+</div>
+
+<div *ngIf="action.type=== ConfigAction.RENAME">
+    <h2 mat-dialog-title>{{'Rename' | translate}} {{action.config.name}}?</h2>
+    <div mat-dialog-content>
+        <mat-form-field class="example-form-field">
+            <mat-label>{{'New name' | translate}}</mat-label>
+            <input matInput type="text" [(ngModel)]="value" (focus)="errorMessage=''">
+            <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+            <mat-icon>close</mat-icon>
+            </button>
+        </mat-form-field>
+        <span style="color: red; display: block;">{{errorMessage | translate}}</span>
+    </div>
+    <div mat-dialog-actions>
+        <button mat-raised-button class="modal_button" color="primary" (click)="rename(value, action.config.id)">{{ 'Rename' | translate}}</button>
         <button mat-raised-button class="modal_button" [mat-dialog-close]="false">{{ 'Cancel' | translate}}</button>
     </div>
 </div>
@@ -31,12 +49,12 @@
   <div mat-dialog-content>
       <mat-form-field class="example-form-field">
           <mat-label>{{'Name' | translate}}</mat-label>
-          <input matInput type="text" [(ngModel)]="value" (focus)="duplicateError=''">
+          <input matInput type="text" [(ngModel)]="value" (focus)="errorMessage=''">
           <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
           <mat-icon>close</mat-icon>
           </button>
       </mat-form-field>
-      <span style="color: red; display: block;">{{duplicateError | translate}}</span>
+      <span style="color: red; display: block;">{{errorMessage | translate}}</span>
   </div>
   <div mat-dialog-actions>
       <button mat-raised-button class="modal_button" color="primary" (click)="create(value)">{{ 'Create' | translate }}</button>
