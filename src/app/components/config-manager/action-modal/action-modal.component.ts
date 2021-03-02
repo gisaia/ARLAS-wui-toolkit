@@ -34,7 +34,7 @@ export class ActionModalComponent {
   public value: string;
   public ConfigAction = ConfigActionEnum;
 
-  public duplicateError = '';
+  public errorMessage = '';
   constructor(
     @Inject(MAT_DIALOG_DATA) data: ConfigAction,
     private dialogRef: MatDialogRef<ActionModalComponent>,
@@ -47,24 +47,30 @@ export class ActionModalComponent {
     this.persistenceService.duplicate('config.json', configId, value)
       .subscribe(
         () => {
-          this.duplicateError = '';
+          this.errorMessage = '';
           this.dialogRef.close();
         },
-        error => {
-          this.duplicateError = this.errorMessage(error.status);
-        });
+        error => this.raiseError(error));
+  }
+
+  public rename(newName: string, configId: string ) {
+    this.persistenceService.rename(configId, newName).subscribe(
+      () => {
+        this.errorMessage = '';
+        this.dialogRef.close();
+      },
+      error => this.raiseError(error));
+
   }
 
   public create(name: string) {
     this.persistenceService.create('config.json', name, '{}', [], [])
       .subscribe(
         data => {
-          this.duplicateError = '';
+          this.errorMessage = '';
           this.dialogRef.close(data.id);
         },
-        error => {
-          this.duplicateError = this.errorMessage(error.status);
-        });
+        error => this.raiseError(error));
   }
 
   public closeShare(event: [boolean, any]) {
@@ -74,22 +80,27 @@ export class ActionModalComponent {
     }
   }
 
-  public errorMessage(errorCode: number): string {
-    let message = '';
-    switch (errorCode) {
+  public raiseError(err: any) {
+    switch (err.status) {
       case 401:
-        message = marker('Unauthorized to create a dashboard, you need to log in');
+        this.errorMessage = marker('Unauthorized to create a dashboard, you need to log in');
         break;
       case 403:
-        message = marker('Missing permissions to create a dashboard');
+        this.errorMessage = marker('Missing permissions to create a dashboard');
         break;
+      case 500:
+          err.json().then(e => {
+            if ((e.message as string).indexOf('already exists') > 0) {
+              this.errorMessage = marker('A configuration with this name exists already, please choose another name');
+            } else {
+              this.errorMessage = marker('An error occurred, please try later');
+            }
+          });
+          break;
       default:
-        message = marker('A configuration with this name exists already, please choose another name');
+        this.errorMessage = marker('An error occurred, please try later');
     }
-    return message;
   }
-
-
 }
 
 

@@ -101,6 +101,7 @@ export class ConfigMenuComponent implements OnInit {
         break;
       }
       case ConfigActionEnum.DUPLICATE:
+      case ConfigActionEnum.RENAME:
       case ConfigActionEnum.SHARE: {
         if (action.config && action.config.id) {
           this.getDialogRef(action).subscribe(() => this.actionExecutedEmitter.next(action));

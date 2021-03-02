@@ -75,6 +75,15 @@ export class PersistenceService {
     );
   }
 
+  public rename(id: string, newName: string): Observable<DataWithLinks> {
+    return this.get(id).pipe(
+      map(data => {
+        return this.update(id, data.doc_value, new Date(data.last_update_date).getTime(), newName, data.doc_readers, data.doc_writers);
+      }),
+      flatMap(a => a)
+    );
+  }
+
   public getGroupsByZone(zone: string) {
     return from(this.persistenceApi.getGroupsByZone(zone, false, this.options));
   }

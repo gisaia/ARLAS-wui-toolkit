@@ -127,5 +127,7 @@
 	"Ok": "Ok",
 	"Get url": "Get url",
 	"Copy URL": "Copy URL",
-	"searchPlaceholder": "Search..."
+	"searchPlaceholder": "Search...",
+	"An error occurred, please try later":"An error occurred, please try later",
+	"Rename":"Rename"
 }

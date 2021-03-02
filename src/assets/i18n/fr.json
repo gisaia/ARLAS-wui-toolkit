@@ -127,5 +127,7 @@
 	"Ok": "Ok",
 	"Get url": "Récupérer l'URL de partage",
 	"Copy URL": "Copier l'URL",
-	"searchPlaceholder": "Rechercher..."
+	"searchPlaceholder": "Rechercher...",
+	"An error occurred, please try later":"Une erreur est survenue, merci de réessayer plus tard.",
+	"Rename":"Renommer"
 }

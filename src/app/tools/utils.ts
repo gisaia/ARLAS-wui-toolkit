@@ -46,7 +46,8 @@ export enum ConfigActionEnum {
   EDIT,
   DUPLICATE,
   SHARE,
-  CREATE
+  CREATE,
+  RENAME
 }
 
 export interface ArlasStorageObject {
