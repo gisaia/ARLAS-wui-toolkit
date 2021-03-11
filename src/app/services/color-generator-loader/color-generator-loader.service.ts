@@ -97,7 +97,7 @@ export class ArlasColorGeneratorLoader implements ColorGeneratorLoader {
   }
 
   private getHexColor(key: string, saturationWeight: number): string {
-    const text = key + ':' + key.split('').reverse().join('') + ':'  + key;
+    const text = key.toString() + ':' + key.toString().split('').reverse().join('') + ':'  + key.toString();
     // string to int
     let hash = 0;
     for (let i = 0; i < text.length; i++) {
