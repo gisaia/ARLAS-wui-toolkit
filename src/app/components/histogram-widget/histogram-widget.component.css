@@ -1,0 +1,25 @@
+.export-csv-button{
+    background-color: transparent;
+    border: none;
+    position: absolute;
+    right: -2px;
+    top: -22px;
+}
+.export-csv{
+    color: dimgrey;
+}
+
+
+.detailed-histogram {
+  visibility: hidden;
+  position: relative;
+}
+
+.displayed-detail {
+  visibility: visible;
+}
+
+.detail-status {
+  background-color: #fafafa;
+  border-radius: 2px;
+}

@@ -17,8 +17,8 @@ export class ArlasExportCsvService {
   constructor(private collaborativesearchService: ArlasCollaborativesearchService, private configService: ArlasConfigService,
     private translate: TranslateService) { }
 
-  public export(contributor: Contributor, stayAtFirstLevel: boolean): Observable<Blob> {
-    return this.compute(contributor).pipe(map(data => {
+  public export(contributor: Contributor, stayAtFirstLevel: boolean, contributorType?: string): Observable<Blob> {
+    return this.compute(contributor, contributorType).pipe(map(data => {
       const csvData = new Array<Array<string>>();
       const header = new Array<string>();
       (<TreeContributor>contributor).getAggregations().forEach(agg => {
@@ -39,10 +39,12 @@ export class ArlasExportCsvService {
     }));
   }
 
-  public compute(contributor: Contributor): Observable<AggregationResponse> {
+  public compute(contributor: Contributor, contributorType?: string): Observable<AggregationResponse> {
     let aggResponse: Observable<AggregationResponse>;
-    const contributorType = this.configService.getValue('arlas.web.contributors')
-      .find(cont => cont.identifier === contributor.identifier).type;
+    if (!contributorType) {
+      contributorType = this.configService.getValue('arlas.web.contributors')
+        .find(cont => cont.identifier === contributor.identifier).type;
+    }
     switch (contributorType) {
       case 'tree': {
         const aggsOriginal: Aggregation[] = (<TreeContributor>contributor).getAggregations();
