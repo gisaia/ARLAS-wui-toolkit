@@ -61,6 +61,12 @@ export enum ArlasStorageType {
   persistence
 }
 
+export interface SpinnerOptions {
+  color?: string;
+  diameter?: number;
+  strokeWidth?: number;
+}
+
 /**
  * This interface lists the possible methods to apply on a Map object of a given cartographic client
  */

@@ -23,8 +23,9 @@ import { Contributor, CollaborationEvent, OperationEnum } from 'arlas-web-core';
 import { ChartType, HistogramComponent, CellBackgroundStyleEnum, DataType } from 'arlas-web-components';
 import { SwimlaneRepresentation, SwimlaneMode, Position } from 'arlas-d3';
 import { TranslateService } from '@ngx-translate/core';
-import { Subject, from } from 'rxjs';
+import { Subject } from 'rxjs';
 import { ArlasExportCsvService } from '../../services/export-csv/export-csv.service';
+import { SpinnerOptions } from '../../tools/utils';
 
 /**
  * A Widget wraps a component from ARLAS-web-components and bind it to its contributor. The component has thus input data to plot.
@@ -67,6 +68,12 @@ export class WidgetComponent implements OnInit {
    * @description Whether we dispylay the export csv button
    */
   @Input() public showExportCsv = false;
+
+  /**
+   * @Input : Angular
+   * @description Spinner options
+   */
+  @Input() public spinnerOptions: SpinnerOptions;
 
   /**
    * @Output : Angular
@@ -128,8 +135,8 @@ export class WidgetComponent implements OnInit {
     this.outEvents.next({ origin: source, event: event, data: data });
   }
 
-  public exportCsv(contributor: Contributor, stayAtFirstLevel: boolean, componentType: string) {
-    this.arlasExportCsvService.export(contributor, stayAtFirstLevel).subscribe(blob => {
+  public exportCsv(contributor: Contributor, stayAtFirstLevel: boolean, componentType: string, contributorType?: string) {
+    this.arlasExportCsvService.export(contributor, stayAtFirstLevel, contributorType).subscribe(blob => {
       const contentType = 'text/csv';
       const a = document.createElement('a');
       a.download = contributor.getName().concat('_')

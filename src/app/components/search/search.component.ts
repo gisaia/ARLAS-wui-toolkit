@@ -55,7 +55,7 @@ export class SearchComponent {
     });
 
     this.collaborativeService.contribFilterBus.pipe(
-      filter(contributor => this.searchContributor && contributor.identifier === this.searchContributor.identifier),
+      filter(contributor => !!contributor && this.searchContributor && contributor.identifier === this.searchContributor.identifier),
       filter(contributor => (<ChipsSearchContributor>contributor).chipMapData.size !== 0),
       first()
     ).subscribe(
