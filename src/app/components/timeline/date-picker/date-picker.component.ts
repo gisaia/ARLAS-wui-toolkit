@@ -55,16 +55,16 @@ export class DatePickerComponent implements OnInit, OnChanges {
   public ngOnInit() {
     if (this.timelineComponent) {
       this.timelineContributor = <HistogramContributor>
-      this.arlasStartupService.contributorRegistry.get(this.timelineComponent.contributorId);
+        this.arlasStartupService.contributorRegistry.get(this.timelineComponent.contributorId);
     }
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes['startSelectedMoment'] !== undefined) {
-      this.startSelectedMoment = moment.utc(changes['startSelectedMoment'].currentValue);
+      this.startSelectedMoment = this.setMomentDate(changes['startSelectedMoment'].currentValue);
     }
     if (changes['endSelectedMoment'] !== undefined) {
-      this.endSelectedMoment = moment.utc((changes['endSelectedMoment'].currentValue));
+      this.endSelectedMoment = this.setMomentDate((changes['endSelectedMoment'].currentValue));
     }
   }
 
@@ -73,14 +73,24 @@ export class DatePickerComponent implements OnInit, OnChanges {
    */
   public setDate(): void {
     const selectedIntervalsList = new Array<SelectedOutputValues>();
-    this.startSelectedMoment = moment(this.startSelectedMoment).utc(true);
-    this.endSelectedMoment = moment(this.endSelectedMoment).utc(true);
+    this.startSelectedMoment = moment(this.startSelectedMoment).utc(this.timelineContributor.useUtc);
+    this.endSelectedMoment = moment(this.endSelectedMoment).utc(this.timelineContributor.useUtc);
     this.timelineContributor.intervalListSelection.forEach(intervalSelection => {
       selectedIntervalsList.push(intervalSelection);
     });
     selectedIntervalsList
-      .push({ startvalue: moment.utc(this.startSelectedMoment).valueOf(), endvalue: moment.utc(this.endSelectedMoment).valueOf() });
+      .push({
+        startvalue: this.setMomentDate(this.startSelectedMoment).valueOf(),
+        endvalue: this.setMomentDate(this.endSelectedMoment).valueOf()
+      });
     this.timelineContributor.valueChanged(selectedIntervalsList);
   }
 
+  public setMomentDate(date: any) {
+    if (this.timelineContributor) {
+      return moment.utc(date);
+    } else {
+      return moment(date);
+    }
+  }
 }

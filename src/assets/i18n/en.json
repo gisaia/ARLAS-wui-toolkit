@@ -129,5 +129,6 @@
 	"Copy URL": "Copy URL",
 	"searchPlaceholder": "Search...",
 	"An error occurred, please try later":"An error occurred, please try later",
-	"Rename":"Rename"
+	"Rename":"Rename",
+	"Time zone":"Time zone:"
 }

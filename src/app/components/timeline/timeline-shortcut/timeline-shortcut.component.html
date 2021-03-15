@@ -9,8 +9,15 @@
         [endSelectedMoment]="timelineContributor?.intervalSelection?.endvalue"
         [timelineComponent]="timelineComponent">
         </arlas-tool-date-picker>
+        <div class="time-zone" matTooltip="{{'Time zone' | translate}} {{timeZone}}" [matTooltipPosition]="'above'">
+          <mat-icon class="time-zone-icon" >language</mat-icon>
+        </div>
       </span>
-      <span *ngIf="!activeDatePicker" class="shortcut-button__label">{{timelineContributor?.timeLabel | getTimeLabel: dateFormat:translate}}</span>
+      <span *ngIf="!activeDatePicker" class="shortcut-button__label">{{timelineContributor?.timeLabel | getTimeLabel: dateFormat:translate:timelineComponent.input.useUtc}}
+        <div class="time-zone" matTooltip="{{'Time zone' | translate}} {{timeZone}}" [matTooltipPosition]="'above'">
+          <mat-icon class="time-zone-icon" >language</mat-icon>
+        </div>
+      </span>
       <div *ngIf="showRemoveIcon" class="shortcut-remove-filter" matTooltip="{{'Remove time filter' | translate}}" [matTooltipPosition]="'before'" (click)="removeTimelineCollaboration()">
         <mat-icon class="shortcut-remove-filter-icon" >clear</mat-icon>
       </div>
@@ -19,7 +26,7 @@
   </div>
   <div *ngIf="showShortcuts" class="arlas-time-shortcuts__list--container">
     <ul class="arlas-time-shortcuts__list" *ngFor="let shortcutType of getKeys(timeShortcutsMap)">
-      <li class="arlas-time-shortcut" *ngFor="let shortCut of timeShortcutsMap.get(shortcutType)" (click)="setShortcut(shortCut)">{{shortCut.label}}</li>
+      <li class="arlas-time-shortcut" *ngFor="let shortCut of timeShortcutsMap.get(shortcutType)" (click)="setShortcut(shortCut)">{{shortCut.label | translate}}</li>
     </ul>
   </div>
 </div>

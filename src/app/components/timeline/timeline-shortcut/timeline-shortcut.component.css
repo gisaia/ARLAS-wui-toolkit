@@ -37,6 +37,19 @@
   cursor: pointer;
   padding: 2px 2px;
 }
+.time-zone{
+  height: 20px;
+  display: inline-block;
+}
+.time-zone-icon {
+  color: white;
+  width: 20px;
+  height: 20px;
+  font-size: 15px;
+  cursor: pointer;
+  padding: 2px 2px;
+}
+
 
 .shortcut-button__label {
   font-size: 1em;

@@ -44,6 +44,7 @@ export class TimelineShortcutComponent implements OnInit {
   public showShortcuts = false;
   public HIDE_SHOW = 'Show';
   public isShortcutSelected = false;
+  public timeZone = 'UTC';
 
   constructor(private arlasCollaborativesearchService: ArlasCollaborativesearchService, private arlasStartupService: ArlasStartupService,
     public translate: TranslateService) {
@@ -64,11 +65,11 @@ export class TimelineShortcutComponent implements OnInit {
       this.timelineContributor = <HistogramContributor>this.arlasStartupService.contributorRegistry
         .get(this.timelineComponent.contributorId);
       this.timeShortcuts = this.timelineContributor.timeShortcuts;
-      this.timeShortcuts.forEach(shortcut => {
-        shortcut.label = this.translate.instant(shortcut.label);
-      });
       this.timeShortcutsMap = this.groupBy(this.timeShortcuts, shortcut => shortcut.type);
       this.setRemoveIconVisibility();
+      if (!this.timelineComponent.input.useUtc) {
+        this.timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      }
     }
   }
 
