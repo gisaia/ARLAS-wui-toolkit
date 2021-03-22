@@ -84,6 +84,7 @@ export class TimelineComponent implements OnInit {
   public ngOnInit() {
     if (this.timelineComponent && this.detailedTimelineComponent) {
       this.resetHistogramsInputs(this.timelineComponent.input);
+      this.detailedTimelineComponent.input.chartHeight = 75;
       this.resetHistogramsInputs(this.detailedTimelineComponent.input);
       this.detailedTimelineContributor = <DetailedHistogramContributor>this.arlasStartupService.contributorRegistry
         .get(this.detailedTimelineComponent.contributorId);
@@ -191,7 +192,13 @@ export class TimelineComponent implements OnInit {
         if (timelineRange && detailedTimelineRange) {
           this.showDetailedTimeline = (detailedTimelineRange.value <= 0.2 * timelineRange.value);
           this.timelineHistogramComponent.histogram.histogramParams.chartHeight = (this.showDetailedTimeline) ?
-            this.detailedTimelineComponent.input.chartHeight : this.timelineComponent.input.chartHeight;
+            45 : this.timelineComponent.input.chartHeight;
+          this.timelineHistogramComponent.histogram.histogramParams.yTicks = (this.showDetailedTimeline) ?
+          1 : this.timelineComponent.input.yTicks;
+          this.timelineHistogramComponent.histogram.histogramParams.yLabels = (this.showDetailedTimeline) ?
+          1 : this.timelineComponent.input.yLabels;
+          this.timelineHistogramComponent.histogram.histogramParams.showHorizontalLines = (this.showDetailedTimeline) ?
+            false : this.timelineComponent.input.showHorizontalLines;
           this.timelineHistogramComponent.resizeHistogram();
           if (this.applicationFirstLoad && this.detailedTimelineContributor.currentSelectedInterval) {
             // Sets current selection of detailed timeline
