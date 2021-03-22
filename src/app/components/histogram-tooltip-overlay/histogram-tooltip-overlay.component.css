@@ -1,0 +1,31 @@
+.wrapper {
+  text-align: left;
+  padding: 4px;
+  font: 12px sans-serif;
+  background: #fff;
+  border: 0px;
+  border-radius: 3px;
+  pointer-events: none;
+  color: #555;
+  z-index: 20000;
+  min-width: 100px;
+  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14),
+    0 1px 10px 0 rgba(0, 0, 0, 0.12);
+}
+
+.axis {
+  color: #999;
+  padding-left: 3px;
+}
+
+.xlabel {
+  color: #333;
+}
+.ylabel {
+  font-weight: bold;
+  color: #333;
+}
+
+.labelwrapper {
+  display: flex;
+}

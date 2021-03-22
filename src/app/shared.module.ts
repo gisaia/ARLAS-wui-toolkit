@@ -71,6 +71,9 @@ import { ArlasColorGeneratorLoader } from './services/color-generator-loader/col
 import { LinkComponent } from './components/link/link.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { HistogramWidgetComponent } from './components/histogram-widget/histogram-widget.component';
+import { ArlasOverlayService } from './services/overlays/overlay.service';
+import { HistogramTooltipOverlayComponent } from './components/histogram-tooltip-overlay/histogram-tooltip-overlay.component';
+import { ScrollDispatchModule } from '@angular/cdk/scrolling';
 
 
 export class CustomTranslateLoader implements TranslateLoader {
@@ -141,6 +144,7 @@ export class CustomTranslateLoader implements TranslateLoader {
     ReactiveFormsModule,
     ResultsModule,
     ConfigMenuModule,
+    ScrollDispatchModule,
     FormatNumberModule,
     ErrorModalModule,
     NgxSpinnerModule,
@@ -185,7 +189,8 @@ export class CustomTranslateLoader implements TranslateLoader {
     ProgressSpinnerComponent,
     UserInfosComponent,
     ReconnectDialogComponent,
-    InvalidConfigDialogComponent
+    InvalidConfigDialogComponent,
+    HistogramTooltipOverlayComponent
   ],
 
 
@@ -215,15 +220,18 @@ export class CustomTranslateLoader implements TranslateLoader {
     ProgressSpinnerComponent,
     UserInfosComponent,
     ReconnectDialogComponent,
-    InvalidConfigDialogComponent
+    InvalidConfigDialogComponent,
+    HistogramTooltipOverlayComponent
   ],
   providers: [
-    FetchInterceptorService
+    FetchInterceptorService, ArlasOverlayService
   ],
   entryComponents: [
     ReconnectDialogComponent,
     InvalidConfigDialogComponent,
     ActionModalComponent,
-    UserInfosComponent]
+    UserInfosComponent,
+    HistogramTooltipOverlayComponent
+  ]
 })
 export class ArlasToolkitSharedModule { }

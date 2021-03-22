@@ -17,9 +17,9 @@
  * under the License.
  */
 
-import { Component, OnInit, Input, ViewChild, ChangeDetectorRef, Output, ElementRef, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ChangeDetectorRef, Output, ElementRef, OnDestroy } from '@angular/core';
 import { ArlasCollaborativesearchService, ArlasConfigService } from '../../services/startup/startup.service';
-import { HistogramComponent } from 'arlas-web-components';
+import { HistogramComponent, HistogramTooltip } from 'arlas-web-components';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
 import { ArlasExportCsvService } from '../../services/export-csv/export-csv.service';
@@ -27,7 +27,8 @@ import { HistogramContributor, DetailedHistogramContributor } from 'arlas-web-co
 import { SelectedOutputValues } from 'arlas-web-contributors/models/models';
 import { filter } from 'rxjs/operators';
 import { OperationEnum } from 'arlas-web-core';
-import { SpinnerOptions } from '../../tools/utils';
+import { SpinnerOptions, ArlasOverlayRef } from '../../tools/utils';
+import { ArlasOverlayService } from '../../services/overlays/overlay.service';
 
 
 /**
@@ -39,7 +40,7 @@ import { SpinnerOptions } from '../../tools/utils';
   templateUrl: './histogram-widget.component.html',
   styleUrls: ['./histogram-widget.component.css']
 })
-export class HistogramWidgetComponent implements OnInit {
+export class HistogramWidgetComponent implements OnInit, OnDestroy {
 
   public showDetailedHistogram = false;
   public detailedContributor: DetailedHistogramContributor;
@@ -48,6 +49,11 @@ export class HistogramWidgetComponent implements OnInit {
   private histogramIsFiltered = false;
   private applicationFirstLoad = false;
   private isDetailedIntervalBrushed = false;
+
+  public tooltipEvent: Subject<HistogramTooltip> = new Subject<HistogramTooltip>();
+
+  public histogramOverlayRef: ArlasOverlayRef;
+
 
   @Input() public contributor: HistogramContributor;
   @Input() public componentInputs;
@@ -83,7 +89,9 @@ export class HistogramWidgetComponent implements OnInit {
     private arlasCollaborativesearchService: ArlasCollaborativesearchService,
     private arlasConfigurationService: ArlasConfigService,
     private cdr: ChangeDetectorRef,
-    public translate: TranslateService, public arlasExportCsvService: ArlasExportCsvService) {
+    public translate: TranslateService,
+    public arlasExportCsvService: ArlasExportCsvService,
+    private arlasOverlayService: ArlasOverlayService) {
   }
 
   public initDetailedContributor() {
@@ -103,6 +111,14 @@ export class HistogramWidgetComponent implements OnInit {
   public ngOnInit() {
     this.initDetailedContributor();
     this.showDetailedHistogramOnCollaborationEnd();
+  }
+
+  public ngOnDestroy() {
+    this.tooltipEvent.complete();
+    this.tooltipEvent.unsubscribe();
+
+    this.exportCsvEvent.complete();
+    this.exportCsvEvent.unsubscribe();
   }
 
   public exportCsv(contributor: HistogramContributor) {
@@ -170,6 +186,30 @@ export class HistogramWidgetComponent implements OnInit {
       this.isDetailedIntervalBrushed = false;
       this.cdr.detectChanges();
     }
+  }
+
+  public showHistogramTooltip(tooltip: HistogramTooltip, e: ElementRef, xOffset: number, yOffset: number) {
+    if (!!this.histogramOverlayRef) {
+      this.histogramOverlayRef.close();
+    }
+    if (!!tooltip && tooltip.shown) {
+      this.histogramOverlayRef = this.arlasOverlayService.openHistogramTooltip({ data: tooltip }, e, xOffset, yOffset, false);
+    }
+  }
+
+  public hideHistogramTooltip() {
+    if (!!this.histogramOverlayRef) {
+      this.histogramOverlayRef.close();
+    }
+  }
+
+  public emitTooltip(tooltip, e: ElementRef, detailed: boolean) {
+    let yOffset = 0;
+    if (detailed) {
+      yOffset = 20;
+    }
+    const xOffset = 470;
+    this.showHistogramTooltip(tooltip, e, xOffset, yOffset);
   }
 
   private resizeMainHistogram() {

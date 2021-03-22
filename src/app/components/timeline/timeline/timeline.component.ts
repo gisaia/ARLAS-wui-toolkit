@@ -17,15 +17,17 @@
  * under the License.
  */
 
-import { Component, Input, OnInit, ViewChild, ChangeDetectorRef} from '@angular/core';
+import { Component, Input, OnInit, ViewChild, ChangeDetectorRef, ElementRef} from '@angular/core';
 import { HistogramContributor, DetailedHistogramContributor } from 'arlas-web-contributors';
 import { OperationEnum } from 'arlas-web-core';
 import { ArlasCollaborativesearchService, ArlasStartupService } from './../../../services/startup/startup.service';
 import { SelectedOutputValues } from 'arlas-web-contributors/models/models';
-import { ChartType, DataType, Position } from 'arlas-d3';
+import { ChartType, DataType, Position, HistogramTooltip } from 'arlas-d3';
 import { HistogramComponent } from 'arlas-web-components';
 import { filter } from 'rxjs/operators';
 import { TimelineConfiguration } from './timeline.utils';
+import { ArlasOverlayService } from '../../../services/overlays/overlay.service';
+import { ArlasOverlayRef } from '../../../tools/utils';
 
 /**
  * This component contains
@@ -72,9 +74,11 @@ export class TimelineComponent implements OnInit {
   private isDetailedIntervalBrushed = false;
   private applicationFirstLoad = false;
   private timelineIsFiltered = false;
+  public timelineOverlayRef: ArlasOverlayRef;
+
 
   constructor(private arlasCollaborativesearchService: ArlasCollaborativesearchService, private cdr: ChangeDetectorRef,
-    private arlasStartupService: ArlasStartupService) {
+    private arlasStartupService: ArlasStartupService,  private arlasOverlayService: ArlasOverlayService) {
   }
 
   public ngOnInit() {
@@ -138,6 +142,32 @@ export class TimelineComponent implements OnInit {
     }
     this.isDetailedIntervalBrushed = false;
     this.cdr.detectChanges();
+  }
+
+  public showHistogramTooltip(tooltip: HistogramTooltip, e: ElementRef, xOffset: number, yOffset: number, right: boolean) {
+    if (!!this.timelineOverlayRef) {
+      this.timelineOverlayRef.close();
+    }
+    if (!!tooltip && tooltip.shown) {
+      this.timelineOverlayRef = this.arlasOverlayService.openHistogramTooltip({ data: tooltip }, e, xOffset, yOffset, right);
+    }
+  }
+
+  public hideHistogramTooltip() {
+    if (!!this.timelineOverlayRef) {
+      this.timelineOverlayRef.close();
+    }
+  }
+
+  public emitTooltip(tooltip: HistogramTooltip, e: ElementRef, detailed: boolean) {
+    const yOffset = -50;
+    let xOffset = tooltip.xPosition;
+    let right = false;
+    if (!!tooltip && tooltip.shown && tooltip.xPosition > tooltip.chartWidth / 2) {
+      xOffset = -tooltip.chartWidth + tooltip.xPosition;
+      right = true;
+    }
+    this.showHistogramTooltip(tooltip, e, xOffset, yOffset, right);
   }
 
   private showDetailedTimelineOnCollaborationEnd(): void {

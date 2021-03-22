@@ -2,8 +2,8 @@
 <div class="arlas-timeline--timeshortcuts">
   <arlas-timeline-shortcut [activeDatePicker]="activeDatePicker" [timelineComponent]="timelineComponent" [dateFormat]="timelineComponent?.dateFormat"></arlas-timeline-shortcut>
 </div>
-<div class="arlas-timeline--timelines">
-    <div *ngIf="detailedTimelineComponent" class="show-detailedtimeline-{{showDetailedTimeline.valueOf()}}">
+<div class="arlas-timeline--timelines" #arlasTimeline>
+    <div *ngIf="detailedTimelineComponent" class="show-detailedtimeline-{{showDetailedTimeline.valueOf()}}" (mouseleave)="hideHistogramTooltip()">
         <arlas-histogram  #detailedtimeline
           [data]="detailedTimelineContributor?.chartData"
           [intervalSelection]="detailedTimelineIntervalSelection"
@@ -46,10 +46,14 @@
           [shortYLabels]="detailedTimelineComponent?.input?.shortYLabels"
           [xUnit]="detailedTimelineComponent?.input?.xUnit"
           [yUnit]="detailedTimelineComponent?.input?.yUnit"
+<<<<<<< HEAD
           [useUtc]="detailedTimelineContributor?.useUtc"
+=======
+          (tooltipEvent)="emitTooltip($event, arlasTimeline, false)"
+>>>>>>> Add overlay system to show histogram tooltips
           ></arlas-histogram>
       </div>
-      <div *ngIf="timelineComponent">
+      <div *ngIf="timelineComponent" (mouseleave)="hideHistogramTooltip()">
         <arlas-histogram  #timeline [intervalListSelection]="timelineContributor?.intervalListSelection" [intervalSelection]="timelineContributor?.intervalSelection"
           [data]="timelineContributor?.chartData" (valuesListChangedEvent)="onTimelineIntervalBrushed($event)"
           [id]="timelineComponent?.input?.id"
@@ -88,7 +92,11 @@
           [shortYLabels]="timelineComponent?.input?.shortYLabels"
           [xUnit]="timelineComponent?.input?.xUnit"
           [yUnit]="timelineComponent?.input?.yUnit"
+<<<<<<< HEAD
           [useUtc]="timelineContributor?.useUtc"
+=======
+          (tooltipEvent)="emitTooltip($event, arlasTimeline, false)"
+>>>>>>> Add overlay system to show histogram tooltips
           ></arlas-histogram>
       </div>
 </div>

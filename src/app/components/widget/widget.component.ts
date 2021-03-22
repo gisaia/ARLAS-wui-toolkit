@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { Component, OnInit, Input, ViewChild, ChangeDetectorRef, ComponentFactoryResolver, Output } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ChangeDetectorRef, Output } from '@angular/core';
 import { ArlasStartupService, ArlasCollaborativesearchService } from '../../services/startup/startup.service';
 import { Contributor, CollaborationEvent, OperationEnum } from 'arlas-web-core';
 import { ChartType, HistogramComponent, CellBackgroundStyleEnum, DataType } from 'arlas-web-components';
@@ -69,6 +69,7 @@ export class WidgetComponent implements OnInit {
    */
   @Input() public showExportCsv = false;
 
+
   /**
    * @Input : Angular
    * @description Spinner options
@@ -87,7 +88,7 @@ export class WidgetComponent implements OnInit {
   @ViewChild('histogram', { static: false }) public histogramComponent: HistogramComponent;
 
   constructor(private arlasStartupService: ArlasStartupService,
-    private cdr: ChangeDetectorRef, private componentFactoryResolver: ComponentFactoryResolver,
+    private cdr: ChangeDetectorRef,
     private arlasCollaborativesearchService: ArlasCollaborativesearchService,
     public translate: TranslateService, public arlasExportCsvService: ArlasExportCsvService) {
   }
@@ -151,6 +152,7 @@ export class WidgetComponent implements OnInit {
       document.body.removeChild(a);
     });
   }
+
 
   private getContirbutorType() {
     const contributor = this.arlasStartupService.contributorRegistry.get(this.contributorId);
