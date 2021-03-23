@@ -70,7 +70,7 @@ import { InvalidConfigDialogComponent } from './components/invalid-config-dialog
 import { ArlasColorGeneratorLoader } from './services/color-generator-loader/color-generator-loader.service';
 import { LinkComponent } from './components/link/link.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
-import { LayerIdToName } from 'arlas-web-components';
+import { HistogramWidgetComponent } from './components/histogram-widget/histogram-widget.component';
 
 
 export class CustomTranslateLoader implements TranslateLoader {
@@ -181,6 +181,7 @@ export class CustomTranslateLoader implements TranslateLoader {
     TimelineComponent,
     TimelineShortcutComponent,
     WidgetComponent,
+    HistogramWidgetComponent,
     ProgressSpinnerComponent,
     UserInfosComponent,
     ReconnectDialogComponent,
@@ -210,6 +211,7 @@ export class CustomTranslateLoader implements TranslateLoader {
     TimelineComponent,
     TimelineShortcutComponent,
     WidgetComponent,
+    HistogramWidgetComponent,
     ProgressSpinnerComponent,
     UserInfosComponent,
     ReconnectDialogComponent,

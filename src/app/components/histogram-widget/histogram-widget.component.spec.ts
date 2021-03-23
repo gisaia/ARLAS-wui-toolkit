@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { WidgetComponent } from './widget.component';
+import { HistogramWidgetComponent } from './histogram-widget.component';
 import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService,
   CONFIG_UPDATER,
   FETCH_OPTIONS} from '../../services/startup/startup.service';
@@ -9,16 +9,15 @@ import { MatSelectModule, MatTooltipModule, MatIconModule, MatProgressSpinnerMod
 import { HttpClientModule } from '@angular/common/http';
 import { TranslateModule, TranslateService, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
 import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
-import { HistogramWidgetComponent } from '../histogram-widget/histogram-widget.component';
 import { ProgressSpinnerComponent } from '../progress-spinner/progress-spinner.component';
 
-describe('WidgetComponent', () => {
-  let component: WidgetComponent;
-  let fixture: ComponentFixture<WidgetComponent>;
+describe('HistogramWidgetComponent', () => {
+  let component: HistogramWidgetComponent;
+  let fixture: ComponentFixture<HistogramWidgetComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [WidgetComponent, HistogramWidgetComponent, ProgressSpinnerComponent],
+      declarations: [HistogramWidgetComponent, ProgressSpinnerComponent],
       providers: [ArlasCollaborativesearchService, ArlasConfigService,
         {
           provide: ArlasStartupService,
@@ -53,7 +52,7 @@ describe('WidgetComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(WidgetComponent);
+    fixture = TestBed.createComponent(HistogramWidgetComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

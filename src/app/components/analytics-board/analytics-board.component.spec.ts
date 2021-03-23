@@ -29,6 +29,7 @@ import {
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
+import { HistogramWidgetComponent } from '../histogram-widget/histogram-widget.component';
 
 describe('AnalyticsBoardComponent', () => {
   let component: AnalyticsBoardComponent;
@@ -38,7 +39,7 @@ describe('AnalyticsBoardComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        AnalyticsBoardComponent, WidgetComponent, ProgressSpinnerComponent
+        AnalyticsBoardComponent, WidgetComponent, ProgressSpinnerComponent, HistogramWidgetComponent
       ],
       imports: [
         MatCardModule, MatIconModule, MatExpansionModule, MatSelectModule, MatButtonModule,

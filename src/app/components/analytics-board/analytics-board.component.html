@@ -44,6 +44,7 @@
                   id="{{component?.componentType + '-' +  component?.contributorId + '-' + group.groupId + '-' + i}}"
                   [componentType]="component?.componentType" [contributorId]="component?.contributorId"
                   [showExportCsv]="component?.showExportCsv" [componentParams]="component?.input"
+                  [spinnerOptions]="spinnerOptions"
                   (outEvents)="listenOutput($event)">
                 </arlas-tool-widget>
                 <arlas-tool-progress-spinner *ngIf="showSpinner" [strokeWidth]="strokeWidthSpinner"
@@ -102,6 +103,7 @@
                   id="{{component?.componentType + '-' +  component?.contributorId + '-' + group.groupId + '-' + i}}"
                   [componentType]="component?.componentType" [contributorId]="component?.contributorId"
                   [showExportCsv]="component?.showExportCsv" [componentParams]="component?.input"
+                  [spinnerOptions]="spinnerOptions"
                   (outEvents)="listenOutput($event)">
                 </arlas-tool-widget>
                 <arlas-tool-progress-spinner *ngIf="showSpinner" [strokeWidth]="strokeWidthSpinner"

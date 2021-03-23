@@ -1,20 +1,7 @@
 <div *ngIf="componentType === 'histogram'">
-  <button *ngIf="showExportCsv" id="export-csv" matTooltip="{{'Export' | translate }}" class="export-csv-button" (click)="exportCsv(contributor,false,componentType)">
-    <mat-icon class="analytics-board-panel-icon export-csv">get_app</mat-icon>
-  </button>
-  <arlas-histogram #histogram [intervalListSelection]="contributor?.intervalListSelection" [intervalSelection]="contributor?.intervalSelection"
-    [data]="contributor?.chartData" (valuesListChangedEvent)="contributor?.valueChanged($event)" [id]="graphParam?.id" [dataType]="graphParam?.dataType"
-    [dataUnit]="graphParam?.dataUnit" [valuesDateFormat]="graphParam?.valuesDateFormat" [isHistogramSelectable]="graphParam?.isHistogramSelectable"
-    [multiselectable]="graphParam?.multiselectable" [topOffsetRemoveInterval]="graphParam?.topOffsetRemoveInterval" [leftOffsetRemoveInterval]="graphParam?.leftOffsetRemoveInterval"
-    [brushHandlesHeightWeight]="graphParam?.brushHandlesHeightWeight" [chartType]="graphParam?.chartType" [chartTitle]="graphParam?.chartTitle"
-    [chartWidth]="graphParam?.chartWidth" [chartHeight]="graphParam?.chartHeight" [customizedCssClass]="graphParam?.customizedCssClass"
-    [xAxisPosition]="graphParam?.xAxisPosition" [descriptionPosition]="graphParam?.descriptionPosition" [xTicks]="graphParam?.xTicks"
-    [yTicks]="graphParam?.yTicks" [xLabels]="graphParam?.xLabels" [yLabels]="graphParam?.yLabels" [showXTicks]="graphParam?.showXTicks"
-    [showYTicks]="graphParam?.showYTicks" [showXLabels]="graphParam?.showXLabels" [showYLabels]="graphParam?.showYLabels" [ticksDateFormat]="graphParam?.ticksDateFormat"
-    [isSmoothedCurve]="graphParam?.isSmoothedCurve" [barWeight]="graphParam?.barWeight" [paletteColors]="graphParam?.paletteColors"
-    [applyOffsetOnAreaChart]="graphParam?.applyOffsetOnAreaChart" [displayOnlyIntervalsWithData]="graphParam?.displayOnlyIntervalsWithData"
-    [yAxisStartsFromZero]="graphParam?.yAxisStartsFromZero" [showStripes]="graphParam?.showStripes" [chartXLabel]="graphParam?.chartXLabel"
-    [shortYLabels]="graphParam?.shortYLabels" [xUnit]="graphParam?.xUnit" [yUnit]="graphParam?.yUnit" [useUtc]="contributor?.useUtc"></arlas-histogram>
+  <arlas-tool-histogram-widget [contributor]="contributor" [componentInputs]="graphParam" [showExportCsv]="showExportCsv"
+    [spinnerOptions]="spinnerOptions"
+    (exportCsvEvent)="exportCsv($event.contributor, $event.firstLevel, $event.type, 'histogram')"></arlas-tool-histogram-widget>
 </div>
 <div *ngIf="componentType === 'swimlane'">
   <div *ngIf="showSwimlaneDropDown" class="dropdownSwimlane">

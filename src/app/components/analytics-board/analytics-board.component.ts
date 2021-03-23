@@ -26,9 +26,8 @@ import { AnalyticGroupConfiguration } from './analytics.utils';
 import { ArlasCollaborativesearchService, ArlasConfigService } from '../../services/startup/startup.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { OperationEnum } from 'arlas-web-core';
-import { ThemePalette, MatSpinner, MatTabChangeEvent } from '@angular/material';
-import { OverlayRef, Overlay, PositionStrategy } from '@angular/cdk/overlay';
-import { TemplatePortal, ComponentPortal } from '@angular/cdk/portal';
+import { SpinnerOptions } from '../../tools/utils';
+
 /**
  * This component organizes the `Widgets` in a board.
  * A Widget is declared within a "group" in the configuration. A group contains one or more Widgets
@@ -83,6 +82,7 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
 
   @Output() public modeChange: Subject<string> = new Subject<string>();
 
+  public spinnerOptions: SpinnerOptions;
   private compGroup: Map<string, string> = new Map<string, string>();
   public activeFilterGroup: Map<string, boolean> = new Map<string, boolean>();
   private groupTab: Map<string, string> = new Map<string, string>();
@@ -103,6 +103,11 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
 
   public ngOnInit() {
     this.isActiveDragDrop = false;
+    this.spinnerOptions = {
+      color: !!this.colorSpinner ? this.colorSpinner : 'primary',
+      diameter: (this.diameterSpinner !== undefined && this.diameterSpinner !== null) ? this.diameterSpinner : 100,
+      strokeWidth: (this.strokeWidthSpinner !== undefined && this.strokeWidthSpinner !== null) ? this.strokeWidthSpinner : 5,
+    };
     const webConfig = this.configService.getValue('arlas.web');
     if (webConfig !== undefined && webConfig.options !== undefined && webConfig.options.drag_items) {
       this.isActiveDragDrop = webConfig.options.drag_items;
