@@ -14,7 +14,7 @@
     [isSmoothedCurve]="graphParam?.isSmoothedCurve" [barWeight]="graphParam?.barWeight" [paletteColors]="graphParam?.paletteColors"
     [applyOffsetOnAreaChart]="graphParam?.applyOffsetOnAreaChart" [displayOnlyIntervalsWithData]="graphParam?.displayOnlyIntervalsWithData"
     [yAxisStartsFromZero]="graphParam?.yAxisStartsFromZero" [showStripes]="graphParam?.showStripes" [chartXLabel]="graphParam?.chartXLabel"
-    [shortYLabels]="graphParam?.shortYLabels" [xUnit]="graphParam?.xUnit" [yUnit]="graphParam?.yUnit"></arlas-histogram>
+    [shortYLabels]="graphParam?.shortYLabels" [xUnit]="graphParam?.xUnit" [yUnit]="graphParam?.yUnit" [useUtc]="contributor?.useUtc"></arlas-histogram>
 </div>
 <div *ngIf="componentType === 'swimlane'">
   <div *ngIf="showSwimlaneDropDown" class="dropdownSwimlane">
@@ -36,7 +36,7 @@
     [barWeight]="graphParam?.barWeight" [paletteColors]="graphParam?.paletteColors" [swimlaneMode]="graphParam?.swimlaneMode"
     [swimLaneLabelsWidth]="graphParam?.swimLaneLabelsWidth" [swimlaneBorderRadius]="graphParam?.swimlaneBorderRadius" [swimlaneHeight]="graphParam?.swimlaneHeight"
     [displayOnlyIntervalsWithData]="graphParam?.displayOnlyIntervalsWithData"
-    [swimlaneRepresentation]="graphParam?.swimlane_representation" [swimlaneOptions]="graphParam?.swimlane_options"></arlas-histogram>
+    [swimlaneRepresentation]="graphParam?.swimlane_representation" [swimlaneOptions]="graphParam?.swimlane_options" [useUtc]="contributor?.useUtc"></arlas-histogram>
 </div>
 
 <div *ngIf="componentType==='powerbars'">

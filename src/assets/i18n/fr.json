@@ -129,5 +129,6 @@
 	"Copy URL": "Copier l'URL",
 	"searchPlaceholder": "Rechercher...",
 	"An error occurred, please try later":"Une erreur est survenue, merci de réessayer plus tard.",
-	"Rename":"Renommer"
+	"Rename":"Renommer",
+	"Time zone":"Fuseau horaire :"
 }

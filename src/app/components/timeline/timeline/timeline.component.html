@@ -46,6 +46,7 @@
           [shortYLabels]="detailedTimelineComponent?.input?.shortYLabels"
           [xUnit]="detailedTimelineComponent?.input?.xUnit"
           [yUnit]="detailedTimelineComponent?.input?.yUnit"
+          [useUtc]="detailedTimelineContributor?.useUtc"
           ></arlas-histogram>
       </div>
       <div *ngIf="timelineComponent">
@@ -87,6 +88,7 @@
           [shortYLabels]="timelineComponent?.input?.shortYLabels"
           [xUnit]="timelineComponent?.input?.xUnit"
           [yUnit]="timelineComponent?.input?.yUnit"
+          [useUtc]="timelineContributor?.useUtc"
           ></arlas-histogram>
       </div>
 </div>
