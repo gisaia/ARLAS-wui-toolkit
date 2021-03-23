@@ -63,7 +63,7 @@ export class HistogramWidgetComponent implements OnInit {
    */
   @Input() public spinnerOptions: SpinnerOptions;
 
-  @Output() public exportCsvEvent: Subject<{contributor: HistogramContributor, type: string, firstLevel: boolean}> = new Subject();
+  @Output() public exportCsvEvent: Subject<{ contributor: HistogramContributor, type: string, firstLevel: boolean }> = new Subject();
 
 
 
@@ -76,8 +76,8 @@ export class HistogramWidgetComponent implements OnInit {
   @Output() public outEvents: Subject<{ origin: string, event: string, data?: any }>
     = new Subject<{ origin: string, event: string, data?: any }>();
 
-    @ViewChild('histogram', { static: false }) public histogramComponent: HistogramComponent;
-    @ViewChild('detailedhistogram', { static: false }) public detailedHistogramComponent: HistogramComponent;
+  @ViewChild('histogram', { static: false }) public histogramComponent: HistogramComponent;
+  @ViewChild('detailedhistogram', { static: false }) public detailedHistogramComponent: HistogramComponent;
 
   constructor(
     private arlasCollaborativesearchService: ArlasCollaborativesearchService,
@@ -87,15 +87,17 @@ export class HistogramWidgetComponent implements OnInit {
   }
 
   public initDetailedContributor() {
-    this.detailedContributor = new DetailedHistogramContributor(this.contributor.identifier + '-arlas__detailed',
+    if (!!this.contributor) {
+      this.detailedContributor = new DetailedHistogramContributor(this.contributor.identifier + '-arlas__detailed',
         this.arlasCollaborativesearchService, this.arlasConfigurationService, false);
-    this.detailedContributor.annexedContributorId = this.contributor.identifier;
-    this.detailedContributor.useUtc = this.contributor.useUtc;
-    this.detailedContributor.selectionExtentPercentage = 0.02;
-    const detailedNbBuckets = !!this.contributor.getNbBuckets() ? this.contributor.getNbBuckets() : 50;
-    this.detailedContributor.setNbBuckets(detailedNbBuckets);
-    this.detailedContributor.setName(this.contributor.getName() + '__detailed');
-    this.detailedContributor.init(this.contributor.getAggregations(), this.contributor.getField(), this.contributor.getJsonPath());
+      this.detailedContributor.annexedContributorId = this.contributor.identifier;
+      this.detailedContributor.useUtc = this.contributor.useUtc;
+      this.detailedContributor.selectionExtentPercentage = 0.02;
+      const detailedNbBuckets = !!this.contributor.getNbBuckets() ? this.contributor.getNbBuckets() : 50;
+      this.detailedContributor.setNbBuckets(detailedNbBuckets);
+      this.detailedContributor.setName(this.contributor.getName() + '__detailed');
+      this.detailedContributor.init(this.contributor.getAggregations(), this.contributor.getField(), this.contributor.getJsonPath());
+    }
   }
 
   public ngOnInit() {
@@ -172,14 +174,14 @@ export class HistogramWidgetComponent implements OnInit {
 
   private resizeMainHistogram() {
     this.histogramComponent.histogram.histogramParams.chartHeight = this.showDetailedHistogram ?
-    this.componentInputs.chartHeight * 0.5 : this.componentInputs.chartHeight;
+      this.componentInputs.chartHeight * 0.5 : this.componentInputs.chartHeight;
     this.histogramComponent.histogram.histogramParams.yLabels = this.showDetailedHistogram ? 2 : this.componentInputs.yLabels;
     this.histogramComponent.resizeHistogram();
   }
 
   /** show detailed histogram if selection range is less than 20% of the main histogram range */
   private showDetailedHistogramOnCollaborationEnd(): void {
-    this.arlasCollaborativesearchService.collaborationBus.pipe(filter(c => ((this.histogramComponent
+    this.arlasCollaborativesearchService.collaborationBus.pipe(filter(c => ((!!this.contributor && this.histogramComponent
       && c.id === this.contributor.identifier) || c.all)))
       .subscribe(c => {
         if (c.operation === OperationEnum.remove) {

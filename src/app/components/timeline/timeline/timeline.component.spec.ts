@@ -44,7 +44,7 @@ describe('TimelineComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [TimelineComponent, DatePickerComponent, WidgetComponent, TimelineShortcutComponent, GetTimeLabelPipe],
+      declarations: [TimelineComponent, DatePickerComponent, TimelineShortcutComponent, GetTimeLabelPipe],
       imports: [
         MatCardModule, MatIconModule, MatExpansionModule, MatSelectModule, MatButtonModule, MatChipsModule,
         OwlDateTimeModule, OwlNativeDateTimeModule, FormsModule, HttpClientModule,

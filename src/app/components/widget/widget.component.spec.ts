@@ -5,10 +5,12 @@ import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupServic
   CONFIG_UPDATER,
   FETCH_OPTIONS} from '../../services/startup/startup.service';
 import { HistogramModule, ResultsModule, DonutModule, MetricModule, PowerbarsModule } from 'arlas-web-components';
-import { MatSelectModule, MatTooltipModule, MatIconModule } from '@angular/material';
+import { MatSelectModule, MatTooltipModule, MatIconModule, MatProgressSpinnerModule } from '@angular/material';
 import { HttpClientModule } from '@angular/common/http';
 import { TranslateModule, TranslateService, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
 import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
+import { HistogramWidgetComponent } from '../histogram-widget/histogram-widget.component';
+import { ProgressSpinnerComponent } from '../progress-spinner/progress-spinner.component';
 
 describe('WidgetComponent', () => {
   let component: WidgetComponent;
@@ -16,7 +18,7 @@ describe('WidgetComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [WidgetComponent],
+      declarations: [WidgetComponent, HistogramWidgetComponent, ProgressSpinnerComponent],
       providers: [ArlasCollaborativesearchService, ArlasConfigService,
         {
           provide: ArlasStartupService,
@@ -41,6 +43,7 @@ describe('WidgetComponent', () => {
         HttpClientModule,
         MatTooltipModule,
         MatIconModule,
+        MatProgressSpinnerModule,
         TranslateModule.forRoot({
           loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
         })
