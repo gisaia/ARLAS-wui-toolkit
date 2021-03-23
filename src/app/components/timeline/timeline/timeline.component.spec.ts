@@ -37,6 +37,7 @@ import { OwlNativeDateTimeModule, OwlDateTimeModule } from '@gisaia-team/ng-pick
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { ArlasConfigurationUpdaterService } from '../../../services/configuration-updater/configurationUpdater.service';
+import { ArlasOverlayService } from '../../../services/overlays/overlay.service';
 
 describe('TimelineComponent', () => {
   let component: TimelineComponent;
@@ -55,6 +56,7 @@ describe('TimelineComponent', () => {
       ],
       providers: [
         ArlasCollaborativesearchService,
+        ArlasOverlayService,
         {
           provide: ArlasStartupService,
           useClass: ArlasStartupService,

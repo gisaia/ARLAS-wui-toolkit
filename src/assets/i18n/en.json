@@ -131,12 +131,6 @@
 	"Ok": "Ok",
 	"Get url": "Get url",
 	"Copy URL": "Copy URL",
-<<<<<<< HEAD
 	"searchPlaceholder": "Search...",
-	"An error occurred, please try later":"An error occurred, please try later",
-	"Rename":"Rename",
 	"Time zone":"Time zone:"
-=======
-	"searchPlaceholder": "Search..."
->>>>>>> Add overlay system to show histogram tooltips
 }
