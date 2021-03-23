@@ -89,12 +89,13 @@ export class HistogramWidgetComponent implements OnInit {
   public initDetailedContributor() {
     this.detailedContributor = new DetailedHistogramContributor(this.contributor.identifier + '-arlas__detailed',
         this.arlasCollaborativesearchService, this.arlasConfigurationService, false);
-        this.detailedContributor.annexedContributorId = this.contributor.identifier;
-        this.detailedContributor.selectionExtentPercentage = 0.02;
-        const detailedNbBuckets = !!this.contributor.getNbBuckets() ? this.contributor.getNbBuckets() : 50;
-        this.detailedContributor.setNbBuckets(detailedNbBuckets);
-        this.detailedContributor.setName(this.contributor.getName() + '__detailed');
-        this.detailedContributor.init(this.contributor.getAggregations(), this.contributor.getField(), this.contributor.getJsonPath());
+    this.detailedContributor.annexedContributorId = this.contributor.identifier;
+    this.detailedContributor.useUtc = this.contributor.useUtc;
+    this.detailedContributor.selectionExtentPercentage = 0.02;
+    const detailedNbBuckets = !!this.contributor.getNbBuckets() ? this.contributor.getNbBuckets() : 50;
+    this.detailedContributor.setNbBuckets(detailedNbBuckets);
+    this.detailedContributor.setName(this.contributor.getName() + '__detailed');
+    this.detailedContributor.init(this.contributor.getAggregations(), this.contributor.getField(), this.contributor.getJsonPath());
   }
 
   public ngOnInit() {
