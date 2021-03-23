@@ -17,15 +17,17 @@
  * under the License.
  */
 
-import { Component, Input, OnInit, ViewChild, ChangeDetectorRef} from '@angular/core';
+import { Component, Input, OnInit, ViewChild, ChangeDetectorRef, ElementRef} from '@angular/core';
 import { HistogramContributor, DetailedHistogramContributor } from 'arlas-web-contributors';
 import { OperationEnum } from 'arlas-web-core';
 import { ArlasCollaborativesearchService, ArlasStartupService } from './../../../services/startup/startup.service';
 import { SelectedOutputValues } from 'arlas-web-contributors/models/models';
-import { ChartType, DataType, Position } from 'arlas-d3';
+import { ChartType, DataType, Position, HistogramTooltip } from 'arlas-d3';
 import { HistogramComponent } from 'arlas-web-components';
 import { filter } from 'rxjs/operators';
 import { TimelineConfiguration } from './timeline.utils';
+import { ArlasOverlayService } from '../../../services/overlays/overlay.service';
+import { ArlasOverlayRef } from '../../../tools/utils';
 
 /**
  * This component contains
@@ -72,14 +74,17 @@ export class TimelineComponent implements OnInit {
   private isDetailedIntervalBrushed = false;
   private applicationFirstLoad = false;
   private timelineIsFiltered = false;
+  public timelineOverlayRef: ArlasOverlayRef;
+
 
   constructor(private arlasCollaborativesearchService: ArlasCollaborativesearchService, private cdr: ChangeDetectorRef,
-    private arlasStartupService: ArlasStartupService) {
+    private arlasStartupService: ArlasStartupService,  private arlasOverlayService: ArlasOverlayService) {
   }
 
   public ngOnInit() {
     if (this.timelineComponent && this.detailedTimelineComponent) {
       this.resetHistogramsInputs(this.timelineComponent.input);
+      this.detailedTimelineComponent.input.chartHeight = 75;
       this.resetHistogramsInputs(this.detailedTimelineComponent.input);
       this.detailedTimelineContributor = <DetailedHistogramContributor>this.arlasStartupService.contributorRegistry
         .get(this.detailedTimelineComponent.contributorId);
@@ -140,6 +145,32 @@ export class TimelineComponent implements OnInit {
     this.cdr.detectChanges();
   }
 
+  public showHistogramTooltip(tooltip: HistogramTooltip, e: ElementRef, xOffset: number, yOffset: number, right: boolean) {
+    if (!!this.timelineOverlayRef) {
+      this.timelineOverlayRef.close();
+    }
+    if (!!tooltip && tooltip.shown) {
+      this.timelineOverlayRef = this.arlasOverlayService.openHistogramTooltip({ data: tooltip }, e, xOffset, yOffset, right);
+    }
+  }
+
+  public hideHistogramTooltip() {
+    if (!!this.timelineOverlayRef) {
+      this.timelineOverlayRef.close();
+    }
+  }
+
+  public emitTooltip(tooltip: HistogramTooltip, e: ElementRef, detailed: boolean) {
+    const yOffset = -50;
+    let xOffset = tooltip.xPosition;
+    let right = false;
+    if (!!tooltip && tooltip.shown && tooltip.xPosition > tooltip.chartWidth / 2) {
+      xOffset = -tooltip.chartWidth + tooltip.xPosition;
+      right = true;
+    }
+    this.showHistogramTooltip(tooltip, e, xOffset, yOffset, right);
+  }
+
   private showDetailedTimelineOnCollaborationEnd(): void {
     this.arlasCollaborativesearchService.collaborationBus.pipe(filter(c => ((this.timelineComponent
       && c.id === this.timelineComponent.contributorId) || c.all)))
@@ -161,7 +192,13 @@ export class TimelineComponent implements OnInit {
         if (timelineRange && detailedTimelineRange) {
           this.showDetailedTimeline = (detailedTimelineRange.value <= 0.2 * timelineRange.value);
           this.timelineHistogramComponent.histogram.histogramParams.chartHeight = (this.showDetailedTimeline) ?
-            this.detailedTimelineComponent.input.chartHeight : this.timelineComponent.input.chartHeight;
+            45 : this.timelineComponent.input.chartHeight;
+          this.timelineHistogramComponent.histogram.histogramParams.yTicks = (this.showDetailedTimeline) ?
+          1 : this.timelineComponent.input.yTicks;
+          this.timelineHistogramComponent.histogram.histogramParams.yLabels = (this.showDetailedTimeline) ?
+          1 : this.timelineComponent.input.yLabels;
+          this.timelineHistogramComponent.histogram.histogramParams.showHorizontalLines = (this.showDetailedTimeline) ?
+            false : this.timelineComponent.input.showHorizontalLines;
           this.timelineHistogramComponent.resizeHistogram();
           if (this.applicationFirstLoad && this.detailedTimelineContributor.currentSelectedInterval) {
             // Sets current selection of detailed timeline

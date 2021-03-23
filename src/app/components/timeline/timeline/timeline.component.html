@@ -2,8 +2,8 @@
 <div class="arlas-timeline--timeshortcuts">
   <arlas-timeline-shortcut [activeDatePicker]="activeDatePicker" [timelineComponent]="timelineComponent" [dateFormat]="timelineComponent?.dateFormat"></arlas-timeline-shortcut>
 </div>
-<div class="arlas-timeline--timelines">
-    <div *ngIf="detailedTimelineComponent" class="show-detailedtimeline-{{showDetailedTimeline.valueOf()}}">
+<div class="arlas-timeline--timelines" #arlasTimeline>
+    <div *ngIf="detailedTimelineComponent" class="show-detailedtimeline-{{showDetailedTimeline.valueOf()}}" (mouseleave)="hideHistogramTooltip()">
         <arlas-histogram  #detailedtimeline
           [data]="detailedTimelineContributor?.chartData"
           [intervalSelection]="detailedTimelineIntervalSelection"
@@ -49,7 +49,7 @@
           [useUtc]="detailedTimelineContributor?.useUtc"
           ></arlas-histogram>
       </div>
-      <div *ngIf="timelineComponent">
+      <div *ngIf="timelineComponent" (mouseleave)="hideHistogramTooltip()">
         <arlas-histogram  #timeline [intervalListSelection]="timelineContributor?.intervalListSelection" [intervalSelection]="timelineContributor?.intervalSelection"
           [data]="timelineContributor?.chartData" (valuesListChangedEvent)="onTimelineIntervalBrushed($event)"
           [id]="timelineComponent?.input?.id"

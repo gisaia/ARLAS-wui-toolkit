@@ -1,7 +1,7 @@
-<div [class.detail-status]="showDetailedHistogram">
+<div [class.detail-status]="showDetailedHistogram" >
   <arlas-tool-progress-spinner [strokeWidth]="spinnerOptions?.strokeWidth" [color]="spinnerOptions?.color"
     [diameter]="spinnerOptions?.diameter" [hidden]="!showSpinner"></arlas-tool-progress-spinner>
-  <div class="detailed-histogram" [class.displayed-detail]="showDetailedHistogram" *ngIf="showDetailedHistogram">
+  <div (mouseleave)="hideHistogramTooltip()" #detailed class="detailed-histogram" [class.displayed-detail]="showDetailedHistogram" *ngIf="showDetailedHistogram">
     <button *ngIf="showExportCsv" id="export-csv" matTooltip="{{'Export' | translate }}" class="export-csv-button"
       (click)="exportCsv(detailedContributor)">
       <mat-icon class="analytics-board-panel-icon export-csv">get_app</mat-icon>
@@ -33,7 +33,7 @@
       [xUnit]="componentInputs?.xUnit" [yUnit]="componentInputs?.yUnit"></arlas-histogram>
 
   </div>
-  <div style="position: relative;">
+  <div style="position: relative;" (mouseleave)="hideHistogramTooltip()" #main>
     <button *ngIf="showExportCsv" id="export-csv" matTooltip="{{'Export' | translate }}" class="export-csv-button"
       (click)="exportCsv(contributor)">
       <mat-icon class="analytics-board-panel-icon export-csv">get_app</mat-icon>

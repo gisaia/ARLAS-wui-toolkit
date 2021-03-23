@@ -53,6 +53,7 @@ import { ErrorService } from './services/error/error.service';
 import { PaginatorI18n } from './tools/paginatori18n';
 import { MatPaginatorIntl } from '@angular/material/paginator/';
 import { PermissionService } from './services/permission/permission.service';
+import { ArlasOverlayService } from './services/overlays/overlay.service';
 
 
 
@@ -72,6 +73,7 @@ export function configServiceFactory(config: ArlasConfigService) {
 export function auhtentServiceFactory(service: AuthentificationService) {
   return service;
 }
+
 
 export function walkthroughServiceFactory(walkthroughService: ArlasWalkthroughService) {
   const load = () => walkthroughService.load('tour.json?' + Date.now());

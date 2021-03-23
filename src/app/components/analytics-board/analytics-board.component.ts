@@ -19,7 +19,7 @@
 
 import {
   Component, Input, Output, OnInit, AfterViewInit,
-  OnChanges, SimpleChanges
+  OnChanges, SimpleChanges, ElementRef
 } from '@angular/core';
 import { Subject } from 'rxjs';
 import { AnalyticGroupConfiguration } from './analytics.utils';
@@ -28,6 +28,9 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { OperationEnum } from 'arlas-web-core';
 import { SpinnerOptions } from '../../tools/utils';
 
+import { ThemePalette, MatSpinner, MatTabChangeEvent } from '@angular/material';
+import { OverlayRef, Overlay, PositionStrategy, ScrollDispatcher } from '@angular/cdk/overlay';
+import { TemplatePortal, ComponentPortal } from '@angular/cdk/portal';
 /**
  * This component organizes the `Widgets` in a board.
  * A Widget is declared within a "group" in the configuration. A group contains one or more Widgets
@@ -99,7 +102,9 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
   private defaultGroupTabName = 'analytics';
   private activeIndex;
 
-  constructor(private collaborativeService: ArlasCollaborativesearchService, private configService: ArlasConfigService) { }
+  constructor(private collaborativeService: ArlasCollaborativesearchService, private configService: ArlasConfigService) {
+
+  }
 
   public ngOnInit() {
     this.isActiveDragDrop = false;

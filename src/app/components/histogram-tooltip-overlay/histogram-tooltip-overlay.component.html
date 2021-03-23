@@ -1,0 +1,22 @@
+<div class="wrapper">
+  <div style="display: flex; justify-content: space-between; min-width: 100px;">
+    <div class="labelwrapper">
+      <div class="axis">{{'x-axis:' | translate}}</div>
+    </div>
+    <div style="display: flex;">
+      <div class="xlabel">{{tooltip.xLabel | translate}}</div>
+      <div style="padding-left: 8px;">{{tooltip.xValue}}</div>
+      <div>{{tooltip.xUnit}}</div>
+    </div>
+  </div>
+  <div style="display: flex; justify-content: space-between; min-width: 100px; padding-top: 10px;">
+    <div class="labelwrapper">
+      <div class="axis">{{'y-axis:' | translate}}</div>
+    </div>
+    <div style="display: flex;padding-left: 20px;">
+      <div class="ylabel">{{tooltip.yLabel | translate}}</div>
+      <div style="padding-left: 8px;" >{{tooltip.yValue}}</div>
+      <div>{{tooltip.yUnit}}</div>
+    </div>
+  </div>
+</div>

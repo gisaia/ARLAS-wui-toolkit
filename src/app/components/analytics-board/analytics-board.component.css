@@ -16,6 +16,7 @@
 .analytics-board-content{
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
 }
 
 .analytics-board-group{

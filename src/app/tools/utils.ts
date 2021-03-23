@@ -18,6 +18,8 @@
  */
 
 import { Filter } from 'arlas-api';
+import { OverlayRef } from '@angular/cdk/overlay';
+import { InjectionToken } from '@angular/core';
 
 export const CONFIG_ID_QUERY_PARAM = 'config_id';
 
@@ -158,3 +160,13 @@ export function getFieldProperties(fieldList: any, parentPrefix?: string,
     return arlasFields;
   }
 }
+
+export class ArlasOverlayRef {
+  constructor(private overlayRef: OverlayRef) { }
+  public close(): void {
+    if (!!this.overlayRef) {
+      this.overlayRef.dispose();
+    }
+  }
+}
+export const HISTOGRAM_TOOLTIP_DATA = new InjectionToken<any>('HISTOGRAM_TOOLTIP_DATA');

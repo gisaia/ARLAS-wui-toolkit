@@ -10,6 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { TranslateModule, TranslateService, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
 import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
 import { ProgressSpinnerComponent } from '../progress-spinner/progress-spinner.component';
+import { ArlasOverlayService } from '../../services/overlays/overlay.service';
 
 describe('HistogramWidgetComponent', () => {
   let component: HistogramWidgetComponent;
@@ -25,6 +26,7 @@ describe('HistogramWidgetComponent', () => {
           deps: [ArlasConfigurationUpdaterService]
         },
         TranslateService,
+        ArlasOverlayService,
         {provide: CONFIG_UPDATER, useValue: {}},
         {
           provide: ArlasConfigurationUpdaterService,
