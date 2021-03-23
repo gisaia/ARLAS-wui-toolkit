@@ -1,5 +1,13 @@
 # Change Log
 
+## [v16.0.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v16.0.0) (2021-03-23)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v15.0.1...v16.0.0)
+
+**Fixed bugs:**
+
+- Make layer name human readable in share component [\#426](https://github.com/gisaia/ARLAS-wui-toolkit/issues/426)
+
 ## [v15.0.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v15.0.1) (2021-02-23)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v15.0.0...v15.0.1)
