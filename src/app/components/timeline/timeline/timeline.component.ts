@@ -160,7 +160,7 @@ export class TimelineComponent implements OnInit {
     }
   }
 
-  public emitTooltip(tooltip: HistogramTooltip, e: ElementRef, detailed: boolean) {
+  public emitTooltip(tooltip: HistogramTooltip, e: ElementRef) {
     const yOffset = -50;
     let xOffset = tooltip.xPosition;
     let right = false;

@@ -47,6 +47,7 @@
           [xUnit]="detailedTimelineComponent?.input?.xUnit"
           [yUnit]="detailedTimelineComponent?.input?.yUnit"
           [useUtc]="detailedTimelineContributor?.useUtc"
+          (tooltipEvent)="emitTooltip($event,arlasTimeline)"
           ></arlas-histogram>
       </div>
       <div *ngIf="timelineComponent" (mouseleave)="hideHistogramTooltip()">
@@ -89,6 +90,7 @@
           [xUnit]="timelineComponent?.input?.xUnit"
           [yUnit]="timelineComponent?.input?.yUnit"
           [useUtc]="timelineContributor?.useUtc"
+          (tooltipEvent)="emitTooltip($event,arlasTimeline)"
           ></arlas-histogram>
       </div>
 </div>
