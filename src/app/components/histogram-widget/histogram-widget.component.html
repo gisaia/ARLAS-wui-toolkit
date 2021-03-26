@@ -30,6 +30,7 @@
       [yAxisStartsFromZero]="componentInputs?.yAxisStartsFromZero" [showStripes]="componentInputs?.showStripes"
       [chartXLabel]="componentInputs?.chartXLabel" [shortYLabels]="componentInputs?.shortYLabels"
       [useUtc]="detailedContributor?.useUtc"
+      (tooltipEvent)="emitTooltip($event,detailed, true)"
       [xUnit]="componentInputs?.xUnit" [yUnit]="componentInputs?.yUnit"></arlas-histogram>
 
   </div>
@@ -61,6 +62,7 @@
       [yAxisStartsFromZero]="componentInputs?.yAxisStartsFromZero" [showStripes]="componentInputs?.showStripes"
       [chartXLabel]="componentInputs?.chartXLabel" [shortYLabels]="componentInputs?.shortYLabels"
       [useUtc]="contributor?.useUtc"
+      (tooltipEvent)="emitTooltip($event, main, false)"
       [xUnit]="componentInputs?.xUnit" [yUnit]="componentInputs?.yUnit"></arlas-histogram>
   </div>
 </div>
