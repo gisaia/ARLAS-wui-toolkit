@@ -1,5 +1,17 @@
 # Change Log
 
+## [v16.1.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v16.1.0) (2021-04-21)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v16.0.1...v16.1.0)
+
+**New stuff:**
+
+- Add download button as shapefile [\#409](https://github.com/gisaia/ARLAS-wui-toolkit/issues/409)
+
+**Fixed bugs:**
+
+- Dates displayed on the timeline are always in UTC [\#421](https://github.com/gisaia/ARLAS-wui-toolkit/issues/421)
+
 ## [v16.0.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v16.0.1) (2021-03-26)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v16.0.0...v16.0.1)
