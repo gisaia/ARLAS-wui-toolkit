@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { Component, OnInit, Input, ViewChild, ChangeDetectorRef, Output } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ChangeDetectorRef, Output, ElementRef } from '@angular/core';
 import { ArlasStartupService, ArlasCollaborativesearchService } from '../../services/startup/startup.service';
 import { Contributor, CollaborationEvent, OperationEnum } from 'arlas-web-core';
 import { ChartType, HistogramComponent, CellBackgroundStyleEnum, DataType } from 'arlas-web-components';
@@ -25,7 +25,9 @@ import { SwimlaneRepresentation, SwimlaneMode, Position } from 'arlas-d3';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
 import { ArlasExportCsvService } from '../../services/export-csv/export-csv.service';
-import { SpinnerOptions } from '../../tools/utils';
+import { SpinnerOptions, ArlasOverlayRef } from '../../tools/utils';
+import { ARLASDonutTooltip } from 'arlas-d3';
+import { ArlasOverlayService } from '../../services/overlays/overlay.service';
 
 /**
  * A Widget wraps a component from ARLAS-web-components and bind it to its contributor. The component has thus input data to plot.
@@ -49,6 +51,9 @@ export class WidgetComponent implements OnInit {
   public highlightItems: Set<string> = new Set<string>();
   public showSwimlaneDropDown: boolean;
   public graphParam: any = {};
+
+  public donutOverlayRef: ArlasOverlayRef;
+
 
   @Input() public componentType;
 
@@ -77,6 +82,18 @@ export class WidgetComponent implements OnInit {
   @Input() public spinnerOptions: SpinnerOptions;
 
   /**
+   * @Input : Angular
+   * @description Position of the widget in the group
+   */
+  @Input() public position: number;
+
+  /**
+   * @Input : Angular
+   * @description Number of widgets in the group to whom this widget belongs
+   */
+  @Input() public groupLength: number;
+
+  /**
    * @Output : Angular
    * @description Emits an output that comes from the component (ARLAS-web-components). The emitted output has information about
    * the `origin` which is the contributor id of the component; `event` the name of the event; and eventually `data` which contains
@@ -90,7 +107,36 @@ export class WidgetComponent implements OnInit {
   constructor(private arlasStartupService: ArlasStartupService,
     private cdr: ChangeDetectorRef,
     private arlasCollaborativesearchService: ArlasCollaborativesearchService,
+    private arlasOverlayService: ArlasOverlayService,
     public translate: TranslateService, public arlasExportCsvService: ArlasExportCsvService) {
+  }
+
+  public showDonutTooltip(tooltip: ARLASDonutTooltip, e: ElementRef) {
+    if (!!this.donutOverlayRef) {
+      this.donutOverlayRef.close();
+    }
+    /** get offset */
+    let itemPerLine = 1;
+    let xOffset = 470;
+    if (this.graphParam.diameter === 170) {
+      itemPerLine = 2;
+      if (this.position % itemPerLine === 1) {
+        xOffset = 240;
+      }
+    } else if (this.graphParam.diameter === 125) {
+      itemPerLine = 3;
+      if (this.position % itemPerLine === 1) {
+        xOffset = 320;
+        if (this.position === this.groupLength - 1) {
+          xOffset = 245;
+        }
+      } else if (this.position % itemPerLine === 2) {
+        xOffset = 170;
+      }
+    }
+    if (!!tooltip && tooltip.isShown) {
+      this.donutOverlayRef = this.arlasOverlayService.openDonutTooltip({ data: tooltip }, e, xOffset, 0, false);
+    }
   }
 
   public ngOnInit() {
