@@ -222,12 +222,14 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy {
     const analyticsBoardWidth = 445;
     let itemPerLine = 1;
     let xOffset = 470;
-    if (this.componentInputs.chartWidth === Math.ceil(analyticsBoardWidth / 2) - 6) {
+    if (this.componentInputs.chartWidth === Math.ceil(analyticsBoardWidth / 2) - 6 ||
+      this.componentInputs.chartWidth === Math.ceil(analyticsBoardWidth / 2) - 12) {
       itemPerLine = 2;
       if (this.position % itemPerLine === 1) {
         xOffset = 240;
       }
-    } else if (this.componentInputs.chartWidth === Math.ceil(analyticsBoardWidth / 3) - 6) {
+    } else if (this.componentInputs.chartWidth === Math.ceil(analyticsBoardWidth / 3) - 6 ||
+      this.componentInputs.chartWidth === Math.ceil(analyticsBoardWidth / 3) - 12) {
       itemPerLine = 3;
       if (this.position % itemPerLine === 1) {
         xOffset = 320;
