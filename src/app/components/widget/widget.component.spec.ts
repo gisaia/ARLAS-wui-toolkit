@@ -11,6 +11,7 @@ import { TranslateModule, TranslateService, TranslateLoader, TranslateFakeLoader
 import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
 import { HistogramWidgetComponent } from '../histogram-widget/histogram-widget.component';
 import { ProgressSpinnerComponent } from '../progress-spinner/progress-spinner.component';
+import { ArlasOverlayService } from '../../services/overlays/overlay.service';
 
 describe('WidgetComponent', () => {
   let component: WidgetComponent;
@@ -26,6 +27,7 @@ describe('WidgetComponent', () => {
           deps: [ArlasConfigurationUpdaterService]
         },
         TranslateService,
+        ArlasOverlayService,
         {provide: CONFIG_UPDATER, useValue: {}},
         {
           provide: ArlasConfigurationUpdaterService,

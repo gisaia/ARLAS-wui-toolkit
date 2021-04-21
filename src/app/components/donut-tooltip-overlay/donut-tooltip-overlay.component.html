@@ -1,0 +1,12 @@
+<div class="wrapper">
+  <div class="node_content" *ngFor="let c of tooltip.content">
+    <div class="category" [style.borderLeftColor]="c.color">
+      <div class="chip" [style.backgroundColor]="c.color"></div>
+      <div class="type">{{c.value}}</div>
+    </div>
+    <div class="value_container">
+      <div class="value">{{c.metric | formatNumber}}</div>
+      <div class="percentage">{{"(" +c.percentage +" %)"}}</div>
+    </div>
+  </div>
+</div>

@@ -62,6 +62,17 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy {
    * @description Whether we dispylay the export csv button
    */
   @Input() public showExportCsv = false;
+  /**
+   * @Input : Angular
+   * @description Position of the widget in the group
+   */
+  @Input() public position: number;
+
+  /**
+   * @Input : Angular
+   * @description Number of widgets in the group to whom this widget belongs
+   */
+  @Input() public groupLength: number;
 
   /**
    * @Input : Angular
@@ -208,7 +219,27 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy {
     if (detailed) {
       yOffset = 20;
     }
-    const xOffset = 470;
+    const analyticsBoardWidth = 445;
+    let itemPerLine = 1;
+    let xOffset = 470;
+    if (this.componentInputs.chartWidth === Math.ceil(analyticsBoardWidth / 2) - 6 ||
+      this.componentInputs.chartWidth === Math.ceil(analyticsBoardWidth / 2) - 12) {
+      itemPerLine = 2;
+      if (this.position % itemPerLine === 1) {
+        xOffset = 240;
+      }
+    } else if (this.componentInputs.chartWidth === Math.ceil(analyticsBoardWidth / 3) - 6 ||
+      this.componentInputs.chartWidth === Math.ceil(analyticsBoardWidth / 3) - 12) {
+      itemPerLine = 3;
+      if (this.position % itemPerLine === 1) {
+        xOffset = 320;
+        if (this.position === this.groupLength - 1) {
+          xOffset = 245;
+        }
+      } else if (this.position % itemPerLine === 2) {
+        xOffset = 170;
+      }
+    }
     this.showHistogramTooltip(tooltip, e, xOffset, yOffset);
   }
 

@@ -72,8 +72,9 @@ import { LinkComponent } from './components/link/link.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { HistogramWidgetComponent } from './components/histogram-widget/histogram-widget.component';
 import { ArlasOverlayService } from './services/overlays/overlay.service';
-import { HistogramTooltipOverlayComponent } from './components/histogram-tooltip-overlay/histogram-tooltip-overlay.component';
 import { ScrollDispatchModule } from '@angular/cdk/scrolling';
+import { HistogramTooltipOverlayComponent } from './components/histogram-tooltip-overlay/histogram-tooltip-overlay.component';
+import { DonutTooltipOverlayComponent } from './components/donut-tooltip-overlay/donut-tooltip-overlay.component';
 
 
 export class CustomTranslateLoader implements TranslateLoader {
@@ -190,7 +191,8 @@ export class CustomTranslateLoader implements TranslateLoader {
     UserInfosComponent,
     ReconnectDialogComponent,
     InvalidConfigDialogComponent,
-    HistogramTooltipOverlayComponent
+    HistogramTooltipOverlayComponent,
+    DonutTooltipOverlayComponent
   ],
 
 
@@ -221,7 +223,8 @@ export class CustomTranslateLoader implements TranslateLoader {
     UserInfosComponent,
     ReconnectDialogComponent,
     InvalidConfigDialogComponent,
-    HistogramTooltipOverlayComponent
+    HistogramTooltipOverlayComponent,
+    DonutTooltipOverlayComponent
   ],
   providers: [
     FetchInterceptorService, ArlasOverlayService
@@ -231,7 +234,8 @@ export class CustomTranslateLoader implements TranslateLoader {
     InvalidConfigDialogComponent,
     ActionModalComponent,
     UserInfosComponent,
-    HistogramTooltipOverlayComponent
+    HistogramTooltipOverlayComponent,
+    DonutTooltipOverlayComponent
   ]
 })
 export class ArlasToolkitSharedModule { }

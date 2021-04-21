@@ -22,8 +22,10 @@ import { Overlay, OverlayConfig, OriginConnectionPosition, OverlayConnectionPosi
 import { ComponentPortal, PortalInjector } from '@angular/cdk/portal';
 
 import { HistogramTooltipOverlayComponent } from '../../components/histogram-tooltip-overlay/histogram-tooltip-overlay.component';
-import { ArlasOverlayRef, HISTOGRAM_TOOLTIP_DATA } from '../../tools/utils';
+import { ArlasOverlayRef, HISTOGRAM_TOOLTIP_DATA, DONUT_TOOLTIP_DATA } from '../../tools/utils';
 import { HistogramTooltip } from 'arlas-web-components';
+import { ARLASDonutTooltip } from 'arlas-d3';
+import { DonutTooltipOverlayComponent } from '../../components/donut-tooltip-overlay/donut-tooltip-overlay.component';
 
 
 interface HistogramTooltipConfig {
@@ -33,7 +35,14 @@ interface HistogramTooltipConfig {
   data?: HistogramTooltip;
 }
 
-const DEFAULT_HISTOGRAM_TOOLTIP_CONFIG: HistogramTooltipConfig = {
+interface DonutTooltipConfig {
+  panelClass?: string;
+  hasBackdrop?: boolean;
+  backdropClass?: string;
+  data?: ARLASDonutTooltip;
+}
+
+const DEFAULT_TOOLTIP_CONFIG: HistogramTooltipConfig = {
   hasBackdrop: false,
   panelClass: 'tm-file-preview-dialog-panel'
 };
@@ -44,7 +53,7 @@ export class ArlasOverlayService {
   constructor(private overlay: Overlay, private parentOverlay: Overlay,    private injector: Injector    ) { }
 
   public openHistogramTooltip(config: HistogramTooltipConfig, elementRef: ElementRef, xOffset: number, yOffset: number, right: boolean) {
-    const dialogConfig = { ...DEFAULT_HISTOGRAM_TOOLTIP_CONFIG, ...config };
+    const dialogConfig = { ...DEFAULT_TOOLTIP_CONFIG, ...config };
 
     const overlayRef = this.createHistogramTooltipOverlay(dialogConfig, elementRef, xOffset, yOffset, right);
     // Returns an OverlayRef which is a PortalHost
@@ -54,7 +63,18 @@ export class ArlasOverlayService {
     return histogramActionsRef;
   }
 
-  private getOverlayConfig(config: HistogramTooltipConfig, elementRef: ElementRef, xOffset: number, yOffset: number,
+  public openDonutTooltip(config: DonutTooltipConfig, elementRef: ElementRef, xOffset: number, yOffset: number, right: boolean) {
+    const dialogConfig = { ...DEFAULT_TOOLTIP_CONFIG, ...config };
+
+    const overlayRef = this.createDonutTooltipOverlay(dialogConfig, elementRef, xOffset, yOffset, right);
+    // Returns an OverlayRef which is a PortalHost
+    const histogramActionsRef = new ArlasOverlayRef(overlayRef);
+    this.attachDonutTooltipContainer(overlayRef, dialogConfig, histogramActionsRef);
+
+    return histogramActionsRef;
+  }
+
+  private getOverlayConfig(config: any, elementRef: ElementRef, xOffset: number, yOffset: number,
     right: boolean): OverlayConfig {
     const origins = {
       topLeft: { originX: 'start', originY: 'top' } as OriginConnectionPosition,
@@ -127,6 +147,15 @@ export class ArlasOverlayService {
     return this.overlay.create(overlayConfig);
   }
 
+  private createDonutTooltipOverlay(config: DonutTooltipConfig, elementRef: ElementRef, xOffset: number, yOffset: number,
+    right: boolean) {
+  // Returns an OverlayConfig
+  const overlayConfig = this.getOverlayConfig(config, elementRef, xOffset, yOffset, right);
+
+  // Returns an OverlayRef
+  return this.overlay.create(overlayConfig);
+}
+
   private createHistogramTooltipInjector(config: HistogramTooltipConfig, ref: ArlasOverlayRef): PortalInjector {
     // Instantiate new WeakMap for our custom injection tokens
     const injectionTokens = new WeakMap();
@@ -139,11 +168,32 @@ export class ArlasOverlayService {
     return new PortalInjector(this.injector, injectionTokens);
   }
 
+  private createDonutTooltipInjector(config: DonutTooltipConfig, ref: ArlasOverlayRef): PortalInjector {
+    // Instantiate new WeakMap for our custom injection tokens
+    const injectionTokens = new WeakMap();
+
+    // Set custom injection tokens
+    injectionTokens.set(ArlasOverlayRef, ref);
+    injectionTokens.set(DONUT_TOOLTIP_DATA, config.data);
+
+    // Instantiate new PortalInjector
+    return new PortalInjector(this.injector, injectionTokens);
+  }
+
   private attachHistogramTooltipContainer(overlayRef: OverlayRef, config: HistogramTooltipConfig, arlasOverlayRef: ArlasOverlayRef) {
     const injector = this.createHistogramTooltipInjector(config, arlasOverlayRef);
 
     const containerPortal = new ComponentPortal(HistogramTooltipOverlayComponent, null, injector);
     const containerRef: ComponentRef<HistogramTooltipOverlayComponent> = overlayRef.attach(containerPortal);
+
+    return containerRef.instance;
+  }
+
+  private attachDonutTooltipContainer(overlayRef: OverlayRef, config: DonutTooltipConfig, arlasOverlayRef: ArlasOverlayRef) {
+    const injector = this.createDonutTooltipInjector(config, arlasOverlayRef);
+
+    const containerPortal = new ComponentPortal(DonutTooltipOverlayComponent, null, injector);
+    const containerRef: ComponentRef<DonutTooltipOverlayComponent> = overlayRef.attach(containerPortal);
 
     return containerRef.instance;
   }

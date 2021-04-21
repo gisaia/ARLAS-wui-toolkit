@@ -45,6 +45,8 @@
                   [componentType]="component?.componentType" [contributorId]="component?.contributorId"
                   [showExportCsv]="component?.showExportCsv" [componentParams]="component?.input"
                   [spinnerOptions]="spinnerOptions"
+                  [position]="i"
+                  [groupLength]="group.components.length"
                   (outEvents)="listenOutput($event)">
                 </arlas-tool-widget>
                 <arlas-tool-progress-spinner *ngIf="showSpinner" [strokeWidth]="strokeWidthSpinner"
@@ -104,6 +106,8 @@
                   [componentType]="component?.componentType" [contributorId]="component?.contributorId"
                   [showExportCsv]="component?.showExportCsv" [componentParams]="component?.input"
                   [spinnerOptions]="spinnerOptions"
+                  [position]="i"
+                  [groupLength]="group.components.length"
                   (outEvents)="listenOutput($event)">
                 </arlas-tool-widget>
                 <arlas-tool-progress-spinner *ngIf="showSpinner" [strokeWidth]="strokeWidthSpinner"

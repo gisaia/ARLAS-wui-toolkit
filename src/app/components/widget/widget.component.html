@@ -1,6 +1,7 @@
+<div #arlas_tooltip_anchor></div>
 <div *ngIf="componentType === 'histogram'">
   <arlas-tool-histogram-widget [contributor]="contributor" [componentInputs]="graphParam" [showExportCsv]="showExportCsv"
-    [spinnerOptions]="spinnerOptions"
+    [spinnerOptions]="spinnerOptions" [position]="position" [groupLength]="groupLength"
     (exportCsvEvent)="exportCsv($event.contributor, $event.firstLevel, $event.type, 'histogram')"></arlas-tool-histogram-widget>
 </div>
 <div *ngIf="componentType === 'swimlane'">
@@ -37,13 +38,13 @@
   </arlas-powerbars>
 </div>
 
-<div *ngIf="componentType==='donut'" class="donut-container">
+<div *ngIf="componentType==='donut'" class="donut-container" >
   <div class="donut">{{contributor?.getFilterDisplayName() | translate}}</div>
   <button *ngIf="showExportCsv" id="export-csv" matTooltip="{{'Export' | translate }}" class="export-csv-button" (click)="exportCsv(contributor,false,componentType)">
     <mat-icon class="analytics-board-panel-icon export-csv">get_app</mat-icon>
   </button>
   <arlas-donut [id]="graphParam?.id" [donutData]="contributor?.treeData" [opacity]="graphParam.opacity" [multiselectable]="graphParam?.multiselectable"
-    [selectedArcsList]="contributor?.selectedNodesPathsList" [unit]="graphParam?.unit" [diameter]="graphParam?.diameter" [containerWidth]="graphParam?.containerWidth" [keysToColors]="graphParam?.keysToColors" [colorsSaturationWeight]="graphParam?.colorsSaturationWeight"
+    [selectedArcsList]="contributor?.selectedNodesPathsList" [unit]="graphParam?.unit" [diameter]="graphParam?.diameter" (hoveredNodeTooltipEvent)="showDonutTooltip($event, arlas_tooltip_anchor)" [containerWidth]="graphParam?.containerWidth" [keysToColors]="graphParam?.keysToColors" [colorsSaturationWeight]="graphParam?.colorsSaturationWeight"
     (selectedNodesEvent)="contributor?.selectedNodesListChanged($event)" [customizedCssClass]="graphParam?.customizedCssClass">
   </arlas-donut>
 </div>
