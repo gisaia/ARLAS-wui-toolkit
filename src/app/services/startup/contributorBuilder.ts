@@ -39,48 +39,49 @@ export class ContributorBuilder {
         collaborativesearchService: ArlasCollaborativesearchService,
         colorGenerator?: ArlasColorGeneratorLoader): any {
 
-        const config = configService.getValue('arlas.web.contributors').find( contrib =>
-          contrib.type === contributorType && contrib.identifier ===  identifier
+        const config = configService.getValue('arlas.web.contributors').find(contrib =>
+            contrib.type === contributorType && contrib.identifier === identifier
         );
+        const collection = !!config['collection'] ? config['collection'] : collaborativesearchService.defaultCollection;
         let contributor;
         let isOneDimension: boolean;
-
         switch (contributorType) {
             case 'metric':
-                contributor = new ComputeContributor(identifier, collaborativesearchService, configService);
+                contributor = new ComputeContributor(identifier, collaborativesearchService, configService, collection);
                 break;
             case 'histogram':
                 isOneDimension = config['isOneDimension'];
-                contributor = new HistogramContributor(identifier, collaborativesearchService, configService, isOneDimension);
+                contributor = new HistogramContributor(identifier, collaborativesearchService, configService, collection, isOneDimension);
                 break;
             case 'detailedhistogram':
                 isOneDimension = config['isOneDimension'];
-                contributor = new DetailedHistogramContributor(identifier, collaborativesearchService, configService, isOneDimension);
+                contributor = new DetailedHistogramContributor(identifier, collaborativesearchService, configService, collection,
+                    isOneDimension);
                 break;
             case 'resultlist':
-                contributor = new ResultListContributor(identifier, collaborativesearchService, configService);
+                contributor = new ResultListContributor(identifier, collaborativesearchService, configService, collection);
                 break;
             case 'map':
-                contributor = new MapContributor(identifier, collaborativesearchService, configService, colorGenerator);
+                contributor = new MapContributor(identifier, collaborativesearchService, configService, collection, colorGenerator);
                 (contributor as MapContributor).updateData = false;
                 break;
             case 'swimlane':
                 isOneDimension = config['isOneDimension'];
-                contributor = new SwimLaneContributor(identifier, collaborativesearchService, configService);
+                contributor = new SwimLaneContributor(identifier, collaborativesearchService, configService, collection);
                 break;
             case 'tree':
                 const titletree: string = config['title'];
-                    contributor = new TreeContributor(identifier,
+                contributor = new TreeContributor(identifier,
                     collaborativesearchService,
                     configService,
-                    titletree
+                    titletree, collection
                 );
                 break;
             case 'chipssearch':
-                  contributor = new ChipsSearchContributor(identifier,
+                contributor = new ChipsSearchContributor(identifier,
                     collaborativesearchService,
-                    configService
-                  );
+                    configService, collection
+                );
                 break;
             case 'analytics':
                 const groupIdToValues = new Map<string, Array<string>>();
@@ -97,6 +98,7 @@ export class ContributorBuilder {
                 contributor = new AnalyticsContributor(identifier,
                     collaborativesearchService,
                     configService,
+                    collection,
                     groupIdToValues
                 );
                 break;
