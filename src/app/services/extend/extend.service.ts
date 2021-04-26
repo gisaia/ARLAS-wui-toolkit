@@ -35,8 +35,7 @@ export class ArlasExtendService {
     private configService: ArlasConfigService,
     private persistenceService: PersistenceService) {
     if (this.arlasStartupService.shouldRunApp && !this.arlasStartupService.emptyMode) {
-      if (!!this.configService.getConfig()['arlas']['persistence-server']
-        && !!this.configService.getConfig()['arlas']['persistence-server']['url']) {
+      if (this.persistenceService.isAvailable) {
         this.dataBase = new ExtendPersistenceDatabase(this.persistenceService);
         this.dataBase.dataChange.subscribe(() => {
           this.extendMap = this.dataBase.storageObjectMap;
