@@ -54,6 +54,7 @@ import { PaginatorI18n } from './tools/paginatori18n';
 import { MatPaginatorIntl } from '@angular/material/paginator/';
 import { PermissionService } from './services/permission/permission.service';
 import { ArlasOverlayService } from './services/overlays/overlay.service';
+import { isArray } from 'util';
 
 
 
@@ -109,6 +110,30 @@ export function getOptionsFactory(arlasAuthService: AuthentificationService): an
   return getOptions;
 }
 
+export function configUpdater(data) {
+  /** FIX wrong v15 map filters about Infinity values */
+  if (!!data[0] && !!data[0].arlas && !!data[0].arlas.web) {
+    const layers = data[0].arlas.web.components.mapgl.input.mapLayers.layers;
+    layers.forEach(layer => {
+      if (!!layer.filter && isArray(layer.filter)) {
+        const filters = [];
+        layer.filter.forEach(expression => {
+          if (isArray(expression) && expression.length === 3) {
+            if (expression[0] === '!=' && expression[2] === 'Infinity') {
+              expression = ['<=', expression[1], Number.MAX_VALUE];
+            } else if (expression[0] === '!=' && expression[2] === '-Infinity') {
+              expression = ['>=', expression[1], Number.MIN_VALUE];
+            }
+          }
+          filters.push(expression);
+        });
+        layer.filter = filters;
+      }
+    });
+  }
+  return data[0];
+}
+
 export const MY_CUSTOM_FORMATS = {
   parseInput: 'lll',
   fullPickerInput: 'll LTS',
@@ -140,7 +165,7 @@ export const MY_CUSTOM_FORMATS = {
     { provide: FETCH_OPTIONS, useValue: {} },
     {
       provide: CONFIG_UPDATER,
-      useValue: configUpdaterFactory
+      useValue: configUpdater
     },
     forwardRef(() => ArlasAoiService),
     forwardRef(() => ArlasBookmarkService),
