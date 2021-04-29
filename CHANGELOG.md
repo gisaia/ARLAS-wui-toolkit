@@ -1,11 +1,20 @@
 # Change Log
 
+## [v16.1.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v16.1.1) (2021-04-29)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v16.1.0...v16.1.1)
+
+**Fixed bugs:**
+
+- Map filters handling Infinity values are wrong [\#450](https://github.com/gisaia/ARLAS-wui-toolkit/issues/450)
+
 ## [v16.1.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v16.1.0) (2021-04-21)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v16.0.1...v16.1.0)
 
 **New stuff:**
 
+- \[donut\] externalize tooltip outside the widget space to gain space and lisibility [\#443](https://github.com/gisaia/ARLAS-wui-toolkit/issues/443)
 - Add download button as shapefile [\#409](https://github.com/gisaia/ARLAS-wui-toolkit/issues/409)
 
 **Fixed bugs:**
