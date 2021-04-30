@@ -120,9 +120,9 @@ export function configUpdater(data) {
         layer.filter.forEach(expression => {
           if (isArray(expression) && expression.length === 3) {
             if (expression[0] === '!=' && expression[2] === 'Infinity') {
-              expression = ['<=', expression[1], Number.MAX_VALUE];
+              expression = ['<=', expression[1].replace(/\./g, '_'), Number.MAX_VALUE];
             } else if (expression[0] === '!=' && expression[2] === '-Infinity') {
-              expression = ['>=', expression[1], Number.MIN_VALUE];
+              expression = ['>=', expression[1].replace(/\./g, '_'), -Number.MAX_VALUE];
             }
           }
           filters.push(expression);
