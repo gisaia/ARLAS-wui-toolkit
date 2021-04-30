@@ -1,5 +1,13 @@
 # Change Log
 
+## [v16.1.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v16.1.2) (2021-04-30)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v16.1.1...v16.1.2)
+
+**Fixed bugs:**
+
+- Old map filters of v15 have wrong flat fields [\#453](https://github.com/gisaia/ARLAS-wui-toolkit/issues/453)
+
 ## [v16.1.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v16.1.1) (2021-04-29)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v16.1.0...v16.1.1)
