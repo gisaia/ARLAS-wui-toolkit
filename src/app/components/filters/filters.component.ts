@@ -16,12 +16,60 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { ChangeDetectorRef, Component, ViewEncapsulation, Input, ChangeDetectionStrategy, OnInit, Output } from '@angular/core';
-import { Contributor } from 'arlas-web-core';
+import {
+  ChangeDetectorRef, Component, ViewEncapsulation, Input, ChangeDetectionStrategy,
+  OnInit, Output, PipeTransform, Pipe
+} from '@angular/core';
+import { Contributor, Collaboration } from 'arlas-web-core';
 import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from '../../services/startup/startup.service';
-import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
 
+
+
+@Pipe({ name: 'getContributorLabel' })
+export class GetContributorLabelPipe implements PipeTransform {
+  public transform(value: string, registry?: Map<string, Contributor>): string {
+    let label = registry.get(value).getFilterDisplayName();
+    const collection = registry.get(value).collection;
+    if (label !== undefined && label !== '') {
+      const labelSplited = label.split('<=');
+      if (labelSplited.length === 3) {
+        label = labelSplited[1].trim();
+      }
+      return label;
+    } else {
+      return '';
+    }
+  }
+}
+
+@Pipe({ name: 'concatCollection' })
+export class ConcatCollectionPipe implements PipeTransform {
+  public transform(value: string, id: string, registry?: Map<string, Contributor>): string {
+    const collection = registry.get(id).collection;
+    return value.concat(' : ').concat(collection);
+
+  }
+}
+
+@Pipe({ name: 'getColorFilter' })
+export class GetColorFilterPipe implements PipeTransform {
+  public transform(value: string, type: string, backgroundColor, collaborationsMap: Map<string, Collaboration>): string {
+    const collaboration = collaborationsMap.get(value);
+    if (type === 'color') {
+      return collaboration.enabled ? '#FFF' : '#BDBDBD';
+    } else if (type === 'background') {
+      return collaboration.enabled ? backgroundColor : '#FFF';
+    }
+  }
+}
+@Pipe({ name: 'getCollaborationIcon' })
+export class GetCollaborationIconPipe implements PipeTransform {
+  public transform(value: string,  contributorsIcons: Map<string, string>): string {
+    return contributorsIcons.get(value);
+
+  }
+}
 @Component({
   selector: 'arlas-filter',
   templateUrl: './filters.component.html',
@@ -66,17 +114,17 @@ export class FiltersComponent implements OnInit {
 
 
   public collaborations: Set<string> = new Set<string>();
-  public contributors: Map<string, Contributor> = new Map<string, Contributor>();
-  public contributorsIcons = new Map<string, string>();
+  public contributors: Map<string, Contributor>;
+  public contributorsIcons: Map<string, string>;
   public countAll;
   public NUMBER_FORMAT_CHAR = 'NUMBER_FORMAT_CHAR';
+  public collaborationsMap: Map<string, Collaboration>;
 
   constructor(
     private collaborativeSearchService: ArlasCollaborativesearchService,
     private arlasStartupService: ArlasStartupService,
     private configService: ArlasConfigService,
-    private cdr: ChangeDetectorRef,
-    private translate: TranslateService
+    private cdr: ChangeDetectorRef
   ) {
 
     this.contributors = this.collaborativeSearchService.registry;
@@ -84,7 +132,7 @@ export class FiltersComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.contributorsIcons = this.getAllContributorsIcons();
+    this.contributorsIcons = new Map(this.getAllContributorsIcons());
     if (!this.unit) {
       this.unit = '';
     }
@@ -110,57 +158,9 @@ export class FiltersComponent implements OnInit {
     this.cdr.detectChanges();
   }
 
-  public getCollaborationIcon(contributorId): string {
-    return this.contributorsIcons.get(contributorId);
-  }
-
-  public getContributorLabel(contributorId: string): string {
-    let label = this.collaborativeSearchService.registry.get(contributorId).getFilterDisplayName();
-    if (label !== undefined && label !== '') {
-      const labelSplited = label.split('<=');
-      if (labelSplited.length === 3) {
-        label = labelSplited[1].trim();
-      }
-      return this.translate.instant(label);
-    } else {
-      return '';
-    }
-
-  }
-
-  public getChipColor(contributorId: string): string {
-    const collaboration = this.collaborativeSearchService.getCollaboration(contributorId);
-    if (collaboration != null) {
-      const collaborationState = this.collaborativeSearchService.isEnable(contributorId);
-      if (collaborationState) {
-        return '#FFF';
-      } else {
-        return '#BDBDBD';
-      }
-    }
-  }
-
-  public getChipBackgroundColor(contributorId: string): string {
-    const collaboration = this.collaborativeSearchService.getCollaboration(contributorId);
-    if (collaboration != null) {
-      if (this.collaborativeSearchService.isEnable(contributorId)) {
-        return this.backgroundColor;
-      } else {
-        return '#FFF';
-      }
-    }
-  }
-
-  public getAllContributorsIcons() {
-    this.arlasStartupService.contributorRegistry.forEach((v, k) => {
-      if (v !== undefined) {
-        this.contributorsIcons.set(
-          k,
-          this.configService.getValue('arlas.web.contributors').find(contrib => contrib.identifier === k).icon
-        );
-      }
-    });
-    return this.contributorsIcons;
+  public getAllContributorsIcons(): any {
+    return Array.from(this.arlasStartupService.contributorRegistry.keys())
+      .map(k => [k, this.configService.getValue('arlas.web.contributors').find(contrib => contrib.identifier === k).icon]).values();
   }
 
   private retrieveCurrentCollaborations() {
@@ -176,6 +176,7 @@ export class FiltersComponent implements OnInit {
 
   private subscribeToFutureCollaborations() {
     this.collaborativeSearchService.collaborationBus.subscribe(collaborationBus => {
+      this.collaborationsMap = new Map(this.collaborativeSearchService.collaborations);
       this.collaborativeSearchService.countAll.subscribe(count => {
         this.countAll = count;
         this.cdr.detectChanges();
