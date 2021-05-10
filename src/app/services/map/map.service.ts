@@ -55,7 +55,8 @@ export class ArlasMapService implements MapService {
       mapInstance = this.map;
     }
     this.collaborativeSearchService.resolveButNotComputation([projType.compute, computationRequest],
-      this.collaborativeSearchService.collaborations).subscribe( (cr: ComputationResponse) => {
+      this.collaborativeSearchService.collaborations, this.collaborativeSearchService.defaultCollection)
+      .subscribe((cr: ComputationResponse) => {
         if (cr && cr.geometry) {
           mapInstance.fitBounds(this.toMapboxBounds(cr.geometry, paddingPercentage));
         }
@@ -97,7 +98,7 @@ export class ArlasMapService implements MapService {
       east = east + paddingPercentage * width;
       north = Math.min(90, north + paddingPercentage * height);
     }
-    const mapboxBounds  = new LngLatBounds(
+    const mapboxBounds = new LngLatBounds(
       new LngLat(west, south),
       new LngLat(east, north)
     );

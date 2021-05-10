@@ -27,25 +27,25 @@ export class ArlasColorGeneratorLoader implements ColorGeneratorLoader {
   constructor(
     private configService: ArlasConfigService,
     private collaborativesearchService: ArlasCollaborativesearchService) {
-      const webConfig = this.configService.getValue('arlas.web');
-      if (webConfig && webConfig.colorGenerator) {
-        this.keysToColors = webConfig.colorGenerator.keysToColors;
-        this.colorsSaturationWeight = webConfig.colorGenerator.colorsSaturationWeight;
-        this.colorAggregations = webConfig.colorGenerator.colorAggregations;
-      }
-      if (this.colorAggregations) {
-        this.setColorsFromAggregations();
-      }
-      if (this.colorsSaturationWeight === undefined || this.colorsSaturationWeight === null) {
-        this.colorsSaturationWeight = 0.5;
-      }
+    const webConfig = this.configService.getValue('arlas.web');
+    if (webConfig && webConfig.colorGenerator) {
+      this.keysToColors = webConfig.colorGenerator.keysToColors;
+      this.colorsSaturationWeight = webConfig.colorGenerator.colorsSaturationWeight;
+      this.colorAggregations = webConfig.colorGenerator.colorAggregations;
+    }
+    if (this.colorAggregations) {
+      this.setColorsFromAggregations();
+    }
+    if (this.colorsSaturationWeight === undefined || this.colorsSaturationWeight === null) {
+      this.colorsSaturationWeight = 0.5;
+    }
   }
 
   public getColor(key: string, externalKeysToColors?: Array<[string, string]>, externalColorsSaturationWeight?: number): string {
     let colorHex = null;
     const keysToColors = externalKeysToColors ? externalKeysToColors : this.keysToColors;
     const saturationWeight = (externalColorsSaturationWeight !== undefined && externalColorsSaturationWeight !== null) ?
-    externalColorsSaturationWeight : this.colorsSaturationWeight;
+      externalColorsSaturationWeight : this.colorsSaturationWeight;
     if (keysToColors) {
       for (let i = 0; i < keysToColors.length; i++) {
         const keyToColor = keysToColors[i];
@@ -63,7 +63,7 @@ export class ArlasColorGeneratorLoader implements ColorGeneratorLoader {
     return colorHex;
   }
 
-  public getTextColor (color: string): string {
+  public getTextColor(color: string): string {
     return tinycolor.default(color).isDark() ? '#ffffff' : '#000000';
   }
 
@@ -97,11 +97,11 @@ export class ArlasColorGeneratorLoader implements ColorGeneratorLoader {
   }
 
   private getHexColor(key: string, saturationWeight: number): string {
-    const text = key.toString() + ':' + key.toString().split('').reverse().join('') + ':'  + key.toString();
+    const text = key.toString() + ':' + key.toString().split('').reverse().join('') + ':' + key.toString();
     // string to int
     let hash = 0;
     for (let i = 0; i < text.length; i++) {
-        hash = text.charCodeAt(i) + ((hash << 5) - hash);
+      hash = text.charCodeAt(i) + ((hash << 5) - hash);
     }
     // int to rgb
     let hex = (hash & 0x00FFFFFF).toString(16).toUpperCase();
@@ -122,15 +122,16 @@ export class ArlasColorGeneratorLoader implements ColorGeneratorLoader {
     this.keysToColors.forEach(item => { this.keysToColorsMap.set(item[0], item[1]); });
     if (this.colorAggregations) {
       this.colorAggregations.forEach(aggregations => {
-        this.collaborativesearchService.resolveAggregation([projType.aggregate, aggregations], null).subscribe(agg => {
-          const firstAggregationElements = agg.elements;
-          firstAggregationElements.forEach(element => {
-            if (!this.keysToColorsMap.has(element.key) && element.elements && element.elements.length > 0) {
-              this.keysToColorsMap.set(element.key, element.elements[0].key);
-              this.keysToColors.push([element.key, element.elements[0].key]);
-            }
+        this.collaborativesearchService.resolveAggregation([projType.aggregate, aggregations], null,
+          this.collaborativesearchService.defaultCollection).subscribe(agg => {
+            const firstAggregationElements = agg.elements;
+            firstAggregationElements.forEach(element => {
+              if (!this.keysToColorsMap.has(element.key) && element.elements && element.elements.length > 0) {
+                this.keysToColorsMap.set(element.key, element.elements[0].key);
+                this.keysToColors.push([element.key, element.elements[0].key]);
+              }
+            });
           });
-        });
       });
     }
   }

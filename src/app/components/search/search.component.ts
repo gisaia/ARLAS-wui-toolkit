@@ -118,6 +118,7 @@ export class SearchComponent {
       return this.collaborativeService.resolveButNotAggregation(
         [projType.aggregate, [aggregation]],
         this.collaborativeService.collaborations,
+        this.searchContributor.collection,
         this.searchContributor.identifier,
         filterAgg
       );

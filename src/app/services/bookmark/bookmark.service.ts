@@ -254,7 +254,8 @@ export class ArlasBookmarkService {
     Object.keys(dataModel).forEach(key => {
       filters.push(dataModel[key].filter);
     });
-    return this.collaborativesearchService.resolveComputeHits([projType.count, {}], filters).pipe(map(hits => {
+    return this.collaborativesearchService.resolveComputeHits([projType.count, {}], filters,
+      this.collaborativesearchService.defaultCollection).pipe(map(hits => {
       return hits.totalnb;
     }));
   }
