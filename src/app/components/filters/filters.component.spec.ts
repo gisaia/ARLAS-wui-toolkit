@@ -24,7 +24,8 @@ import {
   ArlasCollaborativesearchService,
   ArlasConfigService, CONFIG_UPDATER, FETCH_OPTIONS
 } from '../../services/startup/startup.service';
-import { FiltersComponent } from './filters.component';
+import { FiltersComponent, GetColorFilterPipe, GetCollaborationIconPipe, ConcatCollectionPipe,
+  GetContributorLabelPipe } from './filters.component';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateService, TranslateModule, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
 import { ArlasWalkthroughService } from '../../services/walkthrough/walkthrough.service';
@@ -45,7 +46,7 @@ describe('FiltersChipsComponent', () => {
         FormatNumberModule,
         HttpClientModule
       ],
-      declarations: [FiltersComponent],
+      declarations: [FiltersComponent,  GetColorFilterPipe, GetCollaborationIconPipe, ConcatCollectionPipe, GetContributorLabelPipe],
       providers: [
         {
           provide: ArlasStartupService,
