@@ -77,6 +77,7 @@ import { ArlasOverlayService } from './services/overlays/overlay.service';
 import { ScrollDispatchModule } from '@angular/cdk/scrolling';
 import { HistogramTooltipOverlayComponent } from './components/histogram-tooltip-overlay/histogram-tooltip-overlay.component';
 import { DonutTooltipOverlayComponent } from './components/donut-tooltip-overlay/donut-tooltip-overlay.component';
+import {  ArlasWalkthroughModule } from './services/walkthrough/walkthrough.module';
 
 
 export class CustomTranslateLoader implements TranslateLoader {
@@ -164,7 +165,8 @@ export class CustomTranslateLoader implements TranslateLoader {
         useClass: CustomTranslateLoader,
         deps: [HttpClient]
       }
-    })
+    }),
+    ArlasWalkthroughModule.forRoot({})
   ],
   exports: [
     AnalyticsBoardComponent,

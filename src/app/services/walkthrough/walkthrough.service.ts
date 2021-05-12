@@ -22,10 +22,8 @@
 
 import { Injectable } from '@angular/core';
 import hopscotch from 'hopscotch';
-import { HttpClient } from '@angular/common/http';
-import { ArlasCollaborativesearchService } from '../startup/startup.service';
-import { ArlasMapSettings } from '../map-settings/map-settings.service';
-import { ArlasMapService } from '../map/map.service';
+import {  WalkthroughLoader } from './walkthrough.utils';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable({
   providedIn: 'root',
@@ -37,21 +35,19 @@ export class ArlasWalkthroughService {
   public isActivable = true;
 
   constructor(
-    private http: HttpClient,
-    private css: ArlasCollaborativesearchService,
-    private mss: ArlasMapSettings,
-    private ams: ArlasMapService
+    private walkthrougLoader: WalkthroughLoader,
+    private translateService: TranslateService
+
   ) {
     this.hopscotch = hopscotch;
+    this.load();
   }
 
-  public load(tourConfig: string): Promise<any> {
-    return this.http
-      .get(tourConfig)
-      .toPromise()
+  public load(): void {
+    this.walkthrougLoader.loader()
       .then(response => {
         this.tourData = response;
-        if (this.tourData.steps.length <= 0) {
+        if (!this.tourData.steps || this.tourData.steps.length <= 0) {
           this.isActivable = false;
         } else {
           if (this.tourData.onStart) {
@@ -74,6 +70,15 @@ export class ArlasWalkthroughService {
               step.onShow = new Function(step.onShow).bind(this);
             }
           });
+          this.tourData.showPrevButton = true;
+          this.tourData.i18n = {
+            nextBtn: this.translateService.instant('tour.nextBtn'),
+            prevBtn: this.translateService.instant('tour.prevBtn'),
+            doneBtn: this.translateService.instant('tour.doneBtn'),
+            skipBtn: this.translateService.instant('tour.skipBtn'),
+            closeTooltip: this.translateService.instant('tour.closeTooltip')
+          };
+          this.startTour();
         }
       })
       .catch(error => {

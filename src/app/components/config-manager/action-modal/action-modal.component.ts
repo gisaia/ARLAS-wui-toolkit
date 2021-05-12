@@ -53,14 +53,18 @@ export class ActionModalComponent {
         error => this.raiseError(error));
   }
 
-  public rename(newName: string, configId: string ) {
-    this.persistenceService.rename(configId, newName).subscribe(
-      () => {
-        this.errorMessage = '';
-        this.dialogRef.close();
-      },
-      error => this.raiseError(error));
-
+  public rename(newName: string, configId: string) {
+    this.persistenceService.get(configId).subscribe(
+      data => {
+        const key = data.doc_key;
+        ['i18n', 'tour'].forEach(zone => ['fr', 'en'].forEach(lg => this.renameLinkedData(zone, key, newName, lg)));
+        this.persistenceService.rename(configId, newName).subscribe(
+          () => {
+            this.errorMessage = '';
+            this.dialogRef.close();
+          },
+          error => this.raiseError(error));
+      });
   }
 
   public create(name: string) {
@@ -89,17 +93,28 @@ export class ActionModalComponent {
         this.errorMessage = marker('Missing permissions to create a dashboard');
         break;
       case 500:
-          err.json().then(e => {
-            if ((e.message as string).indexOf('already exists') > 0) {
-              this.errorMessage = marker('A configuration with this name exists already, please choose another name');
-            } else {
-              this.errorMessage = marker('An error occurred, please try later');
-            }
-          });
-          break;
+        err.json().then(e => {
+          if ((e.message as string).indexOf('already exists') > 0) {
+            this.errorMessage = marker('A configuration with this name exists already, please choose another name');
+          } else {
+            this.errorMessage = marker('An error occurred, please try later');
+          }
+        });
+        break;
       default:
         this.errorMessage = marker('An error occurred, please try later');
     }
+  }
+
+  private renameLinkedData(zone: string, key: string, newName: string, lg: string) {
+    this.persistenceService.existByZoneKey(zone, key.concat('_').concat(lg)).subscribe(
+      exist => {
+        if (exist.exists) {
+          this.persistenceService.getByZoneKey(zone, key.concat('_').concat(lg))
+            .subscribe(i => this.persistenceService.rename(i.id, newName.concat('_').concat(lg)).subscribe(d => { }));
+        }
+      }
+    );
   }
 }
 

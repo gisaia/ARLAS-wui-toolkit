@@ -75,12 +75,6 @@ export function auhtentServiceFactory(service: AuthentificationService) {
   return service;
 }
 
-
-export function walkthroughServiceFactory(walkthroughService: ArlasWalkthroughService) {
-  const load = () => walkthroughService.load('tour.json?' + Date.now());
-  return load;
-}
-
 export function localDatePickerFactory(translate: TranslateService) {
   return translate.currentLang;
 }
@@ -206,12 +200,6 @@ export const MY_CUSTOM_FORMATS = {
       provide: 'AuthentificationService',
       useFactory: auhtentServiceFactory,
       deps: [AuthentificationService],
-      multi: true
-    },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: walkthroughServiceFactory,
-      deps: [ArlasWalkthroughService],
       multi: true
     },
     {
