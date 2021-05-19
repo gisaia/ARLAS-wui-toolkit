@@ -237,7 +237,7 @@ export class ShareDialogComponent implements OnInit {
         this.request.page.sort = (this.sortDirection === 'desc' ? '-' : '') + this.selectedOrderField.label;
       }
       this.collaborativeService.resolveButNotFeatureCollection([projType.geosearch, this.request],
-        this.collaborativeService.collaborations).subscribe(f => {
+        this.collaborativeService.collaborations, this.collaborativeService.defaultCollection).subscribe(f => {
         this.saveJson(f, (this.translate.instant(geojsonType.id) + '').toLowerCase().replace(/ /g, '_') + '-' + fileDate + '-geojson.json');
         this.spinner.hide('downloadgeojson');
       });
@@ -247,7 +247,7 @@ export class ShareDialogComponent implements OnInit {
         this.request.interval.value = this.paramFormGroup.get('precision').value;
       }
       this.collaborativeService.resolveButNotFeatureCollection([projType.geoaggregate, [this.request]],
-        this.collaborativeService.collaborations).subscribe(f => {
+        this.collaborativeService.collaborations, this.collaborativeService.defaultCollection).subscribe(f => {
         this.saveJson(f, (this.translate.instant(geojsonType.id) + '').toLowerCase().replace(/ /g, '_') + '-' + fileDate + '-geojson.json');
         this.spinner.hide('downloadgeojson');
       });
@@ -273,7 +273,7 @@ export class ShareDialogComponent implements OnInit {
         this.request.page.sort = (this.sortDirection === 'desc' ? '-' : '') + this.selectedOrderField.label;
       }
       this.collaborativeService.resolveButNotShapefile([projType.shapesearch, this.request],
-        this.collaborativeService.collaborations).subscribe( data => {
+        this.collaborativeService.collaborations, this.collaborativeService.defaultCollection).subscribe( data => {
           const blob = new Blob([data], {
             type: 'application/zip'
           });
@@ -287,7 +287,7 @@ export class ShareDialogComponent implements OnInit {
         this.request.interval.value = this.paramFormGroup.get('precision').value;
       }
       this.collaborativeService.resolveButNotShapefile([projType.shapeaggregate, [this.request]],
-        this.collaborativeService.collaborations).subscribe( data => {
+        this.collaborativeService.collaborations, this.collaborativeService.defaultCollection).subscribe( data => {
           const blob = new Blob([data], {
             type: 'application/zip'
           });

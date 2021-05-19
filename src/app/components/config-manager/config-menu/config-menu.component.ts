@@ -71,23 +71,8 @@ export class ConfigMenuComponent implements OnInit {
           this.persistenceService.get(id).subscribe(
             data => {
               const key = data.doc_key;
-              this.persistenceService.existByZoneKey('i18n', key.concat('_fr')).subscribe(
-                exist => {
-                  if (exist.exists) {
-                    this.persistenceService.getByZoneKey('i18n', key.concat('_fr'))
-                      .subscribe(i18nFr => this.persistenceService.delete(i18nFr.id).subscribe(d => { }));
-                  }
-                }
-              );
-              this.persistenceService.existByZoneKey('i18n', key.concat('_en')).subscribe(
-                exist => {
-                  if (exist.exists) {
-                    this.persistenceService.getByZoneKey('i18n', key.concat('_en'))
-                      .subscribe(i18nEn => this.persistenceService.delete(i18nEn.id).subscribe(d => { }));
-                  }
-                }
-              );
-              this.persistenceService.delete(id).subscribe(data => this.actionExecutedEmitter.next(action));
+              ['i18n', 'tour'].forEach(zone => ['fr', 'en'].forEach(lg => this.deleteLinkedData(zone, key, lg)));
+              this.persistenceService.delete(id).subscribe(() => this.actionExecutedEmitter.next(action));
             });
         });
         break;
@@ -126,5 +111,16 @@ export class ConfigMenuComponent implements OnInit {
   private openUrl(url: string) {
     const win = window.open(url, '_blank');
     win.focus();
+  }
+
+  private deleteLinkedData(zone: string, key: string, lg: string): void {
+    this.persistenceService.existByZoneKey(zone, key.concat('_').concat(lg)).subscribe(
+      exist => {
+        if (exist.exists) {
+          this.persistenceService.getByZoneKey(zone, key.concat('_').concat(lg))
+            .subscribe(i => this.persistenceService.delete(i.id).subscribe(d => { }));
+        }
+      }
+    );
   }
 }

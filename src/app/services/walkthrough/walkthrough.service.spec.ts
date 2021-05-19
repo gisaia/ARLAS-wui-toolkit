@@ -7,6 +7,7 @@ import { ArlasMapSettings } from '../map-settings/map-settings.service';
 import { ArlasMapService } from '../map/map.service';
 import { TranslateService, TranslateStore, TranslateModule, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
 import { ArlasConfigurationUpdaterService } from '../configuration-updater/configurationUpdater.service';
+import { ArlasWalkthroughModule } from './walkthrough.module';
 
 describe('ArlasWalkthroughService', () => {
   beforeEach(() => TestBed.configureTestingModule({
@@ -31,7 +32,9 @@ describe('ArlasWalkthroughService', () => {
     ],
     imports: [
       HttpClientModule,
-      TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } })
+      TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }),
+      ArlasWalkthroughModule.forRoot({})
+
     ]
   }));
 

@@ -54,7 +54,7 @@ export class ArlasExportCsvService {
         });
         aggsForExport.filter(agg => agg.type === Aggregation.TypeEnum.Term).map(a => a.size = '10000');
         aggResponse = this.collaborativesearchService.resolveButNotAggregation(
-          [projType.aggregate, aggsForExport], this.collaborativesearchService.collaborations);
+          [projType.aggregate, aggsForExport], this.collaborativesearchService.collaborations, contributor.collection);
         break;
       }
       case 'histogram': {
@@ -87,7 +87,7 @@ export class ArlasExportCsvService {
           map((r => {
             aggregations[0].interval = r.aggregationPrecision;
             return this.collaborativesearchService.resolveButNotAggregation(
-              [projType.aggregate, aggregations], collaborations);
+              [projType.aggregate, aggregations], collaborations, contributor.collection);
           }
           )),
           flatMap(a => a)
@@ -95,7 +95,7 @@ export class ArlasExportCsvService {
       return agg;
     } else {
       return this.collaborativesearchService.resolveButNotAggregation(
-        [projType.aggregate, aggregations], collaborations);
+        [projType.aggregate, aggregations], collaborations, contributor.collection);
     }
   }
 

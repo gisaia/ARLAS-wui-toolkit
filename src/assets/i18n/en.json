@@ -132,5 +132,12 @@
 	"Get url": "Get url",
 	"Copy URL": "Copy URL",
 	"searchPlaceholder": "Search...",
-	"Time zone":"Time zone:"
+	"Time zone":"Time zone:",
+	"tour": {
+		"nextBtn": "Next",
+		"prevBtn": "Previous",
+		"doneBtn": "Done",
+		"skipBtn": "Skip",
+		"closeTooltip": "Close"
+	}
 }

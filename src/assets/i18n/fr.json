@@ -132,5 +132,12 @@
 	"searchPlaceholder": "Rechercher...",
 	"An error occurred, please try later":"Une erreur est survenue, merci de réessayer plus tard.",
 	"Rename":"Renommer",
-	"Time zone":"Fuseau horaire :"
+	"Time zone":"Fuseau horaire :",
+	"tour": {
+		"nextBtn": "Suivant",
+		"prevBtn": "Précédent",
+		"doneBtn": "Terminé",
+		"skipBtn": "Passer",
+		"closeTooltip": "Fermer"
+	}
 }

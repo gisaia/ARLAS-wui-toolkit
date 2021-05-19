@@ -27,8 +27,10 @@ import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.
 import { TimelineComponent } from './components/timeline/timeline/timeline.component';
 import { TimelineShortcutComponent } from './components/timeline/timeline-shortcut/timeline-shortcut.component';
 import { DatePickerComponent } from './components/timeline/date-picker/date-picker.component';
-import { ArlasTranslateIntl } from './components/timeline/date-picker/ArlasTranslateIntl';
-import { FiltersComponent } from './components/filters/filters.component';
+import {
+  ConcatCollectionPipe, FiltersComponent, GetCollaborationIconPipe, GetColorFilterPipe,
+  GetContributorLabelPipe
+} from './components/filters/filters.component';
 import { SearchComponent } from './components/search/search.component';
 import { DownloadComponent, DownloadDialogComponent } from './components/download/download.component';
 import { AoiComponent } from './components/aoi/aoi.component';
@@ -75,6 +77,7 @@ import { ArlasOverlayService } from './services/overlays/overlay.service';
 import { ScrollDispatchModule } from '@angular/cdk/scrolling';
 import { HistogramTooltipOverlayComponent } from './components/histogram-tooltip-overlay/histogram-tooltip-overlay.component';
 import { DonutTooltipOverlayComponent } from './components/donut-tooltip-overlay/donut-tooltip-overlay.component';
+import {  ArlasWalkthroughModule } from './services/walkthrough/walkthrough.module';
 
 
 export class CustomTranslateLoader implements TranslateLoader {
@@ -162,7 +165,8 @@ export class CustomTranslateLoader implements TranslateLoader {
         useClass: CustomTranslateLoader,
         deps: [HttpClient]
       }
-    })
+    }),
+    ArlasWalkthroughModule.forRoot({})
   ],
   exports: [
     AnalyticsBoardComponent,
@@ -210,6 +214,10 @@ export class CustomTranslateLoader implements TranslateLoader {
     ExtendComponent,
     FiltersComponent,
     GetTimeLabelPipe,
+    GetColorFilterPipe,
+    GetCollaborationIconPipe,
+    ConcatCollectionPipe,
+    GetContributorLabelPipe,
     LanguageSwitcherComponent,
     LinkComponent,
     SearchComponent,

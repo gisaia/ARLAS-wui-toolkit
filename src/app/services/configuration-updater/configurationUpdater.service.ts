@@ -32,7 +32,7 @@ export class ArlasConfigurationUpdaterService {
    * @param availableFields list of fields available for exploration
    * @returns configuration object
    */
-    public getContributorsToRemove(data, availableFields: Set<string>): Set<string> {
+  public getContributorsToRemove(data, availableFields: Set<string>): Set<string> {
     const contributorsToRemove = new Set<string>();
     if (data && data.arlas && data.arlas.web && data.arlas.web.contributors) {
       /** the conf is validated before; therefore, `arlas.web.contributors` is defined */
@@ -54,7 +54,7 @@ export class ArlasConfigurationUpdaterService {
         }
         /** Compute contributors have metrics */
         if (contributor.metrics && contributor.metrics.find(m => !availableFields.has(m.field))) {
-            contributorsToRemove.add(contributor.identifier);
+          contributorsToRemove.add(contributor.identifier);
         }
         /** swimlanes contributors have a specific structure for `aggregationmodels`  */
         if (contributor.swimlanes) {
@@ -83,7 +83,7 @@ export class ArlasConfigurationUpdaterService {
         /** resultlist contributor */
         if (contributor.fieldsConfiguration && contributor.fieldsConfiguration.idFieldName
           && !availableFields.has(contributor.fieldsConfiguration.idFieldName)) {
-            contributorsToRemove.add(contributor.identifier);
+          contributorsToRemove.add(contributor.identifier);
         }
       });
       /** remove detailed contributors */
@@ -160,10 +160,10 @@ export class ArlasConfigurationUpdaterService {
    * @returns configuration object
    */
   public updateContributors(data, availableFields: Set<string>): any {
-      let updatedConfig = this.updateResultListContributor(data, availableFields);
-      updatedConfig = this.updateMapContributors(updatedConfig, availableFields);
-      updatedConfig = this.updateChipSearchContributors(updatedConfig, availableFields);
-      return updatedConfig;
+    let updatedConfig = this.updateResultListContributor(data, availableFields);
+    updatedConfig = this.updateMapContributors(updatedConfig, availableFields);
+    updatedConfig = this.updateChipSearchContributors(updatedConfig, availableFields);
+    return updatedConfig;
   }
 
   /**
@@ -180,7 +180,8 @@ export class ArlasConfigurationUpdaterService {
         if (idFeatureField && !availableFields.has(idFeatureField)) {
           delete mapComponentConfig.input.idFieldName;
         }
-        const layerSources = data.arlas.web.contributors.filter(contributor => contributor.type === 'map')[0].layers_sources;
+        const layerSources = data.arlas.web.contributors.filter(contributor => contributor.type === 'map')
+          .map(l => l.layers_sources).reduce((l1, l2) => new Array(...l1, ...l2));
         /** remove layers from visualisation sets if their correponding source is removed from the contributor */
         if (layerSources) {
           const layers = new Set(layerSources.map(ls => ls.id));
@@ -282,7 +283,7 @@ export class ArlasConfigurationUpdaterService {
             availableFields.has(a.attachementUrlField));
         }
         /** remove metadata fields */
-        if (contributor.includeMetadata)  {
+        if (contributor.includeMetadata) {
           contributor.includeMetadata = contributor.includeMetadata.filter(f => availableFields.has(f));
         }
       });
@@ -346,7 +347,7 @@ export class ArlasConfigurationUpdaterService {
           contributor.layers_sources = updatedLayersSources;
         }
         if (contributor.geo_query_field && !availableFields.has(contributor.geo_query_field)) {
-            delete contributor.geo_query_field;
+          delete contributor.geo_query_field;
         }
         if (contributor.search_sort) {
           contributor.search_sort = contributor.search_sort.split(',').filter(s => availableFields.has(s.replace('-', ''))).join(',');
@@ -369,7 +370,7 @@ export class ArlasConfigurationUpdaterService {
     if (data && data.arlas && data.arlas.web && data.arlas.web.contributors) {
       data.arlas.web.contributors.filter(contributor => contributor.type === 'chipssearch').forEach(contributor => {
         if (contributor.autocomplete_field && !availableFields.has(contributor.autocomplete_field)) {
-            delete contributor.autocomplete_field;
+          delete contributor.autocomplete_field;
         }
       });
     }
