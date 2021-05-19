@@ -1,5 +1,22 @@
 # Change Log
 
+## [v17.0.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v17.0.0) (2021-05-19)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v17.0.0-beta.1...v17.0.0)
+
+**Fixed bugs:**
+
+- After deleting a dashboard, an 'Unauthorized action' msg is popped-up, but the dashboard is deleted [\#440](https://github.com/gisaia/ARLAS-wui-toolkit/issues/440)
+- If a session is expired, the pop-up informing of this event is popped several times and freezes the browser [\#439](https://github.com/gisaia/ARLAS-wui-toolkit/issues/439)
+
+## [v17.0.0-beta.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v17.0.0-beta.1) (2021-05-12)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v17.0.0-beta.0...v17.0.0-beta.1)
+
+## [v17.0.0-beta.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v17.0.0-beta.0) (2021-05-10)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v16.1.2...v17.0.0-beta.0)
+
 ## [v16.1.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v16.1.2) (2021-04-30)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v16.1.1...v16.1.2)
