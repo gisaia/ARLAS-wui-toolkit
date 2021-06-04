@@ -1,5 +1,14 @@
 # Change Log
 
+## [v17.1.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v17.1.0) (2021-06-04)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v17.0.0...v17.1.0)
+
+**New stuff:**
+
+- Enhance Walktrough and support i18n [\#458](https://github.com/gisaia/ARLAS-wui-toolkit/issues/458)
+- Support multi-collection in filters bar [\#457](https://github.com/gisaia/ARLAS-wui-toolkit/issues/457)
+
 ## [v17.0.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v17.0.0) (2021-05-19)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v17.0.0-beta.1...v17.0.0)
