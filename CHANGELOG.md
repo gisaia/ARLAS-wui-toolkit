@@ -1,5 +1,13 @@
 # Change Log
 
+## [v17.1.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v17.1.1) (2021-06-14)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v17.1.0...v17.1.1)
+
+**New stuff:**
+
+- Share layers that are visible on the map only [\#463](https://github.com/gisaia/ARLAS-wui-toolkit/issues/463)
+
 ## [v17.1.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v17.1.0) (2021-06-04)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v17.0.0...v17.1.0)
