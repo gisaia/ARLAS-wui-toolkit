@@ -53,8 +53,8 @@ import { ErrorService } from './services/error/error.service';
 import { PaginatorI18n } from './tools/paginatori18n';
 import { MatPaginatorIntl } from '@angular/material/paginator/';
 import { PermissionService } from './services/permission/permission.service';
-import { ArlasOverlayService } from './services/overlays/overlay.service';
 import { isArray } from 'util';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
 
 
@@ -161,6 +161,8 @@ export const MY_CUSTOM_FORMATS = {
       provide: CONFIG_UPDATER,
       useValue: configUpdater
     },
+    { provide: MAT_DIALOG_DATA, useValue: {} },
+    { provide: MatDialogRef, useValue: {} },
     forwardRef(() => ArlasAoiService),
     forwardRef(() => ArlasBookmarkService),
     forwardRef(() => ArlasSettingsService),

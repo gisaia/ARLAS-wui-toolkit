@@ -16,9 +16,9 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnInit, ViewEncapsulation, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialog, MatDialogRef } from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Aggregation } from 'arlas-api';
 import { projType } from 'arlas-web-core';
 import { ArlasSearchField } from '../../components/share/model/ArlasSearchField';
@@ -52,8 +52,8 @@ export class ShareComponent {
     public dialog: MatDialog
   ) { }
 
-  public openDialog() {
-    this.dialog.open(ShareDialogComponent, { data: null });
+  public openDialog(visibilityStatus?: Map<string, boolean>) {
+    this.dialog.open(ShareDialogComponent, { data: visibilityStatus });
   }
 }
 
@@ -104,6 +104,7 @@ export class ShareDialogComponent implements OnInit {
   // we should do the same everywhere, otherwise we will have two sources (settings.yaml (it was env.js) & config.json) to configure
   // the server, and this can lead to incoherences
   constructor(
+    @Inject(MAT_DIALOG_DATA) public data: Map<string, boolean>,
     private _formBuilder: FormBuilder,
     private collaborativeService: ArlasCollaborativesearchService,
     private configService: ArlasConfigService,
@@ -141,7 +142,8 @@ export class ShareDialogComponent implements OnInit {
 
     this.configService.getValue('arlas.web.contributors').forEach(contrib => {
       if (contrib.type === 'map') {
-        this.sharableLayers = Object.assign([], contrib.layers_sources);
+        this.sharableLayers = Object.assign([], !!this.data ? contrib.layers_sources.filter(ls => !!this.data.get(ls.id)) :
+          contrib.layers_sources);
         const visualisationSets = this.configService.getValue('arlas.web.components').mapgl.input.visualisations_sets;
         this.sharableLayers.forEach((ls) => {
           const visualisation = visualisationSets.find(v => {
