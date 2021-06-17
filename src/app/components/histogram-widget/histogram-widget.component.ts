@@ -160,7 +160,7 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy {
     const selection = event[event.length - 1];
     if (histogramRange && !!selection) {
       const detailedHistogramRange = (+selection.endvalue - +selection.startvalue);
-      this.showDetailedHistogram = (detailedHistogramRange <= 0.2 * histogramRange.value);
+      this.showDetailedHistogram = (detailedHistogramRange <= 0.2 * histogramRange);
       this.resizeMainHistogram();
       if (!this.showDetailedHistogram && !!this.detailedContributor) {
         this.detailedContributor.updateData = false;
@@ -272,7 +272,7 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy {
         const selection = this.contributor.intervalSelection;
         if (histogramRange && !!selection) {
           const detailedHistogramRange = (+selection.endvalue - +selection.startvalue);
-          this.showDetailedHistogram = (detailedHistogramRange <= 0.2 * histogramRange.value);
+          this.showDetailedHistogram = (detailedHistogramRange <= 0.2 * histogramRange);
           this.resizeMainHistogram();
           if (this.showDetailedHistogram) {
             if (!this.detailedContributor) {

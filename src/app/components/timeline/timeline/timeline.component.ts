@@ -190,7 +190,7 @@ export class TimelineComponent implements OnInit {
         const timelineRange = this.timelineContributor.range;
         const detailedTimelineRange = this.detailedTimelineContributor.range;
         if (timelineRange && detailedTimelineRange) {
-          this.showDetailedTimeline = (detailedTimelineRange.value <= 0.2 * timelineRange.value);
+          this.showDetailedTimeline = (detailedTimelineRange <= 0.2 * timelineRange);
           this.timelineHistogramComponent.histogram.histogramParams.chartHeight = (this.showDetailedTimeline) ?
             45 : this.timelineComponent.input.chartHeight;
           this.timelineHistogramComponent.histogram.histogramParams.yTicks = (this.showDetailedTimeline) ?
