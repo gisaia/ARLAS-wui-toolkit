@@ -156,7 +156,11 @@ export const MY_CUSTOM_FORMATS = {
   exports: [AppComponent],
   declarations: [AppComponent],
   providers: [
-    { provide: FETCH_OPTIONS, useValue: {} },
+    {
+      provide: FETCH_OPTIONS, useValue: {
+        referrerPolicy: 'origin'
+      }
+    },
     {
       provide: CONFIG_UPDATER,
       useValue: configUpdater
