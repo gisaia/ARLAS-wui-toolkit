@@ -45,13 +45,16 @@ export class ContributorBuilder {
         const collection = !!config['collection'] ? config['collection'] : collaborativesearchService.defaultCollection;
         let contributor;
         let isOneDimension: boolean;
+        let additionalCollections: Array<any>;
         switch (contributorType) {
             case 'metric':
                 contributor = new ComputeContributor(identifier, collaborativesearchService, configService, collection);
                 break;
             case 'histogram':
                 isOneDimension = config['isOneDimension'];
-                contributor = new HistogramContributor(identifier, collaborativesearchService, configService, collection, isOneDimension);
+                additionalCollections = config['additionalCollections'];
+                contributor = new HistogramContributor(identifier, collaborativesearchService, configService, collection,
+                    isOneDimension, additionalCollections);
                 break;
             case 'detailedhistogram':
                 isOneDimension = config['isOneDimension'];
