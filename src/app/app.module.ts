@@ -16,47 +16,45 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { APP_INITIALIZER, NgModule, forwardRef } from '@angular/core';
+import { APP_INITIALIZER, forwardRef, NgModule } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatPaginatorIntl } from '@angular/material/paginator/';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { TranslateService } from '@ngx-translate/core';
-import { ColorGeneratorModule, ColorGeneratorLoader } from 'arlas-web-components';
-import { ArlasBookmarkService } from './services/bookmark/bookmark.service';
-import {
-  ArlasCollaborativesearchService, ArlasStartupService,
-  ArlasConfigService, CONFIG_UPDATER, FETCH_OPTIONS
-} from './services/startup/startup.service';
-import { ArlasAoiService } from './services/aoi/aoi.service';
 import { OwlDateTimeIntl, OWL_DATE_TIME_LOCALE } from '@gisaia-team/ng-pick-datetime';
-import { ArlasColorGeneratorLoader } from './services/color-generator-loader/color-generator-loader.service';
-import { ArlasWalkthroughService } from './services/walkthrough/walkthrough.service';
-import { ArlasExtendService } from './services/extend/extend.service';
-import { ArlasConfigurationDescriptor } from './services/configuration-descriptor/configurationDescriptor.service';
-import { OAuthModule, OAuthModuleConfig, OAuthStorage, ValidationHandler, JwksValidationHandler } from 'angular-oauth2-oidc';
-import { AuthentificationService } from './services/authentification/authentification.service';
-import { ArlasMapSettings } from './services/map-settings/map-settings.service';
-import { ArlasExportCsvService } from './services/export-csv/export-csv.service';
-import { ArlasMapService } from './services/map/map.service';
-import { GET_OPTIONS, PersistenceService } from './services/persistence/persistence.service';
-import { ArlasTranslateIntl } from './components/timeline/date-picker/ArlasTranslateIntl';
+import { TranslateService } from '@ngx-translate/core';
+import { JwksValidationHandler, OAuthModule, ValidationHandler } from 'angular-oauth2-oidc';
+import { ColorGeneratorLoader, ColorGeneratorModule } from 'arlas-web-components';
+import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BookmarkAddDialogComponent, BookmarkComponent } from './components/bookmark/bookmark.component';
 import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.component';
 import { DownloadDialogComponent } from './components/download/download.component';
 import { ErrorModalMsgComponent } from './components/errormodal/errormodal.component';
-import { ShareDialogComponent } from './components/share/share.component';
-import { routing } from './app.routes';
-import { ArlasToolkitSharedModule } from './shared.module';
-import { ArlasSettingsService } from './services/settings/arlas.settings.service';
 import { ErrorModalModule } from './components/errormodal/errormodal.module';
+import { ShareDialogComponent } from './components/share/share.component';
+import { ArlasTranslateIntl } from './components/timeline/date-picker/ArlasTranslateIntl';
+import { ArlasAoiService } from './services/aoi/aoi.service';
+import { AuthentificationService } from './services/authentification/authentification.service';
+import { ArlasBookmarkService } from './services/bookmark/bookmark.service';
+import { ArlasColorGeneratorLoader } from './services/color-generator-loader/color-generator-loader.service';
+import { ArlasConfigurationDescriptor } from './services/configuration-descriptor/configurationDescriptor.service';
 import { ErrorService } from './services/error/error.service';
-import { PaginatorI18n } from './tools/paginatori18n';
-import { MatPaginatorIntl } from '@angular/material/paginator/';
+import { ArlasExportCsvService } from './services/export-csv/export-csv.service';
+import { ArlasExtendService } from './services/extend/extend.service';
+import { ArlasMapSettings } from './services/map-settings/map-settings.service';
+import { ArlasMapService } from './services/map/map.service';
 import { PermissionService } from './services/permission/permission.service';
 import { isArray } from 'util';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { DeviceDetectorModule } from 'ngx-device-detector';
-
+import { GET_OPTIONS, PersistenceService } from './services/persistence/persistence.service';
+import { ArlasSettingsService } from './services/settings/arlas.settings.service';
+import {
+  ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService, CONFIG_UPDATER, FETCH_OPTIONS
+} from './services/startup/startup.service';
+import { ArlasWalkthroughService } from './services/walkthrough/walkthrough.service';
+import { ArlasToolkitSharedModule } from './shared.module';
+import { PaginatorI18n } from './tools/paginatori18n';
 
 export function startupServiceFactory(startupService: ArlasStartupService) {
   const load = () => startupService.load();
@@ -140,10 +138,10 @@ export const MY_CUSTOM_FORMATS = {
 
 @NgModule({
   imports: [
+    AppRoutingModule,
     ArlasToolkitSharedModule,
     BrowserModule,
     BrowserAnimationsModule,
-    routing,
     ColorGeneratorModule.forRoot({
       loader: {
         provide: ColorGeneratorLoader,

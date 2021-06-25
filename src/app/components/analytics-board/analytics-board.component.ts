@@ -27,10 +27,6 @@ import { ArlasCollaborativesearchService, ArlasConfigService } from '../../servi
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { OperationEnum } from 'arlas-web-core';
 import { SpinnerOptions } from '../../tools/utils';
-
-import { ThemePalette, MatSpinner, MatTabChangeEvent } from '@angular/material';
-import { OverlayRef, Overlay, PositionStrategy, ScrollDispatcher } from '@angular/cdk/overlay';
-import { TemplatePortal, ComponentPortal } from '@angular/cdk/portal';
 /**
  * This component organizes the `Widgets` in a board.
  * A Widget is declared within a "group" in the configuration. A group contains one or more Widgets

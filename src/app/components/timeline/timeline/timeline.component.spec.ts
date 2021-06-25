@@ -17,28 +17,31 @@
  * under the License.
  */
 
-import { ComponentFixture, TestBed, async } from '@angular/core/testing';
-import {
-  MatButtonModule, MatCardModule, MatExpansionModule, MatIconModule, MatSelectModule,
-  MatTooltipModule, MatChipsModule
-} from '@angular/material';
-import { BrowserModule } from '@angular/platform-browser';
-import { DonutModule, HistogramModule, PowerbarsModule, ResultsModule, MetricModule } from 'arlas-web-components';
-import { ArlasCollaborativesearchService, ArlasStartupService, ArlasConfigService,
-  CONFIG_UPDATER,
-  FETCH_OPTIONS} from '../../../services/startup/startup.service';
-import { WidgetComponent } from '../../widget/widget.component';
-import { TimelineComponent } from './timeline.component';
-import { TranslateModule, TranslateService, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
-import { TimelineShortcutComponent } from '../../timeline/timeline-shortcut/timeline-shortcut.component';
-import { GetTimeLabelPipe } from '../../../pipes/get-time-label.pipe';
-import { DatePickerComponent } from 'app/components/timeline/date-picker/date-picker.component';
-import { OwlNativeDateTimeModule, OwlDateTimeModule } from '@gisaia-team/ng-pick-datetime';
-import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { BrowserModule } from '@angular/platform-browser';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from '@gisaia-team/ng-pick-datetime';
+import { TranslateFakeLoader, TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { DatePickerComponent } from 'app/components/timeline/date-picker/date-picker.component';
+import { DonutModule, HistogramModule, MetricModule, PowerbarsModule, ResultsModule } from 'arlas-web-components';
+import { GetTimeLabelPipe } from '../../../pipes/get-time-label.pipe';
 import { ArlasConfigurationUpdaterService } from '../../../services/configuration-updater/configurationUpdater.service';
 import { ArlasOverlayService } from '../../../services/overlays/overlay.service';
 import { ArlasColorGeneratorLoader } from '../../../services/color-generator-loader/color-generator-loader.service';
+import {
+  ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService, CONFIG_UPDATER,
+  FETCH_OPTIONS
+} from '../../../services/startup/startup.service';
+import { TimelineShortcutComponent } from '../../timeline/timeline-shortcut/timeline-shortcut.component';
+import { TimelineComponent } from './timeline.component';
 
 describe('TimelineComponent', () => {
   let component: TimelineComponent;

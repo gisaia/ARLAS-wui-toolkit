@@ -20,7 +20,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AoiComponent } from './aoi.component';
-import { MatTableModule, MatCheckboxModule, MatIconModule } from '@angular/material';
+
 import {
   ArlasStartupService, ArlasConfigService,
   ArlasCollaborativesearchService, CONFIG_UPDATER, FETCH_OPTIONS
@@ -28,6 +28,9 @@ import {
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateService, TranslateModule, TranslateFakeLoader, TranslateLoader } from '@ngx-translate/core';
 import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
+import { MatTableModule } from '@angular/material/table';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatIconModule } from '@angular/material/icon';
 
 describe('AoiComponent', () => {
   let component: AoiComponent;

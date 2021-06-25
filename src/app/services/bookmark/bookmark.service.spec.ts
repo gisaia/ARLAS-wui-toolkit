@@ -17,17 +17,14 @@
  * under the License.
  */
 
-import { TestBed, inject } from '@angular/core/testing';
-
-import { ArlasBookmarkService } from './bookmark.service';
-import { ArlasCollaborativesearchService, ArlasStartupService, ArlasConfigService } from '../startup/startup.service';
-import { MatSnackBarModule } from '@angular/material';
-import { ActivatedRoute, Router} from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
-import { HttpClientModule } from '@angular/common/http';
 import { APP_BASE_HREF } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
+import { inject, TestBed } from '@angular/core/testing';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { RouterTestingModule } from '@angular/router/testing';
 import { ArlasConfigurationUpdaterService } from '../configuration-updater/configurationUpdater.service';
-import { of } from 'rxjs';
+import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from '../startup/startup.service';
+import { ArlasBookmarkService } from './bookmark.service';
 
 describe('ArlasBookmarkService', () => {
   beforeEach(() => {

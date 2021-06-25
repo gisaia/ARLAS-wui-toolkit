@@ -2,18 +2,21 @@
 ############   AUTHENTICATION SETTINGS   ###############
 ########################################################
 authentication:
-  use_authent: ${ARLAS_USE_AUTHENT:-false}
-  use_discovery: ${ARLAS_USE_DISCOVERY:-false}
-  issuer: ${ARLAS_AUTHENT_ISSUER}
-  client_id: ${ARLAS_CLIENT_ID}
-  token_endpoint: ${ARLAS_TOKEN_ENDPOINT}
-  userinfo_endpoint: ${ARLAS_USERINFO_ENDPOINT}
-  login_url: ${ARLAS_LOGIN_URL}
-  scope: ${ARLAS_AUTHENT_SCOPE}
-  response_type: ${ARLAS_AUTHENT_RESPONSE_TYPE}
-  jwks_endpoint: ${ARLAS_JWS_ENDPOINT}
-  silent_refresh_timeout: ${ARLAS_AUTHENT_SILENT_REFRESH_TIMEOUT}
-  timeout_factor: ${ARLAS_AUTHENT_TIMEOUT_FACTOR}
-  session_checks_enabled: ${ARLAS_AUTHENT_SESSION_CHECKS_ENABLED}
-  show_debug_information: ${ARLAS_AUTHENT_DEBUG}
-  clear_hash_after_login: ${ARLAS_AUTHENT_CLEAR_HASH}
+  use_authent: false
+  force_connect: false
+  use_discovery: true
+  issuer: https://arlas-cloud-dev.eu.auth0.com/
+  client_id: TrAfmjESYNWrikvK1d7RPnc5Uve7WJqs
+  redirect_uri: http://localhost:4200/callback
+  scope: "openid profile"
+  silent_refresh_redirect_uri: http://localhost:4200/silent-refresh.html
+  require_https: true
+  response_type: "id_token token"
+  silent_refresh_timeout: 10000
+  timeout_factor: 0.75
+  session_checks_enabled: true
+  clear_hash_after_login: true
+  disable_at_hash_check: false
+  show_debug_information: true
+  logout_url: https://arlas-cloud-dev.eu.auth0.com/v2/logout?returnTo=http://localhost:4200
+  storage: sessionstorage

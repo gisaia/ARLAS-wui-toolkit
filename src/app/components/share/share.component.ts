@@ -18,7 +18,7 @@
  */
 import { Component, Input, OnInit, ViewEncapsulation, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Aggregation } from 'arlas-api';
 import { projType } from 'arlas-web-core';
 import { ArlasSearchField } from '../../components/share/model/ArlasSearchField';

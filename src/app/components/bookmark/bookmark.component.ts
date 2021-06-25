@@ -20,12 +20,13 @@
 import { Component, Output, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs';
 import { ArlasBookmarkService } from '../../services/bookmark/bookmark.service';
-import { MatDialogRef, MatDialog, MatPaginator, PageEvent } from '@angular/material';
 import { BookMark } from '../../services/bookmark/model';
 import { BookmarkLocalDatabase } from '../../services/bookmark/bookmarkLocalDatabase';
 import { BookmarkPersistenceDatabase } from '../../services/bookmark/bookmarkPersistenceDatabase';
 import { BookmarkDataSource } from '../../services/bookmark/bookmarkDataSource';
 import { ArlasStartupService } from '../../services/startup/startup.service';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'arlas-bookmark',

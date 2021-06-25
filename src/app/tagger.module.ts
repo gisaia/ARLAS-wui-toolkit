@@ -17,33 +17,31 @@
  * under the License.
  */
 
-import { NgModule, forwardRef, Injectable } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
+import { forwardRef, Injectable, NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatOptionModule } from '@angular/material/core';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTableModule } from '@angular/material/table';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { Observable } from 'rxjs';
 import { TagComponent, TagDialogComponent, TagManagementDialogComponent } from './components/tag/tag.component';
 import { ArlasTagService } from './services/tag/tag.service';
-import {
-  MatAutocompleteModule,
-  MatIconModule,
-  MatProgressBarModule,
-  MatSelectModule,
-  MatOptionModule,
-  MatCheckboxModule,
-  MatInputModule,
-  MatFormFieldModule,
-  MatButtonModule,
-  MatDialogModule,
-  MatSnackBarModule,
-  MatTooltipModule,
-  MatProgressSpinnerModule,
-  MatRadioModule
-} from '@angular/material';
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { BrowserModule } from '@angular/platform-browser';
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatTableModule } from '@angular/material';
 
 @Injectable({
   providedIn: 'root'

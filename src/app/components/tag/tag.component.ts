@@ -16,17 +16,17 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { Component, Input, OnInit, Output, ViewEncapsulation, ElementRef, Renderer2 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { MatDialog, MatDialogRef, MatCheckboxChange } from '@angular/material';
-import { Subject } from 'rxjs';
+import { Component, ElementRef, Input, OnInit, Output, Renderer2, ViewEncapsulation } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatCheckboxChange } from '@angular/material/checkbox';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Aggregation, AggregationResponse, AggregationsRequest } from 'arlas-api';
+import { TagRefRequest } from 'arlas-tagger-api';
+import { from, Subject } from 'rxjs';
+import { ArlasBookmarkService } from '../../services/bookmark/bookmark.service';
 import { ArlasCollaborativesearchService, ArlasConfigService } from '../../services/startup/startup.service';
 import { ArlasTagService } from '../../services/tag/tag.service';
 import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
-import { ArlasBookmarkService } from '../../services/bookmark/bookmark.service';
-import { Aggregation, AggregationsRequest, AggregationResponse } from 'arlas-api';
-import { from } from 'rxjs';
-import { TagRefRequest } from 'arlas-tagger-api';
 
 /**
  * This component allows to tag your selected data (documents). The tag value is set on taggable fields.

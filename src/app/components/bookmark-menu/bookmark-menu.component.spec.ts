@@ -20,7 +20,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BookmarkMenuComponent } from './bookmark-menu.component';
-import { MatChipsModule, MatIconModule, MatTooltipModule } from '@angular/material';
+
 import {
   ArlasStartupService, ArlasConfigService,
   ArlasCollaborativesearchService, CONFIG_UPDATER, FETCH_OPTIONS
@@ -28,6 +28,9 @@ import {
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateService, TranslateModule, TranslateFakeLoader, TranslateLoader } from '@ngx-translate/core';
 import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 describe('BookmarkMenuComponent', () => {
   let component: BookmarkMenuComponent;

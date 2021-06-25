@@ -18,7 +18,7 @@
  */
 
 import { ComponentFixture, TestBed, async, inject } from '@angular/core/testing';
-import { MatChipsModule, MatIconModule, MatMenuModule, MatTooltipModule } from '@angular/material';
+
 import {
   ArlasStartupService,
   ArlasCollaborativesearchService,
@@ -31,7 +31,10 @@ import { TranslateService, TranslateModule, TranslateLoader, TranslateFakeLoader
 import { ArlasWalkthroughService } from '../../services/walkthrough/walkthrough.service';
 import { FormatNumberModule } from 'arlas-web-components';
 import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
-
+import { MatChipsModule } from '@angular/material/chips';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatMenuModule } from '@angular/material/menu';
 
 describe('FiltersChipsComponent', () => {
   let component: FiltersComponent;
