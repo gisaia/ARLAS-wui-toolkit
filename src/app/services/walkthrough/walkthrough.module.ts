@@ -15,7 +15,7 @@ export class ArlasWalkthroughModule {
   /**
    * Use this method in your root module to provide the ColorGeneratorLoader
    */
-  public static forRoot(config: WalkthroughModuleConfig = {}): ModuleWithProviders {
+  public static forRoot(config: WalkthroughModuleConfig = {}): ModuleWithProviders<ArlasWalkthroughModule> {
     return {
       ngModule: ArlasWalkthroughModule,
       providers: [
@@ -25,7 +25,7 @@ export class ArlasWalkthroughModule {
     };
   }
 
-  public static forChild(config: WalkthroughModuleConfig = {}): ModuleWithProviders {
+  public static forChild(config: WalkthroughModuleConfig = {}): ModuleWithProviders<ArlasWalkthroughModule> {
     return {
       ngModule: ArlasWalkthroughModule,
       providers: [

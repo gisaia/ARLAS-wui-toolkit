@@ -16,14 +16,13 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { Injectable, Inject, OnDestroy } from '@angular/core';
-import { WriteApi, StatusApi, Configuration, FetchAPI, TagRefRequest } from 'arlas-tagger-api';
-import { MatSnackBar, MatSnackBarConfig } from '@angular/material';
+import { Inject, Injectable, OnDestroy } from '@angular/core';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { Filter } from 'arlas-api';
-import { Subject, Subscription, from, interval, Observable } from 'rxjs';
-
-import { ArlasCollaborativesearchService, ArlasConfigService } from '../startup/startup.service';
+import { Configuration, FetchAPI, StatusApi, TagRefRequest, WriteApi } from 'arlas-tagger-api';
 import * as portableFetch from 'portable-fetch';
+import { from, interval, Observable, Subject, Subscription } from 'rxjs';
+import { ArlasCollaborativesearchService, ArlasConfigService } from '../startup/startup.service';
 import { TaggerResponse } from './model';
 
 @Injectable()

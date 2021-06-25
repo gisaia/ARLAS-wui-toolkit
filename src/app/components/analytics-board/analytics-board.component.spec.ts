@@ -1,35 +1,29 @@
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import {
-  MatCardModule,
-  MatIconModule,
-  MatExpansionModule,
-  MatSelectModule,
-  MatButtonModule,
-  MatTooltipModule,
-  MatBadgeModule,
-  MatProgressSpinnerModule,
-  MatTabsModule
-} from '@angular/material';
-import { AnalyticsBoardComponent } from './analytics-board.component';
-import { WidgetComponent } from '../widget/widget.component';
-import { ProgressSpinnerComponent } from '../progress-spinner/progress-spinner.component';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserModule } from '@angular/platform-browser';
 import {
-  HistogramModule, ResultsModule, PowerbarsModule, DonutModule, MetricModule
-} from 'arlas-web-components';
-import {
-  TranslateModule, TranslateService, TranslateStore, TranslateLoader,
-  TranslateFakeLoader
+  TranslateFakeLoader, TranslateLoader, TranslateModule, TranslateService, TranslateStore
 } from '@ngx-translate/core';
+import { DonutModule, HistogramModule, MetricModule, PowerbarsModule, ResultsModule } from 'arlas-web-components';
+import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
 import {
-  ArlasStartupService, ArlasConfigService, ArlasCollaborativesearchService,
-  CONFIG_UPDATER,
+  ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService, CONFIG_UPDATER,
   FETCH_OPTIONS
 } from '../../services/startup/startup.service';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { DragDropModule } from '@angular/cdk/drag-drop';
-import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
 import { HistogramWidgetComponent } from '../histogram-widget/histogram-widget.component';
+import { ProgressSpinnerComponent } from '../progress-spinner/progress-spinner.component';
+import { WidgetComponent } from '../widget/widget.component';
+import { AnalyticsBoardComponent } from './analytics-board.component';
 
 describe('AnalyticsBoardComponent', () => {
   let component: AnalyticsBoardComponent;
@@ -62,7 +56,7 @@ describe('AnalyticsBoardComponent', () => {
           useClass: ArlasConfigurationUpdaterService
         },
         { provide: CONFIG_UPDATER, useValue: {} },
-        {provide: FETCH_OPTIONS, useValue: {}}
+        { provide: FETCH_OPTIONS, useValue: {} }
       ]
     }).compileComponents();
   }));

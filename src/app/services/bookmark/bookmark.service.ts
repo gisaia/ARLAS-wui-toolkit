@@ -18,7 +18,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { MatSnackBar, MatSnackBarConfig } from '@angular/material';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Expression, Filter } from 'arlas-api';
 import { Collaboration, projType, fromEntries } from 'arlas-web-core';
@@ -30,7 +30,6 @@ import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupServic
 import { BookmarkLocalDatabase } from './bookmarkLocalDatabase';
 import { BookmarkPersistenceDatabase } from './bookmarkPersistenceDatabase';
 import { BookMark, BookMarkType } from './model';
-
 
 /** Constants used to fill up our data base. */
 @Injectable()

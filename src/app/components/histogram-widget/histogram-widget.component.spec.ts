@@ -5,12 +5,16 @@ import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupServic
   CONFIG_UPDATER,
   FETCH_OPTIONS} from '../../services/startup/startup.service';
 import { HistogramModule, ResultsModule, DonutModule, MetricModule, PowerbarsModule } from 'arlas-web-components';
-import { MatSelectModule, MatTooltipModule, MatIconModule, MatProgressSpinnerModule } from '@angular/material';
+
 import { HttpClientModule } from '@angular/common/http';
 import { TranslateModule, TranslateService, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
 import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
 import { ProgressSpinnerComponent } from '../progress-spinner/progress-spinner.component';
 import { ArlasOverlayService } from '../../services/overlays/overlay.service';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 describe('HistogramWidgetComponent', () => {
   let component: HistogramWidgetComponent;

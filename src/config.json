@@ -682,7 +682,7 @@
     "server": {
       "url": "http://localhost:9999/arlas",
       "collection": {
-        "name": "demo_ais-position",
+        "name": "demo_ais_position",
         "id": "id"
       },
       "max_age_cache": 120

@@ -17,18 +17,19 @@
  * under the License.
  */
 
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { ExtendComponent } from './extend.component';
-import { MatTableModule, MatCheckboxModule, MatIconModule, MatPaginatorModule, MatPaginator } from '@angular/material';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatIconModule } from '@angular/material/icon';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
+import { TranslateFakeLoader, TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
 import {
-  ArlasStartupService, ArlasConfigService, ArlasCollaborativesearchService,
-  CONFIG_UPDATER,
+  ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService, CONFIG_UPDATER,
   FETCH_OPTIONS
 } from '../../services/startup/startup.service';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { TranslateService, TranslateModule, TranslateFakeLoader, TranslateLoader } from '@ngx-translate/core';
-import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
+import { ExtendComponent } from './extend.component';
 
 describe('ExtendComponent', () => {
   let component: ExtendComponent;
@@ -55,7 +56,7 @@ describe('ExtendComponent', () => {
           provide: ArlasConfigurationUpdaterService,
           useClass: ArlasConfigurationUpdaterService
         },
-        {provide: FETCH_OPTIONS, useValue: {}}
+        { provide: FETCH_OPTIONS, useValue: {} }
       ]
     })
       .compileComponents();

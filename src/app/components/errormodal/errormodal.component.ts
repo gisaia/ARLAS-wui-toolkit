@@ -19,7 +19,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { Error } from '../../services/startup/startup.service';
-import { MatDialog, MatDialogRef } from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ErrorService } from '../../services/error/error.service';
 
 /**

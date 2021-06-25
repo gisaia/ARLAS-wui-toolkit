@@ -16,69 +16,79 @@ KIND, either express or implied.  See the License for the
 specific language governing permissions and limitations
 under the License.
 */
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { ScrollingModule } from '@angular/cdk/scrolling';
+import { CommonModule } from '@angular/common';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { ExtendComponent } from './components/extend/extend.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatListModule } from '@angular/material/list';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatTableModule } from '@angular/material/table';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { OwlDateTimeModule, OwlMomentDateTimeModule, OwlNativeDateTimeModule } from '@gisaia-team/ng-pick-datetime';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import {
+  ColorGeneratorLoader, ColorGeneratorModule, DonutModule, FormatNumberModule,
+  HistogramModule, MapglLegendModule, MetricModule, PowerbarsModule, ResultsModule
+} from 'arlas-web-components';
+import en from 'arlas-web-components/assets/i18n/en.json';
+import fr from 'arlas-web-components/assets/i18n/fr.json';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { Observable } from 'rxjs';
 import { AnalyticsBoardComponent } from './components/analytics-board/analytics-board.component';
-import { LanguageSwitcherComponent } from './components/language-switcher/language-switcher.component';
-import { ExcludeTypePipe } from './components/share/exclude-type.pipe';
-import { ShareComponent, ShareDialogComponent } from './components/share/share.component';
-import { WidgetComponent } from './components/widget/widget.component';
+import { AoiComponent } from './components/aoi/aoi.component';
+import { BookmarkMenuComponent } from './components/bookmark-menu/bookmark-menu.component';
+import { BookmarkAddDialogComponent, BookmarkComponent } from './components/bookmark/bookmark.component';
+import { ActionModalComponent } from './components/config-manager/action-modal/action-modal.component';
+import { ActionModalModule } from './components/config-manager/action-modal/action-modal.module';
+import { ConfigMenuModule } from './components/config-manager/config-menu/config-menu.module';
 import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.component';
-import { TimelineComponent } from './components/timeline/timeline/timeline.component';
-import { TimelineShortcutComponent } from './components/timeline/timeline-shortcut/timeline-shortcut.component';
-import { DatePickerComponent } from './components/timeline/date-picker/date-picker.component';
+import { DonutTooltipOverlayComponent } from './components/donut-tooltip-overlay/donut-tooltip-overlay.component';
+import { DownloadComponent, DownloadDialogComponent } from './components/download/download.component';
+import { ErrorModalModule } from './components/errormodal/errormodal.module';
+import { ExtendComponent } from './components/extend/extend.component';
 import {
   ConcatCollectionPipe, FiltersComponent, GetCollaborationIconPipe, GetColorFilterPipe,
   GetContributorLabelPipe
 } from './components/filters/filters.component';
-import { SearchComponent } from './components/search/search.component';
-import { DownloadComponent, DownloadDialogComponent } from './components/download/download.component';
-import { AoiComponent } from './components/aoi/aoi.component';
-import { BookmarkComponent, BookmarkAddDialogComponent } from './components/bookmark/bookmark.component';
-import { BookmarkMenuComponent } from './components/bookmark-menu/bookmark-menu.component';
-import { ProgressSpinnerComponent } from './components/progress-spinner/progress-spinner.component';
-import { GetTimeLabelPipe } from './pipes/get-time-label.pipe';
-import { ResultsModule } from 'arlas-web-components/components/results/results.module';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { PowerbarsModule } from 'arlas-web-components/components/powerbars/powerbars.module';
-import { CommonModule } from '@angular/common';
-import { DonutModule } from 'arlas-web-components/components/donut/donut.module';
-import { DragDropModule } from '@angular/cdk/drag-drop';
-import { HistogramModule } from 'arlas-web-components/components/histogram/histogram.module';
-import { MetricModule } from 'arlas-web-components/components/metric/metric.module';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
-import {
-  MatButtonModule, MatCardModule, MatDialogModule,
-  MatExpansionModule, MatIconModule, MatRadioModule, MatChipsModule, MatSelectModule,
-  MatStepperModule, MatSnackBarModule, MatInputModule, MatProgressBarModule, MatListModule,
-  MatTooltipModule, MatTableModule, MatCheckboxModule,
-  MatFormFieldModule, MatProgressSpinnerModule, MatTabsModule, MatPaginatorModule
-} from '@angular/material';
-import { MatAutocompleteModule } from '@angular/material';
-import { OwlDateTimeModule, OwlNativeDateTimeModule, OwlMomentDateTimeModule } from '@gisaia-team/ng-pick-datetime';
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { Observable } from 'rxjs';
-import { FormatNumberModule, ColorGeneratorModule, ColorGeneratorLoader, MapglLegendModule } from 'arlas-web-components';
-import { ErrorModalModule } from './components/errormodal/errormodal.module';
-import { ConfigMenuModule } from './components/config-manager/config-menu/config-menu.module';
-import { UserInfosComponent } from './components/user-infos/user-infos.component';
-import { ReconnectDialogComponent } from './components/reconnect-dialog/reconnect-dialog.component';
-import { FetchInterceptorService } from './services/interceptor/fetch-interceptor.service';
-import { ActionModalComponent } from './components/config-manager/action-modal/action-modal.component';
-import { ActionModalModule } from './components/config-manager/action-modal/action-modal.module';
-import en from 'arlas-web-components/assets/i18n/en.json';
-import fr from 'arlas-web-components/assets/i18n/fr.json';
-import { InvalidConfigDialogComponent } from './components/invalid-config-dialog/invalid-config-dialog.component';
-import { ArlasColorGeneratorLoader } from './services/color-generator-loader/color-generator-loader.service';
-import { LinkComponent } from './components/link/link.component';
-import { NgxSpinnerModule } from 'ngx-spinner';
-import { HistogramWidgetComponent } from './components/histogram-widget/histogram-widget.component';
-import { ArlasOverlayService } from './services/overlays/overlay.service';
-import { ScrollDispatchModule } from '@angular/cdk/scrolling';
 import { HistogramTooltipOverlayComponent } from './components/histogram-tooltip-overlay/histogram-tooltip-overlay.component';
-import { DonutTooltipOverlayComponent } from './components/donut-tooltip-overlay/donut-tooltip-overlay.component';
-import {  ArlasWalkthroughModule } from './services/walkthrough/walkthrough.module';
-
+import { HistogramWidgetComponent } from './components/histogram-widget/histogram-widget.component';
+import { InvalidConfigDialogComponent } from './components/invalid-config-dialog/invalid-config-dialog.component';
+import { LanguageSwitcherComponent } from './components/language-switcher/language-switcher.component';
+import { LinkComponent } from './components/link/link.component';
+import { ProgressSpinnerComponent } from './components/progress-spinner/progress-spinner.component';
+import { ReconnectDialogComponent } from './components/reconnect-dialog/reconnect-dialog.component';
+import { SearchComponent } from './components/search/search.component';
+import { ExcludeTypePipe } from './components/share/exclude-type.pipe';
+import { ShareComponent, ShareDialogComponent } from './components/share/share.component';
+import { DatePickerComponent } from './components/timeline/date-picker/date-picker.component';
+import { TimelineShortcutComponent } from './components/timeline/timeline-shortcut/timeline-shortcut.component';
+import { TimelineComponent } from './components/timeline/timeline/timeline.component';
+import { UserInfosComponent } from './components/user-infos/user-infos.component';
+import { WidgetComponent } from './components/widget/widget.component';
+import { GetTimeLabelPipe } from './pipes/get-time-label.pipe';
+import { ArlasColorGeneratorLoader } from './services/color-generator-loader/color-generator-loader.service';
+import { FetchInterceptorService } from './services/interceptor/fetch-interceptor.service';
+import { ArlasOverlayService } from './services/overlays/overlay.service';
+import { ArlasWalkthroughModule } from './services/walkthrough/walkthrough.module';
 
 export class CustomTranslateLoader implements TranslateLoader {
 
@@ -148,7 +158,7 @@ export class CustomTranslateLoader implements TranslateLoader {
     ReactiveFormsModule,
     ResultsModule,
     ConfigMenuModule,
-    ScrollDispatchModule,
+    ScrollingModule,
     FormatNumberModule,
     ErrorModalModule,
     NgxSpinnerModule,
@@ -166,7 +176,7 @@ export class CustomTranslateLoader implements TranslateLoader {
         deps: [HttpClient]
       }
     }),
-    ArlasWalkthroughModule.forRoot({})
+    ArlasWalkthroughModule.forRoot()
   ],
   exports: [
     AnalyticsBoardComponent,

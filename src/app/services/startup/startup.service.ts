@@ -17,46 +17,40 @@
  * under the License.
  */
 
+import { LOCATION_INITIALIZED } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable, Injector, InjectionToken } from '@angular/core';
-import { Configuration, ExploreApi, CollectionsApi, CollectionReferenceDescription, CollectionReferenceParameters } from 'arlas-api';
-import { DonutComponent, HistogramComponent, MapglComponent, PowerbarsComponent, MetricComponent } from 'arlas-web-components';
+import { Inject, Injectable, InjectionToken, Injector } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import ajv from 'ajv';
+import * as ajvKeywords from 'ajv-keywords/keywords/uniqueItemProperties';
+import * as draftSchema from 'ajv/lib/refs/json-schema-draft-06.json';
+import { CollectionReferenceDescription, CollectionReferenceParameters, CollectionsApi, Configuration, ExploreApi } from 'arlas-api';
+import { DataWithLinks } from 'arlas-persistence-api';
+import { DonutComponent, HistogramComponent, MapglComponent, MetricComponent, PowerbarsComponent } from 'arlas-web-components';
 import {
-    HistogramContributor,
-    MapContributor,
-    ResultListContributor,
-    SwimLaneContributor,
-    ChipsSearchContributor,
-    DetailedHistogramContributor,
-    TreeContributor,
-    ComputeContributor
+  ChipsSearchContributor, ComputeContributor, DetailedHistogramContributor, HistogramContributor,
+  MapContributor,
+  ResultListContributor,
+  SwimLaneContributor, TreeContributor
 } from 'arlas-web-contributors';
 import { AnalyticsContributor } from 'arlas-web-contributors/contributors/AnalyticsContributor';
-import * as arlasConfSchema from './arlasconfig.schema.json';
-import * as arlasSettingsSchema from './settings.schema.json';
-import * as draftSchema from 'ajv/lib/refs/json-schema-draft-06.json';
+import * as rootContributorConfSchema from 'arlas-web-contributors/jsonSchemas/rootContributorConf.schema.json';
 import { CollaborativesearchService, ConfigService } from 'arlas-web-core';
 import { projType } from 'arlas-web-core/models/projections';
-import { ContributorBuilder } from './contributorBuilder';
-import { flatMap } from 'rxjs/operators';
-import ajv from 'ajv';
 import YAML from 'js-yaml';
-import * as ajvKeywords from 'ajv-keywords/keywords/uniqueItemProperties';
-import * as rootContributorConfSchema from 'arlas-web-contributors/jsonSchemas/rootContributorConf.schema.json';
 import { Subject } from 'rxjs';
-import { TranslateService } from '@ngx-translate/core';
-import { LOCATION_INITIALIZED } from '@angular/common';
-import { ArlasConfigurationUpdaterService } from '../configuration-updater/configurationUpdater.service.js';
-import { getFieldProperties } from '../../tools/utils.js';
+import { flatMap } from 'rxjs/operators';
 import { PersistenceService, PersistenceSetting } from '../../services/persistence/persistence.service';
-import { DataWithLinks } from 'arlas-persistence-api';
+import { CONFIG_ID_QUERY_PARAM, getFieldProperties } from '../../tools/utils';
 import { AuthentificationService, AuthentSetting, NOT_CONFIGURED } from '../authentification/authentification.service';
-import { ArlasSettingsService } from '../settings/arlas.settings.service';
+import { ArlasConfigurationUpdaterService } from '../configuration-updater/configurationUpdater.service';
 import { ErrorService } from '../error/error.service';
 import { FetchInterceptorService } from '../interceptor/fetch-interceptor.service';
-import { CONFIG_ID_QUERY_PARAM } from '../../tools/utils';
 import { PermissionSetting } from '../permission/permission.service';
-
+import { ArlasSettingsService } from '../settings/arlas.settings.service';
+import * as arlasConfSchema from './arlasconfig.schema.json';
+import { ContributorBuilder } from './contributorBuilder';
+import * as arlasSettingsSchema from './settings.schema.json';
 
 @Injectable({
     providedIn: 'root'

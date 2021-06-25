@@ -19,7 +19,7 @@
 
 import { Component, OnInit, Input } from '@angular/core';
 import { BookMark } from '../../services/bookmark/model';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { ArlasBookmarkService } from '../../services/bookmark/bookmark.service';
 import { BookmarkAddDialogComponent, BookmarkComponent } from '../bookmark/bookmark.component';
 import { BookmarkPersistenceDatabase } from '../../services/bookmark/bookmarkPersistenceDatabase';

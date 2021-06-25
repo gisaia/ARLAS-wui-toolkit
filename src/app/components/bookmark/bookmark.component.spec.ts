@@ -20,13 +20,17 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BookmarkComponent } from './bookmark.component';
-import { MatTableModule, MatCheckboxModule, MatIconModule, MatPaginatorModule } from '@angular/material';
+
 import { ArlasStartupService, ArlasConfigService, ArlasCollaborativesearchService,
   CONFIG_UPDATER,
   FETCH_OPTIONS} from '../../services/startup/startup.service';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateService, TranslateModule, TranslateFakeLoader, TranslateLoader } from '@ngx-translate/core';
 import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
+import { MatTableModule } from '@angular/material/table';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatIconModule } from '@angular/material/icon';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 describe('BookmarkComponent', () => {
   let component: BookmarkComponent;

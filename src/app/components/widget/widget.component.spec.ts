@@ -1,17 +1,21 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { WidgetComponent } from './widget.component';
-import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService,
-  CONFIG_UPDATER,
-  FETCH_OPTIONS} from '../../services/startup/startup.service';
-import { HistogramModule, ResultsModule, DonutModule, MetricModule, PowerbarsModule } from 'arlas-web-components';
-import { MatSelectModule, MatTooltipModule, MatIconModule, MatProgressSpinnerModule } from '@angular/material';
 import { HttpClientModule } from '@angular/common/http';
-import { TranslateModule, TranslateService, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { TranslateFakeLoader, TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { DonutModule, HistogramModule, MetricModule, PowerbarsModule, ResultsModule } from 'arlas-web-components';
 import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
+import { ArlasOverlayService } from '../../services/overlays/overlay.service';
+import {
+  ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService,
+  CONFIG_UPDATER,
+  FETCH_OPTIONS
+} from '../../services/startup/startup.service';
 import { HistogramWidgetComponent } from '../histogram-widget/histogram-widget.component';
 import { ProgressSpinnerComponent } from '../progress-spinner/progress-spinner.component';
-import { ArlasOverlayService } from '../../services/overlays/overlay.service';
+import { WidgetComponent } from './widget.component';
 
 describe('WidgetComponent', () => {
   let component: WidgetComponent;

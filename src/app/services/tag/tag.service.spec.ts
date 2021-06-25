@@ -17,13 +17,12 @@
  * under the License.
  */
 import { APP_BASE_HREF } from '@angular/common';
-import { TestBed, inject } from '@angular/core/testing';
 import { HttpClientModule } from '@angular/common/http';
-import { MatSnackBarModule } from '@angular/material';
-import { ArlasToolKitModule } from '../../app.module';
+import { TestBed } from '@angular/core/testing';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { ArlasConfigurationUpdaterService } from '../configuration-updater/configurationUpdater.service';
 import { ArlasCollaborativesearchService, ArlasStartupService } from '../startup/startup.service';
 import { ArlasTagService } from './tag.service';
-import { ArlasConfigurationUpdaterService } from '../configuration-updater/configurationUpdater.service';
 
 describe('ArlasTagService', () => {
   beforeEach(() => {

@@ -17,12 +17,16 @@
  * under the License.
  */
 
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ShareConfigComponent } from './share-config.component';
+import { NgModule } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatTableModule } from '@angular/material/table';
 import { TranslateModule } from '@ngx-translate/core';
-import { MatMenuModule, MatIconModule, MatButtonModule, MatTableModule, MatCheckboxModule } from '@angular/material';
 import { ErrorService } from '../../../services/error/error.service';
+import { ShareConfigComponent } from './share-config.component';
 
 @NgModule({
   imports: [
