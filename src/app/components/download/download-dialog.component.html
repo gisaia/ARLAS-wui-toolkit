@@ -69,37 +69,6 @@
           </mat-list>
         </div>
       </div>
-      <div *ngIf="exportTypeGroup.get('exportType').value === 'csv'" class="fields-form">
-        <div class="download-feature-block">
-          <mat-form-field class="download-form-field" >
-            <mat-select placeholder="{{'Order by' | translate}}" formControlName="orderField" [(value)]="selectedFirstOrderField"
-              panelClass="download-order-field" (valueChange)="orderSelect()">
-              <mat-option [value]="">{{'None' | translate}}</mat-option>
-              <mat-option *ngFor="let field of selectedSortableFields" [value]="field">
-                {{ field.label }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-          <mat-form-field class="download-form-field">
-            <mat-select placeholder="{{'Then order by' | translate}}" formControlName="orderField2" [(value)]="selectedSecondOrderField"
-              panelClass="download-order-field" (valueChange)="orderSelect()">
-              <mat-option [value]="">{{'None' | translate}}</mat-option>
-              <mat-option *ngFor="let field of selectedSortableFields" [value]="field">
-                {{ field.label }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-          <mat-form-field class="download-form-field">
-            <mat-select placeholder="{{'Finally order by' | translate}}" formControlName="orderField3"   [(value)]="selectedThirdOrderField"
-              panelClass="download-order-field" (valueChange)="orderSelect()">
-              <mat-option [value]="">{{'None' | translate}}</mat-option>
-              <mat-option *ngFor="let field of selectedSortableFields" [value]="field">
-                {{ field.label }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-      </div>
       <div>
         <mat-divider style="margin-top:15px;"></mat-divider>
         <button mat-button matStepperPrevious class="download-stepper-button">{{ 'Back' | translate}}</button>
@@ -114,11 +83,10 @@
       -it \
       --mount dst=/output,src="$PWD",type=bind \
       --rm \
-      gisaia/arlas-hits-exporter \
-        --search_url="{{server.url}}/explore/{{server.collection.name}}/_search?size=9999&sort={{server.collection.id}}&{{filterUrl}}" \
+      gisaia/arlas-hits-exporter:2 \
+        --search_url="{{server.url}}/explore/{{server.collection.name}}/_search?size=9999&sort={{this.collectionRef?.params.id_path}}&{{filterUrl}}" \
         --include={{selectedFieldString}} \
-        --format={{this.exportedTypeCommand}}
-        {{this.orderCommand}}
+        --format={{this.exportedTypeCommand}} \
         {{authTypeCommand}}
   </textarea>
     </div>

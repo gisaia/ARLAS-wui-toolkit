@@ -17,11 +17,13 @@
  * under the License.
  */
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material';
+import { AuthentificationService } from '../../services/authentification/authentification.service';
+import { CollectionReferenceDescription } from 'arlas-api';
+import { projType } from 'arlas-web-core';
 import { ArlasCollaborativesearchService, ArlasConfigService } from '../../services/startup/startup.service';
 import { ArlasSearchField } from '../share/model/ArlasSearchField';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { projType } from 'arlas-web-core';
 
 @Component({
   selector: 'arlas-download',
@@ -39,7 +41,6 @@ export class DownloadComponent {
   public openDialog() {
     this.dialog.open(DownloadDialogComponent, { data: null });
   }
-
 }
 
 @Component({
@@ -58,29 +59,22 @@ export class DownloadDialogComponent implements OnInit {
   public selectedSecondOrderField: ArlasSearchField;
   public selectedThirdOrderField: ArlasSearchField;
 
-  public firstOrderColunm: number;
-  public secondOrderColunm: number;
-  public thirdOrderColunm: number;
-  public orderCommand: string;
   public filterUrl: string;
   public exportedTypeCommand: string;
   public authTypeCommand: string;
 
   public isCopied = false;
-
   public server: any;
 
   public exportTypeGroup: FormGroup;
   public paramFormGroup: FormGroup;
-
-  private downloadConfig: any;
-  private GEO_TYPE_PREFIX = 'GEO_';
-  private BASIC_AUTH_TYPE = 'basic';
+  public collectionRef: CollectionReferenceDescription;
 
   constructor(
     private formBuilder: FormBuilder,
     private collaborativeService: ArlasCollaborativesearchService,
-    private configService: ArlasConfigService
+    private configService: ArlasConfigService,
+    private authService: AuthentificationService
   ) { }
 
   public ngOnInit() {
@@ -88,21 +82,16 @@ export class DownloadDialogComponent implements OnInit {
       exportType: ['', Validators.required]
     });
     this.paramFormGroup = this.formBuilder.group({
-      availableFields: ['', Validators.required],
-      orderField: [''],
-      orderField2: [{ value: '', disabled: true }],
-      orderField3: [{ value: '', disabled: true }]
+      availableFields: ['', Validators.required]
     });
-    const components = this.configService.getValue('arlas.web.components');
-    if (components.download) {
-      this.downloadConfig = components.download;
-    }
+
     // for now, the ARLAS-server url is fetched from the config in the startup service.
     // we should do the same everywhere, otherwise we will have two sources (settings.yaml (it was env.js) & config.json) to configure
     // the server, and this can lead to incoherences
     this.server = this.configService.getValue('arlas.server');
     this.collaborativeService.describe(this.server.collection.name).subscribe(
       description => {
+        this.collectionRef = description;
         const fields = description.properties;
         if (fields) {
           Object.keys(fields).forEach(fieldName => {
@@ -123,26 +112,6 @@ export class DownloadDialogComponent implements OnInit {
       this.selectedFields.push(new ArlasSearchField(field[0].trim(), field[1].trim()));
       this.selectedFieldString += (index !== 0 ? ',' : '') + field[0].trim();
     });
-    this.selectedSortableFields = this.selectedFields.filter(sf => !sf.type.startsWith(this.GEO_TYPE_PREFIX));
-    this.selectedFirstOrderField = null;
-    this.selectedSecondOrderField = null;
-    this.selectedThirdOrderField = null;
-  }
-
-  public orderSelect() {
-    if (this.selectedFirstOrderField) {
-      this.paramFormGroup.get('orderField2').enable();
-    } else {
-      this.paramFormGroup.get('orderField2').disable();
-      this.selectedSecondOrderField = null;
-    }
-
-    if (this.selectedSecondOrderField) {
-      this.paramFormGroup.get('orderField3').enable();
-    } else {
-      this.paramFormGroup.get('orderField3').disable();
-      this.selectedThirdOrderField = null;
-    }
   }
 
   /**
@@ -153,37 +122,10 @@ export class DownloadDialogComponent implements OnInit {
     if (event.selectedIndex === 2) {
       this.isCopied = false;
       this.exportedTypeCommand = this.exportTypeGroup.get('exportType').value;
-      this.orderCommand = '';
       const filters = Array.from(this.collaborativeService.collaborations.values()).map(element => element.filter);
       this.filterUrl = this.collaborativeService.getUrl([projType.search, []], filters);
-      if (this.exportTypeGroup.get('exportType').value === 'csv'
-        && (this.selectedFirstOrderField || this.selectedSecondOrderField || this.selectedThirdOrderField)) {
-        this.exportedTypeCommand += ' \\';
-        this.firstOrderColunm = 1;
-        this.secondOrderColunm = 2;
-        this.thirdOrderColunm = 3;
-        this.selectedSortableFields.forEach((field, index) => {
-          if (this.selectedFirstOrderField && field.label === this.selectedFirstOrderField.label) {
-            this.firstOrderColunm = index + 1;
-          }
-          if (this.selectedSecondOrderField && field.label === this.selectedSecondOrderField.label) {
-            this.secondOrderColunm = index + 1;
-          }
-          if (this.selectedThirdOrderField && field.label === this.selectedThirdOrderField.label) {
-            this.thirdOrderColunm = index + 1;
-          }
-        });
-        this.orderCommand = '--sort_csv=' + (this.selectedFirstOrderField ? '-k' + this.firstOrderColunm + ' ' : '')
-          + (this.selectedSecondOrderField ? '-k' + this.secondOrderColunm + ' ' : '')
-          + (this.selectedThirdOrderField ? '-k' + this.thirdOrderColunm : '');
-      }
-      if (this.downloadConfig && this.downloadConfig.auth_type === this.BASIC_AUTH_TYPE) {
-        if (this.orderCommand && this.orderCommand !== '') {
-          this.orderCommand += ' \\';
-        } else {
-          this.exportedTypeCommand += ' \\';
-        }
-        this.authTypeCommand = '--auth=' + this.BASIC_AUTH_TYPE;
+      if (!!this.authService.idToken) {
+        this.authTypeCommand = '--auth=token --token=' + this.authService.idToken;
       }
     }
   }
