@@ -74,7 +74,7 @@ export class ArlasExportCsvService {
     if (nbBuckets) {
       const agg = this.collaborativesearchService.resolveButNotComputation([projType.compute,
       <ComputationRequest>{ filter: null, field: field, metric: ComputationRequest.MetricEnum.SPANNING }],
-      collaborations, contributor.identifier)
+      collaborations, contributor.collection)
         .pipe(
           map((computationResponse: ComputationResponse) => {
             const dataRange = computationResponse.value || 0;
