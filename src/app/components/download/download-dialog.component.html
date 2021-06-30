@@ -83,7 +83,7 @@
       -it \
       --mount dst=/output,src="$PWD",type=bind \
       --rm \
-      gisaia/arlas-hits-exporter:2 \
+      gisaia/arlas-hits-exporter:2.1 \
         --search_url="{{server.url}}/explore/{{server.collection.name}}/_search?size=9999&sort={{this.collectionRef?.params.id_path}}&{{filterUrl}}" \
         --include={{selectedFieldString}} \
         --format={{this.exportedTypeCommand}} \
