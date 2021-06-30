@@ -1,5 +1,14 @@
 # Change Log
 
+## [v17.2.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v17.2.1) (2021-06-30)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v17.2.0...v17.2.1)
+
+**Fixed bugs:**
+
+- Remove sort option from download module [\#469](https://github.com/gisaia/ARLAS-wui-toolkit/issues/469)
+- Add authentication token in download command line [\#468](https://github.com/gisaia/ARLAS-wui-toolkit/issues/468)
+
 ## [v17.2.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v17.2.0) (2021-06-24)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v17.1.2...v17.2.0)
