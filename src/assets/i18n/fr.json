@@ -138,5 +138,12 @@
 		"doneBtn": "Terminé",
 		"skipBtn": "Passer",
 		"closeTooltip": "Fermer"
-	}
+	},
+  "per": " par ",
+  "hour": "heure",
+  "hours": "heures",
+  "minute": "minute",
+  "minutes": "minutes",
+  "second": "seconde",
+  "seconds": "secondes"
 }

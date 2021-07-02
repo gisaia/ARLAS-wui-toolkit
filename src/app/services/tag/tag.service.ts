@@ -100,7 +100,12 @@ export class ArlasTagService implements OnDestroy {
 
     const filters = new Array<Filter>();
     this.collaborativeSearchService.collaborations.forEach(element => {
-      filters.push(element.filter);
+      if (!!element.filters) {
+        element.filters.forEach((filter, collection) => {
+          filters.push(filter[0]);
+
+        });
+      }
     });
     const filter = this.collaborativeSearchService.getFinalFilter(filters);
 

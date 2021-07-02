@@ -149,8 +149,10 @@ export class SearchComponent {
         q: [[this.searchContributor.search_field + ':' + value.trim()]]
       };
 
+      const collabFilters = new Map<string, Filter[]>();
+      collabFilters.set(this.searchContributor.collection, [filter]);
       const collaboration: Collaboration = {
-        filter: filter,
+        filters: collabFilters,
         enabled: true
       };
 
