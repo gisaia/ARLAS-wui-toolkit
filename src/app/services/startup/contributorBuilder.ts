@@ -58,8 +58,9 @@ export class ContributorBuilder {
                 break;
             case 'detailedhistogram':
                 isOneDimension = config['isOneDimension'];
+                additionalCollections = config['additionalCollections'];
                 contributor = new DetailedHistogramContributor(identifier, collaborativesearchService, configService, collection,
-                    isOneDimension);
+                    isOneDimension, additionalCollections);
                 break;
             case 'resultlist':
                 contributor = new ResultListContributor(identifier, collaborativesearchService, configService, collection);

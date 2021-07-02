@@ -1,11 +1,21 @@
 
-<div class="arlas-timeline--timeshortcuts">
+<div class="arlas-timeline--tools">
+  <div class="arlas-timeline--legend" *ngIf="!!timelineLegend && timelineLegend.length > 1">
+    <div  *ngFor="let collectionLegend of timelineLegend" class="arlas-timeline--legend-container" (click)="hideShowCollection(collectionLegend)">
+      <div class="arlas-timeline--legend-chip"  [style.backgroundColor]="collectionLegend.active ? collectionLegend.color : '#dadada'"></div>
+      <div class="arlas-timeline--legend-collection" [style.color]="collectionLegend.active ? '#444' : '#bbb'" >{{collectionLegend.collection}}</div>
+    </div>
+  </div>
   <arlas-timeline-shortcut [activeDatePicker]="activeDatePicker" [timelineComponent]="timelineComponent" [dateFormat]="timelineComponent?.dateFormat"></arlas-timeline-shortcut>
+</div>
+<div class="arlas-timeline--legend">
+
 </div>
 <div class="arlas-timeline--timelines" #arlasTimeline>
     <div *ngIf="detailedTimelineComponent" class="show-detailedtimeline-{{showDetailedTimeline.valueOf()}}" (mouseleave)="hideHistogramTooltip()">
         <arlas-histogram  #detailedtimeline
-          [data]="detailedTimelineContributor?.chartData"
+          [data]="detailedTimelineData"
+          [mainChartId]="mainCollection"
           [intervalSelection]="detailedTimelineIntervalSelection"
           (dataPlottedEvent)="afterDetailedDataPlotted($event)"
           (valuesListChangedEvent)="onDetailedIntervalBrushed($event)"
@@ -52,7 +62,8 @@
       </div>
       <div *ngIf="timelineComponent" (mouseleave)="hideHistogramTooltip()">
         <arlas-histogram  #timeline [intervalListSelection]="timelineContributor?.intervalListSelection" [intervalSelection]="timelineContributor?.intervalSelection"
-          [data]="timelineContributor?.chartData" (valuesListChangedEvent)="onTimelineIntervalBrushed($event)"
+          [data]="timelineData" (valuesListChangedEvent)="onTimelineIntervalBrushed($event)"
+          [mainChartId]="mainCollection"
           [id]="timelineComponent?.input?.id"
           [dataType]="timelineComponent?.input?.dataType"
           [dataUnit]="timelineComponent?.input?.dataUnit"
