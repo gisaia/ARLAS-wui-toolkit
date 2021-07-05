@@ -682,16 +682,14 @@
     "server": {
       "url": "http://localhost:9999/arlas",
       "collection": {
-        "name": "demo_ais-danmark",
+        "name": "demo_birdtracking-movebank",
         "id": "id"
       },
       "max_age_cache": 120
     },
     "tagger":{
       "url": "http://localhost:9998/arlas_tagger",
-      "collection": {
-        "name": "geodata"
-      }
+      "collection": "demo_birdtracking-movebank"
     },
     "persistence-server": {
       "url": "http://localhost:19997/arlas_persistence_server"

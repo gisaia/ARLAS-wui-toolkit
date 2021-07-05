@@ -55,7 +55,7 @@ import { MatPaginatorIntl } from '@angular/material/paginator/';
 import { PermissionService } from './services/permission/permission.service';
 import { isArray } from 'util';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-
+import { DeviceDetectorModule } from 'ngx-device-detector';
 
 
 export function startupServiceFactory(startupService: ArlasStartupService) {
@@ -106,7 +106,7 @@ export function getOptionsFactory(arlasAuthService: AuthentificationService): an
 
 export function configUpdater(data) {
   /** FIX wrong v15 map filters about Infinity values */
-  if (!!data[0] && !!data[0].arlas && !!data[0].arlas.web) {
+  if (!!data[0] && !!data[0].arlas && !!data[0].arlas.web && !!data[0].arlas.web.components.mapgl) {
     const layers = data[0].arlas.web.components.mapgl.input.mapLayers.layers;
     layers.forEach(layer => {
       if (!!layer.filter && isArray(layer.filter)) {
@@ -151,7 +151,8 @@ export const MY_CUSTOM_FORMATS = {
       }
     }),
     ErrorModalModule,
-    OAuthModule.forRoot()
+    OAuthModule.forRoot(),
+    DeviceDetectorModule.forRoot()
   ],
   exports: [AppComponent],
   declarations: [AppComponent],
