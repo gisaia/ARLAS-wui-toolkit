@@ -46,13 +46,14 @@
           </mat-selection-list>
         </div>
         <div class="download-feature-button">
-          <button mat-raised-button class="mat-accent fill text-sm download-button" matTooltip="{{'Select All' | translate}}"
-            [matTooltipPosition]="'above'"
+          <button mat-raised-button class="mat-accent fill text-sm download-button"
+            matTooltip="{{'Select All' | translate}}" [matTooltipPosition]="'above'"
             (click)="selectedList.selectAll();onSelectionChange(selectedList.selectedOptions.selected)">
             &gt;&gt;
           </button>
           <br /><br />
-          <button mat-raised-button class="mat-primary fill text-sm download-button" matTooltip="{{'Remove All' | translate}}"
+          <button mat-raised-button class="mat-primary fill text-sm download-button"
+            matTooltip="{{'Remove All' | translate}}"
             (click)="selectedList.deselectAll();onSelectionChange(selectedList.selectedOptions.selected)">
             &lt;&lt;
           </button>
@@ -78,22 +79,33 @@
   </mat-step>
   <mat-step>
     <ng-template matStepLabel>{{ 'Command line' | translate}}</ng-template>
-    <div style="display:flex;flex-direction:row" class="download-block">
-      <textarea class="download-box" #docker_command>docker run \
+    <div class="download-block">
+      <mat-form-field appearance="outline">
+        <mat-label>{{ 'Target OS' | translate}}</mat-label>
+        <mat-select [(value)]="detectedOs" #osselection (selectionChange)="isCopied = false">
+          <mat-option *ngFor="let opt of operatingSystems" [value]="opt">
+            {{opt}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <textarea [hidden]="osselection.value === 'Windows'" class="download-box" #downloadCommand>docker run \
       -it \
       --mount dst=/output,src="$PWD",type=bind \
       --rm \
-      gisaia/arlas-hits-exporter:2.1 \
+      gisaia/arlas-hits-exporter:{{arlasHitsExporterVersion}} \
         --search_url="{{server.url}}/explore/{{server.collection.name}}/_search?size=9999&sort={{this.collectionRef?.params.id_path}}&{{filterUrl}}" \
         --include={{selectedFieldString}} \
         --format={{this.exportedTypeCommand}} \
         {{authTypeCommand}}
-  </textarea>
+      </textarea>
+      <textarea [hidden]="osselection.value !== 'Windows'" class="download-box" #downloadCommandWindows>docker run -it --mount dst=/output,src="%cd%",type=bind --rm gisaia/arlas-hits-exporter:{{arlasHitsExporterVersion}} --search_url="{{server.url}}/explore/{{server.collection.name}}/_search?size=9999&sort={{this.collectionRef?.params.id_path}}&{{filterUrl}}" --include={{selectedFieldString}} --format={{this.exportedTypeCommand}} {{authTypeCommand}}
+      </textarea>
     </div>
-    <div>
-      <mat-divider style="margin-top:15px;"></mat-divider>
+    <mat-divider></mat-divider>
+    <div class="download-stepper-actions">
       <button mat-button matStepperPrevious class="download-stepper-button">{{ 'Back' | translate}}</button>
-      <button mat-raised-button color="accent" class="download-stepper-button download-stepper-button-copy" [class.btn-success]="isCopied" (click)="copyTextToClipboard(docker_command.value)">
+      <button mat-raised-button color="accent" class="download-stepper-button"
+        [class.btn-success]="isCopied" (click)="copyCommand(downloadCommand, downloadCommandWindows)">
         <mat-icon [class.hide-icon]="!isCopied">check</mat-icon>
         <span *ngIf="!isCopied">{{ 'Copy' | translate}}</span>
         <span *ngIf="isCopied">{{ 'Copied' | translate}}</span>

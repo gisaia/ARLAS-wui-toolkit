@@ -24,6 +24,12 @@
   font-weight: 300;
 }
 
+.download-stepper-actions{
+  display: flex;
+  justify-content: space-between;
+  padding-top: 10px;
+}
+
 .download-stepper-button:focus {
   outline: none;
 }
@@ -94,11 +100,13 @@
 }
 
 .download-box {
-  width: 820px;
   height: 208px;
   font-family: monospace;
   font-size: 16px;
+  background-color: lightgray;
   border: none;
+  width: 100%;
+  padding: 10px;
 }
 
 .admonition {
@@ -127,8 +135,4 @@
 
 .hide-icon {
   display: none !important;
-}
-
-.download-stepper-button-copy{
-  float: right;
 }

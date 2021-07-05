@@ -16,14 +16,17 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatSelectionListChange } from '@angular/material';
 import { AuthentificationService } from '../../services/authentification/authentification.service';
 import { CollectionReferenceDescription } from 'arlas-api';
 import { projType } from 'arlas-web-core';
 import { ArlasCollaborativesearchService, ArlasConfigService } from '../../services/startup/startup.service';
 import { ArlasSearchField } from '../share/model/ArlasSearchField';
+import { DeviceDetectorService, OS } from 'ngx-device-detector';
+
+export const ARLAS_HITS_EXPORTER_VERSION = 2.1;
 
 @Component({
   selector: 'arlas-download',
@@ -70,14 +73,24 @@ export class DownloadDialogComponent implements OnInit {
   public paramFormGroup: FormGroup;
   public collectionRef: CollectionReferenceDescription;
 
+  public operatingSystems = ['Linux/Mac', 'Windows'];
+  public detectedOs = 'Linux/Mac';
+
+  public arlasHitsExporterVersion = ARLAS_HITS_EXPORTER_VERSION;
+
   constructor(
     private formBuilder: FormBuilder,
     private collaborativeService: ArlasCollaborativesearchService,
     private configService: ArlasConfigService,
-    private authService: AuthentificationService
+    private authService: AuthentificationService,
+    private deviceService: DeviceDetectorService
   ) { }
 
   public ngOnInit() {
+    if (this.deviceService.os === OS.WINDOWS) {
+      this.detectedOs = 'Windows';
+    }
+
     this.exportTypeGroup = this.formBuilder.group({
       exportType: ['', Validators.required]
     });
@@ -127,6 +140,14 @@ export class DownloadDialogComponent implements OnInit {
       if (!!this.authService.idToken) {
         this.authTypeCommand = '--auth=token --token=' + this.authService.idToken;
       }
+    }
+  }
+
+  public copyCommand(downloadCommand, downloadCommandWindows) {
+    if (this.detectedOs === 'Windows') {
+      this.copyTextToClipboard((downloadCommandWindows as HTMLTextAreaElement).value);
+    } else {
+      this.copyTextToClipboard((downloadCommand as HTMLTextAreaElement).textContent);
     }
   }
 
