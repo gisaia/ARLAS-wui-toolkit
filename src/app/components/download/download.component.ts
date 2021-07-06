@@ -26,7 +26,7 @@ import { ArlasCollaborativesearchService, ArlasConfigService } from '../../servi
 import { ArlasSearchField } from '../share/model/ArlasSearchField';
 import { DeviceDetectorService, OS } from 'ngx-device-detector';
 
-export const ARLAS_HITS_EXPORTER_VERSION = 2.1;
+export const ARLAS_HITS_EXPORTER_VERSION = 2.2;
 
 @Component({
   selector: 'arlas-download',
@@ -147,7 +147,7 @@ export class DownloadDialogComponent implements OnInit {
     if (this.detectedOs === 'Windows') {
       this.copyTextToClipboard((downloadCommandWindows as HTMLTextAreaElement).value);
     } else {
-      this.copyTextToClipboard((downloadCommand as HTMLTextAreaElement).textContent);
+      this.copyTextToClipboard((downloadCommand as HTMLTextAreaElement).value);
     }
   }
 
