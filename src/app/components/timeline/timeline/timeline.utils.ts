@@ -17,3 +17,10 @@ export interface TimelineConfiguration {
    */
   dateFormat?: any;
 }
+
+export interface CollectionLegend {
+  collection: string;
+  color: string;
+  active: boolean;
+  main: boolean;
+}

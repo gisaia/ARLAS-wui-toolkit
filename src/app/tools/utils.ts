@@ -116,22 +116,29 @@ export function sortOnDate(data: ArlasStorageObject[]): ArlasStorageObject[] {
 export function getKeyForColor(dataModel: Object): string {
     const finalKeys: string[] = [];
     Object.keys(dataModel).forEach(k => {
-        const key = [];
-        if ((<Filter>dataModel[k].filter).f !== undefined) {
-            (<Filter>dataModel[k].filter).f
-                .forEach(e => e
-                    .forEach(ex => {
-                        if (key.indexOf('f' + ex.field + ex.op) < 0) {
-                            key.push('f' + ex.field + ex.op);
-                        }
-                    }));
+        const key = new Set();
+        const dataModelFilters = dataModel[k].filters;
+        if (!!dataModelFilters) {
+          dataModelFilters.forEach((filters: Filter[], collection: string) => {
+            filters.forEach(filter => {
+              if (filter.f !== undefined) {
+                filter.f.forEach(e => e
+                        .forEach(ex => {
+                            if (!key.has(collection + 'f' + ex.field + ex.op)) {
+                                key.add('f' + ex.field + ex.op);
+                            }
+                        }));
+              }
+              if (filter.q !== undefined) {
+                  if (!key.has(collection + 'q')) {
+                    key.add(collection + 'q');
+                  }
+              }
+            });
+          });
+
         }
-        if ((<Filter>dataModel[k].filter).q !== undefined) {
-            if (key.indexOf('q') < 0) {
-                key.push('q');
-            }
-        }
-        finalKeys.push(key.sort().join(','));
+        finalKeys.push(Array.from(key).sort().join(','));
     });
     return intToRGB(hashCode(finalKeys.sort().join(',')));
 }

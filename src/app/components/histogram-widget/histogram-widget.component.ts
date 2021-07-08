@@ -107,7 +107,8 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy {
 
   public initDetailedContributor() {
     if (!!this.contributor) {
-      this.detailedContributor = new DetailedHistogramContributor(this.contributor.identifier + '-arlas__detailed',
+      this.detailedContributor = new DetailedHistogramContributor(this.contributor.collection + '-'
+        + this.contributor.identifier + '-arlas__detailed',
         this.arlasCollaborativesearchService, this.arlasConfigurationService, this.contributor.collection, false);
       this.detailedContributor.annexedContributorId = this.contributor.identifier;
       this.detailedContributor.useUtc = this.contributor.useUtc;
@@ -115,7 +116,8 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy {
       const detailedNbBuckets = !!this.contributor.getNbBuckets() ? this.contributor.getNbBuckets() : 50;
       this.detailedContributor.setNbBuckets(detailedNbBuckets);
       this.detailedContributor.setName(this.contributor.getName() + '__detailed');
-      this.detailedContributor.init(this.contributor.getAggregations(), this.contributor.getField(), this.contributor.getJsonPath());
+      this.detailedContributor.init(this.contributor.getAggregations(), this.contributor.getField(),
+        this.contributor.getJsonPath(), this.contributor.additionalCollections);
     }
   }
 
@@ -160,7 +162,7 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy {
     const selection = event[event.length - 1];
     if (histogramRange && !!selection) {
       const detailedHistogramRange = (+selection.endvalue - +selection.startvalue);
-      this.showDetailedHistogram = (detailedHistogramRange <= 0.2 * histogramRange.value);
+      this.showDetailedHistogram = (detailedHistogramRange <= 0.2 * histogramRange);
       this.resizeMainHistogram();
       if (!this.showDetailedHistogram && !!this.detailedContributor) {
         this.detailedContributor.updateData = false;
@@ -215,7 +217,7 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy {
   }
 
   public emitTooltip(tooltip, e: ElementRef, detailed: boolean) {
-    let yOffset = 0;
+    let yOffset = 20;
     if (detailed) {
       yOffset = 20;
     }
@@ -272,7 +274,7 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy {
         const selection = this.contributor.intervalSelection;
         if (histogramRange && !!selection) {
           const detailedHistogramRange = (+selection.endvalue - +selection.startvalue);
-          this.showDetailedHistogram = (detailedHistogramRange <= 0.2 * histogramRange.value);
+          this.showDetailedHistogram = (detailedHistogramRange <= 0.2 * histogramRange);
           this.resizeMainHistogram();
           if (this.showDetailedHistogram) {
             if (!this.detailedContributor) {

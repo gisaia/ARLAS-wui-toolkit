@@ -38,6 +38,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { ArlasConfigurationUpdaterService } from '../../../services/configuration-updater/configurationUpdater.service';
 import { ArlasOverlayService } from '../../../services/overlays/overlay.service';
+import { ArlasColorGeneratorLoader } from '../../../services/color-generator-loader/color-generator-loader.service';
 
 describe('TimelineComponent', () => {
   let component: TimelineComponent;
@@ -56,6 +57,7 @@ describe('TimelineComponent', () => {
       ],
       providers: [
         ArlasCollaborativesearchService,
+        ArlasColorGeneratorLoader,
         ArlasOverlayService,
         {
           provide: ArlasStartupService,

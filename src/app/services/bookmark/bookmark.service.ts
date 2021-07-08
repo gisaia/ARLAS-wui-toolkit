@@ -21,7 +21,7 @@ import { Injectable } from '@angular/core';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Expression, Filter } from 'arlas-api';
-import { Collaboration, projType } from 'arlas-web-core';
+import { Collaboration, projType, fromEntries } from 'arlas-web-core';
 import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { getKeyForColor } from '../../tools/utils';
@@ -108,8 +108,13 @@ export class ArlasBookmarkService {
       this.addBookmark(newBookMarkName, this.combineBookmarkFromIds(selectedBookmark));
     } else {
       const dataModel = this.combineBookmarkFromFilter(selectedBookmark);
-      const url = JSON.stringify(dataModel);
       const color = '#' + getKeyForColor(dataModel);
+      /** map to object (using fromEntries) so that the stringify works properly */
+      Array.from(Object.keys(dataModel)).forEach(identifier => {
+        dataModel[identifier] = Object.assign({}, dataModel[identifier]);
+        dataModel[identifier].filters = fromEntries(dataModel[identifier].filters);
+      });
+      const url = JSON.stringify(dataModel);
       let type: BookMarkType;
       if (!this.isTemporalFilter(dataModel)) {
         type = BookMarkType.filterWithoutTime;
@@ -196,6 +201,11 @@ export class ArlasBookmarkService {
       language = this.activatedRoute.snapshot.queryParams['lg'];
     }
     const queryParams: Params = Object.assign({}, this.activatedRoute.snapshot.queryParams);
+    /** map to object (using fromEntries) so that the stringify works properly */
+    Array.from(Object.keys(dataModel)).forEach(identifier => {
+      dataModel[identifier] = Object.assign({}, dataModel[identifier]); /** cloning */
+      dataModel[identifier].filters = fromEntries(dataModel[identifier].filters);
+    });
     queryParams['filter'] = JSON.stringify(dataModel);
     if (language) {
       queryParams['lg'] = language;
@@ -208,7 +218,18 @@ export class ArlasBookmarkService {
     selectedBookmark.forEach(id => {
       const bookmark: BookMark = this.bookMarkMap.get(id);
       const dataModel = this.collaborativesearchService.dataModelBuilder(bookmark.url.replace('filter=', ''));
-      dataModel[this.selectorById].filter.f[0][0].value.split(',').forEach(i => ids.push(i));
+      /** selectorById is the identifier of a resultlist contributor named 'resultlist' */
+      const resultListContributor = dataModel[this.selectorById];
+      if (!!resultListContributor && !!resultListContributor.filters) {
+        resultListContributor.filters.forEach((filters: Filter[], collection: string) => {
+          /** for now resultlists are monocolleection, so this code will behave the same as the precedent */
+          filters.forEach(filter => {
+            if (!!filter.f && filter.f.length > 0 && !!filter.f[0] && filter.f[0].length > 0) {
+              filter.f[0][0].value.split(',').forEach(i => ids.push(i));
+            }
+          });
+        });
+      }
     });
     return new Set(ids);
   }
@@ -228,17 +249,28 @@ export class ArlasBookmarkService {
           if (dataModel[k] === undefined) {
             dataModel[k] = bookMarkDataModel[k];
           } else {
-            Object.keys(bookMarkDataModel[k].filter)
-              .forEach(keyfil => {
-                if (dataModel[k].filter[keyfil] === undefined) {
-                  dataModel[k].filter[keyfil] = bookMarkDataModel[k].filter[keyfil];
+            bookMarkDataModel[k].filters
+              .forEach((filters, collection) => {
+                if (dataModel[k].filters.get(collection) === undefined) {
+                  dataModel[k].filters.set(collection, filters);
                 } else {
-                  bookMarkDataModel[k].filter[keyfil]
-                    .forEach(ex => ex
-                      .forEach(e =>
-                        dataModel[k].filter[keyfil][0].push(e)
-                      )
-                    );
+                  /** filters : Map<collection, Fitler[]> */
+                  if (!!filters && filters.length > 0) {
+                    /** for now we only have one filter */
+                    const filter = filters[0];
+                    Object.keys(filter).forEach(keyfil => {
+                        if (dataModel[k].filters.get(collection)[0][keyfil] === undefined) {
+                          /** for now we only have one filter */
+                          dataModel[k].filters.get(collection)[0][keyfil] = bookMarkDataModel[k].filters.get(collection)[0][keyfil];
+                        } else {
+                          /** filters : Map<collection, Fitler[]> */
+                          bookMarkDataModel[k].filters.get(collection)[0][keyfil]
+                            .forEach(ex => ex
+                              .forEach(e => dataModel[k].filters.get(collection)[0][keyfil][0].push(e)));
+                        }
+                      });
+                  }
+
                 }
               });
           }
@@ -250,14 +282,22 @@ export class ArlasBookmarkService {
 
   private getCountFromUrl(url: string): Observable<number> {
     const dataModel = this.collaborativesearchService.dataModelBuilder(url);
+    const defaultCollection = this.collaborativesearchService.defaultCollection;
     const filters: Array<Filter> = [];
     Object.keys(dataModel).forEach(key => {
-      filters.push(dataModel[key].filter);
+      if (dataModel[key].filters as Map<string, Filter[]>) {
+        const defaultCollectionFilters = dataModel[key].filters.get(defaultCollection);
+        if (!!defaultCollectionFilters) {
+          defaultCollectionFilters.forEach(filter => {
+            filters.push(filter);
+          });
+        }
+      }
     });
     return this.collaborativesearchService.resolveComputeHits([projType.count, {}], filters,
       this.collaborativesearchService.defaultCollection).pipe(map(hits => {
-      return hits.totalnb;
-    }));
+        return hits.totalnb;
+      }));
   }
 
   private getBookmarkById(id: string): BookMark {
@@ -273,7 +313,7 @@ export class ArlasBookmarkService {
   private getUrlFomSetIds(selectedItem?: Set<string>): string {
     const dataModel = {};
     const collaboration: Collaboration = {
-      filter: {},
+      filters: new Map<string, Filter[]>(),
       enabled: true,
     };
     const f: Array<Expression> = [];
@@ -291,8 +331,12 @@ export class ArlasBookmarkService {
     const filters: Filter = {
       f: [f]
     };
-    collaboration.filter = filters;
-    dataModel[this.selectorById] = collaboration;
+    const collabFilters = new Map<string, Filter[]>();
+    collabFilters.set(this.collaborativesearchService.defaultCollection, [filters]);
+    collaboration.filters = collabFilters;
+    /** map to object (using fromEntries) so that the stringify works properly */
+    dataModel[this.selectorById] = Object.assign({}, collaboration);
+    dataModel[this.selectorById].filters = fromEntries(dataModel[this.selectorById].filters);
     const url = JSON.stringify(dataModel);
     return url;
 
