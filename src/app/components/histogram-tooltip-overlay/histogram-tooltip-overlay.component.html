@@ -24,8 +24,9 @@
       <div *ngFor="let y of tooltip.y">
         <div class="ycontent">
           <div class="chip" [style.backgroundColor]="y.color"></div>
-          <div>{{y.value}} {{tooltip.yUnit}} {{(tooltip.dataType === 'time' ? 'per' : 'none' | translate)}} {{(tooltip.dataType === 'time' ? tooltip.xRange.value + '': 'none') | translate}}
-            {{(tooltip.dataType === 'time' ? tooltip.xRange.unit : 'none') | translate}}</div>
+          <div *ngIf="tooltip?.dataType === 'time'">{{y.value}} {{tooltip.yUnit}} {{'per' | translate}} {{tooltip?.xRange?.value + '' | translate}}
+            {{tooltip?.xRange?.unit | translate}}</div>
+          <div *ngIf="tooltip?.dataType !== 'time'">{{y.value}} {{tooltip.yUnit}}</div>
         </div>
       </div>
     </div>
