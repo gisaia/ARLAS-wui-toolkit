@@ -21,7 +21,7 @@ import { Injectable } from '@angular/core';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Expression, Filter } from 'arlas-api';
-import { Collaboration, projType } from 'arlas-web-core';
+import { Collaboration, projType, fromEntries } from 'arlas-web-core';
 import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { getKeyForColor } from '../../tools/utils';
@@ -112,7 +112,7 @@ export class ArlasBookmarkService {
       /** map to object (using fromEntries) so that the stringify works properly */
       Array.from(Object.keys(dataModel)).forEach(identifier => {
         dataModel[identifier] = Object.assign({}, dataModel[identifier]);
-        dataModel[identifier].filters = Object.fromEntries(dataModel[identifier].filters);
+        dataModel[identifier].filters = fromEntries(dataModel[identifier].filters);
       });
       const url = JSON.stringify(dataModel);
       let type: BookMarkType;
@@ -204,7 +204,7 @@ export class ArlasBookmarkService {
     /** map to object (using fromEntries) so that the stringify works properly */
     Array.from(Object.keys(dataModel)).forEach(identifier => {
       dataModel[identifier] = Object.assign({}, dataModel[identifier]); /** cloning */
-      dataModel[identifier].filters = Object.fromEntries(dataModel[identifier].filters);
+      dataModel[identifier].filters = fromEntries(dataModel[identifier].filters);
     });
     queryParams['filter'] = JSON.stringify(dataModel);
     if (language) {
@@ -336,7 +336,7 @@ export class ArlasBookmarkService {
     collaboration.filters = collabFilters;
     /** map to object (using fromEntries) so that the stringify works properly */
     dataModel[this.selectorById] = Object.assign({}, collaboration);
-    dataModel[this.selectorById].filters = Object.fromEntries(dataModel[this.selectorById].filters);
+    dataModel[this.selectorById].filters = fromEntries(dataModel[this.selectorById].filters);
     const url = JSON.stringify(dataModel);
     return url;
 
