@@ -1,5 +1,25 @@
 # Change Log
 
+## [v17.2.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v17.2.2) (2021-07-09)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v18.0.0...v17.2.2)
+
+## [v18.0.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v18.0.0) (2021-07-08)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v17.2.1...v18.0.0)
+
+**Breaking changes:**
+
+- Support multiple curves displayed on the timeline [\#461](https://github.com/gisaia/ARLAS-wui-toolkit/issues/461)
+
+**New stuff:**
+
+- Timeline legend [\#462](https://github.com/gisaia/ARLAS-wui-toolkit/issues/462)
+
+**Fixed bugs:**
+
+- Download command doesn't work on Windows [\#473](https://github.com/gisaia/ARLAS-wui-toolkit/issues/473)
+
 ## [v17.2.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v17.2.1) (2021-06-30)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v17.2.0...v17.2.1)
