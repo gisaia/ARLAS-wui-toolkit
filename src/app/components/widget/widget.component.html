@@ -56,13 +56,13 @@
     (paginationEvent)="contributor?.getPage($event.reference, $event.whichPage)" (setFiltersEvent)="contributor?.setFilters($event)"
     [tableWidth]="graphParam.tableWidth" [globalActionsList]="graphParam.globalActionsList" [nLastLines]="graphParam.nLastLines"
     [detailedGridHeight]="graphParam.detailedGridHeight" [nbGridColumns]="graphParam.nbGridColumns" [indeterminatedItems]="this.indeterminatedItems"
-    [highlightItems]="this.highlightItems" [defautMode]="graphParam.defautMode" [displayFilters]="graphParam.displayFilters"
+    [highlightItems]="contributor?.highlightItems" [defautMode]="graphParam.defautMode" [displayFilters]="graphParam.displayFilters"
     [isBodyHidden]="graphParam.isBodyHidden" [isGeoSortEnabled]="graphParam?.isGeoSortEnabled"
     [useColorService]="graphParam?.useColorService" [cellBackgroundStyle]="graphParam?.cellBackgroundStyle" [keysToColors]="graphParam?.keysToColors"
     [colorsSaturationWeight]="graphParam?.colorsSaturationWeight" (geoSortEvent)="emitEvent(contributorId, 'geoSortEvent', $event)"
     (geoAutoSortEvent)="emitEvent(contributorId, 'geoAutoSortEvent', $event)" (selectedItemsEvent)="emitEvent(contributorId, 'selectedItemsEvent', $event)"
     (consultedItemEvent)="emitEvent(contributorId, 'consultedItemEvent', $event)" (actionOnItemEvent)="emitEvent(contributorId, 'actionOnItemEvent', $event)"
-    (globalActionEvent)="emitEvent(contributorId, 'globalActionEvent', $event)">
+    (globalActionEvent)="emitEvent(contributorId, 'globalActionEvent', $event)" [options]="graphParam?.options">
   </arlas-result-list>
 </div>
 
