@@ -135,7 +135,12 @@ export class DownloadDialogComponent implements OnInit {
     if (event.selectedIndex === 2) {
       this.isCopied = false;
       this.exportedTypeCommand = this.exportTypeGroup.get('exportType').value;
-      const filters = Array.from(this.collaborativeService.collaborations.values()).map(element => element.filter);
+      const contributorsId = Array.from(this.collaborativeService.registry.values())
+        .filter(c => c.collection === this.collectionRef.collection_name)
+        .map(c => c.identifier);
+      const filters = Array.from(this.collaborativeService.collaborations.entries())
+        .filter(e => contributorsId.indexOf(e[0]) >= 0)
+        .map(e => e[1].filter);
       this.filterUrl = this.collaborativeService.getUrl([projType.search, []], filters);
       if (!!this.authService.idToken) {
         this.authTypeCommand = '--auth=token --token=' + this.authService.idToken;
