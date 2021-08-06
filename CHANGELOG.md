@@ -1,5 +1,17 @@
 # Change Log
 
+## [v18.0.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v18.0.1) (2021-08-06)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v17.2.3...v18.0.1)
+
+## [v17.2.3](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v17.2.3) (2021-08-03)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v17.2.2...v17.2.3)
+
+## [v17.2.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v17.2.2) (2021-07-09)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v18.0.0...v17.2.2)
+
 ## [v18.0.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v18.0.0) (2021-07-08)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v17.2.1...v18.0.0)
