@@ -87,7 +87,7 @@ export class DatePickerComponent implements OnInit, OnChanges {
   }
 
   public setMomentDate(date: any) {
-    if (this.timelineContributor) {
+    if (this.timelineContributor.useUtc) {
       return moment.utc(date);
     } else {
       return moment(date);
