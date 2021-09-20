@@ -1,6 +1,6 @@
 {
   "name": "arlas-wui-toolkit",
-  "version": "18.1.0-dev0",
+  "version": "19.0.0-beta.6",
   "description": "Tool Kit Library for ARLAS wui web App",
   "author": "gisaia",
   "license": "Apache-2.0",
@@ -44,8 +44,8 @@
     "arlas-permissions-api": "~18.0.0",
     "arlas-persistence-api": "~18.0.0",
     "arlas-tagger-api": "~18.0.0",
-    "arlas-web-components": "19.0.0-beta.1",
-    "arlas-web-contributors": "19.0.0-beta.1",
+    "arlas-web-components": "19.0.0-beta.3",
+    "arlas-web-contributors": "19.0.0-beta.3",
     "cli-color": "^1.2.0",
     "core-js": "^2.4.1",
     "fetch-intercept": "^2.3.1",
