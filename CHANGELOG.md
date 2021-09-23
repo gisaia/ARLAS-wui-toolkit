@@ -1,5 +1,205 @@
 # Change Log
 
+## [v12.7.5](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v12.7.5) (2021-09-23)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v19.0.0-beta.6...v12.7.5)
+
+## [v19.0.0-beta.6](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v19.0.0-beta.6) (2021-09-20)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v18.1.2...v19.0.0-beta.6)
+
+## [v18.1.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v18.1.2) (2021-09-17)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v17.2.5...v18.1.2)
+
+## [v17.2.5](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v17.2.5) (2021-09-17)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v18.1.1...v17.2.5)
+
+## [v18.1.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v18.1.1) (2021-09-14)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v18.1.0...v18.1.1)
+
+## [v18.1.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v18.1.0) (2021-09-10)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v18.0.2...v18.1.0)
+
+## [v18.0.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v18.0.2) (2021-08-16)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v17.2.4...v18.0.2)
+
+## [v17.2.4](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v17.2.4) (2021-08-16)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v18.0.1...v17.2.4)
+
+## [v18.0.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v18.0.1) (2021-08-06)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v17.2.3...v18.0.1)
+
+## [v17.2.3](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v17.2.3) (2021-08-03)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v17.2.2...v17.2.3)
+
+## [v17.2.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v17.2.2) (2021-07-09)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v18.0.0...v17.2.2)
+
+## [v18.0.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v18.0.0) (2021-07-08)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v17.2.1...v18.0.0)
+
+**Breaking changes:**
+
+- Support multiple curves displayed on the timeline [\#461](https://github.com/gisaia/ARLAS-wui-toolkit/issues/461)
+
+**New stuff:**
+
+- Timeline legend [\#462](https://github.com/gisaia/ARLAS-wui-toolkit/issues/462)
+
+**Fixed bugs:**
+
+- Download command doesn't work on Windows [\#473](https://github.com/gisaia/ARLAS-wui-toolkit/issues/473)
+
+## [v17.2.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v17.2.1) (2021-06-30)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v17.2.0...v17.2.1)
+
+**Fixed bugs:**
+
+- Remove sort option from download module [\#469](https://github.com/gisaia/ARLAS-wui-toolkit/issues/469)
+- Add authentication token in download command line [\#468](https://github.com/gisaia/ARLAS-wui-toolkit/issues/468)
+
+## [v17.2.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v17.2.0) (2021-06-24)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v17.1.2...v17.2.0)
+
+## [v17.1.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v17.1.2) (2021-06-17)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v17.1.1...v17.1.2)
+
+## [v17.1.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v17.1.1) (2021-06-14)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v17.1.0...v17.1.1)
+
+**New stuff:**
+
+- Share layers that are visible on the map only [\#463](https://github.com/gisaia/ARLAS-wui-toolkit/issues/463)
+
+## [v17.1.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v17.1.0) (2021-06-04)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v17.0.0...v17.1.0)
+
+**New stuff:**
+
+- Enhance Walktrough and support i18n [\#458](https://github.com/gisaia/ARLAS-wui-toolkit/issues/458)
+- Support multi-collection in filters bar [\#457](https://github.com/gisaia/ARLAS-wui-toolkit/issues/457)
+
+## [v17.0.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v17.0.0) (2021-05-19)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v17.0.0-beta.1...v17.0.0)
+
+**Fixed bugs:**
+
+- After deleting a dashboard, an 'Unauthorized action' msg is popped-up, but the dashboard is deleted [\#440](https://github.com/gisaia/ARLAS-wui-toolkit/issues/440)
+- If a session is expired, the pop-up informing of this event is popped several times and freezes the browser [\#439](https://github.com/gisaia/ARLAS-wui-toolkit/issues/439)
+
+## [v17.0.0-beta.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v17.0.0-beta.1) (2021-05-12)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v17.0.0-beta.0...v17.0.0-beta.1)
+
+## [v17.0.0-beta.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v17.0.0-beta.0) (2021-05-10)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v16.1.2...v17.0.0-beta.0)
+
+## [v16.1.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v16.1.2) (2021-04-30)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v16.1.1...v16.1.2)
+
+**Fixed bugs:**
+
+- Old map filters of v15 have wrong flat fields [\#453](https://github.com/gisaia/ARLAS-wui-toolkit/issues/453)
+
+## [v16.1.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v16.1.1) (2021-04-29)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v16.1.0...v16.1.1)
+
+**Fixed bugs:**
+
+- Map filters handling Infinity values are wrong [\#450](https://github.com/gisaia/ARLAS-wui-toolkit/issues/450)
+
+## [v16.1.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v16.1.0) (2021-04-21)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v16.0.1...v16.1.0)
+
+**New stuff:**
+
+- \[donut\] externalize tooltip outside the widget space to gain space and lisibility [\#443](https://github.com/gisaia/ARLAS-wui-toolkit/issues/443)
+- Add download button as shapefile [\#409](https://github.com/gisaia/ARLAS-wui-toolkit/issues/409)
+
+**Fixed bugs:**
+
+- Dates displayed on the timeline are always in UTC [\#421](https://github.com/gisaia/ARLAS-wui-toolkit/issues/421)
+
+## [v16.0.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v16.0.1) (2021-03-26)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v16.0.0...v16.0.1)
+
+## [v16.0.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v16.0.0) (2021-03-23)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v15.0.1...v16.0.0)
+
+**Fixed bugs:**
+
+- Make layer name human readable in share component [\#426](https://github.com/gisaia/ARLAS-wui-toolkit/issues/426)
+
+## [v15.0.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v15.0.1) (2021-02-23)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v15.0.0...v15.0.1)
+
+## [v15.0.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v15.0.0) (2021-02-18)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v15.0.0-beta.0...v15.0.0)
+
+## [v15.0.0-beta.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v15.0.0-beta.0) (2021-02-04)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v14.3.2...v15.0.0-beta.0)
+
+## [v14.3.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v14.3.2) (2021-02-03)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v14.3.1...v14.3.2)
+
+## [v14.3.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v14.3.1) (2021-02-03)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v14.3.0...v14.3.1)
+
+## [v14.3.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v14.3.0) (2021-01-29)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v14.2.0...v14.3.0)
+
+**New stuff:**
+
+- replace share link with a download button [\#408](https://github.com/gisaia/ARLAS-wui-toolkit/issues/408)
+
+**Fixed bugs:**
+
+- Exporting the widget as CSV ignores the widget's current filter [\#411](https://github.com/gisaia/ARLAS-wui-toolkit/issues/411)
+
+## [v14.2.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v14.2.0) (2021-01-18)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v12.7.4...v14.2.0)
+
+**New stuff:**
+
+- Integrate arlas-permission to config-menu component [\#400](https://github.com/gisaia/ARLAS-wui-toolkit/issues/400)
+
+**Fixed bugs:**
+
+- Move biesbjerg dependencies from dev to main, and add in package-release [\#403](https://github.com/gisaia/ARLAS-wui-toolkit/issues/403)
+
+## [v12.7.4](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v12.7.4) (2021-01-13)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v14.1.1...v12.7.4)
+
 ## [v14.1.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v14.1.1) (2020-12-18)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v14.1.0...v14.1.1)
@@ -43,15 +243,11 @@
 
 ## [v14.0.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v14.0.0) (2020-11-09)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v12.7.4...v14.0.0)
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v14.0.0-rc.2...v14.0.0)
 
 **Fixed bugs:**
 
 - authentication is always stored in localstorage [\#378](https://github.com/gisaia/ARLAS-wui-toolkit/issues/378)
-
-## [v12.7.4](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v12.7.4) (2020-11-05)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v14.0.0-rc.2...v12.7.4)
 
 ## [v14.0.0-rc.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v14.0.0-rc.2) (2020-09-30)
 
