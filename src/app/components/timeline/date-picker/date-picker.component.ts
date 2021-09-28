@@ -61,10 +61,14 @@ export class DatePickerComponent implements OnInit, OnChanges {
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes['startSelectedMoment'] !== undefined) {
-      this.startSelectedMoment = this.setMomentDate(changes['startSelectedMoment'].currentValue);
+      if (this.timelineContributor) {
+        this.startSelectedMoment = this.setMomentDate(changes['startSelectedMoment'].currentValue);
+      }
     }
     if (changes['endSelectedMoment'] !== undefined) {
-      this.endSelectedMoment = this.setMomentDate((changes['endSelectedMoment'].currentValue));
+      if (!!this.timelineContributor) {
+        this.endSelectedMoment = this.setMomentDate((changes['endSelectedMoment'].currentValue));
+      }
     }
   }
 
