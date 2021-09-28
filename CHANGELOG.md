@@ -1,8 +1,20 @@
 # Change Log
 
+## [v19.0.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v19.0.1) (2021-09-28)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v19.0.0...v19.0.1)
+
+**Fixed bugs:**
+
+- Fix datepicker initialisation [\#490](https://github.com/gisaia/ARLAS-wui-toolkit/issues/490)
+
 ## [v19.0.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v19.0.0) (2021-09-28)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v12.7.5...v19.0.0)
+
+**New stuff:**
+
+- emit all resultlist outputs through one output in the widget [\#488](https://github.com/gisaia/ARLAS-wui-toolkit/issues/488)
 
 ## [v12.7.5](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v12.7.5) (2021-09-23)
 
