@@ -32,7 +32,7 @@
     "arlas-persistence-api": "~19.0.0",
     "arlas-tagger-api": "~19.0.0",
     "arlas-web-components": "~19.0.2",
-    "arlas-web-contributors": "~19.0.0",
+    "arlas-web-contributors": "~19.0.2",
     "cli-color": "^1.2.0",
     "core-js": "^2.4.1",
     "fetch-intercept": "^2.3.1",

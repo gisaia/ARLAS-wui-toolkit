@@ -12,6 +12,9 @@ cache:
   directories:
     - node_modules
 
+before_script:
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+
 jobs:
   include:
     - env:
