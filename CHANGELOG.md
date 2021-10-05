@@ -1,5 +1,13 @@
 # Change Log
 
+## [v19.0.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v19.0.2) (2021-10-05)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v19.0.1...v19.0.2)
+
+**Miscellaneous:**
+
+- Upgrade to arlas-web-contributors 19.0.2 [\#491](https://github.com/gisaia/ARLAS-wui-toolkit/issues/491)
+
 ## [v19.0.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v19.0.1) (2021-09-28)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v19.0.0...v19.0.1)
