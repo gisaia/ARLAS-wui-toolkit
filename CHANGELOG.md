@@ -1,5 +1,13 @@
 # Change Log
 
+## [v19.0.3](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v19.0.3) (2021-10-11)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v19.0.2...v19.0.3)
+
+**Miscellaneous:**
+
+- Add translation of temporal intervals [\#495](https://github.com/gisaia/ARLAS-wui-toolkit/issues/495)
+
 ## [v19.0.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v19.0.2) (2021-10-05)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v19.0.1...v19.0.2)
