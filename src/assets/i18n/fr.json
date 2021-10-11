@@ -146,5 +146,13 @@
 	"minute": "minute",
 	"minutes": "minutes",
 	"second": "seconde",
-	"seconds": "secondes"
+	"seconds": "secondes",
+	"days": "jours",
+	"day": "jour",
+	"weeks": "semaines",
+	"week": "semaine",
+	"months": "mois",
+	"month": "mois",
+	"years": "années",
+	"year": "année"
 }
