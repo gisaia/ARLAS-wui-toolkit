@@ -102,8 +102,8 @@ export class ArlasExportCsvService {
   private populateCSV(csvData: Array<Array<string>>, currentLine: Array<string>,
     aggregationResponse: AggregationResponse,
     aggregationLevel: number, aggregations: Aggregation[], stayAtFirstLevel: boolean): void {
-    if (aggregationResponse.elements !== undefined && aggregationResponse.name !== undefined) {
-      const aggregationBuckets = aggregationResponse.elements;
+    const aggregationBuckets = aggregationResponse.elements;
+    if (aggregationBuckets !== undefined && aggregationBuckets.length > 0 && aggregationResponse.name !== undefined) {
       const sumOtherDocCounts = aggregationResponse.sumotherdoccounts;
       for (let i = 0; i < aggregationBuckets.length; i++) {
         if (aggregationLevel === 0) {
@@ -112,7 +112,8 @@ export class ArlasExportCsvService {
         const bucket = aggregationBuckets[i];
         const fieldValue = bucket.key;
         currentLine[aggregationLevel] = fieldValue;
-        if (!stayAtFirstLevel && bucket.elements !== undefined && bucket.elements[0].elements !== undefined) {
+        if (!stayAtFirstLevel && bucket.elements !== undefined && bucket.elements.length > 0 &&
+          bucket.elements[0].elements !== undefined && bucket.elements[0].elements.length > 0) {
           this.populateCSV(csvData, currentLine, bucket.elements[0], aggregationLevel + 1, aggregations, stayAtFirstLevel);
           const l = new Array();
           for (let k = 0; k < aggregations.length; k++) {
