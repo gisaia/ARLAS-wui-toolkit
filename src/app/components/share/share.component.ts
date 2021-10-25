@@ -24,6 +24,7 @@ import { projType } from 'arlas-web-core';
 import { ArlasSearchField } from '../../components/share/model/ArlasSearchField';
 import { ArlasCollaborativesearchService, ArlasConfigService } from '../../services/startup/startup.service';
 import { LayerSourceConfig, MapContributor } from 'arlas-web-contributors';
+import { ARLAS_VSET } from 'arlas-web-components';
 import { Search } from 'arlas-tagger-api';
 import * as FileSaver from 'file-saver';
 import { TranslateService } from '@ngx-translate/core';
@@ -139,23 +140,26 @@ export class ShareDialogComponent implements OnInit {
       this.excludedTypeString += element + ', ';
     });
     this.excludedTypeString = this.excludedTypeString.substr(0, this.excludedTypeString.length - 2);
-
+    this.sharableLayers = [];
     this.configService.getValue('arlas.web.contributors').forEach(contrib => {
       if (contrib.type === 'map') {
-        this.sharableLayers = Object.assign([], !!this.data ? contrib.layers_sources.filter(ls => !!this.data.get(ls.id)) :
-          contrib.layers_sources);
-        const visualisationSets = this.configService.getValue('arlas.web.components').mapgl.input.visualisations_sets;
-        this.sharableLayers.forEach((ls) => {
-          const visualisation = visualisationSets.find(v => {
-            const layersSet = new Set(v.layers);
-            return layersSet.has(ls.id);
+        if (!!this.data) {
+          this.data.forEach((vs, lv) => {
+            const visualisationLayer = lv.split(ARLAS_VSET);
+            if (visualisationLayer.length === 2) {
+              const id = visualisationLayer[1];
+              if (contrib.layers_sources) {
+                const layer = contrib.layers_sources.find(ls => ls.id === id);
+                if (!!layer && vs) {
+                  layer.visualisationName = visualisationLayer[0];
+                  this.sharableLayers.push(layer);
+                }
+              }
+            }
           });
-          if (visualisation) {
-            ls.visualisationName = visualisation.name;
-          } else {
-            ls.visualisationName = '';
-          }
-        });
+        }
+       
+        
       }
     });
   }
