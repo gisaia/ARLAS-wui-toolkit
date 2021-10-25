@@ -1,5 +1,13 @@
 # Change Log
 
+## [v19.1.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v19.1.0) (2021-10-25)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v19.0.3...v19.1.0)
+
+**Fixed bugs:**
+
+- Fix sharable layers [\#499](https://github.com/gisaia/ARLAS-wui-toolkit/issues/499)
+
 ## [v19.0.3](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v19.0.3) (2021-10-11)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v19.0.2...v19.0.3)
