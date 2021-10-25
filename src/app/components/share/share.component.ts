@@ -158,8 +158,6 @@ export class ShareDialogComponent implements OnInit {
             }
           });
         }
-       
-        
       }
     });
   }
