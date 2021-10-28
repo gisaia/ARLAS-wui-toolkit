@@ -1,5 +1,17 @@
 # Change Log
 
+## [v17.2.6](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v17.2.6) (2021-10-28)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v19.1.1...v17.2.6)
+
+## [v19.1.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v19.1.1) (2021-10-28)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v19.1.0...v19.1.1)
+
+**Fixed bugs:**
+
+- Date picker timezone is not applied after setting one end of range [\#502](https://github.com/gisaia/ARLAS-wui-toolkit/issues/502)
+
 ## [v19.1.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v19.1.0) (2021-10-25)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v19.0.3...v19.1.0)
