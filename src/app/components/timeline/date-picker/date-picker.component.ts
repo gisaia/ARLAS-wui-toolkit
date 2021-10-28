@@ -72,17 +72,17 @@ export class DatePickerComponent implements OnInit, OnChanges {
    * Applies a temporal filter on the timeline on date selection on the date picker
    */
   public setDate(): void {
-    const selectedIntervalsList = new Array<SelectedOutputValues>();
-    this.startSelectedMoment = moment(this.startSelectedMoment).utc(this.timelineContributor.useUtc);
-    this.endSelectedMoment = moment(this.endSelectedMoment).utc(this.timelineContributor.useUtc);
+    const selectedIntervalsList = new Array();
+    this.startSelectedMoment = this.setMomentDate(this.startSelectedMoment);
+    this.endSelectedMoment = this.setMomentDate(this.endSelectedMoment);
     this.timelineContributor.intervalListSelection.forEach(intervalSelection => {
-      selectedIntervalsList.push(intervalSelection);
+        selectedIntervalsList.push(intervalSelection);
     });
     selectedIntervalsList
-      .push({
-        startvalue: this.setMomentDate(this.startSelectedMoment).valueOf(),
-        endvalue: this.setMomentDate(this.endSelectedMoment).valueOf()
-      });
+        .push({
+        startvalue: this.startSelectedMoment.valueOf(),
+        endvalue: this.endSelectedMoment.valueOf()
+    });
     this.timelineContributor.valueChanged(selectedIntervalsList);
   }
 
