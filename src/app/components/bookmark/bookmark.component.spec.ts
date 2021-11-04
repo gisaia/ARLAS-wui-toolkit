@@ -27,6 +27,7 @@ import { ArlasStartupService, ArlasConfigService, ArlasCollaborativesearchServic
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateService, TranslateModule, TranslateFakeLoader, TranslateLoader } from '@ngx-translate/core';
 import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 describe('BookmarkComponent', () => {
   let component: BookmarkComponent;
@@ -36,7 +37,7 @@ describe('BookmarkComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        MatTableModule, MatCheckboxModule, MatIconModule, HttpClientModule, MatPaginatorModule,
+        MatTableModule, MatCheckboxModule, MatIconModule, HttpClientModule, MatPaginatorModule, MatTooltipModule,
         TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } })
       ],
       declarations: [BookmarkComponent],
