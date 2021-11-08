@@ -1,5 +1,61 @@
 # Change Log
 
+## [v12.7.6](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v12.7.6) (2021-11-08)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v19.1.1...v12.7.6)
+
+## [v19.1.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v19.1.1) (2021-10-28)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v17.2.6...v19.1.1)
+
+## [v17.2.6](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v17.2.6) (2021-10-28)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v19.1.0...v17.2.6)
+
+**Fixed bugs:**
+
+- Date picker timezone is not applied after setting one end of range [\#502](https://github.com/gisaia/ARLAS-wui-toolkit/issues/502)
+
+## [v19.1.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v19.1.0) (2021-10-25)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v19.0.3...v19.1.0)
+
+**Fixed bugs:**
+
+- Fix sharable layers [\#499](https://github.com/gisaia/ARLAS-wui-toolkit/issues/499)
+
+## [v19.0.3](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v19.0.3) (2021-10-11)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v19.0.2...v19.0.3)
+
+**Miscellaneous:**
+
+- Add translation of temporal intervals [\#495](https://github.com/gisaia/ARLAS-wui-toolkit/issues/495)
+
+## [v19.0.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v19.0.2) (2021-10-05)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v19.0.1...v19.0.2)
+
+**Miscellaneous:**
+
+- Upgrade to arlas-web-contributors 19.0.2 [\#491](https://github.com/gisaia/ARLAS-wui-toolkit/issues/491)
+
+## [v19.0.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v19.0.1) (2021-09-28)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v19.0.0...v19.0.1)
+
+**Fixed bugs:**
+
+- Fix datepicker initialisation [\#490](https://github.com/gisaia/ARLAS-wui-toolkit/issues/490)
+
+## [v19.0.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v19.0.0) (2021-09-28)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v12.7.5...v19.0.0)
+
+**New stuff:**
+
+- emit all resultlist outputs through one output in the widget [\#488](https://github.com/gisaia/ARLAS-wui-toolkit/issues/488)
+
 ## [v12.7.5](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v12.7.5) (2021-09-23)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v19.0.0-beta.6...v12.7.5)
