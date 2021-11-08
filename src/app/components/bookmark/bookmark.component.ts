@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { Component, Output, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, Output, ViewChild, ChangeDetectorRef, Input } from '@angular/core';
 import { Subject } from 'rxjs';
 import { ArlasBookmarkService } from '../../services/bookmark/bookmark.service';
 import { ArlasDataSource } from '../../tools/arlasDataSource';
@@ -44,6 +44,8 @@ export class BookmarkComponent {
 
   public isPersistenceActive = false;
 
+  @Input() public additionalActions: { action: string, icon: string, label: string }[] = [];
+
   @Output() public actions: Subject<{ action: string, id: string, geometry?: any }> = new Subject<any>();
 
   @ViewChild(MatPaginator, { static: false }) public paginator: MatPaginator;
@@ -54,14 +56,14 @@ export class BookmarkComponent {
   ) {
     // Init component with data from persistence server, if defined and server is reachable
     if (this.bookmarkService.dataBase instanceof BookmarkPersistenceDatabase) {
-          this.isPersistenceActive = true;
-          this.bookmarkService.setPage(this.pageSize, this.pageNumber);
-          this.getBookmarksList();
-          (this.bookmarkService.dataBase as BookmarkPersistenceDatabase).dataChange
-            .subscribe((data: { total: number, items: BookMark[] }) => {
-              this.resultsLength = data.total;
-              this.bookmarks = data.items;
-            });
+      this.isPersistenceActive = true;
+      this.bookmarkService.setPage(this.pageSize, this.pageNumber);
+      this.getBookmarksList();
+      (this.bookmarkService.dataBase as BookmarkPersistenceDatabase).dataChange
+        .subscribe((data: { total: number, items: BookMark[] }) => {
+          this.resultsLength = data.total;
+          this.bookmarks = data.items;
+        });
     } else {
       this.bookmarks = new ArlasDataSource(this.bookmarkService.dataBase as BookmarkLocalDatabase);
     }
@@ -95,6 +97,10 @@ export class BookmarkComponent {
       });
       this.disableCombine = (sameColor === 'false');
     }
+  }
+
+  public fireEvent(action, id) {
+    this.actions.next({ action: action, id: id });
   }
 
   public viewBookmark(id) {

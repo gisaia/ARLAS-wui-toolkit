@@ -8,6 +8,9 @@
   <ng-container matColumnDef="actions">
     <mat-header-cell *matHeaderCellDef>{{ 'Actions' | translate }} </mat-header-cell>
     <mat-cell *matCellDef="let bookmark">
+
+      <mat-icon *ngFor="let act of additionalActions" class="bookmark-icons-action mat-icon material-icons bookmark-icons-action-{{act.action}}"
+        (click)="fireEvent(act.action, bookmark.id)" matTooltip="{{act.label | translate}}" >{{act.icon}}</mat-icon>
       <mat-icon class="bookmark-icons-action bookmark-icons-action-view" (click)="viewBookmark(bookmark.id)">
         remove_red_eye</mat-icon>
       <mat-icon class="bookmark-icons-action bookmark-icons-action-delete" (click)="removeBookmark(bookmark.id)">delete
@@ -33,16 +36,14 @@
   <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
   <mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></mat-row>
 </mat-table>
-<mat-paginator *ngIf="isPersistenceActive" [pageIndex]="this.pageNumber"
-  [pageSize]="this.pageSize"
-  [length]="resultsLength"
-  [pageSizeOptions]="[5, 10, 15, 20]"
-  [showFirstLastButtons]=true
-  (page)="pageChange($event)"
-></mat-paginator>
+<mat-paginator *ngIf="isPersistenceActive" [pageIndex]="this.pageNumber" [pageSize]="this.pageSize"
+  [length]="resultsLength" [pageSizeOptions]="[5, 10, 15, 20]" [showFirstLastButtons]=true (page)="pageChange($event)">
+</mat-paginator>
 
 
 <div class="bookmark-actions">
-  <button class="bookmark-action-button" mat-raised-button [disabled]="disableCombine"(click)="viewCombine()">{{ 'View Combine' | translate }}</button>
-  <button class="bookmark-action-button" mat-raised-button [disabled]="disableCombine" (click)="combine()">{{ 'Combine' | translate }}</button>
+  <button class="bookmark-action-button" mat-raised-button [disabled]="disableCombine" (click)="viewCombine()">{{ 'View
+    Combine' | translate }}</button>
+  <button class="bookmark-action-button" mat-raised-button [disabled]="disableCombine" (click)="combine()">{{ 'Combine'
+    | translate }}</button>
 </div>
