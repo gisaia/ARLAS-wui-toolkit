@@ -69,78 +69,91 @@ export interface SpinnerOptions {
   strokeWidth?: number;
 }
 
+export interface CollectionUnit {
+  collection: string;
+  unit: string;
+}
+
+export interface CollectionCount {
+  count: number;
+  collection: number;
+  color: string;
+  hasCentroidPath: boolean;
+  unit?: string;
+}
+
 /**
  * This interface lists the possible methods to apply on a Map object of a given cartographic client
  */
 export interface MapService {
-  zoomToData(geoPointField: string, map: any);
+  zoomToData(collection: string, geoPointField: string, map: any);
 }
 
 export function hashCode(str) { // java String#hashCode
   let hash = 0;
   for (let i = 0; i < str.length; i++) {
-      hash = str.charCodeAt(i) + ((hash << 5) - hash);
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
   }
   return hash;
 }
 
 export function intToRGB(i) {
   const c = (i & 0x00FFFFFF)
-      .toString(16)
-      .toUpperCase();
+    .toString(16)
+    .toUpperCase();
   return '00000'.substring(0, 6 - c.length) + c;
 }
 
 export class Guid {
   public newGuid() {
-      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-          const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
-          return v.toString(16);
-      });
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+      const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
   }
 }
 
 export function sortOnDate(data: ArlasStorageObject[]): ArlasStorageObject[] {
   const sortedData = data.sort((a, b) => {
-      let propertyA: number = new Date(0).getTime();
-      let propertyB: number = new Date(0).getTime();
-      [propertyA, propertyB] = [a.date.getTime(), b.date.getTime()];
-      const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
-      const valueB = isNaN(+propertyB) ? propertyB : +propertyB;
+    let propertyA: number = new Date(0).getTime();
+    let propertyB: number = new Date(0).getTime();
+    [propertyA, propertyB] = [a.date.getTime(), b.date.getTime()];
+    const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
+    const valueB = isNaN(+propertyB) ? propertyB : +propertyB;
 
-      return (valueA < valueB ? -1 : 1) * (-1);
+    return (valueA < valueB ? -1 : 1) * (-1);
   });
   return sortedData;
 }
 
 export function getKeyForColor(dataModel: Object): string {
-    const finalKeys: string[] = [];
-    Object.keys(dataModel).forEach(k => {
-        const key = new Set();
-        const dataModelFilters = dataModel[k].filters;
-        if (!!dataModelFilters) {
-          dataModelFilters.forEach((filters: Filter[], collection: string) => {
-            filters.forEach(filter => {
-              if (filter.f !== undefined) {
-                filter.f.forEach(e => e
-                        .forEach(ex => {
-                            if (!key.has(collection + 'f' + ex.field + ex.op)) {
-                                key.add('f' + ex.field + ex.op);
-                            }
-                        }));
-              }
-              if (filter.q !== undefined) {
-                  if (!key.has(collection + 'q')) {
-                    key.add(collection + 'q');
-                  }
-              }
-            });
-          });
+  const finalKeys: string[] = [];
+  Object.keys(dataModel).forEach(k => {
+    const key = new Set();
+    const dataModelFilters = dataModel[k].filters;
+    if (!!dataModelFilters) {
+      dataModelFilters.forEach((filters: Filter[], collection: string) => {
+        filters.forEach(filter => {
+          if (filter.f !== undefined) {
+            filter.f.forEach(e => e
+              .forEach(ex => {
+                if (!key.has(collection + 'f' + ex.field + ex.op)) {
+                  key.add('f' + ex.field + ex.op);
+                }
+              }));
+          }
+          if (filter.q !== undefined) {
+            if (!key.has(collection + 'q')) {
+              key.add(collection + 'q');
+            }
+          }
+        });
+      });
 
-        }
-        finalKeys.push(Array.from(key).sort().join(','));
-    });
-    return intToRGB(hashCode(finalKeys.sort().join(',')));
+    }
+    finalKeys.push(Array.from(key).sort().join(','));
+  });
+  return intToRGB(hashCode(finalKeys.sort().join(',')));
 }
 
 export function getFieldProperties(fieldList: any, parentPrefix?: string,

@@ -38,4 +38,4 @@ export { ArlasWalkthroughModule } from './services/walkthrough/walkthrough.modul
 export { AuthentSetting } from './services/authentification/authentification.service';
 export { PersistenceSetting } from './services/persistence/persistence.service';
 export { ErrorService } from './services/error/error.service';
-export { ConfigActionEnum, ConfigAction, Config } from './tools/utils';
+export { ConfigActionEnum, ConfigAction, Config, CollectionUnit, CollectionCount } from './tools/utils';
