@@ -18,8 +18,17 @@
  */
 
 .filters-chips--container {
-  display: block;
+  display: flex;
   border-radius: 4px;
+}
+
+.filters-chips {
+  background: #FF4081;
+  border-radius: 4px;
+  padding-right: 5px;
+  align-items: center;
+  display: flex;
+  height: 30px;
 }
 
 .filter-chip {
@@ -28,6 +37,24 @@
   font-size: 1.1em;
   font-style: normal;
   font-weight: 100;
+}
+
+.count-chip {
+  background-color: white;
+  margin-right: 5px;
+  padding: 0 5px;
+  border-radius: 4px;
+  height: 30px;
+  display: flex;
+  border-left: 4px solid;
+  align-items: center;
+}
+
+.counts-chips {
+  display: flex;
+  align-items: center;
+  margin-left: 0px;
+  padding: 0 10px;
 }
 
 .filter-chip:focus{
@@ -43,7 +70,7 @@
 }
 
 .filter-delimiter {
-
+  color: white;
 }
 
 .home-chip{
@@ -52,8 +79,10 @@
 
 .home-chip--label{
   padding-right: 3px;
-  cursor: default;
-  font-size: 20px;
+  padding-left: 10px;
+  cursor: pointer;
+  color: white;
+  font-size: 18px;
   font-weight: 100;
 }
 
@@ -100,4 +129,38 @@
   font-size:1em;
   height: 26px;
   float: left;
+}
+
+.count-container {
+  display: flex;
+  align-items: center;
+}
+
+.zoom {
+  background-color: white;
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+}
+
+.zoom mat-icon{
+  font-size: 15px;
+  width: 15px;
+  height: 15px;
+}
+
+.value-unit {
+  display: flex;
+  align-items: center;
+}
+
+.value {
+  font-weight: 600;
+  margin: 0 5px;
+}
+
+.unit {
+  font-weight: 100;
+  font-size: 0.95em;
+  color: #555;
 }
