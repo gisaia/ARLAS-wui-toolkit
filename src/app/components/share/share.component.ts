@@ -101,6 +101,8 @@ export class ShareDialogComponent implements OnInit {
   public excludedTypeString = '';
   public shareConfig: any;
 
+  public layerCollectionMap: Map<string, string> = new Map();
+
   // for now, the ARLAS-server url is fetched from the config in the startup service.
   // we should do the same everywhere, otherwise we will have two sources (settings.yaml (it was env.js) & config.json) to configure
   // the server, and this can lead to incoherences
@@ -153,6 +155,7 @@ export class ShareDialogComponent implements OnInit {
                 if (!!layer && vs) {
                   layer.visualisationName = visualisationLayer[0];
                   this.sharableLayers.push(layer);
+                  this.layerCollectionMap.set(layer.id, contrib.collection);
                 }
               }
             }
@@ -181,7 +184,7 @@ export class ShareDialogComponent implements OnInit {
         this.allFields = [];
         this.selectedFields = [];
         if (this.allFields.length === 0) {
-          this.collaborativeService.describe(server.collection.name).subscribe(
+          this.collaborativeService.describe(this.layerCollectionMap.get(layerSource.id)).subscribe(
             description => {
               const fields = description.properties;
               if (fields) {
@@ -241,7 +244,7 @@ export class ShareDialogComponent implements OnInit {
         this.request.page.sort = (this.sortDirection === 'desc' ? '-' : '') + this.selectedOrderField.label;
       }
       this.collaborativeService.resolveButNotFeatureCollection([projType.geosearch, this.request],
-        this.collaborativeService.collaborations, this.collaborativeService.defaultCollection).subscribe(f => {
+        this.collaborativeService.collaborations, this.layerCollectionMap.get(geojsonType.id)).subscribe(f => {
         this.saveJson(f, (this.translate.instant(geojsonType.id) + '').toLowerCase().replace(/ /g, '_') + '-' + fileDate + '-geojson.json');
         this.spinner.hide('downloadgeojson');
       });
@@ -251,7 +254,7 @@ export class ShareDialogComponent implements OnInit {
         this.request.interval.value = this.paramFormGroup.get('precision').value;
       }
       this.collaborativeService.resolveButNotFeatureCollection([projType.geoaggregate, [this.request]],
-        this.collaborativeService.collaborations, this.collaborativeService.defaultCollection).subscribe(f => {
+        this.collaborativeService.collaborations, this.layerCollectionMap.get(geojsonType.id)).subscribe(f => {
         this.saveJson(f, (this.translate.instant(geojsonType.id) + '').toLowerCase().replace(/ /g, '_') + '-' + fileDate + '-geojson.json');
         this.spinner.hide('downloadgeojson');
       });
@@ -277,7 +280,7 @@ export class ShareDialogComponent implements OnInit {
         this.request.page.sort = (this.sortDirection === 'desc' ? '-' : '') + this.selectedOrderField.label;
       }
       this.collaborativeService.resolveButNotShapefile([projType.shapesearch, this.request],
-        this.collaborativeService.collaborations, this.collaborativeService.defaultCollection).subscribe( data => {
+        this.collaborativeService.collaborations, this.layerCollectionMap.get(geojsonType.id)).subscribe( data => {
           const blob = new Blob([data], {
             type: 'application/zip'
           });
@@ -291,7 +294,7 @@ export class ShareDialogComponent implements OnInit {
         this.request.interval.value = this.paramFormGroup.get('precision').value;
       }
       this.collaborativeService.resolveButNotShapefile([projType.shapeaggregate, [this.request]],
-        this.collaborativeService.collaborations, this.collaborativeService.defaultCollection).subscribe( data => {
+        this.collaborativeService.collaborations, this.layerCollectionMap.get(geojsonType.id)).subscribe( data => {
           const blob = new Blob([data], {
             type: 'application/zip'
           });
