@@ -204,7 +204,6 @@ export class FiltersComponent implements OnInit {
           /** respects order of units list that is given by config */
           const unitsSet = new Set(this.units.map(u => u.collection));
           const countsMap = new Map();
-
           count.forEach(c => {
             const unit = this.units.find(u => u.collection === c.collection);
             countsMap.set(c.collection, {
@@ -213,7 +212,8 @@ export class FiltersComponent implements OnInit {
               color: this.arlasColorService.getColor(c.collection),
               hasCentroidPath: !!this.collectionToDescription.get(c.collection) &&
                 !!this.collectionToDescription.get(c.collection).centroid_path,
-              unit: !!unit ? unit.unit : c.collection
+              unit: !!unit ? unit.unit : c.collection,
+              ignored: unit.ignored
             });
           });
 

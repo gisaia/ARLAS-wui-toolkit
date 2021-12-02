@@ -72,6 +72,7 @@ export interface SpinnerOptions {
 export interface CollectionUnit {
   collection: string;
   unit: string;
+  ignored: boolean;
 }
 
 export interface CollectionCount {
@@ -79,6 +80,7 @@ export interface CollectionCount {
   collection: number;
   color: string;
   hasCentroidPath: boolean;
+  ignored: boolean;
   unit?: string;
 }
 

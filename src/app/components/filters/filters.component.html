@@ -1,14 +1,14 @@
 <div class="filters-chips--container">
   <mat-chip-list class="filters-chips">
     <span class="home-filters-logo"><img *ngIf="logoUrl!==undefined" class="filters-logo" src="{{logoUrl}}"></span>
-   <span class="home-chip--label" (click)="removeAllFilters()" matTooltip="{{ 'Clear all filters' | translate }}">
-     {{title | translate}}</span>
+    <span class="home-chip--label" (click)="removeAllFilters()" matTooltip="{{ 'Clear all filters' | translate }}">
+      {{title | translate}}</span>
     <mat-icon class="filter-delimiter">keyboard_arrow_right</mat-icon>
-
     <ng-container *ngFor="let contributorId of collaborations; let index = index">
-      <mat-basic-chip class="filter-chip" [style.color]="contributorId | getColorFilter:'color':backgroundColor:collaborationsMap " 
-      [style.background-color]="contributorId | getColorFilter:'background':backgroundColor:collaborationsMap " 
-        (click)="changeCollaborationState(contributorId)" 
+      <mat-basic-chip class="filter-chip"
+        [style.color]="contributorId | getColorFilter:'color':backgroundColor:collaborationsMap "
+        [style.background-color]="contributorId | getColorFilter:'background':backgroundColor:collaborationsMap "
+        (click)="changeCollaborationState(contributorId)"
         [attr.title]="contributorId | getContributorLabel:contributors | translate | concatCollection:contributorId:contributors">
         <mat-icon class="filter-chip__icon">{{contributorId | getCollaborationIcon :contributorsIcons }}</mat-icon>
         <mat-icon (click)="removeCollaboration(contributorId)" class="filter-chip__icon_close mat-icon material-icons">
@@ -19,15 +19,18 @@
   </mat-chip-list>
   <mat-chip-list class="counts-chips">
     <ng-container *ngFor="let c of countAll">
-      <mat-basic-chip class="count-chip" id="arlas-count" [style.borderColor]="c.color">
+      <mat-basic-chip class="count-chip" id="arlas-count" [style.borderColor]="c.color" *ngIf="!c.ignored">
         <div class="count-container">
-          <div *ngIf="c.hasCentroidPath" class="zoom" (click)="zoomToData(c.collection)" matTooltip="{{ 'Zoom to data' | translate }}"><mat-icon>filter_center_focus</mat-icon></div>
+          <div *ngIf="c.hasCentroidPath" class="zoom" (click)="zoomToData(c.collection)"
+            matTooltip="{{ 'Zoom to data' | translate }}">
+            <mat-icon>filter_center_focus</mat-icon>
+          </div>
           <div class="value-unit">
             <div class="value">
               {{c.count | formatNumber:NUMBER_FORMAT_CHAR}}
             </div>
             <div class="unit">
-              {{c.unit | translate}} 
+              {{c.unit | translate}}
             </div>
           </div>
         </div>
