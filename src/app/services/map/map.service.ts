@@ -45,7 +45,7 @@ export class ArlasMapService implements MapService {
    * @param paddingPercentage a percentage of the extent's height and width
    * that is added as a padding to bbox of data (between 0 and 1). It allows to have some context around data
    */
-  public zoomToData(geoPointField: string, map: Map, paddingPercentage?: number) {
+  public zoomToData(collection: string, geoPointField: string, map: Map, paddingPercentage?: number) {
     const computationRequest: ComputationRequest = {
       metric: ComputationRequest.MetricEnum.GEOBBOX,
       field: geoPointField
@@ -55,7 +55,7 @@ export class ArlasMapService implements MapService {
       mapInstance = this.map;
     }
     this.collaborativeSearchService.resolveButNotComputation([projType.compute, computationRequest],
-      this.collaborativeSearchService.collaborations, this.collaborativeSearchService.defaultCollection)
+      this.collaborativeSearchService.collaborations, collection)
       .subscribe((cr: ComputationResponse) => {
         if (cr && cr.geometry) {
           mapInstance.fitBounds(this.toMapboxBounds(cr.geometry, paddingPercentage));

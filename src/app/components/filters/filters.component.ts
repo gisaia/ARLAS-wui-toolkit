@@ -20,9 +20,12 @@ import {
   ChangeDetectorRef, Component, ViewEncapsulation, Input, ChangeDetectionStrategy,
   OnInit, Output, PipeTransform, Pipe
 } from '@angular/core';
-import { Contributor, Collaboration } from 'arlas-web-core';
-import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from '../../services/startup/startup.service';
 import { Subject } from 'rxjs';
+import { Contributor, Collaboration } from 'arlas-web-core';
+import { CollectionReferenceParameters } from 'arlas-api';
+import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from '../../services/startup/startup.service';
+import { ArlasColorGeneratorLoader } from '../../services/color-generator-loader/color-generator-loader.service';
+import { CollectionUnit, CollectionCount } from '../../tools/utils';
 
 
 
@@ -86,9 +89,9 @@ export class FiltersComponent implements OnInit {
   @Input() public title = '';
   /**
    * @Input : Angular
-   * @description The count unit
+   * @description List of collection-unit
    */
-  @Input() public unit = '';
+  @Input() public units: CollectionUnit[] = [];
   /**
    * @Input : Angular
    * @description Background color of the filter bar
@@ -107,16 +110,29 @@ export class FiltersComponent implements OnInit {
   @Input() public logoUrl;
 
   /**
+   * @Input : Angular
+   * @description Map of collectionName, collection params. This input allows us to verify if the collection has a centroid path and
+   * therefore propose or not the 'Zoom to Data' button
+   */
+   @Input() public  collectionToDescription = new Map<string, CollectionReferenceParameters>();
+
+  /**
    * @Output : Angular
    * @description This output emit app name on click on the title of the filter
    */
   @Output() public clickOnTitle: Subject<string> = new Subject<string>();
 
+  /**
+   * @Output : Angular
+   * @description This output emits the order of zooming on the extent of the given collection name
+   */
+   @Output() public zoomEvent: Subject<string> = new Subject<string>();
+
 
   public collaborations: Set<string> = new Set<string>();
   public contributors: Map<string, Contributor>;
   public contributorsIcons: Map<string, string>;
-  public countAll;
+  public countAll: CollectionCount[];
   public NUMBER_FORMAT_CHAR = 'NUMBER_FORMAT_CHAR';
   public collaborationsMap: Map<string, Collaboration>;
 
@@ -124,6 +140,7 @@ export class FiltersComponent implements OnInit {
     private collaborativeSearchService: ArlasCollaborativesearchService,
     private arlasStartupService: ArlasStartupService,
     private configService: ArlasConfigService,
+    private arlasColorService: ArlasColorGeneratorLoader,
     private cdr: ChangeDetectorRef
   ) {
 
@@ -133,8 +150,8 @@ export class FiltersComponent implements OnInit {
 
   public ngOnInit(): void {
     this.contributorsIcons = new Map(this.getAllContributorsIcons());
-    if (!this.unit) {
-      this.unit = '';
+    if (!this.units) {
+      this.units = [];
     }
   }
 
@@ -163,6 +180,10 @@ export class FiltersComponent implements OnInit {
       .map(k => [k, this.configService.getValue('arlas.web.contributors').find(contrib => contrib.identifier === k).icon]).values();
   }
 
+  public zoomToData(collection: string): void {
+    this.zoomEvent.next(collection);
+  }
+
   private retrieveCurrentCollaborations() {
     Array.from(this.contributors.keys()).filter(id => this.ignoredContributors.indexOf(id) < 0).forEach(contributorId => {
       const collaboration = this.collaborativeSearchService.getCollaboration(contributorId);
@@ -178,7 +199,35 @@ export class FiltersComponent implements OnInit {
     this.collaborativeSearchService.collaborationBus.subscribe(collaborationBus => {
       this.collaborationsMap = new Map(this.collaborativeSearchService.collaborations);
       this.collaborativeSearchService.countAll.subscribe(count => {
-        this.countAll = count;
+        if (!!count) {
+          this.countAll = [];
+          /** respects order of units list that is given by config */
+          const unitsSet = new Set(this.units.map(u => u.collection));
+          const countsMap = new Map();
+          count.forEach(c => {
+            const unit = this.units.find(u => u.collection === c.collection);
+            countsMap.set(c.collection, {
+              collection: c.collection,
+              count: c.count,
+              color: this.arlasColorService.getColor(c.collection),
+              hasCentroidPath: !!this.collectionToDescription.get(c.collection) &&
+                !!this.collectionToDescription.get(c.collection).centroid_path,
+              unit: !!unit ? unit.unit : c.collection,
+              ignored: unit.ignored
+            });
+          });
+
+          this.units.forEach(u => {
+            if (countsMap.get(u.collection)) {
+              this.countAll.push(countsMap.get(u.collection));
+            }
+          });
+          countsMap.forEach((v, k) => {
+            if (!unitsSet.has(k)) {
+              this.countAll.push(v);
+            }
+          });
+        }
         this.cdr.detectChanges();
       });
       if (!collaborationBus.all && this.ignoredContributors.indexOf(collaborationBus.id) < 0) {
