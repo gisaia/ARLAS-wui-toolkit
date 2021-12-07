@@ -46,7 +46,6 @@ import { ArlasMapSettings } from './services/map-settings/map-settings.service';
 import { ArlasMapService } from './services/map/map.service';
 import { PermissionService } from './services/permission/permission.service';
 import { isArray } from 'util';
-import { DeviceDetectorModule } from 'ngx-device-detector';
 import { GET_OPTIONS, PersistenceService } from './services/persistence/persistence.service';
 import { ArlasSettingsService } from './services/settings/arlas.settings.service';
 import {
@@ -55,6 +54,7 @@ import {
 import { ArlasWalkthroughService } from './services/walkthrough/walkthrough.service';
 import { ArlasToolkitSharedModule } from './shared.module';
 import { PaginatorI18n } from './tools/paginatori18n';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 export function startupServiceFactory(startupService: ArlasStartupService) {
   const load = () => startupService.load();
@@ -149,12 +149,12 @@ export const MY_CUSTOM_FORMATS = {
       }
     }),
     ErrorModalModule,
-    OAuthModule.forRoot(),
-    DeviceDetectorModule.forRoot()
+    OAuthModule.forRoot()
   ],
   exports: [AppComponent],
   declarations: [AppComponent],
   providers: [
+    DeviceDetectorService,
     {
       provide: FETCH_OPTIONS, useValue: {
         referrerPolicy: 'origin'
