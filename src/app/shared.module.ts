@@ -63,6 +63,7 @@ import { ConfigMenuModule } from './components/config-manager/config-menu/config
 import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.component';
 import { DonutTooltipOverlayComponent } from './components/donut-tooltip-overlay/donut-tooltip-overlay.component';
 import { DownloadComponent, DownloadDialogComponent } from './components/download/download.component';
+import { ErrormodalComponent } from './components/errormodal/errormodal.component';
 import { ErrorModalModule } from './components/errormodal/errormodal.module';
 import { ExtendComponent } from './components/extend/extend.component';
 import {

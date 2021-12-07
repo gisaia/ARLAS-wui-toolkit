@@ -24,11 +24,12 @@ import { projType } from 'arlas-web-core';
 import { ArlasSearchField } from '../../components/share/model/ArlasSearchField';
 import { ArlasCollaborativesearchService, ArlasConfigService } from '../../services/startup/startup.service';
 import { LayerSourceConfig, MapContributor } from 'arlas-web-contributors';
-import { ARLAS_VSET } from 'arlas-web-components';
+
 import { Search } from 'arlas-tagger-api';
 import * as FileSaver from 'file-saver';
 import { TranslateService } from '@ngx-translate/core';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ARLAS_VSET } from 'arlas-web-components';
 
 
 export interface ShareLayerSourceConfig extends LayerSourceConfig {

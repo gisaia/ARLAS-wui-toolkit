@@ -124,8 +124,14 @@ export class ArlasOverlayService {
     };
     const origin = right ? origins.topRight : origins.topLeft;
     const overlay = right ? overlays.topRight : overlays.topLeft;
-    const positionStrategy = this.overlay.position().connectedTo(elementRef, origin, overlay).withOffsetX(xOffset)
-    .withOffsetY(yOffset);
+    //const positionStrategy = this.overlay.position().connectedTo(elementRef, origin, overlay).withOffsetX(xOffset)
+    //.withOffsetY(yOffset);
+
+    // TODO check if origin and overlay is not missing as important information
+    const positionStrategy = this.overlay.position().flexibleConnectedTo(elementRef)
+    .withDefaultOffsetX(xOffset)
+    .withDefaultOffsetY(yOffset);
+
 
     const overlayConfig = new OverlayConfig({
       hasBackdrop: config.hasBackdrop,
