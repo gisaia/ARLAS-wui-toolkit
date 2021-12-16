@@ -13,7 +13,7 @@
     "lint": "ng lint",
     "tslint": "ng lint",
     "gulp": "gulp",
-    "build-release": "ngc -p tsconfig-build.json && cp -R  dist/src/app/* dist/ && gulp",
+    "build-release": "ng build arlas-toolkit --configuration production",
     "e2e": "ng e2e",
     "i18n:init": "ngx-translate-extract --input ./src --output ./src/assets/i18n/template.json --key-as-default-value --replace --format json",
     "i18n:extract": "ngx-translate-extract --input ./src --output ./src/assets/i18n/{en,fr}.json --format json"
@@ -76,6 +76,7 @@
     "karma-chrome-launcher": "~3.1.0",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "~1.7.0",
+    "ng-packagr": "^13.0.0",
     "node": "^12.11.1",
     "patch-package": "^6.4.7",
     "protractor": "~7.0.0",

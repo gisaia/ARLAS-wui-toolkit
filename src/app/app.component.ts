@@ -19,7 +19,9 @@
 
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { ArlasCollaborativesearchService, ArlasStartupService } from '../../projects/arlas-toolkit/src/public-api';
+import { ArlasCollaborativesearchService, ArlasStartupService } from '../../projects/arlas-toolkit/src/lib/services/startup/startup.service';
+
+
 
 @Component({
   selector: 'arlas-tool-root',

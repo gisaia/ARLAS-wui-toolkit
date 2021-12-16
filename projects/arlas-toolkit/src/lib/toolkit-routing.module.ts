@@ -1,9 +1,9 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { AppComponent } from "../../../../src/app/app.component";
+import { ToolkitComponent } from "./toolkit.component";
 
 export const routes: Routes = [
-  { path: '', component: AppComponent },
+  { path: '', component: ToolkitComponent },
   { path: 'callback', redirectTo: '' }
 ];
 
