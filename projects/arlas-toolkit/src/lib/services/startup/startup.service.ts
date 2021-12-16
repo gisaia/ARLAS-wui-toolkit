@@ -21,8 +21,7 @@ import { LOCATION_INITIALIZED } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable, InjectionToken, Injector } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import ajv from 'ajv';
-import * as ajvKeywords from 'ajv-keywords/keywords/uniqueItemProperties';
+
 import * as draftSchema from 'ajv/lib/refs/json-schema-draft-06.json';
 import { CollectionReferenceDescription, CollectionReferenceParameters, CollectionsApi, Configuration, ExploreApi } from 'arlas-api';
 import { DataWithLinks } from 'arlas-persistence-api';
@@ -51,6 +50,8 @@ import { ArlasSettingsService } from '../settings/arlas.settings.service';
 import * as arlasConfSchema from './arlasconfig.schema.json';
 import { ContributorBuilder } from './contributorBuilder';
 import * as arlasSettingsSchema from './settings.schema.json';
+import Ajv from 'ajv';
+import uniqueItemProperties from 'ajv-keywords/keywords/uniqueItemProperties';
 
 @Injectable({
     providedIn: 'root'
@@ -136,8 +137,8 @@ export class ArlasStartupService {
 
     public validateSettings(settings) {
         return new Promise<any>((resolve, reject) => {
-            const ajvObj = ajv();
-            ajvKeywords(ajvObj);
+            const ajvObj = new Ajv();
+            uniqueItemProperties(ajvObj)
             const validateConfig = ajvObj
                 .addMetaSchema(draftSchema.default)
                 .compile((<any>arlasSettingsSchema).default);
@@ -156,8 +157,8 @@ export class ArlasStartupService {
 
     public validateConfiguration(data) {
         return new Promise<any>((resolve, reject) => {
-            const ajvObj = ajv();
-            ajvKeywords(ajvObj);
+            const ajvObj = new Ajv();
+            uniqueItemProperties(ajvObj)
             const validateConfig = ajvObj
                 .addMetaSchema(draftSchema.default)
                 .addSchema((<any>rootContributorConfSchema).default)
