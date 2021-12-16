@@ -35,7 +35,7 @@
     "@angular/router": "~13.0.0",
     "@biesbjerg/ngx-translate-extract": "7.0.4",
     "@biesbjerg/ngx-translate-extract-marker": "1.0.0",
-    "@gisaia-team/ng-pick-datetime": "9.0.0-beta.1",
+    "@gisaia-team/ng-pick-datetime": "9.0.0-beta.2",
     "@ngx-translate/core": "^14.0.0",
     "@ngx-translate/http-loader": "^7.0.0",
     "@types/d3-shape": "^1.2.4",
