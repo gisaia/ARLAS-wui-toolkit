@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { MatPaginatorIntl } from '@angular/material/paginator/';
+import { MatPaginatorIntl } from '@angular/material/paginator';
 import { TranslateService } from '@ngx-translate/core';
 
 export class PaginatorI18n {

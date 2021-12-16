@@ -18,7 +18,7 @@
  */
 import { APP_INITIALIZER, forwardRef, NgModule } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatPaginatorIntl } from '@angular/material/paginator/';
+import { MatPaginatorIntl } from '@angular/material/paginator';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { OwlDateTimeIntl, OWL_DATE_TIME_LOCALE } from '@gisaia-team/ng-pick-datetime';
