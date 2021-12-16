@@ -35,11 +35,20 @@
             "scripts": []
           },
           "configurations": {
+            "development": {
+              "optimization": false,
+              "outputHashing": "all",
+              "sourceMap": true,
+              "namedChunks": true,
+              "extractLicenses": false,
+              "vendorChunk": true,
+              "buildOptimizer": false,
+              "budgets": []
+            },
             "production": {
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -60,10 +69,14 @@
             "browserTarget": "arlas-wui-toolkit:build"
           },
           "configurations": {
+            "development": {
+              "browserTarget": "arlas-wui-toolkit:build:development"
+            },
             "production": {
               "browserTarget": "arlas-wui-toolkit:build:production"
             }
-          }
+          },
+          "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
@@ -126,6 +139,45 @@
               "e2e/tsconfig.e2e.json"
             ],
             "exclude": []
+          }
+        }
+      }
+    },
+    "arlas-toolkit": {
+      "projectType": "library",
+      "root": "projects/arlas-toolkit",
+      "sourceRoot": "projects/arlas-toolkit/src",
+      "prefix": "arlas",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "projects/arlas-toolkit/tsconfig.lib.json",
+            "project": "projects/arlas-toolkit/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/arlas-toolkit/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/arlas-toolkit/src/test.ts",
+            "tsConfig": "projects/arlas-toolkit/tsconfig.spec.json",
+            "karmaConfig": "projects/arlas-toolkit/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "eslintConfig": ".eslintrc.json",
+            "lintFilePatterns": [
+              "projects/**/*.spec.ts",
+              "projects/**/*.d.ts",
+              "projects/**/*.ts"
+            ]
           }
         }
       }

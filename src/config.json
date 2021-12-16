@@ -3,602 +3,547 @@
     "web": {
       "contributors": [
         {
-          "type":"histogram",
-          "identifier": "timeline",
-          "aggregationmodels": [
+          "type": "map",
+          "identifier": "mapbox",
+          "name": "map",
+          "geo_query_op": "Intersects",
+          "geo_query_field": "track.trail",
+          "icon": "check_box_outline_blank",
+          "layers_sources": [
             {
-              "type": "datehistogram",
-              "field": "position.timestamp",
-              "interval": {
-                "value": 30,
-                "unit": "minute"
-              }
-            }
-          ],
-          "numberOfBuckets": 100,
-          "name": "Timeline",
-          "icon": "watch_later",
-          "isOneDimension": false
-        },
-        {
-          "type": "detailedhistogram",
-          "identifier": "detailedTimeline",
-          "annexedContributorId": "timeline",
-          "selectionExtentPercentage": 0.02,
-          "aggregationmodels": [
-            {
-              "type": "datehistogram",
-              "field": "position.timestamp",
-              "interval": {
-                "value": 30,
-                "unit": "minute"
-              }
-            }
-          ],
-          "numberOfBuckets": 100,
-          "name": "Timeline",
-          "icon": "watch_later",
-          "isOneDimension": false
-        },
-        {
-          "type": "histogram",
-          "identifier": "sog",
-          "aggregationmodels": [
-            {
-              "type": "histogram",
-              "field": "course.sog",
-              "interval": {
-                "value": 2
-              }
-            }
-          ],
-          "name": "Speed over ground",
-          "charttype": "bars",
-          "numberOfBuckets": 20,
-          "title": "Speed over ground",
-          "icon": "slow_motion_video",
-          "isOneDimension": false
-        },
-        {
-          "type":"histogram",
-          "identifier": "heading",
-          "aggregationmodels": [
-            {
-              "type": "histogram",
-              "field": "course.heading",
-              "interval": {
-                "value": 5
-              }
-            }
-          ],
-          "name": "Heading",
-          "title": "Heading",
-          "charttype": "area",
-          "numberOfBuckets": 50,
-          "icon": "near_me",
-          "isOneDimension": false
-        },
-        {
-          "type":"histogram",
-          "identifier": "cog",
-          "aggregationmodels": [
-            {
-              "type": "histogram",
-              "field": "course.cog",
-              "interval": {
-                "value": 5
-              }
-            }
-          ],
-          "name": "Course over ground",
-          "charttype": "area",
-          "numberOfBuckets": 50,
-          "title": "Course over ground",
-          "icon": "explore",
-          "isOneDimension": false
-        },
-        {
-          "type":"histogram",
-          "identifier": "duration",
-          "aggregationmodels": [
-            {
-              "type": "histogram",
-              "field": "course.segment.duration",
-              "interval": {
-                "value": 5000
-              }
-            }
-          ],
-          "name": "Ais Emission Tempo",
-          "charttype": "area",
-          "numberOfBuckets": 50,
-          "title": "Ais Emission Tempo",
-          "icon": "watch_later",
-          "isOneDimension": false
-        },
-        {
-          "type":"tree",
-          "aggregationmodels": [
-            {
-              "type": "term",
-              "field": "vessel.ship_type"
+              "id": "Gathered birds positions",
+              "source": "cluster-track.location-Fine-geohash",
+              "minzoom": 0,
+              "maxzoom": 24,
+              "include_fields": [],
+              "colors_from_fields": [],
+              "provided_fields": [],
+              "normalization_fields": [],
+              "metrics": [
+                {
+                  "field": "",
+                  "metric": "count",
+                  "normalize": true
+                }
+              ],
+              "agg_geo_field": "track.location",
+              "granularity": "Fine",
+              "minfeatures": 5000,
+              "aggregated_geometry": "geohash"
             },
             {
-              "type": "term",
-              "field": "vessel.cargo_type"
-            }
-          ],
-          "title": "Ship type",
-          "identifier": "shiptype",
-          "name": "Ship type",
-          "icon": "directions_boat"
-        },
-        {
-          "type":"tree",
-          "aggregationmodels": [
+              "id": "Density of birds positions",
+              "source": "cluster-track.location-Fine-centroid",
+              "minzoom": 0,
+              "maxzoom": 23,
+              "include_fields": [],
+              "colors_from_fields": [],
+              "provided_fields": [],
+              "normalization_fields": [],
+              "metrics": [],
+              "agg_geo_field": "track.location",
+              "granularity": "Fine",
+              "minfeatures": 5000,
+              "aggregated_geometry": "centroid"
+            },
             {
-              "type": "term",
-              "field": "course.navigational_status"
-            }
-          ],
-          "title": "Navigational status",
-          "identifier": "navigationalstatus",
-          "name": "Navigational status",
-          "icon": "navigation"
-        },
-        {
-          "type":"tree",
-          "aggregationmodels": [
-            {
-              "type": "term",
-              "field": "vessel.mmsi"
-            }
-          ],
-          "title": "MMSI",
-          "identifier": "mmsi",
-          "name": "MMSI",
-          "icon": "directions_boat"
-        },
-        {
-          "type":"tree",
-          "aggregationmodels": [
-            {
-              "type": "term",
-              "field": "vessel.name"
-            }
-          ],
-          "title": "Ship name",
-          "identifier": "ship_name",
-          "name": "Ship name",
-          "icon": "directions_boat"
-        },
-        {
-          "type":"swimlane",
-          "swimlanes": [
-            {
-              "id": 1,
-              "name": "Ship types over time",
-              "xAxisField": "position.timestamp",
-              "termField": "vessel.ship_type",
-              "aggregationmodels": [
+              "id": "Birds altitude fragment",
+              "source": "feature-track.trail",
+              "minzoom": 0,
+              "maxzoom": 24,
+              "include_fields": [],
+              "colors_from_fields": [],
+              "provided_fields": [],
+              "normalization_fields": [
                 {
-                  "type": "term",
-                  "field": "vessel.ship_type",
-                  "size": 5
+                  "on": "track.dynamics.sensor.height.above.ellipsoid"
                 },
                 {
-                  "type": "datehistogram",
-                  "field": "position.timestamp",
-                  "interval": {
-                    "value": 1,
-                    "unit": "hour"
-                  }
+                  "on": "track.timestamps.center",
+                  "per": "object.id"
                 }
-              ]
+              ],
+              "metrics": [],
+              "maxfeatures": 5000,
+              "returned_geometry": "track.trail"
+            },
+            {
+              "id": "Birds migration status fragment",
+              "source": "feature-track.trail",
+              "minzoom": 0,
+              "maxzoom": 24,
+              "include_fields": [
+                "tagging.tag1"
+              ],
+              "colors_from_fields": [],
+              "provided_fields": [],
+              "normalization_fields": [
+                {
+                  "on": "track.timestamps.center",
+                  "per": "object.id"
+                }
+              ],
+              "metrics": [],
+              "maxfeatures": 5000,
+              "returned_geometry": "track.trail"
+            },
+            {
+              "id": "Birds predicted migration status fragment",
+              "source": "feature-track.trail",
+              "minzoom": 0,
+              "maxzoom": 24,
+              "include_fields": [
+                "tagging.tag2"
+              ],
+              "colors_from_fields": [],
+              "provided_fields": [],
+              "normalization_fields": [
+                {
+                  "on": "track.timestamps.center",
+                  "per": "object.id"
+                }
+              ],
+              "metrics": [],
+              "maxfeatures": 5000,
+              "returned_geometry": "track.trail"
+            },
+            {
+              "id": "Birds speed fragment",
+              "source": "feature-track.trail",
+              "minzoom": 0,
+              "maxzoom": 24,
+              "include_fields": [],
+              "colors_from_fields": [],
+              "provided_fields": [],
+              "normalization_fields": [
+                {
+                  "on": "track.dynamics.sensor.speed.ms"
+                },
+                {
+                  "on": "track.timestamps.center",
+                  "per": "object.id"
+                }
+              ],
+              "metrics": [],
+              "maxfeatures": 5000,
+              "returned_geometry": "track.trail"
+            },
+            {
+              "id": "Birds identifiers fragment",
+              "source": "feature-track.trail",
+              "minzoom": 0,
+              "maxzoom": 24,
+              "include_fields": [],
+              "colors_from_fields": [
+                "object.id"
+              ],
+              "provided_fields": [],
+              "normalization_fields": [
+                {
+                  "on": "track.timestamps.center",
+                  "per": "object.id"
+                }
+              ],
+              "metrics": [],
+              "maxfeatures": 5000,
+              "returned_geometry": "track.trail"
             }
-          ],
-          "charttype": "swimlane",
-          "numberOfBuckets": 40,
-          "isOneDimension": false,
-          "title": "",
-          "identifier": "shiptypetime",
-          "name": "Ship type over time",
-          "icon": "directions_boat"
+          ]
         },
         {
           "type": "chipssearch",
           "identifier": "chipssearch",
-          "search_size": 100,
           "search_field": "internal.fulltext",
-          "name": "Search",
-          "icon": "search"
+          "name": "Search a bird",
+          "icon": "search",
+          "autocomplete_field": "internal.autocomplete",
+          "autocomplete_size": 20
         },
         {
-          "type": "resultlist",
-          "identifier": "table",
-          "icon": "list",
-          "fieldsConfiguration": {
-            "idFieldName": "id",
-            "urlThumbnailTemplate": "test",
-            "titleFieldNames": [{"fieldPath":"vessel.ship_type"}],
-            "icon": "fiber_manual_record",
-            "iconColorFieldName": "vessel.ship_type"
-          },
-          "columns": [
+          "type": "histogram",
+          "identifier": "timeline",
+          "name": "Timeline",
+          "icon": "watch_later",
+          "isOneDimension": false,
+          "numberOfBuckets": 100,
+          "aggregationmodels": [
             {
-              "columnName": "MMSI",
-              "fieldName": "vessel.mmsi",
-              "dataType": "",
-              "process": ""
-            },
+              "type": "datehistogram",
+              "field": "track.timestamps.center"
+            }
+          ]
+        },
+        {
+          "type": "detailedhistogram",
+          "identifier": "detailedTimeline",
+          "name": "Timeline",
+          "icon": "watch_later",
+          "isOneDimension": false,
+          "numberOfBuckets": 100,
+          "aggregationmodels": [
             {
-              "columnName": "Ship type",
-              "fieldName": "vessel.ship_type",
-              "useColorService": true,
-              "dataType": "",
-              "process": ""
-            },
-            {
-              "columnName": "Speed over Ground",
-              "fieldName": "course.sog",
-              "dataType": "",
-              "process": ""
-            },
-            {
-              "columnName": "Navig. Status",
-              "fieldName": "course.navigational_status",
-              "dataType": "",
-              "process": ""
+              "type": "datehistogram",
+              "field": "track.timestamps.center"
             }
           ],
-          "process": {
-            "urlImageTemplate": {
-              "process": ""
-            },
-            "urlThumbnailTemplate": {
-              "process": ""
-            }
-          },
-          "details": [
+          "annexedContributorId": "timeline",
+          "selectionExtentPercentage": 0.02
+        },
+        {
+          "identifier": "object.id-cardinality",
+          "name": "Number of birds",
+          "title": "Number of birds",
+          "icon": "functions",
+          "type": "metric",
+          "function": "m[0]",
+          "metrics": [
             {
-              "name": "Technical Informations",
-              "order": 1,
-              "fields": [
+              "field": "object.id",
+              "metric": "cardinality"
+            }
+          ]
+        },
+        {
+          "identifier": "m[0]/1000track.distance.gps.travelled_m-sum",
+          "name": "Travelled distance",
+          "title": "Travelled distance",
+          "icon": "functions",
+          "type": "metric",
+          "function": "m[0]/1000",
+          "metrics": [
+            {
+              "field": "track.distance.gps.travelled_m",
+              "metric": "sum"
+            }
+          ]
+        },
+        {
+          "identifier": "object.id-10",
+          "name": "Object Id",
+          "title": "Object Id",
+          "icon": "local_offer",
+          "type": "tree",
+          "aggregationmodels": [
+            {
+              "type": "term",
+              "field": "object.id",
+              "size": 10
+            }
+          ]
+        },
+        {
+          "identifier": "track.dynamics.sensor.height_above_ellipsoid-numeric-bucket-Count--50",
+          "name": "Number of birds positions having this altitude",
+          "title": "Number of birds positions having this altitude",
+          "icon": "call_made",
+          "charttype": "bars",
+          "isOneDimension": false,
+          "type": "histogram",
+          "numberOfBuckets": 50,
+          "jsonpath": "$.count",
+          "aggregationmodels": [
+            {
+              "type": "histogram",
+              "field": "track.dynamics.sensor.height_above_ellipsoid"
+            }
+          ]
+        },
+        {
+          "identifier": "track.timestamps.center-time-bucket-AVG-track.dynamics.sensor.height_above_ellipsoid-50",
+          "name": "Altitude average",
+          "title": "Altitude average",
+          "icon": "call_made",
+          "charttype": "bars",
+          "isOneDimension": false,
+          "type": "histogram",
+          "numberOfBuckets": 50,
+          "jsonpath": "$.metrics[0].value",
+          "aggregationmodels": [
+            {
+              "type": "datehistogram",
+              "field": "track.timestamps.center",
+              "metrics": [
                 {
-                  "path": "vessel.name",
-                  "label": "Ship Name",
-                  "process": ""
-                },
-                {
-                  "path": "vessel.length",
-                  "label": "Length",
-                  "process": ""
-                },
-                {
-                  "path": "route.destination",
-                  "label": "Destination",
-                  "process": ""
-                },
-                {
-                  "path": "route.eta",
-                  "label": "Estimated time of arrival",
-                  "process": ""
+                  "collect_fct": "avg",
+                  "collect_field": "track.dynamics.sensor.height_above_ellipsoid"
                 }
               ]
             }
-          ],
-          "search_size": 20,
-          "name": "Detail list"
-        }
-
-
-      ],
-      "analytics": [
-          {
-            "groupId": "1",
-            "title": "Speed over ground (knots)",
-            "icon": "slow_motion_video",
-            "components": [
-              {
-                "contributorId": "sog",
-                "componentType": "histogram",
-                "input": {
-                  "id": "sog",
-                  "dataType": "numeric",
-                  "isHistogramSelectable": true,
-                  "multiselectable": true,
-                  "topOffsetRemoveInterval": 40,
-                  "leftOffsetRemoveInterval": 18,
-                  "brushHandlesHeightWeight": 0.8,
-                  "yAxisStartsFromZero": true,
-                  "chartType": "bars",
-                  "chartTitle": "Speed over ground",
-                  "chartWidth": null,
-                  "chartHeight": 100,
-                  "customizedCssClass": "arlas-histogram-analytics",
-                  "xAxisPosition": "bottom",
-                  "descriptionPosition": "bottom",
-                  "xTicks": 4,
-                  "yTicks": 1,
-                  "xLabels": 4,
-                  "yLabels": 4,
-                  "showXTicks": true,
-                  "showYTicks": true,
-                  "showXLabels": true,
-                  "showYLabels": true,
-                  "showHorizontalLines": false,
-                  "isSmoothedCurve": false,
-                  "barWeight": 0.8
-                }
-              }
-            ]
-          },
-          {
-            "groupId": "2",
-            "title": "Heading (degree)",
-            "icon": "near_me",
-            "components": [
-              {
-                "contributorId": "heading",
-                "componentType": "histogram",
-                "input": {
-                  "id": "heading",
-                  "dataType": "numeric",
-                  "isHistogramSelectable": true,
-                  "multiselectable": true,
-                  "topOffsetRemoveInterval": 40,
-                  "leftOffsetRemoveInterval": 18,
-                  "brushHandlesHeightWeight": 0.8,
-                  "chartType": "area",
-                  "chartTitle": "Heading",
-                  "chartWidth": null,
-                  "chartHeight": 100,
-                  "customizedCssClass": "arlas-histogram-analytics",
-                  "xAxisPosition": "bottom",
-                  "descriptionPosition": "bottom",
-                  "yAxisStartsFromZero": true,
-                  "xTicks": 4,
-                  "yTicks": 1,
-                  "xLabels": 4,
-                  "yLabels": 4,
-                  "showXTicks": true,
-                  "showYTicks": true,
-                  "showXLabels": true,
-                  "showYLabels": true,
-                  "showHorizontalLines": false,
-                  "isSmoothedCurve": true,
-                  "barWeight": 0.8
-                }
-              }
-            ]
-          },
-          {
-            "groupId": "3",
-            "title": "Course over ground (degree)",
-            "icon": "explore",
-            "components": [
-              {
-                "contributorId": "cog",
-                "componentType": "histogram",
-                "input": {
-                  "dataType": "numeric",
-                  "id": "cog",
-                  "isHistogramSelectable": true,
-                  "multiselectable": true,
-                  "topOffsetRemoveInterval": 40,
-                  "leftOffsetRemoveInterval": 18,
-                  "brushHandlesHeightWeight": 0.8,
-                  "yAxisStartsFromZero": true,
-                  "chartType": "area",
-                  "chartTitle": "Course over ground",
-                  "chartWidth": null,
-                  "chartHeight": 100,
-                  "customizedCssClass": "arlas-histogram-analytics",
-                  "xAxisPosition": "bottom",
-                  "descriptionPosition": "bottom",
-                  "xTicks": 4,
-                  "yTicks": 1,
-                  "xLabels": 4,
-                  "yLabels": 4,
-                  "showXTicks": true,
-                  "showYTicks": true,
-                  "showXLabels": true,
-                  "showYLabels": true,
-                  "showHorizontalLines": false,
-                  "isSmoothedCurve": true,
-                  "barWeight": 0.8
-                }
-              }
-            ]
-          },
-          {
-            "groupId": "4",
-            "title": "Ais Emission Tempo (millisecond)",
-            "icon": "watch_later",
-            "components": [
-              {
-                "contributorId": "duration",
-                "componentType": "histogram",
-                "input": {
-                  "dataType": "numeric",
-                  "id": "duration",
-                  "isHistogramSelectable": true,
-                  "multiselectable": true,
-                  "topOffsetRemoveInterval": 40,
-                  "leftOffsetRemoveInterval": 18,
-                  "brushHandlesHeightWeight": 0.8,
-                  "chartType": "bars",
-                  "chartTitle": "Ais Emission Temp",
-                  "chartWidth": null,
-                  "chartHeight": 100,
-                  "customizedCssClass": "arlas-histogram-analytics",
-                  "xAxisPosition": "bottom",
-                  "descriptionPosition": "bottom",
-                  "yAxisStartsFromZero": true,
-                  "xTicks": 4,
-                  "yTicks": 1,
-                  "xLabels": 4,
-                  "yLabels": 4,
-                  "showXTicks": true,
-                  "showYTicks": true,
-                  "showXLabels": true,
-                  "showYLabels": true,
-                  "showHorizontalLines": false,
-                  "isSmoothedCurve": true,
-                  "barWeight": 0.8
-                }
-              }
-            ]
-          },
-          {
-            "groupId": "5",
-            "title": "Ship type   -   Navigational status",
-            "icon": "directions_boat",
-            "components": [
-              {
-                "contributorId": "shiptype",
-                "componentType": "donut",
-                "input": {
-                  "id": "donut",
-                  "customizedCssClass": "arlas-donuts-analytics",
-                  "multiselectable": true,
-                  "opacity": 0.3
-                }
-              },
-              {
-                "contributorId": "shiptype",
-                "componentType": "powerbars",
-                "input": {
-                  "customizedCssClass": "arlas-powerbars-analytics",
-                  "chartTitle": "ship type",
-                  "displayFilter": true,
-                  "useColorService": true
-                }
-              },
-              {
-                "contributorId": "navigationalstatus",
-                "componentType": "donut",
-                "input": {
-                  "id": "donut-navigation",
-                  "customizedCssClass": "arlas-donuts-status-analytics",
-                  "multiselectable": true,
-                  "opacity": 0.3
-                }
-              }
           ]
         },
         {
-          "groupId": "6",
-          "title": "Ship type over time",
-          "icon": "directions_boat",
-          "components": [
+          "identifier": "track.timestamps.center-time-bucket-SUM-track.distance.gps.travelled_m-50",
+          "name": "Travelled distance",
+          "title": "Travelled distance",
+          "icon": "straighten",
+          "charttype": "bars",
+          "isOneDimension": false,
+          "type": "histogram",
+          "numberOfBuckets": 50,
+          "jsonpath": "$.metrics[0].value",
+          "aggregationmodels": [
             {
-              "contributorId": "shiptypetime",
-              "componentType": "swimlane",
-              "input": {
-                "id": "swimlane-ais",
-                "dataType": "time",
-                "isHistogramSelectable": true,
-                "multiselectable": true,
-                "topOffsetRemoveInterval": 40,
-                "leftOffsetRemoveInterval": 18,
-                "brushHandlesHeightWeight": 0.8,
-                "yAxisStartsFromZero": true,
-                "chartWidth": null,
-                "chartHeight": 100,
-                "customizedCssClass": "ais-swimlane",
-                "xAxisPosition": "bottom",
-                "descriptionPosition": "bottom",
-                "xTicks": 4,
-                "yTicks": 1,
-                "xLabels": 4,
-                "yLabels": 4,
-                "showXTicks": true,
-                "showYTicks": true,
-                "showXLabels": true,
-                "showYLabels": false,
-                "showHorizontalLines": false,
-                "barWeight": 0.8,
-                "swimLaneLabelsWidth": 100,
-                "swimlaneHeight": 20,
-                "swimlaneMode": "fixedHeight",
-                "swimlaneBorderRadius": 3,
-                "paletteColors": [
-                  330,
-                  170
-                ]
-              }
+              "type": "datehistogram",
+              "field": "track.timestamps.center",
+              "metrics": [
+                {
+                  "collect_fct": "sum",
+                  "collect_field": "track.distance.gps.travelled_m"
+                }
+              ]
             }
           ]
         },
         {
-          "groupId": "7",
-          "title": "Boats identifiers",
-          "icon": "list",
-          "components": [
+          "identifier": "track.dynamics.sensor.bearing-numeric-bucket-Count--50",
+          "name": "Number of birds positions having this bearing",
+          "title": "Number of birds positions having this bearing",
+          "icon": "explore",
+          "charttype": "bars",
+          "isOneDimension": false,
+          "type": "histogram",
+          "numberOfBuckets": 50,
+          "jsonpath": "$.count",
+          "aggregationmodels": [
             {
-              "contributorId": "mmsi",
-              "componentType": "powerbars",
-              "input": {
-                "customizedCssClass": "arlas-powerbars-analytics",
-                "chartTitle": "MMSI",
-                "displayFilter": true
-              }
+              "type": "histogram",
+              "field": "track.dynamics.sensor.bearing"
+            }
+          ]
+        },
+        {
+          "identifier": "track.timestamps.center-time-bucket-AVG-track.dynamics.sensor.bearing-50",
+          "name": "Bearing average",
+          "title": "Bearing average",
+          "icon": "explore",
+          "charttype": "bars",
+          "isOneDimension": false,
+          "type": "histogram",
+          "numberOfBuckets": 50,
+          "jsonpath": "$.metrics[0].value",
+          "aggregationmodels": [
+            {
+              "type": "datehistogram",
+              "field": "track.timestamps.center",
+              "metrics": [
+                {
+                  "collect_fct": "avg",
+                  "collect_field": "track.dynamics.sensor.bearing"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "identifier": "track.dynamics.sensor.speed_ms-numeric-bucket-Count--50",
+          "name": "Number of birds positions having this speed",
+          "title": "Number of birds positions having this speed",
+          "icon": "slow_motion_video",
+          "charttype": "bars",
+          "isOneDimension": false,
+          "type": "histogram",
+          "numberOfBuckets": 50,
+          "jsonpath": "$.count",
+          "aggregationmodels": [
+            {
+              "type": "histogram",
+              "field": "track.dynamics.sensor.speed_ms"
+            }
+          ]
+        },
+        {
+          "identifier": "track.timestamps.center-time-bucket-AVG-track.dynamics.sensor.speed_ms-50",
+          "name": "Speed average",
+          "title": "Speed average",
+          "icon": "slow_motion_video",
+          "charttype": "bars",
+          "isOneDimension": false,
+          "type": "histogram",
+          "numberOfBuckets": 50,
+          "jsonpath": "$.metrics[0].value",
+          "aggregationmodels": [
+            {
+              "type": "datehistogram",
+              "field": "track.timestamps.center",
+              "metrics": [
+                {
+                  "collect_fct": "avg",
+                  "collect_field": "track.dynamics.sensor.speed_ms"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "identifier": "track.duration_s-numeric-bucket-Count--100",
+          "name": "Number of positions having this duration",
+          "title": "Number of positions having this duration",
+          "icon": "slow_motion_video",
+          "charttype": "bars",
+          "isOneDimension": false,
+          "type": "histogram",
+          "numberOfBuckets": 100,
+          "jsonpath": "$.count",
+          "aggregationmodels": [
+            {
+              "type": "histogram",
+              "field": "track.duration_s"
+            }
+          ]
+        },
+        {
+          "identifier": "track.timestamps.center-time-bucket-Count--100tagging.tag1",
+          "name": "Migration status over time (Manual)",
+          "title": "Migration status over time (Manual)",
+          "icon": "compare_arrows",
+          "type": "swimlane",
+          "numberOfBuckets": 100,
+          "swimlanes": [
+            {
+              "id": 1,
+              "name": "Migration status over time (Manual)",
+              "xAxisField": "track.timestamps.center",
+              "termField": "tagging.tag1",
+              "aggregationmodels": [
+                {
+                  "type": "term",
+                  "field": "tagging.tag1",
+                  "size": 5
+                },
+                {
+                  "type": "datehistogram",
+                  "field": "track.timestamps.center"
+                }
+              ],
+              "jsonpath": "$.count"
+            }
+          ]
+        },
+        {
+          "identifier": "tagging.tag1-10",
+          "name": "Migration status (Manual)",
+          "title": "Migration status (Manual)",
+          "icon": "pan_tool",
+          "type": "tree",
+          "aggregationmodels": [
+            {
+              "type": "term",
+              "field": "tagging.tag1",
+              "size": 10
+            }
+          ]
+        },
+        {
+          "identifier": "tagging.tag2-10",
+          "name": "Predicted Migration status",
+          "title": "Predicted Migration status",
+          "icon": "filter_1",
+          "type": "tree",
+          "aggregationmodels": [
+            {
+              "type": "term",
+              "field": "tagging.tag2",
+              "size": 10
+            }
+          ]
+        },
+        {
+          "identifier": "id-20-Object Id-Speed (m/s)-Altitude (m)-Bird-Segment of trajectory-",
+          "name": "Detail list",
+          "title": "Detail list",
+          "icon": "list",
+          "type": "resultlist",
+          "search_size": 20,
+          "fieldsConfiguration": {
+            "idFieldName": "id"
+          },
+          "columns": [
+            {
+              "columnName": "Object Id",
+              "fieldName": "object.id",
+              "dataType": "",
+              "process": ""
             },
             {
-              "contributorId": "ship_name",
-              "componentType": "powerbars",
-              "input": {
-                "customizedCssClass": "arlas-powerbars-analytics",
-                "chartTitle": "Ship name",
-                "useColorService": true
-              }
-            }
-          ]
-        },
-
-        {
-          "groupId": "resultlist",
-          "title": "Result List",
-          "icon": "list",
-          "components": [
+              "columnName": "Speed (m/s)",
+              "fieldName": "track.dynamics.sensor.speed_ms",
+              "dataType": "",
+              "process": "Math.round(result * 100) / 100"
+            },
             {
-              "contributorId": "table",
-              "componentType": "resultlist",
-              "input": {
-                "tableWidth": null,
-                "globalActionsList": [],
-                "searchSize": 20,
-                "nLastLines": 3,
-                "detailedGridHeight": 25,
-                "nbGridColumns": 3,
-                "defautMode": "list",
-                "displayFilters": false,
-                "isBodyHidden": false,
-                "isGeoSortEnabled": true,
-                "selectedItemsEvent": null,
-                "consultedItemEvent": null,
-                "actionOnItemEvent": null,
-                "globalActionEvent": null,
-                "useColorService": true,
-                "cellBackgroundStyle": "filled"
-              }
+              "columnName": "Altitude (m)",
+              "fieldName": "track.dynamics.sensor.height_above_ellipsoid",
+              "dataType": "",
+              "process": "Math.round(result * 100) / 100"
+            }
+          ],
+          "details": [
+            {
+              "name": "Bird",
+              "order": 1,
+              "fields": [
+                {
+                  "path": "object.id",
+                  "label": "Id",
+                  "process": ""
+                },
+                {
+                  "path": "object.tag_id",
+                  "label": "Tag Id",
+                  "process": ""
+                }
+              ]
+            },
+            {
+              "name": "Segment of trajectory",
+              "order": 2,
+              "fields": [
+                {
+                  "path": "track.timestamps.start",
+                  "label": "Start time",
+                  "process": "(new Date(result * 1000)).toUTCString().split(',')[1] !== undefined ? (new Date(result * 1000)).toUTCString().split(',')[1].replace('GMT', '') :'undefined'"
+                },
+                {
+                  "path": "track.timestamps.center",
+                  "label": "Center time",
+                  "process": "(new Date(result * 1000)).toUTCString().split(',')[1] !== undefined ? (new Date(result * 1000)).toUTCString().split(',')[1].replace('GMT', '') :'undefined'"
+                },
+                {
+                  "path": "track.timestamps.end",
+                  "label": "End time",
+                  "process": "(new Date(result * 1000)).toUTCString().split(',')[1] !== undefined ? (new Date(result * 1000)).toUTCString().split(',')[1].replace('GMT', '') :'undefined'"
+                },
+                {
+                  "path": "track.duration_s",
+                  "label": "Duration (s)",
+                  "process": ""
+                },
+                {
+                  "path": "track.distance.gps.travelled_m",
+                  "label": "Distance (m)",
+                  "process": "Math.round(result)"
+                },
+                {
+                  "path": "track.dynamics.sensor.bearing",
+                  "label": "Bearing (sensor)",
+                  "process": "Math.round(result * 100) / 100"
+                },
+                {
+                  "path": "track.dynamics.sensor.horizontal_accuracy",
+                  "label": "Horizontal accuracy (sensor)",
+                  "process": "Math.round(result * 100) / 100"
+                },
+                {
+                  "path": "track.dynamics.sensor.speed_kmh",
+                  "label": "Speed (sensor, km/h)",
+                  "process": "Math.round(result * 100) / 100"
+                }
+              ]
             }
           ]
         }
-
       ],
       "components": {
-        "share": {
-          "geojson": {
-            "max_for_feature": 1000,
-            "max_for_topology": 1000,
-            "sort_excluded_type": [
-                "TEXT",
-                "GEO_POINT"
-            ]
-          }
-        },
         "timeline": {
           "contributorId": "timeline",
           "componentType": "histogram",
@@ -608,16 +553,21 @@
             "yTicks": 2,
             "xLabels": 9,
             "yLabels": 2,
-            "chartTitle": "Number of AIS positions over time",
+            "xUnit": "",
+            "yUnit": "",
+            "chartXLabel": "Date",
+            "chartTitle": "Number of fragments over time",
             "customizedCssClass": "arlas-timeline",
-            "chartHeight": 128,
             "multiselectable": true,
-            "brushHandlesHeightWeight": 0.8,
+            "brushHandlesHeightWeight": 1,
             "dataType": "time",
             "isHistogramSelectable": true,
-            "chartType": "area",
+            "ticksDateFormat": "%b %d %Y %H:%M",
+            "chartType": "bars",
+            "chartHeight": 128,
             "chartWidth": null,
             "xAxisPosition": "bottom",
+            "yAxisStartsFromZero": true,
             "descriptionPosition": "top",
             "showXTicks": true,
             "showYTicks": true,
@@ -626,8 +576,91 @@
             "showHorizontalLines": false,
             "isSmoothedCurve": true,
             "barWeight": 0.8,
-            "topOffsetRemoveInterval": 10,
-            "yAxisStartsFromZero": true
+            "topOffsetRemoveInterval": 10
+          }
+        },
+        "mapgl": {
+          "allowMapExtend": true,
+          "input": {
+            "defaultBasemapStyle": {
+              "name": "Positron",
+              "styleFile": "https://api.maptiler.com/maps/positron/style.json?key=xIhbu1RwgdbxfZNmoXn4"
+            },
+            "basemapStyles": [
+              {
+                "name": "Positron",
+                "styleFile": "https://api.maptiler.com/maps/positron/style.json?key=xIhbu1RwgdbxfZNmoXn4"
+              }
+            ],
+            "margePanForLoad": 5,
+            "margePanForTest": 2,
+            "initZoom": 5,
+            "initCenter": [
+              3,
+              48
+            ],
+            "displayScale": true,
+            "idFeatureField": "id",
+            "mapLayers": {
+              "layers": [],
+              "events": {
+                "zoomOnClick": [],
+                "emitOnClick": [],
+                "onHover": []
+              },
+              "externalEventLayers": []
+            },
+            "visualisations_sets": [
+              {
+                "name": "Distribution of birds positions",
+                "layers": [
+                  "Gathered birds positions"
+                ],
+                "enabled": true
+              },
+              {
+                "name": "Density of birds positions (visu)",
+                "layers": [
+                  "Density of birds positions"
+                ],
+                "enabled": false
+              },
+              {
+                "name": "Birds identenfiers",
+                "layers": [
+                  "Birds identifiers fragment"
+                ],
+                "enabled": true
+              },
+              {
+                "name": "Birds speed",
+                "layers": [
+                  "Birds speed fragment"
+                ],
+                "enabled": false
+              },
+              {
+                "name": "Birds altitude",
+                "layers": [
+                  "Birds altitude fragment"
+                ],
+                "enabled": false
+              },
+              {
+                "name": "Migration status (Manual)",
+                "layers": [
+                  "Birds migration status fragment"
+                ],
+                "enabled": false
+              },
+              {
+                "name": "Predicted migration status",
+                "layers": [
+                  "Birds predicted migration status fragment"
+                ],
+                "enabled": false
+              }
+            ]
           }
         },
         "detailedTimeline": {
@@ -639,15 +672,18 @@
             "yTicks": 2,
             "xLabels": 5,
             "yLabels": 2,
-            "chartTitle": "Detailed of AIS positions over time",
+            "xUnit": "",
+            "yUnit": "",
+            "chartXLabel": "Date",
+            "chartTitle": "Number of fragments over time",
             "customizedCssClass": "arlas-detailed-timeline",
-            "chartHeight": 60,
             "multiselectable": true,
-            "brushHandlesHeightWeight": 0.8,
+            "brushHandlesHeightWeight": 1,
             "dataType": "time",
             "isHistogramSelectable": true,
             "ticksDateFormat": "%b %d %Y  %H:%M",
-            "chartType": "area",
+            "chartType": "bars",
+            "chartHeight": 60,
             "chartWidth": null,
             "xAxisPosition": "top",
             "yAxisStartsFromZero": true,
@@ -660,53 +696,621 @@
             "isSmoothedCurve": true,
             "barWeight": 0.8
           }
+        },
+        "share": {
+          "geojson": {
+            "max_for_feature": 10000,
+            "max_for_topology": 10000,
+            "sort_excluded_type": [
+              "TEXT",
+              "GEO_POINT"
+            ]
+          }
+        },
+        "download": {
+          "auth_type": "basic"
         }
       },
+      "analytics": [
+        {
+          "groupId": "raw_data-0",
+          "title": "Statistics",
+          "tab": "raw_data",
+          "icon": "functions",
+          "components": [
+            {
+              "contributorId": "object.id-cardinality",
+              "componentType": "metric",
+              "input": {
+                "customizedCssClass": "power",
+                "shortValue": false,
+                "chartWidth": null,
+                "beforeValue": "Total number of",
+                "afterValue": "birds"
+              }
+            },
+            {
+              "contributorId": "m[0]/1000track.distance.gps.travelled_m-sum",
+              "componentType": "metric",
+              "input": {
+                "customizedCssClass": "power",
+                "shortValue": false,
+                "chartWidth": null,
+                "beforeValue": "Travelled distance of",
+                "afterValue": "km"
+              }
+            }
+          ]
+        },
+        {
+          "groupId": "raw_data-1",
+          "title": "Birds Ids",
+          "tab": "raw_data",
+          "icon": "local_offer",
+          "components": [
+            {
+              "contributorId": "object.id-10",
+              "componentType": "powerbars",
+              "input": {
+                "chartTitle": "Object Id",
+                "powerbarTitle": "Object Id",
+                "displayFilter": true,
+                "useColorService": false,
+                "chartWidth": null
+              }
+            }
+          ]
+        },
+        {
+          "groupId": "raw_data-2",
+          "title": "Track altitude (m) distribution and average over time",
+          "tab": "raw_data",
+          "icon": "call_made",
+          "components": [
+            {
+              "contributorId": "track.dynamics.sensor.height_above_ellipsoid-numeric-bucket-Count--50",
+              "input": {
+                "id": "track.dynamics.sensor.height_above_ellipsoid-numeric-bucket-Count--50",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 1,
+                "yAxisStartsFromZero": true,
+                "chartType": "bars",
+                "chartTitle": "Number of birds positions having this altitude",
+                "chartHeight": 100,
+                "chartWidth": 445,
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "xUnit": "m",
+                "yUnit": "",
+                "chartXLabel": "Altitude",
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": false,
+                "barWeight": 0.8,
+                "dataType": "numeric",
+                "customizedCssClass": "arlas-histogram-analytics",
+                "isSmoothedCurve": false
+              },
+              "componentType": "histogram"
+            },
+            {
+              "contributorId": "track.timestamps.center-time-bucket-AVG-track.dynamics.sensor.height_above_ellipsoid-50",
+              "input": {
+                "id": "track.timestamps.center-time-bucket-AVG-track.dynamics.sensor.height_above_ellipsoid-50",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 1,
+                "yAxisStartsFromZero": true,
+                "chartType": "bars",
+                "chartTitle": "Altitude average",
+                "chartHeight": 100,
+                "chartWidth": 445,
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "xUnit": "",
+                "yUnit": "m",
+                "chartXLabel": "Date",
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": false,
+                "barWeight": 0.8,
+                "dataType": "time",
+                "customizedCssClass": "arlas-timeline-analytics",
+                "isSmoothedCurve": false
+              },
+              "componentType": "histogram"
+            }
+          ]
+        },
+        {
+          "groupId": "raw_data-3",
+          "title": "Track travelled distance (m) over time",
+          "tab": "raw_data",
+          "icon": "straighten",
+          "components": [
+            {
+              "contributorId": "track.timestamps.center-time-bucket-SUM-track.distance.gps.travelled_m-50",
+              "input": {
+                "id": "track.timestamps.center-time-bucket-SUM-track.distance.gps.travelled_m-50",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 1,
+                "yAxisStartsFromZero": true,
+                "chartType": "bars",
+                "chartTitle": "Travelled distance",
+                "chartHeight": 100,
+                "chartWidth": 445,
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "xUnit": "",
+                "yUnit": "m",
+                "chartXLabel": "Date",
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": false,
+                "barWeight": 0.8,
+                "dataType": "time",
+                "customizedCssClass": "arlas-timeline-analytics",
+                "isSmoothedCurve": false
+              },
+              "componentType": "histogram"
+            }
+          ]
+        },
+        {
+          "groupId": "raw_data-4",
+          "title": "Bearing (degree) distribution and average over time",
+          "tab": "raw_data",
+          "icon": "explore",
+          "components": [
+            {
+              "contributorId": "track.dynamics.sensor.bearing-numeric-bucket-Count--50",
+              "input": {
+                "id": "track.dynamics.sensor.bearing-numeric-bucket-Count--50",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 1,
+                "yAxisStartsFromZero": true,
+                "chartType": "bars",
+                "chartTitle": "Number of birds positions having this bearing",
+                "chartHeight": 100,
+                "chartWidth": 445,
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "xUnit": "°",
+                "yUnit": "",
+                "chartXLabel": "Bearing",
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": false,
+                "barWeight": 0.8,
+                "dataType": "numeric",
+                "customizedCssClass": "arlas-histogram-analytics",
+                "isSmoothedCurve": false
+              },
+              "componentType": "histogram"
+            },
+            {
+              "contributorId": "track.timestamps.center-time-bucket-AVG-track.dynamics.sensor.bearing-50",
+              "input": {
+                "id": "track.timestamps.center-time-bucket-AVG-track.dynamics.sensor.bearing-50",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 1,
+                "yAxisStartsFromZero": true,
+                "chartType": "bars",
+                "chartTitle": "Bearing average",
+                "chartHeight": 100,
+                "chartWidth": 445,
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "xUnit": "",
+                "yUnit": "°",
+                "chartXLabel": "Date",
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": false,
+                "barWeight": 0.8,
+                "dataType": "time",
+                "customizedCssClass": "arlas-timeline-analytics",
+                "isSmoothedCurve": false
+              },
+              "componentType": "histogram"
+            }
+          ]
+        },
+        {
+          "groupId": "raw_data-5",
+          "title": "Speed distribution in m/s and average over time",
+          "tab": "raw_data",
+          "icon": "slow_motion_video",
+          "components": [
+            {
+              "contributorId": "track.dynamics.sensor.speed_ms-numeric-bucket-Count--50",
+              "input": {
+                "id": "track.dynamics.sensor.speed_ms-numeric-bucket-Count--50",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 1,
+                "yAxisStartsFromZero": true,
+                "chartType": "bars",
+                "chartTitle": "Number of birds positions having this speed",
+                "chartHeight": 100,
+                "chartWidth": 445,
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "xUnit": "m/s",
+                "yUnit": "",
+                "chartXLabel": "Speed",
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": false,
+                "barWeight": 0.8,
+                "dataType": "numeric",
+                "customizedCssClass": "arlas-histogram-analytics",
+                "isSmoothedCurve": false
+              },
+              "componentType": "histogram"
+            },
+            {
+              "contributorId": "track.timestamps.center-time-bucket-AVG-track.dynamics.sensor.speed_ms-50",
+              "input": {
+                "id": "track.timestamps.center-time-bucket-AVG-track.dynamics.sensor.speed_ms-50",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 1,
+                "yAxisStartsFromZero": true,
+                "chartType": "bars",
+                "chartTitle": "Speed average",
+                "chartHeight": 100,
+                "chartWidth": 445,
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "xUnit": "",
+                "yUnit": "m/s",
+                "chartXLabel": "Date",
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": false,
+                "barWeight": 0.8,
+                "dataType": "time",
+                "customizedCssClass": "arlas-timeline-analytics",
+                "isSmoothedCurve": false
+              },
+              "componentType": "histogram"
+            }
+          ]
+        },
+        {
+          "groupId": "raw_data-6",
+          "title": "Track Duration (seconds)",
+          "tab": "raw_data",
+          "icon": "slow_motion_video",
+          "components": [
+            {
+              "contributorId": "track.duration_s-numeric-bucket-Count--100",
+              "input": {
+                "id": "track.duration_s-numeric-bucket-Count--100",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 1,
+                "yAxisStartsFromZero": true,
+                "chartType": "bars",
+                "chartTitle": "Number of positions having this duration",
+                "chartHeight": 100,
+                "chartWidth": 445,
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "xUnit": "s",
+                "yUnit": "",
+                "chartXLabel": "Track duration",
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": false,
+                "barWeight": 0.8,
+                "dataType": "numeric",
+                "customizedCssClass": "arlas-histogram-analytics",
+                "isSmoothedCurve": false
+              },
+              "componentType": "histogram"
+            }
+          ]
+        },
+        {
+          "groupId": "ml_data-0",
+          "title": "Migration status over time (Manual)",
+          "tab": "ml_data",
+          "icon": "compare_arrows",
+          "components": [
+            {
+              "contributorId": "track.timestamps.center-time-bucket-Count--100tagging.tag1",
+              "input": {
+                "id": "track.timestamps.center-time-bucket-Count--100tagging.tag1",
+                "isHistogramSelectable": true,
+                "multiselectable": false,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 1,
+                "yAxisStartsFromZero": true,
+                "chartTitle": "Migration status over time (Manual)",
+                "chartHeight": 100,
+                "chartWidth": 445,
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": false,
+                "barWeight": 0.8,
+                "dataType": "time",
+                "swimLaneLabelsWidth": 80,
+                "swimlaneHeight": 20,
+                "swimlaneMode": "variableHeight",
+                "swimlaneBorderRadius": 3,
+                "paletteColors": [
+                  330,
+                  170
+                ],
+                "swimlane_representation": "column",
+                "customizedCssClass": "arlas-swimlane",
+                "swimlane_options": {
+                  "nan_color": "#333"
+                }
+              },
+              "componentType": "swimlane"
+            }
+          ]
+        },
+        {
+          "groupId": "ml_data-1",
+          "title": "Migration status (Manual)",
+          "tab": "ml_data",
+          "icon": "pan_tool",
+          "components": [
+            {
+              "contributorId": "tagging.tag1-10",
+              "componentType": "powerbars",
+              "input": {
+                "chartTitle": "Migration status (Manual)",
+                "powerbarTitle": "Migration status (Manual)",
+                "displayFilter": true,
+                "useColorService": true,
+                "chartWidth": null
+              }
+            }
+          ]
+        },
+        {
+          "groupId": "ml_data-2",
+          "title": "Predicted Migration over time",
+          "tab": "ml_data",
+          "icon": "compare_arrows",
+          "components": [
+            {
+              "contributorId": "track.timestamps.center-time-bucket-Count--100tagging.tag1",
+              "input": {
+                "id": "track.timestamps.center-time-bucket-Count--100tagging.tag1",
+                "isHistogramSelectable": true,
+                "multiselectable": false,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 1,
+                "yAxisStartsFromZero": true,
+                "chartTitle": "Predicted Migration over time",
+                "chartHeight": 100,
+                "chartWidth": 445,
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": false,
+                "barWeight": 0.8,
+                "dataType": "time",
+                "swimLaneLabelsWidth": 80,
+                "swimlaneHeight": 20,
+                "swimlaneMode": "variableHeight",
+                "swimlaneBorderRadius": 3,
+                "paletteColors": [
+                  330,
+                  170
+                ],
+                "swimlane_representation": "column",
+                "customizedCssClass": "arlas-swimlane",
+                "swimlane_options": {
+                  "nan_color": "#333"
+                }
+              },
+              "componentType": "swimlane"
+            }
+          ]
+        },
+        {
+          "groupId": "ml_data-3",
+          "title": "Predicted Migration status",
+          "tab": "ml_data",
+          "icon": "filter_1",
+          "components": [
+            {
+              "contributorId": "tagging.tag2-10",
+              "componentType": "powerbars",
+              "input": {
+                "chartTitle": "Predicted Migration status",
+                "powerbarTitle": "Predicted Migration status",
+                "displayFilter": true,
+                "useColorService": true,
+                "chartWidth": null
+              }
+            }
+          ]
+        },
+        {
+          "groupId": "resultlist-0",
+          "title": "Result List",
+          "tab": "resultlist",
+          "icon": "list",
+          "components": [
+            {
+              "contributorId": "id-20-Object Id-Speed (m/s)-Altitude (m)-Bird-Segment of trajectory-",
+              "componentType": "resultlist",
+              "input": {
+                "id": "id-20-Object Id-Speed (m/s)-Altitude (m)-Bird-Segment of trajectory-",
+                "tableWidth": 445,
+                "globalActionsList": [],
+                "searchSize": 20,
+                "nLastLines": 3,
+                "detailedGridHeight": 25,
+                "nbGridColumns": 3,
+                "defautMode": "list",
+                "displayFilters": false,
+                "isBodyHidden": false,
+                "isGeoSortActived": false,
+                "isAutoGeoSortActived": false,
+                "selectedItemsEvent": null,
+                "consultedItemEvent": null,
+                "actionOnItemEvent": null,
+                "globalActionEvent": null,
+                "useColorService": true,
+                "cellBackgroundStyle": "filled"
+              }
+            }
+          ]
+        }
+      ],
       "colorGenerator": {
-        "keysToColors": [["Tanker", "#ff8ee8"], ["Fishing", "#7AD8F5"],
-        ["Tug", "#f4df42"], ["SAR", "#03c6ac"], ["OTHER", "#c2c2c2"],
-        ["Other", "#c2c2c2"], ["Undefined", "#c2c2c2"], ["Category X", "#eab738"],
-        ["Category Y", "#ead538"], ["Category Z", "#ea8538"], ["Category OS", "#ed29d5"],
-        ["Pilot", "#e74b4b"], ["HSC", "#0086bd"], ["Law enforcement", "#00b4d3"],
-        ["Military", "#a625e0"], ["Cargo", "#0099ff"], ["Passenger", "#a5c176"], ["Dredging", "#51a588"],
-        ["Anti-pollution", "#00f4d0"], ["Pleasure", "#ad0084"], ["Towing", "#d37700"], ["Towing long/wide", "#d37700"],
-        ["Sailing", "#edc77b"],["Under way using engine", "#51a588"], ["Unknown value", "#c2c2c2"],
-        ["Engaged in fishing", "#86d8f7"], ["Moored", "#eab738"], ["Reserved for future amendment [HSC]", "#0086bd"],
-        ["Under way sailing", "#ad0084"]],
-        "colorsSaturationWeight": 0.6
+        "keysToColors": [
+          [
+            "local",
+            "#F27F79"
+          ],
+          [
+            "travel",
+            "#44a2aa"
+          ],
+          [
+            "local_train",
+            "#F27F79"
+          ],
+          [
+            "travel_train",
+            "#44a2aa"
+          ],
+          [
+            "local_xgb",
+            "#F27F79"
+          ],
+          [
+            "travel_xgb",
+            "#44a2aa"
+          ],
+          [
+            "local_rf",
+            "#F27F79"
+          ],
+          [
+            "travel_rf",
+            "#44a2aa"
+          ]
+        ]
       },
       "options": {
-        "drag_items": true
+        "drag_items": false,
+        "zoom_to_data": false,
+        "indicators": true,
+        "spinner": {
+          "show": true,
+          "color": "accent",
+          "diameter": 50
+        }
       }
     },
     "server": {
-      "url": "http://localhost:9999/arlas",
+      "url": "http://localhost:9999/arlas/",
       "collection": {
-        "name": "demo_ais_position",
-        "id": "id"
-      },
-      "max_age_cache": 120
-    },
-    "tagger":{
-      "url": "http://localhost:9998/arlas_tagger",
-      "collection": "demo_ais-position"
-    },
-    "persistence-server": {
-      "url": "http://localhost:19997/arlas_persistence_server"
+        "name": "demo_birdtracking-movebank"
+      }
     }
   },
   "arlas-wui": {
     "web": {
       "app": {
-        "idFieldName": "id",
-        "refresh": false,
         "components": {
           "chipssearch": {
-            "search_size": 100,
-            "name": "Search a MMSI",
-            "icon": "search",
-            "autocomplete_field": "vessel.mmsi",
-            "autocomplete_size": "20"
+            "name": "Search a bird",
+            "icon": "search"
           }
         }
       }
