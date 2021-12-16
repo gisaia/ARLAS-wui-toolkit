@@ -18,25 +18,52 @@
  */
 
 
-export {
-  ArlasExploreApi,
-  ArlasStartupService,
-  ArlasCollaborativesearchService,
-  ArlasConfigService,
-  ArlasSettings
-} from './lib/services/startup/startup.service';
-export { ArlasBookmarkService } from './lib/services/bookmark/bookmark.service';
-export { ArlasAoiService } from './lib/services/aoi/aoi.service';
-export { ArlasMapService } from './lib/services/map/map.service';
-export { ArlasColorGeneratorLoader } from './lib/services/color-generator-loader/color-generator-loader.service';
-export { ArlasMapSettings } from './lib/services/map-settings/map-settings.service';
-export { ArlasToolKitModule } from './lib/toolkit.module';
-export { ArlasToolkitSharedModule } from './lib/shared.module';
-export { ArlasDataSource } from './lib/tools/arlasDataSource';
-export { ArlasTaggerModule } from './lib/tagger.module';
-export { ArlasWalkthroughModule } from './lib/services/walkthrough/walkthrough.module';
+export { AnalyticsBoardComponent } from './lib/components/analytics-board/analytics-board.component';
+export { AoiComponent } from './lib/components/aoi/aoi.component';
+export { BookmarkMenuComponent } from './lib/components/bookmark-menu/bookmark-menu.component';
+export { BookmarkAddDialogComponent, BookmarkComponent } from './lib/components/bookmark/bookmark.component';
+export { ConfirmModalComponent } from './lib/components/confirm-modal/confirm-modal.component';
+export { DonutTooltipOverlayComponent } from './lib/components/donut-tooltip-overlay/donut-tooltip-overlay.component';
+export { DownloadComponent, DownloadDialogComponent } from './lib/components/download/download.component';
+export { ErrormodalComponent, ErrorModalMsgComponent } from './lib/components/errormodal/errormodal.component';
 export { ErrorModalModule } from './lib/components/errormodal/errormodal.module';
+export { ExtendComponent } from './lib/components/extend/extend.component';
+export { FiltersComponent } from './lib/components/filters/filters.component';
+export { HistogramTooltipOverlayComponent } from './lib/components/histogram-tooltip-overlay/histogram-tooltip-overlay.component';
+export { HistogramWidgetComponent } from './lib/components/histogram-widget/histogram-widget.component';
+export { InvalidConfigDialogComponent } from './lib/components/invalid-config-dialog/invalid-config-dialog.component';
+export { LanguageSwitcherComponent } from './lib/components/language-switcher/language-switcher.component';
+export { LinkComponent } from './lib/components/link/link.component';
+export { ProgressSpinnerComponent } from './lib/components/progress-spinner/progress-spinner.component';
+export { ReconnectDialogComponent } from './lib/components/reconnect-dialog/reconnect-dialog.component';
+export { SearchComponent } from './lib/components/search/search.component';
+export { ExcludeTypePipe } from './lib/components/share/exclude-type.pipe';
+export { ShareComponent, ShareDialogComponent } from './lib/components/share/share.component';
+export { TagComponent } from './lib/components/tag/tag.component';
+export { DatePickerComponent } from './lib/components/timeline/date-picker/date-picker.component';
+export { TimelineShortcutComponent } from './lib/components/timeline/timeline-shortcut/timeline-shortcut.component';
+export { TimelineComponent } from './lib/components/timeline/timeline/timeline.component';
+export { UserInfosComponent } from './lib/components/user-infos/user-infos.component';
+export { WidgetComponent } from './lib/components/widget/widget.component';
+export { GetTimeLabelPipe } from './lib/pipes/get-time-label.pipe';
+export { ArlasAoiService } from './lib/services/aoi/aoi.service';
 export { AuthentSetting } from './lib/services/authentification/authentification.service';
-export { PersistenceSetting } from './lib/services/persistence/persistence.service';
+export { ArlasBookmarkService } from './lib/services/bookmark/bookmark.service';
+export { ArlasColorGeneratorLoader } from './lib/services/color-generator-loader/color-generator-loader.service';
 export { ErrorService } from './lib/services/error/error.service';
-export { ConfigActionEnum, ConfigAction, Config, CollectionUnit, CollectionCount } from './lib/tools/utils';
+export { ArlasMapSettings } from './lib/services/map-settings/map-settings.service';
+export { ArlasMapService } from './lib/services/map/map.service';
+export { PersistenceSetting } from './lib/services/persistence/persistence.service';
+export { ArlasSettingsService } from './lib/services/settings/arlas.settings.service';
+export {
+  ArlasCollaborativesearchService,
+  ArlasConfigService, ArlasExploreApi, ArlasSettings, ArlasStartupService
+} from './lib/services/startup/startup.service';
+export { ArlasWalkthroughModule } from './lib/services/walkthrough/walkthrough.module';
+export { ArlasToolkitSharedModule } from './lib/shared.module';
+export { ArlasTaggerModule } from './lib/tagger.module';
+export { ToolkitComponent } from './lib/toolkit.component';
+export { ArlasToolKitModule } from './lib/toolkit.module';
+export { ArlasDataSource } from './lib/tools/arlasDataSource';
+export { CollectionCount, CollectionUnit, Config, ConfigAction, ConfigActionEnum } from './lib/tools/utils';
+
