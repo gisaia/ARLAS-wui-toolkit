@@ -13,7 +13,7 @@
     "lint": "ng lint",
     "tslint": "ng lint",
     "gulp": "gulp",
-    "build-release": "ng build arlas-toolkit --configuration production",
+    "build-release": "ng build arlas-wui-toolkit --configuration production",
     "e2e": "ng e2e",
     "i18n:init": "ngx-translate-extract --input ./src --output ./src/assets/i18n/template.json --key-as-default-value --replace --format json",
     "i18n:extract": "ngx-translate-extract --input ./src --output ./src/assets/i18n/{en,fr}.json --format json"
