@@ -16,19 +16,14 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { NgModule } from '@angular/core';
-import { ArlasToolKitModule, ArlasToolkitSharedModule } from '../../projects/arlas-toolkit/src/public-api';
-import { AppComponent } from './app.component';
 
-@NgModule({
-  imports: [
-    ArlasToolkitSharedModule,
-    ArlasToolKitModule
-  ],
-  exports: [AppComponent],
-  declarations: [AppComponent],
-  providers: [],
-  bootstrap: [AppComponent],
-  entryComponents: [],
-})
-export class ToolKitAppModule { }
+import { Pipe, PipeTransform } from '@angular/core';
+import { ArlasSearchField } from './model/ArlasSearchField';
+
+@Pipe({ name: 'excludeType' })
+export class ExcludeTypePipe implements PipeTransform {
+
+  public transform(allField: ArlasSearchField[], type: Set<string>) {
+    return allField.filter(field => !type.has(field.type));
+  }
+}
