@@ -49,5 +49,13 @@
   },
   "browser": {
     "jsonpath": false
+  },
+  "exports": {
+    "./assets/i18n/en.json":{
+      "default":"./assets/i18n/en.json"
+    },
+    "./assets/i18n/fr.json":{
+      "default":"./assets/i18n/fr.json"
+    }
   }
 }

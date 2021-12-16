@@ -5,9 +5,6 @@ import { DateTimeAdapter, OWL_DATE_TIME_LOCALE, MomentDateTimeAdapter } from '@g
 import { HistogramContributor } from 'arlas-web-contributors';
 import { ArlasCollaborativesearchService, ArlasStartupService } from '../../../services/startup/startup.service';
 import { TranslateService } from '@ngx-translate/core';
-import { SelectedOutputValues } from 'arlas-web-contributors/models/models';
-
-
 
 const moment = (_moment as any).default ? (_moment as any).default : _moment;
 

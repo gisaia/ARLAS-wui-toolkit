@@ -47,7 +47,7 @@ export { UserInfosComponent } from './lib/components/user-infos/user-infos.compo
 export { WidgetComponent } from './lib/components/widget/widget.component';
 export { GetTimeLabelPipe } from './lib/pipes/get-time-label.pipe';
 export { ArlasAoiService } from './lib/services/aoi/aoi.service';
-export { AuthentSetting } from './lib/services/authentification/authentification.service';
+export { AuthentSetting, AuthentificationService, NOT_CONFIGURED } from './lib/services/authentification/authentification.service';
 export { ArlasBookmarkService } from './lib/services/bookmark/bookmark.service';
 export { ArlasColorGeneratorLoader } from './lib/services/color-generator-loader/color-generator-loader.service';
 export { ErrorService } from './lib/services/error/error.service';
@@ -65,5 +65,13 @@ export { ArlasTaggerModule } from './lib/tagger.module';
 export { ToolkitComponent } from './lib/toolkit.component';
 export { ArlasToolKitModule } from './lib/toolkit.module';
 export { ArlasDataSource } from './lib/tools/arlasDataSource';
-export { CollectionCount, CollectionUnit, Config, ConfigAction, ConfigActionEnum } from './lib/tools/utils';
+export {
+  CollectionCount, CollectionUnit, Config, ConfigAction, ConfigActionEnum, CONFIG_ID_QUERY_PARAM, ArlasStorageObject,
+  ArlasStorageType, SpinnerOptions, MapService, ArlasOverlayRef, HISTOGRAM_TOOLTIP_DATA, DONUT_TOOLTIP_DATA
+} from './lib/tools/utils';
+export { ToolkitRoutingModule } from './lib/toolkit-routing.module';
+export { PersistenceService } from './lib/services/persistence/persistence.service';
+export { WalkthroughLoader } from './lib/services/walkthrough/walkthrough.utils';
+export { ArlasWalkthroughService } from './lib/services/walkthrough/walkthrough.service';
+export { PaginatorI18n } from './lib/tools/paginatori18n';
 

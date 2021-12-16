@@ -30,18 +30,19 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserModule } from '@angular/platform-browser';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from '@gisaia-team/ng-pick-datetime';
 import { TranslateFakeLoader, TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
-import { DatePickerComponent } from 'app/components/timeline/date-picker/date-picker.component';
 import { DonutModule, HistogramModule, MetricModule, PowerbarsModule, ResultsModule } from 'arlas-web-components';
 import { GetTimeLabelPipe } from '../../../pipes/get-time-label.pipe';
+import { ArlasColorGeneratorLoader } from '../../../services/color-generator-loader/color-generator-loader.service';
 import { ArlasConfigurationUpdaterService } from '../../../services/configuration-updater/configurationUpdater.service';
 import { ArlasOverlayService } from '../../../services/overlays/overlay.service';
-import { ArlasColorGeneratorLoader } from '../../../services/color-generator-loader/color-generator-loader.service';
 import {
   ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService, CONFIG_UPDATER,
   FETCH_OPTIONS
 } from '../../../services/startup/startup.service';
+import { DatePickerComponent } from '../date-picker/date-picker.component';
 import { TimelineShortcutComponent } from '../timeline-shortcut/timeline-shortcut.component';
 import { TimelineComponent } from './timeline.component';
+
 
 describe('TimelineComponent', () => {
   let component: TimelineComponent;
