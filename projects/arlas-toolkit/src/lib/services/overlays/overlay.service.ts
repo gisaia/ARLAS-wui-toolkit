@@ -50,7 +50,7 @@ const DEFAULT_TOOLTIP_CONFIG: HistogramTooltipConfig = {
 @Injectable()
 export class ArlasOverlayService {
 
-  constructor(private overlay: Overlay, private parentOverlay: Overlay,    private injector: Injector    ) { }
+  constructor(private overlay: Overlay, private parentOverlay: Overlay, private injector: Injector) { }
 
   public openHistogramTooltip(config: HistogramTooltipConfig, elementRef: ElementRef, xOffset: number, yOffset: number, right: boolean) {
     const dialogConfig = { ...DEFAULT_TOOLTIP_CONFIG, ...config };
@@ -124,13 +124,14 @@ export class ArlasOverlayService {
     };
     const origin = right ? origins.topRight : origins.topLeft;
     const overlay = right ? overlays.topRight : overlays.topLeft;
-    //const positionStrategy = this.overlay.position().connectedTo(elementRef, origin, overlay).withOffsetX(xOffset)
-    //.withOffsetY(yOffset);
-
-    // TODO check if origin and overlay is not missing as important information
     const positionStrategy = this.overlay.position().flexibleConnectedTo(elementRef)
     .withDefaultOffsetX(xOffset)
-    .withDefaultOffsetY(yOffset);
+    .withDefaultOffsetY(yOffset).withPositions([{
+      originX: origin.originX,
+      originY: origin.originY,
+      overlayX: overlay.overlayX,
+      overlayY: overlay.overlayY
+    }]);
 
 
     const overlayConfig = new OverlayConfig({
@@ -162,45 +163,39 @@ export class ArlasOverlayService {
   return this.overlay.create(overlayConfig);
 }
 
-  private createHistogramTooltipInjector(config: HistogramTooltipConfig, ref: ArlasOverlayRef): PortalInjector {
-    // Instantiate new WeakMap for our custom injection tokens
-    const injectionTokens = new WeakMap();
-
-    // Set custom injection tokens
-    injectionTokens.set(ArlasOverlayRef, ref);
-    injectionTokens.set(HISTOGRAM_TOOLTIP_DATA, config.data);
-
-    // Instantiate new PortalInjector
-    return new PortalInjector(this.injector, injectionTokens);
+  private createHistogramTooltipInjector(config: HistogramTooltipConfig, ref: ArlasOverlayRef): Injector {
+    /** PortalInjector is deprecated */
+    return Injector.create({
+      parent: this.injector,
+      providers: [
+        { provide: ArlasOverlayRef, useValue: ref },
+        { provide: HISTOGRAM_TOOLTIP_DATA, useValue: config.data }
+      ]
+    });
   }
 
-  private createDonutTooltipInjector(config: DonutTooltipConfig, ref: ArlasOverlayRef): PortalInjector {
-    // Instantiate new WeakMap for our custom injection tokens
-    const injectionTokens = new WeakMap();
-
-    // Set custom injection tokens
-    injectionTokens.set(ArlasOverlayRef, ref);
-    injectionTokens.set(DONUT_TOOLTIP_DATA, config.data);
-
-    // Instantiate new PortalInjector
-    return new PortalInjector(this.injector, injectionTokens);
+  private createDonutTooltipInjector(config: DonutTooltipConfig, ref: ArlasOverlayRef): Injector {
+    /** PortalInjector is deprecated */
+    return Injector.create({
+      parent: this.injector,
+      providers: [
+        { provide: ArlasOverlayRef, useValue: ref },
+        { provide: DONUT_TOOLTIP_DATA, useValue: config.data }
+      ]
+    });
   }
 
   private attachHistogramTooltipContainer(overlayRef: OverlayRef, config: HistogramTooltipConfig, arlasOverlayRef: ArlasOverlayRef) {
     const injector = this.createHistogramTooltipInjector(config, arlasOverlayRef);
-
     const containerPortal = new ComponentPortal(HistogramTooltipOverlayComponent, null, injector);
     const containerRef: ComponentRef<HistogramTooltipOverlayComponent> = overlayRef.attach(containerPortal);
-
     return containerRef.instance;
   }
 
   private attachDonutTooltipContainer(overlayRef: OverlayRef, config: DonutTooltipConfig, arlasOverlayRef: ArlasOverlayRef) {
     const injector = this.createDonutTooltipInjector(config, arlasOverlayRef);
-
     const containerPortal = new ComponentPortal(DonutTooltipOverlayComponent, null, injector);
     const containerRef: ComponentRef<DonutTooltipOverlayComponent> = overlayRef.attach(containerPortal);
-
     return containerRef.instance;
   }
 }
