@@ -51,7 +51,7 @@ import * as arlasConfSchema from './arlasconfig.schema.json';
 import { ContributorBuilder } from './contributorBuilder';
 import * as arlasSettingsSchema from './settings.schema.json';
 import Ajv from 'ajv';
-import uniqueItemProperties from 'ajv-keywords/keywords/uniqueItemProperties';
+import ajvKeywords from 'ajv-keywords';
 
 @Injectable({
     providedIn: 'root'
@@ -138,7 +138,7 @@ export class ArlasStartupService {
     public validateSettings(settings) {
         return new Promise<any>((resolve, reject) => {
             const ajvObj = new Ajv();
-            uniqueItemProperties(ajvObj)
+            ajvKeywords(ajvObj, 'uniqueItemProperties');
             const validateConfig = ajvObj
                 .addMetaSchema(draftSchema.default)
                 .compile((<any>arlasSettingsSchema).default);
@@ -158,7 +158,7 @@ export class ArlasStartupService {
     public validateConfiguration(data) {
         return new Promise<any>((resolve, reject) => {
             const ajvObj = new Ajv();
-            uniqueItemProperties(ajvObj)
+            ajvKeywords(ajvObj, 'uniqueItemProperties');
             const validateConfig = ajvObj
                 .addMetaSchema(draftSchema.default)
                 .addSchema((<any>rootContributorConfSchema).default)
