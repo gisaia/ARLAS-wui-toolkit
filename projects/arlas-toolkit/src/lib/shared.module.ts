@@ -43,7 +43,9 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { OwlDateTimeModule, OwlMomentDateTimeModule, OwlNativeDateTimeModule } from '@gisaia-team/ng-pick-datetime';
+import {
+  OwlDateTimeModule, OwlMomentDateTimeModule, OwlNativeDateTimeModule
+} from '@gisaia-team/ng-pick-datetime';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import {
   ColorGeneratorLoader, ColorGeneratorModule, DonutModule, FormatNumberModule,
