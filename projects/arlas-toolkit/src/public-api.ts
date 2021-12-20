@@ -22,6 +22,8 @@ export { AnalyticsBoardComponent } from './lib/components/analytics-board/analyt
 export { AoiComponent } from './lib/components/aoi/aoi.component';
 export { BookmarkMenuComponent } from './lib/components/bookmark-menu/bookmark-menu.component';
 export { BookmarkAddDialogComponent, BookmarkComponent } from './lib/components/bookmark/bookmark.component';
+export { ConfigMenuComponent } from './lib/components/config-manager/config-menu/config-menu.component';
+export { ConfigMenuModule } from './lib/components/config-manager/config-menu/config-menu.module';
 export { ConfirmModalComponent } from './lib/components/confirm-modal/confirm-modal.component';
 export { DonutTooltipOverlayComponent } from './lib/components/donut-tooltip-overlay/donut-tooltip-overlay.component';
 export { DownloadComponent, DownloadDialogComponent } from './lib/components/download/download.component';
@@ -47,31 +49,37 @@ export { UserInfosComponent } from './lib/components/user-infos/user-infos.compo
 export { WidgetComponent } from './lib/components/widget/widget.component';
 export { GetTimeLabelPipe } from './lib/pipes/get-time-label.pipe';
 export { ArlasAoiService } from './lib/services/aoi/aoi.service';
-export { AuthentSetting, AuthentificationService, NOT_CONFIGURED } from './lib/services/authentification/authentification.service';
+export { AuthentificationService, AuthentSetting, NOT_CONFIGURED } from './lib/services/authentification/authentification.service';
 export { ArlasBookmarkService } from './lib/services/bookmark/bookmark.service';
 export { ArlasColorGeneratorLoader } from './lib/services/color-generator-loader/color-generator-loader.service';
+export { ArlasConfigurationDescriptor } from './lib/services/configuration-descriptor/configurationDescriptor.service';
+export { ArlasConfigurationUpdaterService } from './lib/services/configuration-updater/configurationUpdater.service';
 export { ErrorService } from './lib/services/error/error.service';
 export { ArlasMapSettings } from './lib/services/map-settings/map-settings.service';
 export { ArlasMapService } from './lib/services/map/map.service';
-export { PersistenceSetting } from './lib/services/persistence/persistence.service';
+export { GET_OPTIONS, PersistenceService, PersistenceSetting } from './lib/services/persistence/persistence.service';
 export { ArlasSettingsService } from './lib/services/settings/arlas.settings.service';
+export { ContributorBuilder } from './lib/services/startup/contributorBuilder';
 export {
-  ArlasCollaborativesearchService,
-  ArlasConfigService, ArlasExploreApi, ArlasSettings, ArlasStartupService
+  ArlasCollaborativesearchService, ArlasConfigService, ArlasExploreApi, ArlasSettings, ArlasStartupService, CONFIG_UPDATER, FETCH_OPTIONS, LinkSettings
 } from './lib/services/startup/startup.service';
 export { ArlasWalkthroughModule } from './lib/services/walkthrough/walkthrough.module';
+export { ArlasWalkthroughService } from './lib/services/walkthrough/walkthrough.service';
+export { WalkthroughLoader } from './lib/services/walkthrough/walkthrough.utils';
 export { ArlasToolkitSharedModule } from './lib/shared.module';
 export { ArlasTaggerModule } from './lib/tagger.module';
-export { ToolkitComponent } from './lib/toolkit.component';
-export { ArlasToolKitModule } from './lib/toolkit.module';
-export { ArlasDataSource } from './lib/tools/arlasDataSource';
-export {
-  CollectionCount, CollectionUnit, Config, ConfigAction, ConfigActionEnum, CONFIG_ID_QUERY_PARAM, ArlasStorageObject,
-  ArlasStorageType, SpinnerOptions, MapService, ArlasOverlayRef, HISTOGRAM_TOOLTIP_DATA, DONUT_TOOLTIP_DATA
-} from './lib/tools/utils';
 export { ToolkitRoutingModule } from './lib/toolkit-routing.module';
-export { PersistenceService } from './lib/services/persistence/persistence.service';
-export { WalkthroughLoader } from './lib/services/walkthrough/walkthrough.utils';
-export { ArlasWalkthroughService } from './lib/services/walkthrough/walkthrough.service';
+export { ToolkitComponent } from './lib/toolkit.component';
+export {
+  ArlasToolKitModule, auhtentServiceFactory, configServiceFactory, configUpdater, configUpdaterFactory,
+  getOptionsFactory, localDatePickerFactory, MY_CUSTOM_FORMATS,
+  paginatori18nFactory, settingsServiceFactory, startupServiceFactory
+} from './lib/toolkit.module';
+export { ArlasDataSource } from './lib/tools/arlasDataSource';
 export { PaginatorI18n } from './lib/tools/paginatori18n';
+export {
+  ArlasOverlayRef, ArlasStorageObject,
+  ArlasStorageType, CollectionCount, CollectionUnit, Config, ConfigAction, ConfigActionEnum,
+  CONFIG_ID_QUERY_PARAM, DONUT_TOOLTIP_DATA, getFieldProperties, getKeyForColor, hashCode, HISTOGRAM_TOOLTIP_DATA, intToRGB, MapService, sortOnDate, SpinnerOptions
+} from './lib/tools/utils';
 
