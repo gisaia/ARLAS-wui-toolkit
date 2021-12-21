@@ -6,7 +6,7 @@ mkdir target
 mkdir target/generated-docs
 
 ## GENERATE THE DOCUMENTATION ##
-docker run -a STDERR --rm  -i -v `pwd`:/docs gisaia/typedocgen:0.0.5 generatedoc src
+docker run -a STDERR --rm -i -v `pwd`:/docs gisaia/typedocgen:0.0.7 generatedoc --entryPoints projects/arlas-toolkit/src/public-api.ts --tsconfig projects/arlas-toolkit/tsconfig.lib.json 
 
 ## MOVE ALL THE DOCUMENTATION TO THE 'generated-docs' FOLDER ##
 mv typedoc_docs/* target/generated-docs
