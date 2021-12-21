@@ -145,7 +145,7 @@ export class ArlasStartupService {
             if (settings && validateConfig(settings) === false) {
                 const errorMessagesList = new Array<string>();
                 errorMessagesList.push(
-                    validateConfig.errors[0].dataPath + ' ' +
+                    validateConfig.errors[0].schemaPath + ' ' +
                     validateConfig.errors[0].message
                 );
                 reject(new Error(errorMessagesList.join(' ')));
@@ -181,7 +181,7 @@ export class ArlasStartupService {
             if (validateConfig(data) === false) {
                 const errorMessagesList = new Array<string>();
                 errorMessagesList.push(
-                    validateConfig.errors[0].dataPath + ' ' +
+                    validateConfig.errors[0].schemaPath + ' ' +
                     validateConfig.errors[0].message
                 );
                 reject(new Error(errorMessagesList.join(' ')));
