@@ -30,7 +30,7 @@ export class ArlasMapSettings implements MapSettingsService {
   public componentConfig;
   public mapContributor: MapContributor;
 
-  constructor(public startUpService: ArlasStartupService, private configService: ArlasConfigService) {
+  public constructor(public startUpService: ArlasStartupService, private configService: ArlasConfigService) {
     this.mapContributor = <MapContributor>this.startUpService.contributorRegistry.get(this.MAPCONTRIBUTOR_ID);
     this.componentConfig = this.configService.getValue('arlas.web.components');
   }

@@ -36,7 +36,7 @@ export class AuthentificationService {
     this.isAuthenticated,
     this.isDoneLoading
   ).pipe(map(values => values.every(b => b)));
-  constructor(private oauthService: OAuthService, private http: HttpClient
+  public constructor(private oauthService: OAuthService, private http: HttpClient
   ) {
     this.silentRefreshErrorSubject = this.oauthService.events.pipe(filter(e => e instanceof OAuthErrorEvent),
       filter((e: OAuthErrorEvent) => e.type === 'silent_refresh_error' || e.type === 'silent_refresh_timeout'));
@@ -102,14 +102,30 @@ export class AuthentificationService {
   public login() {
     this.oauthService.initLoginFlow();
   }
-  public logout() { this.oauthService.logOut(); }
-  public refresh() { this.oauthService.silentRefresh(); }
-  public hasValidAccessToken() { return this.oauthService.hasValidAccessToken(); }
-  public hasValidIdToken() { return this.oauthService.hasValidIdToken(); }
-  public get accessToken() { return this.oauthService.getAccessToken(); }
-  public get identityClaims() { return this.oauthService.getIdentityClaims(); }
-  public get idToken() { return this.oauthService.getIdToken(); }
-  public get logoutUrl() { return this.oauthService.logoutUrl; }
+  public logout() {
+    this.oauthService.logOut();
+  }
+  public refresh() {
+    this.oauthService.silentRefresh();
+  }
+  public hasValidAccessToken() {
+    return this.oauthService.hasValidAccessToken();
+  }
+  public hasValidIdToken() {
+    return this.oauthService.hasValidIdToken();
+  }
+  public get accessToken() {
+    return this.oauthService.getAccessToken();
+  }
+  public get identityClaims() {
+    return this.oauthService.getIdentityClaims();
+  }
+  public get idToken() {
+    return this.oauthService.getIdToken();
+  }
+  public get logoutUrl() {
+    return this.oauthService.logoutUrl;
+  }
 
   public areSettingsValid(authentSetting: AuthentSetting): [boolean, string] {
     let valid = true;

@@ -13,7 +13,7 @@ export class PermissionService {
   private authorizeApi: AuthorizeApi;
   private options;
 
-  constructor(
+  public constructor(
     @Inject(GET_OPTIONS) private getOptions,
     private settingsService: ArlasSettingsService
   ) {

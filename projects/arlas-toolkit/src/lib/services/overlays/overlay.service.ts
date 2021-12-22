@@ -50,7 +50,7 @@ const DEFAULT_TOOLTIP_CONFIG: HistogramTooltipConfig = {
 @Injectable()
 export class ArlasOverlayService {
 
-  constructor(private overlay: Overlay, private parentOverlay: Overlay, private injector: Injector) { }
+  public constructor(private overlay: Overlay, private parentOverlay: Overlay, private injector: Injector) { }
 
   public openHistogramTooltip(config: HistogramTooltipConfig, elementRef: ElementRef, xOffset: number, yOffset: number, right: boolean) {
     const dialogConfig = { ...DEFAULT_TOOLTIP_CONFIG, ...config };
@@ -125,13 +125,13 @@ export class ArlasOverlayService {
     const origin = right ? origins.topRight : origins.topLeft;
     const overlay = right ? overlays.topRight : overlays.topLeft;
     const positionStrategy = this.overlay.position().flexibleConnectedTo(elementRef)
-    .withDefaultOffsetX(xOffset)
-    .withDefaultOffsetY(yOffset).withPositions([{
-      originX: origin.originX,
-      originY: origin.originY,
-      overlayX: overlay.overlayX,
-      overlayY: overlay.overlayY
-    }]);
+      .withDefaultOffsetX(xOffset)
+      .withDefaultOffsetY(yOffset).withPositions([{
+        originX: origin.originX,
+        originY: origin.originY,
+        overlayX: overlay.overlayX,
+        overlayY: overlay.overlayY
+      }]);
 
 
     const overlayConfig = new OverlayConfig({
@@ -146,7 +146,7 @@ export class ArlasOverlayService {
   }
 
   private createHistogramTooltipOverlay(config: HistogramTooltipConfig, elementRef: ElementRef, xOffset: number, yOffset: number,
-      right: boolean) {
+    right: boolean) {
     // Returns an OverlayConfig
     const overlayConfig = this.getOverlayConfig(config, elementRef, xOffset, yOffset, right);
 
@@ -156,12 +156,12 @@ export class ArlasOverlayService {
 
   private createDonutTooltipOverlay(config: DonutTooltipConfig, elementRef: ElementRef, xOffset: number, yOffset: number,
     right: boolean) {
-  // Returns an OverlayConfig
-  const overlayConfig = this.getOverlayConfig(config, elementRef, xOffset, yOffset, right);
+    // Returns an OverlayConfig
+    const overlayConfig = this.getOverlayConfig(config, elementRef, xOffset, yOffset, right);
 
-  // Returns an OverlayRef
-  return this.overlay.create(overlayConfig);
-}
+    // Returns an OverlayRef
+    return this.overlay.create(overlayConfig);
+  }
 
   private createHistogramTooltipInjector(config: HistogramTooltipConfig, ref: ArlasOverlayRef): Injector {
     /** PortalInjector is deprecated */

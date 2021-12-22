@@ -30,7 +30,7 @@ export class ArlasExtendService {
   public dataBase: ExtendLocalDatabase | ExtendPersistenceDatabase;
   public extendMap: Map<string, Extend> = new Map<string, Extend>();
 
-  constructor(
+  public constructor(
     private arlasStartupService: ArlasStartupService,
     private configService: ArlasConfigService,
     private persistenceService: PersistenceService) {

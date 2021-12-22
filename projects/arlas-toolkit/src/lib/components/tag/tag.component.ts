@@ -55,7 +55,7 @@ export class TagComponent {
   public dialogManagementRef: MatDialogRef<TagManagementDialogComponent>;
   public hoveredDiv = '';
 
-  constructor(
+  public constructor(
     public dialog: MatDialog,
     public tagService: ArlasTagService
   ) { }
@@ -97,7 +97,7 @@ export class TagDialogComponent implements OnInit {
 
   public confirmDialogRef: MatDialogRef<ConfirmModalComponent>;
 
-  constructor(
+  public constructor(
     private formBuilder: FormBuilder,
     public tagService: ArlasTagService,
     private configService: ArlasConfigService,
@@ -252,7 +252,7 @@ export class TagManagementDialogComponent {
   public isLoading = true;
   public selectedsTag: TagRefRequest[] = new Array<TagRefRequest>();
 
-  constructor(
+  public constructor(
     private tagService: ArlasTagService,
     private elem: ElementRef,
     private renderer: Renderer2,
@@ -260,9 +260,7 @@ export class TagManagementDialogComponent {
   ) {
     this.tagService.list().subscribe(data => {
       this.isLoading = false;
-      data.sort((a, b) => {
-        return a.creation_time > b.creation_time ? 1 : -1;
-      });
+      data.sort((a, b) => a.creation_time > b.creation_time ? 1 : -1);
       this.tagsRef = data;
     });
   }

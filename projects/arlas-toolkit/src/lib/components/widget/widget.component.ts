@@ -99,12 +99,12 @@ export class WidgetComponent implements OnInit {
    * the `origin` which is the contributor id of the component; `event` the name of the event; and eventually `data` which contains
    * the emitted data from the component.
    */
-  @Output() public outEvents: Subject<{ origin: string, event: string, data?: any }>
-    = new Subject<{ origin: string, event: string, data?: any }>();
+  @Output() public outEvents: Subject<{ origin: string; event: string; data?: any; }>
+    = new Subject<{ origin: string; event: string; data?: any; }>();
 
   @ViewChild('histogram', { static: false }) public histogramComponent: HistogramComponent;
 
-  constructor(private arlasStartupService: ArlasStartupService,
+  public constructor(private arlasStartupService: ArlasStartupService,
     private cdr: ChangeDetectorRef,
     private arlasCollaborativesearchService: ArlasCollaborativesearchService,
     private arlasOverlayService: ArlasOverlayService,

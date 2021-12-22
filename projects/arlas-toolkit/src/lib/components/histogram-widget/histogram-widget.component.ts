@@ -80,7 +80,7 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy {
    */
   @Input() public spinnerOptions: SpinnerOptions;
 
-  @Output() public exportCsvEvent: Subject<{ contributor: HistogramContributor, type: string, firstLevel: boolean }> = new Subject();
+  @Output() public exportCsvEvent: Subject<{ contributor: HistogramContributor; type: string; firstLevel: boolean; }> = new Subject();
 
 
 
@@ -90,13 +90,13 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy {
    * the `origin` which is the contributor id of the component; `event` the name of the event; and eventually `data` which contains
    * the emitted data from the component.
    */
-  @Output() public outEvents: Subject<{ origin: string, event: string, data?: any }>
-    = new Subject<{ origin: string, event: string, data?: any }>();
+  @Output() public outEvents: Subject<{ origin: string; event: string; data?: any; }>
+    = new Subject<{ origin: string; event: string; data?: any; }>();
 
   @ViewChild('histogram', { static: false }) public histogramComponent: HistogramComponent;
   @ViewChild('detailedhistogram', { static: false }) public detailedHistogramComponent: HistogramComponent;
 
-  constructor(
+  public constructor(
     private arlasCollaborativesearchService: ArlasCollaborativesearchService,
     private arlasConfigurationService: ArlasConfigService,
     private cdr: ChangeDetectorRef,
@@ -107,7 +107,8 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy {
 
   public initDetailedContributor() {
     if (!!this.contributor) {
-      this.detailedContributor = new DetailedHistogramContributor(this.contributor.collection + '-'
+      this.detailedContributor = new DetailedHistogramContributor(
+        this.contributor.collection + '-'
         + this.contributor.identifier + '-arlas__detailed',
         this.arlasCollaborativesearchService, this.arlasConfigurationService, this.contributor.collection, false);
       this.detailedContributor.annexedContributorId = this.contributor.identifier;

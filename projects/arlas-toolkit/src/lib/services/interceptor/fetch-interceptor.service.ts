@@ -10,7 +10,7 @@ import { InvalidConfigDialogComponent } from '../../components/invalid-config-di
 })
 export class FetchInterceptorService {
 
-  constructor(private arlasSettings: ArlasSettingsService, private dialog: MatDialog) {
+  public constructor(private arlasSettings: ArlasSettingsService, private dialog: MatDialog) {
 
   }
 
@@ -19,13 +19,11 @@ export class FetchInterceptorService {
     const useAuthent = !!settings && !!settings.authentication && !!settings.authentication.use_authent;
     if (useAuthent) {
       const unregister = fetchIntercept.register({
-        request: (url, config) => {
+        request: (url, config) =>
           // Modify the url or config here
-          return [url, config];
-        },
-        requestError: (error) => {
-          return Promise.reject(error);
-        },
+          [url, config]
+        ,
+        requestError: (error) => Promise.reject(error),
         response: (response) => {
           // Modify the reponse object
           let code = response.status;
@@ -42,10 +40,10 @@ export class FetchInterceptorService {
           }
           return response;
         },
-        responseError: (error) => {
+        responseError: (error) =>
           // Handle an fetch error
-          return Promise.reject(error);
-        }
+          Promise.reject(error)
+
       });
     }
   }

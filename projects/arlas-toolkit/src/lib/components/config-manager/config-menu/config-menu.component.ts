@@ -41,7 +41,7 @@ export class ConfigMenuComponent implements OnInit {
   public ConfigAction = ConfigActionEnum;
   public canCreateDashboard = false;
 
-  constructor(
+  public constructor(
     private dialog: MatDialog,
     private persistenceService: PersistenceService,
     private permissionService: PermissionService

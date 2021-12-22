@@ -43,21 +43,21 @@ export class ExtendComponent {
 
   public isPersistenceActive = false;
 
-  @Output() public actions: Subject<{ action: string, id: string, geometry?: any }> = new Subject<any>();
+  @Output() public actions: Subject<{ action: string; id: string; geometry?: any; }> = new Subject<any>();
 
-  constructor(
+  public constructor(
     private extendService: ArlasExtendService
   ) {
     // Init component with data from persistence server, if defined and server is reachable
     if (this.extendService.dataBase instanceof ExtendPersistenceDatabase) {
-          this.isPersistenceActive = true;
-          this.extendService.setPage(this.pageSize, this.pageNumber);
-          this.getExtendsList();
-          (this.extendService.dataBase as ExtendPersistenceDatabase).dataChange
-            .subscribe((data: { total: number, items: Extend[] }) => {
-              this.resultsLength = data.total;
-              this.extends = data.items;
-            });
+      this.isPersistenceActive = true;
+      this.extendService.setPage(this.pageSize, this.pageNumber);
+      this.getExtendsList();
+      (this.extendService.dataBase as ExtendPersistenceDatabase).dataChange
+        .subscribe((data: { total: number; items: Extend[]; }) => {
+          this.resultsLength = data.total;
+          this.extends = data.items;
+        });
     } else {
       this.extends = new ArlasDataSource(this.extendService.dataBase as ExtendLocalDatabase);
     }

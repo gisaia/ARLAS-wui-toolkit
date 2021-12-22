@@ -25,7 +25,7 @@ import { PersistenceService } from '../persistence/persistence.service';
 export class ExtendPersistenceDatabase extends ArlasPersistenceDatabase<Extend> {
 
 
-  constructor( public persistenceService: PersistenceService) {
+  public constructor( public persistenceService: PersistenceService) {
     super('extend', persistenceService);
   }
 

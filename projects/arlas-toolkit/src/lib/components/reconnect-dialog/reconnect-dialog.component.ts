@@ -10,7 +10,7 @@ export class ReconnectDialogComponent implements OnInit {
 
   public code: number;
   public authService;
-  constructor(private authentService: AuthentificationService,
+  public constructor(private authentService: AuthentificationService,
     @Inject(MAT_DIALOG_DATA) data) {
     this.code = data.code;
   }

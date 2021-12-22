@@ -26,7 +26,7 @@ import { ArlasStartupService } from '../startup/startup.service';
 
 export class BookmarkLocalDatabase extends ArlasLocalDatabase<BookMark> {
 
-  constructor(
+  public constructor(
     public bookmarkService: ArlasBookmarkService,
     public startupService: ArlasStartupService) {
     super('bookmark', bookmarkService);

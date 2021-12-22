@@ -24,7 +24,7 @@ export class ArlasColorGeneratorLoader implements ColorGeneratorLoader {
   public keysToColorsMap: Map<string, string> = new Map<string, string>();
   public colorAggregations: Array<[Aggregation, Aggregation]>;
 
-  constructor(
+  public constructor(
     private configService: ArlasConfigService,
     private collaborativesearchService: ArlasCollaborativesearchService) {
     const webConfig = this.configService.getValue('arlas.web');
@@ -93,7 +93,9 @@ export class ArlasColorGeneratorLoader implements ColorGeneratorLoader {
   public setKeysToColors(keysToColors: Array<[string, string]>): void {
     this.keysToColors = keysToColors;
     this.keysToColorsMap = new Map<string, string>();
-    this.keysToColors.forEach(item => { this.keysToColorsMap.set(item[0], item[1]); });
+    this.keysToColors.forEach(item => {
+      this.keysToColorsMap.set(item[0], item[1]);
+    });
   }
 
   private getHexColor(key: string, saturationWeight: number): string {
@@ -119,11 +121,14 @@ export class ArlasColorGeneratorLoader implements ColorGeneratorLoader {
 
   private setColorsFromAggregations(): void {
     this.keysToColorsMap = new Map<string, string>();
-    this.keysToColors.forEach(item => { this.keysToColorsMap.set(item[0], item[1]); });
+    this.keysToColors.forEach(item => {
+      this.keysToColorsMap.set(item[0], item[1]);
+    });
     if (this.colorAggregations) {
       this.colorAggregations.forEach(aggregations => {
         this.collaborativesearchService.resolveAggregation([projType.aggregate, aggregations], null,
-          this.collaborativesearchService.defaultCollection).subscribe(agg => {
+          this.collaborativesearchService.defaultCollection)
+          .subscribe(agg => {
             const firstAggregationElements = agg.elements;
             firstAggregationElements.forEach(element => {
               if (!this.keysToColorsMap.has(element.key) && element.elements && element.elements.length > 0) {

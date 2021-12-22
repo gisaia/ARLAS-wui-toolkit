@@ -44,7 +44,7 @@ export class DatePickerComponent implements OnInit, OnChanges {
 
   public timelineContributor: HistogramContributor;
 
-  constructor(private arlasCollaborativesearchService: ArlasCollaborativesearchService,
+  public constructor(private arlasCollaborativesearchService: ArlasCollaborativesearchService,
     private arlasStartupService: ArlasStartupService,
     public translate: TranslateService) {
   }
@@ -76,14 +76,15 @@ export class DatePickerComponent implements OnInit, OnChanges {
     const selectedIntervalsList = new Array();
     this.startSelectedMoment = this.setMomentDate(this.startSelectedMoment);
     this.endSelectedMoment = this.setMomentDate(this.endSelectedMoment);
-    this.timelineContributor.intervalListSelection.forEach(intervalSelection => {
+    this.timelineContributor.intervalListSelection
+      .forEach(intervalSelection => {
         selectedIntervalsList.push(intervalSelection);
-    });
+      });
     selectedIntervalsList
-        .push({
+      .push({
         startvalue: this.startSelectedMoment.valueOf(),
         endvalue: this.endSelectedMoment.valueOf()
-    });
+      });
     this.timelineContributor.valueChanged(selectedIntervalsList);
   }
 

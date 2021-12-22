@@ -24,7 +24,7 @@ import { ArlasLocalDatabase } from '../../tools/arlasLocalDatabase';
 export class ExtendLocalDatabase extends ArlasLocalDatabase<Extend> {
 
 
-  constructor() {
+  public constructor() {
     super('extend');
   }
 

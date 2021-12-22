@@ -23,7 +23,7 @@ import { ArlasLocalDatabase } from '../../tools/arlasLocalDatabase';
 
 export class AoiDatabase extends ArlasLocalDatabase<Aoi> {
 
-  constructor() {
+  public constructor() {
     super('aoi');
   }
 

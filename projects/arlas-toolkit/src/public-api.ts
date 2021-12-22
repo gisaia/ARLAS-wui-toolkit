@@ -61,7 +61,8 @@ export { GET_OPTIONS, PersistenceService, PersistenceSetting } from './lib/servi
 export { ArlasSettingsService } from './lib/services/settings/arlas.settings.service';
 export { ContributorBuilder } from './lib/services/startup/contributorBuilder';
 export {
-  ArlasCollaborativesearchService, ArlasConfigService, ArlasExploreApi, ArlasSettings, ArlasStartupService, CONFIG_UPDATER, FETCH_OPTIONS, LinkSettings
+  ArlasCollaborativesearchService, ArlasConfigService, ArlasExploreApi, ArlasSettings,
+  ArlasStartupService, CONFIG_UPDATER, FETCH_OPTIONS, LinkSettings
 } from './lib/services/startup/startup.service';
 export { ArlasWalkthroughModule } from './lib/services/walkthrough/walkthrough.module';
 export { ArlasWalkthroughService } from './lib/services/walkthrough/walkthrough.service';
@@ -80,6 +81,7 @@ export { PaginatorI18n } from './lib/tools/paginatori18n';
 export {
   ArlasOverlayRef, ArlasStorageObject,
   ArlasStorageType, CollectionCount, CollectionUnit, Config, ConfigAction, ConfigActionEnum,
-  CONFIG_ID_QUERY_PARAM, DONUT_TOOLTIP_DATA, getFieldProperties, getKeyForColor, hashCode, HISTOGRAM_TOOLTIP_DATA, intToRGB, MapService, sortOnDate, SpinnerOptions
+  CONFIG_ID_QUERY_PARAM, DONUT_TOOLTIP_DATA, getFieldProperties, getKeyForColor, hashCode,
+  HISTOGRAM_TOOLTIP_DATA, intToRGB, MapService, sortOnDate, SpinnerOptions
 } from './lib/tools/utils';
 

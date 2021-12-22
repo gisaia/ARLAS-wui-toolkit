@@ -8,17 +8,17 @@ describe('ArlasColorGeneratorLoader', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-      ArlasColorGeneratorLoader,
-      {
-        provide: ArlasStartupService,
-        useClass: ArlasStartupService,
-        deps: [ArlasConfigurationUpdaterService]
-      },
-      {
-        provide: ArlasConfigurationUpdaterService,
-        useClass: ArlasConfigurationUpdaterService
-      },
-      ArlasConfigService, ArlasCollaborativesearchService],
+        ArlasColorGeneratorLoader,
+        {
+          provide: ArlasStartupService,
+          useClass: ArlasStartupService,
+          deps: [ArlasConfigurationUpdaterService]
+        },
+        {
+          provide: ArlasConfigurationUpdaterService,
+          useClass: ArlasConfigurationUpdaterService
+        },
+        ArlasConfigService, ArlasCollaborativesearchService],
       imports: []
     });
   });

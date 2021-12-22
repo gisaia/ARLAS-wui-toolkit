@@ -159,8 +159,8 @@ export function getKeyForColor(dataModel: Object): string {
 }
 
 export function getFieldProperties(fieldList: any, parentPrefix?: string,
-  arlasFields?: Array<{ label: string, type: string }>, isFirstLevel?: boolean
-): Array<{ label: string, type: string }> {
+  arlasFields?: Array<{ label: string; type: string; }>, isFirstLevel?: boolean
+): Array<{ label: string; type: string; }> {
   if (!arlasFields) {
     arlasFields = new Array();
   }
@@ -184,7 +184,7 @@ export function getFieldProperties(fieldList: any, parentPrefix?: string,
 }
 
 export class ArlasOverlayRef {
-  constructor(private overlayRef: OverlayRef) { }
+  public constructor(private overlayRef: OverlayRef) { }
   public close(): void {
     if (!!this.overlayRef) {
       this.overlayRef.dispose();

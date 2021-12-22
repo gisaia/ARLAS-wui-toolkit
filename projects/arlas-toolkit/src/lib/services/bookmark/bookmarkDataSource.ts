@@ -24,7 +24,7 @@ import { BookmarkLocalDatabase } from './bookmarkLocalDatabase';
 
 export class BookmarkDataSource extends ArlasDataSource {
 
-  constructor(public dataBase: BookmarkLocalDatabase) {
+  public constructor(public dataBase: BookmarkLocalDatabase) {
     super(dataBase);
   }
 

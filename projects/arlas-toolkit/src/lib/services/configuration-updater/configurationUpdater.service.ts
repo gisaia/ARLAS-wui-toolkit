@@ -23,7 +23,7 @@ import { VisualisationSetConfig } from 'arlas-web-components';
 
 export class ArlasConfigurationUpdaterService {
 
-  constructor() {
+  public constructor() {
   }
 
   /**

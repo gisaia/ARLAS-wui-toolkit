@@ -34,7 +34,7 @@ export class ArlasWalkthroughService {
   public tourData: any;
   public isActivable = true;
 
-  constructor(
+  public constructor(
     private walkthrougLoader: WalkthroughLoader,
     private translateService: TranslateService
 
@@ -91,7 +91,7 @@ export class ArlasWalkthroughService {
    *
    * @param tour
    */
-  public setTour(tour: { id: string, steps: any[] }) {
+  public setTour(tour: { id: string; steps: any[]; }) {
     this.tourData = tour;
   }
 

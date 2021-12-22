@@ -29,6 +29,6 @@ import { HistogramTooltip } from 'arlas-web-components';
 })
 export class HistogramTooltipOverlayComponent {
 
-  constructor(public overlayRef: ArlasOverlayRef, @Inject(HISTOGRAM_TOOLTIP_DATA) public tooltip: HistogramTooltip) {}
+  public constructor(public overlayRef: ArlasOverlayRef, @Inject(HISTOGRAM_TOOLTIP_DATA) public tooltip: HistogramTooltip) {}
 
 }

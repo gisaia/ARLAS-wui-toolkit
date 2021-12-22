@@ -40,7 +40,7 @@ export class ToolkitComponent implements AfterViewInit, OnInit {
   public analyticsOpen = false;
   public target: string;
 
-  constructor(private configService: ArlasConfigService,
+  public constructor(private configService: ArlasConfigService,
     private arlasStartupService: ArlasStartupService,
     private collaborativeService: ArlasCollaborativesearchService,
     private activatedRoute: ActivatedRoute, private router: Router, private location: Location) {

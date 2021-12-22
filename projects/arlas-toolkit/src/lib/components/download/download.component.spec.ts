@@ -31,13 +31,13 @@ describe('DownloadComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DownloadComponent ],
+      declarations: [DownloadComponent],
       imports: [
         MatIconModule, MatSelectModule, MatButtonModule,
         BrowserModule, MatDialogModule
       ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

@@ -17,7 +17,7 @@ export class PersistenceService {
   private persistenceApi: PersistApi;
   private options;
   public isAvailable = false;
-  constructor(
+  public constructor(
     @Inject(GET_OPTIONS) private getOptions,
     private settingsService: ArlasSettingsService
   ) {
@@ -68,18 +68,14 @@ export class PersistenceService {
 
   public duplicate(zone: string, id: string, newName?: string): Observable<DataWithLinks> {
     return this.get(id).pipe(
-      map(data => {
-        return this.create(zone, newName ? newName : 'Copy of ' + data.doc_key, data.doc_value);
-      }),
+      map(data => this.create(zone, newName ? newName : 'Copy of ' + data.doc_key, data.doc_value)),
       flatMap(a => a)
     );
   }
 
   public rename(id: string, newName: string): Observable<DataWithLinks> {
     return this.get(id).pipe(
-      map(data => {
-        return this.update(id, data.doc_value, new Date(data.last_update_date).getTime(), newName, data.doc_readers, data.doc_writers);
-      }),
+      map(data => this.update(id, data.doc_value, new Date(data.last_update_date).getTime(), newName, data.doc_readers, data.doc_writers)),
       flatMap(a => a)
     );
   }

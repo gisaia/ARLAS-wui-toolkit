@@ -29,6 +29,6 @@ import { ARLASDonutTooltip } from 'arlas-d3';
 })
 export class DonutTooltipOverlayComponent {
 
-  constructor(public overlayRef: ArlasOverlayRef, @Inject(DONUT_TOOLTIP_DATA) public tooltip: ARLASDonutTooltip) {}
+  public constructor(public overlayRef: ArlasOverlayRef, @Inject(DONUT_TOOLTIP_DATA) public tooltip: ARLASDonutTooltip) {}
 
 }

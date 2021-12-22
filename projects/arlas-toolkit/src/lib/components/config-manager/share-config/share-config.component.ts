@@ -38,7 +38,7 @@ export class ShareConfigComponent implements OnInit {
   @Output() public updateEmitter: EventEmitter<[boolean, any]> = new EventEmitter();
   public groups: Array<PersistenceGroup>;
 
-  constructor(private persistenceService: PersistenceService) {
+  public constructor(private persistenceService: PersistenceService) {
 
   }
   public ngOnInit() {

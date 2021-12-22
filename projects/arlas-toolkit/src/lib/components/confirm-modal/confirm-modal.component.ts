@@ -10,5 +10,5 @@ export class ConfirmModalComponent {
   public confirmMessage: string;
   public confirmHTLMMessage: string;
 
-  constructor(public dialogRef: MatDialogRef<ConfirmModalComponent>) { }
+  public constructor(public dialogRef: MatDialogRef<ConfirmModalComponent>) { }
 }

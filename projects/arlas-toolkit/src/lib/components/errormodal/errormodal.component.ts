@@ -32,7 +32,7 @@ import { ErrorService } from '../../services/error/error.service';
 })
 export class ErrormodalComponent implements OnInit {
   public dialogRef: MatDialogRef<any>;
-  constructor(public dialog: MatDialog, private errorService: ErrorService) {
+  public constructor(public dialog: MatDialog, private errorService: ErrorService) {
 
   }
   public ngOnInit() {
@@ -56,5 +56,5 @@ export class ErrormodalComponent implements OnInit {
 })
 export class ErrorModalMsgComponent {
   public messages: Array<Error>;
-  constructor(public dialogRef: MatDialogRef<ErrorModalMsgComponent>) { }
+  public constructor(public dialogRef: MatDialogRef<ErrorModalMsgComponent>) { }
 }

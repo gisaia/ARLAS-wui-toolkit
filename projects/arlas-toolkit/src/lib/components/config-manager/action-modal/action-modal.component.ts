@@ -35,7 +35,7 @@ export class ActionModalComponent {
   public ConfigAction = ConfigActionEnum;
 
   public errorMessage = '';
-  constructor(
+  public constructor(
     @Inject(MAT_DIALOG_DATA) data: ConfigAction,
     private dialogRef: MatDialogRef<ActionModalComponent>,
     private persistenceService: PersistenceService

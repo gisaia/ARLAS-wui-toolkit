@@ -31,7 +31,7 @@ export class ProgressSpinnerComponent implements OnInit {
   @Input() public strokeWidth = 5;
   @Input() public displayProgressSpinner: boolean;
 
-  constructor() { }
+  public constructor() { }
 
   public ngOnInit(): void {
   }

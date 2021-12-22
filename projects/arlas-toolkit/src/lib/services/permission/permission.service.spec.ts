@@ -10,19 +10,19 @@ import { getOptionsFactory } from '../../toolkit.module';
 describe('PermissionService', () => {
   beforeEach(() => TestBed.configureTestingModule({
     imports: [HttpClientModule, OAuthModule],
-      providers: [
-        ArlasSettingsService,
-        OAuthService,
-        OAuthLogger,
-        UrlHelperService,
-        AuthentificationService,
-        { provide: GET_OPTIONS, useValue: {} },
-        {
-          provide: GET_OPTIONS,
-          useFactory: getOptionsFactory,
-          deps: [AuthentificationService]
-        }
-      ]
+    providers: [
+      ArlasSettingsService,
+      OAuthService,
+      OAuthLogger,
+      UrlHelperService,
+      AuthentificationService,
+      { provide: GET_OPTIONS, useValue: {} },
+      {
+        provide: GET_OPTIONS,
+        useFactory: getOptionsFactory,
+        deps: [AuthentificationService]
+      }
+    ]
   }));
 
   it('should be created', () => {

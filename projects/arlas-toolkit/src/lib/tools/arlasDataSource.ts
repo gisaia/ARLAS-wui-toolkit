@@ -25,9 +25,13 @@ import { map } from 'rxjs/operators';
 
 export class ArlasDataSource extends DataSource<any> {
   private _filterChange = new BehaviorSubject('');
-  get filter(): string { return this._filterChange.value; }
-  set filter(filter: string) { this._filterChange.next(filter); }
-  constructor(public arlasLocalDatabase: ArlasLocalDatabase<ArlasStorageObject>) {
+  public get filter(): string {
+    return this._filterChange.value;
+  }
+  public set filter(filter: string) {
+    this._filterChange.next(filter);
+  }
+  public constructor(public arlasLocalDatabase: ArlasLocalDatabase<ArlasStorageObject>) {
     super();
   }
   /** Connect function called by the table to retrieve one stream containing the data to render. */
