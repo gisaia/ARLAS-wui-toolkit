@@ -34,9 +34,9 @@ export class AoiComponent {
   public columnsToDisplay = ['checked', 'name', 'date', 'actions'];
   public itemsCheck: Array<string> = new Array<string>();
 
-  @Output() public actions: Subject<{ action: string, id: string, geometry?: any }> = new Subject<any>();
+  @Output() public actions: Subject<{ action: string; id: string; geometry?: any; }> = new Subject<any>();
 
-  constructor(
+  public constructor(
     private aoiService: ArlasAoiService
   ) {
     this.aois = new ArlasDataSource(this.aoiService.dataBase);

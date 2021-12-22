@@ -7,25 +7,25 @@ import { ArlasConfigurationUpdaterService } from '../configuration-updater/confi
 
 describe('ArlasExportCsvService', () => {
   beforeEach(() =>
-  TestBed.configureTestingModule({
-    imports: [
-      TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } })
-    ],
-    providers: [
-      TranslateService,
-      {
-        provide: ArlasStartupService,
-        useClass: ArlasStartupService,
-        deps: [ArlasConfigurationUpdaterService]
-      },
-      ArlasCollaborativesearchService,
-      {
-        provide: ArlasConfigurationUpdaterService,
-        useClass: ArlasConfigurationUpdaterService
-      },
-      {provide: FETCH_OPTIONS, useValue: {}},
-    ]
-  }));
+    TestBed.configureTestingModule({
+      imports: [
+        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } })
+      ],
+      providers: [
+        TranslateService,
+        {
+          provide: ArlasStartupService,
+          useClass: ArlasStartupService,
+          deps: [ArlasConfigurationUpdaterService]
+        },
+        ArlasCollaborativesearchService,
+        {
+          provide: ArlasConfigurationUpdaterService,
+          useClass: ArlasConfigurationUpdaterService
+        },
+        { provide: FETCH_OPTIONS, useValue: {} },
+      ]
+    }));
   it('should be created', () => {
     const service: ArlasExportCsvService = TestBed.get(ArlasExportCsvService);
     expect(service).toBeTruthy();

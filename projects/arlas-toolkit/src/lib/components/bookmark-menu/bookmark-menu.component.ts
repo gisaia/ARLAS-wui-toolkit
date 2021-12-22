@@ -40,7 +40,7 @@ export class BookmarkMenuComponent implements OnInit {
   public isBookmarkOpen = false;
   public currentCollections = '';
 
-  constructor(
+  public constructor(
     public dialog: MatDialog,
     private bookmarkService: ArlasBookmarkService,
     private startupService: ArlasStartupService
@@ -53,16 +53,14 @@ export class BookmarkMenuComponent implements OnInit {
 
     if (this.bookmarkService.dataBase instanceof BookmarkPersistenceDatabase) {
       (this.bookmarkService.dataBase as BookmarkPersistenceDatabase).dataChange
-        .subscribe((bookmarks: { total: number, items: BookMark[] }) => {
+        .subscribe((bookmarks: { total: number; items: BookMark[]; }) => {
           const sortedBookmark = bookmarks.items.filter(bk => {
             if (bk.collections) {
               return bk.collections === this.currentCollections;
             } else {
               return false;
             }
-          }).sort((a, b) => {
-            return (a.views < b.views ? -1 : 1) * (-1);
-          });
+          }).sort((a, b) => (a.views < b.views ? -1 : 1) * (-1));
           this.topBookmarks = sortedBookmark.slice(0, this.nbTopBookmarks);
         });
     } else {
@@ -73,9 +71,7 @@ export class BookmarkMenuComponent implements OnInit {
           } else {
             return false;
           }
-        }).sort((a, b) => {
-          return (a.views < b.views ? -1 : 1) * (-1);
-        });
+        }).sort((a, b) => (a.views < b.views ? -1 : 1) * (-1));
         this.topBookmarks = sortedBookmark.slice(0, this.nbTopBookmarks);
       });
     }

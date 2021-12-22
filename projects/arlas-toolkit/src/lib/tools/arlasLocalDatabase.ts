@@ -23,12 +23,14 @@ import { sortOnDate, ArlasStorageObject } from './utils';
 export class ArlasLocalDatabase<T extends ArlasStorageObject> {
   /** Stream that emits whenever the data has been modified. */
   public dataChange: BehaviorSubject<T[]> = new BehaviorSubject<T[]>([]);
-  get data(): T[] { return this.dataChange.value; }
+  public get data(): T[] {
+    return this.dataChange.value;
+  }
   public storageObjectMap: Map<string, T> = new Map<string, T>();
 
   public storageKey: string;
 
-  constructor(storageKey: string = 'storage_object', additionalObject?: any) {
+  public constructor(storageKey: string = 'storage_object', additionalObject?: any) {
     this.storageKey = storageKey;
 
     if (localStorage.getItem(this.storageKey) !== null) {

@@ -28,7 +28,7 @@ import { ArlasStartupService } from '../startup/startup.service';
 
 export class BookmarkPersistenceDatabase extends ArlasPersistenceDatabase<BookMark> {
 
-  constructor(
+  public constructor(
     public bookmarkService: ArlasBookmarkService,
     public persistenceService: PersistenceService,
     public startupService: ArlasStartupService) {

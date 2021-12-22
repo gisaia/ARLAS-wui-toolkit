@@ -39,7 +39,7 @@ export class SearchComponent {
   public filteredSearch: Observable<any[]>;
   private keyEvent: Subject<number> = new Subject<number>();
 
-  constructor(private collaborativeService: ArlasCollaborativesearchService,
+  public constructor(private collaborativeService: ArlasCollaborativesearchService,
     private cdr: ChangeDetectorRef,
     public translate: TranslateService
   ) {

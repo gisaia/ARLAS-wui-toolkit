@@ -19,12 +19,12 @@ import { filter } from 'rxjs/operators';
   styleUrls: ['./timeline-shortcut.component.css']
 })
 export class TimelineShortcutComponent implements OnInit {
-   /**
-   * @Input : Angular
-   * @description In this object, all the necessary inputs of HistogramComponent (ARLAS-web-components)
-   * must be set as well as the identifier of the contributor that fetches timeline data. The `HistogramContributor`
-   * should be declared before in the `contributorRegistry` of `ArlasStartupService`
-   */
+  /**
+  * @Input : Angular
+  * @description In this object, all the necessary inputs of HistogramComponent (ARLAS-web-components)
+  * must be set as well as the identifier of the contributor that fetches timeline data. The `HistogramContributor`
+  * should be declared before in the `contributorRegistry` of `ArlasStartupService`
+  */
   @Input() public timelineComponent: any;
   /**
    * @Input : Angular
@@ -46,7 +46,7 @@ export class TimelineShortcutComponent implements OnInit {
   public isShortcutSelected = false;
   public timeZone = 'UTC';
 
-  constructor(private arlasCollaborativesearchService: ArlasCollaborativesearchService, private arlasStartupService: ArlasStartupService,
+  public constructor(private arlasCollaborativesearchService: ArlasCollaborativesearchService, private arlasStartupService: ArlasStartupService,
     public translate: TranslateService) {
     this.arlasCollaborativesearchService.collaborationBus.pipe(filter(c => ((this.timelineComponent
       && c.id === this.timelineComponent.contributorId) || c.all)))

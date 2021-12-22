@@ -16,7 +16,7 @@ export class UserInfosComponent implements OnInit {
   public email: string;
   public avatar: string;
 
-  constructor(private authentService: AuthentificationService) {
+  public constructor(private authentService: AuthentificationService) {
     this.authentService.loadUserInfo().subscribe(data => {
       this.name = data['nickname'];
       this.email = data['name'];
@@ -35,9 +35,11 @@ export class UserInfosComponent implements OnInit {
   }
 
   public computeName = (n) => {
-    if (typeof n !== 'string') { return ''; }
+    if (typeof n !== 'string') {
+      return '';
+    }
     const list = n.split('/');
     list.shift();
     return list.join(' ');
-  }
+  };
 }

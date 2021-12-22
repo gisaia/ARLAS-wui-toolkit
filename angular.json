@@ -112,13 +112,14 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "src/tsconfig.app.json",
-              "src/tsconfig.spec.json"
-            ],
-            "exclude": ["src/**/*.json"]
+            "eslintConfig": ".eslintrc.json",
+            "lintFilePatterns": [
+              "src/**/*.spec.ts",
+              "src/**/*.d.ts",
+              "src/**/*.ts"
+            ]
           }
         }
       }
@@ -189,8 +190,7 @@
   "defaultProject": "arlas-wui-toolkit-demo",
   "schematics": {
     "@schematics/angular:component": {
-      "prefix": "arlas-tool",
-      "styleext": "css"
+      "prefix": "arlas-tool"
     },
     "@schematics/angular:directive": {
       "prefix": "arlas-tool"

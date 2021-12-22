@@ -17,7 +17,7 @@ export class LanguageSwitcherComponent implements OnInit {
 
   @Input() public currentLanguage: string;
 
-  constructor() {
+  public constructor() {
   }
 
   public ngOnInit() {

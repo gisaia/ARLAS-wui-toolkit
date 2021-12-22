@@ -9,7 +9,7 @@ export class ArlasSearchField {
    */
   public type: string;
 
-  constructor(label: string, type: string) {
+  public constructor(label: string, type: string) {
     this.label = label;
     this.type = type;
   }

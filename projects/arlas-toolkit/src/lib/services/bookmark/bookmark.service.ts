@@ -37,9 +37,9 @@ export class ArlasBookmarkService {
   public dataBase: BookmarkLocalDatabase | BookmarkPersistenceDatabase;
   public bookMarkMap: Map<string, BookMark> = new Map<string, BookMark>();
   public selectorById;
-  public onAction = new Subject<{ action: string, id: string }>();
+  public onAction = new Subject<{ action: string; id: string; }>();
 
-  constructor(private collaborativesearchService: ArlasCollaborativesearchService,
+  public constructor(private collaborativesearchService: ArlasCollaborativesearchService,
     private activatedRoute: ActivatedRoute, public snackBar: MatSnackBar,
     public arlasStartupService: ArlasStartupService,
     private configService: ArlasConfigService,
@@ -258,16 +258,16 @@ export class ArlasBookmarkService {
                     /** for now we only have one filter */
                     const filter = filters[0];
                     Object.keys(filter).forEach(keyfil => {
-                        if (dataModel[k].filters.get(collection)[0][keyfil] === undefined) {
-                          /** for now we only have one filter */
-                          dataModel[k].filters.get(collection)[0][keyfil] = bookMarkDataModel[k].filters.get(collection)[0][keyfil];
-                        } else {
-                          /** filters : Map<collection, Fitler[]> */
-                          bookMarkDataModel[k].filters.get(collection)[0][keyfil]
-                            .forEach(ex => ex
-                              .forEach(e => dataModel[k].filters.get(collection)[0][keyfil][0].push(e)));
-                        }
-                      });
+                      if (dataModel[k].filters.get(collection)[0][keyfil] === undefined) {
+                        /** for now we only have one filter */
+                        dataModel[k].filters.get(collection)[0][keyfil] = bookMarkDataModel[k].filters.get(collection)[0][keyfil];
+                      } else {
+                        /** filters : Map<collection, Fitler[]> */
+                        bookMarkDataModel[k].filters.get(collection)[0][keyfil]
+                          .forEach(ex => ex
+                            .forEach(e => dataModel[k].filters.get(collection)[0][keyfil][0].push(e)));
+                      }
+                    });
                   }
 
                 }
@@ -294,9 +294,8 @@ export class ArlasBookmarkService {
       }
     });
     return this.collaborativesearchService.resolveComputeHits([projType.count, {}], filters,
-      this.collaborativesearchService.defaultCollection).pipe(map(hits => {
-        return hits.totalnb;
-      }));
+      this.collaborativesearchService.defaultCollection)
+      .pipe(map(hits => hits.totalnb));
   }
 
   private getBookmarkById(id: string): BookMark {

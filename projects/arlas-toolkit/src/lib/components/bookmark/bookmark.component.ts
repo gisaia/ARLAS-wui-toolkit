@@ -47,11 +47,11 @@ export class BookmarkComponent {
   public isPersistenceActive = false;
   public currentCollections = '';
 
-  @Output() public actions: Subject<{ action: string, id: string, geometry?: any }> = new Subject<any>();
+  @Output() public actions: Subject<{ action: string; id: string; geometry?: any; }> = new Subject<any>();
 
   @ViewChild(MatPaginator, { static: false }) public paginator: MatPaginator;
 
-  constructor(
+  public constructor(
     private bookmarkService: ArlasBookmarkService,
     private dialog: MatDialog,
     private startupService: ArlasStartupService
@@ -63,7 +63,7 @@ export class BookmarkComponent {
       this.bookmarkService.setPage(this.pageSize, this.pageNumber);
       this.getBookmarksList();
       (this.bookmarkService.dataBase as BookmarkPersistenceDatabase).dataChange
-        .subscribe((data: { total: number, items: BookMark[] }) => {
+        .subscribe((data: { total: number; items: BookMark[]; }) => {
           this.resultsLength = data.total;
           this.bookmarks = data.items.filter(bk => {
             if (bk.collections) {
@@ -103,9 +103,7 @@ export class BookmarkComponent {
     if (this.itemsCheck.length < 2) {
       this.disableCombine = true;
     } else {
-      const sameColor = this.itemsCheck.map(i => this.bookmarkService.bookMarkMap.get(i).color).reduce((a, b) => {
-        return (a === b) ? a : 'false';
-      });
+      const sameColor = this.itemsCheck.map(i => this.bookmarkService.bookMarkMap.get(i).color).reduce((a, b) => (a === b) ? a : 'false');
       this.disableCombine = (sameColor === 'false');
     }
   }
@@ -145,7 +143,7 @@ export class BookmarkComponent {
 export class BookmarkAddDialogComponent {
   public bookmarkName: string;
 
-  constructor(
+  public constructor(
     public dialogRef: MatDialogRef<BookmarkAddDialogComponent>) { }
 
   public cancel(): void {

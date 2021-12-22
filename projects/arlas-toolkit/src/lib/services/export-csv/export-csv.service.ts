@@ -14,7 +14,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class ArlasExportCsvService {
 
-  constructor(private collaborativesearchService: ArlasCollaborativesearchService, private configService: ArlasConfigService,
+  public constructor(private collaborativesearchService: ArlasCollaborativesearchService, private configService: ArlasConfigService,
     private translate: TranslateService) { }
 
   public export(contributor: Contributor, stayAtFirstLevel: boolean, contributorType?: string): Observable<Blob> {
@@ -67,14 +67,22 @@ export class ArlasExportCsvService {
 
   public fetchHistogramData(contributor): Observable<AggregationResponse> {
     const collaborations = new Map<string, Collaboration>();
-    this.collaborativesearchService.collaborations.forEach((k, v) => { collaborations.set(v, k); });
+    this.collaborativesearchService.collaborations.forEach((k, v) => {
+      collaborations.set(v, k);
+    });
     const nbBuckets = (<HistogramContributor>contributor).getNbBuckets();
     const field = (<HistogramContributor>contributor).getField();
     const aggregations = (<HistogramContributor>contributor).getAggregations();
     if (nbBuckets) {
-      const agg = this.collaborativesearchService.resolveButNotComputation([projType.compute,
-      <ComputationRequest>{ filter: null, field: field, metric: ComputationRequest.MetricEnum.SPANNING }],
-      collaborations, contributor.collection)
+      const agg = this.collaborativesearchService
+        .resolveButNotComputation(
+          [
+            projType.compute,
+            <ComputationRequest>{ filter: null, field: field, metric: ComputationRequest.MetricEnum.SPANNING }
+          ],
+          collaborations,
+          contributor.collection
+        )
         .pipe(
           map((computationResponse: ComputationResponse) => {
             const dataRange = computationResponse.value || 0;

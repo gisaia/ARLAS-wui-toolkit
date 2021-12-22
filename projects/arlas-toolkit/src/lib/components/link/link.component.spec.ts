@@ -12,7 +12,7 @@ describe('LinkComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LinkComponent ],
+      declarations: [LinkComponent],
       imports: [
         MatTooltipModule,
         MatSidenavModule,
@@ -23,7 +23,7 @@ describe('LinkComponent', () => {
         })
       ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

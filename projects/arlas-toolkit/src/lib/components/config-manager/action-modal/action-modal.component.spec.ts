@@ -25,9 +25,9 @@ describe('ActionModalComponent', () => {
       close: jasmine.createSpy('close')
     };
     TestBed.configureTestingModule({
-      declarations: [ ActionModalComponent ],
+      declarations: [ActionModalComponent],
       imports: [
-        TranslateModule.forRoot({loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }}),
+        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }),
         MatMenuModule,
         MatIconModule,
         MatDialogModule,
@@ -55,9 +55,9 @@ describe('ActionModalComponent', () => {
           provide: GET_OPTIONS,
           useFactory: getOptionsFactory,
           deps: [AuthentificationService]
-        }      ]
+        }]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

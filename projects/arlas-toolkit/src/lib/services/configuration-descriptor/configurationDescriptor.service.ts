@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { ArlasConfigService, ArlasCollaborativesearchService, ArlasExploreApi, ArlasCollectionApi } from '../startup/startup.service';
-import { Observable, from } from 'rxjs';
-import { map, filter } from 'rxjs/operators';
-import { Configuration, CollectionReferenceDescription } from 'arlas-api';
+import { CollectionReferenceDescription, Configuration } from 'arlas-api';
 import * as portableFetch from 'portable-fetch';
+import { from, Observable } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 import { getFieldProperties } from '../../tools/utils';
+import { ArlasCollaborativesearchService, ArlasConfigService, ArlasExploreApi } from '../startup/startup.service';
 
 
 @Injectable()
@@ -14,7 +14,7 @@ export class ArlasConfigurationDescriptor {
     credentials: 'include'
   };
 
-  constructor(
+  public constructor(
     private collaborativesearchService: ArlasCollaborativesearchService,
     private configService: ArlasConfigService,
   ) { }
@@ -40,7 +40,7 @@ export class ArlasConfigurationDescriptor {
    * @description Returns an Observable that contains a list of the fields which types are in `types` param.
    * If no `types` are specified, then all the fields are returned.
    */
-  public getFields(types?: Array<string>): Observable<Array<{ label: string, type: string }>> {
+  public getFields(types?: Array<string>): Observable<Array<{ label: string; type: string; }>> {
     const configuration: Configuration = new Configuration();
     const arlasExploreApi: ArlasExploreApi = new ArlasExploreApi(
       configuration,

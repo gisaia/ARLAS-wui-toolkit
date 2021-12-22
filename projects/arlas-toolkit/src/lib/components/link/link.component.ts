@@ -11,7 +11,7 @@ export class LinkComponent implements OnInit {
 
   public links: LinkSettings[];
 
-  constructor(private settings: ArlasSettingsService) { }
+  public constructor(private settings: ArlasSettingsService) { }
 
   public ngOnInit() {
     this.links = this.settings.getLinksSettings();

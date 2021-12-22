@@ -35,7 +35,7 @@ export class ArlasMapService implements MapService {
 
   public map: Map;
 
-  constructor(private collaborativeSearchService: ArlasCollaborativesearchService) {
+  public constructor(private collaborativeSearchService: ArlasCollaborativesearchService) {
   }
 
   /**

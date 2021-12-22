@@ -27,7 +27,7 @@ import { TaggerResponse } from './model';
 
 @Injectable()
 export class ArlasTaggerWriteApi extends WriteApi {
-  constructor(@Inject('CONF') conf: Configuration, @Inject('base_path') basePAth: string,
+  public constructor(@Inject('CONF') conf: Configuration, @Inject('base_path') basePAth: string,
     @Inject('fetch') fetch: FetchAPI) {
     super(conf, basePAth, fetch);
   }
@@ -35,7 +35,7 @@ export class ArlasTaggerWriteApi extends WriteApi {
 
 @Injectable()
 export class ArlasTaggerStatusApi extends StatusApi {
-  constructor(@Inject('CONF') conf: Configuration, @Inject('base_path') basePAth: string,
+  public constructor(@Inject('CONF') conf: Configuration, @Inject('base_path') basePAth: string,
     @Inject('fetch') fetch: FetchAPI) {
     super(conf, basePAth, fetch);
   }
@@ -56,7 +56,7 @@ export class ArlasTagService implements OnDestroy {
   private onGoingSubscription: Map<string, Subscription> = new Map<string, Subscription>();
 
 
-  constructor(
+  public constructor(
     private collaborativeSearchService: ArlasCollaborativesearchService,
     private configService: ArlasConfigService,
     private snackBar: MatSnackBar
@@ -94,8 +94,7 @@ export class ArlasTagService implements OnDestroy {
     this.postTagData(data, 'untag');
   }
 
-  public createPayload(label: string, path: string, value?: string | number)
-    : { search: any, tag?: any, label?: string, propagation?: any } {
+  public createPayload(label: string, path: string, value?: string | number): { search: any; tag?: any; label?: string; propagation?: any; } {
 
     const filters = new Array<Filter>();
     this.collaborativeSearchService.collaborations.forEach(element => {
@@ -108,9 +107,9 @@ export class ArlasTagService implements OnDestroy {
     });
     const filter = this.collaborativeSearchService.getFinalFilter(filters);
 
-    const data: { search: any, tag?: any, propagation?: any, label?: string } = { search: {} };
+    const data: { search: any; tag?: any; propagation?: any; label?: string; } = { search: {} };
     data.search = { filter: filter };
-    const tag: { path: string, value?: string | number } = { path: '' };
+    const tag: { path: string; value?: string | number; } = { path: '' };
     tag.path = path;
     if (value) {
       tag.value = value;
@@ -122,7 +121,7 @@ export class ArlasTagService implements OnDestroy {
 
   public createPropagationPayload(propagateField?: string, propagateUrl?: string) {
 
-    const propagation: { field: string, filter?: any } = { field: '' };
+    const propagation: { field: string; filter?: any; } = { field: '' };
     propagation.field = propagateField;
     if (propagateUrl) {
       const dataModel = this.collaborativeSearchService.dataModelBuilder(decodeURI(propagateUrl));

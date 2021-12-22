@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { Component, Input, OnInit, ViewChild, ChangeDetectorRef, ElementRef} from '@angular/core';
+import { Component, Input, OnInit, ViewChild, ChangeDetectorRef, ElementRef } from '@angular/core';
 import { HistogramContributor, DetailedHistogramContributor } from 'arlas-web-contributors';
 import { OperationEnum } from 'arlas-web-core';
 import { ArlasCollaborativesearchService, ArlasStartupService } from '../../../services/startup/startup.service';
@@ -65,8 +65,8 @@ export class TimelineComponent implements OnInit {
    * @description Whether the date picker is enabled
    */
   @Input() public activeDatePicker = false;
-  @ViewChild('timeline', {static: false}) public timelineHistogramComponent: HistogramComponent;
-  @ViewChild('detailedtimeline', {static: false}) public detailedTimelineHistogramComponent: HistogramComponent;
+  @ViewChild('timeline', { static: false }) public timelineHistogramComponent: HistogramComponent;
+  @ViewChild('detailedtimeline', { static: false }) public detailedTimelineHistogramComponent: HistogramComponent;
 
   public showDetailedTimeline = false;
   public detailedTimelineContributor: DetailedHistogramContributor;
@@ -81,8 +81,8 @@ export class TimelineComponent implements OnInit {
   public timelineLegend: CollectionLegend[] = [];
   public mainCollection;
 
-  constructor(private arlasCollaborativesearchService: ArlasCollaborativesearchService, private cdr: ChangeDetectorRef,
-    private arlasStartupService: ArlasStartupService,  private arlasOverlayService: ArlasOverlayService,
+  public constructor(private arlasCollaborativesearchService: ArlasCollaborativesearchService, private cdr: ChangeDetectorRef,
+    private arlasStartupService: ArlasStartupService, private arlasOverlayService: ArlasOverlayService,
     private arlasColorService: ArlasColorGeneratorLoader) {
   }
 
@@ -120,7 +120,7 @@ export class TimelineComponent implements OnInit {
         this.timelineData = chartData.filter(cd => {
           const collectionLegend = this.timelineLegend.find(t => t.collection === cd.chartId);
           return !!collectionLegend && collectionLegend.active;
-        } );
+        });
 
       });
 
@@ -133,7 +133,7 @@ export class TimelineComponent implements OnInit {
         this.detailedTimelineData = chartData.filter(cd => {
           const collectionLegend = this.timelineLegend.find(t => t.collection === cd.chartId);
           return !!collectionLegend && collectionLegend.active;
-        } );
+        });
       });
       this.showDetailedTimelineOnCollaborationEnd();
     } else if (this.timelineComponent) {
@@ -162,7 +162,7 @@ export class TimelineComponent implements OnInit {
         this.timelineData = chartData.filter(cd => {
           const collectionLegend = this.timelineLegend.find(t => t.collection === cd.chartId);
           return !!collectionLegend && collectionLegend.active;
-        } );
+        });
       });
     }
   }
@@ -246,7 +246,7 @@ export class TimelineComponent implements OnInit {
       const collectionLegend = this.timelineLegend.find(t => t.collection === cd.chartId);
       return !!collectionLegend && collectionLegend.active;
 
-    } );
+    });
     this.timelineContributor.setSelection(this.timelineData,
       this.arlasCollaborativesearchService.collaborations.get(this.timelineContributor.identifier));
 
@@ -254,16 +254,16 @@ export class TimelineComponent implements OnInit {
       this.detailedTimelineData = this.detailedTimelineContributor.chartData.filter(cd => {
         const collectionLegend = this.timelineLegend.find(t => t.collection === cd.chartId);
         return !!collectionLegend && collectionLegend.active;
-      } );
+      });
       /** hide detailed timeline if there is no data displayed because of hiding collections */
       if (!!this.detailedTimelineData) {
-          if (this.detailedTimelineData.length === 0) {
-              this.showDetailedTimeline = false;
-              this.timelineHistogramComponent.histogram.histogramParams.chartHeight = this.timelineComponent.input.chartHeight;
-              this.timelineHistogramComponent.resizeHistogram();
-          } else {
-              this.hideShowDetailedTimeline();
-          }
+        if (this.detailedTimelineData.length === 0) {
+          this.showDetailedTimeline = false;
+          this.timelineHistogramComponent.histogram.histogramParams.chartHeight = this.timelineComponent.input.chartHeight;
+          this.timelineHistogramComponent.resizeHistogram();
+        } else {
+          this.hideShowDetailedTimeline();
+        }
       }
     }
   }
@@ -286,16 +286,16 @@ export class TimelineComponent implements OnInit {
       if (this.arlasCollaborativesearchService.totalSubscribe === 0 && this.timelineIsFiltered) {
         if (!!this.detailedTimelineContributor && !!this.detailedTimelineData) {
           if (this.detailedTimelineData.length === 0) {
-              this.showDetailedTimeline = false;
-              this.timelineHistogramComponent.histogram.histogramParams.chartHeight = this.timelineComponent.input.chartHeight;
-              this.timelineHistogramComponent.resizeHistogram();
+            this.showDetailedTimeline = false;
+            this.timelineHistogramComponent.histogram.histogramParams.chartHeight = this.timelineComponent.input.chartHeight;
+            this.timelineHistogramComponent.resizeHistogram();
           } else {
-              this.hideShowDetailedTimeline();
+            this.hideShowDetailedTimeline();
           }
-      } else {
-        this.hideShowDetailedTimeline();
+        } else {
+          this.hideShowDetailedTimeline();
 
-      }
+        }
       }
     });
   }
@@ -323,9 +323,9 @@ export class TimelineComponent implements OnInit {
       this.timelineHistogramComponent.histogram.histogramParams.chartHeight = (this.showDetailedTimeline) ?
         45 : this.timelineComponent.input.chartHeight;
       this.timelineHistogramComponent.histogram.histogramParams.yTicks = (this.showDetailedTimeline) ?
-      1 : this.timelineComponent.input.yTicks;
+        1 : this.timelineComponent.input.yTicks;
       this.timelineHistogramComponent.histogram.histogramParams.yLabels = (this.showDetailedTimeline) ?
-      1 : this.timelineComponent.input.yLabels;
+        1 : this.timelineComponent.input.yLabels;
       this.timelineHistogramComponent.histogram.histogramParams.showHorizontalLines = (this.showDetailedTimeline) ?
         false : this.timelineComponent.input.showHorizontalLines;
       this.timelineHistogramComponent.resizeHistogram();

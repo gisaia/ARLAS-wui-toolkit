@@ -68,7 +68,7 @@ export class GetColorFilterPipe implements PipeTransform {
 }
 @Pipe({ name: 'getCollaborationIcon' })
 export class GetCollaborationIconPipe implements PipeTransform {
-  public transform(value: string,  contributorsIcons: Map<string, string>): string {
+  public transform(value: string, contributorsIcons: Map<string, string>): string {
     return contributorsIcons.get(value);
 
   }
@@ -114,7 +114,7 @@ export class FiltersComponent implements OnInit {
    * @description Map of collectionName, collection params. This input allows us to verify if the collection has a centroid path and
    * therefore propose or not the 'Zoom to Data' button
    */
-   @Input() public  collectionToDescription = new Map<string, CollectionReferenceParameters>();
+  @Input() public collectionToDescription = new Map<string, CollectionReferenceParameters>();
 
   /**
    * @Output : Angular
@@ -126,7 +126,7 @@ export class FiltersComponent implements OnInit {
    * @Output : Angular
    * @description This output emits the order of zooming on the extent of the given collection name
    */
-   @Output() public zoomEvent: Subject<string> = new Subject<string>();
+  @Output() public zoomEvent: Subject<string> = new Subject<string>();
 
 
   public collaborations: Set<string> = new Set<string>();
@@ -136,7 +136,7 @@ export class FiltersComponent implements OnInit {
   public NUMBER_FORMAT_CHAR = 'NUMBER_FORMAT_CHAR';
   public collaborationsMap: Map<string, Collaboration>;
 
-  constructor(
+  public constructor(
     private collaborativeSearchService: ArlasCollaborativesearchService,
     private arlasStartupService: ArlasStartupService,
     private configService: ArlasConfigService,

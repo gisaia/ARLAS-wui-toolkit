@@ -24,9 +24,11 @@ import { DataResource, DataWithLinks } from 'arlas-persistence-api';
 
 export class ArlasPersistenceDatabase<T extends ArlasStorageObject> {
   /** Stream that emits whenever the data has been modified. */
-  public dataChange: BehaviorSubject<{ total: number, items: T[] }>
-    = new BehaviorSubject<{ total: number, items: T[] }>({ total: 0, items: [] });
-  get data(): { total: number, items: T[] } { return this.dataChange.value; }
+  public dataChange: BehaviorSubject<{ total: number; items: T[]; }>
+    = new BehaviorSubject<{ total: number; items: T[]; }>({ total: 0, items: [] });
+  public get data(): { total: number; items: T[]; } {
+    return this.dataChange.value;
+  }
   public storageObjectMap: Map<string, T> = new Map<string, T>();
 
 
@@ -34,9 +36,9 @@ export class ArlasPersistenceDatabase<T extends ArlasStorageObject> {
   public persistenceService: PersistenceService;
   public additionalObject: any;
 
-  private page: { size: number, number: number } = { size: 10, number: 1 };
+  private page: { size: number; number: number; } = { size: 10, number: 1 };
 
-  constructor(storageKy: string = 'storage_object', persistenceService: PersistenceService, additionalObject?: any) {
+  public constructor(storageKy: string = 'storage_object', persistenceService: PersistenceService, additionalObject?: any) {
     this.storageKey = storageKy;
     this.persistenceService = persistenceService;
     this.additionalObject = additionalObject;
@@ -90,7 +92,7 @@ export class ArlasPersistenceDatabase<T extends ArlasStorageObject> {
     });
   }
 
-  public setPage(page: { size: number, number: number }) {
+  public setPage(page: { size: number; number: number; }) {
     this.page = page;
   }
 

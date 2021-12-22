@@ -50,7 +50,7 @@ export class ShareComponent {
 
   @Input() public icon = 'share';
 
-  constructor(
+  public constructor(
     public dialog: MatDialog
   ) { }
 
@@ -107,7 +107,7 @@ export class ShareDialogComponent implements OnInit {
   // for now, the ARLAS-server url is fetched from the config in the startup service.
   // we should do the same everywhere, otherwise we will have two sources (settings.yaml (it was env.js) & config.json) to configure
   // the server, and this can lead to incoherences
-  constructor(
+  public constructor(
     @Inject(MAT_DIALOG_DATA) public data: Map<string, boolean>,
     private _formBuilder: FormBuilder,
     private collaborativeService: ArlasCollaborativesearchService,
@@ -175,7 +175,7 @@ export class ShareDialogComponent implements OnInit {
     const server = this.configService.getValue('arlas.server');
     /* STEP 2 */
     if (event.selectedIndex === 1) {
-      const geojsonType: { source: string, id: string } = this.geojsonTypeGroup.get('geojsonType').value;
+      const geojsonType: { source: string; id: string; } = this.geojsonTypeGroup.get('geojsonType').value;
       const layerSource = this.sharableLayers.find(sl => sl.id === geojsonType.id);
       if (layerSource.source.startsWith('feature') && !layerSource.source.startsWith('feature-metric')) {
         this.paramFormGroup.get('precision').disable();
@@ -245,20 +245,22 @@ export class ShareDialogComponent implements OnInit {
         this.request.page.sort = (this.sortDirection === 'desc' ? '-' : '') + this.selectedOrderField.label;
       }
       this.collaborativeService.resolveButNotFeatureCollection([projType.geosearch, this.request],
-        this.collaborativeService.collaborations, this.layerCollectionMap.get(geojsonType.id)).subscribe(f => {
-        this.saveJson(f, (this.translate.instant(geojsonType.id) + '').toLowerCase().replace(/ /g, '_') + '-' + fileDate + '-geojson.json');
-        this.spinner.hide('downloadgeojson');
-      });
+        this.collaborativeService.collaborations, this.layerCollectionMap.get(geojsonType.id))
+        .subscribe(f => {
+          this.saveJson(f, (this.translate.instant(geojsonType.id) + '').toLowerCase().replace(/ /g, '_') + '-' + fileDate + '-geojson.json');
+          this.spinner.hide('downloadgeojson');
+        });
     } else {
       this.request = (this.request as Aggregation);
       if (geojsonType.source.startsWith('cluster')) {
         this.request.interval.value = this.paramFormGroup.get('precision').value;
       }
       this.collaborativeService.resolveButNotFeatureCollection([projType.geoaggregate, [this.request]],
-        this.collaborativeService.collaborations, this.layerCollectionMap.get(geojsonType.id)).subscribe(f => {
-        this.saveJson(f, (this.translate.instant(geojsonType.id) + '').toLowerCase().replace(/ /g, '_') + '-' + fileDate + '-geojson.json');
-        this.spinner.hide('downloadgeojson');
-      });
+        this.collaborativeService.collaborations, this.layerCollectionMap.get(geojsonType.id))
+        .subscribe(f => {
+          this.saveJson(f, (this.translate.instant(geojsonType.id) + '').toLowerCase().replace(/ /g, '_') + '-' + fileDate + '-geojson.json');
+          this.spinner.hide('downloadgeojson');
+        });
     }
   }
 
@@ -281,7 +283,8 @@ export class ShareDialogComponent implements OnInit {
         this.request.page.sort = (this.sortDirection === 'desc' ? '-' : '') + this.selectedOrderField.label;
       }
       this.collaborativeService.resolveButNotShapefile([projType.shapesearch, this.request],
-        this.collaborativeService.collaborations, this.layerCollectionMap.get(geojsonType.id)).subscribe( data => {
+        this.collaborativeService.collaborations, this.layerCollectionMap.get(geojsonType.id))
+        .subscribe(data => {
           const blob = new Blob([data], {
             type: 'application/zip'
           });
@@ -295,7 +298,8 @@ export class ShareDialogComponent implements OnInit {
         this.request.interval.value = this.paramFormGroup.get('precision').value;
       }
       this.collaborativeService.resolveButNotShapefile([projType.shapeaggregate, [this.request]],
-        this.collaborativeService.collaborations, this.layerCollectionMap.get(geojsonType.id)).subscribe( data => {
+        this.collaborativeService.collaborations, this.layerCollectionMap.get(geojsonType.id))
+        .subscribe(data => {
           const blob = new Blob([data], {
             type: 'application/zip'
           });

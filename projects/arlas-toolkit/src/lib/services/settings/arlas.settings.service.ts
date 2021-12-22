@@ -9,7 +9,7 @@ import { PermissionSetting } from '../permission/permission.service';
 export class ArlasSettingsService {
   public settings: ArlasSettings;
 
-  constructor() { }
+  public constructor() { }
 
   public setSettings(settings: ArlasSettings): void {
     this.settings = settings;

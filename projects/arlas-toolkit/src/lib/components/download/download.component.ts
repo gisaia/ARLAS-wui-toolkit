@@ -37,7 +37,7 @@ export class DownloadComponent {
 
   @Input() public icon = 'get_app';
 
-  constructor(
+  public constructor(
     public dialog: MatDialog
   ) { }
 
@@ -78,7 +78,7 @@ export class DownloadDialogComponent implements OnInit {
 
   public arlasHitsExporterVersion = ARLAS_HITS_EXPORTER_VERSION;
 
-  constructor(
+  public constructor(
     private formBuilder: FormBuilder,
     private collaborativeService: ArlasCollaborativesearchService,
     private configService: ArlasConfigService,

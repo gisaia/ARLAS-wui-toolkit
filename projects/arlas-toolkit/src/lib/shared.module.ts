@@ -94,7 +94,7 @@ import { ArlasWalkthroughModule } from './services/walkthrough/walkthrough.modul
 
 export class CustomTranslateLoader implements TranslateLoader {
 
-  constructor(private http: HttpClient) { }
+  public constructor(private http: HttpClient) { }
 
   public getTranslation(lang: string): Observable<any> {
     const apiAddress = 'assets/i18n/' + lang + '.json?' + Date.now();

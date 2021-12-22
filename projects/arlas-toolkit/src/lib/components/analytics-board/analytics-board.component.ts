@@ -76,8 +76,8 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
    * the `origin` which is the contributor id of the Widget; `event` the name of the event; and eventually `data` which contains
    * the emitted data from the component.
    */
-  @Output() public boardOutputs: Subject<{ origin: string, event: string, data?: any }>
-    = new Subject<{ origin: string, event: string, data?: any }>();
+  @Output() public boardOutputs: Subject<{ origin: string; event: string; data?: any; }>
+    = new Subject<{ origin: string; event: string; data?: any; }>();
 
   @Output() public modeChange: Subject<string> = new Subject<string>();
 
@@ -91,14 +91,14 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
 
   public wasClosedMap: Map<string, boolean> = new Map<string, boolean>();
 
-  public groupsByTab: Array<{ index: string, groups: Array<AnalyticGroupConfiguration> }>
-    = new Array<{ index: string, groups: Array<AnalyticGroupConfiguration> }>();
+  public groupsByTab: Array<{ index: string; groups: Array<AnalyticGroupConfiguration>; }>
+    = new Array<{ index: string; groups: Array<AnalyticGroupConfiguration>; }>();
   public groupsTabsKey: Array<string> = new Array<string>();
 
   private defaultGroupTabName = 'analytics';
   private activeIndex;
 
-  constructor(private collaborativeService: ArlasCollaborativesearchService, private configService: ArlasConfigService) {
+  public constructor(private collaborativeService: ArlasCollaborativesearchService, private configService: ArlasConfigService) {
 
   }
 
@@ -225,7 +225,7 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
    * @param event Name of the event
    * @param data Emitted data
    */
-  public listenOutput(event: { origin: string, event: string, data?: any }) {
+  public listenOutput(event: { origin: string; event: string; data?: any; }) {
     this.boardOutputs.next(event);
   }
 

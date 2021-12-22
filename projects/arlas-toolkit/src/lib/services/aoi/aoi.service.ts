@@ -29,7 +29,7 @@ export class ArlasAoiService {
   public dataBase: AoiDatabase;
   public aoiMap: Map<string, Aoi> = new Map<string, Aoi>();
 
-  constructor(private arlasStartupService: ArlasStartupService) {
+  public constructor(private arlasStartupService: ArlasStartupService) {
     if (this.arlasStartupService.shouldRunApp && !this.arlasStartupService.emptyMode) {
       this.dataBase = new AoiDatabase();
       this.aoiMap = this.dataBase.storageObjectMap;
