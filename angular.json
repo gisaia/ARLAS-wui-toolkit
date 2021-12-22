@@ -170,7 +170,8 @@
           "options": {
             "main": "projects/arlas-toolkit/src/test.ts",
             "tsConfig": "projects/arlas-toolkit/tsconfig.spec.json",
-            "karmaConfig": "projects/arlas-toolkit/karma.conf.js"
+            "karmaConfig": "projects/arlas-toolkit/karma.conf.js",
+            "polyfills": "projects/arlas-toolkit/src/polyfills.ts"
           }
         },
         "lint": {
