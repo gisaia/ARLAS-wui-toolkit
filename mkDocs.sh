@@ -4,7 +4,8 @@
 rm -rf target
 mkdir target
 mkdir target/generated-docs
-
+npm install
+npm run build-release
 ## GENERATE THE DOCUMENTATION ##
 docker run -a STDERR --rm -i -v `pwd`:/docs gisaia/typedocgen:0.0.7 generatedoc --entryPoints projects/arlas-toolkit/src/public-api.ts --tsconfig projects/arlas-toolkit/tsconfig.lib.json 
 
