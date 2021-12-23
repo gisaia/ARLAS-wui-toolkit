@@ -19,7 +19,7 @@
 
 import { Injectable, ElementRef, Injector, ComponentRef } from '@angular/core';
 import { Overlay, OverlayConfig, OriginConnectionPosition, OverlayConnectionPosition, OverlayRef } from '@angular/cdk/overlay';
-import { ComponentPortal, PortalInjector } from '@angular/cdk/portal';
+import { ComponentPortal } from '@angular/cdk/portal';
 
 import { HistogramTooltipOverlayComponent } from '../../components/histogram-tooltip-overlay/histogram-tooltip-overlay.component';
 import { ArlasOverlayRef, HISTOGRAM_TOOLTIP_DATA, DONUT_TOOLTIP_DATA } from '../../tools/utils';
@@ -28,14 +28,14 @@ import { ARLASDonutTooltip } from 'arlas-d3';
 import { DonutTooltipOverlayComponent } from '../../components/donut-tooltip-overlay/donut-tooltip-overlay.component';
 
 
-interface HistogramTooltipConfig {
+export interface HistogramTooltipConfig {
   panelClass?: string;
   hasBackdrop?: boolean;
   backdropClass?: string;
   data?: HistogramTooltip;
 }
 
-interface DonutTooltipConfig {
+export interface DonutTooltipConfig {
   panelClass?: string;
   hasBackdrop?: boolean;
   backdropClass?: string;
