@@ -1,7 +1,7 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { PersistenceService, GET_OPTIONS } from './persistence.service';
 import { HttpClientModule } from '@angular/common/http';
-import { OAuthService, OAuthModule, OAuthLogger, UrlHelperService } from 'angular-oauth2-oidc';
+import { OAuthService, OAuthModule, OAuthLogger, UrlHelperService, DateTimeProvider } from 'angular-oauth2-oidc';
 import { AuthentificationService } from '../authentification/authentification.service';
 import { getOptionsFactory } from '../../toolkit.module';
 import { ArlasSettingsService } from '../settings/arlas.settings.service';
@@ -14,6 +14,7 @@ describe('PersistenceService', () => {
       providers: [
         ArlasSettingsService,
         OAuthService,
+        DateTimeProvider,
         OAuthLogger,
         UrlHelperService,
         AuthentificationService,
