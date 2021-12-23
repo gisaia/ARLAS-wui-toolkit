@@ -6,7 +6,7 @@ import { MatDialogModule, MAT_DIALOG_DATA, MatDialogRef } from '@angular/materia
 import { GET_OPTIONS } from '../../services/persistence/persistence.service';
 import { AuthentificationService } from '../../services/authentification/authentification.service';
 import { getOptionsFactory } from '../../toolkit.module';
-import { OAuthService, OAuthModule, OAuthLogger, UrlHelperService } from 'angular-oauth2-oidc';
+import { OAuthService, OAuthModule, OAuthLogger, UrlHelperService, DateTimeProvider } from 'angular-oauth2-oidc';
 import { HttpClientModule } from '@angular/common/http';
 
 describe('ReconnectDialogComponent', () => {
@@ -20,6 +20,7 @@ describe('ReconnectDialogComponent', () => {
         AuthentificationService,
         OAuthService,
         OAuthLogger,
+        DateTimeProvider,
         UrlHelperService,
         {
           provide: MAT_DIALOG_DATA,

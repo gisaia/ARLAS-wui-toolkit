@@ -12,7 +12,7 @@ import { FormsModule } from '@angular/forms';
 import { GET_OPTIONS } from '../../../services/persistence/persistence.service';
 import { AuthentificationService } from '../../../services/authentification/authentification.service';
 import { getOptionsFactory } from '../../../toolkit.module';
-import { OAuthLogger, OAuthService, UrlHelperService } from 'angular-oauth2-oidc';
+import { DateTimeProvider, OAuthLogger, OAuthService, UrlHelperService } from 'angular-oauth2-oidc';
 import { HttpClientModule } from '@angular/common/http';
 import { ShareConfigModule } from '../share-config/share-config.module';
 
@@ -42,6 +42,7 @@ describe('ActionModalComponent', () => {
         AuthentificationService,
         OAuthService,
         OAuthLogger,
+        DateTimeProvider,
         UrlHelperService,
         {
           provide: MAT_DIALOG_DATA,
