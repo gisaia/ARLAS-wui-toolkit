@@ -6,6 +6,7 @@
 /out-tsc
 /target
 /documentation
+/typedoc_docs
 /documentation/*
 documentation/
 documentation/*
