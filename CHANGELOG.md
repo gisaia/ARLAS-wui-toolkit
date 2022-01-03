@@ -1,8 +1,21 @@
 # Change Log
 
+## [v20.0.0-beta.15](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v20.0.0-beta.15) (2022-01-03)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v19.2.0...v20.0.0-beta.15)
+
 ## [v19.2.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v19.2.0) (2021-12-06)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v12.7.6...v19.2.0)
+
+**New stuff:**
+
+- Display the count of all decalred collections in collaborations [\#507](https://github.com/gisaia/ARLAS-wui-toolkit/issues/507)
+- Histogram tooltip : translate 'par' by 'pour' [\#505](https://github.com/gisaia/ARLAS-wui-toolkit/issues/505)
+
+**Fixed bugs:**
+
+- Share layers: the share crashes for dashboards having multi-collections [\#510](https://github.com/gisaia/ARLAS-wui-toolkit/issues/510)
 
 ## [v12.7.6](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v12.7.6) (2021-11-08)
 
