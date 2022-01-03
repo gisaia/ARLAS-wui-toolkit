@@ -1,5 +1,5 @@
 ARLAS-wui-toolkit
-Copyright 2017-2021 and onwards Gisaïa
+Copyright 2017-2022 and onwards Gisaïa
 
 
 ARLAS-wui-toolkit embeds the following components and their dependencies :
@@ -20,6 +20,3 @@ ARLAS-wui-toolkit embeds the following components and their dependencies :
 
 + JSON schema validation
     - ajv                   (The MIT License - https://ajv.js.org/)
-
-+ Test and Build Tools
-    - gulp.js               (The MIT License - https://gulpjs.com/)
