@@ -4,9 +4,10 @@
 rm -rf target
 mkdir target
 mkdir target/generated-docs
-
+npm install
+npm run build-release
 ## GENERATE THE DOCUMENTATION ##
-docker run -a STDERR --rm  -i -v `pwd`:/docs gisaia/typedocgen:0.0.5 generatedoc src
+docker run -a STDERR --rm -i -v `pwd`:/docs gisaia/typedocgen:0.0.7 generatedoc --entryPoints projects/arlas-toolkit/src/public-api.ts --tsconfig projects/arlas-toolkit/tsconfig.lib.json 
 
 ## MOVE ALL THE DOCUMENTATION TO THE 'generated-docs' FOLDER ##
 mv typedoc_docs/* target/generated-docs
@@ -21,7 +22,7 @@ mkdir -p target/generated-docs/schemas/
 ## COPY CONTRIBUTOR SCHEMA
 cp node_modules/arlas-web-contributors/jsonSchemas/* target/generated-docs/schemas/
 ## COPY ARLAS SCHEMA
-cp src/app/services/startup/*.json target/generated-docs/schemas/
+cp projects/arlas-toolkit/src/lib/services/startup/*.json target/generated-docs/schemas/
 ## COPY COMPONENT SCHEMA
 for f in $(find node_modules/arlas-web-components -name '*.schema.json'); do
 cp $f target/generated-docs/schemas/;
@@ -42,7 +43,7 @@ function parseFilePath {
 ## GENERATE ARLAS SCHEMA MD
 echo '# List of json schemas' > target/generated-docs/schemas-doc/schemas.md
 echo '## ARLAS' >> target/generated-docs/schemas-doc/schemas.md
-for filepath in src/app/services/startup/*.json; do
+for filepath in projects/arlas-toolkit/src/lib/services/startup/*.json; do
     parseFilePath ${filepath}
 done
 

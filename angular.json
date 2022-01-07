@@ -1,9 +1,15 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "cli": {
+    "analytics": false,
+    "cache": {
+      "enabled": false
+    }
+  },
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "arlas-wui-toolkit": {
+    "arlas-wui-toolkit-demo": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -32,11 +38,20 @@
             "scripts": []
           },
           "configurations": {
+            "development": {
+              "optimization": false,
+              "outputHashing": "all",
+              "sourceMap": true,
+              "namedChunks": true,
+              "extractLicenses": false,
+              "vendorChunk": true,
+              "buildOptimizer": false,
+              "budgets": []
+            },
             "production": {
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -57,15 +72,19 @@
             "browserTarget": "arlas-wui-toolkit:build"
           },
           "configurations": {
+            "development": {
+              "browserTarget": "arlas-wui-toolkit-demo:build:development"
+            },
             "production": {
-              "browserTarget": "arlas-wui-toolkit:build:production"
+              "browserTarget": "arlas-wui-toolkit-demo:build:production"
             }
-          }
+          },
+          "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "arlas-wui-toolkit:build"
+            "browserTarget": "arlas-wui-toolkit-demo:build"
           }
         },
         "test": {
@@ -93,18 +112,19 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "src/tsconfig.app.json",
-              "src/tsconfig.spec.json"
-            ],
-            "exclude": ["src/**/*.json"]
+            "eslintConfig": ".eslintrc.json",
+            "lintFilePatterns": [
+              "src/**/*.spec.ts",
+              "src/**/*.d.ts",
+              "src/**/*.ts"
+            ]
           }
         }
       }
     },
-    "arlas-wui-toolkit-e2e": {
+    "arlas-wui-toolkit-demo-e2e": {
       "root": "e2e",
       "sourceRoot": "e2e",
       "projectType": "application",
@@ -113,11 +133,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "./protractor.conf.js",
-            "devServerTarget": "arlas-wui-toolkit:serve"
+            "devServerTarget": "arlas-wui-toolkit-demo:serve"
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
             "tsConfig": [
               "e2e/tsconfig.e2e.json"
@@ -126,13 +146,52 @@
           }
         }
       }
+    },
+    "arlas-wui-toolkit": {
+      "projectType": "library",
+      "root": "projects/arlas-toolkit",
+      "sourceRoot": "projects/arlas-toolkit/src",
+      "prefix": "arlas",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "projects/arlas-toolkit/tsconfig.lib.json",
+            "project": "projects/arlas-toolkit/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/arlas-toolkit/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/arlas-toolkit/src/test.ts",
+            "tsConfig": "projects/arlas-toolkit/tsconfig.spec.json",
+            "karmaConfig": "projects/arlas-toolkit/karma.conf.js",
+            "polyfills": "projects/arlas-toolkit/src/polyfills.ts"
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "eslintConfig": ".eslintrc.json",
+            "lintFilePatterns": [
+              "projects/**/*.spec.ts",
+              "projects/**/*.d.ts",
+              "projects/**/*.ts"
+            ]
+          }
+        }
+      }
     }
   },
-  "defaultProject": "arlas-wui-toolkit",
+  "defaultProject": "arlas-wui-toolkit-demo",
   "schematics": {
     "@schematics/angular:component": {
-      "prefix": "arlas-tool",
-      "styleext": "css"
+      "prefix": "arlas-tool"
     },
     "@schematics/angular:directive": {
       "prefix": "arlas-tool"

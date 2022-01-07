@@ -81,12 +81,12 @@ Check the documentation of [components](http://docs.arlas.io/arlas-tech/current/
 ## Build
 
 To build the project you need to have installed
-- [Node](https://nodejs.org/en/) version >= 8.0.0 
-- [npm](https://github.com/npm/npm) version >= 5.2.0
-- [Angular CLI](https://github.com/angular/angular-cli) version 7.0.2
+- [Node](https://nodejs.org/en/) version >= 16.3.0 
+- [npm](https://github.com/npm/npm) version >= 8.3.0
+- [Angular CLI](https://github.com/angular/angular-cli) version 13.1.2
 
 ```
-$ npm install -g @angular/cli@7.0.2
+$ npm install -g @angular/cli@13.1.2
 ```
 
 Then, clone the project
@@ -107,13 +107,13 @@ Install all the project's dependencies
 $ npm install
 ```
 
-Build the project with `ngc` and `gulp` :
+Build the project with `ng` :
 
 ```shell
 $ npm run build-release
 ```
 
-The build artifacts will be generated in the `dist/` directory. 
+The build library will be generated in the `dist/arlas-wui-toolkit` directory. 
 
 ## Versioning
 We use our own `x.y.z` versioning schema, where :

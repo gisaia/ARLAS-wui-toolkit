@@ -6,11 +6,13 @@
 /out-tsc
 /target
 /documentation
+/typedoc_docs
 /documentation/*
 documentation/
 documentation/*
 # dependencies
 /node_modules
+.angular
 
 # IDEs and editors
 /.idea

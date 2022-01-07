@@ -1,0 +1,631 @@
+{
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "title": "Arlas WUI application Configuration",
+    "description": "The Configuration of an arlas web application",
+    "type": "object",
+    "$id": "arlasconfig.schema.json",
+    "properties": {
+        "arlas": {
+            "description": "Configuration of ARLAS Wui Project",
+            "type": "object",
+            "properties": {
+                "web": {
+                    "description": "Configuration of ARLAS Web Front End",
+                    "type": "object",
+                    "properties": {
+                        "contributors": {
+                            "description": "Configuration of each arlas contributors",
+                            "type": "array",
+                            "uniqueItemProperties": [
+                                "identifier"
+                            ],
+                            "items": {
+                                "allOf": [
+                                    {
+                                        "type":"object",
+                                        "properties": {
+                                            "type": {
+                                                "enum": [
+                                                    "analytics",
+                                                    "chipssearch",
+                                                    "detailedhistogram",
+                                                    "histogram",
+                                                    "map",
+                                                    "resultlist",
+                                                    "swimlane",
+                                                    "tree",
+                                                    "metric"
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "if": {
+                                            "type":"object",
+                                            "properties": {
+                                                "type": {
+                                                    "const": "analytics"
+                                                }
+                                            }
+                                        },
+                                        "then": {
+                                            "$ref": "analyticsContributorConf.schema.json#"
+                                        }
+                                    },
+                                    {
+                                        "if": {
+                                            "type":"object",
+                                            "properties": {
+                                                "type": {
+                                                    "const": "chipssearch"
+                                                }
+                                            }
+                                        },
+                                        "then": {
+                                            "$ref": "chipssearchContributorConf.schema.json#"
+                                        }
+                                    },
+                                    {
+                                        "if": {
+                                            "type":"object",
+                                            "properties": {
+                                                "type": {
+                                                    "const": "detailedHistogram"
+                                                }
+                                            }
+                                        },
+                                        "then": {
+                                            "$ref": "detailedHistogramContributorConf.schema.json#"
+                                        }
+                                    },
+                                    {
+                                        "if": {
+                                            "type":"object",
+                                            "properties": {
+                                                "type": {
+                                                    "const": "histogram"
+                                                }
+                                            }
+                                        },
+                                        "then": {
+                                            "$ref": "histogramContributorConf.schema.json#"
+                                        }
+                                    },
+                                    {
+                                        "if": {
+                                            "type":"object",
+                                            "properties": {
+                                                "type": {
+                                                    "const": "map"
+                                                }
+                                            }
+                                        },
+                                        "then": {
+                                            "$ref": "mapContributorConf.schema.json#"
+                                        }
+                                    },
+                                    {
+                                        "if": {
+                                            "type":"object",
+                                            "properties": {
+                                                "type": {
+                                                    "const": "resultlist"
+                                                }
+                                            }
+                                        },
+                                        "then": {
+                                            "$ref": "resultlistContributorConf.schema.json#"
+                                        }
+                                    },
+                                    {
+                                        "if": {
+                                            "type":"object",
+                                            "properties": {
+                                                "type": {
+                                                    "const": "swimlane"
+                                                }
+                                            }
+                                        },
+                                        "then": {
+                                            "$ref": "swimlaneContributorConf.schema.json#"
+                                        }
+                                    },
+                                    {
+                                        "if": {
+                                            "type":"object",
+                                            "properties": {
+                                                "type": {
+                                                    "const": "tree"
+                                                }
+                                            }
+                                        },
+                                        "then": {
+                                            "$ref": "treeContributorConf.schema.json#"
+                                        }
+                                    },
+                                    {
+                                        "if": {
+                                            "type":"object",
+                                            "properties": {
+                                                "type": {
+                                                    "const": "metric"
+                                                }
+                                            }
+                                        },
+                                        "then": {
+                                            "$ref": "computeContributorConf.schema.json#"
+                                        }
+                                    }
+                                ]
+                            },
+                            "additionalProperties": false
+                        },
+                        "analytics": {
+                            "description": "Configuration of an Analytics Panel",
+                            "type": "array",
+                            "items": {
+                                "description": "Analytic components organisation configuration",
+                                "type": "object",
+                                "properties": {
+                                    "groupId": {
+                                        "description": "Id of group to regroup component in same line",
+                                        "type": "string"
+                                    },
+                                    "filterValues": {
+                                        "description": "Values used to filter the display of group",
+                                        "type": "array",
+                                        "items": {
+                                            "description": "Value used to filter the display of group",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "components": {
+                                        "description": "List of components in group",
+                                        "type": "array",
+                                        "items": {
+                                            "description": "Component configuration",
+                                            "type": "object",
+                                            "properties": {
+                                                "contributorId": {
+                                                    "description": "Identifer of contributor link to this component",
+                                                    "type": "string"
+                                                },
+                                                "componentType": {
+                                                    "description": "Type of component",
+                                                    "enum": [
+                                                        "histogram",
+                                                        "powerbars",
+                                                        "swimlane",
+                                                        "resultlist",
+                                                        "donut",
+                                                        "metric"
+                                                    ]
+                                                },
+                                                "title": {
+                                                    "description": "Title of the component",
+                                                    "type": "string"
+                                                },
+                                                "icon": {
+                                                    "description": "icon of the component, from material design icon",
+                                                    "type": "string"
+                                                },
+                                                "customizedCssClass": {
+                                                    "description": "css class name to be applied on the component container",
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": [
+                                                "contributorId",
+                                                "componentType",
+                                                "input"
+                                            ],
+                                            "anyOf": [
+                                                {
+                                                    "properties": {
+                                                        "componentType": {
+                                                            "enum": [
+                                                                "histogram"
+                                                            ]
+                                                        },
+                                                        "input": {
+                                                            "description": "Input of histogram component.",
+                                                            "allOf": [
+                                                                {
+                                                                    "$ref": "histogram.schema.json#"
+                                                                }
+                                                            ]
+                                                        }
+                                                    }
+                                                },
+                                                {
+                                                    "properties": {
+                                                        "componentType": {
+                                                            "enum": [
+                                                                "resultlist"
+                                                            ]
+                                                        },
+                                                        "input": {
+                                                            "description": "Input of resultlist component.",
+                                                            "type": "object"
+                                                        }
+                                                    }
+                                                },
+                                                {
+                                                    "properties": {
+                                                        "componentType": {
+                                                            "enum": [
+                                                                "powerbars"
+                                                            ]
+                                                        },
+                                                        "input": {
+                                                            "description": "Input of powerbars component.",
+                                                            "allOf": [
+                                                                {
+                                                                    "$ref": "powerbars.schema.json#"
+                                                                }
+                                                            ]
+                                                        }
+                                                    }
+                                                },
+                                                {
+                                                    "properties": {
+                                                        "componentType": {
+                                                            "enum": [
+                                                                "donut"
+                                                            ]
+                                                        },
+                                                        "input": {
+                                                            "description": "Input of donut component.",
+                                                            "allOf": [
+                                                                {
+                                                                    "$ref": "donut.schema.json#"
+                                                                }
+                                                            ]
+                                                        }
+                                                    }
+                                                },
+                                                {
+                                                    "properties": {
+                                                        "componentType": {
+                                                            "enum": [
+                                                                "swimlane"
+                                                            ]
+                                                        },
+                                                        "input": {
+                                                            "description": "Input of swimlane component.",
+                                                            "allOf": [
+                                                                {
+                                                                    "$ref": "swimlane.schema.json#"
+                                                                }
+                                                            ]
+                                                        }
+                                                    }
+                                                },
+                                                {
+                                                    "properties": {
+                                                        "componentType": {
+                                                            "enum": [
+                                                                "metric"
+                                                            ]
+                                                        },
+                                                        "input": {
+                                                            "description": "Input of metric component.",
+                                                            "allOf": [
+                                                                {
+                                                                    "$ref": "metric.schema.json#"
+                                                                }
+                                                            ]
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "title": {
+                                        "description": "Title of panel group",
+                                        "type": "string"
+                                    },
+                                    "icon": {
+                                        "description": "Icon of panel group, from material design icon",
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "groupId",
+                                    "components"
+                                ]
+                            }
+                        },
+                        "components": {
+                            "description": "Configuration of arlas components",
+                            "type": "object",
+                            "patternProperties": {
+                                "^(share)$": {
+                                    "patternProperties": {
+                                        "^(geojson)$": {
+                                            "description": "Configuration of arlas share component",
+                                            "type": "object",
+                                            "properties": {
+                                                "max_for_feature": {
+                                                    "description": "Max number of elements returned by arlas-server in feature mode",
+                                                    "type": "number"
+                                                },
+                                                "max_for_topology": {
+                                                    "description": "Max number of elements returned by arlas-server in topology mode",
+                                                    "type": "number"
+                                                },
+                                                "sort_excluded_type": {
+                                                    "description": "List of excluded field's types in sort option",
+                                                    "type": "array"
+                                                }
+                                            },
+                                            "required": [
+                                                "max_for_feature",
+                                                "sort_excluded_type"
+                                            ]
+                                        }
+                                    }
+                                },
+                                "download": {
+                                  "description": "Download component configuration",
+                                  "type": "object",
+                                  "properties": {
+                                      "auth_type": {
+                                          "description": "Authentication/Authorization type to ARLAS-server",
+                                          "type": "string",
+                                          "enum": [
+                                            "basic"
+                                          ]
+                                      }
+                                  }
+                                },
+                                "^(mapgl)$": {
+                                    "description": "Mapgl component configuration",
+                                    "type": "object",
+                                    "properties": {
+                                        "input": {
+                                            "description": "Mapgl component inputs",
+                                            "type": "object",
+                                            "allOf": [
+                                                {
+                                                    "$ref": "mapgl.schema.json#"
+                                                }
+                                            ]
+                                        },
+                                        "allowMapExtend": {
+                                            "description": "Whether to allow writing the map extend in the url. If so the map moves to that extend at the initial load.",
+                                            "type": "boolean"
+                                        },
+                                        "mapExtendTimer": {
+                                            "description": "Laps of time, after map moveend, to be considered before changing the map extend in the url.",
+                                            "type": "number"
+                                        }
+                                    },
+                                    "required": [
+                                        "input"
+                                    ]
+                                },
+                                "timeline": {
+                                    "description": "Timeline component configuration",
+                                    "type": "object",
+                                    "properties": {
+                                        "contributorId": {
+                                            "description": "Identifier of the timeline contributor",
+                                            "type": "string"
+                                        },
+                                        "input": {
+                                            "description": "Histogram component inputs for timeline",
+                                            "type": "object",
+                                            "allOf": [
+                                                {
+                                                    "$ref": "histogram.schema.json#"
+                                                }
+                                            ]
+                                        },
+                                        "dateFormat": {
+                                            "description": "Format of the date.",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "contributorId",
+                                        "input"
+                                    ]
+                                },
+                                "detailedTimeline": {
+                                    "description": "Detailed timeline component configuration",
+                                    "type": "object",
+                                    "properties": {
+                                        "contributorId": {
+                                            "description": "Identifier of the detailed timeline contributor. It should be a detailedhistogram contributor.",
+                                            "type": "string"
+                                        },
+                                        "input": {
+                                            "description": "Histogram component inputs for detailed timeline",
+                                            "type": "object",
+                                            "allOf": [
+                                                {
+                                                    "$ref": "histogram.schema.json#"
+                                                }
+                                            ]
+                                        },
+                                        "dateFormat": {
+                                            "description": "Format of the date.",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "contributorId",
+                                        "input"
+                                    ]
+                                }
+                            }
+                        },
+                        "colorGenerator": {
+                            "description": "",
+                            "type": "object",
+                            "properties": {
+                                "keysToColors": {
+                                    "description": "List of [key, color] couples that associates a hex color to each key",
+                                    "type": "array",
+                                    "items": {
+                                        "type": "array",
+                                        "minItems": 2,
+                                        "maxItems": 2,
+                                        "items": [
+                                            {
+                                                "description": "Key to which a color is associated",
+                                                "type": "string"
+                                            },
+                                            {
+                                                "description": "Hex color associated to the key",
+                                                "type": "string"
+                                            }
+                                        ]
+                                    }
+                                },
+                                "colorsSaturationWeight": {
+                                    "description": "Knowing that saturation scale is [0, 1], `colorsSaturationWeight` is a factor (between 0 and 1) that tightens this scale to [(1-colorsSaturationWeight), 1]. Therefore saturation of generated colors will be within this tightened scale.",
+                                    "type": "number"
+                                },
+                                "colorAggregations": {
+                                    "description": "List of aggregation, order matters",
+                                    "type": "array",
+                                    "items": {
+                                        "type": "array",
+                                        "minItems": 2,
+                                        "maxItems": 2,
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "type": {
+                                                    "description": "Type of aggregation",
+                                                    "enum": [
+                                                        "datehistogram",
+                                                        "geohash",
+                                                        "histogram",
+                                                        "term"
+                                                    ]
+                                                },
+                                                "field": {
+                                                    "description": "Field of aggregation",
+                                                    "type": "string"
+                                                },
+                                                "interval": {
+                                                    "description": "Interval of aggregation",
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "value": {
+                                                            "description": "Value of interval",
+                                                            "type": "integer"
+                                                        },
+                                                        "unit": {
+                                                            "description": "Unit of interval",
+                                                            "enum": [
+                                                                "year",
+                                                                "quarter",
+                                                                "month",
+                                                                "week",
+                                                                "day",
+                                                                "hour",
+                                                                "minute",
+                                                                "second"
+                                                            ]
+                                                        }
+                                                    }
+                                                },
+                                                "fetchGeometry": {
+                                                    "description": "How to retrieve geometry for term and geohash aggregation",
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "strategy:": {
+                                                            "description": "Strategy to fetch geometry",
+                                                            "enum": [
+                                                                "bbox",
+                                                                "centroid",
+                                                                "first",
+                                                                "last",
+                                                                "byDefault",
+                                                                "geohash"
+                                                            ]
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "options": {
+                            "description": "List of global options of an arlas app",
+                            "type": "object",
+                            "properties": {
+                                "drag_items": {
+                                    "description": "Whether drag and drop of widgets analitycs is enabled.",
+                                    "type": "boolean"
+                                }
+                            }
+                        }
+                    },
+                    "required": [
+                        "contributors"
+                    ]
+                },
+                "server": {
+                    "description": "Configuration of ARLAS-server",
+                    "type": "object",
+                    "properties": {
+                        "url": {
+                            "description": "URL of ARLAS-server",
+                            "type": "string"
+                        },
+                        "collection": {
+                            "description": "Configuration of ARLAS Collection",
+                            "type": "object",
+                            "properties": {
+                                "name": {
+                                    "description": "Name of ARLAS Collection",
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "name"
+                            ]
+                        },
+                        "max_age_cache": {
+                            "description": "During of cache",
+                            "type": "integer"
+                        }
+                    },
+                    "required": [
+                        "url",
+                        "collection"
+                    ]
+                },
+                "tagger": {
+                    "description": "Configuration of ARLAS-tagger",
+                    "type": "object",
+                    "properties": {
+                        "url": {
+                            "description": "URL of ARLAS-tagger",
+                            "type": "string"
+                        },
+                        "collection": {
+                          "description": "Name of ARLAS Collection",
+                          "type": "string"
+                        }
+
+                    }
+                }
+            },
+            "required": [
+                "web",
+                "server"
+            ]
+        }
+    },
+    "required": [
+        "arlas"
+    ]
+}
