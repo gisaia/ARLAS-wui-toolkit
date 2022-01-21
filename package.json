@@ -83,7 +83,6 @@
     "patch-package": "^6.4.7",
     "protractor": "~7.0.0",
     "puppeteer": "^1.13.0",
-    "run-parallel": "1.1.10",
     "run-sequence": "^2.0.0",
     "ts-node": "~10.4.0",
     "typescript": "~4.4.3"
