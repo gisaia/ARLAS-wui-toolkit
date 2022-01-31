@@ -36,7 +36,7 @@ export class AppComponent implements OnInit {
   public analyticsOpen = false;
   public target: string;
 
-  constructor(
+  public constructor(
     private arlasStartupService: ArlasStartupService,
     private collaborativeService: ArlasCollaborativesearchService,
   ) {
