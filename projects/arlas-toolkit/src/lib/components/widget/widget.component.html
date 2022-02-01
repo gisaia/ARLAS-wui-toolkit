@@ -28,7 +28,7 @@
 </div>
 
 <div *ngIf="componentType==='powerbars'">
-  <button *ngIf="showExportCsv" id="export-csv" matTooltip="{{'Export' | translate }}" class="export-csv-button" (click)="exportCsv(contributor,true,componentType)">
+  <button *ngIf="showExportCsv" id="export-csv" matTooltip="{{'Export' | translate }}" class="export-csv-button" [class.export-csv-button-powerbars]="graphParam?.displayFilter" (click)="exportCsv(contributor,true,componentType)">
     <mat-icon class="analytics-board-panel-icon export-csv">get_app</mat-icon>
   </button>
   <arlas-powerbars [customizedCssClass]="graphParam?.customizedCssClass" [powerbarTitle]="graphParam?.powerbarTitle" [displayFilterField]="graphParam?.displayFilter"
