@@ -329,7 +329,15 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
 
   public cancelGroupContribution(group: AnalyticGroupConfiguration) {
     this.wasClosedMap.set(group.groupId, true);
+    // Get all contributors ID from the current active tab
+    const currentIndex = !!this.activeIndex ? this.activeIndex : 0;
+    const currentTabContributorsId = [];
+    this.groupsByTab[currentIndex].groups.forEach(group => {
+      group.components.forEach(c => currentTabContributorsId.push(c.contributorId));
+    });
     group.components
+      // Disable only contributors not present in the current tab
+      .filter(c => !currentTabContributorsId.includes(c.contributorId))
       .map(componentConfig => componentConfig.contributorId)
       .map(contribId => this.collaborativeService.registry.get(contribId))
       .map(contributor => contributor.updateData = false);
