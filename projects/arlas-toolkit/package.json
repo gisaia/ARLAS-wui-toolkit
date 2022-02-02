@@ -30,7 +30,7 @@
     "zone.js": "^0.11.4"
   },
   "dependencies": {
-    "@gisaia-team/ng-pick-datetime": "9.0.0-beta.3",
+    "@gisaia-team/ng-pick-datetime": "9.0.0",
     "@types/d3-shape": "^1.2.4",
     "ajv": "8.8.2",
     "ajv-keywords": "5.1.0",
