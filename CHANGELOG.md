@@ -1,5 +1,13 @@
 # Change Log
 
+## [v20.0.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v20.0.0) (2022-02-02)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v20.0.0-rc.2...v20.0.0)
+
+**Fixed bugs:**
+
+- run-parallel is fixed to 1.1.10 to avoid CI crushing [\#422](https://github.com/gisaia/ARLAS-wui-toolkit/issues/422)
+
 ## [v20.0.0-rc.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v20.0.0-rc.2) (2022-01-07)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v20.0.0-rc.1...v20.0.0-rc.2)
