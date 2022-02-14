@@ -27,6 +27,8 @@ import {
 } from './services/startup/startup.service';
 
 import { CONFIG_ID_QUERY_PARAM } from './tools/utils';
+import { TreeContributor } from 'arlas-web-contributors';
+import { Filter } from 'arlas-api';
 @Component({
   selector: 'arlas-tool-root',
   templateUrl: './toolkit.component.html',
@@ -59,8 +61,8 @@ export class ToolkitComponent implements AfterViewInit, OnInit {
         if (this.activatedRoute.snapshot.queryParams[CONFIG_ID_QUERY_PARAM]) {
           queryParams[CONFIG_ID_QUERY_PARAM] = this.activatedRoute.snapshot.queryParams[CONFIG_ID_QUERY_PARAM];
         }
+        this.router.navigate(['.'], { queryParams: queryParams });
         if (collaborationEvent.id !== 'url') {
-          this.router.navigate(['.'], { queryParams: queryParams });
         }
       });
     }
@@ -74,7 +76,7 @@ export class ToolkitComponent implements AfterViewInit, OnInit {
         let dataModel = {};
         x.url.split('&').forEach(param => {
           if (param.split('filter=')[1]) {
-            dataModel = this.collaborativeService.dataModelBuilder(decodeURI(param.split('filter=')[1]));
+            dataModel = this.collaborativeService.dataModelBuilder(decodeURI(param.split('filter=')[1]), true);
           }
         });
         this.collaborativeService.setCollaborations(dataModel);
@@ -101,7 +103,7 @@ export class ToolkitComponent implements AfterViewInit, OnInit {
               this.collaborativeService.setCollaborations({});
             } else {
               if (params[1]['filter']) {
-                const dataModel = this.collaborativeService.dataModelBuilder(params[1]['filter']);
+                const dataModel = this.collaborativeService.dataModelBuilder(params[1]['filter'], true);
                 this.collaborativeService.setCollaborations(dataModel);
               } else {
                 this.collaborativeService.setCollaborations({});
@@ -116,4 +118,5 @@ export class ToolkitComponent implements AfterViewInit, OnInit {
     this.target = 'analytics-panel-' + event;
     this.analyticsOpen = true;
   }
+
 }

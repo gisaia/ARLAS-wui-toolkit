@@ -127,7 +127,7 @@ export class ArlasTagService implements OnDestroy {
       const dataModel = this.collaborativeSearchService.dataModelBuilder(decodeURI(propagateUrl));
       const filters = new Array<Filter>();
 
-      Object.values(dataModel).forEach(element => {
+      Object.values(dataModel).forEach((element: any) => {
         filters.push(element.filter);
       });
       propagation.filter = this.collaborativeSearchService.getFinalFilter(filters);
