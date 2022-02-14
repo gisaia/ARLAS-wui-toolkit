@@ -32,9 +32,12 @@
     <mat-icon class="analytics-board-panel-icon export-csv">get_app</mat-icon>
   </button>
   <arlas-powerbars [customizedCssClass]="graphParam?.customizedCssClass" [powerbarTitle]="graphParam?.powerbarTitle" [displayFilterField]="graphParam?.displayFilter"
-    [inputData]="contributor?.treeData" [unit]="graphParam?.unit" [useColorService]="graphParam?.useColorService" [useColorFromData]="graphParam?.useColorFromData" [keysToColors]="graphParam?.keysToColors"
+    [inputData]="contributor?.treeData" [unit]="graphParam?.unit"
+    [filterOperator]="graphParam?.filterOperator" [useColorService]="graphParam?.useColorService" [useColorFromData]="graphParam?.useColorFromData" [keysToColors]="graphParam?.keysToColors"
     [colorsSaturationWeight]="graphParam?.colorsSaturationWeight" (selectedPowerBarEvent)="contributor?.selectedNodesListChanged($event)" [scrollable]="graphParam?.scrollable"
-    [selectedPaths]="contributor?.selectedNodesPathsList" (searchedTerm)="contributor?.updateTreeDataSearch($event)" [chartWidth]="graphParam?.chartWidth">
+    [selectedPaths]="contributor?.selectedNodesPathsList" (searchedTerm)="contributor?.updateTreeDataSearch($event)" 
+    (filterOperatorEvent)="changePowerbarsOperator($event)"
+    [chartWidth]="graphParam?.chartWidth">
   </arlas-powerbars>
 </div>
 
