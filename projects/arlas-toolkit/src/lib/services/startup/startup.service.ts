@@ -23,7 +23,7 @@ import { Inject, Injectable, InjectionToken, Injector } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
 import * as draftSchema from 'ajv/lib/refs/json-schema-draft-06.json';
-import { CollectionReferenceDescription, CollectionReferenceParameters, CollectionsApi, Configuration, ExploreApi } from 'arlas-api';
+import { CollectionReferenceDescription, CollectionReferenceParameters, CollectionsApi, Configuration, ExploreApi, Filter } from 'arlas-api';
 import { DataWithLinks } from 'arlas-persistence-api';
 import { DonutComponent, HistogramComponent, MapglComponent, MetricComponent, PowerbarsComponent } from 'arlas-web-components';
 import {
@@ -84,6 +84,40 @@ export class ArlasCollectionApi extends CollectionsApi {
 export class ArlasCollaborativesearchService extends CollaborativesearchService {
   public constructor() {
     super();
+  }
+
+  public dataModelBuilder(filter, changeOperator = false) {
+    const dataModel = JSON.parse(filter);
+    const defaultCollection = this.defaultCollection;
+    const registry = this.registry;
+    /** transform "filters" object to Map */
+    Object.keys(dataModel).forEach(key => {
+      const collab = dataModel['' + key];
+      const contributor = registry.get(key);
+      if (!!collab && !!collab.filters) {
+        collab.filters = new Map(Object.entries(collab.filters));
+      } else if (!!collab && !collab.filters && !!collab.filter) {
+        /** retrocompatibility code to transform an pre-18 collaboration structure to 18 one */
+        collab.filters = new Map();
+        collab.filters.set(defaultCollection, [Object.assign({}, collab.filter)]);
+        delete collab.filter;
+      }
+      if (contributor && contributor instanceof TreeContributor && changeOperator) {
+        collab.filters.forEach((filters: any[], collection: string) => {
+          const exp = filters[0].f[0][0];
+          const op = exp.op;
+          if (op !== contributor.getFilterOperator()) {
+            if (contributor.allowOperatorChange) {
+              contributor.setFilterOperator(op, true);
+            } else {
+              delete dataModel['' + key];
+              this.collaborations.delete(key);
+            }
+          }
+        });
+      }
+    });
+    return dataModel;
   }
 }
 
