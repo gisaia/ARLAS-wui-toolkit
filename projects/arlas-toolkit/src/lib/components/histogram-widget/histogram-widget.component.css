@@ -2,7 +2,7 @@
   background-color: transparent;
   border: none;
   position: absolute;
-  left: 0;
+  right: -3px;
   cursor: pointer;
   z-index: 2;
   padding: 0;
@@ -14,7 +14,6 @@
     width: 20px;
     height: 20px;
 }
-
 
 .detailed-histogram {
   visibility: hidden;
