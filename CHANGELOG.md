@@ -1,5 +1,9 @@
 # Change Log
 
+## [v20.1.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v20.1.0) (2022-02-21)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v20.1.0-beta.4...v20.1.0)
+
 ## [v20.1.0-beta.4](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v20.1.0-beta.4) (2022-02-17)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v20.1.0-beta.3...v20.1.0-beta.4)
