@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  push:
+
+  pull_request:
+    branches: [develop]
+
+jobs:
+  build:
+    name: Lint, Build, Test & Documentation
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Use Node 16
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16
+
+      - name: Cache node modules
+        id: cache-nodemodules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          # caching node_modules
+          path: node_modules
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - name: Install dependencies
+        run: npm ci
+      - name: Lint
+        run: npm run lint
+      - name: Build
+        run: npm run build-release
+      - name: Test
+        run: npm run test
+      - name: Documentation
+        run: ./mkDocs.sh
