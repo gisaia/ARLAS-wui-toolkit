@@ -77,7 +77,7 @@ export class ArlasBookmarkService {
 
     if (selectedItem) {
       const url = this.getUrlFomSetIds(selectedItem);
-      const dataModel = this.collaborativesearchService.dataModelBuilder(decodeURI(url));
+      const dataModel = this.collaborativesearchService.dataModelBuilder(decodeURI(url), true);
       const color = '#' + getKeyForColor(dataModel);
       const bookmarkFromItem = this.dataBase.createBookmark(newBookMarkName, newBookMarkName, url, BookMarkType.enumIds, color);
       this.dataBase.add(bookmarkFromItem);
@@ -88,7 +88,7 @@ export class ArlasBookmarkService {
         filter = filter + '-' + this.collaborativesearchService.registry.get(v).getFilterDisplayName();
       });
       const url = this.collaborativesearchService.urlBuilder().split('filter=')[1];
-      const dataModel = this.collaborativesearchService.dataModelBuilder(decodeURI(url));
+      const dataModel = this.collaborativesearchService.dataModelBuilder(decodeURI(url), true);
       const color = '#' + getKeyForColor(dataModel);
       let type: BookMarkType;
       if (!this.isTemporalFilter(dataModel)) {
@@ -139,7 +139,7 @@ export class ArlasBookmarkService {
 
   public viewBookMark(id: string) {
     const bookmark = this.getBookmarkById(id);
-    const dataModel = this.collaborativesearchService.dataModelBuilder(decodeURI(bookmark.url));
+    const dataModel = this.collaborativesearchService.dataModelBuilder(decodeURI(bookmark.url), true);
     this.viewFromDataModel(dataModel);
     this.dataBase.incrementBookmarkView(bookmark.id);
     this.openSnackBar(bookmark.name + ' loading');
@@ -168,10 +168,10 @@ export class ArlasBookmarkService {
     });
     let dataModel;
     if (this.bookMarkMap.get(Array.from(selectedBookmark)[0]).type === BookMarkType.enumIds) {
-      const url = this.getUrlFomSetIds(this.combineBookmarkFromIds(selectedBookmark));
-      dataModel = this.collaborativesearchService.dataModelBuilder(decodeURI(url));
+      const url = this.getUrlFomSetIds(this.combineBookmarkFromIds(selectedBookmark, true));
+      dataModel = this.collaborativesearchService.dataModelBuilder(decodeURI(url), true);
     } else {
-      dataModel = this.combineBookmarkFromFilter(selectedBookmark);
+      dataModel = this.combineBookmarkFromFilter(selectedBookmark, true);
     }
     this.viewFromDataModel(dataModel);
   }
@@ -212,11 +212,11 @@ export class ArlasBookmarkService {
     this.router.navigate(['.'], { queryParams: queryParams });
   }
 
-  private combineBookmarkFromIds(selectedBookmark: Set<string>): Set<string> {
+  private combineBookmarkFromIds(selectedBookmark: Set<string>, changeOperator = false): Set<string> {
     const ids = [];
     selectedBookmark.forEach(id => {
       const bookmark: BookMark = this.bookMarkMap.get(id);
-      const dataModel = this.collaborativesearchService.dataModelBuilder(bookmark.url.replace('filter=', ''));
+      const dataModel = this.collaborativesearchService.dataModelBuilder(bookmark.url.replace('filter=', ''), changeOperator);
       /** selectorById is the identifier of a resultlist contributor named 'resultlist' */
       const resultListContributor = dataModel[this.selectorById];
       if (!!resultListContributor && !!resultListContributor.filters) {
@@ -234,11 +234,11 @@ export class ArlasBookmarkService {
   }
 
 
-  private combineBookmarkFromFilter(selectedBookmark: Set<string>): Object {
+  private combineBookmarkFromFilter(selectedBookmark: Set<string>, changeOperator = false): Object {
     const dataModel = {};
     selectedBookmark.forEach(id => {
       const bookmark: BookMark = this.bookMarkMap.get(id);
-      const bookMarkDataModel = this.collaborativesearchService.dataModelBuilder(bookmark.url.replace('filter=', ''));
+      const bookMarkDataModel = this.collaborativesearchService.dataModelBuilder(bookmark.url.replace('filter=', ''), changeOperator);
       if (Object.keys(dataModel).length === 0) {
         Object.keys(bookMarkDataModel).forEach(k => {
           dataModel[k] = bookMarkDataModel[k];

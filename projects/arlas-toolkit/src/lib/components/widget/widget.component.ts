@@ -28,6 +28,8 @@ import { ArlasExportCsvService } from '../../services/export-csv/export-csv.serv
 import { SpinnerOptions, ArlasOverlayRef } from '../../tools/utils';
 import { ARLASDonutTooltip } from 'arlas-d3';
 import { ArlasOverlayService } from '../../services/overlays/overlay.service';
+import { TreeContributor } from 'arlas-web-contributors';
+import { Expression } from 'arlas-api';
 
 /**
  * A Widget wraps a component from ARLAS-web-components and bind it to its contributor. The component has thus input data to plot.
@@ -150,6 +152,29 @@ export class WidgetComponent implements OnInit {
       }
     }
     this.setComponentInput(this.graphParam);
+    if (this.contributor instanceof TreeContributor) {
+      this.contributor.operatorChangedEvent.subscribe(op => {
+        if (op === Expression.OpEnum.Ne) {
+          if (!!this.graphParam.filterOperator) {
+            this.graphParam.filterOperator.value = 'Neq';
+          } else {
+            this.graphParam.filterOperator = {
+              value: 'Neq',
+              display: true
+            };
+          }
+        } else {
+          if (!!this.graphParam.filterOperator) {
+            this.graphParam.filterOperator.value = 'Eq';
+          } else {
+            this.graphParam.filterOperator = {
+              value: 'Eq',
+              display: true
+            };
+          }
+        }
+      });
+    }
   }
 
   /**
@@ -197,6 +222,16 @@ export class WidgetComponent implements OnInit {
       a.click();
       document.body.removeChild(a);
     });
+  }
+
+
+  public changePowerbarsOperator(op: 'Neq' | 'Eq'): void {
+    if (op === 'Neq') {
+      (this.contributor as TreeContributor).setFilterOperator(Expression.OpEnum.Ne);
+    } else {
+      (this.contributor as TreeContributor).setFilterOperator(Expression.OpEnum.Eq);
+    }
+    (this.contributor as TreeContributor).selectedNodesListChanged((this.contributor as TreeContributor).selectedNodesPathsList);
   }
 
 
