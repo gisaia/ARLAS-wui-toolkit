@@ -45,7 +45,7 @@ export { Extend } from './lib/services/extend/model';
 export { ExtendLocalDatabase } from './lib/services/extend/extendLocalDatabase';
 export {
   ConcatCollectionPipe, FiltersComponent, GetCollaborationIconPipe, GetColorFilterPipe,
-  GetContributorLabelPipe
+  GetContributorLabelPipe, GetGlobalColorFilterPipe
 } from './lib/components/filters/filters.component';
 export { HistogramTooltipOverlayComponent } from './lib/components/histogram-tooltip-overlay/histogram-tooltip-overlay.component';
 export { HistogramWidgetComponent } from './lib/components/histogram-widget/histogram-widget.component';
