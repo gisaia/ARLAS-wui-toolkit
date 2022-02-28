@@ -1,12 +1,85 @@
 # Change Log
 
-## [v17.2.6](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v17.2.6) (2021-10-28)
+## [v19.1.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v19.1.2) (2022-02-28)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v19.1.1...v17.2.6)
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v20.1.0...v19.1.2)
+
+**Fixed bugs:**
+
+- Missing 'options' input in result list widget [\#476](https://github.com/gisaia/ARLAS-wui-toolkit/issues/476)
+
+## [v20.1.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v20.1.0) (2022-02-21)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v20.1.0-beta.4...v20.1.0)
+
+## [v20.1.0-beta.4](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v20.1.0-beta.4) (2022-02-17)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v20.1.0-beta.3...v20.1.0-beta.4)
+
+## [v20.1.0-beta.3](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v20.1.0-beta.3) (2022-02-16)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v20.1.0-beta.2...v20.1.0-beta.3)
+
+## [v20.1.0-beta.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v20.1.0-beta.2) (2022-02-16)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v20.1.0-beta.1...v20.1.0-beta.2)
+
+## [v20.1.0-beta.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v20.1.0-beta.1) (2022-02-15)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v20.0.1...v20.1.0-beta.1)
+
+## [v20.0.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v20.0.1) (2022-02-02)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v20.0.0...v20.0.1)
+
+## [v20.0.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v20.0.0) (2022-02-02)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v20.0.0-rc.2...v20.0.0)
+
+**Fixed bugs:**
+
+- run-parallel is fixed to 1.1.10 to avoid CI crushing [\#422](https://github.com/gisaia/ARLAS-wui-toolkit/issues/422)
+
+## [v20.0.0-rc.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v20.0.0-rc.2) (2022-01-07)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v20.0.0-rc.1...v20.0.0-rc.2)
+
+## [v20.0.0-rc.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v20.0.0-rc.1) (2022-01-07)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v20.0.0-beta.15...v20.0.0-rc.1)
+
+**Breaking changes:**
+
+- Migrate to Angular 13 [\#388](https://github.com/gisaia/ARLAS-wui-toolkit/issues/388)
+
+## [v20.0.0-beta.15](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v20.0.0-beta.15) (2022-01-03)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v19.2.0...v20.0.0-beta.15)
+
+## [v19.2.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v19.2.0) (2021-12-06)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v12.7.6...v19.2.0)
+
+**New stuff:**
+
+- Display the count of all decalred collections in collaborations [\#507](https://github.com/gisaia/ARLAS-wui-toolkit/issues/507)
+- Histogram tooltip : translate 'par' by 'pour' [\#505](https://github.com/gisaia/ARLAS-wui-toolkit/issues/505)
+
+**Fixed bugs:**
+
+- Share layers: the share crashes for dashboards having multi-collections [\#510](https://github.com/gisaia/ARLAS-wui-toolkit/issues/510)
+
+## [v12.7.6](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v12.7.6) (2021-11-08)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v19.1.1...v12.7.6)
 
 ## [v19.1.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v19.1.1) (2021-10-28)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v19.1.0...v19.1.1)
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v17.2.6...v19.1.1)
+
+## [v17.2.6](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v17.2.6) (2021-10-28)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v19.1.0...v17.2.6)
 
 **Fixed bugs:**
 
