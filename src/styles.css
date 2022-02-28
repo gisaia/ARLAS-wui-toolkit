@@ -36,6 +36,10 @@
   font-feature-settings: 'liga';
 }
 
+body{
+  background-color: whitesmoke;
+}
+
 .dropdownSwimlane{
   text-align: center;
 }

@@ -3,28 +3,28 @@
     <span class="home-filters-logo"><img *ngIf="logoUrl!==undefined" class="filters-logo" src="{{logoUrl}}"></span>
     <span class="home-chip--label" (click)="removeAllFilters()" matTooltip="{{ 'Clear all filters' | translate }}">
       {{title | translate}}</span>
-    <mat-icon class="filter-delimiter">keyboard_arrow_right</mat-icon>
     <ng-container *ngFor="let contributorId of collaborations; let index = index">
-      <mat-basic-chip class="filter-chip"
-        [style.color]="contributorId | getColorFilter:'color':backgroundColor:collaborationsMap "
-        [style.background-color]="contributorId | getColorFilter:'background':backgroundColor:collaborationsMap "
+      <mat-basic-chip class="filter-chip" *ngIf="contributorId === 'timeline'"
+        [style.color]="contributorId | getGlobalColorFilter:'color':color:backgroundColor:collaborationsMap "
+        [style.background-color]="contributorId | getGlobalColorFilter:'background':color:backgroundColor:collaborationsMap "
         (click)="changeCollaborationState(contributorId)"
-        [attr.title]="contributorId | getContributorLabel:contributors | translate | concatCollection:contributorId:contributors">
+        [matTooltip]="contributorId | getContributorLabel:contributors | translate">
         <mat-icon class="filter-chip__icon">{{contributorId | getCollaborationIcon :contributorsIcons }}</mat-icon>
         <mat-icon (click)="removeCollaboration(contributorId)" class="filter-chip__icon_close mat-icon material-icons">
           clear</mat-icon>
       </mat-basic-chip>
-      <mat-icon *ngIf="(index + 1) !== collaborations.size" class="filter-delimiter">keyboard_arrow_right</mat-icon>
     </ng-container>
   </mat-chip-list>
   <mat-chip-list class="counts-chips">
     <ng-container *ngFor="let c of countAll">
-      <mat-basic-chip class="count-chip" id="arlas-count" [style.borderColor]="c.color" *ngIf="!c.ignored">
+      <mat-basic-chip class="count-chip mat-elevation-z1" id="arlas-count" [style.borderColor]="c.color"
+        *ngIf="!c.ignored">
         <div class="count-container">
           <div *ngIf="c.hasCentroidPath" class="zoom" (click)="zoomToData(c.collection)"
             matTooltip="{{ 'Zoom to data' | translate }}">
             <mat-icon>filter_center_focus</mat-icon>
           </div>
+
           <div class="value-unit">
             <div class="value">
               {{c.count | formatNumber:NUMBER_FORMAT_CHAR}}
@@ -33,6 +33,20 @@
               {{c.unit | translate}}
             </div>
           </div>
+          <ng-container *ngFor="let contributorId of collaborations; let index = index">
+            <mat-basic-chip class="filter-chip"
+              *ngIf="c.collection === contributors.get(contributorId).collection && contributorId !== 'timeline'"
+              [style.color]="contributorId | getColorFilter:'color':collaborationsMap"
+              [style.background-color]="contributorId | getColorFilter:'background':collaborationsMap"
+              (click)="changeCollaborationState(contributorId)"
+              [matTooltip]="contributorId | getContributorLabel:contributors | translate">
+              <mat-icon class="filter-chip__icon">{{contributorId | getCollaborationIcon :contributorsIcons }}
+              </mat-icon>
+              <mat-icon (click)="removeCollaboration(contributorId)"
+                class="filter-chip__icon_close mat-icon material-icons">
+                clear</mat-icon>
+            </mat-basic-chip>
+          </ng-container>
         </div>
       </mat-basic-chip>
     </ng-container>

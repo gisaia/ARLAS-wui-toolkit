@@ -69,7 +69,7 @@ import { ErrorModalModule } from './components/errormodal/errormodal.module';
 import { ExtendComponent } from './components/extend/extend.component';
 import {
   ConcatCollectionPipe, FiltersComponent, GetCollaborationIconPipe, GetColorFilterPipe,
-  GetContributorLabelPipe
+  GetContributorLabelPipe, GetGlobalColorFilterPipe
 } from './components/filters/filters.component';
 import { HistogramTooltipOverlayComponent } from './components/histogram-tooltip-overlay/histogram-tooltip-overlay.component';
 import { HistogramWidgetComponent } from './components/histogram-widget/histogram-widget.component';
@@ -227,6 +227,7 @@ export class CustomTranslateLoader implements TranslateLoader {
     FiltersComponent,
     GetTimeLabelPipe,
     GetColorFilterPipe,
+    GetGlobalColorFilterPipe,
     GetCollaborationIconPipe,
     ConcatCollectionPipe,
     GetContributorLabelPipe,

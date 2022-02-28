@@ -57,15 +57,28 @@ export class ConcatCollectionPipe implements PipeTransform {
 
 @Pipe({ name: 'getColorFilter' })
 export class GetColorFilterPipe implements PipeTransform {
-  public transform(value: string, type: string, backgroundColor, collaborationsMap: Map<string, Collaboration>): string {
+  public transform(value: string, type: string, collaborationsMap: Map<string, Collaboration>): string {
     const collaboration = collaborationsMap.get(value);
     if (type === 'color') {
-      return collaboration.enabled ? '#FFF' : '#BDBDBD';
+      return collaboration.enabled ? '#000' : '#BDBDBD';
+    } else if (type === 'background') {
+      return '#FFF';
+    }
+  }
+}
+
+@Pipe({ name: 'getGlobalColorFilter' })
+export class GetGlobalColorFilterPipe implements PipeTransform {
+  public transform(value: string, type: string, color, backgroundColor, collaborationsMap: Map<string, Collaboration>): string {
+    const collaboration = collaborationsMap.get(value);
+    if (type === 'color') {
+      return collaboration.enabled ? color : '#BDBDBD';
     } else if (type === 'background') {
       return collaboration.enabled ? backgroundColor : '#FFF';
     }
   }
 }
+
 @Pipe({ name: 'getCollaborationIcon' })
 export class GetCollaborationIconPipe implements PipeTransform {
   public transform(value: string, contributorsIcons: Map<string, string>): string {
@@ -96,7 +109,12 @@ export class FiltersComponent implements OnInit {
    * @Input : Angular
    * @description Background color of the filter bar
    */
-  @Input() public backgroundColor = '#000';
+  @Input() public backgroundColor = '#FFF';
+  /**
+   * @Input : Angular
+   * @description Color of the filter icon
+   */
+  @Input() public color = '#FFF';
   /**
    * @Input : Angular
    * @description Contributors identifier array which will be ignored from the filter summary
@@ -132,6 +150,7 @@ export class FiltersComponent implements OnInit {
   public collaborations: Set<string> = new Set<string>();
   public contributors: Map<string, Contributor>;
   public contributorsIcons: Map<string, string>;
+  public collaborationByCollection: Array<{ collection: string; collaborationId: string; }> = [];
   public countAll: CollectionCount[];
   public NUMBER_FORMAT_CHAR = 'NUMBER_FORMAT_CHAR';
   public collaborationsMap: Map<string, Collaboration>;
@@ -209,11 +228,11 @@ export class FiltersComponent implements OnInit {
             countsMap.set(c.collection, {
               collection: c.collection,
               count: c.count,
-              color: this.arlasColorService.getColor(c.collection),
+              color: this.arlasColorService.getColor(c.collection) + ' !important',
               hasCentroidPath: !!this.collectionToDescription.get(c.collection) &&
                 !!this.collectionToDescription.get(c.collection).centroid_path,
               unit: !!unit ? unit.unit : c.collection,
-              ignored: unit.ignored
+              ignored: !!unit ? unit.ignored : false
             });
           });
 

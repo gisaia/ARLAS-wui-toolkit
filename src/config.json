@@ -4,17 +4,122 @@
       "contributors": [
         {
           "type": "map",
-          "identifier": "mapbox",
-          "name": "map",
+          "identifier": "demo_eo",
+          "name": "Map demo_eo",
+          "collection": "demo_eo",
           "geo_query_op": "Intersects",
-          "geo_query_field": "track.trail",
+          "geo_query_field": "_centroid_wkt",
           "icon": "check_box_outline_blank",
           "layers_sources": [
             {
-              "id": "Gathered birds positions",
-              "source": "cluster-track.location-Fine-geohash",
+              "id": "arlas_id:Latest images:1636380757419",
+              "name": "Latest images",
+              "source": "feature-_geometry_wkt-window-demo_eo",
               "minzoom": 0,
-              "maxzoom": 24,
+              "maxzoom": 22,
+              "include_fields": [
+                "metadata.ObservationContext.processusUsed.platform"
+              ],
+              "colors_from_fields": [],
+              "provided_fields": [],
+              "normalization_fields": [],
+              "metrics": [],
+              "returned_geometry": "_geometry_wkt",
+              "render_mode": "window"
+            },
+            {
+              "id": "arlas_id:Images:1636380768019",
+              "name": "Images",
+              "source": "feature-_geometry_wkt-wide-demo_eo",
+              "minzoom": 0,
+              "maxzoom": 22,
+              "include_fields": [
+                "metadata.ObservationContext.processusUsed.platform"
+              ],
+              "colors_from_fields": [],
+              "provided_fields": [],
+              "normalization_fields": [],
+              "metrics": [],
+              "maxfeatures": 500,
+              "returned_geometry": "_geometry_wkt",
+              "render_mode": "wide"
+            },
+            {
+              "id": "arlas_id:Image density:1636380780251",
+              "name": "Image density",
+              "source": "cluster-_centroid_wkt-Coarse-tile-centroid-demo_eo",
+              "minzoom": 1,
+              "maxzoom": 15,
+              "include_fields": [],
+              "colors_from_fields": [],
+              "provided_fields": [],
+              "normalization_fields": [],
+              "metrics": [
+                {
+                  "field": "",
+                  "metric": "count",
+                  "normalize": true
+                },
+                {
+                  "field": "",
+                  "metric": "count",
+                  "normalize": true
+                },
+                {
+                  "field": "",
+                  "metric": "count",
+                  "normalize": true
+                }
+              ],
+              "agg_geo_field": "_centroid_wkt",
+              "aggType": "tile",
+              "granularity": "Coarse",
+              "minfeatures": 500,
+              "aggregated_geometry": "centroid"
+            }
+          ]
+        },
+        {
+          "type": "map",
+          "identifier": "demo_ais_flow",
+          "name": "Map demo_ais_flow",
+          "collection": "demo_ais_flow",
+          "geo_query_op": "Intersects",
+          "geo_query_field": "track.location",
+          "icon": "check_box_outline_blank",
+          "layers_sources": [
+            {
+              "id": "arlas_id:Boats courses (Ship type) light:1636380410813",
+              "name": "Boats courses (Ship type) light",
+              "source": "feature-track.trail-wide-demo_ais_flow",
+              "minzoom": 1,
+              "maxzoom": 22,
+              "include_fields": [],
+              "colors_from_fields": [
+                "object.ship_type"
+              ],
+              "provided_fields": [],
+              "normalization_fields": [
+                {
+                  "on": "track.timestamps.center",
+                  "per": "course.id"
+                },
+                {
+                  "on": "track.timestamps.center",
+                  "per": "object.id"
+                }
+              ],
+              "metrics": [],
+              "maxfeatures": 10000,
+              "returned_geometry": "track.trail",
+              "render_mode": "wide"
+            },
+            {
+              "id": "arlas_id:Heatmap:1636132950290",
+              "name": "Heatmap",
+              "source": "cluster-track.trail_geohashes_6-Finest-geohash-centroid-demo_ais_flow",
+              "minzoom": 0,
+              "maxzoom": 22,
               "include_fields": [],
               "colors_from_fields": [],
               "provided_fields": [],
@@ -26,159 +131,549 @@
                   "normalize": true
                 }
               ],
-              "agg_geo_field": "track.location",
-              "granularity": "Fine",
-              "minfeatures": 5000,
-              "aggregated_geometry": "geohash"
+              "agg_geo_field": "track.trail_geohashes_6",
+              "aggType": "geohash",
+              "granularity": "Finest",
+              "minfeatures": 10000,
+              "aggregated_geometry": "centroid"
+            }
+          ]
+        },
+        {
+          "type": "map",
+          "identifier": "demo_osm",
+          "name": "Map demo_osm",
+          "collection": "demo_osm",
+          "geo_query_op": "Intersects",
+          "geo_query_field": "osm.centroid",
+          "icon": "check_box_outline_blank",
+          "layers_sources": [
+            {
+              "id": "arlas_id:Building footprints:1636132666440",
+              "name": "Building footprints",
+              "source": "feature-osm.geometry-wide-demo_osm",
+              "minzoom": 1,
+              "maxzoom": 22,
+              "include_fields": [],
+              "colors_from_fields": [
+                "osm.building"
+              ],
+              "provided_fields": [],
+              "normalization_fields": [
+                {
+                  "on": "osm.area",
+                  "per": "osm.building"
+                }
+              ],
+              "metrics": [],
+              "maxfeatures": 10000,
+              "returned_geometry": "osm.geometry",
+              "render_mode": "wide"
             },
             {
-              "id": "Density of birds positions",
-              "source": "cluster-track.location-Fine-centroid",
-              "minzoom": 0,
-              "maxzoom": 23,
+              "id": "arlas_id:Built aera:1636132647462",
+              "name": "Built aera",
+              "source": "cluster-osm.centroid-Finest-geohash-cell-demo_osm",
+              "minzoom": 1,
+              "maxzoom": 22,
               "include_fields": [],
               "colors_from_fields": [],
               "provided_fields": [],
               "normalization_fields": [],
-              "metrics": [],
-              "agg_geo_field": "track.location",
-              "granularity": "Fine",
-              "minfeatures": 5000,
-              "aggregated_geometry": "centroid"
-            },
-            {
-              "id": "Birds altitude fragment",
-              "source": "feature-track.trail",
-              "minzoom": 0,
-              "maxzoom": 24,
-              "include_fields": [],
-              "colors_from_fields": [],
-              "provided_fields": [],
-              "normalization_fields": [
+              "metrics": [
                 {
-                  "on": "track.dynamics.sensor.height.above.ellipsoid"
+                  "field": "osm.area",
+                  "metric": "sum",
+                  "normalize": true
                 },
                 {
-                  "on": "track.timestamps.center",
-                  "per": "object.id"
+                  "field": "",
+                  "metric": "count",
+                  "normalize": true
                 }
               ],
-              "metrics": [],
-              "maxfeatures": 5000,
-              "returned_geometry": "track.trail"
-            },
+              "agg_geo_field": "osm.centroid",
+              "aggType": "geohash",
+              "granularity": "Finest",
+              "minfeatures": 10000,
+              "aggregated_geometry": "cell"
+            }
+          ]
+        },
+        {
+          "type": "map",
+          "identifier": "demo_sea_phys_bcg",
+          "name": "Map demo_sea_phys_bcg",
+          "collection": "demo_sea_phys_bcg",
+          "geo_query_op": "Intersects",
+          "geo_query_field": "point_geom",
+          "icon": "check_box_outline_blank",
+          "layers_sources": [
             {
-              "id": "Birds migration status fragment",
-              "source": "feature-track.trail",
-              "minzoom": 0,
-              "maxzoom": 24,
-              "include_fields": [
-                "tagging.tag1"
-              ],
-              "colors_from_fields": [],
-              "provided_fields": [],
-              "normalization_fields": [
-                {
-                  "on": "track.timestamps.center",
-                  "per": "object.id"
-                }
-              ],
-              "metrics": [],
-              "maxfeatures": 5000,
-              "returned_geometry": "track.trail"
-            },
-            {
-              "id": "Birds predicted migration status fragment",
-              "source": "feature-track.trail",
-              "minzoom": 0,
-              "maxzoom": 24,
-              "include_fields": [
-                "tagging.tag2"
-              ],
-              "colors_from_fields": [],
-              "provided_fields": [],
-              "normalization_fields": [
-                {
-                  "on": "track.timestamps.center",
-                  "per": "object.id"
-                }
-              ],
-              "metrics": [],
-              "maxfeatures": 5000,
-              "returned_geometry": "track.trail"
-            },
-            {
-              "id": "Birds speed fragment",
-              "source": "feature-track.trail",
-              "minzoom": 0,
-              "maxzoom": 24,
+              "id": "arlas_id:Salinity:1641574127410",
+              "name": "Salinity",
+              "source": "feature-metric-location_id-box_geom--6-demo_sea_phys_bcg",
+              "minzoom": 3,
+              "maxzoom": 22,
               "include_fields": [],
               "colors_from_fields": [],
               "provided_fields": [],
-              "normalization_fields": [
+              "normalization_fields": [],
+              "metrics": [
                 {
-                  "on": "track.dynamics.sensor.speed.ms"
-                },
-                {
-                  "on": "track.timestamps.center",
-                  "per": "object.id"
+                  "field": "so",
+                  "metric": "avg",
+                  "normalize": true
                 }
               ],
-              "metrics": [],
-              "maxfeatures": 5000,
-              "returned_geometry": "track.trail"
+              "maxfeatures": 10000,
+              "raw_geometry": {
+                "geometry": "box_geom",
+                "sort": ""
+              },
+              "geometry_id": "location_id",
+              "network_fetching_level": 6
             },
             {
-              "id": "Birds identifiers fragment",
-              "source": "feature-track.trail",
-              "minzoom": 0,
-              "maxzoom": 24,
+              "id": "arlas_id:PH:1641574217998",
+              "name": "PH",
+              "source": "feature-metric-location_id-box_geom--6-demo_sea_phys_bcg",
+              "minzoom": 3,
+              "maxzoom": 22,
               "include_fields": [],
-              "colors_from_fields": [
-                "object.id"
-              ],
+              "colors_from_fields": [],
               "provided_fields": [],
-              "normalization_fields": [
+              "normalization_fields": [],
+              "metrics": [
                 {
-                  "on": "track.timestamps.center",
-                  "per": "object.id"
+                  "field": "ph",
+                  "metric": "avg",
+                  "normalize": true
                 }
               ],
-              "metrics": [],
-              "maxfeatures": 5000,
-              "returned_geometry": "track.trail"
+              "maxfeatures": 10000,
+              "raw_geometry": {
+                "geometry": "box_geom",
+                "sort": ""
+              },
+              "geometry_id": "location_id",
+              "network_fetching_level": 6
+            },
+            {
+              "id": "arlas_id:Pressure (Pa):1641574207396",
+              "name": "Pressure (Pa)",
+              "source": "feature-metric-location_id-box_geom--6-demo_sea_phys_bcg",
+              "minzoom": 3,
+              "maxzoom": 22,
+              "include_fields": [],
+              "colors_from_fields": [],
+              "provided_fields": [],
+              "normalization_fields": [],
+              "metrics": [
+                {
+                  "field": "spco2",
+                  "metric": "avg",
+                  "normalize": true
+                }
+              ],
+              "maxfeatures": 10000,
+              "raw_geometry": {
+                "geometry": "box_geom",
+                "sort": ""
+              },
+              "geometry_id": "location_id",
+              "network_fetching_level": 6
+            },
+            {
+              "id": "arlas_id:Concentration (mmol / m3):1641574329470",
+              "name": "Concentration (mmol / m3)",
+              "source": "feature-metric-location_id-box_geom--6-demo_sea_phys_bcg",
+              "minzoom": 3,
+              "maxzoom": 22,
+              "include_fields": [],
+              "colors_from_fields": [],
+              "provided_fields": [],
+              "normalization_fields": [],
+              "metrics": [
+                {
+                  "field": "nh4",
+                  "metric": "avg",
+                  "normalize": true
+                }
+              ],
+              "maxfeatures": 10000,
+              "raw_geometry": {
+                "geometry": "box_geom",
+                "sort": ""
+              },
+              "geometry_id": "location_id",
+              "network_fetching_level": 6
+            },
+            {
+              "id": "arlas_id:Concentration (mg / m3):1641575686540",
+              "name": "Concentration (mg / m3)",
+              "source": "feature-metric-location_id-box_geom--6-demo_sea_phys_bcg",
+              "minzoom": 3,
+              "maxzoom": 22,
+              "include_fields": [],
+              "colors_from_fields": [],
+              "provided_fields": [],
+              "normalization_fields": [],
+              "metrics": [
+                {
+                  "field": "chl",
+                  "metric": "avg",
+                  "normalize": true
+                }
+              ],
+              "maxfeatures": 10000,
+              "raw_geometry": {
+                "geometry": "box_geom",
+                "sort": ""
+              },
+              "geometry_id": "location_id",
+              "network_fetching_level": 6
+            },
+            {
+              "id": "arlas_id:Concentration (mmol / m3):1641575697047",
+              "name": "Concentration (mmol / m3)",
+              "source": "feature-metric-location_id-box_geom--6-demo_sea_phys_bcg",
+              "minzoom": 3,
+              "maxzoom": 22,
+              "include_fields": [],
+              "colors_from_fields": [],
+              "provided_fields": [],
+              "normalization_fields": [],
+              "metrics": [
+                {
+                  "field": "no3",
+                  "metric": "avg",
+                  "normalize": true
+                }
+              ],
+              "maxfeatures": 10000,
+              "raw_geometry": {
+                "geometry": "box_geom",
+                "sort": ""
+              },
+              "geometry_id": "location_id",
+              "network_fetching_level": 6
+            },
+            {
+              "id": "arlas_id:Concentration (mmol / m3):1641575660077",
+              "name": "Concentration (mmol / m3)",
+              "source": "feature-metric-location_id-box_geom--6-demo_sea_phys_bcg",
+              "minzoom": 3,
+              "maxzoom": 22,
+              "include_fields": [],
+              "colors_from_fields": [],
+              "provided_fields": [],
+              "normalization_fields": [],
+              "metrics": [
+                {
+                  "field": "o2",
+                  "metric": "avg",
+                  "normalize": true
+                }
+              ],
+              "maxfeatures": 10000,
+              "raw_geometry": {
+                "geometry": "box_geom",
+                "sort": ""
+              },
+              "geometry_id": "location_id",
+              "network_fetching_level": 6
+            },
+            {
+              "id": "arlas_id:Concentration (mmol / m3):1641836497409",
+              "name": "Concentration (mmol / m3)",
+              "source": "feature-metric-location_id-box_geom--6-demo_sea_phys_bcg",
+              "minzoom": 3,
+              "maxzoom": 22,
+              "include_fields": [],
+              "colors_from_fields": [],
+              "provided_fields": [],
+              "normalization_fields": [],
+              "metrics": [
+                {
+                  "field": "po",
+                  "metric": "avg",
+                  "normalize": true
+                }
+              ],
+              "maxfeatures": 10000,
+              "raw_geometry": {
+                "geometry": "box_geom",
+                "sort": ""
+              },
+              "geometry_id": "location_id",
+              "network_fetching_level": 6
+            },
+            {
+              "id": "arlas_id:Temperature (°c):1641836702700",
+              "name": "Temperature (°c)",
+              "source": "feature-metric-location_id-box_geom--6-demo_sea_phys_bcg",
+              "minzoom": 3,
+              "maxzoom": 22,
+              "include_fields": [],
+              "colors_from_fields": [],
+              "provided_fields": [],
+              "normalization_fields": [],
+              "metrics": [
+                {
+                  "field": "thetao",
+                  "metric": "avg",
+                  "normalize": true
+                }
+              ],
+              "maxfeatures": 10000,
+              "raw_geometry": {
+                "geometry": "box_geom",
+                "sort": ""
+              },
+              "geometry_id": "location_id",
+              "network_fetching_level": 6
+            },
+            {
+              "id": "arlas_id:Speed (m/s):1642149030682",
+              "name": "Speed (m/s)",
+              "source": "feature-metric-location_id-box_geom--6-demo_sea_phys_bcg",
+              "minzoom": 3,
+              "maxzoom": 22,
+              "include_fields": [],
+              "colors_from_fields": [],
+              "provided_fields": [],
+              "normalization_fields": [],
+              "metrics": [
+                {
+                  "field": "current_speed",
+                  "metric": "avg",
+                  "normalize": false
+                }
+              ],
+              "maxfeatures": 10000,
+              "raw_geometry": {
+                "geometry": "box_geom",
+                "sort": ""
+              },
+              "geometry_id": "location_id",
+              "network_fetching_level": 6
             }
           ]
         },
         {
           "type": "chipssearch",
           "identifier": "chipssearch",
+          "collection": "demo_ais_flow",
           "search_field": "internal.fulltext",
-          "name": "Search a bird",
+          "name": "Search...",
           "icon": "search",
           "autocomplete_field": "internal.autocomplete",
-          "autocomplete_size": 20
+          "autocomplete_size": 10
         },
         {
           "type": "histogram",
           "identifier": "timeline",
+          "collection": "demo_ais_flow",
           "name": "Timeline",
           "icon": "watch_later",
           "isOneDimension": false,
+          "useUtc": true,
           "numberOfBuckets": 100,
           "aggregationmodels": [
             {
               "type": "datehistogram",
               "field": "track.timestamps.center"
             }
+          ],
+          "additionalCollections": [
+            {
+              "collectionName": "demo_osm",
+              "field": "osm.timestamp"
+            },
+            {
+              "collectionName": "demo_sea_phys_bcg",
+              "field": "timestamp"
+            }
           ]
+        },
+        {
+          "identifier": "demo_eo-metadata.core.identity.identifier-150-Sensor-Date-Cloud %-Incidence angle-Location-Source-Technical details-Processing-Acquisition-",
+          "name": "DATA",
+          "title": "DATA",
+          "collection": "demo_eo",
+          "icon": "table_chart",
+          "type": "resultlist",
+          "search_size": 150,
+          "fieldsConfiguration": {
+            "idFieldName": "metadata.core.identity.identifier",
+            "titleFieldNames": [
+              {
+                "fieldPath": "",
+                "process": ""
+              }
+            ],
+            "tooltipFieldNames": [
+              {
+                "fieldPath": "",
+                "process": ""
+              }
+            ],
+            "icon": "fiber_manual_record",
+            "iconColorFieldName": ""
+          },
+          "columns": [
+            {
+              "columnName": "Sensor",
+              "fieldName": "metadata.ObservationContext.processusUsed.platform",
+              "dataType": "",
+              "process": "",
+              "useColorService": true
+            },
+            {
+              "columnName": "Date",
+              "fieldName": "metadata.ObservationContext.phenomenonTime.begin",
+              "dataType": "",
+              "process": "(new Date(result)).toUTCString().split(',')[1] !== undefined ? (new Date(result)).toUTCString().split(',')[1].replace('GMT', '') :'undefined'",
+              "useColorService": false
+            },
+            {
+              "columnName": "Cloud %",
+              "fieldName": "metadata.ObservationContext.eo.opt.cloudCoverPercentage",
+              "dataType": "%",
+              "process": "",
+              "useColorService": false
+            },
+            {
+              "columnName": "Incidence angle",
+              "fieldName": "metadata.ObservationContext.eo.acquisition.incidenceAngle",
+              "dataType": "°",
+              "process": "(result !== undefined && result !== null) ? result.toString().split('.')[0].concat((result.toString().split('.')[1] !== undefined && result.toString().split('.')[1] !== null) ? '.'+result.toString().split('.')[1].substring(0, 4) : '') : ''",
+              "useColorService": false
+            }
+          ],
+          "details": [
+            {
+              "name": "Location",
+              "order": 1,
+              "fields": [
+                {
+                  "path": "_keywords.country",
+                  "label": "Country",
+                  "process": ""
+                },
+                {
+                  "path": "_keywords.state",
+                  "label": "Region",
+                  "process": ""
+                },
+                {
+                  "path": "_keywords.region",
+                  "label": "State",
+                  "process": ""
+                },
+                {
+                  "path": "_keywords.city",
+                  "label": "City",
+                  "process": ""
+                }
+              ]
+            },
+            {
+              "name": "Source",
+              "order": 2,
+              "fields": [
+                {
+                  "path": "metadata.core.identity.identifier",
+                  "label": "Identifier",
+                  "process": ""
+                },
+                {
+                  "path": "metadata.core.identity.collection",
+                  "label": "Plateform",
+                  "process": ""
+                }
+              ]
+            },
+            {
+              "name": "Technical details",
+              "order": 3,
+              "fields": [
+                {
+                  "path": "_resolution",
+                  "label": "Resolution",
+                  "process": ""
+                },
+                {
+                  "path": "metadata.ObservationContext.eo.acquisition.incidenceAngle",
+                  "label": "Incidence angle",
+                  "process": ""
+                },
+                {
+                  "path": "metadata.ObservationContext.eo.opt.cloudCoverPercentage",
+                  "label": "Cloud %",
+                  "process": ""
+                },
+                {
+                  "path": "metadata.ObservationContext.eo.opt.snowCoverPercentage",
+                  "label": "Snow %",
+                  "process": ""
+                },
+                {
+                  "path": "metadata.ObservationContext.eo.opt.waterCoverPercentage",
+                  "label": "Water %",
+                  "process": ""
+                }
+              ]
+            },
+            {
+              "name": "Processing",
+              "order": 4,
+              "fields": [
+                {
+                  "path": "metadata.core.description.processingLevel",
+                  "label": "Level",
+                  "process": ""
+                },
+                {
+                  "path": "_keywords.Discipline",
+                  "label": "Discipline",
+                  "process": ""
+                }
+              ]
+            },
+            {
+              "name": "Acquisition",
+              "order": 5,
+              "fields": [
+                {
+                  "path": "metadata.ObservationContext.processusUsed.platform",
+                  "label": "Sensor",
+                  "process": ""
+                },
+                {
+                  "path": "metadata.ObservationContext.processusUsed.sensor.mode",
+                  "label": "Mode",
+                  "process": ""
+                },
+                {
+                  "path": "metadata.ObservationContext.processusUsed.instrument",
+                  "label": "Instrument",
+                  "process": ""
+                }
+              ]
+            }
+          ],
+          "includeMetadata": []
         },
         {
           "type": "detailedhistogram",
           "identifier": "detailedTimeline",
+          "collection": "demo_ais_flow",
           "name": "Timeline",
           "icon": "watch_later",
           "isOneDimension": false,
+          "useUtc": true,
           "numberOfBuckets": 100,
           "aggregationmodels": [
             {
@@ -187,13 +682,24 @@
             }
           ],
           "annexedContributorId": "timeline",
-          "selectionExtentPercentage": 0.02
+          "selectionExtentPercentage": 0.02,
+          "additionalCollections": [
+            {
+              "collectionName": "demo_osm",
+              "field": "osm.timestamp"
+            },
+            {
+              "collectionName": "demo_sea_phys_bcg",
+              "field": "timestamp"
+            }
+          ]
         },
         {
-          "identifier": "object.id-cardinality",
-          "name": "Number of birds",
-          "title": "Number of birds",
-          "icon": "functions",
+          "identifier": "demo_ais_flow-object.id-cardinality",
+          "name": "Number of vessels",
+          "title": "Number of vessels",
+          "collection": "demo_ais_flow",
+          "icon": "multiline_chart",
           "type": "metric",
           "function": "m[0]",
           "metrics": [
@@ -204,12 +710,13 @@
           ]
         },
         {
-          "identifier": "m[0]/1000track.distance.gps.travelled_m-sum",
+          "identifier": "demo_ais_flow-m[0]/1852track.distance.gps.travelled_m-sum",
           "name": "Travelled distance",
           "title": "Travelled distance",
-          "icon": "functions",
+          "collection": "demo_ais_flow",
+          "icon": "multiline_chart",
           "type": "metric",
-          "function": "m[0]/1000",
+          "function": "m[0]/1852",
           "metrics": [
             {
               "field": "track.distance.gps.travelled_m",
@@ -218,86 +725,56 @@
           ]
         },
         {
-          "identifier": "object.id-10",
-          "name": "Object Id",
-          "title": "Object Id",
-          "icon": "local_offer",
+          "identifier": "demo_ais_flow-track.nb_geopoints-sum",
+          "name": "Nb Geopoints",
+          "title": "Nb Geopoints",
+          "collection": "demo_ais_flow",
+          "icon": "multiline_chart",
+          "type": "metric",
+          "function": "m[0]",
+          "metrics": [
+            {
+              "field": "track.nb_geopoints",
+              "metric": "sum"
+            }
+          ]
+        },
+        {
+          "identifier": "demo_ais_flow-object.ship_type-15-",
+          "name": "Ship type",
+          "title": "Ship type",
+          "collection": "demo_ais_flow",
+          "icon": "directions_boat",
           "type": "tree",
           "aggregationmodels": [
             {
-              "type": "term",
-              "field": "object.id",
-              "size": 10
+              "field": "object.ship_type",
+              "size": 15,
+              "type": "term"
             }
           ]
         },
         {
-          "identifier": "track.dynamics.sensor.height_above_ellipsoid-numeric-bucket-Count--50",
-          "name": "Number of birds positions having this altitude",
-          "title": "Number of birds positions having this altitude",
-          "icon": "call_made",
-          "charttype": "bars",
-          "isOneDimension": false,
-          "type": "histogram",
-          "numberOfBuckets": 50,
+          "identifier": "demo_ais_flow-object.ship_type-6-Count",
+          "name": "Ship type",
+          "title": "Ship type",
+          "collection": "demo_ais_flow",
+          "icon": "directions_boat",
+          "type": "tree",
           "jsonpath": "$.count",
           "aggregationmodels": [
             {
-              "type": "histogram",
-              "field": "track.dynamics.sensor.height_above_ellipsoid"
+              "type": "term",
+              "field": "object.ship_type",
+              "size": 6
             }
           ]
         },
         {
-          "identifier": "track.timestamps.center-time-bucket-AVG-track.dynamics.sensor.height_above_ellipsoid-50",
-          "name": "Altitude average",
-          "title": "Altitude average",
-          "icon": "call_made",
-          "charttype": "bars",
-          "isOneDimension": false,
-          "type": "histogram",
-          "numberOfBuckets": 50,
-          "jsonpath": "$.metrics[0].value",
-          "aggregationmodels": [
-            {
-              "type": "datehistogram",
-              "field": "track.timestamps.center",
-              "metrics": [
-                {
-                  "collect_fct": "avg",
-                  "collect_field": "track.dynamics.sensor.height_above_ellipsoid"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "identifier": "track.timestamps.center-time-bucket-SUM-track.distance.gps.travelled_m-50",
-          "name": "Travelled distance",
-          "title": "Travelled distance",
-          "icon": "straighten",
-          "charttype": "bars",
-          "isOneDimension": false,
-          "type": "histogram",
-          "numberOfBuckets": 50,
-          "jsonpath": "$.metrics[0].value",
-          "aggregationmodels": [
-            {
-              "type": "datehistogram",
-              "field": "track.timestamps.center",
-              "metrics": [
-                {
-                  "collect_fct": "sum",
-                  "collect_field": "track.distance.gps.travelled_m"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "identifier": "track.dynamics.sensor.bearing-numeric-bucket-Count--50",
-          "name": "Number of birds positions having this bearing",
-          "title": "Number of birds positions having this bearing",
+          "identifier": "demo_ais_flow-track.dynamics.sensor.heading-numeric-bucket-Count--50",
+          "name": "Heading",
+          "title": "Heading",
+          "collection": "demo_ais_flow",
           "icon": "explore",
           "charttype": "bars",
           "isOneDimension": false,
@@ -307,38 +784,81 @@
           "aggregationmodels": [
             {
               "type": "histogram",
-              "field": "track.dynamics.sensor.bearing"
+              "field": "track.dynamics.sensor.heading"
             }
           ]
         },
         {
-          "identifier": "track.timestamps.center-time-bucket-AVG-track.dynamics.sensor.bearing-50",
-          "name": "Bearing average",
-          "title": "Bearing average",
+          "identifier": "demo_ais_flow-track.dynamics.sensor.speed_nd-numeric-bucket-Count--50",
+          "name": "Speed distribution",
+          "title": "Speed distribution",
+          "collection": "demo_ais_flow",
           "icon": "explore",
           "charttype": "bars",
           "isOneDimension": false,
           "type": "histogram",
           "numberOfBuckets": 50,
-          "jsonpath": "$.metrics[0].value",
+          "jsonpath": "$.count",
           "aggregationmodels": [
             {
-              "type": "datehistogram",
-              "field": "track.timestamps.center",
-              "metrics": [
-                {
-                  "collect_fct": "avg",
-                  "collect_field": "track.dynamics.sensor.bearing"
-                }
-              ]
+              "type": "histogram",
+              "field": "track.dynamics.sensor.speed_nd"
             }
           ]
         },
         {
-          "identifier": "track.dynamics.sensor.speed_ms-numeric-bucket-Count--50",
-          "name": "Number of birds positions having this speed",
-          "title": "Number of birds positions having this speed",
-          "icon": "slow_motion_video",
+          "identifier": "demo_ais_flow-object.name-10-Count",
+          "name": "Ship",
+          "title": "Ship",
+          "collection": "demo_ais_flow",
+          "icon": "fingerprint",
+          "type": "tree",
+          "jsonpath": "$.count",
+          "aggregationmodels": [
+            {
+              "type": "term",
+              "field": "object.name",
+              "size": 10
+            }
+          ]
+        },
+        {
+          "identifier": "demo_osm-osm.building-10-",
+          "name": "Type",
+          "title": "Type",
+          "collection": "demo_osm",
+          "icon": "account_balance",
+          "type": "tree",
+          "aggregationmodels": [
+            {
+              "field": "osm.building",
+              "size": 10,
+              "type": "term"
+            }
+          ]
+        },
+        {
+          "identifier": "demo_osm-osm.building-6-Count",
+          "name": "Type",
+          "title": "Type",
+          "collection": "demo_osm",
+          "icon": "account_balance",
+          "type": "tree",
+          "jsonpath": "$.count",
+          "aggregationmodels": [
+            {
+              "type": "term",
+              "field": "osm.building",
+              "size": 6
+            }
+          ]
+        },
+        {
+          "identifier": "demo_osm-osm.area-numeric-bucket-Count--50",
+          "name": "Surface",
+          "title": "Surface",
+          "collection": "demo_osm",
+          "icon": "settings_ethernet",
           "charttype": "bars",
           "isOneDimension": false,
           "type": "histogram",
@@ -347,196 +867,683 @@
           "aggregationmodels": [
             {
               "type": "histogram",
-              "field": "track.dynamics.sensor.speed_ms"
+              "field": "osm.area"
             }
           ]
         },
         {
-          "identifier": "track.timestamps.center-time-bucket-AVG-track.dynamics.sensor.speed_ms-50",
-          "name": "Speed average",
-          "title": "Speed average",
-          "icon": "slow_motion_video",
+          "identifier": "demo_eo-_sensorType-10-metadata.ObservationContext.processusUsed.platform-10-",
+          "name": "Sensor",
+          "title": "Sensor",
+          "collection": "demo_eo",
+          "icon": "camera",
+          "type": "tree",
+          "aggregationmodels": [
+            {
+              "field": "_sensorType",
+              "size": 10,
+              "type": "term"
+            },
+            {
+              "field": "metadata.ObservationContext.processusUsed.platform",
+              "size": 10,
+              "type": "term"
+            }
+          ]
+        },
+        {
+          "identifier": "demo_eo-metadata.ObservationContext.processusUsed.platform-6-Count",
+          "name": "Collections",
+          "title": "Collections",
+          "collection": "demo_eo",
+          "icon": "camera",
+          "type": "tree",
+          "jsonpath": "$.count",
+          "aggregationmodels": [
+            {
+              "type": "term",
+              "field": "metadata.ObservationContext.processusUsed.platform",
+              "size": 6
+            }
+          ]
+        },
+        {
+          "identifier": "demo_eo-metadata.ObservationContext.eo.opt.cloudCoverPercentage-numeric-bucket-Count--50",
+          "name": "Cloud coverage",
+          "title": "Cloud coverage",
+          "collection": "demo_eo",
+          "icon": "cloud_queue",
+          "charttype": "curve",
+          "isOneDimension": false,
+          "type": "histogram",
+          "numberOfBuckets": 50,
+          "jsonpath": "$.count",
+          "aggregationmodels": [
+            {
+              "type": "histogram",
+              "field": "metadata.ObservationContext.eo.opt.cloudCoverPercentage"
+            }
+          ]
+        },
+        {
+          "identifier": "demo_eo-metadata.ObservationContext.eo.acquisition.incidenceAngle-numeric-bucket-Count--50",
+          "name": "Incidence angle",
+          "title": "Incidence angle",
+          "collection": "demo_eo",
+          "icon": "call_missed_outgoing",
+          "charttype": "bars",
+          "isOneDimension": false,
+          "type": "histogram",
+          "numberOfBuckets": 50,
+          "jsonpath": "$.count",
+          "aggregationmodels": [
+            {
+              "type": "histogram",
+              "field": "metadata.ObservationContext.eo.acquisition.incidenceAngle"
+            }
+          ]
+        },
+        {
+          "identifier": "demo_sea_phys_bcg-location_id-cardinality",
+          "name": "Sea cells",
+          "title": "Sea cells",
+          "collection": "demo_sea_phys_bcg",
+          "icon": "apps",
+          "type": "metric",
+          "function": "m[0]",
+          "metrics": [
+            {
+              "field": "location_id",
+              "metric": "cardinality"
+            }
+          ]
+        },
+        {
+          "identifier": "demo_sea_phys_bcg-location_id_depth-cardinality",
+          "name": "3D Cells number (depth)",
+          "title": "3D Cells number (depth)",
+          "collection": "demo_sea_phys_bcg",
+          "icon": "apps",
+          "type": "metric",
+          "function": "m[0]",
+          "metrics": [
+            {
+              "field": "location_id_depth",
+              "metric": "cardinality"
+            }
+          ]
+        },
+        {
+          "identifier": "demo_sea_phys_bcg-depth_status-4-Count",
+          "name": "Depth status",
+          "title": "Depth status",
+          "collection": "demo_sea_phys_bcg",
+          "icon": "arrow_downward",
+          "type": "tree",
+          "jsonpath": "$.count",
+          "aggregationmodels": [
+            {
+              "type": "term",
+              "field": "depth_status",
+              "size": 4
+            }
+          ]
+        },
+        {
+          "identifier": "demo_sea_phys_bcg-depth-numeric-bucket-Count--50",
+          "name": "Depth distribution",
+          "title": "Depth distribution",
+          "collection": "demo_sea_phys_bcg",
+          "icon": "arrow_downward",
+          "charttype": "bars",
+          "isOneDimension": false,
+          "type": "histogram",
+          "numberOfBuckets": 50,
+          "jsonpath": "$.count",
+          "aggregationmodels": [
+            {
+              "type": "histogram",
+              "field": "depth"
+            }
+          ]
+        },
+        {
+          "identifier": "demo_sea_phys_bcg-ph-numeric-bucket-Count--50",
+          "name": "ph distribution",
+          "title": "ph distribution",
+          "collection": "demo_sea_phys_bcg",
+          "icon": "poll",
+          "charttype": "bars",
+          "isOneDimension": false,
+          "type": "histogram",
+          "numberOfBuckets": 50,
+          "jsonpath": "$.count",
+          "aggregationmodels": [
+            {
+              "type": "histogram",
+              "field": "ph"
+            }
+          ]
+        },
+        {
+          "identifier": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-ph-50",
+          "name": "ph over time",
+          "title": "ph over time",
+          "collection": "demo_sea_phys_bcg",
+          "icon": "poll",
           "charttype": "bars",
           "isOneDimension": false,
           "type": "histogram",
           "numberOfBuckets": 50,
           "jsonpath": "$.metrics[0].value",
+          "useUtc": true,
           "aggregationmodels": [
             {
               "type": "datehistogram",
-              "field": "track.timestamps.center",
+              "field": "timestamp",
               "metrics": [
                 {
                   "collect_fct": "avg",
-                  "collect_field": "track.dynamics.sensor.speed_ms"
+                  "collect_field": "ph"
                 }
               ]
             }
           ]
         },
         {
-          "identifier": "track.duration_s-numeric-bucket-Count--100",
-          "name": "Number of positions having this duration",
-          "title": "Number of positions having this duration",
-          "icon": "slow_motion_video",
+          "identifier": "demo_sea_phys_bcg-spco2-numeric-bucket-Count--50",
+          "name": "Surface CO2 partial pressure",
+          "title": "Surface CO2 partial pressure",
+          "collection": "demo_sea_phys_bcg",
+          "icon": "poll",
           "charttype": "bars",
           "isOneDimension": false,
           "type": "histogram",
-          "numberOfBuckets": 100,
+          "numberOfBuckets": 50,
           "jsonpath": "$.count",
           "aggregationmodels": [
             {
               "type": "histogram",
-              "field": "track.duration_s"
+              "field": "spco2"
             }
           ]
         },
         {
-          "identifier": "track.timestamps.center-time-bucket-Count--100tagging.tag1",
-          "name": "Migration status over time (Manual)",
-          "title": "Migration status over time (Manual)",
-          "icon": "compare_arrows",
-          "type": "swimlane",
-          "numberOfBuckets": 100,
-          "swimlanes": [
-            {
-              "id": 1,
-              "name": "Migration status over time (Manual)",
-              "xAxisField": "track.timestamps.center",
-              "termField": "tagging.tag1",
-              "aggregationmodels": [
-                {
-                  "type": "term",
-                  "field": "tagging.tag1",
-                  "size": 5
-                },
-                {
-                  "type": "datehistogram",
-                  "field": "track.timestamps.center"
-                }
-              ],
-              "jsonpath": "$.count"
-            }
-          ]
-        },
-        {
-          "identifier": "tagging.tag1-10",
-          "name": "Migration status (Manual)",
-          "title": "Migration status (Manual)",
-          "icon": "pan_tool",
-          "type": "tree",
+          "identifier": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-spco2-50",
+          "name": "surface co2 partial pressure over time",
+          "title": "surface co2 partial pressure over time",
+          "collection": "demo_sea_phys_bcg",
+          "icon": "poll",
+          "charttype": "bars",
+          "isOneDimension": false,
+          "type": "histogram",
+          "numberOfBuckets": 50,
+          "jsonpath": "$.metrics[0].value",
+          "useUtc": true,
           "aggregationmodels": [
             {
-              "type": "term",
-              "field": "tagging.tag1",
-              "size": 10
-            }
-          ]
-        },
-        {
-          "identifier": "tagging.tag2-10",
-          "name": "Predicted Migration status",
-          "title": "Predicted Migration status",
-          "icon": "filter_1",
-          "type": "tree",
-          "aggregationmodels": [
-            {
-              "type": "term",
-              "field": "tagging.tag2",
-              "size": 10
-            }
-          ]
-        },
-        {
-          "identifier": "id-20-Object Id-Speed (m/s)-Altitude (m)-Bird-Segment of trajectory-",
-          "name": "Detail list",
-          "title": "Detail list",
-          "icon": "list",
-          "type": "resultlist",
-          "search_size": 20,
-          "fieldsConfiguration": {
-            "idFieldName": "id"
-          },
-          "columns": [
-            {
-              "columnName": "Object Id",
-              "fieldName": "object.id",
-              "dataType": "",
-              "process": ""
-            },
-            {
-              "columnName": "Speed (m/s)",
-              "fieldName": "track.dynamics.sensor.speed_ms",
-              "dataType": "",
-              "process": "Math.round(result * 100) / 100"
-            },
-            {
-              "columnName": "Altitude (m)",
-              "fieldName": "track.dynamics.sensor.height_above_ellipsoid",
-              "dataType": "",
-              "process": "Math.round(result * 100) / 100"
-            }
-          ],
-          "details": [
-            {
-              "name": "Bird",
-              "order": 1,
-              "fields": [
+              "type": "datehistogram",
+              "field": "timestamp",
+              "metrics": [
                 {
-                  "path": "object.id",
-                  "label": "Id",
-                  "process": ""
-                },
-                {
-                  "path": "object.tag_id",
-                  "label": "Tag Id",
-                  "process": ""
+                  "collect_fct": "avg",
+                  "collect_field": "spco2"
                 }
               ]
-            },
+            }
+          ]
+        },
+        {
+          "identifier": "demo_sea_phys_bcg-so-numeric-bucket-Count--50",
+          "name": "Salinity",
+          "title": "Salinity",
+          "collection": "demo_sea_phys_bcg",
+          "icon": "poll",
+          "charttype": "bars",
+          "isOneDimension": false,
+          "type": "histogram",
+          "numberOfBuckets": 50,
+          "jsonpath": "$.count",
+          "aggregationmodels": [
             {
-              "name": "Segment of trajectory",
-              "order": 2,
-              "fields": [
+              "type": "histogram",
+              "field": "so"
+            }
+          ]
+        },
+        {
+          "identifier": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-so-50",
+          "name": "Salinity over time",
+          "title": "Salinity over time",
+          "collection": "demo_sea_phys_bcg",
+          "icon": "poll",
+          "charttype": "bars",
+          "isOneDimension": false,
+          "type": "histogram",
+          "numberOfBuckets": 50,
+          "jsonpath": "$.metrics[0].value",
+          "useUtc": true,
+          "aggregationmodels": [
+            {
+              "type": "datehistogram",
+              "field": "timestamp",
+              "metrics": [
                 {
-                  "path": "track.timestamps.start",
-                  "label": "Start time",
-                  "process": "(new Date(result * 1000)).toUTCString().split(',')[1] !== undefined ? (new Date(result * 1000)).toUTCString().split(',')[1].replace('GMT', '') :'undefined'"
-                },
+                  "collect_fct": "avg",
+                  "collect_field": "so"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "identifier": "demo_sea_phys_bcg-nh4-numeric-bucket-Count--50",
+          "name": "nh4 distribution",
+          "title": "nh4 distribution",
+          "collection": "demo_sea_phys_bcg",
+          "icon": "poll",
+          "charttype": "bars",
+          "isOneDimension": false,
+          "type": "histogram",
+          "numberOfBuckets": 50,
+          "jsonpath": "$.count",
+          "aggregationmodels": [
+            {
+              "type": "histogram",
+              "field": "nh4"
+            }
+          ]
+        },
+        {
+          "identifier": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-nh4-50",
+          "name": "nh4 over time",
+          "title": "nh4 over time",
+          "collection": "demo_sea_phys_bcg",
+          "icon": "poll",
+          "charttype": "bars",
+          "isOneDimension": false,
+          "type": "histogram",
+          "numberOfBuckets": 50,
+          "jsonpath": "$.metrics[0].value",
+          "useUtc": true,
+          "aggregationmodels": [
+            {
+              "type": "datehistogram",
+              "field": "timestamp",
+              "metrics": [
                 {
-                  "path": "track.timestamps.center",
-                  "label": "Center time",
-                  "process": "(new Date(result * 1000)).toUTCString().split(',')[1] !== undefined ? (new Date(result * 1000)).toUTCString().split(',')[1].replace('GMT', '') :'undefined'"
-                },
+                  "collect_fct": "avg",
+                  "collect_field": "nh4"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "identifier": "demo_sea_phys_bcg-chl-numeric-bucket-Count--50",
+          "name": "Chlorophile distribution",
+          "title": "Chlorophile distribution",
+          "collection": "demo_sea_phys_bcg",
+          "icon": "poll",
+          "charttype": "bars",
+          "isOneDimension": false,
+          "type": "histogram",
+          "numberOfBuckets": 50,
+          "jsonpath": "$.count",
+          "aggregationmodels": [
+            {
+              "type": "histogram",
+              "field": "chl"
+            }
+          ]
+        },
+        {
+          "identifier": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-chl-50",
+          "name": "Chlorophyll",
+          "title": "Chlorophyll",
+          "collection": "demo_sea_phys_bcg",
+          "icon": "poll",
+          "charttype": "bars",
+          "isOneDimension": false,
+          "type": "histogram",
+          "numberOfBuckets": 50,
+          "jsonpath": "$.metrics[0].value",
+          "useUtc": true,
+          "aggregationmodels": [
+            {
+              "type": "datehistogram",
+              "field": "timestamp",
+              "metrics": [
                 {
-                  "path": "track.timestamps.end",
-                  "label": "End time",
-                  "process": "(new Date(result * 1000)).toUTCString().split(',')[1] !== undefined ? (new Date(result * 1000)).toUTCString().split(',')[1].replace('GMT', '') :'undefined'"
-                },
+                  "collect_fct": "avg",
+                  "collect_field": "chl"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "identifier": "demo_sea_phys_bcg-no3-numeric-bucket-Count--50",
+          "name": "Nitrate distribution",
+          "title": "Nitrate distribution",
+          "collection": "demo_sea_phys_bcg",
+          "icon": "poll",
+          "charttype": "bars",
+          "isOneDimension": false,
+          "type": "histogram",
+          "numberOfBuckets": 50,
+          "jsonpath": "$.count",
+          "aggregationmodels": [
+            {
+              "type": "histogram",
+              "field": "no3"
+            }
+          ]
+        },
+        {
+          "identifier": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-no3-50",
+          "name": "Nitrate over time",
+          "title": "Nitrate over time",
+          "collection": "demo_sea_phys_bcg",
+          "icon": "poll",
+          "charttype": "bars",
+          "isOneDimension": false,
+          "type": "histogram",
+          "numberOfBuckets": 50,
+          "jsonpath": "$.metrics[0].value",
+          "useUtc": true,
+          "aggregationmodels": [
+            {
+              "type": "datehistogram",
+              "field": "timestamp",
+              "metrics": [
                 {
-                  "path": "track.duration_s",
-                  "label": "Duration (s)",
-                  "process": ""
-                },
+                  "collect_fct": "avg",
+                  "collect_field": "no3"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "identifier": "demo_sea_phys_bcg-o2-numeric-bucket-Count--50",
+          "name": "Dissolved Oxygen distribution",
+          "title": "Dissolved Oxygen distribution",
+          "collection": "demo_sea_phys_bcg",
+          "icon": "poll",
+          "charttype": "bars",
+          "isOneDimension": false,
+          "type": "histogram",
+          "numberOfBuckets": 50,
+          "jsonpath": "$.count",
+          "aggregationmodels": [
+            {
+              "type": "histogram",
+              "field": "o2"
+            }
+          ]
+        },
+        {
+          "identifier": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-o2-50",
+          "name": "Dissolved oxygen over time",
+          "title": "Dissolved oxygen over time",
+          "collection": "demo_sea_phys_bcg",
+          "icon": "poll",
+          "charttype": "bars",
+          "isOneDimension": false,
+          "type": "histogram",
+          "numberOfBuckets": 50,
+          "jsonpath": "$.metrics[0].value",
+          "useUtc": true,
+          "aggregationmodels": [
+            {
+              "type": "datehistogram",
+              "field": "timestamp",
+              "metrics": [
                 {
-                  "path": "track.distance.gps.travelled_m",
-                  "label": "Distance (m)",
-                  "process": "Math.round(result)"
-                },
+                  "collect_fct": "avg",
+                  "collect_field": "o2"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "identifier": "demo_sea_phys_bcg-po4-numeric-bucket-Count--50",
+          "name": "Phosphate distribution",
+          "title": "Phosphate distribution",
+          "collection": "demo_sea_phys_bcg",
+          "icon": "poll",
+          "charttype": "bars",
+          "isOneDimension": false,
+          "type": "histogram",
+          "numberOfBuckets": 50,
+          "jsonpath": "$.count",
+          "aggregationmodels": [
+            {
+              "type": "histogram",
+              "field": "po4"
+            }
+          ]
+        },
+        {
+          "identifier": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-po4-50",
+          "name": "Phosphate over time",
+          "title": "Phosphate over time",
+          "collection": "demo_sea_phys_bcg",
+          "icon": "poll",
+          "charttype": "bars",
+          "isOneDimension": false,
+          "type": "histogram",
+          "numberOfBuckets": 50,
+          "jsonpath": "$.metrics[0].value",
+          "useUtc": true,
+          "aggregationmodels": [
+            {
+              "type": "datehistogram",
+              "field": "timestamp",
+              "metrics": [
                 {
-                  "path": "track.dynamics.sensor.bearing",
-                  "label": "Bearing (sensor)",
-                  "process": "Math.round(result * 100) / 100"
-                },
+                  "collect_fct": "avg",
+                  "collect_field": "po4"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "identifier": "demo_sea_phys_bcg-uo-numeric-bucket-Count--50",
+          "name": "Eastward current (m/s)",
+          "title": "Eastward current (m/s)",
+          "collection": "demo_sea_phys_bcg",
+          "icon": "poll",
+          "charttype": "bars",
+          "isOneDimension": false,
+          "type": "histogram",
+          "numberOfBuckets": 50,
+          "jsonpath": "$.count",
+          "aggregationmodels": [
+            {
+              "type": "histogram",
+              "field": "uo"
+            }
+          ]
+        },
+        {
+          "identifier": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-uo-50",
+          "name": "Eastward current over time",
+          "title": "Eastward current over time",
+          "collection": "demo_sea_phys_bcg",
+          "icon": "poll",
+          "charttype": "bars",
+          "isOneDimension": false,
+          "type": "histogram",
+          "numberOfBuckets": 50,
+          "jsonpath": "$.metrics[0].value",
+          "useUtc": true,
+          "aggregationmodels": [
+            {
+              "type": "datehistogram",
+              "field": "timestamp",
+              "metrics": [
                 {
-                  "path": "track.dynamics.sensor.horizontal_accuracy",
-                  "label": "Horizontal accuracy (sensor)",
-                  "process": "Math.round(result * 100) / 100"
-                },
+                  "collect_fct": "avg",
+                  "collect_field": "uo"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "identifier": "demo_sea_phys_bcg-vo-numeric-bucket-Count--50",
+          "name": "Northward current (m/s)",
+          "title": "Northward current (m/s)",
+          "collection": "demo_sea_phys_bcg",
+          "icon": "poll",
+          "charttype": "bars",
+          "isOneDimension": false,
+          "type": "histogram",
+          "numberOfBuckets": 50,
+          "jsonpath": "$.count",
+          "aggregationmodels": [
+            {
+              "type": "histogram",
+              "field": "vo"
+            }
+          ]
+        },
+        {
+          "identifier": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-vo-50",
+          "name": "Northward current over time",
+          "title": "Northward current over time",
+          "collection": "demo_sea_phys_bcg",
+          "icon": "poll",
+          "charttype": "bars",
+          "isOneDimension": false,
+          "type": "histogram",
+          "numberOfBuckets": 50,
+          "jsonpath": "$.metrics[0].value",
+          "useUtc": true,
+          "aggregationmodels": [
+            {
+              "type": "datehistogram",
+              "field": "timestamp",
+              "metrics": [
                 {
-                  "path": "track.dynamics.sensor.speed_kmh",
-                  "label": "Speed (sensor, km/h)",
-                  "process": "Math.round(result * 100) / 100"
+                  "collect_fct": "avg",
+                  "collect_field": "vo"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "identifier": "demo_sea_phys_bcg-current_speed-numeric-bucket-Count--50",
+          "name": "Current speed (m/s)",
+          "title": "Current speed (m/s)",
+          "collection": "demo_sea_phys_bcg",
+          "icon": "poll",
+          "charttype": "bars",
+          "isOneDimension": false,
+          "type": "histogram",
+          "numberOfBuckets": 50,
+          "jsonpath": "$.count",
+          "aggregationmodels": [
+            {
+              "type": "histogram",
+              "field": "current_speed"
+            }
+          ]
+        },
+        {
+          "identifier": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-current_speed-50",
+          "name": "Current speed (m/s)",
+          "title": "Current speed (m/s)",
+          "collection": "demo_sea_phys_bcg",
+          "icon": "poll",
+          "charttype": "bars",
+          "isOneDimension": false,
+          "type": "histogram",
+          "numberOfBuckets": 50,
+          "jsonpath": "$.metrics[0].value",
+          "useUtc": true,
+          "aggregationmodels": [
+            {
+              "type": "datehistogram",
+              "field": "timestamp",
+              "metrics": [
+                {
+                  "collect_fct": "avg",
+                  "collect_field": "current_speed"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "identifier": "demo_sea_phys_bcg-thetao-numeric-bucket-Count--50",
+          "name": "Potential temperature (°c)",
+          "title": "Potential temperature (°c)",
+          "collection": "demo_sea_phys_bcg",
+          "icon": "poll",
+          "charttype": "bars",
+          "isOneDimension": false,
+          "type": "histogram",
+          "numberOfBuckets": 50,
+          "jsonpath": "$.count",
+          "aggregationmodels": [
+            {
+              "type": "histogram",
+              "field": "thetao"
+            }
+          ]
+        },
+        {
+          "identifier": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-thetao-50",
+          "name": "Potential temperature over time",
+          "title": "Potential temperature over time",
+          "collection": "demo_sea_phys_bcg",
+          "icon": "poll",
+          "charttype": "bars",
+          "isOneDimension": false,
+          "type": "histogram",
+          "numberOfBuckets": 50,
+          "jsonpath": "$.metrics[0].value",
+          "useUtc": true,
+          "aggregationmodels": [
+            {
+              "type": "datehistogram",
+              "field": "timestamp",
+              "metrics": [
+                {
+                  "collect_fct": "avg",
+                  "collect_field": "thetao"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "identifier": "demo_sea_phys_bcg-depth-numeric-interval-AVG-thetao-5-",
+          "name": "Potential temperature (°c) over depth (m)",
+          "title": "Potential temperature (°c) over depth (m)",
+          "collection": "demo_sea_phys_bcg",
+          "icon": "poll",
+          "charttype": "bars",
+          "isOneDimension": false,
+          "type": "histogram",
+          "jsonpath": "$.metrics[0].value",
+          "aggregationmodels": [
+            {
+              "type": "histogram",
+              "field": "depth",
+              "interval": {
+                "value": 5
+              },
+              "metrics": [
+                {
+                  "collect_fct": "avg",
+                  "collect_field": "thetao"
                 }
               ]
             }
@@ -555,15 +1562,16 @@
             "yLabels": 2,
             "xUnit": "",
             "yUnit": "",
-            "chartXLabel": "Date",
-            "chartTitle": "Number of fragments over time",
+            "chartXLabel": "",
+            "shortYLabels": false,
+            "chartTitle": "Timeline",
             "customizedCssClass": "arlas-timeline",
             "multiselectable": true,
-            "brushHandlesHeightWeight": 1,
+            "brushHandlesHeightWeight": 0.8,
             "dataType": "time",
             "isHistogramSelectable": true,
-            "ticksDateFormat": "%b %d %Y %H:%M",
-            "chartType": "bars",
+            "ticksDateFormat": "%b %d %Y  %H:%M",
+            "chartType": "curve",
             "chartHeight": 128,
             "chartWidth": null,
             "xAxisPosition": "bottom",
@@ -581,88 +1589,194 @@
         },
         "mapgl": {
           "allowMapExtend": true,
+          "nbVerticesLimit": 100,
           "input": {
             "defaultBasemapStyle": {
-              "name": "Positron",
-              "styleFile": "https://api.maptiler.com/maps/positron/style.json?key=xIhbu1RwgdbxfZNmoXn4"
+              "name": "Streets-light - No label",
+              "styleFile": "https://api.maptiler.com/maps/bfbf9c99-aa66-4830-8b6c-2251d177f2f5/style.json?key=E7xmD2y9rRj1z4TcNnj9"
             },
             "basemapStyles": [
               {
-                "name": "Positron",
-                "styleFile": "https://api.maptiler.com/maps/positron/style.json?key=xIhbu1RwgdbxfZNmoXn4"
+                "name": "Basic",
+                "styleFile": "https://api.maptiler.com/maps/basic/style.json?key=E7xmD2y9rRj1z4TcNnj9"
+              },
+              {
+                "name": "Streets-dark",
+                "styleFile": "https://api.maptiler.com/maps/a1e62ee0-aca6-451a-a4b8-42250422a212/style.json?key=E7xmD2y9rRj1z4TcNnj9"
+              },
+              {
+                "name": "Streets-light",
+                "styleFile": "https://api.maptiler.com/maps/208a41eb-368f-4003-8e3c-2dba0d90b3cb/style.json?key=E7xmD2y9rRj1z4TcNnj9"
+              },
+              {
+                "name": "Streets-light - No label",
+                "styleFile": "https://api.maptiler.com/maps/bfbf9c99-aa66-4830-8b6c-2251d177f2f5/style.json?key=E7xmD2y9rRj1z4TcNnj9"
               }
             ],
             "margePanForLoad": 5,
-            "margePanForTest": 2,
+            "margePanForTest": 5,
             "initZoom": 5,
             "initCenter": [
-              3,
-              48
+              12,
+              54
             ],
             "displayScale": true,
-            "idFeatureField": "id",
+            "displayCurrentCoordinates": false,
+            "idFeatureField": "track.id",
             "mapLayers": {
               "layers": [],
               "events": {
                 "zoomOnClick": [],
-                "emitOnClick": [],
-                "onHover": []
+                "emitOnClick": [
+                  "arlas_id:Latest images:1636380757419",
+                  "scrollable_arlas_id:Latest images:1636380757419"
+                ],
+                "onHover": [
+                  "arlas_id:Latest images:1636380757419",
+                  "scrollable_arlas_id:Latest images:1636380757419"
+                ]
               },
               "externalEventLayers": []
             },
             "visualisations_sets": [
               {
-                "name": "Distribution of birds positions",
+                "name": "Vessels",
                 "layers": [
-                  "Gathered birds positions"
+                  "arlas_id:Boats courses (Ship type) light:1636380410813",
+                  "arlas_id:Heatmap:1636132950290"
                 ],
                 "enabled": true
               },
               {
-                "name": "Density of birds positions (visu)",
+                "name": "Buildings",
                 "layers": [
-                  "Density of birds positions"
+                  "arlas_id:Built aera:1636132647462",
+                  "arlas_id:Building footprints:1636132666440"
                 ],
                 "enabled": false
               },
               {
-                "name": "Birds identenfiers",
+                "name": "Latest images",
                 "layers": [
-                  "Birds identifiers fragment"
-                ],
-                "enabled": true
-              },
-              {
-                "name": "Birds speed",
-                "layers": [
-                  "Birds speed fragment"
+                  "arlas_id:Latest images:1636380757419"
                 ],
                 "enabled": false
               },
               {
-                "name": "Birds altitude",
+                "name": "All images",
                 "layers": [
-                  "Birds altitude fragment"
+                  "arlas_id:Image density:1636380780251",
+                  "arlas_id:Images:1636380768019"
                 ],
                 "enabled": false
               },
               {
-                "name": "Migration status (Manual)",
+                "name": "Water PH",
                 "layers": [
-                  "Birds migration status fragment"
+                  "arlas_id:PH:1641574217998"
                 ],
                 "enabled": false
               },
               {
-                "name": "Predicted migration status",
+                "name": "Surface pp CO2",
                 "layers": [
-                  "Birds predicted migration status fragment"
+                  "arlas_id:Pressure (Pa):1641574207396"
+                ],
+                "enabled": false
+              },
+              {
+                "name": "Salinity",
+                "layers": [
+                  "arlas_id:Salinity:1641574127410"
+                ],
+                "enabled": false
+              },
+              {
+                "name": "Ammonium",
+                "layers": [
+                  "arlas_id:Concentration (mmol / m3):1641574329470"
+                ],
+                "enabled": false
+              },
+              {
+                "name": "Chlorophyll",
+                "layers": [
+                  "arlas_id:Concentration (mg / m3):1641575686540"
+                ],
+                "enabled": false
+              },
+              {
+                "name": "Nitrate",
+                "layers": [
+                  "arlas_id:Concentration (mmol / m3):1641575697047"
+                ],
+                "enabled": false
+              },
+              {
+                "name": "Dissolved O2",
+                "layers": [
+                  "arlas_id:Concentration (mmol / m3):1641575660077"
+                ],
+                "enabled": false
+              },
+              {
+                "name": "Phosphate",
+                "layers": [
+                  "arlas_id:Concentration (mmol / m3):1641836497409"
+                ],
+                "enabled": false
+              },
+              {
+                "name": "Potential Temperature",
+                "layers": [
+                  "arlas_id:Temperature (°c):1641836702700"
+                ],
+                "enabled": false
+              },
+              {
+                "name": "Current Speed",
+                "layers": [
+                  "arlas_id:Speed (m/s):1642149030682"
                 ],
                 "enabled": false
               }
             ]
           }
         },
+        "resultlists": [
+          {
+            "contributorId": "demo_eo-metadata.core.identity.identifier-150-Sensor-Date-Cloud %-Incidence angle-Location-Source-Technical details-Processing-Acquisition-",
+            "componentType": "resultlist",
+            "input": {
+              "id": "demo_eo-metadata.core.identity.identifier-150-Sensor-Date-Cloud %-Incidence angle-Location-Source-Technical details-Processing-Acquisition-",
+              "tableWidth": 445,
+              "globalActionsList": [],
+              "searchSize": 150,
+              "nLastLines": 3,
+              "detailedGridHeight": 300,
+              "nbGridColumns": 3,
+              "displayFilters": false,
+              "hasGridMode": false,
+              "defautMode": "list",
+              "visualisationLink": "{_services_WMS_0_url}",
+              "downloadLink": "https://demo.cloud.arlas.io/arlas/server/explore/demo_eo/_search?f=metadata.core.identity.identifier:eq:{metadata_core_identity_identifier}",
+              "isBodyHidden": false,
+              "isGeoSortActived": true,
+              "isAutoGeoSortActived": null,
+              "selectedItemsEvent": null,
+              "consultedItemEvent": null,
+              "actionOnItemEvent": null,
+              "globalActionEvent": 300,
+              "useColorService": true,
+              "cellBackgroundStyle": "filled",
+              "options": {
+                "showActionsOnhover": "true",
+                "showDetailIconName": "keyboard_arrow_down",
+                "hideDetailIconName": "keyboard_arrow_up"
+              }
+            }
+          }
+        ],
         "detailedTimeline": {
           "contributorId": "detailedTimeline",
           "componentType": "histogram",
@@ -674,15 +1788,16 @@
             "yLabels": 2,
             "xUnit": "",
             "yUnit": "",
-            "chartXLabel": "Date",
-            "chartTitle": "Number of fragments over time",
+            "chartXLabel": "",
+            "shortYLabels": false,
+            "chartTitle": "Detailed timeline",
             "customizedCssClass": "arlas-detailed-timeline",
-            "multiselectable": true,
-            "brushHandlesHeightWeight": 1,
+            "multiselectable": false,
+            "brushHandlesHeightWeight": 0.8,
             "dataType": "time",
             "isHistogramSelectable": true,
             "ticksDateFormat": "%b %d %Y  %H:%M",
-            "chartType": "bars",
+            "chartType": "curve",
             "chartHeight": 60,
             "chartWidth": null,
             "xAxisPosition": "top",
@@ -699,242 +1814,111 @@
         },
         "share": {
           "geojson": {
-            "max_for_feature": 10000,
-            "max_for_topology": 10000,
+            "max_for_feature": 5000,
+            "max_for_topology": 5000,
             "sort_excluded_type": [
               "TEXT",
               "GEO_POINT"
             ]
           }
         },
-        "download": {
-          "auth_type": "basic"
-        }
+        "download": {}
       },
       "analytics": [
         {
-          "groupId": "raw_data-0",
-          "title": "Statistics",
-          "tab": "raw_data",
-          "icon": "functions",
+          "groupId": "Vessels-0",
+          "title": "Stats",
+          "tab": "Vessels",
+          "icon": "multiline_chart",
           "components": [
             {
-              "contributorId": "object.id-cardinality",
+              "contributorId": "demo_ais_flow-object.id-cardinality",
               "componentType": "metric",
               "input": {
                 "customizedCssClass": "power",
                 "shortValue": false,
-                "chartWidth": null,
-                "beforeValue": "Total number of",
-                "afterValue": "birds"
+                "valuePrecision": 0,
+                "chartWidth": 143,
+                "afterValue": "Vessels"
               }
             },
             {
-              "contributorId": "m[0]/1000track.distance.gps.travelled_m-sum",
+              "contributorId": "demo_ais_flow-m[0]/1852track.distance.gps.travelled_m-sum",
               "componentType": "metric",
               "input": {
                 "customizedCssClass": "power",
                 "shortValue": false,
-                "chartWidth": null,
-                "beforeValue": "Travelled distance of",
-                "afterValue": "km"
+                "valuePrecision": 0,
+                "chartWidth": 143,
+                "afterValue": "Nautic Miles"
+              }
+            },
+            {
+              "contributorId": "demo_ais_flow-track.nb_geopoints-sum",
+              "componentType": "metric",
+              "input": {
+                "customizedCssClass": "power",
+                "shortValue": true,
+                "valuePrecision": 0,
+                "chartWidth": 143,
+                "afterValue": "Geopoints"
               }
             }
           ]
         },
         {
-          "groupId": "raw_data-1",
-          "title": "Birds Ids",
-          "tab": "raw_data",
-          "icon": "local_offer",
+          "groupId": "Vessels-1",
+          "title": "Type",
+          "tab": "Vessels",
+          "icon": "directions_boat",
           "components": [
             {
-              "contributorId": "object.id-10",
+              "contributorId": "demo_ais_flow-object.ship_type-15-",
+              "componentType": "donut",
+              "showExportCsv": "",
+              "input": {
+                "id": "demo_ais_flow-object.ship_type-15-",
+                "customizedCssClass": "arlas-donuts-analytics",
+                "diameter": 170,
+                "containerWidth": 223,
+                "multiselectable": true,
+                "opacity": 0.8
+              }
+            },
+            {
+              "contributorId": "demo_ais_flow-object.ship_type-6-Count",
+              "showExportCsv": "",
               "componentType": "powerbars",
               "input": {
-                "chartTitle": "Object Id",
-                "powerbarTitle": "Object Id",
+                "chartTitle": "Ship type",
+                "powerbarTitle": "Ship type",
                 "displayFilter": true,
-                "useColorService": false,
-                "chartWidth": null
+                "useColorService": true,
+                "useColorFromData": false,
+                "unit": "",
+                "chartWidth": 217
               }
             }
           ]
         },
         {
-          "groupId": "raw_data-2",
-          "title": "Track altitude (m) distribution and average over time",
-          "tab": "raw_data",
-          "icon": "call_made",
-          "components": [
-            {
-              "contributorId": "track.dynamics.sensor.height_above_ellipsoid-numeric-bucket-Count--50",
-              "input": {
-                "id": "track.dynamics.sensor.height_above_ellipsoid-numeric-bucket-Count--50",
-                "isHistogramSelectable": true,
-                "multiselectable": true,
-                "topOffsetRemoveInterval": 40,
-                "leftOffsetRemoveInterval": 18,
-                "brushHandlesHeightWeight": 1,
-                "yAxisStartsFromZero": true,
-                "chartType": "bars",
-                "chartTitle": "Number of birds positions having this altitude",
-                "chartHeight": 100,
-                "chartWidth": 445,
-                "xAxisPosition": "bottom",
-                "descriptionPosition": "bottom",
-                "xTicks": 4,
-                "yTicks": 1,
-                "xLabels": 4,
-                "yLabels": 4,
-                "xUnit": "m",
-                "yUnit": "",
-                "chartXLabel": "Altitude",
-                "showXTicks": true,
-                "showYTicks": true,
-                "showXLabels": true,
-                "showYLabels": true,
-                "showHorizontalLines": false,
-                "barWeight": 0.8,
-                "dataType": "numeric",
-                "customizedCssClass": "arlas-histogram-analytics",
-                "isSmoothedCurve": false
-              },
-              "componentType": "histogram"
-            },
-            {
-              "contributorId": "track.timestamps.center-time-bucket-AVG-track.dynamics.sensor.height_above_ellipsoid-50",
-              "input": {
-                "id": "track.timestamps.center-time-bucket-AVG-track.dynamics.sensor.height_above_ellipsoid-50",
-                "isHistogramSelectable": true,
-                "multiselectable": true,
-                "topOffsetRemoveInterval": 40,
-                "leftOffsetRemoveInterval": 18,
-                "brushHandlesHeightWeight": 1,
-                "yAxisStartsFromZero": true,
-                "chartType": "bars",
-                "chartTitle": "Altitude average",
-                "chartHeight": 100,
-                "chartWidth": 445,
-                "xAxisPosition": "bottom",
-                "descriptionPosition": "bottom",
-                "xTicks": 4,
-                "yTicks": 1,
-                "xLabels": 4,
-                "yLabels": 4,
-                "xUnit": "",
-                "yUnit": "m",
-                "chartXLabel": "Date",
-                "showXTicks": true,
-                "showYTicks": true,
-                "showXLabels": true,
-                "showYLabels": true,
-                "showHorizontalLines": false,
-                "barWeight": 0.8,
-                "dataType": "time",
-                "customizedCssClass": "arlas-timeline-analytics",
-                "isSmoothedCurve": false
-              },
-              "componentType": "histogram"
-            }
-          ]
-        },
-        {
-          "groupId": "raw_data-3",
-          "title": "Track travelled distance (m) over time",
-          "tab": "raw_data",
-          "icon": "straighten",
-          "components": [
-            {
-              "contributorId": "track.timestamps.center-time-bucket-SUM-track.distance.gps.travelled_m-50",
-              "input": {
-                "id": "track.timestamps.center-time-bucket-SUM-track.distance.gps.travelled_m-50",
-                "isHistogramSelectable": true,
-                "multiselectable": true,
-                "topOffsetRemoveInterval": 40,
-                "leftOffsetRemoveInterval": 18,
-                "brushHandlesHeightWeight": 1,
-                "yAxisStartsFromZero": true,
-                "chartType": "bars",
-                "chartTitle": "Travelled distance",
-                "chartHeight": 100,
-                "chartWidth": 445,
-                "xAxisPosition": "bottom",
-                "descriptionPosition": "bottom",
-                "xTicks": 4,
-                "yTicks": 1,
-                "xLabels": 4,
-                "yLabels": 4,
-                "xUnit": "",
-                "yUnit": "m",
-                "chartXLabel": "Date",
-                "showXTicks": true,
-                "showYTicks": true,
-                "showXLabels": true,
-                "showYLabels": true,
-                "showHorizontalLines": false,
-                "barWeight": 0.8,
-                "dataType": "time",
-                "customizedCssClass": "arlas-timeline-analytics",
-                "isSmoothedCurve": false
-              },
-              "componentType": "histogram"
-            }
-          ]
-        },
-        {
-          "groupId": "raw_data-4",
-          "title": "Bearing (degree) distribution and average over time",
-          "tab": "raw_data",
+          "groupId": "Vessels-2",
+          "title": "Dynamics",
+          "tab": "Vessels",
           "icon": "explore",
           "components": [
             {
-              "contributorId": "track.dynamics.sensor.bearing-numeric-bucket-Count--50",
+              "contributorId": "demo_ais_flow-track.dynamics.sensor.heading-numeric-bucket-Count--50",
               "input": {
-                "id": "track.dynamics.sensor.bearing-numeric-bucket-Count--50",
+                "id": "demo_ais_flow-track.dynamics.sensor.heading-numeric-bucket-Count--50",
                 "isHistogramSelectable": true,
                 "multiselectable": true,
                 "topOffsetRemoveInterval": 40,
                 "leftOffsetRemoveInterval": 18,
-                "brushHandlesHeightWeight": 1,
+                "brushHandlesHeightWeight": 0.8,
                 "yAxisStartsFromZero": true,
                 "chartType": "bars",
-                "chartTitle": "Number of birds positions having this bearing",
-                "chartHeight": 100,
-                "chartWidth": 445,
-                "xAxisPosition": "bottom",
-                "descriptionPosition": "bottom",
-                "xTicks": 4,
-                "yTicks": 1,
-                "xLabels": 4,
-                "yLabels": 4,
-                "xUnit": "°",
-                "yUnit": "",
-                "chartXLabel": "Bearing",
-                "showXTicks": true,
-                "showYTicks": true,
-                "showXLabels": true,
-                "showYLabels": true,
-                "showHorizontalLines": false,
-                "barWeight": 0.8,
-                "dataType": "numeric",
-                "customizedCssClass": "arlas-histogram-analytics",
-                "isSmoothedCurve": false
-              },
-              "componentType": "histogram"
-            },
-            {
-              "contributorId": "track.timestamps.center-time-bucket-AVG-track.dynamics.sensor.bearing-50",
-              "input": {
-                "id": "track.timestamps.center-time-bucket-AVG-track.dynamics.sensor.bearing-50",
-                "isHistogramSelectable": true,
-                "multiselectable": true,
-                "topOffsetRemoveInterval": 40,
-                "leftOffsetRemoveInterval": 18,
-                "brushHandlesHeightWeight": 1,
-                "yAxisStartsFromZero": true,
-                "chartType": "bars",
-                "chartTitle": "Bearing average",
+                "chartTitle": "Heading",
                 "chartHeight": 100,
                 "chartWidth": 445,
                 "xAxisPosition": "bottom",
@@ -944,75 +1928,34 @@
                 "xLabels": 4,
                 "yLabels": 4,
                 "xUnit": "",
-                "yUnit": "°",
-                "chartXLabel": "Date",
-                "showXTicks": true,
-                "showYTicks": true,
-                "showXLabels": true,
-                "showYLabels": true,
-                "showHorizontalLines": false,
-                "barWeight": 0.8,
-                "dataType": "time",
-                "customizedCssClass": "arlas-timeline-analytics",
-                "isSmoothedCurve": false
-              },
-              "componentType": "histogram"
-            }
-          ]
-        },
-        {
-          "groupId": "raw_data-5",
-          "title": "Speed distribution in m/s and average over time",
-          "tab": "raw_data",
-          "icon": "slow_motion_video",
-          "components": [
-            {
-              "contributorId": "track.dynamics.sensor.speed_ms-numeric-bucket-Count--50",
-              "input": {
-                "id": "track.dynamics.sensor.speed_ms-numeric-bucket-Count--50",
-                "isHistogramSelectable": true,
-                "multiselectable": true,
-                "topOffsetRemoveInterval": 40,
-                "leftOffsetRemoveInterval": 18,
-                "brushHandlesHeightWeight": 1,
-                "yAxisStartsFromZero": true,
-                "chartType": "bars",
-                "chartTitle": "Number of birds positions having this speed",
-                "chartHeight": 100,
-                "chartWidth": 445,
-                "xAxisPosition": "bottom",
-                "descriptionPosition": "bottom",
-                "xTicks": 4,
-                "yTicks": 1,
-                "xLabels": 4,
-                "yLabels": 4,
-                "xUnit": "m/s",
                 "yUnit": "",
-                "chartXLabel": "Speed",
+                "chartXLabel": "",
+                "shortYLabels": false,
                 "showXTicks": true,
                 "showYTicks": true,
                 "showXLabels": true,
                 "showYLabels": true,
-                "showHorizontalLines": false,
+                "showHorizontalLines": true,
                 "barWeight": 0.8,
                 "dataType": "numeric",
                 "customizedCssClass": "arlas-histogram-analytics",
                 "isSmoothedCurve": false
               },
-              "componentType": "histogram"
+              "componentType": "histogram",
+              "showExportCsv": ""
             },
             {
-              "contributorId": "track.timestamps.center-time-bucket-AVG-track.dynamics.sensor.speed_ms-50",
+              "contributorId": "demo_ais_flow-track.dynamics.sensor.speed_nd-numeric-bucket-Count--50",
               "input": {
-                "id": "track.timestamps.center-time-bucket-AVG-track.dynamics.sensor.speed_ms-50",
+                "id": "demo_ais_flow-track.dynamics.sensor.speed_nd-numeric-bucket-Count--50",
                 "isHistogramSelectable": true,
                 "multiselectable": true,
                 "topOffsetRemoveInterval": 40,
                 "leftOffsetRemoveInterval": 18,
-                "brushHandlesHeightWeight": 1,
+                "brushHandlesHeightWeight": 0.8,
                 "yAxisStartsFromZero": true,
                 "chartType": "bars",
-                "chartTitle": "Speed average",
+                "chartTitle": "Speed distribution",
                 "chartHeight": 100,
                 "chartWidth": 445,
                 "xAxisPosition": "bottom",
@@ -1022,82 +1965,99 @@
                 "xLabels": 4,
                 "yLabels": 4,
                 "xUnit": "",
-                "yUnit": "m/s",
-                "chartXLabel": "Date",
-                "showXTicks": true,
-                "showYTicks": true,
-                "showXLabels": true,
-                "showYLabels": true,
-                "showHorizontalLines": false,
-                "barWeight": 0.8,
-                "dataType": "time",
-                "customizedCssClass": "arlas-timeline-analytics",
-                "isSmoothedCurve": false
-              },
-              "componentType": "histogram"
-            }
-          ]
-        },
-        {
-          "groupId": "raw_data-6",
-          "title": "Track Duration (seconds)",
-          "tab": "raw_data",
-          "icon": "slow_motion_video",
-          "components": [
-            {
-              "contributorId": "track.duration_s-numeric-bucket-Count--100",
-              "input": {
-                "id": "track.duration_s-numeric-bucket-Count--100",
-                "isHistogramSelectable": true,
-                "multiselectable": true,
-                "topOffsetRemoveInterval": 40,
-                "leftOffsetRemoveInterval": 18,
-                "brushHandlesHeightWeight": 1,
-                "yAxisStartsFromZero": true,
-                "chartType": "bars",
-                "chartTitle": "Number of positions having this duration",
-                "chartHeight": 100,
-                "chartWidth": 445,
-                "xAxisPosition": "bottom",
-                "descriptionPosition": "bottom",
-                "xTicks": 4,
-                "yTicks": 1,
-                "xLabels": 4,
-                "yLabels": 4,
-                "xUnit": "s",
                 "yUnit": "",
-                "chartXLabel": "Track duration",
+                "chartXLabel": "",
+                "shortYLabels": false,
                 "showXTicks": true,
                 "showYTicks": true,
                 "showXLabels": true,
                 "showYLabels": true,
-                "showHorizontalLines": false,
+                "showHorizontalLines": true,
                 "barWeight": 0.8,
                 "dataType": "numeric",
                 "customizedCssClass": "arlas-histogram-analytics",
                 "isSmoothedCurve": false
               },
-              "componentType": "histogram"
+              "componentType": "histogram",
+              "showExportCsv": ""
             }
           ]
         },
         {
-          "groupId": "ml_data-0",
-          "title": "Migration status over time (Manual)",
-          "tab": "ml_data",
-          "icon": "compare_arrows",
+          "groupId": "Vessels-3",
+          "title": "Vessel",
+          "tab": "Vessels",
+          "icon": "fingerprint",
           "components": [
             {
-              "contributorId": "track.timestamps.center-time-bucket-Count--100tagging.tag1",
+              "contributorId": "demo_ais_flow-object.name-10-Count",
+              "showExportCsv": "",
+              "componentType": "powerbars",
               "input": {
-                "id": "track.timestamps.center-time-bucket-Count--100tagging.tag1",
+                "chartTitle": "Ship",
+                "powerbarTitle": "Ship",
+                "displayFilter": true,
+                "useColorService": false,
+                "useColorFromData": false,
+                "unit": "",
+                "chartWidth": 445
+              }
+            }
+          ]
+        },
+        {
+          "groupId": "Buildings-0",
+          "title": "Building type",
+          "tab": "Buildings",
+          "icon": "account_balance",
+          "components": [
+            {
+              "contributorId": "demo_osm-osm.building-10-",
+              "componentType": "donut",
+              "showExportCsv": "",
+              "input": {
+                "id": "demo_osm-osm.building-10-",
+                "customizedCssClass": "arlas-donuts-analytics",
+                "diameter": 170,
+                "containerWidth": 223,
+                "multiselectable": true,
+                "opacity": 0.4
+              }
+            },
+            {
+              "contributorId": "demo_osm-osm.building-6-Count",
+              "showExportCsv": "",
+              "componentType": "powerbars",
+              "input": {
+                "chartTitle": "Type",
+                "powerbarTitle": "Type",
+                "displayFilter": true,
+                "useColorService": true,
+                "useColorFromData": false,
+                "unit": "",
+                "chartWidth": 217
+              }
+            }
+          ]
+        },
+        {
+          "groupId": "Buildings-1",
+          "title": "Building size",
+          "tab": "Buildings",
+          "icon": "settings_ethernet",
+          "components": [
+            {
+              "contributorId": "demo_osm-osm.area-numeric-bucket-Count--50",
+              "input": {
+                "id": "demo_osm-osm.area-numeric-bucket-Count--50",
                 "isHistogramSelectable": true,
-                "multiselectable": false,
+                "multiselectable": true,
                 "topOffsetRemoveInterval": 40,
                 "leftOffsetRemoveInterval": 18,
-                "brushHandlesHeightWeight": 1,
+                "brushHandlesHeightWeight": 0.8,
                 "yAxisStartsFromZero": true,
-                "chartTitle": "Migration status over time (Manual)",
+                "chartType": "bars",
+                "chartTitle": "Surface",
                 "chartHeight": 100,
                 "chartWidth": 445,
                 "xAxisPosition": "bottom",
@@ -1106,66 +2066,78 @@
                 "yTicks": 1,
                 "xLabels": 4,
                 "yLabels": 4,
+                "xUnit": "",
+                "yUnit": "",
+                "chartXLabel": "",
+                "shortYLabels": false,
                 "showXTicks": true,
                 "showYTicks": true,
                 "showXLabels": true,
-                "showYLabels": false,
+                "showYLabels": true,
+                "showHorizontalLines": true,
                 "barWeight": 0.8,
-                "dataType": "time",
-                "swimLaneLabelsWidth": 80,
-                "swimlaneHeight": 20,
-                "swimlaneMode": "variableHeight",
-                "swimlaneBorderRadius": 3,
-                "paletteColors": [
-                  330,
-                  170
-                ],
-                "swimlane_representation": "column",
-                "customizedCssClass": "arlas-swimlane",
-                "swimlane_options": {
-                  "nan_color": "#333"
-                }
+                "dataType": "numeric",
+                "customizedCssClass": "arlas-histogram-analytics",
+                "isSmoothedCurve": false
               },
-              "componentType": "swimlane"
+              "componentType": "histogram",
+              "showExportCsv": ""
             }
           ]
         },
         {
-          "groupId": "ml_data-1",
-          "title": "Migration status (Manual)",
-          "tab": "ml_data",
-          "icon": "pan_tool",
+          "groupId": "Images-0",
+          "title": "Sensor",
+          "tab": "Images",
+          "icon": "camera",
           "components": [
             {
-              "contributorId": "tagging.tag1-10",
+              "contributorId": "demo_eo-_sensorType-10-metadata.ObservationContext.processusUsed.platform-10-",
+              "componentType": "donut",
+              "showExportCsv": false,
+              "input": {
+                "id": "demo_eo-_sensorType-10-metadata.ObservationContext.processusUsed.platform-10-",
+                "customizedCssClass": "arlas-donuts-analytics",
+                "diameter": 170,
+                "containerWidth": 223,
+                "multiselectable": true,
+                "opacity": 0.4
+              }
+            },
+            {
+              "contributorId": "demo_eo-metadata.ObservationContext.processusUsed.platform-6-Count",
+              "showExportCsv": false,
               "componentType": "powerbars",
               "input": {
-                "chartTitle": "Migration status (Manual)",
-                "powerbarTitle": "Migration status (Manual)",
+                "chartTitle": "Collections",
+                "powerbarTitle": "Collections",
                 "displayFilter": true,
                 "useColorService": true,
-                "chartWidth": null
+                "useColorFromData": false,
+                "unit": "",
+                "chartWidth": 217
               }
             }
           ]
         },
         {
-          "groupId": "ml_data-2",
-          "title": "Predicted Migration over time",
-          "tab": "ml_data",
-          "icon": "compare_arrows",
+          "groupId": "Images-1",
+          "title": "Cloud %",
+          "tab": "Images",
+          "icon": "cloud_queue",
           "components": [
             {
-              "contributorId": "track.timestamps.center-time-bucket-Count--100tagging.tag1",
+              "contributorId": "demo_eo-metadata.ObservationContext.eo.opt.cloudCoverPercentage-numeric-bucket-Count--50",
               "input": {
-                "id": "track.timestamps.center-time-bucket-Count--100tagging.tag1",
+                "id": "demo_eo-metadata.ObservationContext.eo.opt.cloudCoverPercentage-numeric-bucket-Count--50",
                 "isHistogramSelectable": true,
-                "multiselectable": false,
+                "multiselectable": true,
                 "topOffsetRemoveInterval": 40,
                 "leftOffsetRemoveInterval": 18,
-                "brushHandlesHeightWeight": 1,
+                "brushHandlesHeightWeight": 0.8,
                 "yAxisStartsFromZero": true,
-                "chartTitle": "Predicted Migration over time",
+                "chartType": "curve",
+                "chartTitle": "Cloud coverage",
                 "chartHeight": 100,
                 "chartWidth": 445,
                 "xAxisPosition": "bottom",
@@ -1174,78 +2146,1278 @@
                 "yTicks": 1,
                 "xLabels": 4,
                 "yLabels": 4,
+                "xUnit": "",
+                "yUnit": "",
+                "chartXLabel": "",
+                "shortYLabels": false,
                 "showXTicks": true,
                 "showYTicks": true,
                 "showXLabels": true,
-                "showYLabels": false,
+                "showYLabels": true,
+                "showHorizontalLines": true,
                 "barWeight": 0.8,
-                "dataType": "time",
-                "swimLaneLabelsWidth": 80,
-                "swimlaneHeight": 20,
-                "swimlaneMode": "variableHeight",
-                "swimlaneBorderRadius": 3,
-                "paletteColors": [
-                  330,
-                  170
-                ],
-                "swimlane_representation": "column",
-                "customizedCssClass": "arlas-swimlane",
-                "swimlane_options": {
-                  "nan_color": "#333"
-                }
+                "dataType": "numeric",
+                "customizedCssClass": "arlas-histogram-analytics",
+                "isSmoothedCurve": false
               },
-              "componentType": "swimlane"
+              "componentType": "histogram",
+              "showExportCsv": ""
             }
           ]
         },
         {
-          "groupId": "ml_data-3",
-          "title": "Predicted Migration status",
-          "tab": "ml_data",
-          "icon": "filter_1",
+          "groupId": "Images-2",
+          "title": "Incidence angle",
+          "tab": "Images",
+          "icon": "call_missed_outgoing",
           "components": [
             {
-              "contributorId": "tagging.tag2-10",
+              "contributorId": "demo_eo-metadata.ObservationContext.eo.acquisition.incidenceAngle-numeric-bucket-Count--50",
+              "input": {
+                "id": "demo_eo-metadata.ObservationContext.eo.acquisition.incidenceAngle-numeric-bucket-Count--50",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 0.8,
+                "yAxisStartsFromZero": true,
+                "chartType": "bars",
+                "chartTitle": "Incidence angle",
+                "chartHeight": 100,
+                "chartWidth": 445,
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "xUnit": "",
+                "yUnit": "",
+                "chartXLabel": "",
+                "shortYLabels": false,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": true,
+                "barWeight": 0.8,
+                "dataType": "numeric",
+                "customizedCssClass": "arlas-histogram-analytics",
+                "isSmoothedCurve": false
+              },
+              "componentType": "histogram",
+              "showExportCsv": ""
+            }
+          ]
+        },
+        {
+          "groupId": "Sea Geo Chemistry-0",
+          "title": "Grid",
+          "tab": "Sea Geo Chemistry",
+          "icon": "apps",
+          "components": [
+            {
+              "contributorId": "demo_sea_phys_bcg-location_id-cardinality",
+              "componentType": "metric",
+              "input": {
+                "customizedCssClass": "power",
+                "shortValue": false,
+                "valuePrecision": 1,
+                "chartWidth": 217,
+                "beforeValue": "Cells number"
+              }
+            },
+            {
+              "contributorId": "demo_sea_phys_bcg-location_id_depth-cardinality",
+              "componentType": "metric",
+              "input": {
+                "customizedCssClass": "power",
+                "shortValue": false,
+                "valuePrecision": 1,
+                "chartWidth": 217,
+                "beforeValue": "3D Cells number (depth)"
+              }
+            }
+          ]
+        },
+        {
+          "groupId": "Sea Geo Chemistry-1",
+          "title": "Depth",
+          "tab": "Sea Geo Chemistry",
+          "icon": "arrow_downward",
+          "components": [
+            {
+              "contributorId": "demo_sea_phys_bcg-depth_status-4-Count",
+              "showExportCsv": true,
               "componentType": "powerbars",
               "input": {
-                "chartTitle": "Predicted Migration status",
-                "powerbarTitle": "Predicted Migration status",
+                "chartTitle": "Depth status",
+                "powerbarTitle": "Depth status",
                 "displayFilter": true,
-                "useColorService": true,
-                "chartWidth": null
+                "useColorService": false,
+                "useColorFromData": false,
+                "unit": "measures",
+                "chartWidth": 445
+              }
+            },
+            {
+              "contributorId": "demo_sea_phys_bcg-depth-numeric-bucket-Count--50",
+              "input": {
+                "id": "demo_sea_phys_bcg-depth-numeric-bucket-Count--50",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 0.8,
+                "yAxisStartsFromZero": true,
+                "chartType": "bars",
+                "chartTitle": "Depth distribution",
+                "chartHeight": 100,
+                "chartWidth": 445,
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "xUnit": "",
+                "yUnit": "",
+                "chartXLabel": "",
+                "shortYLabels": false,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": true,
+                "barWeight": 0.8,
+                "dataType": "numeric",
+                "customizedCssClass": "arlas-histogram-analytics",
+                "isSmoothedCurve": false
+              },
+              "componentType": "histogram",
+              "showExportCsv": ""
+            }
+          ]
+        },
+        {
+          "groupId": "Sea Geo Chemistry-2",
+          "title": "Water ph",
+          "tab": "Sea Geo Chemistry",
+          "icon": "poll",
+          "components": [
+            {
+              "contributorId": "demo_sea_phys_bcg-ph-numeric-bucket-Count--50",
+              "input": {
+                "id": "demo_sea_phys_bcg-ph-numeric-bucket-Count--50",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 0.8,
+                "yAxisStartsFromZero": true,
+                "chartType": "bars",
+                "chartTitle": "ph distribution",
+                "chartHeight": 100,
+                "chartWidth": 445,
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "xUnit": "",
+                "yUnit": "",
+                "chartXLabel": "",
+                "shortYLabels": false,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": true,
+                "barWeight": 0.8,
+                "dataType": "numeric",
+                "customizedCssClass": "arlas-histogram-analytics",
+                "isSmoothedCurve": false
+              },
+              "componentType": "histogram",
+              "showExportCsv": ""
+            },
+            {
+              "contributorId": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-ph-50",
+              "input": {
+                "id": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-ph-50",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 0.8,
+                "yAxisStartsFromZero": true,
+                "chartType": "bars",
+                "chartTitle": "ph over time",
+                "chartHeight": 100,
+                "chartWidth": 445,
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "xUnit": "",
+                "yUnit": "",
+                "chartXLabel": "",
+                "shortYLabels": false,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": true,
+                "barWeight": 0.8,
+                "dataType": "time",
+                "ticksDateFormat": "%b %d %Y  %H:%M",
+                "customizedCssClass": "arlas-timeline-analytics",
+                "isSmoothedCurve": false
+              },
+              "componentType": "histogram",
+              "showExportCsv": ""
+            }
+          ]
+        },
+        {
+          "groupId": "Sea Geo Chemistry-3",
+          "title": "Surface partial pressure of carbon dioxide",
+          "tab": "Sea Geo Chemistry",
+          "icon": "poll",
+          "components": [
+            {
+              "contributorId": "demo_sea_phys_bcg-spco2-numeric-bucket-Count--50",
+              "input": {
+                "id": "demo_sea_phys_bcg-spco2-numeric-bucket-Count--50",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 0.8,
+                "yAxisStartsFromZero": true,
+                "chartType": "bars",
+                "chartTitle": "Surface CO2 partial pressure",
+                "chartHeight": 100,
+                "chartWidth": 445,
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "xUnit": "",
+                "yUnit": "",
+                "chartXLabel": "",
+                "shortYLabels": false,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": true,
+                "barWeight": 0.8,
+                "dataType": "numeric",
+                "customizedCssClass": "arlas-histogram-analytics",
+                "isSmoothedCurve": false
+              },
+              "componentType": "histogram",
+              "showExportCsv": ""
+            },
+            {
+              "contributorId": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-spco2-50",
+              "input": {
+                "id": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-spco2-50",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 0.8,
+                "yAxisStartsFromZero": true,
+                "chartType": "bars",
+                "chartTitle": "surface co2 partial pressure over time",
+                "chartHeight": 100,
+                "chartWidth": 445,
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "xUnit": "",
+                "yUnit": "",
+                "chartXLabel": "",
+                "shortYLabels": false,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": true,
+                "barWeight": 0.8,
+                "dataType": "time",
+                "ticksDateFormat": "%b %d %Y  %H:%M",
+                "customizedCssClass": "arlas-timeline-analytics",
+                "isSmoothedCurve": false
+              },
+              "componentType": "histogram",
+              "showExportCsv": ""
+            }
+          ]
+        },
+        {
+          "groupId": "Sea Geo Chemistry-4",
+          "title": "Salinity",
+          "tab": "Sea Geo Chemistry",
+          "icon": "poll",
+          "components": [
+            {
+              "contributorId": "demo_sea_phys_bcg-so-numeric-bucket-Count--50",
+              "input": {
+                "id": "demo_sea_phys_bcg-so-numeric-bucket-Count--50",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 0.8,
+                "yAxisStartsFromZero": true,
+                "chartType": "bars",
+                "chartTitle": "Salinity",
+                "chartHeight": 100,
+                "chartWidth": 445,
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "xUnit": "",
+                "yUnit": "",
+                "chartXLabel": "",
+                "shortYLabels": false,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": true,
+                "barWeight": 0.8,
+                "dataType": "numeric",
+                "customizedCssClass": "arlas-histogram-analytics",
+                "isSmoothedCurve": false
+              },
+              "componentType": "histogram",
+              "showExportCsv": ""
+            },
+            {
+              "contributorId": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-so-50",
+              "input": {
+                "id": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-so-50",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 0.8,
+                "yAxisStartsFromZero": true,
+                "chartType": "bars",
+                "chartTitle": "Salinity over time",
+                "chartHeight": 100,
+                "chartWidth": 445,
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "xUnit": "",
+                "yUnit": "",
+                "chartXLabel": "",
+                "shortYLabels": false,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": true,
+                "barWeight": 0.8,
+                "dataType": "time",
+                "ticksDateFormat": "%b %d %Y  %H:%M",
+                "customizedCssClass": "arlas-timeline-analytics",
+                "isSmoothedCurve": false
+              },
+              "componentType": "histogram",
+              "showExportCsv": ""
+            }
+          ]
+        },
+        {
+          "groupId": "Sea Geo Chemistry-5",
+          "title": "Ammonium Concentration (mmol m-3)",
+          "tab": "Sea Geo Chemistry",
+          "icon": "poll",
+          "components": [
+            {
+              "contributorId": "demo_sea_phys_bcg-nh4-numeric-bucket-Count--50",
+              "input": {
+                "id": "demo_sea_phys_bcg-nh4-numeric-bucket-Count--50",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 0.8,
+                "yAxisStartsFromZero": true,
+                "chartType": "bars",
+                "chartTitle": "nh4 distribution",
+                "chartHeight": 100,
+                "chartWidth": 445,
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "xUnit": "",
+                "yUnit": "",
+                "chartXLabel": "",
+                "shortYLabels": false,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": true,
+                "barWeight": 0.8,
+                "dataType": "numeric",
+                "customizedCssClass": "arlas-histogram-analytics",
+                "isSmoothedCurve": false
+              },
+              "componentType": "histogram",
+              "showExportCsv": ""
+            },
+            {
+              "contributorId": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-nh4-50",
+              "input": {
+                "id": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-nh4-50",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 0.8,
+                "yAxisStartsFromZero": true,
+                "chartType": "bars",
+                "chartTitle": "nh4 over time",
+                "chartHeight": 100,
+                "chartWidth": 445,
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "xUnit": "",
+                "yUnit": "",
+                "chartXLabel": "",
+                "shortYLabels": false,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": true,
+                "barWeight": 0.8,
+                "dataType": "time",
+                "ticksDateFormat": "%b %d %Y  %H:%M",
+                "customizedCssClass": "arlas-timeline-analytics",
+                "isSmoothedCurve": false
+              },
+              "componentType": "histogram",
+              "showExportCsv": ""
+            }
+          ]
+        },
+        {
+          "groupId": "Sea Geo Chemistry-6",
+          "title": "Chlorophyll Concentration (mg m-3)",
+          "tab": "Sea Geo Chemistry",
+          "icon": "poll",
+          "components": [
+            {
+              "contributorId": "demo_sea_phys_bcg-chl-numeric-bucket-Count--50",
+              "input": {
+                "id": "demo_sea_phys_bcg-chl-numeric-bucket-Count--50",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 0.8,
+                "yAxisStartsFromZero": true,
+                "chartType": "bars",
+                "chartTitle": "Chlorophile distribution",
+                "chartHeight": 100,
+                "chartWidth": 445,
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "xUnit": "",
+                "yUnit": "",
+                "chartXLabel": "",
+                "shortYLabels": false,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": true,
+                "barWeight": 0.8,
+                "dataType": "numeric",
+                "customizedCssClass": "arlas-histogram-analytics",
+                "isSmoothedCurve": false
+              },
+              "componentType": "histogram",
+              "showExportCsv": ""
+            },
+            {
+              "contributorId": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-chl-50",
+              "input": {
+                "id": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-chl-50",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 0.8,
+                "yAxisStartsFromZero": true,
+                "chartType": "bars",
+                "chartTitle": "Chlorophyll",
+                "chartHeight": 100,
+                "chartWidth": 445,
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "xUnit": "",
+                "yUnit": "",
+                "chartXLabel": "",
+                "shortYLabels": false,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": true,
+                "barWeight": 0.8,
+                "dataType": "time",
+                "ticksDateFormat": "%b %d %Y  %H:%M",
+                "customizedCssClass": "arlas-timeline-analytics",
+                "isSmoothedCurve": false
+              },
+              "componentType": "histogram",
+              "showExportCsv": ""
+            }
+          ]
+        },
+        {
+          "groupId": "Sea Geo Chemistry-7",
+          "title": "Nitrate Concentration (mmol m-3)",
+          "tab": "Sea Geo Chemistry",
+          "icon": "poll",
+          "components": [
+            {
+              "contributorId": "demo_sea_phys_bcg-no3-numeric-bucket-Count--50",
+              "input": {
+                "id": "demo_sea_phys_bcg-no3-numeric-bucket-Count--50",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 0.8,
+                "yAxisStartsFromZero": true,
+                "chartType": "bars",
+                "chartTitle": "Nitrate distribution",
+                "chartHeight": 100,
+                "chartWidth": 445,
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "xUnit": "",
+                "yUnit": "",
+                "chartXLabel": "",
+                "shortYLabels": false,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": true,
+                "barWeight": 0.8,
+                "dataType": "numeric",
+                "customizedCssClass": "arlas-histogram-analytics",
+                "isSmoothedCurve": false
+              },
+              "componentType": "histogram",
+              "showExportCsv": ""
+            },
+            {
+              "contributorId": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-no3-50",
+              "input": {
+                "id": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-no3-50",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 0.8,
+                "yAxisStartsFromZero": true,
+                "chartType": "bars",
+                "chartTitle": "Nitrate over time",
+                "chartHeight": 100,
+                "chartWidth": 445,
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "xUnit": "",
+                "yUnit": "",
+                "chartXLabel": "",
+                "shortYLabels": false,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": true,
+                "barWeight": 0.8,
+                "dataType": "time",
+                "ticksDateFormat": "%b %d %Y  %H:%M",
+                "customizedCssClass": "arlas-timeline-analytics",
+                "isSmoothedCurve": false
+              },
+              "componentType": "histogram",
+              "showExportCsv": ""
+            }
+          ]
+        },
+        {
+          "groupId": "Sea Geo Chemistry-8",
+          "title": "Dissolved Oxygen Concentration (mmol m-3)",
+          "tab": "Sea Geo Chemistry",
+          "icon": "poll",
+          "components": [
+            {
+              "contributorId": "demo_sea_phys_bcg-o2-numeric-bucket-Count--50",
+              "input": {
+                "id": "demo_sea_phys_bcg-o2-numeric-bucket-Count--50",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 0.8,
+                "yAxisStartsFromZero": true,
+                "chartType": "bars",
+                "chartTitle": "Dissolved Oxygen distribution",
+                "chartHeight": 100,
+                "chartWidth": 445,
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "xUnit": "",
+                "yUnit": "",
+                "chartXLabel": "",
+                "shortYLabels": false,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": true,
+                "barWeight": 0.8,
+                "dataType": "numeric",
+                "customizedCssClass": "arlas-histogram-analytics",
+                "isSmoothedCurve": false
+              },
+              "componentType": "histogram",
+              "showExportCsv": ""
+            },
+            {
+              "contributorId": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-o2-50",
+              "input": {
+                "id": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-o2-50",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 0.8,
+                "yAxisStartsFromZero": true,
+                "chartType": "bars",
+                "chartTitle": "Dissolved oxygen over time",
+                "chartHeight": 100,
+                "chartWidth": 445,
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "xUnit": "",
+                "yUnit": "",
+                "chartXLabel": "",
+                "shortYLabels": false,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": true,
+                "barWeight": 0.8,
+                "dataType": "time",
+                "ticksDateFormat": "%b %d %Y  %H:%M",
+                "customizedCssClass": "arlas-timeline-analytics",
+                "isSmoothedCurve": false
+              },
+              "componentType": "histogram",
+              "showExportCsv": ""
+            }
+          ]
+        },
+        {
+          "groupId": "Sea Geo Chemistry-9",
+          "title": "Phosphate Concentration (mmol m-3)",
+          "tab": "Sea Geo Chemistry",
+          "icon": "poll",
+          "components": [
+            {
+              "contributorId": "demo_sea_phys_bcg-po4-numeric-bucket-Count--50",
+              "input": {
+                "id": "demo_sea_phys_bcg-po4-numeric-bucket-Count--50",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 0.8,
+                "yAxisStartsFromZero": true,
+                "chartType": "bars",
+                "chartTitle": "Phosphate distribution",
+                "chartHeight": 100,
+                "chartWidth": 445,
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "xUnit": "",
+                "yUnit": "",
+                "chartXLabel": "",
+                "shortYLabels": false,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": true,
+                "barWeight": 0.8,
+                "dataType": "numeric",
+                "customizedCssClass": "arlas-histogram-analytics",
+                "isSmoothedCurve": false
+              },
+              "componentType": "histogram",
+              "showExportCsv": ""
+            },
+            {
+              "contributorId": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-po4-50",
+              "input": {
+                "id": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-po4-50",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 0.8,
+                "yAxisStartsFromZero": true,
+                "chartType": "bars",
+                "chartTitle": "Phosphate over time",
+                "chartHeight": 100,
+                "chartWidth": 445,
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "xUnit": "",
+                "yUnit": "",
+                "chartXLabel": "",
+                "shortYLabels": false,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": true,
+                "barWeight": 0.8,
+                "dataType": "time",
+                "ticksDateFormat": "%b %d %Y  %H:%M",
+                "customizedCssClass": "arlas-timeline-analytics",
+                "isSmoothedCurve": false
+              },
+              "componentType": "histogram",
+              "showExportCsv": ""
+            }
+          ]
+        },
+        {
+          "groupId": "Sea Physics-0",
+          "title": "Grid",
+          "tab": "Sea Physics",
+          "icon": "apps",
+          "components": [
+            {
+              "contributorId": "demo_sea_phys_bcg-location_id-cardinality",
+              "componentType": "metric",
+              "input": {
+                "customizedCssClass": "power",
+                "shortValue": false,
+                "valuePrecision": 1,
+                "chartWidth": 217,
+                "beforeValue": "Cells number"
+              }
+            },
+            {
+              "contributorId": "demo_sea_phys_bcg-location_id_depth-cardinality",
+              "componentType": "metric",
+              "input": {
+                "customizedCssClass": "power",
+                "shortValue": false,
+                "valuePrecision": 1,
+                "chartWidth": 217,
+                "beforeValue": "3D Cells number (depth)"
               }
             }
           ]
         },
         {
-          "groupId": "resultlist-0",
-          "title": "Result List",
-          "tab": "resultlist",
-          "icon": "list",
+          "groupId": "Sea Physics-1",
+          "title": "Depth",
+          "tab": "Sea Physics",
+          "icon": "arrow_downward",
           "components": [
             {
-              "contributorId": "id-20-Object Id-Speed (m/s)-Altitude (m)-Bird-Segment of trajectory-",
-              "componentType": "resultlist",
+              "contributorId": "demo_sea_phys_bcg-depth_status-4-Count",
+              "showExportCsv": "",
+              "componentType": "powerbars",
               "input": {
-                "id": "id-20-Object Id-Speed (m/s)-Altitude (m)-Bird-Segment of trajectory-",
-                "tableWidth": 445,
-                "globalActionsList": [],
-                "searchSize": 20,
-                "nLastLines": 3,
-                "detailedGridHeight": 25,
-                "nbGridColumns": 3,
-                "defautMode": "list",
-                "displayFilters": false,
-                "isBodyHidden": false,
-                "isGeoSortActived": false,
-                "isAutoGeoSortActived": false,
-                "selectedItemsEvent": null,
-                "consultedItemEvent": null,
-                "actionOnItemEvent": null,
-                "globalActionEvent": null,
-                "useColorService": true,
-                "cellBackgroundStyle": "filled"
+                "chartTitle": "Depth status",
+                "powerbarTitle": "Depth status",
+                "displayFilter": false,
+                "useColorService": false,
+                "useColorFromData": false,
+                "unit": "measures",
+                "chartWidth": 445
               }
+            },
+            {
+              "contributorId": "demo_sea_phys_bcg-depth-numeric-bucket-Count--50",
+              "input": {
+                "id": "demo_sea_phys_bcg-depth-numeric-bucket-Count--50",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 0.8,
+                "yAxisStartsFromZero": true,
+                "chartType": "bars",
+                "chartTitle": "Depth distribution",
+                "chartHeight": 100,
+                "chartWidth": 445,
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "xUnit": "",
+                "yUnit": "",
+                "chartXLabel": "",
+                "shortYLabels": false,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": true,
+                "barWeight": 0.8,
+                "dataType": "numeric",
+                "customizedCssClass": "arlas-histogram-analytics",
+                "isSmoothedCurve": false
+              },
+              "componentType": "histogram",
+              "showExportCsv": ""
+            }
+          ]
+        },
+        {
+          "groupId": "Sea Physics-2",
+          "title": "Eastward current (m/s)",
+          "tab": "Sea Physics",
+          "icon": "poll",
+          "components": [
+            {
+              "contributorId": "demo_sea_phys_bcg-uo-numeric-bucket-Count--50",
+              "input": {
+                "id": "demo_sea_phys_bcg-uo-numeric-bucket-Count--50",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 0.8,
+                "yAxisStartsFromZero": true,
+                "chartType": "bars",
+                "chartTitle": "Eastward current (m/s)",
+                "chartHeight": 100,
+                "chartWidth": 445,
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "xUnit": "",
+                "yUnit": "",
+                "chartXLabel": "",
+                "shortYLabels": false,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": true,
+                "barWeight": 0.8,
+                "dataType": "numeric",
+                "customizedCssClass": "arlas-histogram-analytics",
+                "isSmoothedCurve": false
+              },
+              "componentType": "histogram",
+              "showExportCsv": ""
+            },
+            {
+              "contributorId": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-uo-50",
+              "input": {
+                "id": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-uo-50",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 0.8,
+                "yAxisStartsFromZero": true,
+                "chartType": "bars",
+                "chartTitle": "Eastward current over time",
+                "chartHeight": 100,
+                "chartWidth": 445,
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "xUnit": "",
+                "yUnit": "",
+                "chartXLabel": "",
+                "shortYLabels": false,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": true,
+                "barWeight": 0.8,
+                "dataType": "time",
+                "ticksDateFormat": "%b %d %Y  %H:%M",
+                "customizedCssClass": "arlas-timeline-analytics",
+                "isSmoothedCurve": false
+              },
+              "componentType": "histogram",
+              "showExportCsv": ""
+            }
+          ]
+        },
+        {
+          "groupId": "Sea Physics-3",
+          "title": "Northward current (m/s)",
+          "tab": "Sea Physics",
+          "icon": "poll",
+          "components": [
+            {
+              "contributorId": "demo_sea_phys_bcg-vo-numeric-bucket-Count--50",
+              "input": {
+                "id": "demo_sea_phys_bcg-vo-numeric-bucket-Count--50",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 0.8,
+                "yAxisStartsFromZero": true,
+                "chartType": "bars",
+                "chartTitle": "Northward current (m/s)",
+                "chartHeight": 100,
+                "chartWidth": 445,
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "xUnit": "",
+                "yUnit": "",
+                "chartXLabel": "",
+                "shortYLabels": false,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": true,
+                "barWeight": 0.8,
+                "dataType": "numeric",
+                "customizedCssClass": "arlas-histogram-analytics",
+                "isSmoothedCurve": false
+              },
+              "componentType": "histogram",
+              "showExportCsv": ""
+            },
+            {
+              "contributorId": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-vo-50",
+              "input": {
+                "id": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-vo-50",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 0.8,
+                "yAxisStartsFromZero": true,
+                "chartType": "bars",
+                "chartTitle": "Northward current over time",
+                "chartHeight": 100,
+                "chartWidth": 445,
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "xUnit": "",
+                "yUnit": "",
+                "chartXLabel": "",
+                "shortYLabels": false,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": true,
+                "barWeight": 0.8,
+                "dataType": "time",
+                "ticksDateFormat": "%b %d %Y  %H:%M",
+                "customizedCssClass": "arlas-timeline-analytics",
+                "isSmoothedCurve": false
+              },
+              "componentType": "histogram",
+              "showExportCsv": ""
+            }
+          ]
+        },
+        {
+          "groupId": "Sea Physics-4",
+          "title": "Current Speed (m/s)",
+          "tab": "Sea Physics",
+          "icon": "poll",
+          "components": [
+            {
+              "contributorId": "demo_sea_phys_bcg-current_speed-numeric-bucket-Count--50",
+              "input": {
+                "id": "demo_sea_phys_bcg-current_speed-numeric-bucket-Count--50",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 0.8,
+                "yAxisStartsFromZero": true,
+                "chartType": "bars",
+                "chartTitle": "Current speed (m/s)",
+                "chartHeight": 100,
+                "chartWidth": 445,
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "xUnit": "",
+                "yUnit": "",
+                "chartXLabel": "",
+                "shortYLabels": false,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": true,
+                "barWeight": 0.8,
+                "dataType": "numeric",
+                "customizedCssClass": "arlas-histogram-analytics",
+                "isSmoothedCurve": false
+              },
+              "componentType": "histogram",
+              "showExportCsv": ""
+            },
+            {
+              "contributorId": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-current_speed-50",
+              "input": {
+                "id": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-current_speed-50",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 0.8,
+                "yAxisStartsFromZero": true,
+                "chartType": "bars",
+                "chartTitle": "Current speed (m/s)",
+                "chartHeight": 100,
+                "chartWidth": 445,
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "xUnit": "",
+                "yUnit": "",
+                "chartXLabel": "",
+                "shortYLabels": false,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": true,
+                "barWeight": 0.8,
+                "dataType": "time",
+                "ticksDateFormat": "%b %d %Y  %H:%M",
+                "customizedCssClass": "arlas-timeline-analytics",
+                "isSmoothedCurve": false
+              },
+              "componentType": "histogram",
+              "showExportCsv": ""
+            }
+          ]
+        },
+        {
+          "groupId": "Sea Physics-5",
+          "title": "Potential temperature (°c)",
+          "tab": "Sea Physics",
+          "icon": "poll",
+          "components": [
+            {
+              "contributorId": "demo_sea_phys_bcg-thetao-numeric-bucket-Count--50",
+              "input": {
+                "id": "demo_sea_phys_bcg-thetao-numeric-bucket-Count--50",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 0.8,
+                "yAxisStartsFromZero": true,
+                "chartType": "bars",
+                "chartTitle": "Potential temperature (°c)",
+                "chartHeight": 100,
+                "chartWidth": 445,
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "xUnit": "",
+                "yUnit": "",
+                "chartXLabel": "",
+                "shortYLabels": false,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": true,
+                "barWeight": 0.8,
+                "dataType": "numeric",
+                "customizedCssClass": "arlas-histogram-analytics",
+                "isSmoothedCurve": false
+              },
+              "componentType": "histogram",
+              "showExportCsv": ""
+            },
+            {
+              "contributorId": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-thetao-50",
+              "input": {
+                "id": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-thetao-50",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 0.8,
+                "yAxisStartsFromZero": true,
+                "chartType": "bars",
+                "chartTitle": "Potential temperature over time",
+                "chartHeight": 100,
+                "chartWidth": 445,
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "xUnit": "",
+                "yUnit": "",
+                "chartXLabel": "",
+                "shortYLabels": false,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": true,
+                "barWeight": 0.8,
+                "dataType": "time",
+                "ticksDateFormat": "%b %d %Y  %H:%M",
+                "customizedCssClass": "arlas-timeline-analytics",
+                "isSmoothedCurve": false
+              },
+              "componentType": "histogram",
+              "showExportCsv": ""
+            },
+            {
+              "contributorId": "demo_sea_phys_bcg-depth-numeric-interval-AVG-thetao-5-",
+              "input": {
+                "id": "demo_sea_phys_bcg-depth-numeric-interval-AVG-thetao-5-",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 0.8,
+                "yAxisStartsFromZero": true,
+                "chartType": "bars",
+                "chartTitle": "Potential temperature (°c) over depth (m)",
+                "chartHeight": 100,
+                "chartWidth": 445,
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "xUnit": "",
+                "yUnit": "",
+                "chartXLabel": "",
+                "shortYLabels": false,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": true,
+                "barWeight": 0.8,
+                "dataType": "numeric",
+                "customizedCssClass": "arlas-histogram-analytics",
+                "isSmoothedCurve": false
+              },
+              "componentType": "histogram",
+              "showExportCsv": ""
             }
           ]
         }
@@ -1253,54 +3425,168 @@
       "colorGenerator": {
         "keysToColors": [
           [
-            "local",
-            "#F27F79"
+            "PLEIADES",
+            "#ec4040"
           ],
           [
-            "travel",
-            "#44a2aa"
+            "SENTINEL 2",
+            "#ff61ec"
           ],
           [
-            "local_train",
-            "#F27F79"
+            "SPOT5",
+            "#ecff4b"
           ],
           [
-            "travel_train",
-            "#44a2aa"
+            "SPOT6",
+            "#19ff88"
           ],
           [
-            "local_xgb",
-            "#F27F79"
+            "SPOT4",
+            "#7d4eff"
           ],
           [
-            "travel_xgb",
-            "#44a2aa"
+            "PLEIADES 1A",
+            "#9bc419"
           ],
           [
-            "local_rf",
-            "#F27F79"
+            "SPOT 7",
+            "#1102c6"
           ],
           [
-            "travel_rf",
-            "#44a2aa"
+            "PLEIADES 1B",
+            "#ff834b"
+          ],
+          [
+            "SPOT1",
+            "#691a3a"
+          ],
+          [
+            "SPOT 6",
+            "#0087e9"
+          ],
+          [
+            "OTHER",
+            "#cfcfcf"
+          ],
+          [
+            "s2A",
+            "#e6ff95"
+          ],
+          [
+            "s2B",
+            "#ff73ff"
+          ],
+          [
+            "PLEIADES-1A",
+            "#8a1959"
+          ],
+          [
+            "PLEIADES-1B",
+            "#d4ff97"
+          ],
+          [
+            "spot5",
+            "#ffff43"
+          ],
+          [
+            "spot4",
+            "#9c46ff"
+          ],
+          [
+            "spot1",
+            "#7a1938"
+          ],
+          [
+            "SPOT 5",
+            "#0041ff"
+          ],
+          [
+            "SPOT 4",
+            "#00b4ff"
+          ],
+          [
+            "TerraSAR-X 1",
+            "#5e5e5e"
+          ],
+          [
+            "ALOS2",
+            "#00c926"
+          ],
+          [
+            "SENTINEL 2A",
+            "#ff0094"
+          ],
+          [
+            "DRONE",
+            "#ffe300"
+          ],
+          [
+            "OPTIQUE",
+            "#ffe254"
+          ],
+          [
+            "RADAR",
+            "#ff7eed"
+          ],
+          [
+            "Cargo",
+            "#91c8ff"
+          ],
+          [
+            "Fishing",
+            "#ece300"
+          ],
+          [
+            "Passenger",
+            "#ff73c9"
+          ],
+          [
+            "Tanker",
+            "#349aff"
+          ],
+          [
+            "Other",
+            "#cfcfcf"
+          ],
+          [
+            "Tug",
+            "#c6ff5c"
+          ],
+          [
+            "Undefined",
+            "#cfcfcf"
+          ],
+          [
+            "Dredging",
+            "#cbffaf"
+          ],
+          [
+            "Military",
+            "#ff5e5e"
+          ],
+          [
+            "Pilot",
+            "#afc9a8"
           ]
         ]
       },
       "options": {
-        "drag_items": false,
-        "zoom_to_data": false,
+        "drag_items": true,
+        "zoom_to_data": true,
         "indicators": true,
         "spinner": {
           "show": true,
           "color": "accent",
           "diameter": 50
         }
-      }
+      },
+      "externalNode": {}
     },
     "server": {
-      "url": "http://localhost:9999/arlas/",
+      "url": "http://localhost:9999/arlas",
+      "max_age_cache": 120,
       "collection": {
-        "name": "demo_birdtracking-movebank"
+        "name": "demo_ais_flow"
       }
     }
   },
@@ -1309,10 +3595,34 @@
       "app": {
         "components": {
           "chipssearch": {
-            "name": "Search a bird",
+            "name": "Search...",
             "icon": "search"
           }
-        }
+        },
+        "name": "ARLAS",
+        "units": [
+          {
+            "collection": "demo_ais_flow",
+            "unit": "vessel tracks",
+            "ignored": false
+          },
+          {
+            "collection": "demo_eo",
+            "unit": "eo images",
+            "ignored": false
+          },
+          {
+            "collection": "demo_osm",
+            "unit": "buildings",
+            "ignored": false
+          },
+          {
+            "collection": "demo_sea_phys_bcg",
+            "unit": "sea measures",
+            "ignored": false
+          }
+        ],
+        "name_background_color": "#FF4081"
       }
     }
   }
