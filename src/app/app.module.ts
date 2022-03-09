@@ -16,12 +16,14 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ArlasToolKitModule, ArlasToolkitSharedModule } from '../../projects/arlas-toolkit/src/public-api';
 import { AppComponent } from './app.component';
 
 @NgModule({
   imports: [
+    CommonModule,
     ArlasToolkitSharedModule,
     ArlasToolKitModule
   ],

@@ -19,7 +19,8 @@
 
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { ArlasCollaborativesearchService, ArlasStartupService } from '../../projects/arlas-toolkit/src/lib/services/startup/startup.service';
+import { TimelineConfiguration } from '../../projects/arlas-toolkit/src/lib/components/timeline/timeline/timeline.utils';
+import { ArlasCollaborativesearchService, ArlasStartupService, ArlasConfigService } from '../../projects/arlas-toolkit/src/lib/services/startup/startup.service';
 
 
 
@@ -35,11 +36,16 @@ export class AppComponent implements OnInit {
   public languages: string[];
   public analyticsOpen = false;
   public target: string;
+  public timelineComponentConfig;
+  public detailedTimelineComponentConfig: TimelineConfiguration;
 
   public constructor(
     private arlasStartupService: ArlasStartupService,
+    private arlasConfigService: ArlasConfigService,
+
     private collaborativeService: ArlasCollaborativesearchService,
   ) {
+    this.timelineComponentConfig=this.arlasConfigService.getValue('arlas.web.components.timeline');
   }
 
   public ngOnInit(): void {
