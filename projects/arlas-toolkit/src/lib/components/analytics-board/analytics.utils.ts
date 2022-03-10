@@ -52,4 +52,9 @@ export interface WidgetConfiguration {
   input: any;
 }
 
-
+export interface AnalyticsTabs {
+  name: string;
+  icon: string;
+  showName: boolean;
+  showIcon: boolean;
+}

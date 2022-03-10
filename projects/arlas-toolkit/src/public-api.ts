@@ -18,7 +18,9 @@
  */
 
 export { AnalyticsBoardComponent } from './lib/components/analytics-board/analytics-board.component';
-export { AnalyticGroupConfiguration, WidgetConfiguration } from './lib/components/analytics-board/analytics.utils';
+export {
+  AnalyticGroupConfiguration, WidgetConfiguration, AnalyticsTabs
+} from './lib/components/analytics-board/analytics.utils';
 export { AoiComponent } from './lib/components/aoi/aoi.component';
 export { BookmarkMenuComponent } from './lib/components/bookmark-menu/bookmark-menu.component';
 export { BookmarkAddDialogComponent, BookmarkComponent } from './lib/components/bookmark/bookmark.component';

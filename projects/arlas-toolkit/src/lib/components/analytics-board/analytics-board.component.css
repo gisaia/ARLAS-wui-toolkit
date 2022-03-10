@@ -85,6 +85,16 @@
   opacity: 1 !important;
 }
 
+.analytics-tabs ::ng-deep .mat-tab-label{
+  min-width: 60px;
+}
+
+.analytics-tabs ::ng-deep .mat-tab-label-content{
+  justify-content: space-evenly;
+  width: 100%;
+  gap: 0 10px;
+}
+
 
 .active-filter-tab{
   position: absolute;
