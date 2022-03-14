@@ -2,7 +2,12 @@
 <mat-tab-group class="analytics-tabs" [class.only-one]="this.groupsByTab.length == 1" cdkScrollable [selectedIndex]="0"  (selectedIndexChange)="tabChange($event)" (animationDone)="animationDone()">
   <mat-tab *ngFor="let tab of this.groupsByTab;" routerLinkActive="active-tab">
     <ng-template mat-tab-label>
-      {{tab.index | translate}}
+      <mat-icon *ngIf="tabs.size > 0 && tabs.get(tab.index).showIcon" [matTooltip]="tab.index"
+        [matTooltipDisabled]="tabs.get(tab.index).showName && tabs.get(tab.index).showIcon" >
+        {{tabs.get(tab.index).icon}}
+      </mat-icon>
+      <span *ngIf="tabs.size > 0 && tabs.get(tab.index).showName">{{tab.index | translate}}</span>
+      <span *ngIf="tabs.size === 0">{{tab.index | translate}}</span>
       <div *ngIf="showIndicators && this.activeFilterTab.get(tab.index)" class="active-filter-tab"
         (click)="removeTabFilter(tab.index, $event);">
         <mat-icon class="active-filter-tab-close" matTooltip="{{'Click to remove all filters of this tab'  | translate}}"

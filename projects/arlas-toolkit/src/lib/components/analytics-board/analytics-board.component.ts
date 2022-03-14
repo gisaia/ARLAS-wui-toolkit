@@ -22,7 +22,7 @@ import {
   OnChanges, SimpleChanges, ElementRef
 } from '@angular/core';
 import { Subject } from 'rxjs';
-import { AnalyticGroupConfiguration } from './analytics.utils';
+import { AnalyticGroupConfiguration, AnalyticsTabs } from './analytics.utils';
 import { ArlasCollaborativesearchService, ArlasConfigService } from '../../services/startup/startup.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { OperationEnum } from 'arlas-web-core';
@@ -89,6 +89,8 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
 
   public isActiveDragDrop = false;
 
+  public tabs: Map<string, AnalyticsTabs[]> = new Map();
+
   public wasClosedMap: Map<string, boolean> = new Map<string, boolean>();
 
   public groupsByTab: Array<{ index: string; groups: Array<AnalyticGroupConfiguration>; }>
@@ -110,8 +112,16 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
       strokeWidth: (this.strokeWidthSpinner !== undefined && this.strokeWidthSpinner !== null) ? this.strokeWidthSpinner : 5,
     };
     const webConfig = this.configService.getValue('arlas.web');
-    if (webConfig !== undefined && webConfig.options !== undefined && webConfig.options.drag_items) {
-      this.isActiveDragDrop = webConfig.options.drag_items;
+    if (webConfig !== undefined && webConfig.options !== undefined) {
+      if (webConfig.options.drag_items) {
+        this.isActiveDragDrop = webConfig.options.drag_items;
+      }
+      if( !!webConfig.options.tabs){
+        webConfig.options.tabs.forEach( tab => {
+          this.tabs.set(tab.name, tab);
+        });
+
+      }
     }
 
     if (!this.groupsDisplayStatusMap && this.groups) {
