@@ -61,6 +61,9 @@ export class ToolkitComponent implements AfterViewInit, OnInit {
         if (this.activatedRoute.snapshot.queryParams[CONFIG_ID_QUERY_PARAM]) {
           queryParams[CONFIG_ID_QUERY_PARAM] = this.activatedRoute.snapshot.queryParams[CONFIG_ID_QUERY_PARAM];
         }
+        if (this.activatedRoute.snapshot.queryParams['vs']) {
+          queryParams['vs'] = this.activatedRoute.snapshot.queryParams['vs'];
+        }
         this.router.navigate(['.'], { queryParams: queryParams });
         if (collaborationEvent.id !== 'url') {
         }
