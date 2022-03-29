@@ -88,7 +88,7 @@ export function configUpdaterFactory(x): any {
 
 export function getOptionsFactory(arlasAuthService: AuthentificationService): any {
   const getOptions = () => {
-    const token = !!arlasAuthService.idToken ? arlasAuthService.idToken : null;
+    const token = !!arlasAuthService.accessToken ? arlasAuthService.accessToken : null;
     if (token !== null) {
       return {
         headers: {
