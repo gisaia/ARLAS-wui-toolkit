@@ -427,12 +427,12 @@ export class ArlasStartupService {
             // ARLAS-persistence
             this.persistenceService.setOptions({
               headers: {
-                Authorization: 'bearer ' + authService.idToken
+                Authorization: 'bearer ' + authService.accessToken
               }
             });
             // ARLAS-server
             this.fetchOptions.headers = {
-              Authorization: 'bearer ' + authService.idToken
+              Authorization: 'bearer ' + authService.accessToken
             };
           } else {
             this.persistenceService.setOptions({});

@@ -78,7 +78,7 @@ export class AuthentificationService {
     }
     return startToLogin
       .then(() => {
-        if (this.oauthService.hasValidAccessToken() && this.oauthService.hasValidIdToken()) {
+        if (this.oauthService.hasValidAccessToken()) {
           return Promise.resolve();
         }
         return this.oauthService.silentRefresh()
@@ -192,7 +192,7 @@ export class AuthentificationService {
 
     this.oauthService.events
       .subscribe(_ => {
-        this.isAuthenticatedSubject.next(this.oauthService.hasValidAccessToken() && this.oauthService.hasValidIdToken());
+        this.isAuthenticatedSubject.next(this.oauthService.hasValidAccessToken());
       });
     this.oauthService.setupAutomaticSilentRefresh();
   }
