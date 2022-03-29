@@ -1,5 +1,13 @@
 # Change Log
 
+## [v21.0.0-beta.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v21.0.0-beta.2) (2022-03-29)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v21.0.0-beta.1...v21.0.0-beta.2)
+
+**New stuff:**
+
+- \[App state in URL\] Displayed layers are not encoded into the URL [\#370](https://github.com/gisaia/ARLAS-wui-toolkit/issues/370)
+
 ## [v21.0.0-beta.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v21.0.0-beta.1) (2022-03-14)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v19.1.2...v21.0.0-beta.1)
