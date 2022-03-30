@@ -226,6 +226,15 @@ export class AuthentificationService {
       if (authConfigValue['dummy_client_secret'] !== undefined && authConfigValue['dummy_client_secret'] !== NOT_CONFIGURED) {
         authServiceConfig.dummyClientSecret = authConfigValue['dummy_client_secret'];
       }
+      if (authConfigValue['custom_query_params'] !== undefined && authConfigValue['custom_query_params'] !== NOT_CONFIGURED) {
+        const customQueryParams= {};
+        authConfigValue['custom_query_params'].forEach(obj => {
+          for (const [key, value] of Object.entries(obj)) {
+            customQueryParams[key] = value;
+          }
+        });
+        authServiceConfig.customQueryParams = customQueryParams;
+      }
       if (authConfigValue['logout_url'] !== undefined && authConfigValue['logout_url'] !== NOT_CONFIGURED) {
         authServiceConfig.logoutUrl = authConfigValue['logout_url'];
       }
@@ -272,4 +281,5 @@ export interface AuthentSetting {
   login_url?: string;
   logout_url?: string;
   storage?: string;
+  customQueryParams?: Object;
 }
