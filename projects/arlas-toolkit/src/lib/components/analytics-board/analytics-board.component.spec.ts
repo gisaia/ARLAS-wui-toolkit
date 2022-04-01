@@ -24,6 +24,7 @@ import { HistogramWidgetComponent } from '../histogram-widget/histogram-widget.c
 import { ProgressSpinnerComponent } from '../progress-spinner/progress-spinner.component';
 import { WidgetComponent } from '../widget/widget.component';
 import { AnalyticsBoardComponent } from './analytics-board.component';
+import { RouterModule } from '@angular/router';
 
 describe('AnalyticsBoardComponent', () => {
   let component: AnalyticsBoardComponent;
@@ -38,9 +39,9 @@ describe('AnalyticsBoardComponent', () => {
       imports: [
         MatCardModule, MatIconModule, MatExpansionModule, MatSelectModule, MatButtonModule,
         MatTooltipModule, BrowserModule, HistogramModule, ResultsModule, PowerbarsModule,
-        DonutModule,
-        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } })
-        , MatBadgeModule, DragDropModule, HttpClientModule,
+        DonutModule, RouterModule,
+        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }),
+        MatBadgeModule, DragDropModule, HttpClientModule,
         MetricModule, MatProgressSpinnerModule, MatTabsModule
       ],
       providers: [

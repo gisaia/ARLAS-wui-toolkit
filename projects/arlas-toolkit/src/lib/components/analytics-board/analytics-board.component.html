@@ -1,5 +1,5 @@
 
-<mat-tab-group class="analytics-tabs" [class.only-one]="this.groupsByTab.length == 1" cdkScrollable [selectedIndex]="0"  (selectedIndexChange)="tabChange($event)" (animationDone)="animationDone()">
+<mat-tab-group class="analytics-tabs" [class.only-one]="this.groupsByTab.length == 1" cdkScrollable [selectedIndex]="activeIndex"  (selectedIndexChange)="tabChange($event)" (animationDone)="animationDone()">
   <mat-tab *ngFor="let tab of this.groupsByTab;" routerLinkActive="active-tab">
     <ng-template mat-tab-label>
       <mat-icon *ngIf="tabs.size > 0 && tabs.get(tab.index).showIcon" [matTooltip]="tab.index"

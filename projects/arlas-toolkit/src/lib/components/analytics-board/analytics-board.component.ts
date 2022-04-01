@@ -27,6 +27,7 @@ import { ArlasCollaborativesearchService, ArlasConfigService } from '../../servi
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { OperationEnum } from 'arlas-web-core';
 import { SpinnerOptions } from '../../tools/utils';
+import { ActivatedRoute, Router } from '@angular/router';
 /**
  * This component organizes the `Widgets` in a board.
  * A Widget is declared within a "group" in the configuration. A group contains one or more Widgets
@@ -98,11 +99,11 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
   public groupsTabsKey: Array<string> = new Array<string>();
 
   private defaultGroupTabName = 'analytics';
-  private activeIndex;
+  public activeIndex = 0;
 
-  public constructor(private collaborativeService: ArlasCollaborativesearchService, private configService: ArlasConfigService) {
-
-  }
+  public constructor(private collaborativeService: ArlasCollaborativesearchService, private configService: ArlasConfigService,
+    private activatedRoute: ActivatedRoute, private router: Router
+  ) {}
 
   public ngOnInit() {
     this.isActiveDragDrop = false;
@@ -116,8 +117,8 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
       if (webConfig.options.drag_items) {
         this.isActiveDragDrop = webConfig.options.drag_items;
       }
-      if( !!webConfig.options.tabs){
-        webConfig.options.tabs.forEach( tab => {
+      if (!!webConfig.options.tabs) {
+        webConfig.options.tabs.forEach(tab => {
           this.tabs.set(tab.name, tab);
         });
 
@@ -171,7 +172,11 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
       });
     }
 
-
+    const tab = this.getParamValue('at');
+    if (tab) {
+      const tabIndex = this.groupsTabsKey.indexOf(tab);
+      this.activeIndex = tabIndex > 0 ? tabIndex : 0;
+    }
     // Set groups and tabs badge
     this.setActiveFilterGroup();
     this.setActiveFilterTab();
@@ -307,6 +312,9 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
 
   public tabChange(index: number) {
     this.activeIndex = index;
+    const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
+    queryParams['at'] = this.groupsTabsKey[index];
+    this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
   }
 
   public cancelAllOtherTabsContribution(tabIndex: number) {
@@ -373,5 +381,16 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
           }
         }
       });
+  }
+
+  private getParamValue(param: string): string {
+    let paramValue = null;
+    const url = window.location.href;
+    const regex = new RegExp('[?&]' + param + '(=([^&#]*)|&|#|$)');
+    const results = regex.exec(url);
+    if (results && results[2]) {
+      paramValue = results[2];
+    }
+    return paramValue;
   }
 }
