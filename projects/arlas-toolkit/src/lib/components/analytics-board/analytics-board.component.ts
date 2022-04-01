@@ -174,7 +174,7 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
 
     const tab = this.getParamValue('at');
     if (tab) {
-      const tabIndex = this.groupsTabsKey.indexOf(tab);
+      const tabIndex = this.groupsTabsKey.indexOf(decodeURI(tab));
       this.activeIndex = tabIndex > 0 ? tabIndex : 0;
     }
     // Set groups and tabs badge
