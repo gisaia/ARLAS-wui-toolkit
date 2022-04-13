@@ -213,7 +213,7 @@ export class FiltersComponent implements OnInit {
               hasCentroidPath: !!this.collectionToDescription.get(c.collection) &&
                 !!this.collectionToDescription.get(c.collection).centroid_path,
               unit: !!unit ? unit.unit : c.collection,
-              ignored: unit.ignored
+              ignored: !!unit ? unit.ignored : false
             });
           });
 
