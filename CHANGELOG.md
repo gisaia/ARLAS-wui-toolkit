@@ -1,5 +1,41 @@
 # Change Log
 
+## [v20.1.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v20.1.1) (2022-04-13)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v21.0.0...v20.1.1)
+
+## [v21.0.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v21.0.0) (2022-04-05)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v21.0.0-beta.3...v21.0.0)
+
+## [v21.0.0-beta.3](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v21.0.0-beta.3) (2022-03-30)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v21.0.0-beta.2...v21.0.0-beta.3)
+
+## [v21.0.0-beta.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v21.0.0-beta.2) (2022-03-29)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v21.0.0-beta.1...v21.0.0-beta.2)
+
+**New stuff:**
+
+- \[App state in URL\] Displayed layers are not encoded into the URL [\#370](https://github.com/gisaia/ARLAS-wui-toolkit/issues/370)
+
+## [v21.0.0-beta.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v21.0.0-beta.1) (2022-03-14)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v19.1.2...v21.0.0-beta.1)
+
+**New stuff:**
+
+- \[Timeline Component\] Set default value for input properties if not provided [\#198](https://github.com/gisaia/ARLAS-wui-toolkit/issues/198)
+
+## [v19.1.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v19.1.2) (2022-02-28)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v20.1.0...v19.1.2)
+
+**Fixed bugs:**
+
+- Missing 'options' input in result list widget [\#476](https://github.com/gisaia/ARLAS-wui-toolkit/issues/476)
+
 ## [v20.1.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v20.1.0) (2022-02-21)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v20.1.0-beta.4...v20.1.0)
