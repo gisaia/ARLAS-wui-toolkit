@@ -17,7 +17,8 @@ export class UserInfosComponent implements OnInit {
   public avatar: string;
 
   public constructor(private authentService: AuthentificationService) {
-    this.authentService.loadUserInfo().subscribe(data => {
+    this.authentService.loadUserInfo().subscribe(user => {
+      const data = user.info;
       this.name = data['nickname'];
       this.email = data['name'];
       this.roles = data['http://arlas.io/roles'].filter(r => r.startsWith('role/'))
