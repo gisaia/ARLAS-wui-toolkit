@@ -20,14 +20,13 @@
 import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { delay, of } from 'rxjs';
+import { interval } from 'rxjs';
 import {
   ArlasCollaborativesearchService, ArlasStartupService, ArlasConfigService
 } from './services/startup/startup.service';
 
 import { CONFIG_ID_QUERY_PARAM } from './tools/utils';
-import { TreeContributor } from 'arlas-web-contributors';
-import { Filter } from 'arlas-api';
+import { take } from 'rxjs/operators';
 @Component({
   selector: 'arlas-tool-root',
   templateUrl: './toolkit.component.html',
@@ -40,7 +39,6 @@ export class ToolkitComponent implements AfterViewInit, OnInit {
   public languages: string[];
   public analyticsOpen = false;
   public target: string;
-  @Input() public loadStrategy: 'url' | 'filter' = 'url';
 
   public constructor(private configService: ArlasConfigService,
     private arlasStartupService: ArlasStartupService,
@@ -110,7 +108,7 @@ export class ToolkitComponent implements AfterViewInit, OnInit {
     if (this.configService.getConfig() && this.configService.getConfig()['error'] !== undefined) {
       this.configService.confErrorBus.next(this.configService.getConfig()['error']);
     } else if (this.arlasStartupService.shouldRunApp) {
-      of(delay(400)).subscribe(() => {
+      interval(400).pipe(take(1)).subscribe(() => {
         const filter = this.activatedRoute.snapshot.queryParams['filter'];
         if (filter) {
           const dataModel = this.collaborativeService.dataModelBuilder(filter, true);
