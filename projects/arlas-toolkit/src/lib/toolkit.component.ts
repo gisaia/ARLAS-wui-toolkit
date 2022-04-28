@@ -17,11 +17,10 @@
  * under the License.
  */
 
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { of } from 'rxjs';
-import { pairwise, take, timeoutWith } from 'rxjs/operators';
+import { delay, of } from 'rxjs';
 import {
   ArlasCollaborativesearchService, ArlasStartupService, ArlasConfigService
 } from './services/startup/startup.service';
@@ -41,6 +40,7 @@ export class ToolkitComponent implements AfterViewInit, OnInit {
   public languages: string[];
   public analyticsOpen = false;
   public target: string;
+  @Input() public loadStrategy: 'url' | 'filter' = 'url';
 
   public constructor(private configService: ArlasConfigService,
     private arlasStartupService: ArlasStartupService,
@@ -110,26 +110,15 @@ export class ToolkitComponent implements AfterViewInit, OnInit {
     if (this.configService.getConfig() && this.configService.getConfig()['error'] !== undefined) {
       this.configService.confErrorBus.next(this.configService.getConfig()['error']);
     } else if (this.arlasStartupService.shouldRunApp) {
-      this.activatedRoute.queryParams
-        .pipe(
-          pairwise(),
-          take(1),
-          timeoutWith(400, of('initWithoutFilter'))
-        )
-        .subscribe((params) => {
-          if (!this.arlasStartupService.emptyMode) {
-            if (params.toString() === 'initWithoutFilter') {
-              this.collaborativeService.setCollaborations({});
-            } else {
-              if (params[1]['filter']) {
-                const dataModel = this.collaborativeService.dataModelBuilder(params[1]['filter'], true);
-                this.collaborativeService.setCollaborations(dataModel);
-              } else {
-                this.collaborativeService.setCollaborations({});
-              }
-            }
-          }
-        });
+      of(delay(400)).subscribe(() => {
+        const filter = this.activatedRoute.snapshot.queryParams['filter'];
+        if (filter) {
+          const dataModel = this.collaborativeService.dataModelBuilder(filter, true);
+          this.collaborativeService.setCollaborations(dataModel);
+        } else {
+          this.collaborativeService.setCollaborations({});
+        }
+      });
     }
   }
 
