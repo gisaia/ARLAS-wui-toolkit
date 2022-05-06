@@ -34,7 +34,7 @@ import {
 } from 'arlas-web-contributors';
 import { AnalyticsContributor } from 'arlas-web-contributors/contributors/AnalyticsContributor';
 import * as rootContributorConfSchema from 'arlas-web-contributors/jsonSchemas/rootContributorConf.schema.json';
-import { CollaborativesearchService, ConfigService } from 'arlas-web-core';
+import { CollaborativesearchService, ConfigService, Contributor } from 'arlas-web-core';
 import { projType } from 'arlas-web-core/models/projections';
 import YAML from 'js-yaml';
 import { Subject, zip } from 'rxjs';
@@ -133,7 +133,7 @@ export const SETTINGS_FILE_NAME = 'settings.yaml';
 
 @Injectable()
 export class ArlasStartupService {
-  public contributorRegistry: Map<string, any> = new Map<string, any>();
+  public contributorRegistry: Map<string, Contributor> = new Map<string, any>();
   public shouldRunApp = true;
   public emptyMode = false;
   public analytics: Array<{ groupId: string; components: Array<any>; }>;
