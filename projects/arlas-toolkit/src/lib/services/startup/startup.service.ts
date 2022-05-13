@@ -37,7 +37,7 @@ import * as rootContributorConfSchema from 'arlas-web-contributors/jsonSchemas/r
 import { CollaborativesearchService, ConfigService } from 'arlas-web-core';
 import { projType } from 'arlas-web-core/models/projections';
 import YAML from 'js-yaml';
-import { Subject } from 'rxjs';
+import { Subject, zip } from 'rxjs';
 import { flatMap } from 'rxjs/operators';
 import { PersistenceService, PersistenceSetting } from '../persistence/persistence.service';
 import { CONFIG_ID_QUERY_PARAM, getFieldProperties } from '../../tools/utils';
@@ -549,11 +549,14 @@ export class ArlasStartupService {
     if (!this.emptyMode) {
       return new Promise<any>((resolve, reject) => {
         const collectionName = data.collection;
-        this.collaborativesearchService.describe(collectionName)
+        zip([this.collaborativesearchService.list(),this.collaborativesearchService.describe(collectionName)])
           .subscribe(
             result => {
-              this.collectionsMap.set(collectionName, result.params);
-              this.collectionId = result.params.id_path;
+              const allCollections = result[0];
+              const mainCollections = result[1];
+              allCollections.forEach(c => this.collectionsMap.set(c.collection_name, c.params));
+              this.collectionsMap.set(collectionName, mainCollections.params);
+              this.collectionId = mainCollections.params.id_path;
               resolve(result);
             },
             error => {
