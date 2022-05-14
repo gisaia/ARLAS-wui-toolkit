@@ -344,13 +344,13 @@ export class TimelineComponent implements OnInit {
 
   private resetHistogramsInputs(inputs: any) {
     Object.keys(inputs).forEach(key => {
-      if (key === 'chartType') {
+      if (key === 'chartType' && isNaN(inputs[key])) {
         inputs[key] = ChartType[inputs[key]];
-      } else if (key === 'dataType') {
+      } else if (key === 'dataType' && isNaN(inputs[key])) {
         inputs[key] = DataType[inputs[key]];
-      } else if (key === 'xAxisPosition') {
+      } else if (key === 'xAxisPosition' && isNaN(inputs[key])) {
         inputs[key] = Position[inputs[key]];
-      } else if (key === 'descriptionPosition') {
+      } else if (key === 'descriptionPosition' && isNaN(inputs[key])) {
         inputs = Position[inputs[key]];
       }
     });
