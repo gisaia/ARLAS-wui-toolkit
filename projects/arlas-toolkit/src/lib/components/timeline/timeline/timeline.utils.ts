@@ -20,6 +20,7 @@ export interface TimelineConfiguration {
 
 export interface CollectionLegend {
   collection: string;
+  display_name: string;
   color: string;
   active: boolean;
   main: boolean;

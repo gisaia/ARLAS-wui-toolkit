@@ -87,71 +87,28 @@ export class TimelineComponent implements OnInit {
   }
 
   public ngOnInit() {
-    if (this.timelineComponent && this.detailedTimelineComponent) {
-      this.resetHistogramsInputs(this.timelineComponent.input);
-      this.detailedTimelineComponent.input.chartHeight = 75;
-      this.resetHistogramsInputs(this.detailedTimelineComponent.input);
-      this.detailedTimelineContributor = <DetailedHistogramContributor>this.arlasStartupService.contributorRegistry
-        .get(this.detailedTimelineComponent.contributorId);
+    if (this.timelineComponent) {
       this.timelineContributor = <HistogramContributor>this.arlasStartupService.contributorRegistry
         .get(this.timelineComponent.contributorId);
-
       const mainCollection = this.timelineContributor.collection;
       this.mainCollection = mainCollection;
-      this.timelineLegend.push({
-        collection: mainCollection,
-        color: this.arlasColorService.getColor(mainCollection),
-        active: true,
-        main: true
-      });
-
-      if (!!this.timelineContributor.additionalCollections) {
-        this.timelineContributor.additionalCollections.forEach(ac => {
-          this.timelineLegend.push({
-            collection: ac.collectionName,
-            color: this.arlasColorService.getColor(ac.collectionName),
-            active: true,
-            main: (ac.collectionName === mainCollection)
-          });
-        });
-      }
-
-      this.timelineContributor.chartDataEvent.subscribe(chartData => {
-        this.timelineData = chartData.filter(cd => {
-          const collectionLegend = this.timelineLegend.find(t => t.collection === cd.chartId);
-          return !!collectionLegend && collectionLegend.active;
-        });
-
-      });
-
-      this.timelineContributor.endCollaborationEvent.subscribe(() => {
-        this.timelineContributor.setSelection(this.timelineData,
-          this.arlasCollaborativesearchService.collaborations.get(this.timelineContributor.identifier));
-      });
-
-      this.detailedTimelineContributor.chartDataEvent.subscribe(chartData => {
-        this.detailedTimelineData = chartData.filter(cd => {
-          const collectionLegend = this.timelineLegend.find(t => t.collection === cd.chartId);
-          return !!collectionLegend && collectionLegend.active;
-        });
-      });
-      this.showDetailedTimelineOnCollaborationEnd();
-    } else if (this.timelineComponent) {
+      const mainCollectionDisplayName = !!this.arlasStartupService.collectionsMap.get(mainCollection).display_names?.collection ?
+        this.arlasStartupService.collectionsMap.get(mainCollection).display_names?.collection : mainCollection;
       this.resetHistogramsInputs(this.timelineComponent.input);
-      this.timelineContributor = <HistogramContributor>this.arlasStartupService.contributorRegistry
-        .get(this.timelineComponent.contributorId);
-
-      const mainCollection = this.timelineContributor.collection;
       this.timelineLegend.push({
         collection: mainCollection,
+        display_name: mainCollectionDisplayName,
         color: this.arlasColorService.getColor(mainCollection),
         active: true,
         main: true
       });
       if (!!this.timelineContributor.additionalCollections) {
         this.timelineContributor.additionalCollections.forEach(ac => {
+          const collectionnDisplayName = !!this.arlasStartupService.collectionsMap.get(ac.collectionName).display_names?.collection ?
+            this.arlasStartupService.collectionsMap.get(ac.collectionName).display_names?.collection : ac.collectionName;
           this.timelineLegend.push({
             collection: ac.collectionName,
+            display_name: collectionnDisplayName,
             color: this.arlasColorService.getColor(ac.collectionName),
             active: true,
             main: (ac.collectionName === mainCollection)
@@ -164,6 +121,23 @@ export class TimelineComponent implements OnInit {
           return !!collectionLegend && collectionLegend.active;
         });
       });
+      if (this.detailedTimelineComponent) {
+        this.detailedTimelineComponent.input.chartHeight = 75;
+        this.resetHistogramsInputs(this.detailedTimelineComponent.input);
+        this.detailedTimelineContributor = <DetailedHistogramContributor>this.arlasStartupService.contributorRegistry
+          .get(this.detailedTimelineComponent.contributorId);
+        this.timelineContributor.endCollaborationEvent.subscribe(() => {
+          this.timelineContributor.setSelection(this.timelineData,
+            this.arlasCollaborativesearchService.collaborations.get(this.timelineContributor.identifier));
+        });
+        this.detailedTimelineContributor.chartDataEvent.subscribe(chartData => {
+          this.detailedTimelineData = chartData.filter(cd => {
+            const collectionLegend = this.timelineLegend.find(t => t.collection === cd.chartId);
+            return !!collectionLegend && collectionLegend.active;
+          });
+        });
+        this.showDetailedTimelineOnCollaborationEnd();
+      }
     }
   }
 
