@@ -24,6 +24,19 @@
   <mat-step [stepControl]="paramFormGroup">
     <form [formGroup]="paramFormGroup">
       <ng-template matStepLabel>{{'Parameters' | translate}}</ng-template>
+
+      <mat-form-field >
+        <mat-label>{{ "Collection" | translate}}</mat-label>
+        <mat-select (selectionChange)="collectionChange($event)" [(value)]="selectedCollection" >
+          <mat-option *ngFor="let option of collections" [value]="option" >
+              {{ 
+                !!this.startupService.collectionsMap.get(option).display_names?.collection ?
+                this.startupService.collectionsMap.get(option).display_names?.collection : option}}
+            </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+
       <div class="download-feature-block">
         <div style="flex:3" class="download-title-list">
           <mat-label>{{'Available fields' | translate}}</mat-label>
@@ -93,12 +106,12 @@
       --mount dst=/output,src="$PWD",type=bind \
       --rm \
       gisaia/arlas-hits-exporter:{{arlasHitsExporterVersion}} \
-        --search_url="{{server.url}}/explore/{{server.collection.name}}/_search?size=9999&sort={{this.collectionRef?.params.id_path}}&{{filterUrl}}" \
+        --search_url="{{serverUrl}}/explore/{{selectedCollection}}/_search?size=9999&sort={{this.collectionRef?.params.id_path}}&{{filterUrl}}" \
         --include={{selectedFieldString}} \
         --format={{this.exportedTypeCommand}} \
         {{authTypeCommand}}
       </textarea>
-      <textarea [hidden]="osselection.value !== 'Windows'" class="download-box" #downloadCommandWindows>docker run -it --mount dst=/output,src="%cd%",type=bind --rm gisaia/arlas-hits-exporter:{{arlasHitsExporterVersion}} --search_url="{{server.url}}/explore/{{server.collection.name}}/_search?size=9999&sort={{this.collectionRef?.params.id_path}}&{{filterUrl}}" --include={{selectedFieldString}} --format={{this.exportedTypeCommand}} {{authTypeCommand}}
+      <textarea [hidden]="osselection.value !== 'Windows'" class="download-box" #downloadCommandWindows>docker run -it --mount dst=/output,src="%cd%",type=bind --rm gisaia/arlas-hits-exporter:{{arlasHitsExporterVersion}} --search_url="{{serverUrl}}/explore/{{selectedCollection}}/_search?size=9999&sort={{this.collectionRef?.params.id_path}}&{{filterUrl}}" --include={{selectedFieldString}} --format={{this.exportedTypeCommand}} {{authTypeCommand}}
       </textarea>
     </div>
     <mat-divider></mat-divider>
