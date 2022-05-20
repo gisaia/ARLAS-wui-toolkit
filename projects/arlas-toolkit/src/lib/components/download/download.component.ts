@@ -16,15 +16,17 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Inject, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AuthentificationService } from '../../services/authentification/authentification.service';
 import { CollectionReferenceDescription } from 'arlas-api';
 import { projType } from 'arlas-web-core';
-import { ArlasCollaborativesearchService, ArlasConfigService } from '../../services/startup/startup.service';
+import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from '../../services/startup/startup.service';
 import { ArlasSearchField } from '../share/model/ArlasSearchField';
 import { DeviceDetectorService, OS } from 'ngx-device-detector';
+import { startupServiceFactory } from '../../toolkit.module';
+import { MatSelectionList } from '@angular/material/list';
 
 export const ARLAS_HITS_EXPORTER_VERSION = 2.2;
 
@@ -36,13 +38,16 @@ export const ARLAS_HITS_EXPORTER_VERSION = 2.2;
 export class DownloadComponent {
 
   @Input() public icon = 'get_app';
+  @Input() public collections;
+
 
   public constructor(
     public dialog: MatDialog
   ) { }
 
   public openDialog() {
-    this.dialog.open(DownloadDialogComponent, { data: null });
+    this.dialog.open(DownloadDialogComponent, { data: this.collections }
+    );
   }
 }
 
@@ -67,7 +72,6 @@ export class DownloadDialogComponent implements OnInit {
   public authTypeCommand: string;
 
   public isCopied = false;
-  public server: any;
 
   public exportTypeGroup: FormGroup;
   public paramFormGroup: FormGroup;
@@ -77,16 +81,26 @@ export class DownloadDialogComponent implements OnInit {
   public detectedOs = 'Linux/Mac';
 
   public arlasHitsExporterVersion = ARLAS_HITS_EXPORTER_VERSION;
+  public collections;
+  public selectedCollection;
+  public serverUrl;
+  @ViewChild('selectedList', { static: false }) public selectionList: MatSelectionList;
 
   public constructor(
+    @Inject(MAT_DIALOG_DATA) public data: string[],
     private formBuilder: FormBuilder,
     private collaborativeService: ArlasCollaborativesearchService,
     private configService: ArlasConfigService,
     private authService: AuthentificationService,
-    private deviceService: DeviceDetectorService
-  ) { }
+    private deviceService: DeviceDetectorService,
+    private startupService: ArlasStartupService
+  ) {
+    this.collections = data;
+    this.selectedCollection = data[0];
+  }
 
   public ngOnInit() {
+    this.serverUrl = this.configService.getValue('arlas.server').url;
     if (this.deviceService.os === OS.WINDOWS) {
       this.detectedOs = 'Windows';
     }
@@ -97,24 +111,7 @@ export class DownloadDialogComponent implements OnInit {
     this.paramFormGroup = this.formBuilder.group({
       availableFields: ['', Validators.required]
     });
-
-    // for now, the ARLAS-server url is fetched from the config in the startup service.
-    // we should do the same everywhere, otherwise we will have two sources (settings.yaml (it was env.js) & config.json) to configure
-    // the server, and this can lead to incoherences
-    this.server = this.configService.getValue('arlas.server');
-    this.collaborativeService.describe(this.server.collection.name).subscribe(
-      description => {
-        this.collectionRef = description;
-        const fields = description.properties;
-        if (fields) {
-          Object.keys(fields).forEach(fieldName => {
-            this.getFieldProperties(fields, fieldName);
-          });
-        }
-      },
-      error => {
-        this.collaborativeService.collaborationErrorBus.next(error);
-      });
+    this.setCollectionField(this.selectedCollection);
   }
 
   public onSelectionChange(selectedOptionsList) {
@@ -127,6 +124,28 @@ export class DownloadDialogComponent implements OnInit {
     });
   }
 
+  public collectionChange(event) {
+    this.selectedFields = new Array<ArlasSearchField>();
+    this.selectionList.deselectAll();
+    this.setCollectionField(this.selectedCollection);
+  }
+
+  public setCollectionField(collection) {
+    this.collaborativeService.describe(collection).subscribe(
+      description => {
+        this.allFields = [];
+        this.collectionRef = description;
+        const fields = description.properties;
+        if (fields) {
+          Object.keys(fields).forEach(fieldName => {
+            this.getFieldProperties(fields, fieldName);
+          });
+        }
+      },
+      error => {
+        this.collaborativeService.collaborationErrorBus.next(error);
+      });
+  }
   /**
    * Switches between dialog steps
    * @param event The step index
@@ -136,8 +155,8 @@ export class DownloadDialogComponent implements OnInit {
       this.isCopied = false;
       this.exportedTypeCommand = this.exportTypeGroup.get('exportType').value;
       const filters = Array.from(this.collaborativeService.collaborations.values()).filter(element =>
-        !!element.filters.get(this.server.collection.name) && element.filters.get(this.server.collection.name).length > 0)
-        .map(element => element.filters.get(this.server.collection.name)[0]);
+        !!element.filters.get(this.selectedCollection) && element.filters.get(this.selectedCollection).length > 0)
+        .map(element => element.filters.get(this.selectedCollection)[0]);
       this.filterUrl = this.collaborativeService.getUrl([projType.search, []], filters);
       if (!!this.authService.accessToken) {
         this.authTypeCommand = '--auth=token --token=' + this.authService.accessToken;
