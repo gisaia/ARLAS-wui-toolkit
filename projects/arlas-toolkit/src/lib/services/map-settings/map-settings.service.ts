@@ -45,7 +45,7 @@ export class ArlasMapSettings implements MapSettingsService {
     return geoQueriesMap;
   }
 
-  public getFilterGeometries(mapContributor: MapContributor): Array<GeometrySelectModel> {
+  private getFilterGeometries(mapContributor: MapContributor): Array<GeometrySelectModel> {
     const filterGeometries = new Array<GeometrySelectModel>();
     if (mapContributor) {
       const geoFields = mapContributor.geoPointFields.concat(mapContributor.geoShapeFields);
@@ -61,7 +61,7 @@ export class ArlasMapSettings implements MapSettingsService {
     return filterGeometries;
   }
 
-  public getOperations(mapContributor: MapContributor): Array<OperationSelectModel> {
+  private getOperations(mapContributor: MapContributor): Array<OperationSelectModel> {
     if (mapContributor) {
       return [
         {
