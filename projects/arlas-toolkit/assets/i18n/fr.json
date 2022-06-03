@@ -58,6 +58,7 @@
 	"interval:": "Intervalle",
 	"x-axis:": "Abscisse :",
 	"y-axis:": "Ordonnée :",
+	"From": "De",
 	"per": " pour ",
 	"Export": "Exporter au format CSV",
 	"Session Expired": "Session expirée",
