@@ -25,7 +25,8 @@ import { OwlDateTimeIntl, OWL_DATE_TIME_LOCALE } from '@gisaia-team/ng-pick-date
 import { TranslateService } from '@ngx-translate/core';
 import { JwksValidationHandler, OAuthModule, ValidationHandler } from 'angular-oauth2-oidc';
 import { ColorGeneratorLoader, ColorGeneratorModule } from 'arlas-web-components';
-import { ToolkitComponent } from './toolkit.component';
+import { DeviceDetectorService } from 'ngx-device-detector';
+import { isArray } from 'util';
 import { BookmarkAddDialogComponent, BookmarkComponent } from './components/bookmark/bookmark.component';
 import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.component';
 import { DownloadDialogComponent } from './components/download/download.component';
@@ -34,6 +35,8 @@ import { ErrorModalModule } from './components/errormodal/errormodal.module';
 import { ShareDialogComponent } from './components/share/share.component';
 import { ArlasTranslateIntl } from './components/timeline/date-picker/ArlasTranslateIntl';
 import { ArlasAoiService } from './services/aoi/aoi.service';
+import { ArlasIamService } from './services/arlas-iam/arlas-iam.service';
+import { AuthGuardIamService } from './services/arlas-iam/auth-guard-iam.service';
 import { AuthentificationService } from './services/authentification/authentification.service';
 import { ArlasBookmarkService } from './services/bookmark/bookmark.service';
 import { ArlasColorGeneratorLoader } from './services/color-generator-loader/color-generator-loader.service';
@@ -44,7 +47,6 @@ import { ArlasExtendService } from './services/extend/extend.service';
 import { ArlasMapSettings } from './services/map-settings/map-settings.service';
 import { ArlasMapService } from './services/map/map.service';
 import { PermissionService } from './services/permission/permission.service';
-import { isArray } from 'util';
 import { GET_OPTIONS, PersistenceService } from './services/persistence/persistence.service';
 import { ArlasSettingsService } from './services/settings/arlas.settings.service';
 import {
@@ -52,9 +54,9 @@ import {
 } from './services/startup/startup.service';
 import { ArlasWalkthroughService } from './services/walkthrough/walkthrough.service';
 import { ArlasToolkitSharedModule } from './shared.module';
-import { PaginatorI18n } from './tools/paginatori18n';
-import { DeviceDetectorService } from 'ngx-device-detector';
 import { ToolkitRoutingModule } from './toolkit-routing.module';
+import { ToolkitComponent } from './toolkit.component';
+import { PaginatorI18n } from './tools/paginatori18n';
 
 export function startupServiceFactory(startupService: ArlasStartupService) {
   const load = () => startupService.load();
@@ -87,7 +89,7 @@ export function getOptionsFactory(arlasAuthService: AuthentificationService): an
     if (token !== null) {
       return {
         headers: {
-          Authorization: 'bearer ' + token
+          Authorization: 'Bearer ' + token
         }
       };
     } else {
@@ -222,6 +224,9 @@ export const MY_CUSTOM_FORMATS = {
       deps: [TranslateService],
       useClass: PaginatorI18n
     },
+    AuthGuardIamService,
+    ArlasIamService
+
   ],
   bootstrap: [ToolkitComponent],
   entryComponents: [

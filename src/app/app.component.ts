@@ -19,10 +19,13 @@
 
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+<<<<<<< 447587c50d9c8a039ce5c0a0700f2bf831c8da48
 import { TimelineConfiguration } from '../../projects/arlas-toolkit/src/lib/components/timeline/timeline/timeline.utils';
 import {
   ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService
 } from '../../projects/arlas-toolkit/src/lib/services/startup/startup.service';
+=======
+>>>>>>> Init IAM authentification service
 
 
 
@@ -34,26 +37,27 @@ import {
 })
 export class AppComponent implements OnInit {
 
-  public analytics: Array<any>;
-  public languages: string[];
-  public analyticsOpen = false;
-  public target: string;
-  public timelineComponentConfig;
-  public detailedTimelineComponentConfig: TimelineConfiguration;
+  public constructor() {
 
+<<<<<<< 447587c50d9c8a039ce5c0a0700f2bf831c8da48
   public constructor(
     private arlasStartupService: ArlasStartupService,
     private arlasConfigService: ArlasConfigService,
 
     private collaborativeService: ArlasCollaborativesearchService,
   ) {
+=======
+>>>>>>> Init IAM authentification service
   }
 
   public ngOnInit(): void {
 
+<<<<<<< 447587c50d9c8a039ce5c0a0700f2bf831c8da48
     this.collaborativeService.setCollaborations({});
     this.analytics = this.arlasStartupService.analytics;
     this.languages = ['en', 'fr', 'it', 'es', 'de', 'us', 'cn'];
     this.timelineComponentConfig = this.arlasConfigService.getValue('arlas.web.components.timeline');
+=======
+>>>>>>> Init IAM authentification service
   }
 }

@@ -1,0 +1,37 @@
+<div class="container pt-5">
+  <div class="login-form text-center" style="align-items: center;">
+    <div>
+      <div class="title">
+        <h2>ARLAS</h2>
+      </div>
+      <div>
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          <mat-form-field appearance="outline">
+            <mat-label>{{'Email' | translate}}</mat-label>
+            <input matInput type="text" formControlName="email">
+            <mat-error *ngIf="loginForm.hasError('required', 'email')">
+              {{'Email is required' | translate}}
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'Password' | translate}}</mat-label>
+            <input matInput type="{{ showPassword ? 'text' : 'password' }}" formControlName="password">
+            <mat-icon (click)="showPassword = !showPassword" style="cursor: pointer;" matSuffix>{{showPassword ?
+              'visibility' : 'visibility_off'}}</mat-icon>
+            <mat-error *ngIf="loginForm.hasError('required', 'password')">
+              {{ 'Please enter your password' | translate}}
+            </mat-error>
+
+          </mat-form-field>
+          <div class="form-error" *ngIf="loginForm.getError('wrong')">
+            {{ 'Login or password invalid' | translate}}
+          </div>
+          <div class="buttons">
+            <button type="submit" class="login-button" [disabled]="this.loginForm.invalid" mat-flat-button color="primary">{{ 'Login' | translate}}</button>
+            <a mat-button routerLink="/register">{{ 'Register' | translate}}</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

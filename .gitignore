@@ -11,6 +11,8 @@
 documentation/
 documentation/*
 # dependencies
+projects/arlas-toolkit/node_modules
+projects/arlas-toolkit/package-lock.json
 /node_modules
 .angular
 
