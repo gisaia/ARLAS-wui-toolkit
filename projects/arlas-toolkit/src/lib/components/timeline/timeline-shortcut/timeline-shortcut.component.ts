@@ -84,7 +84,7 @@ export class TimelineShortcutComponent implements OnInit {
         selectedIntervalsList.push(intervalSelection);
       });
       selectedIntervalsList.push({ startvalue: shortCut.from, endvalue: shortCut.to });
-      this.timelineContributor.valueChanged(selectedIntervalsList);
+      this.timelineContributor.valueChanged(selectedIntervalsList, this.timelineContributor.getAllCollections());
     }
   }
 

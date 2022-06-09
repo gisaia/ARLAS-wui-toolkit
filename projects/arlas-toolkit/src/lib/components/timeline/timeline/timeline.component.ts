@@ -148,7 +148,8 @@ export class TimelineComponent implements OnInit {
   public onDetailedIntervalBrushed(selections: SelectedOutputValues[]): void {
     this.isDetailedIntervalBrushed = true;
     this.detailedTimelineIntervalSelection = { startvalue: selections[0].startvalue, endvalue: selections[0].endvalue };
-    this.timelineContributor.valueChanged(this.timelineContributor.intervalListSelection.concat(selections));
+    this.timelineContributor.valueChanged(this.timelineContributor.intervalListSelection.concat(selections),
+      this.timelineContributor.getAllCollections());
   }
 
   /**
@@ -156,7 +157,7 @@ export class TimelineComponent implements OnInit {
    * @param selections List containing only the current selection of detailed timeline
    */
   public onTimelineIntervalBrushed(selections: SelectedOutputValues[]): void {
-    this.timelineContributor.valueChanged(selections);
+    this.timelineContributor.valueChanged(selections, this.timelineContributor.getAllCollections());
   }
 
   /**
@@ -216,28 +217,26 @@ export class TimelineComponent implements OnInit {
 
   public hideShowCollection(collectionLegend: CollectionLegend): void {
     collectionLegend.active = !collectionLegend.active;
-    this.timelineData = this.timelineContributor.chartData.filter(cd => {
-      const collectionLegend = this.timelineLegend.find(t => t.collection === cd.chartId);
-      return !!collectionLegend && collectionLegend.active;
-
-    });
-    this.timelineContributor.setSelection(this.timelineData,
-      this.arlasCollaborativesearchService.collaborations.get(this.timelineContributor.identifier));
-
-    if (!!this.detailedTimelineContributor) {
-      this.detailedTimelineData = this.detailedTimelineContributor.chartData.filter(cd => {
-        const collectionLegend = this.timelineLegend.find(t => t.collection === cd.chartId);
-        return !!collectionLegend && collectionLegend.active;
+    const activeCollections = new Set(this.timelineLegend.filter(tl => tl.active).map(tl => tl.collection));
+    this.timelineContributor.collections = this.timelineContributor.getAllCollections()
+      .filter(c => activeCollections.has(c.collectionName));
+    if (this.timelineContributor.collections.length === 0) {
+      this.timelineData = this.timelineContributor.chartData = [];
+      this.detailedTimelineData = this.detailedTimelineContributor.chartData = [];
+      this.showDetailedTimeline = false;
+    } else {
+      this.timelineContributor.updateFromCollaboration({
+        id: '',
+        all: false,
+        operation: OperationEnum.add
       });
-      /** hide detailed timeline if there is no data displayed because of hiding collections */
-      if (!!this.detailedTimelineData) {
-        if (this.detailedTimelineData.length === 0) {
-          this.showDetailedTimeline = false;
-          this.timelineHistogramComponent.histogram.histogramParams.chartHeight = this.timelineComponent.input.chartHeight;
-          this.timelineHistogramComponent.resizeHistogram();
-        } else {
-          this.hideShowDetailedTimeline();
-        }
+      if (this.detailedTimelineContributor) {
+        this.detailedTimelineContributor.collections = this.timelineContributor.collections;
+        this.detailedTimelineContributor.updateFromCollaboration({
+          id: '',
+          all: false,
+          operation: OperationEnum.add
+        });
       }
     }
   }
@@ -275,7 +274,6 @@ export class TimelineComponent implements OnInit {
   }
 
   private hideShowDetailedTimeline() {
-
     let timelineRange = this.timelineContributor.range;
     if (!!this.timelineContributor && this.timelineContributor.chartData) {
       const d = this.timelineContributor.chartData;
