@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ToolkitComponent } from './toolkit.component';
 
 export const routes: Routes = [
-  { path: '', component: ToolkitComponent },
+  { path: '', component: ToolkitComponent},
   { path: 'callback', redirectTo: '' }
 ];
 

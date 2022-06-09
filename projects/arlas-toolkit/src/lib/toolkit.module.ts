@@ -27,9 +27,17 @@ import { OAuthModule, ValidationHandler } from 'angular-oauth2-oidc';
 import { JwksValidationHandler } from 'angular-oauth2-oidc-jwks';
 import { ColorGeneratorLoader, ColorGeneratorModule, ShortenNumberPipe } from 'arlas-web-components';
 import { ToolkitComponent } from './toolkit.component';
+import { DeviceDetectorService } from 'ngx-device-detector';
+import { isArray } from 'util';
+import { BookmarkAddDialogComponent, BookmarkComponent } from './components/bookmark/bookmark.component';
+import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.component';
+import { DownloadDialogComponent } from './components/download/download.component';
+import { ErrorModalMsgComponent } from './components/errormodal/errormodal.component';
 import { ErrorModalModule } from './components/errormodal/errormodal.module';
 import { ArlasTranslateIntl } from './components/timeline/date-picker/ArlasTranslateIntl';
 import { ArlasAoiService } from './services/aoi/aoi.service';
+import { ArlasIamService } from './services/arlas-iam/arlas-iam.service';
+import { AuthGuardIamService } from './services/arlas-iam/auth-guard-iam.service';
 import { AuthentificationService } from './services/authentification/authentification.service';
 import { ArlasBookmarkService } from './services/bookmark/bookmark.service';
 import { ArlasColorGeneratorLoader } from './tools/color-generator-loader';
@@ -47,10 +55,9 @@ import {
 } from './services/startup/startup.service';
 import { ArlasWalkthroughService } from './services/walkthrough/walkthrough.service';
 import { ArlasToolkitSharedModule } from './shared.module';
-import { PaginatorI18n } from './tools/paginatori18n';
-import { DeviceDetectorService } from 'ngx-device-detector';
 import { ToolkitRoutingModule } from './toolkit-routing.module';
 import { GET_OPTIONS } from './tools/utils';
+import { PaginatorI18n } from './tools/paginatori18n';
 
 
 
@@ -85,7 +92,7 @@ export function getOptionsFactory(arlasAuthService: AuthentificationService): an
     if (token !== null) {
       return {
         headers: {
-          Authorization: 'bearer ' + token
+          Authorization: 'Bearer ' + token
         }
       };
     } else {
@@ -213,7 +220,10 @@ export const MY_CUSTOM_FORMATS = {
       deps: [TranslateService],
       useClass: PaginatorI18n
     },
-    ShortenNumberPipe
+    ShortenNumberPipe,
+    AuthGuardIamService,
+    ArlasIamService
+
   ],
   bootstrap: [ToolkitComponent]
 })

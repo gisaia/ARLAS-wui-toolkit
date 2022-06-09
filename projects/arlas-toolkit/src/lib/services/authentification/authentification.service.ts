@@ -44,25 +44,30 @@ export class AuthentificationService {
   public initAuthService(authentSettings: AuthentSetting): Promise<void> {
     this.authConfigValue = authentSettings;
     if (this.authConfigValue) {
-      const storage = this.authConfigValue['storage'] === 'localstorage' ? localStorage : sessionStorage;
-      if (authentSettings.use_discovery || this.authConfigValue['jwks_endpoint'] === undefined) {
-        this.authConfig = this.getAuthConfig(this.authConfigValue);
-        this.setupAuthService(storage);
-        return this.runInitialLoginSequence(authentSettings.use_discovery, authentSettings.force_connect);
-      } else {
-        // Call jwks endpoint to set in config
-        if (this.authConfigValue['token_endpoint'] && this.authConfigValue['userinfo_endpoint']
-          && this.authConfigValue['login_url'] && this.authConfigValue['jwks_endpoint']) {
-          return this.http.get(this.authConfigValue['jwks_endpoint']).toPromise()
-            .then(jwks => {
-              this.authConfig = this.getAuthConfig(this.authConfigValue, jwks);
-              this.setupAuthService(storage);
-              this.runInitialLoginSequence(false, authentSettings.force_connect);
-            });
+      if (this.authConfigValue.use_authent === 'openid') {
+        const storage = this.authConfigValue['storage'] === 'localstorage' ? localStorage : sessionStorage;
+        if (authentSettings.use_discovery || this.authConfigValue['jwks_endpoint'] === undefined) {
+          this.authConfig = this.getAuthConfig(this.authConfigValue);
+          this.setupAuthService(storage);
+          return this.runInitialLoginSequence(authentSettings.use_discovery, authentSettings.force_connect);
         } else {
-          console.error('Authentication config error : if useDiscovery ' +
-            'is set to false in configuration, tokenEndpoint, userinfoEndpoint, loginUrl must be defined.');
+          // Call jwks endpoint to set in config
+          if (this.authConfigValue['token_endpoint'] && this.authConfigValue['userinfo_endpoint']
+            && this.authConfigValue['login_url'] && this.authConfigValue['jwks_endpoint']) {
+            return this.http.get(this.authConfigValue['jwks_endpoint']).toPromise()
+              .then(jwks => {
+                this.authConfig = this.getAuthConfig(this.authConfigValue, jwks);
+                this.setupAuthService(storage);
+                this.runInitialLoginSequence(false, authentSettings.force_connect);
+              });
+          } else {
+            console.error('Authentication config error : if useDiscovery ' +
+              'is set to false in configuration, tokenEndpoint, userinfoEndpoint, loginUrl and jwksEndpoint must be defined.');
+          }
         }
+      } else {
+        // use IAM
+
       }
     }
   }
@@ -129,35 +134,51 @@ export class AuthentificationService {
   public areSettingsValid(authentSetting: AuthentSetting): [boolean, string] {
     let valid = true;
     const missingInfo = [];
-    if (authentSetting && authentSetting.use_authent) {
-      if (!authentSetting.client_id || authentSetting.client_id === NOT_CONFIGURED) {
-        valid = false;
-        missingInfo.push('- `client_id` is not configured');
-      }
-      if (!authentSetting.issuer || authentSetting.issuer === NOT_CONFIGURED) {
-        valid = false;
-        missingInfo.push('- `issuer` is not configured');
-      }
-      if (!authentSetting.scope || authentSetting.scope === NOT_CONFIGURED) {
-        valid = false;
-        missingInfo.push('- `scope` is not configured');
-      }
-      if (!authentSetting.response_type || authentSetting.response_type === NOT_CONFIGURED) {
-        valid = false;
-        missingInfo.push('- `response_type` is not configured');
-      }
-      if (authentSetting.use_discovery === false) {
-        if (!authentSetting.login_url || authentSetting.login_url === NOT_CONFIGURED) {
+    if (authentSetting && authentSetting.use_authent !== 'false') {
+      if (authentSetting.use_authent === 'openid') {
+        if (!authentSetting.client_id || authentSetting.client_id === NOT_CONFIGURED) {
           valid = false;
-          missingInfo.push('- `login_url`  must be configured when `use_discovery=false`');
+          missingInfo.push('- `client_id` must be configured when `use_authent=openid`');
         }
-        if (!authentSetting.token_endpoint || authentSetting.token_endpoint === NOT_CONFIGURED) {
+        if (!authentSetting.issuer || authentSetting.issuer === NOT_CONFIGURED) {
           valid = false;
-          missingInfo.push('- `token_endpoint` must be configured when `use_discovery=false`');
+          missingInfo.push('- `issuer` must be configured when `use_authent=openid`');
         }
-        if (!authentSetting.userinfo_endpoint || authentSetting.userinfo_endpoint === NOT_CONFIGURED) {
+        if (!authentSetting.scope || authentSetting.scope === NOT_CONFIGURED) {
           valid = false;
-          missingInfo.push('- `userinfo_endpoint` must be configured when `use_discovery=false`');
+          missingInfo.push('- `scope` must be configured when `use_authent=openid`');
+        }
+        if (!authentSetting.response_type || authentSetting.response_type === NOT_CONFIGURED) {
+          valid = false;
+          missingInfo.push('- `response_type` must be configured when `use_authent=openid`');
+        }
+        if (authentSetting.use_discovery === false) {
+          if (!authentSetting.login_url || authentSetting.login_url === NOT_CONFIGURED) {
+            valid = false;
+            missingInfo.push('- `login_url`  must be configured when `use_discovery=false`');
+          }
+          if (!authentSetting.token_endpoint || authentSetting.token_endpoint === NOT_CONFIGURED) {
+            valid = false;
+            missingInfo.push('- `token_endpoint` must be configured when `use_discovery=false`');
+          }
+          if (!authentSetting.jwks_endpoint || authentSetting.jwks_endpoint === NOT_CONFIGURED) {
+            valid = false;
+            missingInfo.push('- `jwks_endpoint` must be configured when `use_discovery=false`');
+          }
+          if (!authentSetting.userinfo_endpoint || authentSetting.userinfo_endpoint === NOT_CONFIGURED) {
+            valid = false;
+            missingInfo.push('- `userinfo_endpoint` must be configured when `use_discovery=false`');
+          }
+        }
+      }
+      if (authentSetting.use_authent === 'iam') {
+        if (!authentSetting.url || authentSetting.url === NOT_CONFIGURED) {
+          valid = false;
+          missingInfo.push('- `iam server url` must be configured when `use_authent=iam`');
+        }
+        if (!authentSetting.threshold) {
+          valid = false;
+          missingInfo.push('- `iam server threshold` must be configured when `use_authent=iam`');
         }
       }
     }
@@ -273,7 +294,7 @@ export class AuthentificationService {
 export interface AuthentSetting {
   use_discovery: boolean;
   force_connect: boolean;
-  use_authent: boolean;
+  use_authent: 'false' | 'openid' | 'iam';
   client_id: string;
   issuer: string;
   scope?: string;
@@ -295,4 +316,6 @@ export interface AuthentSetting {
   logout_url?: string;
   storage?: string;
   customQueryParams?: Object;
+  threshold?: number;
+  url?: string;
 }
