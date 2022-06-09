@@ -119,3 +119,9 @@ export { PermissionService, PermissionSetting } from './lib/services/permission/
 export { ArlasExportCsvService } from './lib/services/export-csv/export-csv.service';
 export { ArlasTagService } from './lib/services/tag/tag.service';
 export { TaggerResponse } from './lib/services/tag/model';
+export { LoginModule } from './lib/login.module';
+export { ArlasIamService } from './lib/services/arlas-iam/arlas-iam.service';
+export { AuthGuardIamService } from './lib/services/arlas-iam/auth-guard-iam.service';
+export { LoginComponent } from './lib/components/login/login.component';
+export { IamInterceptor } from './lib/tools/iamInterceptor';
+export { ArlasIamApi } from './lib/services/startup/startup.service';

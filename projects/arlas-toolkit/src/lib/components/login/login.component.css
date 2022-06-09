@@ -1,0 +1,52 @@
+.login-form {
+  width: 340px;
+  margin: 50px auto;
+  font-size: 15px;
+}
+
+.login-form mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+.login-form mat-form-field ::ng-deep .mat-form-field-outline {
+  background-color: white;
+  border-radius: 4px;
+}
+
+.title {
+  padding: 10px;
+  background-color: #FF4081;
+  color: white;
+  font-size: 18px;
+  font-weight: 100;
+  font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial
+}
+
+.login-form form {
+  margin-bottom: 15px;
+  background: #ededed;
+  padding: 30px;
+}
+
+.login-form h2 {
+  margin: 10px 0;
+}
+
+.login-button {
+  background-color: #FF4081;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.form-error {
+  color: rgb(244, 67, 54);
+  display: block;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  padding: 0 0 15px 2px;
+}

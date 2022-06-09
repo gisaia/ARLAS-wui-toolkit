@@ -44,7 +44,6 @@ export class AppComponent implements OnInit {
   public detailedTimelineComponentConfig: TimelineConfiguration;
 
   public lastShortcutOpen: number;
-
   public constructor(
     private arlasStartupService: ArlasStartupService,
     private arlasConfigService: ArlasConfigService
@@ -52,7 +51,6 @@ export class AppComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-
     this.analytics = this.arlasStartupService.analytics;
     this.shortcuts = this.arlasStartupService.filtersShortcuts;
     this.languages = ['en', 'fr', 'it', 'es', 'de', 'us', 'cn'];
