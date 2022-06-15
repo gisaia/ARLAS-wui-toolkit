@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
+import { RefreshToken } from 'arlas-iam-api';
 import { Observable } from 'rxjs/internal/Observable';
 import { of } from 'rxjs/internal/observable/of';
 import { map } from 'rxjs/internal/operators/map';
-import { ArlasIamService } from './arlas-iam.service';
-import { RefreshToken } from 'arlas-iam-api';
-import { ArlasSettingsService } from '../settings/arlas.settings.service';
 import { catchError } from 'rxjs/operators';
+import { ArlasSettingsService } from '../settings/arlas.settings.service';
+import { ArlasIamService } from './arlas-iam.service';
 
 @Injectable({
   providedIn: 'root'
@@ -28,17 +28,18 @@ export class AuthGuardIamService {
           Authorization: 'Bearer ' + localStorage.getItem('accessToken')
         }
       });
-      return this.arlasIamService.refresh(refreshToken.value).pipe(map(data => {
-        if (!!data) {
-          // tslint:disable-next-line:no-string-literal
-          const accessToken = (data as any).accessToken;
+      return this.arlasIamService.refresh(refreshToken.value).pipe(map(session => {
+        if (!!session) {
+          const accessToken = session.accessToken;
           localStorage.setItem('accessToken', accessToken);
-          localStorage.setItem('refreshToken', JSON.stringify((data as any).refreshToken));
+          localStorage.setItem('refreshToken', JSON.stringify(session.refreshToken));
           this.arlasIamService.setOptions({
             headers: {
               Authorization: 'Bearer ' + accessToken
             }
           });
+
+          this.arlasIamService.currentUserSubject.next({ accessToken: accessToken, refreshToken: session.refreshToken });
           this.arlasIamService.startRefreshTokenTimer(this.settingsService.settings.authentication);
           return true;
         } else {
