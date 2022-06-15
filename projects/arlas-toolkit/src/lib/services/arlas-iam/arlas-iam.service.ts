@@ -69,12 +69,12 @@ export class ArlasIamService {
         this.refresh(refresh.value)
           .pipe(mergeMap((response) => {
             // store localy accessToken
-            localStorage.setItem('accessToken', (response as any).accessToken);
-            localStorage.setItem('refreshToken', JSON.stringify((response as any).refreshToken));
+            localStorage.setItem('accessToken', response.accessToken);
+            localStorage.setItem('refreshToken', JSON.stringify(response.refreshToken));
             return of(response);
           })).subscribe(
             response => {
-              this.currentUserSubject.next({ accessToken: (response as any).accessToken, refreshToken: (response as any).refreshToken });
+              this.currentUserSubject.next({ accessToken: response.accessToken, refreshToken: response.refreshToken });
             });
       });
     }
