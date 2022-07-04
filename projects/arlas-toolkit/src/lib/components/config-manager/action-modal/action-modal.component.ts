@@ -43,27 +43,62 @@ export class ActionModalComponent {
     this.action = data;
   }
 
-  public duplicate(value: string, configId: string) {
-    this.persistenceService.duplicate('config.json', configId, value)
-      .subscribe(
-        () => {
+  public duplicate(newName: string, configId: string) {
+    this.persistenceService.duplicate('config.json', configId, newName)
+      .subscribe({
+        next: () => {
+          this.duplicatePreview(configId, newName);
           this.errorMessage = '';
           this.dialogRef.close();
         },
-        error => this.raiseError(error));
+        error: (error) => this.raiseError(error)
+      });
+  }
+
+
+  private duplicatePreview(configId: string, newConfigName: string): void {
+    this.persistenceService.get(configId).subscribe({
+      next: (currentConfig) => {
+        const previewName = currentConfig.doc_key.concat('_preview');
+        const newPreviewName = (!!newConfigName ? newConfigName : 'Copy of ' + currentConfig.doc_key).concat('_preview');
+        this.persistenceService.existByZoneKey('preview', previewName).subscribe(
+          exist => {
+            if (exist.exists) {
+              this.persistenceService.getByZoneKey('preview', previewName).subscribe({
+                next: (data) => {
+                  this.persistenceService.create(
+                    'preview',
+                    newPreviewName,
+                    data.doc_value,
+                    currentConfig.doc_readers,
+                    currentConfig.doc_writers
+                  ).subscribe({
+                    error: (error) => this.raiseError(error)
+                  });
+                }
+              });
+            }
+          });
+      },
+      error: (error) => this.raiseError(error)
+
+    });
+
   }
 
   public rename(newName: string, configId: string) {
     this.persistenceService.get(configId).subscribe(
-      data => {
-        const key = data.doc_key;
+      currentConfig => {
+        const key = currentConfig.doc_key;
         ['i18n', 'tour'].forEach(zone => ['fr', 'en'].forEach(lg => this.renameLinkedData(zone, key, newName, lg)));
-        this.persistenceService.rename(configId, newName).subscribe(
-          () => {
+        this.persistenceService.rename(configId, newName).subscribe({
+          next: () => {
             this.errorMessage = '';
             this.dialogRef.close();
+            this.persistenceService.updatePreview(newName.concat('_preview'), currentConfig.doc_readers, currentConfig.doc_writers);
           },
-          error => this.raiseError(error));
+          error: error => this.raiseError(error)
+        });
       });
   }
 

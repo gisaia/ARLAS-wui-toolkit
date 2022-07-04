@@ -73,6 +73,7 @@ export class ConfigMenuComponent implements OnInit {
               const key = data.doc_key;
               ['i18n', 'tour'].forEach(zone => ['fr', 'en'].forEach(lg => this.deleteLinkedData(zone, key, lg)));
               this.persistenceService.delete(id).subscribe(() => this.actionExecutedEmitter.next(action));
+              this.persistenceService.deletePreview(data.doc_key.concat('_preview'));
             });
         });
         break;

@@ -76,10 +76,11 @@ export class ShareConfigComponent implements OnInit {
     this.config.writers = Array.from(writers);
     this.persistenceService
       .update(this.config.id, this.config.value, this.config.lastUpdate, this.config.name, this.config.readers, this.config.writers)
-      .subscribe(
-        () => this.updateEmitter.emit([true, {}]),
-        (err) => this.updateEmitter.emit([false, err])
-      );
+      .subscribe({
+        next: () => this.updateEmitter.emit([true, {}]),
+        error: (err) => this.updateEmitter.emit([false, err])
+      });
+    this.persistenceService.updatePreview(this.config.name.concat('_preview'), this.config.readers, this.config.writers);
   }
 
   public close() {
