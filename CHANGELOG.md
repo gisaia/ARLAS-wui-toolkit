@@ -1,5 +1,13 @@
 # Change Log
 
+## [v22.0.3](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v22.0.3) (2022-07-05)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v22.0.2...v22.0.3)
+
+**New stuff:**
+
+- Enable powerbars selection to be excluded in the filter [\#431](https://github.com/gisaia/ARLAS-wui-toolkit/issues/431)
+
 ## [v22.0.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v22.0.2) (2022-05-25)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v22.0.1...v22.0.2)
