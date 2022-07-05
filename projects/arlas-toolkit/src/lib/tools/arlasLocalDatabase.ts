@@ -72,6 +72,7 @@ export class ArlasLocalDatabase<T extends ArlasStorageObject> {
       }
     });
     this.storageObjectMap.delete(id);
+    localStorage.setItem(this.storageKey, JSON.stringify(sortOnDate(newData)));
     this.dataChange.next(newData);
   }
 
