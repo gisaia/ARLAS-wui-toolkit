@@ -88,6 +88,35 @@ export class PersistenceService {
     this.options = options;
   }
 
+  /** updates the preview's name, readers and writers */
+  public updatePreview(previewName: string, readers: string[], writers: string[]) {
+    this.existByZoneKey('preview', previewName).subscribe(
+      exist => {
+        if (exist.exists) {
+          this.getByZoneKey('preview', previewName).subscribe({
+            next: (data) => {
+              this.update(data.id, data.doc_value, new Date(data.last_update_date).getTime(), previewName,
+                readers, writers);
+            }
+          });
+        }
+      });
+  }
+
+  /** deletes the preview by its name */
+  public deletePreview(previewName: string) {
+    this.existByZoneKey('preview', previewName).subscribe(
+      exist => {
+        if (exist.exists) {
+          this.getByZoneKey('preview', previewName).subscribe({
+            next: (data) => {
+              this.delete(data.id);
+            }
+          });
+        }
+      });
+  }
+
 }
 
 export interface PersistenceSetting {
