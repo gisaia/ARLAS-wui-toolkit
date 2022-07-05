@@ -56,7 +56,7 @@ export class BookmarkComponent {
     private dialog: MatDialog,
     private startupService: ArlasStartupService
   ) {
-    this.currentCollections = Array.from(this.startupService.collectionsMap.keys()).join(',');
+    this.currentCollections = Array.from(this.startupService.collectionsMap.keys()).sort().join(',');
     // Init component with data from persistence server, if defined and server is reachable
     if (this.bookmarkService.dataBase instanceof BookmarkPersistenceDatabase) {
       this.isPersistenceActive = true;
@@ -67,16 +67,26 @@ export class BookmarkComponent {
           this.resultsLength = data.total;
           this.bookmarks = data.items.filter(bk => {
             if (bk.collections) {
-              return bk.collections === this.currentCollections;
+              const sortedCollections = bk.collections.split(',').sort().join(',');
+              return sortedCollections === this.currentCollections;
             } else {
               return false;
             }
           });
         });
     } else {
-      const dataSource = new BookmarkDataSource(this.bookmarkService.dataBase as BookmarkLocalDatabase);
-      dataSource.filter = this.currentCollections;
-      this.bookmarks = dataSource;
+      (this.bookmarkService.dataBase).dataChange
+        .subscribe((data: BookMark[]) => {
+          this.resultsLength = data.length;
+          this.bookmarks = data.filter(bk => {
+            if (bk.collections) {
+              const sortedCollections = bk.collections.split(',').sort().join(',');
+              return sortedCollections === this.currentCollections;
+            } else {
+              return false;
+            }
+          });
+        });
     }
   }
 

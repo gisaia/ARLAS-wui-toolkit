@@ -258,14 +258,16 @@ export class ArlasBookmarkService {
                     /** for now we only have one filter */
                     const filter = filters[0];
                     Object.keys(filter).forEach(keyfil => {
-                      if (dataModel[k].filters.get(collection)[0][keyfil] === undefined) {
-                        /** for now we only have one filter */
-                        dataModel[k].filters.get(collection)[0][keyfil] = bookMarkDataModel[k].filters.get(collection)[0][keyfil];
-                      } else {
-                        /** filters : Map<collection, Fitler[]> */
-                        bookMarkDataModel[k].filters.get(collection)[0][keyfil]
-                          .forEach(ex => ex
-                            .forEach(e => dataModel[k].filters.get(collection)[0][keyfil][0].push(e)));
+                      if (keyfil !== 'righthand') {
+                        if (dataModel[k].filters.get(collection)[0][keyfil] === undefined) {
+                          /** for now we only have one filter */
+                          dataModel[k].filters.get(collection)[0][keyfil] = bookMarkDataModel[k].filters.get(collection)[0][keyfil];
+                        } else {
+                          /** filters : Map<collection, Fitler[]> */
+                          bookMarkDataModel[k].filters.get(collection)[0][keyfil]
+                            .forEach(ex => ex
+                              .forEach(e => dataModel[k].filters.get(collection)[0][keyfil][0].push(e)));
+                        }
                       }
                     });
                   }
