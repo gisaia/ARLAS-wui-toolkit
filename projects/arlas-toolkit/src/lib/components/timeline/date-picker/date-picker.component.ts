@@ -85,7 +85,7 @@ export class DatePickerComponent implements OnInit, OnChanges {
         startvalue: this.startSelectedMoment.valueOf(),
         endvalue: this.endSelectedMoment.valueOf()
       });
-    this.timelineContributor.valueChanged(selectedIntervalsList);
+    this.timelineContributor.valueChanged(selectedIntervalsList, this.timelineContributor.getAllCollections());
   }
 
   public setMomentDate(date: any) {
