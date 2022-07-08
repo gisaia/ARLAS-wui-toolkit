@@ -46,4 +46,13 @@ export class ArlasSettingsService {
   public getTicketingKey(): string {
     return !!this.settings && !!this.settings.ticketing_key && this.settings.ticketing_key !== '' ? this.settings.ticketing_key : undefined;
   }
+
+  public getHistogramMaxBucket(): number {
+    return !!this.settings && !!this.settings.histogram && !!this.settings.histogram.max_buckets ? this.settings.histogram.max_buckets : 200;
+  }
+
+  public getHistogramMaxBucketAtExport(): number {
+    return !!this.settings && !!this.settings.histogram && !!this.settings.histogram.export_max_buckets ?
+      this.settings.histogram.export_max_buckets : 1000;
+  }
 }

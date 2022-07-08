@@ -30,6 +30,7 @@ import {
 } from 'arlas-web-contributors';
 import { ArlasConfigService, ArlasCollaborativesearchService } from './startup.service';
 import { ArlasColorGeneratorLoader } from '../color-generator-loader/color-generator-loader.service';
+import { ArlasSettingsService } from '../settings/arlas.settings.service';
 
 export class ContributorBuilder {
 
@@ -37,6 +38,7 @@ export class ContributorBuilder {
     identifier: string,
     configService: ArlasConfigService,
     collaborativesearchService: ArlasCollaborativesearchService,
+    settingsService: ArlasSettingsService,
     colorGenerator?: ArlasColorGeneratorLoader): any {
 
     const config = configService.getValue('arlas.web.contributors').find(contrib =>
@@ -55,12 +57,15 @@ export class ContributorBuilder {
         additionalCollections = config['additionalCollections'];
         contributor = new HistogramContributor(identifier, collaborativesearchService, configService, collection,
           isOneDimension, additionalCollections);
+        (contributor as HistogramContributor).maxBuckets = settingsService.getHistogramMaxBucket();
         break;
       case 'detailedhistogram':
         isOneDimension = config['isOneDimension'];
         additionalCollections = config['additionalCollections'];
         contributor = new DetailedHistogramContributor(identifier, collaborativesearchService, configService, collection,
           isOneDimension, additionalCollections);
+        (contributor as DetailedHistogramContributor).maxBuckets = settingsService.getHistogramMaxBucket();
+
         break;
       case 'resultlist':
         contributor = new ResultListContributor(identifier, collaborativesearchService, configService, collection);
