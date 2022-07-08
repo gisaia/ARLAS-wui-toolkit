@@ -51,8 +51,8 @@ export class ArlasSettingsService {
     return !!this.settings && !!this.settings.histogram && !!this.settings.histogram.max_buckets ? this.settings.histogram.max_buckets : 200;
   }
 
-  public getHistogramMaxBucketAtExport(): number {
-    return !!this.settings && !!this.settings.histogram && !!this.settings.histogram.export_max_buckets ?
-      this.settings.histogram.export_max_buckets : 1000;
+  public getHistogramNbBucketAtExport(): number {
+    return !!this.settings && !!this.settings.histogram && !!this.settings.histogram.export_nb_buckets ?
+      this.settings.histogram.export_nb_buckets : 1000;
   }
 }

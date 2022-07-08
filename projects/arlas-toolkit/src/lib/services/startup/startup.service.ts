@@ -745,7 +745,7 @@ export interface LinkSettings {
 
 export interface HistogramSettings {
   max_buckets: number;
-  export_max_buckets: number;
+  export_nb_buckets: number;
 }
 
 
