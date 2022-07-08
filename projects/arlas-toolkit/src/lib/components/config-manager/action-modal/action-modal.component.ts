@@ -66,12 +66,20 @@ export class ActionModalComponent {
             if (exist.exists) {
               this.persistenceService.getByZoneKey('preview', previewName).subscribe({
                 next: (data) => {
+                  let previewReaders = [];
+                  let previewWriters = [];
+                  if (currentConfig.doc_readers) {
+                    previewReaders = currentConfig.doc_readers.map(reader => reader.replace('config.json', 'preview'));
+                  }
+                  if (currentConfig.doc_readers) {
+                    previewWriters = currentConfig.doc_writers.map(writer => writer.replace('config.json', 'preview'));
+                  }
                   this.persistenceService.create(
                     'preview',
                     newPreviewName,
                     data.doc_value,
-                    currentConfig.doc_readers,
-                    currentConfig.doc_writers
+                    previewReaders,
+                    previewWriters
                   ).subscribe({
                     error: (error) => this.raiseError(error)
                   });
@@ -95,7 +103,15 @@ export class ActionModalComponent {
           next: () => {
             this.errorMessage = '';
             this.dialogRef.close();
-            this.persistenceService.updatePreview(newName.concat('_preview'), currentConfig.doc_readers, currentConfig.doc_writers);
+            let previewReaders = [];
+            let previewWriters = [];
+            if (currentConfig.doc_readers) {
+              previewReaders = currentConfig.doc_readers.map(reader => reader.replace('config.json', 'preview'));
+            }
+            if (currentConfig.doc_readers) {
+              previewWriters = currentConfig.doc_writers.map(writer => writer.replace('config.json', 'preview'));
+            }
+            this.persistenceService.updatePreview(newName.concat('_preview'), previewReaders, previewWriters);
           },
           error: error => this.raiseError(error)
         });
