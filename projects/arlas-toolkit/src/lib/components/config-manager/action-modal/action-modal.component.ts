@@ -71,7 +71,7 @@ export class ActionModalComponent {
                   if (currentConfig.doc_readers) {
                     previewReaders = currentConfig.doc_readers.map(reader => reader.replace('config.json', 'preview'));
                   }
-                  if (currentConfig.doc_readers) {
+                  if (currentConfig.doc_writers) {
                     previewWriters = currentConfig.doc_writers.map(writer => writer.replace('config.json', 'preview'));
                   }
                   this.persistenceService.create(
@@ -108,7 +108,7 @@ export class ActionModalComponent {
             if (currentConfig.doc_readers) {
               previewReaders = currentConfig.doc_readers.map(reader => reader.replace('config.json', 'preview'));
             }
-            if (currentConfig.doc_readers) {
+            if (currentConfig.doc_writers) {
               previewWriters = currentConfig.doc_writers.map(writer => writer.replace('config.json', 'preview'));
             }
             this.persistenceService.updatePreview(newName.concat('_preview'), previewReaders, previewWriters);
