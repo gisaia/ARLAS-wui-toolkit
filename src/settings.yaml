@@ -21,6 +21,6 @@ authentication:
   logout_url: https://arlas-cloud-dev.eu.auth0.com/v2/logout?returnTo=http://localhost:4200
   storage: sessionstorage
   custom_query_params: [{"audience":"http://arlas.io/api/server"}]
-histograms:
+histogram:
   max_buckets: 200
-  export_max_buckets: 1000
+  export_nb_buckets: 1000
