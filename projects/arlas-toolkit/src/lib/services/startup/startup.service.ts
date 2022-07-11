@@ -632,7 +632,8 @@ export class ArlasStartupService {
           const contributor = ContributorBuilder.buildContributor(contributorType,
             contributorIdentifier,
             this.configService,
-            this.collaborativesearchService);
+            this.collaborativesearchService,
+            this.settingsService);
           this.contributorRegistry.set(contributorIdentifier, contributor);
         });
         this.analytics = this.configService.getValue('arlas.web.analytics');
@@ -733,12 +734,18 @@ export interface ArlasSettings {
   arlas_hub_url?: string;
   links?: LinkSettings[];
   ticketing_key?: string;
+  histogram?: HistogramSettings;
 }
 
 export interface LinkSettings {
   name: string;
   url: string;
   icon: string;
+}
+
+export interface HistogramSettings {
+  max_buckets: number;
+  export_nb_buckets: number;
 }
 
 

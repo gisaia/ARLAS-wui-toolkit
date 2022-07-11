@@ -6,8 +6,8 @@ import { TreeContributor, HistogramContributor } from 'arlas-web-contributors';
 import { AggregationResponse, Aggregation, ComputationRequest, ComputationResponse } from 'arlas-api';
 import { getAggregationPrecision } from 'arlas-web-contributors/utils/histoswimUtils';
 import { map, flatMap } from 'rxjs/operators';
-import jp from 'jsonpath/jsonpath.min';
 import { TranslateService } from '@ngx-translate/core';
+import { ArlasSettingsService } from '../settings/arlas.settings.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +15,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class ArlasExportCsvService {
 
   public constructor(private collaborativesearchService: ArlasCollaborativesearchService, private configService: ArlasConfigService,
-    private translate: TranslateService) { }
+    private settingsService: ArlasSettingsService, private translate: TranslateService) { }
 
   public export(contributor: Contributor, stayAtFirstLevel: boolean, contributorType?: string): Observable<Blob> {
     return this.compute(contributor, contributorType).pipe(map(data => {
@@ -70,41 +70,36 @@ export class ArlasExportCsvService {
     this.collaborativesearchService.collaborations.forEach((k, v) => {
       collaborations.set(v, k);
     });
-    const nbBuckets = (<HistogramContributor>contributor).getNbBuckets();
+    const histogramExportMaxBuckets = this.settingsService.getHistogramNbBucketAtExport();
     const field = (<HistogramContributor>contributor).getField();
     const aggregations = (<HistogramContributor>contributor).getAggregations();
-    if (nbBuckets) {
-      const agg = this.collaborativesearchService
-        .resolveButNotComputation(
-          [
-            projType.compute,
-            <ComputationRequest>{ filter: null, field: field, metric: ComputationRequest.MetricEnum.SPANNING }
-          ],
-          collaborations,
-          contributor.collection
-        )
-        .pipe(
-          map((computationResponse: ComputationResponse) => {
-            const dataRange = computationResponse.value || 0;
-            const aggregationPrecision = getAggregationPrecision(nbBuckets, dataRange, aggregations[0].type);
-            const result = {
-              aggregationPrecision
-            };
-            return result;
-          }),
-          map((r => {
-            aggregations[0].interval = r.aggregationPrecision;
-            return this.collaborativesearchService.resolveButNotAggregation(
-              [projType.aggregate, aggregations], collaborations, contributor.collection);
-          }
-          )),
-          flatMap(a => a)
-        );
-      return agg;
-    } else {
-      return this.collaborativesearchService.resolveButNotAggregation(
-        [projType.aggregate, aggregations], collaborations, contributor.collection);
-    }
+    const agg = this.collaborativesearchService
+      .resolveButNotComputation(
+        [
+          projType.compute,
+          <ComputationRequest>{ filter: null, field: field, metric: ComputationRequest.MetricEnum.SPANNING }
+        ],
+        collaborations,
+        contributor.collection
+      )
+      .pipe(
+        map((computationResponse: ComputationResponse) => {
+          const dataRange = computationResponse.value || 0;
+          const aggregationPrecision = getAggregationPrecision(histogramExportMaxBuckets, dataRange, aggregations[0].type);
+          const result = {
+            aggregationPrecision
+          };
+          return result;
+        }),
+        map((r => {
+          aggregations[0].interval = r.aggregationPrecision;
+          return this.collaborativesearchService.resolveButNotAggregation(
+            [projType.aggregate, aggregations], collaborations, contributor.collection);
+        }
+        )),
+        flatMap(a => a)
+      );
+    return agg;
   }
 
   private populateCSV(csvData: Array<Array<string>>, currentLine: Array<string>,
