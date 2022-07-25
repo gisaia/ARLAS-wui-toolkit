@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { LoginSession, RefreshToken } from 'arlas-iam-api';
+import { LoginData, RefreshToken } from 'arlas-iam-api';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { Observable } from 'rxjs/internal/Observable';
 import { from } from 'rxjs/internal/observable/from';
@@ -98,7 +98,7 @@ export class ArlasIamService {
     this.router.navigate(['/login']);
   }
 
-  public refresh(refreshToken): Observable<LoginSession> {
+  public refresh(refreshToken): Observable<LoginData> {
     return from(this.arlasIamApi.refresh(refreshToken, this.options));
   }
 
