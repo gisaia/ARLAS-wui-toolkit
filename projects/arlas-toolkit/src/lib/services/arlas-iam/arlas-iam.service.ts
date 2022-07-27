@@ -18,7 +18,7 @@ import { ArlasIamApi } from '../startup/startup.service';
 export class ArlasIamService {
 
   private options;
-  public currentUserSubject: BehaviorSubject<{ accessToken: string; refreshToken: RefreshToken; }>;
+  public currentUserSubject: BehaviorSubject<{ accessToken: string; refreshToken: RefreshToken; userId: string; }>;
   public arlasIamApi: ArlasIamApi;
   private executionObservable;
   private unsubscribe: Subject<void> = new Subject<void>();
@@ -26,7 +26,7 @@ export class ArlasIamService {
   public constructor(
     private router: Router
   ) {
-    this.currentUserSubject = new BehaviorSubject<{ accessToken: string; refreshToken: RefreshToken; }>(null);
+    this.currentUserSubject = new BehaviorSubject<{ accessToken: string; refreshToken: RefreshToken; userId: string; }>(null);
   }
 
   public setOptions(options): void {
@@ -74,7 +74,7 @@ export class ArlasIamService {
             return of(response);
           })).subscribe(
             response => {
-              this.currentUserSubject.next({ accessToken: response.accessToken, refreshToken: response.refreshToken });
+              this.currentUserSubject.next({ accessToken: response.accessToken, refreshToken: response.refreshToken, userId: response.user.id});
             });
       });
     }
@@ -102,7 +102,7 @@ export class ArlasIamService {
     return from(this.arlasIamApi.refresh(refreshToken, this.options));
   }
 
-  public get currentUserValue(): { accessToken: string; refreshToken: RefreshToken; } {
+  public get currentUserValue(): { accessToken: string; refreshToken: RefreshToken; userId: string;} {
     return this.currentUserSubject.value;
   }
 
