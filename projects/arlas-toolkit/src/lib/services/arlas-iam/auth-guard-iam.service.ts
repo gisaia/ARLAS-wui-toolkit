@@ -39,7 +39,7 @@ export class AuthGuardIamService {
             }
           });
 
-          this.arlasIamService.currentUserSubject.next({ accessToken: accessToken, refreshToken: session.refreshToken });
+          this.arlasIamService.currentUserSubject.next({ accessToken: accessToken, refreshToken: session.refreshToken, userId: session.user.id });
           this.arlasIamService.startRefreshTokenTimer(this.settingsService.settings.authentication);
           return true;
         } else {
