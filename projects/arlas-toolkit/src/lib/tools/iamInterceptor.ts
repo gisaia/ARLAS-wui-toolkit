@@ -36,7 +36,6 @@ export class IamInterceptor implements HttpInterceptor {
     }
 
     return next.handle(request).pipe(catchError(err => {
-      console.log('Erreur INTERCEPT', err);
       // auto logout if 401 or 403 response returned from API
       if ([401, 403].includes(err.status)) {
         this.iamService.logout();

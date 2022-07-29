@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { LoginData, RefreshToken } from 'arlas-iam-api';
+import { LoginData, RefreshToken, UserData } from 'arlas-iam-api';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { Observable } from 'rxjs/internal/Observable';
 import { from } from 'rxjs/internal/observable/from';
@@ -18,7 +18,7 @@ import { ArlasIamApi } from '../startup/startup.service';
 export class ArlasIamService {
 
   private options;
-  public currentUserSubject: BehaviorSubject<{ accessToken: string; refreshToken: RefreshToken; userId: string; }>;
+  public currentUserSubject: BehaviorSubject<{ accessToken: string; refreshToken: RefreshToken; user: UserData; }>;
   public arlasIamApi: ArlasIamApi;
   private executionObservable;
   private unsubscribe: Subject<void> = new Subject<void>();
@@ -26,7 +26,7 @@ export class ArlasIamService {
   public constructor(
     private router: Router
   ) {
-    this.currentUserSubject = new BehaviorSubject<{ accessToken: string; refreshToken: RefreshToken; userId: string; }>(null);
+    this.currentUserSubject = new BehaviorSubject<{ accessToken: string; refreshToken: RefreshToken; user: UserData; }>(null);
   }
 
   public setOptions(options): void {
@@ -74,7 +74,7 @@ export class ArlasIamService {
             return of(response);
           })).subscribe(
             response => {
-              this.currentUserSubject.next({ accessToken: response.accessToken, refreshToken: response.refreshToken, userId: response.user.id});
+              this.currentUserSubject.next({ accessToken: response.accessToken, refreshToken: response.refreshToken, user: response.user});
             });
       });
     }
@@ -102,7 +102,7 @@ export class ArlasIamService {
     return from(this.arlasIamApi.refresh(refreshToken, this.options));
   }
 
-  public get currentUserValue(): { accessToken: string; refreshToken: RefreshToken; userId: string;} {
+  public get currentUserValue(): { accessToken: string; refreshToken: RefreshToken; user: UserData;} {
     return this.currentUserSubject.value;
   }
 
