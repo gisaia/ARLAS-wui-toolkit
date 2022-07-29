@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
             Authorization: 'Bearer ' + accessToken
           }
         });
-        this.iamService.currentUserSubject.next({ accessToken: accessToken, refreshToken: response.refreshToken, userId: response.user.id });
+        this.iamService.currentUserSubject.next({ accessToken: accessToken, refreshToken: response.refreshToken, user: response.user });
         this.router.navigate(['/']);
       });
     }
@@ -56,7 +56,7 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('accessToken', session.accessToken);
         localStorage.setItem('refreshToken', JSON.stringify(session.refreshToken));
         this.iamService.currentUserSubject.next(
-          { accessToken: session.accessToken, refreshToken: session.refreshToken, userId: session.user.id }
+          { accessToken: session.accessToken, refreshToken: session.refreshToken, user: session.user }
         );
 
         this.iamService.startRefreshTokenTimer(this.settings.settings.authentication);
