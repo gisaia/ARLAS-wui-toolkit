@@ -49,7 +49,7 @@ export class ConfigMenuComponent implements OnInit {
 
   }
   public ngOnInit() {
-    this.permissionService.get('persist/resource/config.json').subscribe((resources: Resource[]) => {
+    this.permissionService.get('persist/resource').subscribe((resources: Resource[]) => {
       this.canCreateDashboard = (resources.filter(r => r.verb === 'POST').length > 0);
     });
   }
