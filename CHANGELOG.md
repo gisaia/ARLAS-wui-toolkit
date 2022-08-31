@@ -1,5 +1,33 @@
 # Change Log
 
+## [v23.0.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v23.0.1) (2022-08-31)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v23.0.1-beta.3...v23.0.1)
+
+**Fixed bugs:**
+
+- Adapt the 'canCreateRole' to newest admin roles  [\#561](https://github.com/gisaia/ARLAS-wui-toolkit/issues/561)
+
+## [v23.0.1-beta.3](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v23.0.1-beta.3) (2022-08-22)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v23.0.1-beta.2...v23.0.1-beta.3)
+
+## [v23.0.1-beta.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v23.0.1-beta.2) (2022-08-22)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v23.0.1-beta.1...v23.0.1-beta.2)
+
+## [v23.0.1-beta.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v23.0.1-beta.1) (2022-08-22)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v22.0.6...v23.0.1-beta.1)
+
+**Fixed bugs:**
+
+- Share config does not set correct groups for preview [\#573](https://github.com/gisaia/ARLAS-wui-toolkit/issues/573)
+
+## [v22.0.6](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v22.0.6) (2022-07-11)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v23.0.0...v22.0.6)
+
 ## [v23.0.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v23.0.0) (2022-07-11)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v23.0.0-rc.1...v23.0.0)
