@@ -53,7 +53,7 @@ export class ArlasConfigurationUpdaterService {
           });
         }
         /** Compute contributors have metrics */
-        if (contributor.metrics && contributor.metrics.find(m => !availableFields.has(m.field))) {
+        if (contributor.metrics && contributor.metrics.find(m => !availableFields.has(m.field) && m.metric !== 'count')) {
           contributorsToRemove.add(contributor.identifier);
         }
         /** swimlanes contributors have a specific structure for `aggregationmodels`  */
