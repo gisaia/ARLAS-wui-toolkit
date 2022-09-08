@@ -23,7 +23,12 @@ export class LoginComponent implements OnInit {
   ) { }
 
   public ngOnInit(): void {
-    const refreshToken: RefreshToken = JSON.parse(localStorage.getItem('refreshToken'));
+    let refreshToken: RefreshToken = {};
+    try {
+      refreshToken = JSON.parse(localStorage.getItem('refreshToken'));
+    } catch (error) {
+      refreshToken = null;
+    }
     if (!!refreshToken) {
       this.iamService.setOptions({
         headers: {
