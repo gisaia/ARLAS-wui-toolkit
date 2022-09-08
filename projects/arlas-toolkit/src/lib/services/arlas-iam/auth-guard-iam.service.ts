@@ -20,8 +20,13 @@ export class AuthGuardIamService {
   ) { }
 
   public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-    const refreshToken: RefreshToken = JSON.parse(localStorage.getItem('refreshToken'));
 
+    let refreshToken: RefreshToken = {};
+    try {
+      refreshToken = JSON.parse(localStorage.getItem('refreshToken'));
+    } catch (error) {
+      refreshToken = null;
+    }
     if (!!refreshToken) {
       this.arlasIamService.setOptions({
         headers: {
