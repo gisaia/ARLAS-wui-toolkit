@@ -32,6 +32,7 @@ export { Aoi } from './lib/services/aoi/model';
 export { AoiDatabase } from './lib/services/aoi/aoiDatabase';
 export { ArlasLocalDatabase } from './lib/tools/arlasLocalDatabase';
 export { ArlasPersistenceDatabase } from './lib/tools/arlasPersistenceDatabase';
+export { Guid } from './lib/tools/utils';
 export { ConfigMenuComponent } from './lib/components/config-manager/config-menu/config-menu.component';
 export { ConfigMenuModule } from './lib/components/config-manager/config-menu/config-menu.module';
 export { ConfirmModalComponent } from './lib/components/confirm-modal/confirm-modal.component';
