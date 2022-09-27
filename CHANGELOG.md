@@ -1,8 +1,24 @@
 # Change Log
 
-## [v23.0.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v23.0.2) (2022-09-01)
+## [v23.0.3](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v23.0.3) (2022-09-27)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v22.0.8...v23.0.3)
+
+## [v22.0.8](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v22.0.8) (2022-09-09)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v22.0.7...v22.0.8)
+
+## [v22.0.7](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v22.0.7) (2022-09-09)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v23.0.2...v22.0.7)
+
+## [v23.0.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v23.0.2) (2022-09-06)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v23.0.1...v23.0.2)
+
+**Fixed bugs:**
+
+- Hits count metric is not displayed in ARLAS [\#580](https://github.com/gisaia/ARLAS-wui-toolkit/issues/580)
 
 ## [v23.0.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v23.0.1) (2022-08-31)
 
