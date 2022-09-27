@@ -155,5 +155,15 @@
 	"months": "mois",
 	"month": "mois",
 	"years": "années",
-	"year": "année"
+	"year": "année",
+	"days (~ 1 month)": "jours (~ 1 mois)",
+	"days (~ 2 month)": "jours (~ 2 mois)",
+	"days (~ 3 month)": "jours (~ 3 mois)",
+	"days (~ 4 month)": "jours (~ 4 mois)",
+	"days (~ 6 month)": "jours (~ 6 mois)",
+	"days (~ 1 year)": "jours (~ 1 an)",
+	"days (~ 2 years)": "jours (~ 2 ans)",
+	"days (~ 5 years)": "jours (~ 5 ans)",
+	"days (~ 10 years)": "jours (~ 10 ans)",
+	"From": "De"
 }
