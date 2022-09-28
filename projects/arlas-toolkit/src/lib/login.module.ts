@@ -11,6 +11,8 @@ import { Observable } from 'rxjs/internal/Observable';
 import { LoginComponent } from './components/login/login.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { RegisterComponent } from './components/register/register.component';
+import { RouterModule } from '@angular/router';
 
 export class CustomTranslateLoader implements TranslateLoader {
 
@@ -42,7 +44,8 @@ export class CustomTranslateLoader implements TranslateLoader {
 
 @NgModule({
   declarations: [
-    LoginComponent
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     MatFormFieldModule,
@@ -52,6 +55,7 @@ export class CustomTranslateLoader implements TranslateLoader {
     FormsModule,
     ReactiveFormsModule,
     CommonModule,
+    RouterModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

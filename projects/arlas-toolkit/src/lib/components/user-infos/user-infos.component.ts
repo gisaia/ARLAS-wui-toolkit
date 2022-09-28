@@ -16,7 +16,11 @@ export class UserInfosComponent implements OnInit {
   public email: string;
   public avatar: string;
 
-  public constructor(private authentService: AuthentificationService) {
+  public constructor(
+    private authentService: AuthentificationService
+  ) { }
+
+  public ngOnInit() {
     this.authentService.loadUserInfo().subscribe(user => {
       const data = user.info;
       this.name = data['nickname'];
@@ -29,10 +33,6 @@ export class UserInfosComponent implements OnInit {
         .map(r => this.computeName(r));
       this.avatar = data['picture'];
     });
-  }
-
-  public ngOnInit() {
-
   }
 
   public computeName = (n) => {

@@ -123,5 +123,6 @@ export { LoginModule } from './lib/login.module';
 export { ArlasIamService } from './lib/services/arlas-iam/arlas-iam.service';
 export { AuthGuardIamService } from './lib/services/arlas-iam/auth-guard-iam.service';
 export { LoginComponent } from './lib/components/login/login.component';
+export { RegisterComponent } from './lib/components/register/register.component';
 export { IamInterceptor } from './lib/tools/iamInterceptor';
 export { ArlasIamApi } from './lib/services/startup/startup.service';
