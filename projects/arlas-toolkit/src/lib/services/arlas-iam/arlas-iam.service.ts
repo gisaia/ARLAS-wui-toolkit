@@ -22,6 +22,7 @@ export class ArlasIamService {
   public arlasIamApi: ArlasIamApi;
   private executionObservable;
   private unsubscribe: Subject<void> = new Subject<void>();
+  public authConfigValue: AuthentSetting;
 
   public constructor(
     private router: Router
@@ -74,7 +75,7 @@ export class ArlasIamService {
             return of(response);
           })).subscribe(
             response => {
-              this.currentUserSubject.next({ accessToken: response.accessToken, refreshToken: response.refreshToken, user: response.user});
+              this.currentUserSubject.next({ accessToken: response.accessToken, refreshToken: response.refreshToken, user: response.user });
             });
       });
     }
@@ -102,7 +103,7 @@ export class ArlasIamService {
     return from(this.arlasIamApi.refresh(refreshToken, this.options));
   }
 
-  public get currentUserValue(): { accessToken: string; refreshToken: RefreshToken; user: UserData;} {
+  public get currentUserValue(): { accessToken: string; refreshToken: RefreshToken; user: UserData; } {
     return this.currentUserSubject.value;
   }
 
@@ -110,6 +111,8 @@ export class ArlasIamService {
     return from(this.arlasIamApi.login({ email, password }, this.options));
   }
 
-
+  public signUp(email: string): Observable<UserData> {
+    return from(this.arlasIamApi.createUser({ email }, this.options));
+  }
 
 }

@@ -36,8 +36,8 @@
   font-feature-settings: 'liga';
 }
 
-body{
-  background-color: whitesmoke;
+html, body{
+  background-color: white;
 }
 
 .dropdownSwimlane{

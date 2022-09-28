@@ -410,6 +410,7 @@ export class ArlasStartupService {
           }
           this.arlasIamApi = new ArlasIamApi(new IamConfiguration(), authent.url, window.fetch);
           this.arlasIamService.setArlasIamApi(this.arlasIamApi);
+          this.arlasIamService.authConfigValue = authent;
 
           resolve(settings);
         }
