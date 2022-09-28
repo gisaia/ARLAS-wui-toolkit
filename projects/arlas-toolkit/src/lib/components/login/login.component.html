@@ -1,4 +1,4 @@
-<div class="container pt-5">
+<div class="container">
   <div class="login-form text-center" style="align-items: center;">
     <div>
       <div class="title">
@@ -6,29 +6,37 @@
       </div>
       <div>
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-          <mat-form-field appearance="outline">
-            <mat-label>{{'Email' | translate}}</mat-label>
-            <input matInput type="text" formControlName="email">
-            <mat-error *ngIf="loginForm.hasError('required', 'email')">
-              {{'Email is required' | translate}}
-            </mat-error>
-          </mat-form-field>
-          <mat-form-field appearance="outline">
-            <mat-label>{{ 'Password' | translate}}</mat-label>
-            <input matInput type="{{ showPassword ? 'text' : 'password' }}" formControlName="password">
-            <mat-icon (click)="showPassword = !showPassword" style="cursor: pointer;" matSuffix>{{showPassword ?
-              'visibility' : 'visibility_off'}}</mat-icon>
-            <mat-error *ngIf="loginForm.hasError('required', 'password')">
-              {{ 'Please enter your password' | translate}}
-            </mat-error>
-
-          </mat-form-field>
-          <div class="form-error" *ngIf="loginForm.getError('wrong')">
-            {{ 'Login or password invalid' | translate}}
+          <div class="form-content">
+            <mat-form-field appearance="outline">
+              <mat-label>{{'Email' | translate}}</mat-label>
+              <input matInput type="email" formControlName="email">
+              <mat-icon matPrefix>mail_outline</mat-icon>
+              <mat-error *ngIf="loginForm.hasError('required', 'email')">
+                {{'Email is required' | translate}}
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>{{ 'Password' | translate}}</mat-label>
+              <input matInput type="{{ showPassword ? 'text' : 'password' }}" formControlName="password">
+              <mat-icon matPrefix>vpn_key</mat-icon>
+              <mat-icon (click)="showPassword = !showPassword" style="cursor: pointer;" matSuffix>{{showPassword ?
+                'visibility' : 'visibility_off'}}</mat-icon>
+              <mat-error *ngIf="loginForm.hasError('required', 'password')">
+                {{ 'Please enter your password' | translate}}
+              </mat-error>
+            </mat-form-field>
+            <div class="form-error" *ngIf="loginForm.getError('wrong')">
+              {{ 'Login or password invalid' | translate}}
+            </div>
           </div>
           <div class="buttons">
-            <button type="submit" class="login-button" [disabled]="this.loginForm.invalid" mat-flat-button color="primary">{{ 'Login' | translate}}</button>
-            <a mat-button routerLink="/register">{{ 'Register' | translate}}</a>
+            <button type="submit" class="login-button" [disabled]="this.loginForm.invalid" mat-flat-button
+              color="primary">{{ 'Login' | translate}}</button>
+
+          </div>
+          <div class="no-account">
+            {{'No Account?' | translate}}
+            <button mat-button type="button" [routerLink]="'/register'">{{ 'Sign up' | translate}}</button>
           </div>
         </form>
       </div>

@@ -32,6 +32,7 @@ import { ContactComponent } from './components/contact/contact.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginModule } from '../../projects/arlas-toolkit/src/lib/login.module';
 import { ArlasSettingsService } from '../../projects/arlas-toolkit/src/lib/services/settings/arlas.settings.service';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [
@@ -40,7 +41,8 @@ import { ArlasSettingsService } from '../../projects/arlas-toolkit/src/lib/servi
     ArlasToolkitSharedModule,
     ArlasToolKitModule,
     ErrorModalModule,
-    LoginModule
+    LoginModule,
+    RouterModule
   ],
   exports: [AppComponent],
   declarations: [AppComponent, HomeComponent, ContactComponent],

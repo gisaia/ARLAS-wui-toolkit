@@ -65,9 +65,6 @@ export class AuthentificationService {
               'is set to false in configuration, tokenEndpoint, userinfoEndpoint, loginUrl and jwksEndpoint must be defined.');
           }
         }
-      } else {
-        // use IAM
-
       }
     }
   }
