@@ -1,5 +1,109 @@
 # Change Log
 
+## [v20.1.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v20.1.2) (2022-09-29)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v19.2.1...v20.1.2)
+
+## [v19.2.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v19.2.1) (2022-09-29)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v22.0.9...v19.2.1)
+
+## [v22.0.9](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v22.0.9) (2022-09-28)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v23.0.4...v22.0.9)
+
+## [v23.0.4](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v23.0.4) (2022-09-27)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v23.0.3...v23.0.4)
+
+## [v23.0.3](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v23.0.3) (2022-09-27)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v22.0.8...v23.0.3)
+
+## [v22.0.8](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v22.0.8) (2022-09-09)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v22.0.7...v22.0.8)
+
+## [v22.0.7](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v22.0.7) (2022-09-09)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v23.0.2...v22.0.7)
+
+## [v23.0.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v23.0.2) (2022-09-06)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v23.0.1...v23.0.2)
+
+**Fixed bugs:**
+
+- Hits count metric is not displayed in ARLAS [\#580](https://github.com/gisaia/ARLAS-wui-toolkit/issues/580)
+
+## [v23.0.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v23.0.1) (2022-08-31)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v23.0.1-beta.3...v23.0.1)
+
+**Fixed bugs:**
+
+- Adapt the 'canCreateRole' to newest admin roles  [\#561](https://github.com/gisaia/ARLAS-wui-toolkit/issues/561)
+
+## [v23.0.1-beta.3](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v23.0.1-beta.3) (2022-08-22)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v23.0.1-beta.2...v23.0.1-beta.3)
+
+## [v23.0.1-beta.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v23.0.1-beta.2) (2022-08-22)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v23.0.1-beta.1...v23.0.1-beta.2)
+
+## [v23.0.1-beta.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v23.0.1-beta.1) (2022-08-22)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v22.0.6...v23.0.1-beta.1)
+
+**Fixed bugs:**
+
+- Share config does not set correct groups for preview [\#573](https://github.com/gisaia/ARLAS-wui-toolkit/issues/573)
+
+## [v22.0.6](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v22.0.6) (2022-07-11)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v23.0.0...v22.0.6)
+
+## [v23.0.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v23.0.0) (2022-07-11)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v23.0.0-rc.1...v23.0.0)
+
+## [v23.0.0-rc.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v23.0.0-rc.1) (2022-07-11)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v22.0.5...v23.0.0-rc.1)
+
+**New stuff:**
+
+- Configure nb of histogram buckets at csv export [\#570](https://github.com/gisaia/ARLAS-wui-toolkit/issues/570)
+
+## [v22.0.5](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v22.0.5) (2022-07-08)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v22.0.4...v22.0.5)
+
+## [v22.0.4](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v22.0.4) (2022-07-05)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v22.0.3...v22.0.4)
+
+## [v22.0.3](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v22.0.3) (2022-07-05)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v22.0.2...v22.0.3)
+
+**New stuff:**
+
+- Enable powerbars selection to be excluded in the filter [\#431](https://github.com/gisaia/ARLAS-wui-toolkit/issues/431)
+
+## [v22.0.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v22.0.2) (2022-05-25)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v22.0.1...v22.0.2)
+
+## [v22.0.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v22.0.1) (2022-05-24)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v22.0.0...v22.0.1)
+
+## [v22.0.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v22.0.0) (2022-05-24)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v20.1.1...v22.0.0)
+
 ## [v20.1.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v20.1.1) (2022-04-13)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v21.0.0...v20.1.1)
