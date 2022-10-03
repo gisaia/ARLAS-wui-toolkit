@@ -107,14 +107,26 @@ export class FiltersComponent implements OnInit {
   @Input() public units: CollectionUnit[] = [];
   /**
    * @Input : Angular
-   * @description Background color of the filter bar
+   * @description Background color of the title bar
    */
   @Input() public backgroundColor = '#FFF';
   /**
    * @Input : Angular
-   * @description Color of the filter icon
+   * @description Color of the title icon
    */
   @Input() public color = '#FFF';
+
+  /**
+   * @Input : Angular
+   * @description Background color of the title bar
+   */
+  @Input() public backgroundColorFilter = '#FFF';
+  /**
+    * @Input : Angular
+    * @description Color of the title icon
+    */
+  @Input() public colorFilter = '#000';
+
   /**
    * @Input : Angular
    * @description Contributors identifier array which will be ignored from the filter summary
@@ -139,6 +151,12 @@ export class FiltersComponent implements OnInit {
    * @description This output emit app name on click on the title of the filter
    */
   @Output() public clickOnTitle: Subject<string> = new Subject<string>();
+
+  /**
+   * @Output : Angular
+   * @description This output emit contributor id  on click on filter chip
+   */
+     @Output() public clickOnFilter: Subject<string> = new Subject<string>();
 
   /**
    * @Output : Angular
@@ -180,6 +198,7 @@ export class FiltersComponent implements OnInit {
   }
 
   public changeCollaborationState(contributorId): void {
+    this.clickOnFilter.next(contributorId);
     const collaborationState = this.collaborativeSearchService.isEnable(contributorId);
     if (collaborationState) {
       this.collaborativeSearchService.disable(contributorId);
