@@ -3,7 +3,7 @@
     <div class="title">{{tooltip.title | translate}}</div>
     <div class="interval">
       <div class="axis">{{'interval:' | translate}}</div>
-      <div>{{tooltip.xRange.value}} {{tooltip.dataType === 'time' ? tooltip?.xRange?.unit : tooltip.xUnit | translate}}</div>
+      <div>{{tooltip.xRange.value}} {{(tooltip.dataType === 'time' ? tooltip?.xRange?.unit : tooltip.xUnit) | translate}}</div>
     </div>
   </div>
   <div class="xline">
@@ -12,7 +12,7 @@
     </div>
     <div style="display: flex;">
       <div class="xlabel">{{tooltip.xLabel | translate}}</div>
-      <div>{{tooltip?.dataType === 'time' ? 'From' : '' | translate}} {{tooltip.xValue}} {{tooltip.xUnit}}</div>
+      <div>{{(tooltip?.dataType === 'time' ? 'From' : '') | translate}} {{tooltip.xValue}} {{tooltip.xUnit}}</div>
     </div>
   </div>
 
