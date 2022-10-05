@@ -4,7 +4,7 @@
     <span class="home-chip--label" (click)="removeAllFilters()" matTooltip="{{ 'Clear all filters' | translate }}">
       {{title | translate}}</span>
     <ng-container *ngFor="let contributorId of collaborations; let index = index">
-      <mat-basic-chip class="filter-chip" *ngIf="contributorId === 'timeline'"
+      <mat-basic-chip id="filter-chip-{{contributorId}}" class="filter-chip" *ngIf="contributorId === 'timeline'"
         [style.color]="contributorId | getGlobalColorFilter:'color':color:backgroundColor:collaborationsMap "
         [style.background-color]="contributorId | getGlobalColorFilter:'background':color:backgroundColor:collaborationsMap "
         (click)="changeCollaborationState(contributorId)"
@@ -34,10 +34,10 @@
             </div>
           </div>
           <ng-container *ngFor="let contributorId of collaborations; let index = index">
-            <mat-basic-chip class="filter-chip"
+            <mat-basic-chip id="filter-chip-{{contributorId}}" class="filter-chip"
               *ngIf="c.collection === contributors.get(contributorId).collection && contributorId !== 'timeline'"
-              [style.color]="contributorId | getColorFilter:'color':collaborationsMap"
-              [style.background-color]="contributorId | getColorFilter:'background':collaborationsMap"
+              [style.color]="contributorId | getGlobalColorFilter:'color':colorFilter:backgroundColorFilter:collaborationsMap "
+              [style.background-color]="contributorId | getGlobalColorFilter:'background':colorFilter:backgroundColorFilter:collaborationsMap "     
               (click)="changeCollaborationState(contributorId)"
               [matTooltip]="contributorId | getContributorLabel:contributors | translate">
               <mat-icon class="filter-chip__icon">{{contributorId | getCollaborationIcon :contributorsIcons }}
