@@ -456,7 +456,7 @@ export class ArlasStartupService {
   public getAppConfigurationObject(settings: ArlasSettings): Promise<any> {
     const url = new URL(window.location.href);
     const usePersistence = (!!settings && !!settings.persistence && !!settings.persistence.url
-      && settings.persistence.url !== '' && settings.persistence.url !== NOT_CONFIGURED);
+      && settings.persistence.url !== '' && settings.persistence.url !== NOT_CONFIGURED && !settings.persistence.use_local_config);
     const configurationId = url.searchParams.get(CONFIG_ID_QUERY_PARAM);
     return new Promise<any>((resolve, reject) => {
       let configDataPromise = Promise.resolve(null);
