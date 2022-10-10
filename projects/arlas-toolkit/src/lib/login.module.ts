@@ -13,6 +13,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { RegisterComponent } from './components/register/register.component';
 import { RouterModule } from '@angular/router';
+import { VerifyComponent } from './components/verify/verify.component';
 
 export class CustomTranslateLoader implements TranslateLoader {
 
@@ -45,7 +46,8 @@ export class CustomTranslateLoader implements TranslateLoader {
 @NgModule({
   declarations: [
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    VerifyComponent
   ],
   imports: [
     MatFormFieldModule,
