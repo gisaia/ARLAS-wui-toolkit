@@ -67,7 +67,7 @@ export class TimelineShortcutComponent implements OnInit {
       this.timeShortcuts = this.timelineContributor.timeShortcuts;
       this.timeShortcutsMap = this.groupBy(this.timeShortcuts, shortcut => shortcut.type);
       this.setRemoveIconVisibility();
-      if (!this.timelineComponent.input.useUtc) {
+      if (!this.timelineContributor.useUtc) {
         this.timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
       }
     }

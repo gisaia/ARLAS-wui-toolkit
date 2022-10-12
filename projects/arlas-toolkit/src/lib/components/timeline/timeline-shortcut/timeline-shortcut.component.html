@@ -13,7 +13,7 @@
           <mat-icon class="time-zone-icon" >language</mat-icon>
         </div>
       </span>
-      <span *ngIf="!activeDatePicker" class="shortcut-button__label">{{timelineContributor?.timeLabel | getTimeLabel: dateFormat:translate:timelineComponent?.input.useUtc}}
+      <span *ngIf="!activeDatePicker" class="shortcut-button__label">{{timelineContributor?.timeLabel | getTimeLabel: dateFormat:translate:timelineContributor?.useUtc}}
         <div class="time-zone" matTooltip="{{'Time zone' | translate}} {{timeZone}}" [matTooltipPosition]="'above'">
           <mat-icon class="time-zone-icon" >language</mat-icon>
         </div>
