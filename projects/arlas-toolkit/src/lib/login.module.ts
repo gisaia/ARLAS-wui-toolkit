@@ -14,6 +14,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { RegisterComponent } from './components/register/register.component';
 import { RouterModule } from '@angular/router';
 import { VerifyComponent } from './components/verify/verify.component';
+import { ResetComponent } from './components/reset/reset.component';
+import { ForgotComponent } from './components/forgot/forgot.component';
 
 export class CustomTranslateLoader implements TranslateLoader {
 
@@ -47,7 +49,9 @@ export class CustomTranslateLoader implements TranslateLoader {
   declarations: [
     LoginComponent,
     RegisterComponent,
-    VerifyComponent
+    VerifyComponent,
+    ResetComponent,
+    ForgotComponent
   ],
   imports: [
     MatFormFieldModule,

@@ -20,6 +20,7 @@
 import { Filter } from 'arlas-api';
 import { OverlayRef } from '@angular/cdk/overlay';
 import { InjectionToken } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 
 export const CONFIG_ID_QUERY_PARAM = 'config_id';
 
@@ -180,6 +181,23 @@ export function getFieldProperties(fieldList: any, parentPrefix?: string,
 
   if (isFirstLevel) {
     return arlasFields;
+  }
+}
+
+
+
+export function ConfirmedValidator(controlName: string, matchingControlName: string) {
+  return (formGroup: FormGroup) => {
+    const control = formGroup.controls[controlName];
+    const matchingControl = formGroup.controls[matchingControlName];
+    if (matchingControl.errors && !matchingControl.errors.confirmedValidator) {
+      return;
+    }
+    if (control.value !== matchingControl.value) {
+      matchingControl.setErrors({ confirmedValidator: true });
+    } else {
+      matchingControl.setErrors(null);
+    }
   }
 }
 
