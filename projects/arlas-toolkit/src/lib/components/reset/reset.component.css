@@ -2,18 +2,18 @@
   font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial;
 }
 
-.sign-up-form {
+.reset-form {
   width: 340px;
   margin: 50px auto;
   font-size: 15px;
 }
 
-.sign-up-form mat-form-field {
+.reset-form mat-form-field {
   font-size: 14px;
   width: 100%;
 }
 
-.sign-up-form mat-form-field ::ng-deep .mat-form-field-outline {
+.reset-form mat-form-field ::ng-deep .mat-form-field-outline {
   background-color: white;
   border-radius: 4px;
 }
@@ -36,18 +36,18 @@
   padding: 10px 35px 0;
 }
 
-.sign-up-form .form-content {
+.reset-form .form-content {
   margin-bottom: 15px;
   background: #ededed;
   padding: 15px 30px 0 30px;
   border-radius: 0 0 15px 15px;
 }
 
-.sign-up-form h2 {
+.reset-form h2 {
   margin: 10px 0;
 }
 
-.sign-up-button {
+.reset-button {
   background-color: #00bcd4;
   border-radius: 15px;
   padding: 0 30px;

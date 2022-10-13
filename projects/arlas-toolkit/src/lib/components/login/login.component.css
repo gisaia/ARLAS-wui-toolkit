@@ -19,9 +19,12 @@
   background-color: #00bcd4;
   color: white;
   font-size: 18px;
-  font-weight: 100;
-  font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial;
   border-radius: 15px 15px 0 0;
+  font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+.title h2 {
+  font-weight: 100;
 }
 
 .login-form .form-content {

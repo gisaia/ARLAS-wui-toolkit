@@ -1,0 +1,41 @@
+<div class="container">
+  <div class="sign-up-form text-center" style="align-items: center;">
+    <div>
+      <div class="title">
+        <h2>ARLAS - {{'Reset password' | translate}}</h2>
+      </div>
+      <div>
+        <form [formGroup]="forgotForm" (ngSubmit)="onSubmit(formDirective)" #formDirective="ngForm">
+          <div class="form-content">
+            <mat-form-field appearance="outline">
+              <mat-label>{{'Email' | translate}}</mat-label>
+              <input matInput type="email" formControlName="email">
+              <mat-error *ngIf="forgotForm.hasError('required', 'email')">
+                {{'Email is required' | translate}}
+              </mat-error>
+              <mat-error *ngIf="forgotForm.hasError('pattern', 'email')">
+                {{'Email must be a valid email address' | translate}}
+              </mat-error>
+            </mat-form-field>
+            <div class="form-error" *ngIf="forgotForm.getError('notExist')">
+              {{ 'No account linked to this email adress' | translate}}
+            </div>
+
+          </div>
+          <div class="validate" *ngIf="validated">
+            {{'Request validated, you will receive an email to change your password' | translate}}
+          </div>
+          <div class="buttons">
+            <button type="submit" class="sign-up-button" [disabled]="this.forgotForm.invalid" mat-flat-button
+              color="primary">{{ 'Send password reset email' | translate}}</button>
+
+          </div>
+          <div class="account">
+            {{'Already have an account?' | translate}}
+            <button mat-button type="button" [routerLink]="'/login'">{{ 'Log In' | translate}}</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

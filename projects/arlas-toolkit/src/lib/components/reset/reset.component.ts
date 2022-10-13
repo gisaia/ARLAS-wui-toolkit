@@ -5,13 +5,13 @@ import { ArlasIamService } from '../../services/arlas-iam/arlas-iam.service';
 import { ConfirmedValidator } from '../../tools/utils';
 
 @Component({
-  selector: 'arlas-tool-verify',
-  templateUrl: './verify.component.html',
-  styleUrls: ['./verify.component.css']
+  selector: 'arlas-tool-reset',
+  templateUrl: './reset.component.html',
+  styleUrls: ['./reset.component.css']
 })
-export class VerifyComponent implements OnInit {
+export class ResetComponent implements OnInit {
 
-  public validateForm: FormGroup;
+  public resetForm: FormGroup;
   public validated = false;
 
   public userId = null;
@@ -24,7 +24,7 @@ export class VerifyComponent implements OnInit {
   ) { }
 
   public ngOnInit(): void {
-    this.validateForm = this.formBuilder.group({
+    this.resetForm = this.formBuilder.group({
       password: ['', [Validators.required]],
       confirm_password: ['', [Validators.required]]
     }, {
@@ -39,7 +39,7 @@ export class VerifyComponent implements OnInit {
 
   public onSubmit(): void {
     this.validated = false;
-    this.iamService.verify(this.userId, this.token, this.validateForm.get('password').value).subscribe({
+    this.iamService.reset(this.userId, this.token, this.resetForm.get('password').value).subscribe({
       next: (data) => {
         this.validated = true;
         console.log(data);

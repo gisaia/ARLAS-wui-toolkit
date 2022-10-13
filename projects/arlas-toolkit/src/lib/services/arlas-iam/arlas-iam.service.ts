@@ -115,4 +115,16 @@ export class ArlasIamService {
     return from(this.arlasIamApi.createUser({ email }, this.options));
   }
 
+  public verify(userId: string, token: string, password: string): Observable<UserData> {
+    return from(this.arlasIamApi.verifyUser(userId, token, password, this.options));
+  }
+
+  public reset(userId: string, token: string, password: string): Observable<UserData> {
+    return from(this.arlasIamApi.resetUserPassword(userId, token, password, this.options));
+  }
+
+  public forgot(email: string): Observable<string> {
+    return from(this.arlasIamApi.askPasswordReset(email, this.options));
+  }
+
 }
