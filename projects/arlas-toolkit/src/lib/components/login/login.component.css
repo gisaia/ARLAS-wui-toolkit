@@ -1,3 +1,7 @@
+.container {
+  font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
 .login-form {
   width: 340px;
   margin: 50px auto;
@@ -20,7 +24,6 @@
   color: white;
   font-size: 18px;
   border-radius: 15px 15px 0 0;
-  font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial;
 }
 
 .title h2 {
@@ -63,11 +66,26 @@
   color: #00bcd4;
 }
 
-.form-error {
-  color: rgb(244, 67, 54);
-  display: block;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+.error {
+  color: white;
+  background-color: rgb(244, 67, 54);
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+}
+
+.forgot{
+  display: flex;
+  justify-content: center;
   font-size: 12px;
-  font-weight: 400;
-  padding: 0 0 15px 2px;
+  padding-bottom: 10px;
+}
+
+.forgot a {
+  color: #0969da;
+  text-decoration: none;
+}
+
+.forgot a:hover {
+  text-decoration: underline;
 }

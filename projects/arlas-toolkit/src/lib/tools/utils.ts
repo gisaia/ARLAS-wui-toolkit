@@ -198,7 +198,7 @@ export function ConfirmedValidator(controlName: string, matchingControlName: str
     } else {
       matchingControl.setErrors(null);
     }
-  }
+  };
 }
 
 export class ArlasOverlayRef {

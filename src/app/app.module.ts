@@ -33,6 +33,7 @@ import { HomeComponent } from './components/home/home.component';
 import { LoginModule } from '../../projects/arlas-toolkit/src/lib/login.module';
 import { ArlasSettingsService } from '../../projects/arlas-toolkit/src/lib/services/settings/arlas.settings.service';
 import { RouterModule } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   imports: [
@@ -40,6 +41,7 @@ import { RouterModule } from '@angular/router';
     AppRoutingModule,
     ArlasToolkitSharedModule,
     ArlasToolKitModule,
+    MatButtonModule,
     ErrorModalModule,
     LoginModule,
     RouterModule

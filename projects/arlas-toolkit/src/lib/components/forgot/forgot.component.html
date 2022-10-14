@@ -17,13 +17,10 @@
                 {{'Email must be a valid email address' | translate}}
               </mat-error>
             </mat-form-field>
-            <div class="form-error" *ngIf="forgotForm.getError('notExist')">
-              {{ 'No account linked to this email adress' | translate}}
-            </div>
 
           </div>
           <div class="validate" *ngIf="validated">
-            {{'Request validated, you will receive an email to change your password' | translate}}
+            {{'If you have an account, you will receive an email shortly' | translate}}
           </div>
           <div class="buttons">
             <button type="submit" class="sign-up-button" [disabled]="this.forgotForm.invalid" mat-flat-button

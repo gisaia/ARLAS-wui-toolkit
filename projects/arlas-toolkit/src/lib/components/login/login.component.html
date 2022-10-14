@@ -25,12 +25,12 @@
                 {{ 'Please enter your password' | translate}}
               </mat-error>
             </mat-form-field>
-            <div class="form-error" *ngIf="loginForm.getError('wrong')">
-              {{ 'Login or password invalid' | translate}}
-            </div>
             <div class="forgot">
-              <a mat-button routerLink="/password_forgot">{{ 'Forgot password?' | translate}}</a>
+              <a routerLink="/password_forgot">{{ 'Forgot password?' | translate}}</a>
             </div>
+          </div>
+          <div class="error" *ngIf="loginForm.getError('wrong')">
+            {{ 'Login or password invalid' | translate}}
           </div>
           <div class="buttons">
             <button type="submit" class="login-button" [disabled]="this.loginForm.invalid" mat-flat-button

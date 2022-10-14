@@ -22,10 +22,12 @@
                 {{'Email must be a valid email address' | translate}}
               </mat-error>
             </mat-form-field>
-            <div class="form-error" *ngIf="signUpForm.getError('alreadyExist')">
-              {{ 'User already exists' | translate}}
+            <div class="terms">
+              {{'By creating an account, you agree to the' | translate}} <br /> <a href="https://www.arlas.io/terms" target="_blank">{{'Terms of Service' | translate}}</a>
             </div>
-
+          </div>
+          <div class="error" *ngIf="signUpForm.getError('alreadyExist')">
+            {{ 'User already exists' | translate}}
           </div>
           <div class="validate" *ngIf="validated">
             {{'Registration validated, you will receive an email to validate your account' | translate}}

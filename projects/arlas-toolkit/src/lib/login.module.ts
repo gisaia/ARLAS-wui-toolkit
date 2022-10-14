@@ -16,6 +16,7 @@ import { RouterModule } from '@angular/router';
 import { VerifyComponent } from './components/verify/verify.component';
 import { ResetComponent } from './components/reset/reset.component';
 import { ForgotComponent } from './components/forgot/forgot.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 export class CustomTranslateLoader implements TranslateLoader {
 
@@ -58,6 +59,7 @@ export class CustomTranslateLoader implements TranslateLoader {
     MatInputModule,
     MatIconModule,
     MatButtonModule,
+    MatCheckboxModule,
     FormsModule,
     ReactiveFormsModule,
     CommonModule,

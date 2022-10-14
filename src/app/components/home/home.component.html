@@ -1,6 +1,9 @@
-<div style="margin-bottom: 10px;">
+<div style="margin-bottom: 10px;display: flex;justify-content: space-between;">
   <arlas-filter [title]="'ARLAS tookit'" [backgroundColor]="'#FFF'"></arlas-filter>
+  <button mat-flat-button color="accent" (click)="logout()">Log out</button>
 </div>
+
+
 
 <arlas-timeline #timeline  class="arlas-timeline-toolkit" [activeDatePicker]="true"
   [timelineComponent]="timelineComponentConfig">

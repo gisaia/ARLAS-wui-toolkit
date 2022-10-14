@@ -116,5 +116,7 @@ export { AuthGuardIamService } from './lib/services/arlas-iam/auth-guard-iam.ser
 export { LoginComponent } from './lib/components/login/login.component';
 export { RegisterComponent } from './lib/components/register/register.component';
 export { VerifyComponent } from './lib/components/verify/verify.component';
+export { ForgotComponent } from './lib/components/forgot/forgot.component';
+export { ResetComponent } from './lib/components/reset/reset.component';
 export { IamInterceptor } from './lib/tools/iamInterceptor';
 export { ArlasIamApi } from './lib/services/startup/startup.service';
