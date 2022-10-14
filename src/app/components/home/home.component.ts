@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TimelineConfiguration } from '../../../../projects/arlas-toolkit/src/lib/components/timeline/timeline/timeline.utils';
+import { ArlasIamService } from '../../../../projects/arlas-toolkit/src/lib/services/arlas-iam/arlas-iam.service';
 import {
   ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService
 } from '../../../../projects/arlas-toolkit/src/lib/services/startup/startup.service';
@@ -21,7 +22,7 @@ export class HomeComponent implements OnInit {
   public constructor(
     private arlasStartupService: ArlasStartupService,
     private arlasConfigService: ArlasConfigService,
-
+    private arlasIamService: ArlasIamService,
     private collaborativeService: ArlasCollaborativesearchService,
   ) {
     this.timelineComponentConfig = this.arlasConfigService.getValue('arlas.web.components.timeline');
@@ -32,6 +33,10 @@ export class HomeComponent implements OnInit {
     this.collaborativeService.setCollaborations({});
     this.analytics = this.arlasStartupService.analytics;
     this.languages = ['en', 'fr', 'it', 'es', 'de', 'us', 'cn'];
+  }
+
+  public logout() {
+    this.arlasIamService.logout();
   }
 
 }

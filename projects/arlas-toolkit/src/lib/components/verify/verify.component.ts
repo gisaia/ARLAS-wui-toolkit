@@ -40,12 +40,20 @@ export class VerifyComponent implements OnInit {
   public onSubmit(): void {
     this.validated = false;
     this.iamService.verify(this.userId, this.token, this.validateForm.get('password').value).subscribe({
-      next: (data) => {
+      next: () => {
         this.validated = true;
-        console.log(data);
       },
       error: err => {
-        console.error(err);
+        if( err.statusText === 'Not Found'){
+          this.validateForm.setErrors({
+            unknowUser: true
+          });
+        }
+        if (err.statusText === 'Bad Request'){
+          this.validateForm.setErrors({
+            alreadyVerified: true
+          });
+        }
       }
     });
   }
