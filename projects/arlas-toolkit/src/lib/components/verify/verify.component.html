@@ -15,10 +15,21 @@
               <mat-label>{{'Confirm password' | translate}}</mat-label>
               <input matInput type="password" formControlName="confirm_password">
             </mat-form-field>
-
+            <mat-error
+              *ngIf="validateForm.get('confirm_password').touched
+            && validateForm.get('confirm_password').invalid && validateForm.hasError('confirmedValidator', 'confirm_password')"
+              class="confirm-error">
+              {{'Password and Confirm Password must be match' | translate}}
+            </mat-error>
           </div>
           <div class="validate" *ngIf="validated">
             {{'Your account is now active.' | translate}}
+          </div>
+          <div class="error" *ngIf="validateForm.getError('unknowUser')">
+            {{ 'Unknown user' | translate}}
+          </div>
+          <div class="error" *ngIf="validateForm.getError('alreadyVerified')">
+            {{ 'User already verified' | translate}}
           </div>
           <div class="buttons">
             <button type="submit" class="validate-button" [disabled]="this.validateForm.invalid" mat-flat-button

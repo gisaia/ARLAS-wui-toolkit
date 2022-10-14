@@ -71,19 +71,29 @@
   color: #00bcd4;
 }
 
-.form-error {
-  color: rgb(244, 67, 54);
-  display: block;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
-  font-size: 12px;
-  font-weight: 400;
-  padding: 0 0 15px 2px;
-}
-
-.validate{
+.validate, .error {
   color: white;
   background-color: #5cb85c;
   padding: 10px;
   margin-bottom: 10px;
   border-radius: 10px;
+}
+
+.error {
+  background-color: rgb(244, 67, 54);
+}
+
+.terms {
+  font-size: 12px;
+  padding-bottom: 10px;
+  text-align: center;
+}
+
+.terms a {
+  color: #0969da;
+  text-decoration: none;
+}
+
+.terms a:hover {
+  text-decoration: underline;
 }

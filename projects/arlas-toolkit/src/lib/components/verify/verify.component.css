@@ -43,6 +43,11 @@
   border-radius: 0 0 15px 15px;
 }
 
+.confirm-error {
+  font-size: 13px;
+  padding: 0 5px 5px 5px;
+}
+
 .validate-form h2 {
   margin: 10px 0;
 }
@@ -80,10 +85,14 @@
   padding: 0 0 15px 2px;
 }
 
-.validate {
+.validate, .error {
   color: white;
   background-color: #5cb85c;
   padding: 10px;
   margin-bottom: 10px;
   border-radius: 10px;
+}
+
+.error {
+  background-color: rgb(244, 67, 54);
 }
