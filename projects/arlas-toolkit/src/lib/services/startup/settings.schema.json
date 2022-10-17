@@ -10,9 +10,12 @@
       "type": "object",
       "properties": {
         "use_authent": {
-          "description": "Defines whether to be authenticated to Auth0",
+          "description": "Defines whether to be authenticated or not",
+          "type": "boolean"
+        },
+        "auth_mode": {
+          "description": "Defines which type of authentication is used. `openid` by default",
           "enum": [
-            "false",
             "iam",
             "openid"
           ]

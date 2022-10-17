@@ -41,15 +41,15 @@ export class ArlasIamService {
   public areSettingsValid(authentSetting: AuthentSetting): [boolean, string] {
     let valid = true;
     const missingInfo = [];
-    if (authentSetting && authentSetting.use_authent !== 'false') {
-      if (authentSetting.use_authent === 'iam') {
+    if (authentSetting && authentSetting.use_authent) {
+      if (authentSetting.auth_mode === 'iam') {
         if (!authentSetting.url || authentSetting.url === NOT_CONFIGURED) {
           valid = false;
-          missingInfo.push('- `iam server url` must be configured when `use_authent=iam`');
+          missingInfo.push('- `iam server url` must be configured when `auth_mode=iam`');
         }
         if (!authentSetting.threshold) {
           valid = false;
-          missingInfo.push('- `iam server threshold` must be configured when `use_authent=iam`');
+          missingInfo.push('- `iam server threshold` must be configured when `auth_mode=iam`');
         }
       }
     }

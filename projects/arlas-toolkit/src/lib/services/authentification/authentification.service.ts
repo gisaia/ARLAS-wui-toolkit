@@ -45,7 +45,7 @@ export class AuthentificationService {
   public initAuthService(authentSettings: AuthentSetting): Promise<void> {
     this.authConfigValue = authentSettings;
     if (this.authConfigValue) {
-      if (this.authConfigValue.use_authent === 'openid') {
+      if (!this.authConfigValue.auth_mode || this.authConfigValue.auth_mode === 'openid') {
         const storage = this.authConfigValue['storage'] === 'localstorage' ? localStorage : sessionStorage;
         if (authentSettings.use_discovery || this.authConfigValue['jwks_endpoint'] === undefined) {
           this.authConfig = this.getAuthConfig(this.authConfigValue);
@@ -132,23 +132,23 @@ export class AuthentificationService {
   public areSettingsValid(authentSetting: AuthentSetting): [boolean, string] {
     let valid = true;
     const missingInfo = [];
-    if (authentSetting && authentSetting.use_authent !== 'false') {
-      if (authentSetting.use_authent === 'openid') {
+    if (authentSetting && authentSetting.use_authent) {
+      if (authentSetting.auth_mode === 'openid' || !authentSetting.auth_mode) {
         if (!authentSetting.client_id || authentSetting.client_id === NOT_CONFIGURED) {
           valid = false;
-          missingInfo.push('- `client_id` must be configured when `use_authent=openid`');
+          missingInfo.push('- `client_id` must be configured when `auth_mode=openid`');
         }
         if (!authentSetting.issuer || authentSetting.issuer === NOT_CONFIGURED) {
           valid = false;
-          missingInfo.push('- `issuer` must be configured when `use_authent=openid`');
+          missingInfo.push('- `issuer` must be configured when `auth_mode=openid`');
         }
         if (!authentSetting.scope || authentSetting.scope === NOT_CONFIGURED) {
           valid = false;
-          missingInfo.push('- `scope` must be configured when `use_authent=openid`');
+          missingInfo.push('- `scope` must be configured when `auth_mode=openid`');
         }
         if (!authentSetting.response_type || authentSetting.response_type === NOT_CONFIGURED) {
           valid = false;
-          missingInfo.push('- `response_type` must be configured when `use_authent=openid`');
+          missingInfo.push('- `response_type` must be configured when `auth_mode=openid`');
         }
         if (authentSetting.use_discovery === false) {
           if (!authentSetting.login_url || authentSetting.login_url === NOT_CONFIGURED) {
@@ -169,14 +169,14 @@ export class AuthentificationService {
           }
         }
       }
-      if (authentSetting.use_authent === 'iam') {
+      if (authentSetting.auth_mode === 'iam') {
         if (!authentSetting.url || authentSetting.url === NOT_CONFIGURED) {
           valid = false;
-          missingInfo.push('- `iam server url` must be configured when `use_authent=iam`');
+          missingInfo.push('- `iam server url` must be configured when `auth_mode=iam`');
         }
         if (!authentSetting.threshold) {
           valid = false;
-          missingInfo.push('- `iam server threshold` must be configured when `use_authent=iam`');
+          missingInfo.push('- `iam server threshold` must be configured when `auth_mode=iam`');
         }
       }
     }
@@ -274,7 +274,8 @@ export class AuthentificationService {
 export interface AuthentSetting {
   use_discovery: boolean;
   force_connect: boolean;
-  use_authent: 'false' | 'openid' | 'iam';
+  use_authent: boolean;
+  auth_mode: 'openid' | 'iam';
   client_id: string;
   issuer: string;
   scope?: string;
