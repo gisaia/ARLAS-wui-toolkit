@@ -406,14 +406,7 @@ export class ArlasStartupService {
       // redirects to login page if it's the first time and fetches the appropriate token
       if (settings) {
         const authent: AuthentSetting = settings.authentication;
-        if (authent && authent.use_authent === 'openid') {
-          const authService: AuthentificationService = this.injector.get('AuthentificationService')[0];
-          if (!authService.areSettingsValid(authent)[0]) {
-            const err = 'Authentication is set while ' + authService.areSettingsValid(authent)[1] + ' are not configured';
-            reject(err);
-          }
-          resolve(authService.initAuthService(authent).then(() => settings));
-        } else if (authent && authent.use_authent === 'iam') {
+        if (authent && authent.use_authent && authent.auth_mode === 'iam') {
           if (!this.arlasIamService.areSettingsValid(authent)[0]) {
             const err = 'Authentication is set while ' + this.arlasIamService.areSettingsValid(authent)[1] + ' are not configured';
             reject(err);
@@ -423,6 +416,13 @@ export class ArlasStartupService {
           this.arlasIamService.authConfigValue = authent;
 
           resolve(settings);
+        } else if (authent && authent.use_authent) {
+          const authService: AuthentificationService = this.injector.get('AuthentificationService')[0];
+          if (!authService.areSettingsValid(authent)[0]) {
+            const err = 'Authentication is set while ' + authService.areSettingsValid(authent)[1] + ' are not configured';
+            reject(err);
+          }
+          resolve(authService.initAuthService(authent).then(() => settings));
         }
       }
       return resolve(settings);
@@ -447,9 +447,9 @@ export class ArlasStartupService {
   public enrichHeaders(settings: ArlasSettings): Promise<ArlasSettings> {
     return new Promise<ArlasSettings>((resolve, reject) => {
       const useAuthent = !!settings && !!settings.authentication
-        && !!settings.authentication.use_authent && settings.authentication.use_authent !== 'false';
-      const useAuthentOpenID = useAuthent && settings.authentication.use_authent === 'openid';
-      const useAuthentIam = useAuthent && settings.authentication.use_authent === 'iam';
+        && !!settings.authentication.use_authent;
+      const useAuthentOpenID = useAuthent && settings.authentication.auth_mode === 'openid';
+      const useAuthentIam = useAuthent && settings.authentication.auth_mode === 'iam';
       if (useAuthent) {
         const usePersistence = (!!settings && !!settings.persistence && !!settings.persistence.url
           && settings.persistence.url !== '' && settings.persistence.url !== NOT_CONFIGURED);
@@ -493,8 +493,27 @@ export class ArlasStartupService {
           });
 
         } else {
-          this.persistenceService.setOptions({});
-          resolve(settings);
+          this.arlasIamService.currentUserSubject.subscribe({
+            next: (userSubject) => {
+              if (!!userSubject) {
+                // ARLAS-persistence
+                this.persistenceService.setOptions({
+                  headers: {
+                    Authorization: 'Bearer ' + userSubject.accessToken
+                  }
+                });
+                // ARLAS-server
+                this.fetchOptions.headers = {
+                  Authorization: 'Bearer ' + userSubject.accessToken
+                };
+              } else {
+                this.persistenceService.setOptions({});
+              }
+
+              resolve(settings);
+            }
+          });
+
         }
       }
     });
