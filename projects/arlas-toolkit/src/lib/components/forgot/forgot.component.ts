@@ -27,14 +27,13 @@ export class ForgotComponent implements OnInit {
     this.validated = false;
     this.iamService.forgot(this.forgotForm.get('email').value).subscribe({
       next: () => {
+        this.validated = true;
         formDirective.resetForm();
         this.forgotForm.reset();
-        this.validated = true;
       },
       error: err => {
-        this.forgotForm.setErrors({
-          notExist: true
-        });
+        // API respond with error (but the resquest is OK)
+        this.validated = true;
       }
     });
   }

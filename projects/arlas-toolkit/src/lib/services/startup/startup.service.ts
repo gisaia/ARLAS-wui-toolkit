@@ -406,6 +406,7 @@ export class ArlasStartupService {
       // redirects to login page if it's the first time and fetches the appropriate token
       if (settings) {
         const authent: AuthentSetting = settings.authentication;
+        const authService: AuthentificationService = this.injector.get('AuthentificationService')[0];
         if (authent && authent.use_authent && authent.auth_mode === 'iam') {
           if (!this.arlasIamService.areSettingsValid(authent)[0]) {
             const err = 'Authentication is set while ' + this.arlasIamService.areSettingsValid(authent)[1] + ' are not configured';
@@ -415,9 +416,8 @@ export class ArlasStartupService {
           this.arlasIamService.setArlasIamApi(this.arlasIamApi);
           this.arlasIamService.authConfigValue = authent;
 
-          resolve(settings);
+          resolve(authService.initAuthService(authent).then(() => settings));
         } else if (authent && authent.use_authent) {
-          const authService: AuthentificationService = this.injector.get('AuthentificationService')[0];
           if (!authService.areSettingsValid(authent)[0]) {
             const err = 'Authentication is set while ' + authService.areSettingsValid(authent)[1] + ' are not configured';
             reject(err);
@@ -492,7 +492,7 @@ export class ArlasStartupService {
             resolve(settings);
           });
 
-        } else {
+        } else if (useAuthentIam) {
           this.arlasIamService.currentUserSubject.subscribe({
             next: (userSubject) => {
               if (!!userSubject) {
@@ -509,7 +509,7 @@ export class ArlasStartupService {
               } else {
                 this.persistenceService.setOptions({});
               }
-
+              this.collaborativesearchService.setFetchOptions(this.fetchOptions);
               resolve(settings);
             }
           });
