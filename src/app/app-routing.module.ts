@@ -11,7 +11,7 @@ import { ForgotComponent } from '../../projects/arlas-toolkit/src/lib/components
 
 
 const routes: Routes = [
-  { path: 'home', component: HomeComponent, canActivate: [AuthGuardIamService]},
+  { path: 'home', component: HomeComponent},
   { path: 'contact', component: ContactComponent},
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },

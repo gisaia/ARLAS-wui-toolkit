@@ -6,6 +6,8 @@ import { HttpClient } from '@angular/common/http';
 import { CONFIG_ID_QUERY_PARAM } from '../../tools/utils';
 import { filter } from 'rxjs/internal/operators/filter';
 import { from } from 'rxjs/internal/observable/from';
+import { ArlasIamService } from '../arlas-iam/arlas-iam.service';
+import { RefreshToken } from 'arlas-iam-api';
 
 export const NOT_CONFIGURED = 'NOT_CONFIGURED';
 
@@ -36,7 +38,11 @@ export class AuthentificationService {
     this.isAuthenticated,
     this.isDoneLoading
   ).pipe(map(values => values.every(b => b)));
-  public constructor(private oauthService: OAuthService, private http: HttpClient
+
+  public constructor(
+    private oauthService: OAuthService,
+    private arlasIamService: ArlasIamService,
+    private http: HttpClient
   ) {
     this.silentRefreshErrorSubject = this.oauthService.events.pipe(filter(e => e instanceof OAuthErrorEvent),
       filter((e: OAuthErrorEvent) => e.type === 'silent_refresh_error' || e.type === 'silent_refresh_timeout'));
@@ -65,6 +71,38 @@ export class AuthentificationService {
             console.error('Authentication config error : if useDiscovery ' +
               'is set to false in configuration, tokenEndpoint, userinfoEndpoint, loginUrl and jwksEndpoint must be defined.');
           }
+        }
+      } else if (this.authConfigValue.use_authent && this.authConfigValue.auth_mode === 'iam') {
+        let refreshToken: RefreshToken = {};
+        try {
+          refreshToken = JSON.parse(localStorage.getItem('refreshToken'));
+        } catch (error) {
+          refreshToken = null;
+        }
+        if (!!refreshToken) {
+          this.arlasIamService.setOptions({
+            headers: {
+              Authorization: 'Bearer ' + localStorage.getItem('accessToken')
+            }
+          });
+          return this.arlasIamService.refresh(refreshToken.value).toPromise()
+            .then(
+              response => {
+                const accessToken = response.accessToken;
+                localStorage.setItem('accessToken', accessToken);
+                localStorage.setItem('refreshToken', JSON.stringify(response.refreshToken));
+                this.arlasIamService.setOptions({
+                  headers: {
+                    Authorization: 'Bearer ' + accessToken
+                  }
+                });
+                this.arlasIamService.currentUserSubject.next(
+                  { accessToken: accessToken, refreshToken: response.refreshToken, user: response.user }
+                );
+                return Promise.resolve();
+              });
+        } else {
+          return Promise.resolve();
         }
       }
     }
@@ -275,7 +313,7 @@ export interface AuthentSetting {
   use_discovery: boolean;
   force_connect: boolean;
   use_authent: boolean;
-  auth_mode: 'openid' | 'iam';
+  auth_mode?: 'openid' | 'iam';
   client_id: string;
   issuer: string;
   scope?: string;

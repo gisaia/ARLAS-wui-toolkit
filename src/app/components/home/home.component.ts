@@ -19,6 +19,8 @@ export class HomeComponent implements OnInit {
   public timelineComponentConfig;
   public detailedTimelineComponentConfig: TimelineConfiguration;
 
+  public connected = false;
+
   public constructor(
     private arlasStartupService: ArlasStartupService,
     private arlasConfigService: ArlasConfigService,
@@ -33,6 +35,14 @@ export class HomeComponent implements OnInit {
     this.collaborativeService.setCollaborations({});
     this.analytics = this.arlasStartupService.analytics;
     this.languages = ['en', 'fr', 'it', 'es', 'de', 'us', 'cn'];
+
+    this.arlasIamService.currentUserSubject.subscribe({
+      next: (data) => {
+        if( !!data && !!data.user){
+          this.connected = true;
+        }
+      }
+    });
   }
 
   public logout() {
