@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthentificationService } from '../../services/authentification/authentification.service';
+import { ArlasIamService } from '../../services/arlas-iam/arlas-iam.service';
 
 @Component({
   selector: 'arlas-user-infos',
@@ -17,22 +18,35 @@ export class UserInfosComponent implements OnInit {
   public avatar: string;
 
   public constructor(
-    private authentService: AuthentificationService
+    private authentService: AuthentificationService,
+    private arlasIamService: ArlasIamService
   ) { }
 
   public ngOnInit() {
-    this.authentService.loadUserInfo().subscribe(user => {
-      const data = user.info;
-      this.name = data['nickname'];
-      this.email = data['name'];
-      this.roles = data['http://arlas.io/roles'].filter(r => r.startsWith('role/'))
+    if (!!this.authentService.authConfigValue) {
+      this.authentService.loadUserInfo().subscribe(user => {
+        const data = user.info;
+        this.name = data['nickname'];
+        this.email = data['name'];
+        this.roles = data['http://arlas.io/roles'].filter(r => r.startsWith('role/'))
+          .map(r => this.computeName(r));
+        this.groups = data['http://arlas.io/roles'].filter(r => r.startsWith('group/'))
+          .map(r => r.split('/')[r.split('/').length - 1]);
+        this.organisation = data['http://arlas.io/roles'].filter(r => r.startsWith('org/'))
+          .map(r => this.computeName(r));
+        this.avatar = data['picture'];
+      });
+    } else if (!!this.arlasIamService.authConfigValue) {
+      const userInfos = this.arlasIamService.currentUserValue.user;
+      this.name = userInfos.email;
+      this.email = userInfos.email;
+      this.roles = userInfos.roles.filter(r => r.fullName.startsWith('role/'))
         .map(r => this.computeName(r));
-      this.groups = data['http://arlas.io/roles'].filter(r => r.startsWith('group/'))
-        .map(r => r.split('/')[r.split('/').length - 1]);
-      this.organisation = data['http://arlas.io/roles'].filter(r => r.startsWith('org/'))
-        .map(r => this.computeName(r));
-      this.avatar = data['picture'];
-    });
+      this.groups = [];
+      this.organisation = userInfos.organisations.map(o => o.displayName).join(',');
+      this.avatar = '';
+
+    }
   }
 
   public computeName = (n) => {

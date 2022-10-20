@@ -89,14 +89,14 @@ export class ArlasIamService {
     }
   }
 
-  public logout(): void {
+  public logout(redirectPageAfterLogout: string[] = ['/login']): void {
     // remove accessToken from local storage and stop associated timer
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
     this.stopRefreshTokenTimer();
     // set currentUser to null and redirect to login page
     this.currentUserSubject.next(null);
-    this.router.navigate(['/login']);
+    this.router.navigate(redirectPageAfterLogout);
   }
 
   public refresh(refreshToken): Observable<LoginData> {
