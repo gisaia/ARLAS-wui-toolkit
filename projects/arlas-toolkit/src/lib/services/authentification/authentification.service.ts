@@ -44,7 +44,7 @@ export class AuthentificationService {
   public initAuthService(authentSettings: AuthentSetting): Promise<void> {
     this.authConfigValue = authentSettings;
     if (this.authConfigValue) {
-      if (!this.authConfigValue.auth_mode || this.authConfigValue.auth_mode === 'openid') {
+      if (this.authConfigValue.use_authent && (!this.authConfigValue.auth_mode || this.authConfigValue.auth_mode === 'openid')) {
         const storage = this.authConfigValue['storage'] === 'localstorage' ? localStorage : sessionStorage;
         if (authentSettings.use_discovery || this.authConfigValue['jwks_endpoint'] === undefined) {
           this.authConfig = this.getAuthConfig(this.authConfigValue);
