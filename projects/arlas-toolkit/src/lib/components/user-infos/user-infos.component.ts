@@ -23,7 +23,7 @@ export class UserInfosComponent implements OnInit {
   ) { }
 
   public ngOnInit() {
-    if (!!this.authentService.authConfigValue) {
+    if (!!this.authentService.authConfigValue && this.authentService.authConfigValue.auth_mode !== 'iam') {
       this.authentService.loadUserInfo().subscribe(user => {
         const data = user.info;
         this.name = data['nickname'];
@@ -36,13 +36,12 @@ export class UserInfosComponent implements OnInit {
           .map(r => this.computeName(r));
         this.avatar = data['picture'];
       });
-    } else if (!!this.arlasIamService.authConfigValue) {
+    } else if (!!this.authentService.authConfigValue && this.authentService.authConfigValue.auth_mode === 'iam') {
       const userInfos = this.arlasIamService.currentUserValue.user;
       this.name = userInfos.email;
       this.email = userInfos.email;
       this.roles = userInfos.roles.filter(r => r.fullName.startsWith('role/'))
         .map(r => this.computeName(r));
-      this.groups = [];
       this.organisation = userInfos.organisations.map(o => o.displayName).join(',');
       this.avatar = '';
 
