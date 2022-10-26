@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, map, Observable, of } from 'rxjs';
 import { sortOnDate, ArlasStorageObject } from './utils';
 
 export class ArlasLocalDatabase<T extends ArlasStorageObject> {
@@ -54,31 +54,37 @@ export class ArlasLocalDatabase<T extends ArlasStorageObject> {
     return obj;
   }
 
-  public add(storageObject: T) {
-    const copiedData = this.data.slice();
-    copiedData.push(storageObject);
-    this.storageObjectMap.set(storageObject.id, storageObject);
-    const sortedData = sortOnDate(copiedData);
-    localStorage.setItem(this.storageKey, JSON.stringify(sortedData));
-    this.dataChange.next((sortedData as T[]));
+  public add(storageObject: T): Observable<void> {
+    return of(true).pipe(map(v => {
+      const copiedData = this.data.slice();
+      copiedData.push(storageObject);
+      this.storageObjectMap.set(storageObject.id, storageObject);
+      const sortedData = sortOnDate(copiedData);
+      localStorage.setItem(this.storageKey, JSON.stringify(sortedData));
+      this.dataChange.next((sortedData as T[]));
+    }));
   }
 
-  public remove(id: string) {
-    const copiedData = this.data.slice();
-    const newData = [];
-    copiedData.forEach((u: T) => {
-      if (u.id !== id) {
-        newData.push(u);
-      }
-    });
-    this.storageObjectMap.delete(id);
-    localStorage.setItem(this.storageKey, JSON.stringify(sortOnDate(newData)));
-    this.dataChange.next(newData);
+  public remove(id: string): Observable<void> {
+    return of(true).pipe(map(v => {
+      const copiedData = this.data.slice();
+      const newData = [];
+      copiedData.forEach((u: T) => {
+        if (u.id !== id) {
+          newData.push(u);
+        }
+      });
+      this.storageObjectMap.delete(id);
+      localStorage.setItem(this.storageKey, JSON.stringify(sortOnDate(newData)));
+      this.dataChange.next(newData);
+    }));
   }
 
-  public update(id: string, storageObject: T) {
-    this.remove(id);
-    this.add(storageObject);
-  }
 
+  public update(id: string, storageObject: T): Observable<void> {
+    return of(true).pipe(map(v => {
+      this.remove(id);
+      this.add(storageObject);
+    }));
+  }
 }

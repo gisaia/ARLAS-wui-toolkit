@@ -17,10 +17,11 @@
  * under the License.
  */
 
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, catchError, map, mergeMap, Observable, of } from 'rxjs';
 import { ArlasStorageObject } from './utils';
 import { PersistenceService } from '../services/persistence/persistence.service';
 import { DataResource, DataWithLinks } from 'arlas-persistence-api';
+import { merge } from 'rxjs/operators';
 
 export class ArlasPersistenceDatabase<T extends ArlasStorageObject> {
   /** Stream that emits whenever the data has been modified. */
@@ -53,25 +54,31 @@ export class ArlasPersistenceDatabase<T extends ArlasStorageObject> {
     return obj;
   }
 
-  public add(storageObject: T) {
-    this.persistenceService.create(this.storageKey, 'config' + Date.now(), JSON.stringify(storageObject)).subscribe(result => {
-      const newObj = storageObject;
-      newObj['id'] = result.id;
-      this.persistenceService.update(result.id, JSON.stringify(newObj), Date.now()).subscribe(result => {
-        this.list(this.page.size, this.page.number, 'desc');
-      });
-    });
+  public add(storageObject: T): Observable<void> {
+    return this.persistenceService.create(this.storageKey, storageObject.name, JSON.stringify(storageObject))
+      .pipe(catchError(e => of(e)),
+        mergeMap(
+          result => {
+            const newObj = storageObject;
+            newObj['id'] = result.id;
+            return this.persistenceService.update(result.id, JSON.stringify(newObj), (result as any).last_update_date);
+          }
+        ),
+        mergeMap(
+          (d) => this.list(this.page.size, this.page.number, 'desc')
+        )
+      );
   }
 
-  public remove(id: string) {
-    this.persistenceService.delete(id).subscribe(result => {
+  public remove(id: string): Observable<void> {
+    return this.persistenceService.delete(id).pipe(catchError(e => of(e)),mergeMap(result => {
       this.storageObjectMap.delete(id);
-      this.list(this.page.size, this.page.number, 'desc');
-    });
+      return this.list(this.page.size, this.page.number, 'desc');
+    }));
   }
 
-  public list(size: number, page: number, order: string) {
-    this.persistenceService.list(this.storageKey, size, page, order).subscribe((dataResource: DataResource) => {
+  public list(size: number, page: number, order: string): Observable<void> {
+    return this.persistenceService.list(this.storageKey, size, page, order).pipe(catchError(e => of(e)),map((dataResource: DataResource) => {
       const copiedData = [];
       let total = 0;
       if (dataResource.count > 0) {
@@ -83,13 +90,14 @@ export class ArlasPersistenceDatabase<T extends ArlasStorageObject> {
         total = dataResource.total;
       }
       this.dataChange.next({ total: total, items: copiedData as T[] });
-    });
+    }));
   }
 
-  public update(id: string, storageObject: T) {
-    this.persistenceService.update(id, JSON.stringify(storageObject), Date.now()).subscribe(result => {
-      this.list(this.page.size, this.page.number, 'desc');
-    });
+  public update(id: string, storageObject: T): Observable<void> {
+    return this.persistenceService.update(id, JSON.stringify(storageObject), Date.now())
+      .pipe(catchError(e => of(e)),mergeMap((result =>
+        this.list(this.page.size, this.page.number, 'desc')
+      )));
   }
 
   public setPage(page: { size: number; number: number; }) {

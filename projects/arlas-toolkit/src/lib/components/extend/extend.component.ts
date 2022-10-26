@@ -39,7 +39,7 @@ export class ExtendComponent {
 
   public resultsLength = 0;
   public pageSize = 10;
-  public pageNumber = 0;
+  public pageNumber = 1;
 
   public isPersistenceActive = false;
 
@@ -64,7 +64,7 @@ export class ExtendComponent {
   }
 
   public getExtendsList() {
-    this.extendService.listExtends(this.pageSize, this.pageNumber + 1);
+    this.extendService.listExtends(this.pageSize, this.pageNumber).subscribe(()=>{},(e)=> console.error(e));
   }
 
   public pageChange(pageEvent: PageEvent) {
@@ -92,8 +92,9 @@ export class ExtendComponent {
   }
 
   public removeExtend(id: string) {
-    this.extendService.removeExtend(id);
-    this.selectExtend({ event: { checked: false } }, id);
-    this.actions.next({ action: 'remove', id: id });
+    this.extendService.removeExtend(id).subscribe(()=>{
+      this.selectExtend({ event: { checked: false } }, id);
+      this.actions.next({ action: 'remove', id: id });
+    },(e)=> console.error(e));
   }
 }

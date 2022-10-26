@@ -89,9 +89,9 @@ export class BookmarkPersistenceDatabase extends ArlasPersistenceDatabase<BookMa
     return bookMark;
   }
 
-  public incrementBookmarkView(id: string) {
+  public incrementBookmarkView(id: string): Observable<void> {
     const bookmark = this.storageObjectMap.get(id);
     bookmark.views++;
-    super.update(id, bookmark);
+    return super.update(id, bookmark);
   }
 }
