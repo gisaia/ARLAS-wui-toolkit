@@ -22,11 +22,12 @@ import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Expression, Filter } from 'arlas-api';
 import { Collaboration, projType, fromEntries } from 'arlas-web-core';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, zip } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { getKeyForColor } from '../../tools/utils';
+import { AuthentificationService } from '../authentification/authentification.service';
 import { PersistenceService } from '../persistence/persistence.service';
-import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from '../startup/startup.service';
+import { ArlasCollaborativesearchService, ArlasStartupService } from '../startup/startup.service';
 import { BookmarkLocalDatabase } from './bookmarkLocalDatabase';
 import { BookmarkPersistenceDatabase } from './bookmarkPersistenceDatabase';
 import { BookMark, BookMarkType } from './model';
@@ -42,12 +43,11 @@ export class ArlasBookmarkService {
   public constructor(private collaborativesearchService: ArlasCollaborativesearchService,
     private activatedRoute: ActivatedRoute, public snackBar: MatSnackBar,
     public arlasStartupService: ArlasStartupService,
-    private configService: ArlasConfigService,
+    private authentService: AuthentificationService,
     private persistenceService: PersistenceService,
     private router: Router) {
     if (this.arlasStartupService.shouldRunApp && !this.arlasStartupService.emptyMode) {
-      if (!!this.configService.getConfig()['arlas']['persistence-server']
-        && !!this.configService.getConfig()['arlas']['persistence-server']['url']) {
+      if (this.persistenceService.isAvailable && this.authentService.hasValidAccessToken() && this.authentService.hasValidIdToken()) {
         this.dataBase = new BookmarkPersistenceDatabase(this, this.persistenceService, this.arlasStartupService);
         this.dataBase.dataChange.subscribe(() => {
           this.bookMarkMap = this.dataBase.storageObjectMap;
@@ -65,23 +65,21 @@ export class ArlasBookmarkService {
   /**
    * List all bookmark for the user to update dataBase
    */
-  public listBookmarks(size: number, pageNumber: number) {
-    (this.dataBase as BookmarkPersistenceDatabase).list(size, pageNumber, 'desc');
+  public listBookmarks(size: number, pageNumber: number): Observable<void> {
+    return (this.dataBase as BookmarkPersistenceDatabase).list(size, pageNumber, 'desc');
   }
 
   public setPage(size: number, pageNumber: number) {
     (this.dataBase as BookmarkPersistenceDatabase).setPage({ size: size, number: pageNumber });
   }
 
-  public addBookmark(newBookMarkName: string, selectedItem?: Set<string>) {
-
+  public addBookmark(newBookMarkName: string, selectedItem?: Set<string>): Observable<void> {
     if (selectedItem) {
       const url = this.getUrlFomSetIds(selectedItem);
       const dataModel = this.collaborativesearchService.dataModelBuilder(decodeURI(url), true);
       const color = '#' + getKeyForColor(dataModel);
       const bookmarkFromItem = this.dataBase.createBookmark(newBookMarkName, newBookMarkName, url, BookMarkType.enumIds, color);
-      this.dataBase.add(bookmarkFromItem);
-      this.viewBookMark(bookmarkFromItem.id);
+      return this.dataBase.add(bookmarkFromItem);
     } else {
       let filter = '';
       this.collaborativesearchService.collaborations.forEach((k, v) => {
@@ -97,14 +95,14 @@ export class ArlasBookmarkService {
         type = BookMarkType.filterWithTime;
       }
       const bookmarkFromFilter = this.dataBase.createBookmark(newBookMarkName, filter.substring(1, filter.length), url, type, color);
-      this.dataBase.add(bookmarkFromFilter);
+      return this.dataBase.add(bookmarkFromFilter);
     }
   }
 
 
-  public createCombineBookmark(newBookMarkName: string, selectedBookmark: Set<string>) {
+  public createCombineBookmark(newBookMarkName: string, selectedBookmark: Set<string>): Observable<void> {
     if (this.bookMarkMap.get(Array.from(selectedBookmark)[0]).type === BookMarkType.enumIds) {
-      this.addBookmark(newBookMarkName, this.combineBookmarkFromIds(selectedBookmark));
+      return this.addBookmark(newBookMarkName, this.combineBookmarkFromIds(selectedBookmark));
     } else {
       const dataModel = this.combineBookmarkFromFilter(selectedBookmark);
       const color = '#' + getKeyForColor(dataModel);
@@ -125,27 +123,27 @@ export class ArlasBookmarkService {
         filter = filter + '-' + this.collaborativesearchService.registry.get(v).getFilterDisplayName();
       });
       const bookmark = this.dataBase.createBookmark(newBookMarkName, filter.substring(1, filter.length), url, type, color);
-      this.dataBase.add(bookmark);
+      return this.dataBase.add(bookmark);
     }
   }
 
   public removeBookmark(id: string) {
-    this.dataBase.remove(id);
-    this.onAction.next({
+    this.dataBase.remove(id).pipe(map(() => this.onAction.next({
       action: 'delete',
       id: id
-    });
+    })));
   }
 
   public viewBookMark(id: string) {
     const bookmark = this.getBookmarkById(id);
     const dataModel = this.collaborativesearchService.dataModelBuilder(decodeURI(bookmark.url), true);
     this.viewFromDataModel(dataModel);
-    this.dataBase.incrementBookmarkView(bookmark.id);
-    this.openSnackBar(bookmark.name + ' loading');
-    this.onAction.next({
-      action: 'view',
-      id: id
+    this.dataBase.incrementBookmarkView(bookmark.id).subscribe(() =>{
+      this.onAction.next({
+        action: 'view',
+        id: id
+      });
+      this.openSnackBar(bookmark.name + ' loading');
     });
   }
 
@@ -163,17 +161,16 @@ export class ArlasBookmarkService {
 
   public viewCombineBookmark(selectedBookmark: Set<string>) {
     // Increment view of each selected Bookmark
-    selectedBookmark.forEach(bookmarkId => {
-      this.dataBase.incrementBookmarkView(bookmarkId);
+    zip([...selectedBookmark].map(bookmarkId => this.dataBase.incrementBookmarkView(bookmarkId))).subscribe(()=>{
+      let dataModel;
+      if (this.bookMarkMap.get(Array.from(selectedBookmark)[0]).type === BookMarkType.enumIds) {
+        const url = this.getUrlFomSetIds(this.combineBookmarkFromIds(selectedBookmark, true));
+        dataModel = this.collaborativesearchService.dataModelBuilder(decodeURI(url), true);
+      } else {
+        dataModel = this.combineBookmarkFromFilter(selectedBookmark, true);
+      }
+      this.viewFromDataModel(dataModel);
     });
-    let dataModel;
-    if (this.bookMarkMap.get(Array.from(selectedBookmark)[0]).type === BookMarkType.enumIds) {
-      const url = this.getUrlFomSetIds(this.combineBookmarkFromIds(selectedBookmark, true));
-      dataModel = this.collaborativesearchService.dataModelBuilder(decodeURI(url), true);
-    } else {
-      dataModel = this.combineBookmarkFromFilter(selectedBookmark, true);
-    }
-    this.viewFromDataModel(dataModel);
   }
 
   public init(bookmark: BookMark): BookMark {

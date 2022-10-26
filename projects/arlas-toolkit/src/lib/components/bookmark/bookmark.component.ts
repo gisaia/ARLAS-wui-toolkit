@@ -42,7 +42,7 @@ export class BookmarkComponent {
 
   public resultsLength = 0;
   public pageSize = 10;
-  public pageNumber = 0;
+  public pageNumber = 1;
 
   public isPersistenceActive = false;
   public currentCollections = '';
@@ -91,7 +91,7 @@ export class BookmarkComponent {
   }
 
   public getBookmarksList() {
-    this.bookmarkService.listBookmarks(this.pageSize, this.pageNumber + 1);
+    this.bookmarkService.listBookmarks(this.pageSize, this.pageNumber);
   }
 
   public pageChange(pageEvent: PageEvent) {

@@ -19,23 +19,27 @@
 
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { TranslateService } from '@ngx-translate/core';
+import { Subject } from 'rxjs';
 
-export class PaginatorI18n {
+export class PaginatorI18n implements MatPaginatorIntl {
 
-  public constructor(private readonly translate: TranslateService) { }
+  public changes: Subject<void>;
+  public itemsPerPageLabel: string;
+  public nextPageLabel: string;
+  public previousPageLabel: string;
+  public firstPageLabel: string;
+  public lastPageLabel: string;
 
-  public getPaginatorIntl(): MatPaginatorIntl {
-    const paginatorIntl = new MatPaginatorIntl();
-    paginatorIntl.itemsPerPageLabel = this.translate.instant('ITEMS_PER_PAGE_LABEL');
-    paginatorIntl.nextPageLabel = this.translate.instant('NEXT_PAGE_LABEL');
-    paginatorIntl.previousPageLabel = this.translate.instant('PREVIOUS_PAGE_LABEL');
-    paginatorIntl.firstPageLabel = this.translate.instant('FIRST_PAGE_LABEL');
-    paginatorIntl.lastPageLabel = this.translate.instant('LAST_PAGE_LABEL');
-    paginatorIntl.getRangeLabel = this.getRangeLabel.bind(this);
-    return paginatorIntl;
+  public constructor(private readonly translate: TranslateService) {
+    this.itemsPerPageLabel = this.translate.instant('ITEMS_PER_PAGE_LABEL');
+    this.nextPageLabel = this.translate.instant('NEXT_PAGE_LABEL');
+    this.previousPageLabel = this.translate.instant('PREVIOUS_PAGE_LABEL');
+    this.firstPageLabel = this.translate.instant('FIRST_PAGE_LABEL');
+    this.lastPageLabel = this.translate.instant('LAST_PAGE_LABEL');
+    this.changes = new Subject();
   }
 
-  private getRangeLabel(page: number, pageSize: number, length: number): string {
+  public getRangeLabel(page: number, pageSize: number, length: number): string {
     if (length === 0 || pageSize === 0) {
       return this.translate.instant('RANGE_PAGE_LABEL_1', { length });
     }
