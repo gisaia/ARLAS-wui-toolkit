@@ -85,7 +85,7 @@ export class BookmarkMenuComponent implements OnInit {
     const dialogRef = this.dialog.open(BookmarkAddDialogComponent, { data: { name: null } });
     dialogRef.afterClosed().subscribe(bookmarkName => {
       if (bookmarkName) {
-        this.bookmarkService.addBookmark(bookmarkName);
+        this.bookmarkService.addBookmark(bookmarkName).subscribe(()=>{},(e)=>console.error(e));
       }
     });
   }

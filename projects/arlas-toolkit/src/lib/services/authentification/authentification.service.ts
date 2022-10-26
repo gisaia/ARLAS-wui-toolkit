@@ -62,7 +62,7 @@ export class AuthentificationService {
             });
         } else {
           console.error('Authentication config error : if useDiscovery ' +
-            'is set to false in configuration, tokenEndpoint, userinfoEndpoint, loginUrl and jwksEndpoint must be defined.');
+            'is set to false in configuration, tokenEndpoint, userinfoEndpoint, loginUrl must be defined.');
         }
       }
     }
@@ -155,10 +155,6 @@ export class AuthentificationService {
         if (!authentSetting.token_endpoint || authentSetting.token_endpoint === NOT_CONFIGURED) {
           valid = false;
           missingInfo.push('- `token_endpoint` must be configured when `use_discovery=false`');
-        }
-        if (!authentSetting.jwks_endpoint || authentSetting.jwks_endpoint === NOT_CONFIGURED) {
-          valid = false;
-          missingInfo.push('- `jwks_endpoint` must be configured when `use_discovery=false`');
         }
         if (!authentSetting.userinfo_endpoint || authentSetting.userinfo_endpoint === NOT_CONFIGURED) {
           valid = false;

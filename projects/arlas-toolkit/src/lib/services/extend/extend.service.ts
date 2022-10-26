@@ -19,11 +19,12 @@
 
 import { Injectable } from '@angular/core';
 import { PersistenceService } from '../persistence/persistence.service';
-import { ArlasConfigService, ArlasStartupService } from '../startup/startup.service';
+import { ArlasStartupService } from '../startup/startup.service';
 import { ExtendLocalDatabase } from './extendLocalDatabase';
 import { ExtendPersistenceDatabase } from './extendPersistenceDatabase';
 import { Extend } from './model';
-import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { AuthentificationService } from '../authentification/authentification.service';
 
 @Injectable()
 export class ArlasExtendService {
@@ -32,11 +33,10 @@ export class ArlasExtendService {
 
   public constructor(
     private arlasStartupService: ArlasStartupService,
-    private configService: ArlasConfigService,
+    private authentService: AuthentificationService,
     private persistenceService: PersistenceService) {
     if (this.arlasStartupService.shouldRunApp && !this.arlasStartupService.emptyMode) {
-      if (!!this.configService.getConfig()['arlas']['persistence-server']
-        && !!this.configService.getConfig()['arlas']['persistence-server']['url']) {
+      if (this.persistenceService.isAvailable && this.authentService.hasValidAccessToken() && this.authentService.hasValidIdToken()) {
         this.dataBase = new ExtendPersistenceDatabase(this.persistenceService);
         this.dataBase.dataChange.subscribe(() => {
           this.extendMap = this.dataBase.storageObjectMap;
@@ -64,21 +64,21 @@ export class ArlasExtendService {
   /**
  * List all bookmark for the user to update dataBase
  */
-  public listExtends(size: number, pageNumber: number) {
-    (this.dataBase as ExtendPersistenceDatabase).list(size, pageNumber, 'desc');
+  public listExtends(size: number, pageNumber: number): Observable<void> {
+    return (this.dataBase as ExtendPersistenceDatabase).list(size, pageNumber, 'desc');
   }
 
   public setPage(size: number, pageNumber: number) {
     (this.dataBase as ExtendPersistenceDatabase).setPage({ size: size, number: pageNumber });
   }
 
-  public addExtend(name: string, geometry: any) {
+  public addExtend(name: string, geometry: any): Observable<void>{
     const newExtend = this.dataBase.createExtend(name, geometry);
-    this.dataBase.add(newExtend);
+    return this.dataBase.add(newExtend);
   }
 
-  public removeExtend(id: string) {
-    this.dataBase.remove(id);
+  public removeExtend(id: string): Observable<void> {
+    return this.dataBase.remove(id);
   }
 
   public getExtendById(id: string): Extend {

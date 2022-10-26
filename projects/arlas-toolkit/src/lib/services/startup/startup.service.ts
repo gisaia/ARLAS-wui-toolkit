@@ -39,7 +39,7 @@ import { projType } from 'arlas-web-core/models/projections';
 import YAML from 'js-yaml';
 import { Subject, zip } from 'rxjs';
 import { flatMap } from 'rxjs/operators';
-import { PersistenceService, PersistenceSetting } from '../persistence/persistence.service';
+import { GET_OPTIONS, PersistenceService, PersistenceSetting } from '../persistence/persistence.service';
 import { CONFIG_ID_QUERY_PARAM, getFieldProperties } from '../../tools/utils';
 import { AuthentificationService, AuthentSetting, NOT_CONFIGURED } from '../authentification/authentification.service';
 import { ArlasConfigurationUpdaterService } from '../configuration-updater/configurationUpdater.service';
@@ -153,6 +153,7 @@ export class ArlasStartupService {
     private collaborativesearchService: ArlasCollaborativesearchService,
     private injector: Injector,
     @Inject(FETCH_OPTIONS) private fetchOptions,
+    @Inject(GET_OPTIONS) private getOptions,
     private http: HttpClient, private translateService: TranslateService,
     @Inject(CONFIG_UPDATER) private configUpdater,
     private persistenceService: PersistenceService,
@@ -435,14 +436,14 @@ export class ArlasStartupService {
               Authorization: 'bearer ' + authService.accessToken
             };
           } else {
-            this.persistenceService.setOptions({});
+            this.persistenceService.setOptions(this.getOptions());
           }
           this.collaborativesearchService.setFetchOptions(this.fetchOptions);
           resolve(settings);
         });
 
       } else {
-        this.persistenceService.setOptions({});
+        this.persistenceService.setOptions(this.getOptions());
         resolve(settings);
       }
     });

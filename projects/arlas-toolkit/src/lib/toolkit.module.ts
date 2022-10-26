@@ -77,11 +77,6 @@ export function localDatePickerFactory(translate: TranslateService) {
   return translate.currentLang;
 }
 
-export function paginatori18nFactory(translate: TranslateService) {
-  const paginatori18n = (translate) => new PaginatorI18n(translate).getPaginatorIntl();
-  return paginatori18n;
-}
-
 export function configUpdaterFactory(x): any {
   return x[0];
 }
@@ -112,9 +107,9 @@ export function configUpdater(data) {
         layer.filter.forEach(expression => {
           if (isArray(expression) && expression.length === 3) {
             if (expression[0] === '!=' && expression[2] === 'Infinity') {
-              expression = ['<=', expression[1].replace(/\./g, '_'), Number.MAX_VALUE];
+              expression = ['<=', (expression[1] as any).replace(/\./g, '_'), Number.MAX_VALUE];
             } else if (expression[0] === '!=' && expression[2] === '-Infinity') {
-              expression = ['>=', expression[1].replace(/\./g, '_'), -Number.MAX_VALUE];
+              expression = ['>=', (expression[1] as any).replace(/\./g, '_'), -Number.MAX_VALUE];
             }
           }
           filters.push(expression);
@@ -225,7 +220,7 @@ export const MY_CUSTOM_FORMATS = {
     {
       provide: MatPaginatorIntl,
       deps: [TranslateService],
-      useFactory: paginatori18nFactory
+      useClass: PaginatorI18n
     },
   ],
   bootstrap: [ToolkitComponent],
