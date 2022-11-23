@@ -70,7 +70,7 @@ export { UserInfosComponent } from './lib/components/user-infos/user-infos.compo
 export { WidgetComponent } from './lib/components/widget/widget.component';
 export { GetTimeLabelPipe } from './lib/pipes/get-time-label.pipe';
 export { ArlasAoiService } from './lib/services/aoi/aoi.service';
-export { AuthentificationService, AuthentSetting, NOT_CONFIGURED } from './lib/services/authentification/authentification.service';
+export { AuthentificationService } from './lib/services/authentification/authentification.service';
 export { ArlasBookmarkService } from './lib/services/bookmark/bookmark.service';
 export { ArlasColorGeneratorLoader } from './lib/services/color-generator-loader/color-generator-loader.service';
 export { ArlasConfigurationDescriptor } from './lib/services/configuration-descriptor/configurationDescriptor.service';
@@ -93,8 +93,9 @@ export { ArlasTaggerModule } from './lib/tagger.module';
 export { ToolkitRoutingModule } from './lib/toolkit-routing.module';
 export { ToolkitComponent } from './lib/toolkit.component';
 export {
-  ArlasToolKitModule, auhtentServiceFactory, configServiceFactory, configUpdater, configUpdaterFactory,
-  getOptionsFactory, localDatePickerFactory, MY_CUSTOM_FORMATS, settingsServiceFactory, startupServiceFactory
+  ArlasToolKitModule, auhtentServiceFactory, iamServiceFactory, configServiceFactory, configUpdater, configUpdaterFactory,
+  getOptionsFactory, localDatePickerFactory, MY_CUSTOM_FORMATS,
+  paginatori18nFactory, settingsServiceFactory, startupServiceFactory
 } from './lib/toolkit.module';
 export { ArlasDataSource } from './lib/tools/arlasDataSource';
 export { PaginatorI18n } from './lib/tools/paginatori18n';
@@ -102,7 +103,7 @@ export {
   ArlasOverlayRef, ArlasStorageObject,
   ArlasStorageType, CollectionCount, CollectionUnit, Config, ConfigAction, ConfigActionEnum,
   CONFIG_ID_QUERY_PARAM, DONUT_TOOLTIP_DATA, getFieldProperties, getKeyForColor, hashCode,
-  HISTOGRAM_TOOLTIP_DATA, intToRGB, MapService, sortOnDate, SpinnerOptions
+  HISTOGRAM_TOOLTIP_DATA, intToRGB, MapService, sortOnDate, SpinnerOptions, AuthentSetting, NOT_CONFIGURED
 } from './lib/tools/utils';
 export { FetchInterceptorService } from './lib/services/interceptor/fetch-interceptor.service';
 export { ArlasOverlayService, HistogramTooltipConfig, DonutTooltipConfig } from './lib/services/overlays/overlay.service';

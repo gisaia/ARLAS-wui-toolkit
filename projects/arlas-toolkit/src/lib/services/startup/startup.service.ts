@@ -42,18 +42,14 @@ import { projType } from 'arlas-web-core/models/projections';
 import YAML from 'js-yaml';
 import { Subject, zip } from 'rxjs';
 import { flatMap } from 'rxjs/operators';
-<<<<<<< 447587c50d9c8a039ce5c0a0700f2bf831c8da48
-import { GET_OPTIONS, PersistenceService, PersistenceSetting } from '../persistence/persistence.service';
-=======
->>>>>>> Init IAM authentification service
-import { CONFIG_ID_QUERY_PARAM, getFieldProperties } from '../../tools/utils';
+import { CONFIG_ID_QUERY_PARAM, getFieldProperties, AuthentSetting, NOT_CONFIGURED } from '../../tools/utils';
 import { ArlasIamService } from '../arlas-iam/arlas-iam.service';
-import { AuthentificationService, AuthentSetting, NOT_CONFIGURED } from '../authentification/authentification.service';
+import { AuthentificationService, } from '../authentification/authentification.service';
 import { ArlasConfigurationUpdaterService } from '../configuration-updater/configurationUpdater.service';
 import { ErrorService } from '../error/error.service';
 import { FetchInterceptorService } from '../interceptor/fetch-interceptor.service';
 import { PermissionSetting } from '../permission/permission.service';
-import { PersistenceService, PersistenceSetting } from '../persistence/persistence.service';
+import { GET_OPTIONS, PersistenceService, PersistenceSetting } from '../persistence/persistence.service';
 import { ArlasSettingsService } from '../settings/arlas.settings.service';
 import * as arlasConfSchema from './arlasconfig.schema.json';
 import { ContributorBuilder } from './contributorBuilder';
@@ -397,6 +393,7 @@ export class ArlasStartupService {
       if (settings) {
         const authent: AuthentSetting = settings.authentication;
         const authService: AuthentificationService = this.injector.get('AuthentificationService')[0];
+        console.log(authent);
         if (authent && authent.use_authent && authent.auth_mode === 'iam') {
           if (!this.arlasIamService.areSettingsValid(authent)[0]) {
             const err = 'Authentication is set while ' + this.arlasIamService.areSettingsValid(authent)[1] + ' are not configured';
