@@ -9,7 +9,7 @@ import { timer } from 'rxjs/internal/observable/timer';
 import { mergeMap } from 'rxjs/internal/operators/mergeMap';
 import { takeUntil } from 'rxjs/internal/operators/takeUntil';
 import { Subject } from 'rxjs/internal/Subject';
-import { AuthentSetting, NOT_CONFIGURED } from '../authentification/authentification.service';
+import { AuthentSetting, NOT_CONFIGURED } from '../../tools/utils';
 import { ArlasIamApi } from '../startup/startup.service';
 
 @Injectable({

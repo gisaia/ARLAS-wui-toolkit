@@ -43,10 +43,10 @@ import YAML from 'js-yaml';
 import { Subject, zip } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 import { PersistenceService, PersistenceSetting } from '../persistence/persistence.service';
-import { CONFIG_ID_QUERY_PARAM, GET_OPTIONS, WidgetConfiguration, getFieldProperties } from '../../tools/utils';
+import { CONFIG_ID_QUERY_PARAM, GET_OPTIONS, WidgetConfiguration, getFieldProperties, AuthentSetting, NOT_CONFIGURED } from '../../tools/utils';
 import { flatMap } from 'rxjs/operators';
 import { ArlasIamService } from '../arlas-iam/arlas-iam.service';
-import { AuthentificationService, AuthentSetting, NOT_CONFIGURED } from '../authentification/authentification.service';
+import { AuthentificationService, } from '../authentification/authentification.service';
 import { ArlasConfigurationUpdaterService } from '../configuration-updater/configurationUpdater.service';
 import { ErrorService } from '../error/error.service';
 import { FetchInterceptorService } from '../interceptor/fetch-interceptor.service';
@@ -405,6 +405,7 @@ export class ArlasStartupService {
       if (settings) {
         const authent: AuthentSetting = settings.authentication;
         const authService: AuthentificationService = this.injector.get('AuthentificationService')[0];
+        console.log(authent);
         if (authent && authent.use_authent && authent.auth_mode === 'iam') {
           if (!this.arlasIamService.areSettingsValid(authent)[0]) {
             const err = 'Authentication is set while ' + this.arlasIamService.areSettingsValid(authent)[1] + ' are not configured';
