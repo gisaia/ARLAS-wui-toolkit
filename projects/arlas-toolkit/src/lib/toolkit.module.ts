@@ -78,6 +78,10 @@ export function auhtentServiceFactory(service: AuthentificationService) {
   return service;
 }
 
+export function iamServiceFactory(service: ArlasIamService) {
+  return service;
+}
+
 export function localDatePickerFactory(translate: TranslateService) {
   return translate.currentLang;
 }
@@ -86,9 +90,16 @@ export function configUpdaterFactory(x): any {
   return (x) => x[0];
 }
 
-export function getOptionsFactory(arlasAuthService: AuthentificationService): any {
+export function getOptionsFactory(arlasAuthService: AuthentificationService, arlasIamService: ArlasIamService): any {
   const getOptions = () => {
-    const token = !!arlasAuthService.accessToken ? arlasAuthService.accessToken : null;
+    let token = null;
+
+    if (!!arlasAuthService.authConfigValue?.auth_mode && arlasAuthService.authConfigValue?.auth_mode === 'iam') {
+      token = !!arlasIamService.currentUserValue ? arlasIamService.currentUserValue.accessToken : null;
+    } else {
+      token = !!arlasAuthService.accessToken ? arlasAuthService.accessToken : null;
+    }
+
     if (token !== null) {
       return {
         headers: {
@@ -142,6 +153,7 @@ export const MY_CUSTOM_FORMATS = {
     forwardRef(() => ArlasConfigService),
     forwardRef(() => ArlasCollaborativesearchService),
     forwardRef(() => AuthentificationService),
+    forwardRef(() => ArlasIamService),
     forwardRef(() => ArlasStartupService),
     forwardRef(() => ArlasMapSettings),
     forwardRef(() => ArlasMapService),
@@ -189,7 +201,7 @@ export const MY_CUSTOM_FORMATS = {
     {
       provide: GET_OPTIONS,
       useFactory: getOptionsFactory,
-      deps: [AuthentificationService]
+      deps: [AuthentificationService, ArlasIamService]
     },
     {
       provide: MatPaginatorIntl,

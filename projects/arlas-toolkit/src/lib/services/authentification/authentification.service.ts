@@ -3,13 +3,13 @@ import { OAuthService, AuthConfig, OAuthErrorEvent, OAuthStorage, UserInfo } fro
 import { BehaviorSubject, ReplaySubject, Observable, combineLatest } from 'rxjs';
 import { map } from 'rxjs/internal/operators/map';
 import { HttpClient } from '@angular/common/http';
+import { AuthentSetting, CONFIG_ID_QUERY_PARAM, NOT_CONFIGURED } from '../../tools/utils';
 import { filter } from 'rxjs/internal/operators/filter';
 import { from } from 'rxjs/internal/observable/from';
-import { CONFIG_ID_QUERY_PARAM } from '../../tools/utils';
 import { ArlasIamService } from '../arlas-iam/arlas-iam.service';
 import { RefreshToken } from 'arlas-iam-api';
 
-export const NOT_CONFIGURED = 'NOT_CONFIGURED';
+
 
 @Injectable({
   providedIn: 'root'
@@ -325,34 +325,4 @@ export class AuthentificationService {
       return '';
     }
   }
-}
-
-export interface AuthentSetting {
-  use_discovery: boolean;
-  force_connect: boolean;
-  use_authent: boolean;
-  auth_mode?: 'openid' | 'iam';
-  client_id: string;
-  issuer: string;
-  scope?: string;
-  response_type?: string;
-  redirect_uri?: string;
-  silent_refresh_redirect_uri?: string;
-  silent_refresh_timeout?: number;
-  timeout_factor?: number;
-  session_checks_enabled?: boolean;
-  show_debug_information?: boolean;
-  clear_hash_after_login?: boolean;
-  disable_at_hash_check?: boolean;
-  require_https?: boolean;
-  dummy_client_secret?: string;
-  userinfo_endpoint?: string;
-  token_endpoint?: string;
-  jwks_endpoint?: string;
-  login_url?: string;
-  logout_url?: string;
-  storage?: string;
-  customQueryParams?: Object;
-  threshold?: number;
-  url?: string;
 }

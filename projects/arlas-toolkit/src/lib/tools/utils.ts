@@ -24,6 +24,7 @@ import { FormGroup } from '@angular/forms';
 
 export const CONFIG_ID_QUERY_PARAM = 'config_id';
 export const GET_OPTIONS = new InjectionToken<Function>('get_options');
+export const NOT_CONFIGURED = 'NOT_CONFIGURED';
 
 export interface ConfigAction {
   type: ConfigActionEnum;
@@ -84,6 +85,36 @@ export interface CollectionCount {
   hasCentroidPath: boolean;
   ignored: boolean;
   unit?: string;
+}
+
+export interface AuthentSetting {
+  use_discovery: boolean;
+  force_connect: boolean;
+  use_authent: boolean;
+  auth_mode?: 'openid' | 'iam';
+  client_id: string;
+  issuer: string;
+  scope?: string;
+  response_type?: string;
+  redirect_uri?: string;
+  silent_refresh_redirect_uri?: string;
+  silent_refresh_timeout?: number;
+  timeout_factor?: number;
+  session_checks_enabled?: boolean;
+  show_debug_information?: boolean;
+  clear_hash_after_login?: boolean;
+  disable_at_hash_check?: boolean;
+  require_https?: boolean;
+  dummy_client_secret?: string;
+  userinfo_endpoint?: string;
+  token_endpoint?: string;
+  jwks_endpoint?: string;
+  login_url?: string;
+  logout_url?: string;
+  storage?: string;
+  customQueryParams?: Object;
+  threshold?: number;
+  url?: string;
 }
 
 /**
