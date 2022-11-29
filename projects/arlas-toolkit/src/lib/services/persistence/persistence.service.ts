@@ -1,5 +1,4 @@
 import { Injectable, InjectionToken, Inject } from '@angular/core';
-import * as portableFetch from 'portable-fetch';
 
 import { Observable } from 'rxjs/internal/Observable';
 import { from } from 'rxjs/internal/observable/from';

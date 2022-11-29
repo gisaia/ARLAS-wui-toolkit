@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { CollectionReferenceDescription, Configuration } from 'arlas-api';
-import * as portableFetch from 'portable-fetch';
 import { from, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { getFieldProperties } from '../../tools/utils';
@@ -45,7 +44,7 @@ export class ArlasConfigurationDescriptor {
     const arlasExploreApi: ArlasExploreApi = new ArlasExploreApi(
       configuration,
       this.configService.getValue('arlas.server.url'),
-      portableFetch
+      window.fetch
     );
     this.collaborativesearchService.setExploreApi(arlasExploreApi);
     return this.collaborativesearchService.describe(this.configService.getValue('arlas.server.collection.name')).pipe(

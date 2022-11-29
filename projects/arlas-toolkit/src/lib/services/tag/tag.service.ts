@@ -20,7 +20,6 @@ import { Inject, Injectable, OnDestroy } from '@angular/core';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { Filter } from 'arlas-api';
 import { Configuration, FetchAPI, StatusApi, TagRefRequest, WriteApi } from 'arlas-tagger-api';
-import * as portableFetch from 'portable-fetch';
 import { from, interval, Observable, Subject, Subscription } from 'rxjs';
 import { ArlasCollaborativesearchService, ArlasConfigService } from '../startup/startup.service';
 import { TaggerResponse } from './model';
@@ -67,8 +66,8 @@ export class ArlasTagService implements OnDestroy {
     const configuration: Configuration = new Configuration();
     this.tagger = this.configService.getValue('arlas.tagger');
     if (this.tagger && this.tagger.url) {
-      this.taggerApi = new ArlasTaggerWriteApi(configuration, this.tagger.url, portableFetch);
-      this.statusApi = new ArlasTaggerStatusApi(configuration, this.tagger.url, portableFetch);
+      this.taggerApi = new ArlasTaggerWriteApi(configuration, this.tagger.url, window.fetch);
+      this.statusApi = new ArlasTaggerStatusApi(configuration, this.tagger.url, window.fetch);
     }
   }
 
