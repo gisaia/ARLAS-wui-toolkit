@@ -49,7 +49,7 @@ export class BookmarkMenuComponent implements OnInit {
   public ngOnInit(): void {
     this.icon = this.icon ? this.icon : 'view_list';
     this.nbTopBookmarks = this.nbTopBookmarks ? this.nbTopBookmarks : 3;
-    this.currentCollections = Array.from(this.startupService.collectionsMap.keys()).join(',');
+    this.currentCollections = Array.from(this.startupService.collectionsMap.keys()).sort().join(',');
 
     if (this.bookmarkService.dataBase instanceof BookmarkPersistenceDatabase) {
       (this.bookmarkService.dataBase as BookmarkPersistenceDatabase).dataChange
