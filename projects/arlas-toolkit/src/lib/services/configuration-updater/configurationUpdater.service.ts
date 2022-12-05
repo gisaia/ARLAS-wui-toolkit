@@ -279,8 +279,8 @@ export class ArlasConfigurationUpdaterService {
         }
         /** remove attachments */
         if (contributor.attachments) {
-          contributor.attachments = contributor.attachments.filter(a => availableFields.has(a.attachmentsField) &&
-            availableFields.has(a.attachementUrlField));
+          contributor.attachments = contributor.attachments
+            .filter(a => availableFields.has(a.attachmentsField.concat('.').concat(a.attachementUrlField)));
         }
         /** remove metadata fields */
         if (contributor.includeMetadata) {
