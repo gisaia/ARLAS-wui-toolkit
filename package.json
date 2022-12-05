@@ -89,5 +89,10 @@
   },
   "browser": {
     "jsonpath": false
+  },
+  "overrides": {
+    "portable-fetch": {
+      "node-fetch": "3.3.0"
+    }
   }
 }
