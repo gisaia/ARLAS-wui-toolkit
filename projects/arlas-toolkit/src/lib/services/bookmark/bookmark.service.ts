@@ -128,17 +128,20 @@ export class ArlasBookmarkService {
   }
 
   public removeBookmark(id: string) {
-    this.dataBase.remove(id).pipe(map(() => this.onAction.next({
-      action: 'delete',
-      id: id
-    })));
+    this.dataBase.remove(id).subscribe({
+      next: () => this.onAction.next({
+        action: 'delete',
+        id: id
+      }),
+      error: err => console.log(err)
+    });
   }
 
   public viewBookMark(id: string) {
     const bookmark = this.getBookmarkById(id);
     const dataModel = this.collaborativesearchService.dataModelBuilder(decodeURI(bookmark.url), true);
     this.viewFromDataModel(dataModel);
-    this.dataBase.incrementBookmarkView(bookmark.id).subscribe(() =>{
+    this.dataBase.incrementBookmarkView(bookmark.id).subscribe(() => {
       this.onAction.next({
         action: 'view',
         id: id
@@ -161,7 +164,7 @@ export class ArlasBookmarkService {
 
   public viewCombineBookmark(selectedBookmark: Set<string>) {
     // Increment view of each selected Bookmark
-    zip([...selectedBookmark].map(bookmarkId => this.dataBase.incrementBookmarkView(bookmarkId))).subscribe(()=>{
+    zip([...selectedBookmark].map(bookmarkId => this.dataBase.incrementBookmarkView(bookmarkId))).subscribe(() => {
       let dataModel;
       if (this.bookMarkMap.get(Array.from(selectedBookmark)[0]).type === BookMarkType.enumIds) {
         const url = this.getUrlFomSetIds(this.combineBookmarkFromIds(selectedBookmark, true));
@@ -206,7 +209,7 @@ export class ArlasBookmarkService {
     if (language) {
       queryParams['lg'] = language;
     }
-    this.router.navigate(['.'], { queryParams: queryParams, relativeTo: this.activatedRoute});
+    this.router.navigate(['.'], { queryParams: queryParams, relativeTo: this.activatedRoute });
   }
 
   private combineBookmarkFromIds(selectedBookmark: Set<string>, changeOperator = false): Set<string> {
