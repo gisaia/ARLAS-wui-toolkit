@@ -53,6 +53,7 @@ export class DatePickerComponent implements OnInit, OnChanges {
     if (this.timelineComponent) {
       this.timelineContributor = <HistogramContributor>
         this.arlasStartupService.contributorRegistry.get(this.timelineComponent.contributorId);
+      this.timelineContributor.updateData = true;
     }
   }
 

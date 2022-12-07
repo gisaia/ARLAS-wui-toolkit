@@ -111,6 +111,8 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy {
         this.contributor.collection + '-'
         + this.contributor.identifier + '-arlas__detailed',
         this.arlasCollaborativesearchService, this.arlasConfigurationService, this.contributor.collection, false);
+      this.contributor.detailedHistrogramContributor = this.detailedContributor;
+      this.detailedContributor.updateData = this.contributor.updateData;
       this.detailedContributor.annexedContributorId = this.contributor.identifier;
       this.detailedContributor.useUtc = this.contributor.useUtc;
       this.detailedContributor.selectionExtentPercentage = 0.02;

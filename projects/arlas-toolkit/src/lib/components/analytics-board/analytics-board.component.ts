@@ -25,9 +25,10 @@ import { Subject } from 'rxjs';
 import { AnalyticGroupConfiguration, AnalyticsTabs } from './analytics.utils';
 import { ArlasCollaborativesearchService, ArlasConfigService } from '../../services/startup/startup.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { OperationEnum } from 'arlas-web-core';
+import { OperationEnum, Contributor } from 'arlas-web-core';
 import { SpinnerOptions } from '../../tools/utils';
 import { ActivatedRoute, Router } from '@angular/router';
+import { HistogramContributor } from 'arlas-web-contributors';
 /**
  * This component organizes the `Widgets` in a board.
  * A Widget is declared within a "group" in the configuration. A group contains one or more Widgets
@@ -98,12 +99,13 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
     = new Array<{ index: string; groups: Array<AnalyticGroupConfiguration>; }>();
   public groupsTabsKey: Array<string> = new Array<string>();
 
-  private defaultGroupTabName = 'analytics';
   public activeIndex = 0;
+  private defaultGroupTabName = 'analytics';
+  private appFirstLoad = true;
 
   public constructor(private collaborativeService: ArlasCollaborativesearchService, private configService: ArlasConfigService,
     private activatedRoute: ActivatedRoute, private router: Router
-  ) {}
+  ) { }
 
   public ngOnInit() {
     this.isActiveDragDrop = false;
@@ -138,7 +140,6 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
         }
       });
       this.groups.forEach(group => {
-
         if (group.tab) {
           this.groupsByTab.filter(tabGroup => tabGroup.index === group.tab).map(tabGroup => tabGroup.groups.push(group));
           this.groupTab.set(group.groupId, group.tab);
@@ -153,7 +154,6 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
         group.components.forEach(comp => {
           this.compGroup.set(comp.contributorId, group.groupId);
         });
-
         if (group.collapsed) {
           this.wasClosedMap.set(group.groupId, group.collapsed);
         }
@@ -293,7 +293,9 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
         }
       });
     });
-    this.activateGroupContribution(group);
+    if (group.tab === this.groupsTabsKey[this.activeIndex]) {
+      this.activateGroupContribution(group);
+    }
   }
   public closePanel(group: AnalyticGroupConfiguration) {
     this.groupsByTab.forEach(groupTab => {
@@ -330,9 +332,7 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
 
   public animationDone() {
     if (this.activeIndex !== undefined) {
-
       this.cancelAllOtherTabsContribution(this.activeIndex);
-
       this.groupsByTab.filter(groupTab => groupTab.index === this.groupsTabsKey[this.activeIndex])
         .map(groupTab => groupTab.groups)
         .forEach(groups => {
@@ -342,6 +342,7 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
             }
           });
         });
+      this.appFirstLoad = false;
     }
   }
 
@@ -358,7 +359,9 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
       .filter(c => !currentTabContributorsId.includes(c.contributorId))
       .map(componentConfig => componentConfig.contributorId)
       .map(contribId => this.collaborativeService.registry.get(contribId))
-      .map(contributor => contributor.updateData = false);
+      .forEach(contributor => {
+        contributor.updateData = false;
+      });
   }
 
   public activateGroupContribution(group: AnalyticGroupConfiguration) {
@@ -367,21 +370,23 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
     group.components
       .map(componentConfig => componentConfig.contributorId)
       .map(contribId => this.collaborativeService.registry.get(contribId))
-      .map(contributor => {
+      .forEach(contributor => {
         contributor.updateData = true;
+        if (this.appFirstLoad) {
+          // at first loading of the application, the current tab groups are already open.
+          // No need to reload the data, it is already done by the global setCollaboration
+          this.wasClosedMap.set(group.groupId, false);
+        }
         if (this.wasClosedMap.get(group.groupId)) {
-          contributor.updateFromCollaboration({
-            id: '',
-            operation: OperationEnum.add,
-            all: false
-          });
           nbComponentsActivated++;
           if (nbComponentsActivated === nbComponents) {
             this.wasClosedMap.set(group.groupId, false);
           }
+          this.updateFromCollaboration(contributor);
         }
       });
   }
+
 
   private getParamValue(param: string): string {
     let paramValue = null;
@@ -392,5 +397,23 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
       paramValue = results[2];
     }
     return paramValue;
+  }
+
+  private updateFromCollaboration(contributor: Contributor) {
+    contributor.updateFromCollaboration({
+      id: '',
+      operation: OperationEnum.add,
+      all: false
+    });
+    if (contributor instanceof HistogramContributor) {
+      const histContributor = contributor as HistogramContributor;
+      if (histContributor.detailedHistrogramContributor) {
+        histContributor.detailedHistrogramContributor.updateFromCollaboration({
+          id: '',
+          operation: OperationEnum.add,
+          all: false
+        });
+      }
+    }
   }
 }
