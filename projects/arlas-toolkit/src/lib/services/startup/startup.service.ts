@@ -86,6 +86,8 @@ export class ArlasCollaborativesearchService extends CollaborativesearchService 
     super();
   }
 
+  public endOfUrlCollaboration = false;
+
   public dataModelBuilder(filter, changeOperator = false) {
     const dataModel = JSON.parse(filter);
     const defaultCollection = this.defaultCollection;

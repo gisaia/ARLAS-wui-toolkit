@@ -101,7 +101,6 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
 
   public activeIndex = 0;
   private defaultGroupTabName = 'analytics';
-  private appFirstLoad = true;
 
   public constructor(private collaborativeService: ArlasCollaborativesearchService, private configService: ArlasConfigService,
     private activatedRoute: ActivatedRoute, private router: Router
@@ -342,7 +341,6 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
             }
           });
         });
-      this.appFirstLoad = false;
     }
   }
 
@@ -372,9 +370,9 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
       .map(contribId => this.collaborativeService.registry.get(contribId))
       .forEach(contributor => {
         contributor.updateData = true;
-        if (this.appFirstLoad) {
+        if (!this.collaborativeService.endOfUrlCollaboration) {
           // at first loading of the application, the current tab groups are already open.
-          // No need to reload the data, it is already done by the global setCollaboration
+          // No need to reload the data, it is already done by the global setCollaboration ('url')
           this.wasClosedMap.set(group.groupId, false);
         }
         if (this.wasClosedMap.get(group.groupId)) {

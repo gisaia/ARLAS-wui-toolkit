@@ -78,8 +78,16 @@ export class ToolkitComponent implements AfterViewInit, OnInit {
         if (this.activatedRoute.snapshot.queryParams['ro']) {
           queryParams['ro'] = this.activatedRoute.snapshot.queryParams['ro'];
         }
-        this.router.navigate(['.'], { queryParams: queryParams, relativeTo: this.activatedRoute});
+        this.router.navigate(['.'], { queryParams: queryParams, relativeTo: this.activatedRoute });
+        this.collaborativeService.ongoingSubscribe.subscribe(nb => {
+          if (collaborationEvent.id === 'url') {
+            if (!this.collaborativeService.endOfUrlCollaboration) {
+              this.collaborativeService.endOfUrlCollaboration = this.collaborativeService.totalSubscribe === 0;
+            }
+          }
+        });
         if (collaborationEvent.id !== 'url') {
+          this.collaborativeService.endOfUrlCollaboration = true;
         }
       });
     }
