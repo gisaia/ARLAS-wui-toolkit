@@ -12,7 +12,7 @@
     "types": [
       "node"
     ],
-    "target": "es6",
+    "target": "es2020",
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "typeRoots": [

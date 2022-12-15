@@ -132,105 +132,97 @@ export const MY_CUSTOM_FORMATS = {
 };
 
 @NgModule({
-  imports: [
-    ToolkitRoutingModule,
-    ArlasToolkitSharedModule,
-    BrowserModule,
-    BrowserAnimationsModule,
-    ColorGeneratorModule.forRoot({
-      loader: {
-        provide: ColorGeneratorLoader,
-        useClass: ArlasColorGeneratorLoader
-      }
-    }),
-    ErrorModalModule,
-    OAuthModule.forRoot()
-  ],
-  exports: [ToolkitComponent],
-  declarations: [ToolkitComponent],
-  providers: [
-    DeviceDetectorService,
-    {
-      provide: FETCH_OPTIONS, useValue: {
-        referrerPolicy: 'origin'
-      }
-    },
-    {
-      provide: CONFIG_UPDATER,
-      useValue: configUpdater
-    },
-    { provide: MAT_DIALOG_DATA, useValue: {} },
-    { provide: MatDialogRef, useValue: {} },
-    forwardRef(() => ArlasAoiService),
-    forwardRef(() => ArlasBookmarkService),
-    forwardRef(() => ArlasSettingsService),
-    forwardRef(() => ArlasConfigService),
-    forwardRef(() => ArlasCollaborativesearchService),
-    forwardRef(() => AuthentificationService),
-    forwardRef(() => ArlasStartupService),
-    forwardRef(() => ArlasMapSettings),
-    forwardRef(() => ArlasMapService),
-    forwardRef(() => ArlasConfigurationDescriptor),
-    forwardRef(() => ArlasColorGeneratorLoader),
-    forwardRef(() => ArlasExtendService),
-    forwardRef(() => ArlasWalkthroughService),
-    forwardRef(() => ArlasExportCsvService),
-    forwardRef(() => PersistenceService),
-    forwardRef(() => PermissionService),
-    forwardRef(() => ErrorService),
-    {
-      provide: APP_INITIALIZER,
-      useFactory: startupServiceFactory,
-      deps: [ArlasStartupService],
-      multi: true
-    },
-    {
-      provide: 'ArlasSettingsService',
-      useFactory: settingsServiceFactory,
-      deps: [ArlasSettingsService],
-      multi: true
-    },
-    {
-      provide: 'ArlasConfigService',
-      useFactory: configServiceFactory,
-      deps: [ArlasConfigService],
-      multi: true
-    },
-    {
-      provide: 'AuthentificationService',
-      useFactory: auhtentServiceFactory,
-      deps: [AuthentificationService],
-      multi: true
-    },
-    {
-      provide: OWL_DATE_TIME_LOCALE,
-      useFactory: localDatePickerFactory,
-      deps: [TranslateService]
-    },
-    { provide: OwlDateTimeIntl, useClass: ArlasTranslateIntl, deps: [TranslateService] },
-    {
-      provide: ValidationHandler,
-      useClass: JwksValidationHandler
-    },
-    {
-      provide: GET_OPTIONS,
-      useFactory: getOptionsFactory,
-      deps: [AuthentificationService]
-    },
-    {
-      provide: MatPaginatorIntl,
-      deps: [TranslateService],
-      useClass: PaginatorI18n
-    },
-  ],
-  bootstrap: [ToolkitComponent],
-  entryComponents: [
-    BookmarkAddDialogComponent,
-    BookmarkComponent, // Usefull for bookmark-menu
-    ConfirmModalComponent,
-    DownloadDialogComponent,
-    ErrorModalMsgComponent,
-    ShareDialogComponent
-  ],
+    imports: [
+        ToolkitRoutingModule,
+        ArlasToolkitSharedModule,
+        BrowserModule,
+        BrowserAnimationsModule,
+        ColorGeneratorModule.forRoot({
+            loader: {
+                provide: ColorGeneratorLoader,
+                useClass: ArlasColorGeneratorLoader
+            }
+        }),
+        ErrorModalModule,
+        OAuthModule.forRoot()
+    ],
+    exports: [ToolkitComponent],
+    declarations: [ToolkitComponent],
+    providers: [
+        DeviceDetectorService,
+        {
+            provide: FETCH_OPTIONS, useValue: {
+                referrerPolicy: 'origin'
+            }
+        },
+        {
+            provide: CONFIG_UPDATER,
+            useValue: configUpdater
+        },
+        { provide: MAT_DIALOG_DATA, useValue: {} },
+        { provide: MatDialogRef, useValue: {} },
+        forwardRef(() => ArlasAoiService),
+        forwardRef(() => ArlasBookmarkService),
+        forwardRef(() => ArlasSettingsService),
+        forwardRef(() => ArlasConfigService),
+        forwardRef(() => ArlasCollaborativesearchService),
+        forwardRef(() => AuthentificationService),
+        forwardRef(() => ArlasStartupService),
+        forwardRef(() => ArlasMapSettings),
+        forwardRef(() => ArlasMapService),
+        forwardRef(() => ArlasConfigurationDescriptor),
+        forwardRef(() => ArlasColorGeneratorLoader),
+        forwardRef(() => ArlasExtendService),
+        forwardRef(() => ArlasWalkthroughService),
+        forwardRef(() => ArlasExportCsvService),
+        forwardRef(() => PersistenceService),
+        forwardRef(() => PermissionService),
+        forwardRef(() => ErrorService),
+        {
+            provide: APP_INITIALIZER,
+            useFactory: startupServiceFactory,
+            deps: [ArlasStartupService],
+            multi: true
+        },
+        {
+            provide: 'ArlasSettingsService',
+            useFactory: settingsServiceFactory,
+            deps: [ArlasSettingsService],
+            multi: true
+        },
+        {
+            provide: 'ArlasConfigService',
+            useFactory: configServiceFactory,
+            deps: [ArlasConfigService],
+            multi: true
+        },
+        {
+            provide: 'AuthentificationService',
+            useFactory: auhtentServiceFactory,
+            deps: [AuthentificationService],
+            multi: true
+        },
+        {
+            provide: OWL_DATE_TIME_LOCALE,
+            useFactory: localDatePickerFactory,
+            deps: [TranslateService]
+        },
+        { provide: OwlDateTimeIntl, useClass: ArlasTranslateIntl, deps: [TranslateService] },
+        {
+            provide: ValidationHandler,
+            useClass: JwksValidationHandler
+        },
+        {
+            provide: GET_OPTIONS,
+            useFactory: getOptionsFactory,
+            deps: [AuthentificationService]
+        },
+        {
+            provide: MatPaginatorIntl,
+            deps: [TranslateService],
+            useClass: PaginatorI18n
+        },
+    ],
+    bootstrap: [ToolkitComponent]
 })
 export class ArlasToolKitModule { }

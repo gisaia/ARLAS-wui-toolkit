@@ -22,15 +22,14 @@ import { ArlasToolKitModule, ArlasToolkitSharedModule } from '../../projects/arl
 import { AppComponent } from './app.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    ArlasToolkitSharedModule,
-    ArlasToolKitModule
-  ],
-  exports: [AppComponent],
-  declarations: [AppComponent],
-  providers: [],
-  bootstrap: [AppComponent],
-  entryComponents: [],
+    imports: [
+        CommonModule,
+        ArlasToolkitSharedModule,
+        ArlasToolKitModule
+    ],
+    exports: [AppComponent],
+    declarations: [AppComponent],
+    providers: [],
+    bootstrap: [AppComponent]
 })
 export class ToolKitAppModule { }

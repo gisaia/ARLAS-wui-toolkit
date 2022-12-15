@@ -17,7 +17,7 @@
  * under the License.
  */
 import { Component, ElementRef, Input, OnInit, Output, Renderer2, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Aggregation, AggregationResponse, AggregationsRequest } from 'arlas-api';
@@ -89,7 +89,7 @@ export class TagDialogComponent implements OnInit {
   @Output() public tagEvent: Subject<string> = new Subject<string>();
 
   private server: any;
-  public tagFormGroup: FormGroup;
+  public tagFormGroup: UntypedFormGroup;
   public taggableFields: Array<any> = [];
   public keywordFields: Array<any> = [];
   public bookmarks: Array<any> = [];
@@ -98,7 +98,7 @@ export class TagDialogComponent implements OnInit {
   public confirmDialogRef: MatDialogRef<ConfirmModalComponent>;
 
   public constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     public tagService: ArlasTagService,
     private configService: ArlasConfigService,
     private collaborativeSearchService: ArlasCollaborativesearchService,
@@ -209,13 +209,13 @@ export class TagDialogComponent implements OnInit {
 
   public propagationChange(propagate: boolean) {
     if (propagate) {
-      this.tagFormGroup.setControl('onField', new FormControl('', Validators.required));
-      this.tagFormGroup.setControl('linkTo', new FormControl(''));
+      this.tagFormGroup.setControl('onField', new UntypedFormControl('', Validators.required));
+      this.tagFormGroup.setControl('linkTo', new UntypedFormControl(''));
       this.tagFormGroup.controls['onField'].enable();
       this.tagFormGroup.controls['linkTo'].enable();
     } else {
-      this.tagFormGroup.setControl('onField', new FormControl(''));
-      this.tagFormGroup.setControl('linkTo', new FormControl(''));
+      this.tagFormGroup.setControl('onField', new UntypedFormControl(''));
+      this.tagFormGroup.setControl('linkTo', new UntypedFormControl(''));
       this.tagFormGroup.controls['onField'].disable();
       this.tagFormGroup.controls['linkTo'].disable();
     }
