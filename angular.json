@@ -107,7 +107,6 @@
               "src/silent-refresh.html",
               "src/tour.json",
               "src/env.js"
-
             ]
           }
         },
@@ -188,7 +187,6 @@
       }
     }
   },
-  "defaultProject": "arlas-wui-toolkit-demo",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "arlas-tool"

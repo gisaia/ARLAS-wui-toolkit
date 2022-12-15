@@ -4,7 +4,7 @@
     "outDir": "../out-tsc/spec",
     "baseUrl": "./",
     "module": "commonjs",
-    "target": "es6",
+    "target": "es2020",
     "types": [
       "jasmine",
       "node"
