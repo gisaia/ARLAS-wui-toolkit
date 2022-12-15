@@ -30,7 +30,7 @@
     "zone.js": "^0.11.4"
   },
   "dependencies": {
-    "@gisaia-team/ng-pick-datetime": "9.0.0",
+    "@danielmoncada/angular-datetime-picker": "14.2.0",
     "ajv": "8.8.2",
     "ajv-keywords": "5.1.0",
     "angular-oauth2-oidc": "~13.0.1",
