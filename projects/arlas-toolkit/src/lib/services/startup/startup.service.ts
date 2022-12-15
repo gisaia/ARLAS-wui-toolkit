@@ -494,18 +494,22 @@ export class ArlasStartupService {
           });
 
         } else if (useAuthentIam) {
+          const url = new URL(window.location.href);
+          const org = url.searchParams.get('org');
           this.arlasIamService.currentUserSubject.subscribe({
             next: (userSubject) => {
               if (!!userSubject) {
                 // ARLAS-persistence
                 this.persistenceService.setOptions({
                   headers: {
-                    Authorization: 'Bearer ' + userSubject.accessToken
+                    Authorization: 'Bearer ' + userSubject.accessToken,
+                    'arlas-org-filter': !!org ? org : userSubject.user.organisations[0].name
                   }
                 });
                 // ARLAS-server
                 this.fetchOptions.headers = {
-                  Authorization: 'Bearer ' + userSubject.accessToken
+                  Authorization: 'Bearer ' + userSubject.accessToken,
+                  'arlas-org-filter': !!org ? org : userSubject.user.organisations[0].name
                 };
               } else {
                 this.persistenceService.setOptions({});
@@ -747,6 +751,20 @@ export class ArlasStartupService {
         console.error(err);
         return Promise.resolve(null);
       });
+  }
+
+  public changeOrgHeader(org: string, accessToken: string){
+    this.persistenceService.setOptions({
+      headers: {
+        Authorization: 'Bearer ' + accessToken,
+        'arlas-org-filter': org,
+      }
+    });
+    this.fetchOptions.headers = {
+      Authorization: 'Bearer ' + accessToken,
+      'arlas-org-filter': org
+    };
+    this.collaborativesearchService.setFetchOptions(this.fetchOptions);
   }
 
 
