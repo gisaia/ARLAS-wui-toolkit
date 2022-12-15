@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, SimpleChanges, OnChanges } from '@angular/core';
 import * as _moment from 'moment';
-import { DateTimeAdapter, OWL_DATE_TIME_LOCALE, MomentDateTimeAdapter } from '@gisaia-team/ng-pick-datetime';
+import { DateTimeAdapter, OWL_DATE_TIME_LOCALE } from '@danielmoncada/angular-datetime-picker';
+import { MomentDateTimeAdapter } from '@danielmoncada/angular-datetime-picker-moment-adapter';
 
 import { HistogramContributor } from 'arlas-web-contributors';
 import { ArlasCollaborativesearchService, ArlasStartupService } from '../../../services/startup/startup.service';

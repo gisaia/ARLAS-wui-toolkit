@@ -7,8 +7,9 @@ import { DatePickerComponent } from './date-picker.component';
 import { FormsModule } from '@angular/forms';
 import {
   OwlDateTimeModule, DateTimeAdapter, OWL_DATE_TIME_FORMATS,
-  OWL_DATE_TIME_LOCALE, MomentDateTimeAdapter
-} from '@gisaia-team/ng-pick-datetime';
+  OWL_DATE_TIME_LOCALE
+} from '@danielmoncada/angular-datetime-picker';
+import { MomentDateTimeAdapter } from '@danielmoncada/angular-datetime-picker-moment-adapter';
 import { TranslateModule, TranslateLoader, TranslateFakeLoader, TranslateService } from '@ngx-translate/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { ArlasConfigurationUpdaterService } from '../../../services/configuration-updater/configurationUpdater.service';
