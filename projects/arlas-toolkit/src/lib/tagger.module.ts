@@ -68,46 +68,46 @@ export class CustomTranslateLoader implements TranslateLoader {
 }
 
 @NgModule({
-    declarations: [
-        TagComponent,
-        TagDialogComponent,
-        TagManagementDialogComponent
-    ],
-    imports: [
-        BrowserModule,
-        BrowserAnimationsModule,
-        CommonModule,
-        FormsModule,
-        MatAutocompleteModule,
-        MatButtonModule,
-        MatCheckboxModule,
-        MatDialogModule,
-        MatFormFieldModule,
-        MatIconModule,
-        MatInputModule,
-        MatOptionModule,
-        MatProgressBarModule,
-        MatProgressSpinnerModule,
-        MatRadioModule,
-        MatSelectModule,
-        MatSnackBarModule,
-        MatTableModule,
-        MatTooltipModule,
-        ReactiveFormsModule,
-        TranslateModule.forRoot({
-            loader: {
-                provide: TranslateLoader,
-                useClass: CustomTranslateLoader,
-                deps: [HttpClient]
-            }
-        })
-    ],
-    exports: [
-        TagComponent
-    ],
-    providers: [
-        forwardRef(() => ArlasTagService)
-    ],
-    bootstrap: []
+  declarations: [
+    TagComponent,
+    TagDialogComponent,
+    TagManagementDialogComponent
+  ],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    CommonModule,
+    FormsModule,
+    MatAutocompleteModule,
+    MatButtonModule,
+    MatCheckboxModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    MatOptionModule,
+    MatProgressBarModule,
+    MatProgressSpinnerModule,
+    MatRadioModule,
+    MatSelectModule,
+    MatSnackBarModule,
+    MatTableModule,
+    MatTooltipModule,
+    ReactiveFormsModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useClass: CustomTranslateLoader,
+        deps: [HttpClient]
+      }
+    })
+  ],
+  exports: [
+    TagComponent
+  ],
+  providers: [
+    forwardRef(() => ArlasTagService)
+  ],
+  bootstrap: []
 })
 export class ArlasTaggerModule { }

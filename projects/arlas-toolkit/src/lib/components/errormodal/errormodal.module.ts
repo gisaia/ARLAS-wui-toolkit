@@ -5,20 +5,20 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ErrorService } from '../../services/error/error.service';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        TranslateModule
-    ],
-    exports: [
-        ErrorModalMsgComponent,
-        ErrormodalComponent
-    ],
-    declarations: [
-        ErrormodalComponent,
-        ErrorModalMsgComponent,
-    ],
-    providers: [
-        ErrorService
-    ]
+  imports: [
+    CommonModule,
+    TranslateModule
+  ],
+  exports: [
+    ErrorModalMsgComponent,
+    ErrormodalComponent
+  ],
+  declarations: [
+    ErrormodalComponent,
+    ErrorModalMsgComponent,
+  ],
+  providers: [
+    ErrorService
+  ]
 })
 export class ErrorModalModule { }
