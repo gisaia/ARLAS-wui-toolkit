@@ -37,7 +37,7 @@
     "arlas-permissions-api": "~23.0.2",
     "arlas-persistence-api": "~23.0.2",
     "arlas-tagger-api": "~23.0.2",
-    "arlas-web-components": "~23.1.0",
+    "arlas-web-components": "~23.1.1-beta.1",
     "arlas-web-contributors": "~23.1.1",
     "cli-color": "^1.2.0",
     "fetch-intercept": "^2.3.1",
