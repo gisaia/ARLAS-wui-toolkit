@@ -38,6 +38,7 @@
 	"installed before continuing": "installé avant de poursuivre",
 	"Next": "Suivant",
 	"Parameters": "Paramètres",
+	"Collection": "Collection",
 	"Available fields": "Champs disponibles",
 	"Selected fields": "Champs sélectionnés",
 	"Select All": "Tout sélectionner",
@@ -57,9 +58,9 @@
 	"Zoom to data": "Zoomer sur l'étendue des données",
 	"interval:": "Intervalle",
 	"x-axis:": "Abscisse :",
-	"y-axis:": "Ordonnée :",
 	"From": "De",
-	"per": " pour ",
+	"": "",
+	"y-axis:": "Ordonnée :",
 	"Export": "Exporter au format CSV",
 	"Session Expired": "Session expirée",
 	"You are no more connected or your session has expired. Would you like to log in again?": "Vous n'êtes plus connecté ou votre session a expiré. Souhaitez-vous vous reconnecter?",
@@ -135,6 +136,7 @@
 	"LAST_PAGE_LABEL": "Dernière page",
 	"RANGE_PAGE_LABEL_1": "0 sur {{length}}",
 	"RANGE_PAGE_LABEL_2": "{{startIndex}} - {{endIndex}} sur {{length}}",
+	"per": " pour ",
 	"Then order by": "Puis trier par",
 	"Finally order by": "Finalement trier part",
 	"Invalid dashboard id": "Identifiant de dashboard invalide",
@@ -166,6 +168,4 @@
 	"days (~ 2 years)": "jours (~ 2 ans)",
 	"days (~ 5 years)": "jours (~ 5 ans)",
 	"days (~ 10 years)": "jours (~ 10 ans)"
-
-
 }
