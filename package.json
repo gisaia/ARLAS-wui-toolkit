@@ -13,8 +13,8 @@
     "lint": "ng lint arlas-wui-toolkit",
     "build-release": "ng build arlas-wui-toolkit --configuration production",
     "e2e": "ng e2e",
-    "i18n:init": "ngx-translate-extract --input ./projects/arlas-toolkit/src --output ./projects/arlas-toolkit/src/assets/i18n/template.json --key-as-default-value --replace --format json",
-    "i18n:extract": "ngx-translate-extract --input ./projects/arlas-toolkit/src --output ./projects/arlas-toolkit/src/assets/i18n/{en,fr}.json --format json"
+    "i18n:init": "ngx-translate-extract --input ./projects/arlas-toolkit/src --output ./projects/arlas-toolkit/assets/i18n/template.json --key-as-default-value --replace --format json",
+    "i18n:extract": "ngx-translate-extract --input ./projects/arlas-toolkit/src --output ./projects/arlas-toolkit/assets/i18n/{en,fr}.json --format json"
   },
   "repository": {
     "type": "git",
@@ -65,7 +65,7 @@
     "@angular/compiler-cli": "~13.0.0",
     "@angular/language-service": "~13.0.0",
     "@biesbjerg/ngx-translate-extract-marker": "^1.0.0",
-    "@gisaia/ngx-translate-extract": "^8.1.0",
+    "@gisaia/ngx-translate-extract": "^8.2.0",
     "@types/jasmine": "~3.10.0",
     "@types/jasminewd2": "~2.0.2",
     "@types/node": "16.11.20",
