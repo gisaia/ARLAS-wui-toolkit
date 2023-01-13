@@ -22,10 +22,11 @@ import { Overlay, OverlayConfig, OriginConnectionPosition, OverlayConnectionPosi
 import { ComponentPortal } from '@angular/cdk/portal';
 
 import { HistogramTooltipOverlayComponent } from '../../components/histogram-tooltip-overlay/histogram-tooltip-overlay.component';
-import { ArlasOverlayRef, HISTOGRAM_TOOLTIP_DATA, DONUT_TOOLTIP_DATA } from '../../tools/utils';
+import { ArlasOverlayRef, HISTOGRAM_TOOLTIP_DATA, DONUT_TOOLTIP_DATA, CALENDAR_TIMELINE_TOOLTIP_DATA } from '../../tools/utils';
 import { HistogramTooltip } from 'arlas-web-components';
-import { ARLASDonutTooltip } from 'arlas-d3';
+import { ARLASDonutTooltip, TimelineData } from 'arlas-d3';
 import { DonutTooltipOverlayComponent } from '../../components/donut-tooltip-overlay/donut-tooltip-overlay.component';
+import { CalendarTimelineTooltipOverlayComponent } from '../../components/calendar-timeline-tooltip-overlay/calendar-timeline-tooltip-overlay.component';
 
 
 export interface HistogramTooltipConfig {
@@ -33,6 +34,13 @@ export interface HistogramTooltipConfig {
   hasBackdrop?: boolean;
   backdropClass?: string;
   data?: HistogramTooltip;
+}
+
+export interface CalendarTimelineTooltipConfig {
+  panelClass?: string;
+  hasBackdrop?: boolean;
+  backdropClass?: string;
+  data?: TimelineData;
 }
 
 export interface DonutTooltipConfig {
@@ -47,6 +55,12 @@ const DEFAULT_TOOLTIP_CONFIG: HistogramTooltipConfig = {
   panelClass: 'tm-file-preview-dialog-panel'
 };
 
+const DEFAULT_TIMELINE_TOOLTIP_CONFIG: CalendarTimelineTooltipConfig = {
+  hasBackdrop: false,
+  panelClass: 'tm-file-preview-dialog-panel'
+};
+
+
 @Injectable()
 export class ArlasOverlayService {
 
@@ -59,6 +73,17 @@ export class ArlasOverlayService {
     // Returns an OverlayRef which is a PortalHost
     const histogramActionsRef = new ArlasOverlayRef(overlayRef);
     this.attachHistogramTooltipContainer(overlayRef, dialogConfig, histogramActionsRef);
+
+    return histogramActionsRef;
+  }
+
+  public openCalendarTimelineTooltip(config: CalendarTimelineTooltipConfig, elementRef: ElementRef, xOffset: number, yOffset: number, right: boolean) {
+    const dialogConfig = { ...DEFAULT_TIMELINE_TOOLTIP_CONFIG, ...config };
+
+    const overlayRef = this.createCalendarTimelineTooltipOverlay(dialogConfig, elementRef, xOffset, yOffset, right);
+    // Returns an OverlayRef which is a PortalHost
+    const histogramActionsRef = new ArlasOverlayRef(overlayRef);
+    this.attachCalendarTimelineTooltipContainer(overlayRef, dialogConfig, histogramActionsRef);
 
     return histogramActionsRef;
   }
@@ -154,6 +179,16 @@ export class ArlasOverlayService {
     return this.overlay.create(overlayConfig);
   }
 
+  private createCalendarTimelineTooltipOverlay(config: CalendarTimelineTooltipConfig, elementRef: ElementRef, xOffset: number, yOffset: number,
+    right: boolean) {
+    // Returns an OverlayConfig
+    const overlayConfig = this.getOverlayConfig(config, elementRef, xOffset, yOffset, right);
+
+    // Returns an OverlayRef
+    return this.overlay.create(overlayConfig);
+  }
+
+
   private createDonutTooltipOverlay(config: DonutTooltipConfig, elementRef: ElementRef, xOffset: number, yOffset: number,
     right: boolean) {
     // Returns an OverlayConfig
@@ -174,6 +209,17 @@ export class ArlasOverlayService {
     });
   }
 
+  private createCalendarTimelineTooltipInjector(config: CalendarTimelineTooltipConfig, ref: ArlasOverlayRef): Injector {
+    /** PortalInjector is deprecated */
+    return Injector.create({
+      parent: this.injector,
+      providers: [
+        { provide: ArlasOverlayRef, useValue: ref },
+        { provide: CALENDAR_TIMELINE_TOOLTIP_DATA, useValue: config.data }
+      ]
+    });
+  }
+
   private createDonutTooltipInjector(config: DonutTooltipConfig, ref: ArlasOverlayRef): Injector {
     /** PortalInjector is deprecated */
     return Injector.create({
@@ -189,6 +235,13 @@ export class ArlasOverlayService {
     const injector = this.createHistogramTooltipInjector(config, arlasOverlayRef);
     const containerPortal = new ComponentPortal(HistogramTooltipOverlayComponent, null, injector);
     const containerRef: ComponentRef<HistogramTooltipOverlayComponent> = overlayRef.attach(containerPortal);
+    return containerRef.instance;
+  }
+
+  private attachCalendarTimelineTooltipContainer(overlayRef: OverlayRef, config: CalendarTimelineTooltipConfig, arlasOverlayRef: ArlasOverlayRef) {
+    const injector = this.createCalendarTimelineTooltipInjector(config, arlasOverlayRef);
+    const containerPortal = new ComponentPortal(CalendarTimelineTooltipOverlayComponent, null, injector);
+    const containerRef: ComponentRef<CalendarTimelineTooltipOverlayComponent> = overlayRef.attach(containerPortal);
     return containerRef.instance;
   }
 

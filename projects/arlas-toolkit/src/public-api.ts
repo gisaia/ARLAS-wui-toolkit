@@ -35,6 +35,7 @@ export { ArlasPersistenceDatabase } from './lib/tools/arlasPersistenceDatabase';
 export { ConfigMenuComponent } from './lib/components/config-manager/config-menu/config-menu.component';
 export { ConfigMenuModule } from './lib/components/config-manager/config-menu/config-menu.module';
 export { ConfirmModalComponent } from './lib/components/confirm-modal/confirm-modal.component';
+export { CalendarTimelineToolComponent } from './lib/components/calendar-timeline/calendar-timeline.component';
 export { ActionModalComponent } from './lib/components/config-manager/action-modal/action-modal.component';
 export { ActionModalModule } from './lib/components/config-manager/action-modal/action-modal.module';
 export { DonutTooltipOverlayComponent } from './lib/components/donut-tooltip-overlay/donut-tooltip-overlay.component';
@@ -51,6 +52,7 @@ export {
   GetContributorLabelPipe, GetGlobalColorFilterPipe
 } from './lib/components/filters/filters.component';
 export { HistogramTooltipOverlayComponent } from './lib/components/histogram-tooltip-overlay/histogram-tooltip-overlay.component';
+export { CalendarTimelineTooltipOverlayComponent } from './lib/components/calendar-timeline-tooltip-overlay/calendar-timeline-tooltip-overlay.component';
 export { HistogramWidgetComponent } from './lib/components/histogram-widget/histogram-widget.component';
 export { InvalidConfigDialogComponent } from './lib/components/invalid-config-dialog/invalid-config-dialog.component';
 export { LanguageSwitcherComponent } from './lib/components/language-switcher/language-switcher.component';

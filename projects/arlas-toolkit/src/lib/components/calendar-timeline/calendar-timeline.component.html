@@ -1,0 +1,9 @@
+<div class="arlas-calendar_timeline" #calendar_timeline_view>
+    <arlas-calendar-timeline
+        [id]="'cc'"
+        [boundDates]="boundDates"
+        [granularity]="granularity"
+        [data]="data"
+        (hoveredData)="emitTooltip($event, calendar_timeline_view)"
+    ></arlas-calendar-timeline>
+</div>

@@ -49,12 +49,13 @@ import {
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import {
   ColorGeneratorLoader, ColorGeneratorModule, DonutModule, FormatNumberModule,
-  HistogramModule, MapglLegendModule, MetricModule, PowerbarsModule, ResultsModule
+  HistogramModule, MapglLegendModule, MetricModule, PowerbarsModule, ResultsModule, CalendarTimelineModule, CalendarTimelineComponent
 } from 'arlas-web-components';
 import en from 'arlas-web-components/assets/i18n/en.json';
 import fr from 'arlas-web-components/assets/i18n/fr.json';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { Observable } from 'rxjs';
+import { CalendarTimelineTooltipOverlayComponent } from './components/calendar-timeline-tooltip-overlay/calendar-timeline-tooltip-overlay.component';
 import { AnalyticsBoardComponent } from './components/analytics-board/analytics-board.component';
 import { AoiComponent } from './components/aoi/aoi.component';
 import { BookmarkMenuComponent } from './components/bookmark-menu/bookmark-menu.component';
@@ -91,6 +92,7 @@ import { ArlasColorGeneratorLoader } from './services/color-generator-loader/col
 import { FetchInterceptorService } from './services/interceptor/fetch-interceptor.service';
 import { ArlasOverlayService } from './services/overlays/overlay.service';
 import { ArlasWalkthroughModule } from './services/walkthrough/walkthrough.module';
+import { CalendarTimelineToolComponent } from './components/calendar-timeline/calendar-timeline.component';
 
 export class CustomTranslateLoader implements TranslateLoader {
 
@@ -126,6 +128,7 @@ export class CustomTranslateLoader implements TranslateLoader {
     ActionModalModule,
     CommonModule,
     DonutModule,
+    CalendarTimelineModule,
     DragDropModule,
     FormsModule,
     HistogramModule,
@@ -186,6 +189,7 @@ export class CustomTranslateLoader implements TranslateLoader {
     BookmarkComponent,
     BookmarkAddDialogComponent,
     BookmarkMenuComponent,
+    CalendarTimelineToolComponent,
     ConfirmModalComponent,
     DatePickerComponent,
     DownloadComponent,
@@ -208,6 +212,7 @@ export class CustomTranslateLoader implements TranslateLoader {
     ReconnectDialogComponent,
     InvalidConfigDialogComponent,
     HistogramTooltipOverlayComponent,
+    CalendarTimelineTooltipOverlayComponent,
     DonutTooltipOverlayComponent
   ],
 
@@ -218,6 +223,7 @@ export class CustomTranslateLoader implements TranslateLoader {
     BookmarkComponent,
     BookmarkAddDialogComponent,
     BookmarkMenuComponent,
+    CalendarTimelineToolComponent,
     ConfirmModalComponent,
     DatePickerComponent,
     DownloadComponent,
@@ -245,6 +251,7 @@ export class CustomTranslateLoader implements TranslateLoader {
     ReconnectDialogComponent,
     InvalidConfigDialogComponent,
     HistogramTooltipOverlayComponent,
+    CalendarTimelineTooltipOverlayComponent,
     DonutTooltipOverlayComponent
   ],
   providers: [
@@ -256,6 +263,7 @@ export class CustomTranslateLoader implements TranslateLoader {
     ActionModalComponent,
     UserInfosComponent,
     HistogramTooltipOverlayComponent,
+    CalendarTimelineTooltipOverlayComponent,
     DonutTooltipOverlayComponent
   ]
 })
