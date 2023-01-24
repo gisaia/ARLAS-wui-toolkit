@@ -1,5 +1,21 @@
 # Change Log
 
+## [v23.1.1-beta.4](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v23.1.1-beta.4) (2023-01-24)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v22.0.12...v23.1.1-beta.4)
+
+**New stuff:**
+
+- Bookmarks should be saved in persistence when persistence is declared in wui configuration [\#447](https://github.com/gisaia/ARLAS-wui-toolkit/issues/447)
+
+## [v22.0.12](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v22.0.12) (2023-01-23)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v22.0.11...v22.0.12)
+
+## [v22.0.11](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v22.0.11) (2022-12-05)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v23.1.0...v22.0.11)
+
 ## [v23.1.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v23.1.0) (2022-11-29)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v23.1.1-beta.3...v23.1.0)
