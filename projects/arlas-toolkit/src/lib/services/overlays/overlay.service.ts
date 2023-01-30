@@ -24,9 +24,10 @@ import { ComponentPortal } from '@angular/cdk/portal';
 import { HistogramTooltipOverlayComponent } from '../../components/histogram-tooltip-overlay/histogram-tooltip-overlay.component';
 import { ArlasOverlayRef, HISTOGRAM_TOOLTIP_DATA, DONUT_TOOLTIP_DATA, CALENDAR_TIMELINE_TOOLTIP_DATA } from '../../tools/utils';
 import { HistogramTooltip } from 'arlas-web-components';
-import { ARLASDonutTooltip, TimelineData } from 'arlas-d3';
+import { ARLASDonutTooltip, TimelineTooltip } from 'arlas-d3';
 import { DonutTooltipOverlayComponent } from '../../components/donut-tooltip-overlay/donut-tooltip-overlay.component';
-import { CalendarTimelineTooltipOverlayComponent } from '../../components/calendar-timeline-tooltip-overlay/calendar-timeline-tooltip-overlay.component';
+import { CalendarTimelineTooltipOverlayComponent } from
+  '../../components/calendar-timeline-tooltip-overlay/calendar-timeline-tooltip-overlay.component';
 
 
 export interface HistogramTooltipConfig {
@@ -40,7 +41,7 @@ export interface CalendarTimelineTooltipConfig {
   panelClass?: string;
   hasBackdrop?: boolean;
   backdropClass?: string;
-  data?: TimelineData;
+  data?: TimelineTooltip;
 }
 
 export interface DonutTooltipConfig {
@@ -77,7 +78,8 @@ export class ArlasOverlayService {
     return histogramActionsRef;
   }
 
-  public openCalendarTimelineTooltip(config: CalendarTimelineTooltipConfig, elementRef: ElementRef, xOffset: number, yOffset: number, right: boolean) {
+  public openCalendarTimelineTooltip(config: CalendarTimelineTooltipConfig, elementRef:
+    ElementRef, xOffset: number, yOffset: number, right: boolean) {
     const dialogConfig = { ...DEFAULT_TIMELINE_TOOLTIP_CONFIG, ...config };
 
     const overlayRef = this.createCalendarTimelineTooltipOverlay(dialogConfig, elementRef, xOffset, yOffset, right);
@@ -147,8 +149,8 @@ export class ArlasOverlayService {
         overlayY: 'bottom'
       } as OverlayConnectionPosition
     };
-    const origin = right ? origins.topRight : origins.topLeft;
-    const overlay = right ? overlays.topRight : overlays.topLeft;
+    const origin = right ? origins.bottomRight : origins.bottomLeft;
+    const overlay = right ? overlays.bottomRight : overlays.bottomLeft;
     const positionStrategy = this.overlay.position().flexibleConnectedTo(elementRef)
       .withDefaultOffsetX(xOffset)
       .withDefaultOffsetY(yOffset).withPositions([{
@@ -238,7 +240,8 @@ export class ArlasOverlayService {
     return containerRef.instance;
   }
 
-  private attachCalendarTimelineTooltipContainer(overlayRef: OverlayRef, config: CalendarTimelineTooltipConfig, arlasOverlayRef: ArlasOverlayRef) {
+  private attachCalendarTimelineTooltipContainer(overlayRef: OverlayRef, config: CalendarTimelineTooltipConfig,
+    arlasOverlayRef: ArlasOverlayRef) {
     const injector = this.createCalendarTimelineTooltipInjector(config, arlasOverlayRef);
     const containerPortal = new ComponentPortal(CalendarTimelineTooltipOverlayComponent, null, injector);
     const containerRef: ComponentRef<CalendarTimelineTooltipOverlayComponent> = overlayRef.attach(containerPortal);

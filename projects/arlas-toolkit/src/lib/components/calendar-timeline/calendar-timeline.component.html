@@ -3,7 +3,12 @@
         [id]="'cc'"
         [boundDates]="boundDates"
         [granularity]="granularity"
+        [climatological]="climatological"
         [data]="data"
+        [plot]="plot"
+        [cursorPosition]="cursorPosition"
+        (translate)="onTranslate($event)"
         (hoveredData)="emitTooltip($event, calendar_timeline_view)"
+        (selectedData)="onSelectedDate($event)"
     ></arlas-calendar-timeline>
 </div>

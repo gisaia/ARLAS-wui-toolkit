@@ -52,7 +52,8 @@ export {
   GetContributorLabelPipe, GetGlobalColorFilterPipe
 } from './lib/components/filters/filters.component';
 export { HistogramTooltipOverlayComponent } from './lib/components/histogram-tooltip-overlay/histogram-tooltip-overlay.component';
-export { CalendarTimelineTooltipOverlayComponent } from './lib/components/calendar-timeline-tooltip-overlay/calendar-timeline-tooltip-overlay.component';
+export { CalendarTimelineTooltipOverlayComponent } from
+  './lib/components/calendar-timeline-tooltip-overlay/calendar-timeline-tooltip-overlay.component';
 export { HistogramWidgetComponent } from './lib/components/histogram-widget/histogram-widget.component';
 export { InvalidConfigDialogComponent } from './lib/components/invalid-config-dialog/invalid-config-dialog.component';
 export { LanguageSwitcherComponent } from './lib/components/language-switcher/language-switcher.component';

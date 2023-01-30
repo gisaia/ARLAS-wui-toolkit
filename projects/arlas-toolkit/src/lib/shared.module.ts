@@ -55,7 +55,8 @@ import en from 'arlas-web-components/assets/i18n/en.json';
 import fr from 'arlas-web-components/assets/i18n/fr.json';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { Observable } from 'rxjs';
-import { CalendarTimelineTooltipOverlayComponent } from './components/calendar-timeline-tooltip-overlay/calendar-timeline-tooltip-overlay.component';
+import { CalendarTimelineTooltipOverlayComponent } from
+  './components/calendar-timeline-tooltip-overlay/calendar-timeline-tooltip-overlay.component';
 import { AnalyticsBoardComponent } from './components/analytics-board/analytics-board.component';
 import { AoiComponent } from './components/aoi/aoi.component';
 import { BookmarkMenuComponent } from './components/bookmark-menu/bookmark-menu.component';

@@ -1,7 +1,24 @@
 .wrapper {
     background-color: white;
     border-radius: 4px;
-    width: 100px;
-    height: 50px;
+    width: 100%;
+    height: 100%;
     font-size: .9em;
+    font-family: Roboto, 'Helvetica Neue', sans-serif
+}
+
+.title {
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.category {
+    color: #666;
+}
+
+.image {
+    object-fit: cover;
+    width: 250px;
 }

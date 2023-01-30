@@ -1,6 +1,13 @@
 <div class="wrapper">
     <div class="xline" style="margin-bottom: 5px;">
-      <div class="title">{{tooltip?.data?.date| translate}}</div>
+        <div class="title">
+            <div >{{tooltip?.stringDate}}</div>
+            <div class="category" *ngIf="tooltip.data && tooltip.data.metadata && tooltip.data.metadata.name" >{{tooltip?.metadata?.name}}</div>
+
+        </div>
+        <div class="image" *ngIf="tooltip.data && tooltip.data.metadata && tooltip.data.metadata.thumbnail">
+            <img src="{{tooltip.data.metadata.thumbnail}}" width="250">
+        </div>
     </div>
   </div>
   
