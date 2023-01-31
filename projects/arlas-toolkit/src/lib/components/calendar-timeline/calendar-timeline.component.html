@@ -1,11 +1,10 @@
 <div class="arlas-calendar_timeline" #calendar_timeline_view>
-    <arlas-calendar-timeline
+    <arlas-calendar-timeline #calendarTimelineComponent
         [id]="'cc'"
         [boundDates]="boundDates"
         [granularity]="granularity"
         [climatological]="climatological"
         [data]="data"
-        [plot]="plot"
         [cursorPosition]="cursorPosition"
         (translate)="onTranslate($event)"
         (hoveredData)="emitTooltip($event, calendar_timeline_view)"

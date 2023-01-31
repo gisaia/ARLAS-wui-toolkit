@@ -17,10 +17,10 @@
  * under the License.
  */
 
-import { Component, OnInit, Input, Output, ElementRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, Output, ElementRef, OnDestroy, OnChanges, ViewChild } from '@angular/core';
 import { Granularity, TimelineData, TimelineTooltip } from 'arlas-d3';
 import { Subject } from 'rxjs';
-import { TranslationDirection } from 'arlas-web-components';
+import { CalendarTimelineComponent, TranslationDirection } from 'arlas-web-components';
 import { ArlasOverlayRef } from '../../tools/utils';
 import { ArlasOverlayService } from '../../services/overlays/overlay.service';
 
@@ -39,21 +39,21 @@ export class CalendarTimelineToolComponent implements OnInit, OnDestroy {
   public tooltipEvent: Subject<TimelineTooltip> = new Subject<TimelineTooltip>();
 
   public timelineOverlayRef: ArlasOverlayRef;
-  @Input() public granularity: Subject<Granularity> = new Subject();
-  @Input() public climatological: Subject<boolean> = new Subject();
-  @Input() public boundDates: Subject<Date[]> = new Subject();
-  @Input() public data: Subject<TimelineData[]> = new Subject();
-  @Input() public cursorPosition: Subject<Date> = new Subject();
-  @Input() public plot: Subject<boolean> = new Subject();
+  @Input() public granularity: Granularity;
+  @Input() public climatological: boolean;
+  @Input() public boundDates: Date[] = [];
+  @Input() public data: TimelineData[] = [];
+  @Input() public cursorPosition: Date;
   @Output() public selectedDate: Subject<TimelineData> = new Subject();
   @Output() public hoveredDate: Subject<TimelineTooltip> = new Subject();
   @Output() public translate: Subject<TranslationDirection> = new Subject();
+
+  @ViewChild('calendarTimelineComponent', { static: false }) public calendarTimelineComponent: CalendarTimelineComponent;
 
   public constructor(
     private arlasOverlayService: ArlasOverlayService
   ) {
   }
-
 
   public ngOnInit() {
   }
@@ -98,5 +98,11 @@ export class CalendarTimelineToolComponent implements OnInit, OnDestroy {
 
   public onTranslate(td: TranslationDirection): void {
     this.translate.next(td);
+  }
+
+  public plot(): void {
+    if (this.calendarTimelineComponent) {
+      this.calendarTimelineComponent.plot();
+    }
   }
 }
