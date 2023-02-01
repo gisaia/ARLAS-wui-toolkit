@@ -103,8 +103,7 @@ export { ToolkitRoutingModule } from './lib/toolkit-routing.module';
 export { ToolkitComponent } from './lib/toolkit.component';
 export {
   ArlasToolKitModule, auhtentServiceFactory, iamServiceFactory, configServiceFactory, configUpdater, configUpdaterFactory,
-  getOptionsFactory, localDatePickerFactory, MY_CUSTOM_FORMATS,
-  settingsServiceFactory, startupServiceFactory
+  getOptionsFactory, localDatePickerFactory, MY_CUSTOM_FORMATS, settingsServiceFactory, startupServiceFactory
 } from './lib/toolkit.module';
 export { ArlasDataSource } from './lib/tools/arlasDataSource';
 export { PaginatorI18n } from './lib/tools/paginatori18n';
