@@ -60,7 +60,12 @@ export class ConfigMenuComponent implements OnInit {
         // redirect to arlas-wui-app with config ID;
         // http://localhost:4200/?config_id=50322281-d279-11ea-9fd1-0242ac160002
         if (action.url && action.config && action.config.id && action.configIdParam) {
-          this.openUrl(action.url.concat('/?' + action.configIdParam + '=').concat(action.config.id));
+
+          let url = action.url.concat('/?' + action.configIdParam + '=').concat(action.config.id);
+          if (!!action.config.org) {
+            url = url.concat('&org=' + action.config.org);
+          }
+          this.openUrl(url);
         }
         this.actionExecutedEmitter.next(action);
         break;
