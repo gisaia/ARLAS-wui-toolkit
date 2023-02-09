@@ -43,6 +43,7 @@ export interface Config {
   readers: Array<string>;
   writers: Array<string>;
   zone: string;
+  org: string;
 }
 
 export enum ConfigActionEnum {
