@@ -73,7 +73,37 @@ export class AuthentificationService {
           }
         }
       } else if (this.authConfigValue.use_authent && this.authConfigValue.auth_mode === 'iam') {
-        return Promise.resolve();
+        let refreshToken: RefreshToken = {};
+        try {
+          refreshToken = JSON.parse(localStorage.getItem('refreshToken'));
+        } catch (error) {
+          refreshToken = null;
+        }
+        if (!!refreshToken) {
+          this.arlasIamService.setOptions({
+            headers: {
+              Authorization: 'Bearer ' + localStorage.getItem('accessToken')
+            }
+          });
+          return this.arlasIamService.refresh(refreshToken.value).toPromise()
+            .then(
+              response => {
+                const accessToken = response.accessToken;
+                localStorage.setItem('accessToken', accessToken);
+                localStorage.setItem('refreshToken', JSON.stringify(response.refreshToken));
+                this.arlasIamService.setOptions({
+                  headers: {
+                    Authorization: 'Bearer ' + accessToken
+                  }
+                });
+                this.arlasIamService.currentUserSubject.next(
+                  { accessToken: accessToken, refreshToken: response.refreshToken, user: response.user }
+                );
+                return Promise.resolve();
+              }).catch((err) => console.log(err));
+        } else {
+          return Promise.resolve();
+        }
       }
     }
   }
