@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { ArlasIamService } from '../services/arlas-iam/arlas-iam.service';
-import { ArlasSettings } from '../services/startup/startup.service';
+import { ArlasSettingsService } from '../services/settings/arlas.settings.service';
 
 
 
@@ -13,7 +13,7 @@ export const interceptorSkip = 'X-Skip-Interceptor';
 export class IamInterceptor implements HttpInterceptor {
   public constructor(
     private iamService: ArlasIamService,
-    private settings: ArlasSettings
+    private settingsService: ArlasSettingsService
   ) { }
 
   public intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -25,7 +25,7 @@ export class IamInterceptor implements HttpInterceptor {
 
     const currentUser = this.iamService?.currentUserValue;
     const isLoggedIn = !!currentUser && !!currentUser.accessToken;
-    const isApiUrl = !!this.settings.authentication && request.url.startsWith(this.settings.authentication.url);
+    const isApiUrl = !!this.settingsService.settings.authentication && request.url.startsWith(this.settingsService.settings.authentication.url);
     const askRefresh = request.url.endsWith('auth/token');
 
     // add authorization header with accessToken to API Http request
