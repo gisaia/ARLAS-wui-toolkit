@@ -48,7 +48,7 @@ import { AuthentificationService, } from '../authentification/authentification.s
 import { ArlasConfigurationUpdaterService } from '../configuration-updater/configurationUpdater.service';
 import { ErrorService } from '../error/error.service';
 import { FetchInterceptorService } from '../interceptor/fetch-interceptor.service';
-import { PermissionSetting } from '../permission/permission.service';
+import { PermissionSetting, PermissionService } from '../permission/permission.service';
 import { GET_OPTIONS, PersistenceService, PersistenceSetting } from '../persistence/persistence.service';
 import { ArlasSettingsService } from '../settings/arlas.settings.service';
 import * as arlasConfSchema from './arlasconfig.schema.json';
@@ -169,7 +169,8 @@ export class ArlasStartupService {
     @Inject(CONFIG_UPDATER) private configUpdater,
     private persistenceService: PersistenceService,
     private errorService: ErrorService, private fetchInterceptorService: FetchInterceptorService,
-    private arlasIamService: ArlasIamService
+    private arlasIamService: ArlasIamService,
+    private permissionService: PermissionService
   ) {
     this.configurationUpdaterService = new ArlasConfigurationUpdaterService;
   }
@@ -393,7 +394,6 @@ export class ArlasStartupService {
       if (settings) {
         const authent: AuthentSetting = settings.authentication;
         const authService: AuthentificationService = this.injector.get('AuthentificationService')[0];
-        console.log(authent);
         if (authent && authent.use_authent && authent.auth_mode === 'iam') {
           if (!this.arlasIamService.areSettingsValid(authent)[0]) {
             const err = 'Authentication is set while ' + this.arlasIamService.areSettingsValid(authent)[1] + ' are not configured';
@@ -485,12 +485,18 @@ export class ArlasStartupService {
                     'arlas-org-filter': !!org ? org : userSubject.user.organisations[0].name
                   }
                 });
+                this.permissionService.setOptions({
+                  headers: {
+                    Authorization: 'bearer ' + userSubject.accessToken
+                  }
+                });
                 // ARLAS-server
                 this.fetchOptions.headers = {
                   Authorization: 'Bearer ' + userSubject.accessToken,
                   'arlas-org-filter': !!org ? org : userSubject.user.organisations[0].name
                 };
               } else {
+                this.permissionService.setOptions({});
                 this.persistenceService.setOptions({});
               }
               this.collaborativesearchService.setFetchOptions(this.fetchOptions);
