@@ -1,5 +1,45 @@
 # Change Log
 
+## [v23.2.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v23.2.0) (2023-02-13)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v23.2.0-beta.6...v23.2.0)
+
+## [v23.2.0-beta.6](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v23.2.0-beta.6) (2023-02-09)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v23.2.0-beta.5...v23.2.0-beta.6)
+
+## [v23.2.0-beta.5](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v23.2.0-beta.5) (2023-02-09)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/23.2.0-beta.4...v23.2.0-beta.5)
+
+## [23.2.0-beta.4](https://github.com/gisaia/ARLAS-wui-toolkit/tree/23.2.0-beta.4) (2023-02-03)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v23.2.0-beta.3...23.2.0-beta.4)
+
+## [v23.2.0-beta.3](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v23.2.0-beta.3) (2023-02-01)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v23.1.1-beta.7...v23.2.0-beta.3)
+
+## [v23.1.1-beta.7](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v23.1.1-beta.7) (2023-01-24)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v23.1.1-beta.4...v23.1.1-beta.7)
+
+## [v23.1.1-beta.4](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v23.1.1-beta.4) (2023-01-24)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v22.0.12...v23.1.1-beta.4)
+
+**New stuff:**
+
+- Bookmarks should be saved in persistence when persistence is declared in wui configuration [\#447](https://github.com/gisaia/ARLAS-wui-toolkit/issues/447)
+
+## [v22.0.12](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v22.0.12) (2023-01-23)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v22.0.11...v22.0.12)
+
+## [v22.0.11](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v22.0.11) (2022-12-05)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v23.1.0...v22.0.11)
+
 ## [v23.1.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v23.1.0) (2022-11-29)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v23.1.1-beta.3...v23.1.0)
