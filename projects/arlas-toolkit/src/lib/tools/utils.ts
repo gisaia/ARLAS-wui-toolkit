@@ -192,4 +192,5 @@ export class ArlasOverlayRef {
   }
 }
 export const HISTOGRAM_TOOLTIP_DATA = new InjectionToken<any>('HISTOGRAM_TOOLTIP_DATA');
+export const CALENDAR_TIMELINE_TOOLTIP_DATA = new InjectionToken<any>('CALENDAR_TIMELINE_TOOLTIP_DATA');
 export const DONUT_TOOLTIP_DATA = new InjectionToken<any>('DONUT_TOOLTIP_DATA');
