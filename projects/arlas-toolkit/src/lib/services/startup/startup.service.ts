@@ -391,6 +391,7 @@ export class ArlasStartupService {
       .then(s => {
         this.settingsService.setSettings(s);
         this.persistenceService.createPersistenceApiInstance();
+        this.permissionService.createPermissionApiInstance();
         return s;
       });
   }
@@ -473,6 +474,11 @@ export class ArlasStartupService {
                   Authorization: 'bearer ' + authService.accessToken
                 }
               });
+              this.permissionService.setOptions({
+                headers: {
+                  Authorization: 'bearer ' + authService.accessToken
+                }
+              });
               // ARLAS-server
               this.fetchOptions.headers = {
                 Authorization: 'bearer ' + authService.accessToken
@@ -515,8 +521,8 @@ export class ArlasStartupService {
                   'arlas-org-filter': !!org ? org : userSubject.user.organisations[0].name
                 };
               } else {
-                this.permissionService.setOptions({});
                 this.persistenceService.setOptions({});
+                this.permissionService.setOptions({});
               }
               this.collaborativesearchService.setFetchOptions(this.fetchOptions);
               resolve(settings);
@@ -524,6 +530,10 @@ export class ArlasStartupService {
           });
 
         }
+      } else {
+        this.persistenceService.setOptions(this.getOptions());
+        this.permissionService.setOptions(this.getOptions());
+        resolve(settings);
       }
     });
   }
