@@ -44,7 +44,7 @@ It's an Angular application that provides one configuration file where to declar
     }
     ```
 
-5. You can add your own component in your application and feed it with data using an [`arlas-web-contributor`](https://github.com/gisaia/ARLAS-web-contributors). Let's say a search bar. To do so, you need to register your contributor to a [`ArlasCollaborativeSearchService`](http://docs.arlas.io/arlas-tech/current/classes/_src_app_services_startup_startup_service_.arlascollaborativesearchservice/) and a [`ArlasConfigService`](http://docs.arlas.io/arlas-tech/current/classes/_src_app_services_startup_startup_service_.arlasconfigservice/) that are provided by the `ArlasToolKitModule`.
+5. You can add your own component in your application and feed it with data using an [`arlas-web-contributor`](https://github.com/gisaia/ARLAS-web-contributors). Let's say a search bar. To do so, you need to register your contributor to a [`ArlasCollaborativeSearchService`](https://docs.arlas.io/classes/ArlasCollaborativesearchService/) and a [`ArlasConfigService`](https://docs.arlas.io/classes/ArlasConfigService/) that are provided by the `ArlasToolKitModule`.
 
       Inject `ArlasCollaborativeSearchService` and `ArlasConfigService` in your bootstrap component and wait for `arlasIsUp` event to declare your contributor :
 
@@ -76,7 +76,7 @@ It's an Angular application that provides one configuration file where to declar
     ```
 
 ## Documentation
-Check the documentation of [components](http://docs.arlas.io/arlas-tech/current/classes/_src_app_components_analytics_board_analytics_board_component_.analyticsboardcomponent/) and [services](http://docs.arlas.io/arlas-tech/current/classes/_src_app_services_startup_startup_service_.arlascollaborativesearchservice/) of ARLAS-wui-toolkit out.
+Check the documentation of [components](https://docs.arlas.io/classes/AnalyticsBoardComponent/) and [services](https://docs.arlas.io/classes/ArlasStartupService/) of ARLAS-wui-toolkit out.
 
 ## Build
 
