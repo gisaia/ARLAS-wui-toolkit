@@ -90,6 +90,7 @@ export class TimelineComponent implements OnInit {
     if (this.timelineComponent) {
       this.timelineContributor = <HistogramContributor>this.arlasStartupService.contributorRegistry
         .get(this.timelineComponent.contributorId);
+      this.timelineContributor.updateData = true;
       const mainCollection = this.timelineContributor.collection;
       this.mainCollection = mainCollection;
       const mainCollectionDisplayName = !!this.arlasStartupService.collectionsMap.get(mainCollection).display_names?.collection ?
@@ -126,6 +127,7 @@ export class TimelineComponent implements OnInit {
         this.resetHistogramsInputs(this.detailedTimelineComponent.input);
         this.detailedTimelineContributor = <DetailedHistogramContributor>this.arlasStartupService.contributorRegistry
           .get(this.detailedTimelineComponent.contributorId);
+        this.detailedTimelineContributor.updateData = true;
         this.timelineContributor.endCollaborationEvent.subscribe(() => {
           this.timelineContributor.setSelection(this.timelineData,
             this.arlasCollaborativesearchService.collaborations.get(this.timelineContributor.identifier));

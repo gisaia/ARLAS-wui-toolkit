@@ -72,7 +72,6 @@ export class ContributorBuilder {
         break;
       case 'map':
         contributor = new MapContributor(identifier, collaborativesearchService, configService, collection, colorGenerator);
-        (contributor as MapContributor).updateData = false;
         break;
       case 'swimlane':
         isOneDimension = config['isOneDimension'];
@@ -112,6 +111,7 @@ export class ContributorBuilder {
         );
         break;
     }
+    contributor.updateData = false;
     return contributor;
   }
 }

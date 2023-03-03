@@ -64,6 +64,7 @@ export class TimelineShortcutComponent implements OnInit {
     if (this.timelineComponent) {
       this.timelineContributor = <HistogramContributor>this.arlasStartupService.contributorRegistry
         .get(this.timelineComponent.contributorId);
+      this.timelineContributor.updateData = true;
       this.timeShortcuts = this.timelineContributor.timeShortcuts;
       this.timeShortcutsMap = this.groupBy(this.timeShortcuts, shortcut => shortcut.type);
       this.setRemoveIconVisibility();
