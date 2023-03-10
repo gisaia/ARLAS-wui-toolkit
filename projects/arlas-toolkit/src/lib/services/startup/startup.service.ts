@@ -131,7 +131,7 @@ export interface Error {
   message: string;
   reason: string;
 }
-export const SETTINGS_FILE_NAME = 'settings.yaml';
+export const SETTINGS_FILE_NAME = 'settings.yaml?' + Date.now();
 
 @Injectable()
 export class ArlasStartupService {
