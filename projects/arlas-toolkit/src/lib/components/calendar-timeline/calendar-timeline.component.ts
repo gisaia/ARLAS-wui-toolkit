@@ -44,6 +44,8 @@ export class CalendarTimelineToolComponent implements OnInit, OnDestroy {
   @Input() public boundDates: Date[] = [];
   @Input() public data: TimelineData[] = [];
   @Input() public cursorPosition: Date;
+  @Input() public hideLeftButton: boolean;
+  @Input() public hideRightButton: boolean;
   @Output() public selectedDate: Subject<TimelineData> = new Subject();
   @Output() public hoveredDate: Subject<TimelineTooltip> = new Subject();
   @Output() public translate: Subject<TranslationDirection> = new Subject();
