@@ -28,7 +28,7 @@ import { ArlasExportCsvService } from '../../services/export-csv/export-csv.serv
 import { SpinnerOptions, ArlasOverlayRef } from '../../tools/utils';
 import { ARLASDonutTooltip } from 'arlas-d3';
 import { ArlasOverlayService } from '../../services/overlays/overlay.service';
-import { TreeContributor } from 'arlas-web-contributors';
+import { ComputeConfig, TreeContributor } from 'arlas-web-contributors';
 import { Expression } from 'arlas-api';
 
 /**
@@ -53,6 +53,7 @@ export class WidgetComponent implements OnInit {
   public highlightItems: Set<string> = new Set<string>();
   public showSwimlaneDropDown: boolean;
   public graphParam: any = {};
+  public metricApproximate = false;
 
   public donutOverlayRef: ArlasOverlayRef;
 
@@ -150,6 +151,8 @@ export class WidgetComponent implements OnInit {
         this.showSwimlaneDropDown = this.swimlanes.length > 1;
         this.swimSelected = this.swimlanes[0];
       }
+    } else if (this.contributorType === 'compute') {
+      this.metricApproximate = (this.contributor.metrics as Array<ComputeConfig>).filter(c => c.metric === 'cardinality').length > 0;
     }
     this.setComponentInput(this.graphParam);
     if (this.contributor instanceof TreeContributor) {

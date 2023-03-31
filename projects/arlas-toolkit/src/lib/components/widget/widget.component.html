@@ -71,7 +71,7 @@
 
 <div *ngIf="componentType === 'metric'">
   <arlas-metric [beforeValue]="graphParam?.beforeValue" [shortValue]="graphParam?.shortValue"
-                [value]="contributor?.metricValue" [afterValue]="graphParam?.afterValue"
+                [value]="contributor?.metricValue" [afterValue]="graphParam?.afterValue" [approximateValue]="metricApproximate"
                 [customizedCssClass]="graphParam?.customizedCssClass" [valuePrecision]="graphParam?.valuePrecision"
                 [chartWidth]="graphParam?.chartWidth" >
 
