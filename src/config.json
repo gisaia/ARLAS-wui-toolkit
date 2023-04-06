@@ -3583,7 +3583,7 @@
       "externalNode": {}
     },
     "server": {
-      "url": "http://localhost:19999/arlas",
+      "url": "http://localhost:81/server",
       "max_age_cache": 120,
       "collection": {
         "name": "demo_ais_flow"
