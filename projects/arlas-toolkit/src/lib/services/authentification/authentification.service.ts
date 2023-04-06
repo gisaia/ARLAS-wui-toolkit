@@ -3,7 +3,6 @@ import { OAuthService, AuthConfig, OAuthErrorEvent, OAuthStorage, UserInfo } fro
 import { BehaviorSubject, ReplaySubject, Observable, combineLatest } from 'rxjs';
 import { map } from 'rxjs/internal/operators/map';
 import { HttpClient } from '@angular/common/http';
-import { CONFIG_ID_QUERY_PARAM } from '../../tools/utils';
 import { filter } from 'rxjs/internal/operators/filter';
 import { from } from 'rxjs/internal/observable/from';
 
@@ -36,8 +35,7 @@ export class AuthentificationService {
     this.isAuthenticated,
     this.isDoneLoading
   ).pipe(map(values => values.every(b => b)));
-  public constructor(private oauthService: OAuthService, private http: HttpClient
-  ) {
+  public constructor(private oauthService: OAuthService, private http: HttpClient) {
     this.silentRefreshErrorSubject = this.oauthService.events.pipe(filter(e => e instanceof OAuthErrorEvent),
       filter((e: OAuthErrorEvent) => e.type === 'silent_refresh_error' || e.type === 'silent_refresh_timeout'));
   }
@@ -243,11 +241,9 @@ export class AuthentificationService {
         }
       }
     }
-    // include the config_id query parameter in the redirectUrl
-    const configId = (new URL(window.location.href)).searchParams.get(CONFIG_ID_QUERY_PARAM);
-    if (configId) {
-      authServiceConfig.redirectUri = authServiceConfig.redirectUri + '?' + CONFIG_ID_QUERY_PARAM + '=' + configId;
-    }
+    // Apend all query parameters in the redirectUrl
+    authServiceConfig.redirectUri = authServiceConfig.redirectUri + window.location.search;
+
     return authServiceConfig;
   }
 }

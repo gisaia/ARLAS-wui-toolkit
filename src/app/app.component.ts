@@ -27,7 +27,7 @@ import {
 
 
 @Component({
-  selector: 'arlas-tool-root',
+  selector: 'arlas-tool-app',
   templateUrl: './app.component.html',
   providers: [Location],
   styleUrls: ['./app.component.css']
@@ -51,7 +51,6 @@ export class AppComponent implements OnInit {
 
   public ngOnInit(): void {
 
-    this.collaborativeService.setCollaborations({});
     this.analytics = this.arlasStartupService.analytics;
     this.languages = ['en', 'fr', 'it', 'es', 'de', 'us', 'cn'];
     this.timelineComponentConfig = this.arlasConfigService.getValue('arlas.web.components.timeline');
