@@ -219,7 +219,7 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy {
     }
   }
 
-  public emitTooltip(tooltip, e: ElementRef, detailed: boolean) {
+  public emitTooltip(tooltip: HistogramTooltip, e: ElementRef, detailed: boolean) {
     let yOffset = 20;
     if (detailed) {
       yOffset = 20;
