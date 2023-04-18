@@ -37,12 +37,13 @@
     "@ngx-translate/http-loader": "^7.0.0",
     "ajv": "8.8.2",
     "ajv-keywords": "5.1.0",
-    "angular-oauth2-oidc": "~13.0.1",
+    "angular-oauth2-oidc": "~14.0.1",
+    "angular-oauth2-oidc-jwks": "~14.0.1",
     "arlas-permissions-api": "~23.0.4",
     "arlas-persistence-api": "~23.0.4",
     "arlas-tagger-api": "~23.0.4",
-    "arlas-web-components": "~24.0.0-beta.6",
-    "arlas-web-contributors": "~24.0.0-beta.1",
+    "arlas-web-components": "~24.0.0",
+    "arlas-web-contributors": "~24.0.0",
     "cli-color": "^1.2.0",
     "core-js": "~3.26.1",
     "fetch-intercept": "^2.3.1",
@@ -95,7 +96,7 @@
     "portable-fetch": {
       "node-fetch": "3.3.0"
     },
-    "protractor":{
+    "protractor": {
       "xml2js": "~0.5.0"
     }
   }

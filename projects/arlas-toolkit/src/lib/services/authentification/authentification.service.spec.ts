@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import {
-  OAuthModule, OAuthService, OAuthModuleConfig, OAuthStorage,
-  ValidationHandler, JwksValidationHandler, UrlHelperService
+  OAuthModule, OAuthService, UrlHelperService
 } from 'angular-oauth2-oidc';
 
 import { AuthentificationService } from './authentification.service';
