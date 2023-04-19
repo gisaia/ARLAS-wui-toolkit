@@ -25,7 +25,6 @@ import { projType } from 'arlas-web-core';
 import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from '../../services/startup/startup.service';
 import { ArlasSearchField } from '../share/model/ArlasSearchField';
 import { DeviceDetectorService, OS } from 'ngx-device-detector';
-import { startupServiceFactory } from '../../toolkit.module';
 import { MatSelectionList } from '@angular/material/list';
 
 export const ARLAS_HITS_EXPORTER_VERSION = 2.2;

@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { Component, OnInit, Input, Output, ElementRef, OnDestroy, OnChanges, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, Output, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 import { Granularity, TimelineData, TimelineTooltip } from 'arlas-d3';
 import { Subject } from 'rxjs';
 import { CalendarTimelineComponent, TranslationDirection } from 'arlas-web-components';

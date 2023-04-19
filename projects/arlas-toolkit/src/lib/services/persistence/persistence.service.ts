@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/internal/Observable';
 import { from } from 'rxjs/internal/observable/from';
 import { Configuration, PersistApi, DataResource, DataWithLinks, Exists } from 'arlas-persistence-api';
 import { ArlasSettingsService } from '../settings/arlas.settings.service';
-import { map, flatMap } from 'rxjs/operators';
+import { map, mergeMap } from 'rxjs/operators';
 
 export const GET_OPTIONS = new InjectionToken<Function>('get_options');
 
@@ -68,14 +68,14 @@ export class PersistenceService {
   public duplicate(zone: string, id: string, newName?: string): Observable<DataWithLinks> {
     return this.get(id).pipe(
       map(data => this.create(zone, newName ? newName : 'Copy of ' + data.doc_key, data.doc_value)),
-      flatMap(a => a)
+      mergeMap(a => a)
     );
   }
 
   public rename(id: string, newName: string): Observable<DataWithLinks> {
     return this.get(id).pipe(
       map(data => this.update(id, data.doc_value, new Date(data.last_update_date).getTime(), newName, data.doc_readers, data.doc_writers)),
-      flatMap(a => a)
+      mergeMap(a => a)
     );
   }
 
