@@ -19,7 +19,7 @@
 
 import {
   Component, Input, Output, OnInit, AfterViewInit,
-  OnChanges, SimpleChanges, ElementRef
+  OnChanges, SimpleChanges
 } from '@angular/core';
 import { Subject } from 'rxjs';
 import { AnalyticGroupConfiguration, AnalyticsTabs } from './analytics.utils';

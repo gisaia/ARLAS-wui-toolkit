@@ -21,7 +21,6 @@ import { Component, Output, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs';
 import { ArlasBookmarkService } from '../../services/bookmark/bookmark.service';
 import { BookMark } from '../../services/bookmark/model';
-import { BookmarkLocalDatabase } from '../../services/bookmark/bookmarkLocalDatabase';
 import { BookmarkPersistenceDatabase } from '../../services/bookmark/bookmarkPersistenceDatabase';
 import { BookmarkDataSource } from '../../services/bookmark/bookmarkDataSource';
 import { ArlasStartupService } from '../../services/startup/startup.service';

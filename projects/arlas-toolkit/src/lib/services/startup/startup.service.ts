@@ -38,7 +38,7 @@ import { CollaborativesearchService, ConfigService, Contributor } from 'arlas-we
 import { projType } from 'arlas-web-core/models/projections';
 import YAML from 'js-yaml';
 import { Subject, zip } from 'rxjs';
-import { flatMap } from 'rxjs/operators';
+import { mergeMap } from 'rxjs/operators';
 import { GET_OPTIONS, PersistenceService, PersistenceSetting } from '../persistence/persistence.service';
 import { CONFIG_ID_QUERY_PARAM, getFieldProperties } from '../../tools/utils';
 import { AuthentificationService, AuthentSetting, NOT_CONFIGURED } from '../authentification/authentification.service';
@@ -496,7 +496,7 @@ export class ArlasStartupService {
         // persistence is not used, we use the config.json file mounted
         configDataPromise = this.http
           .get('config.json')
-          .pipe(flatMap((response) => {
+          .pipe(mergeMap((response) => {
             configData = response;
             if (configData.extraConfigs !== undefined) {
               const promises = new Array<Promise<any>>();
