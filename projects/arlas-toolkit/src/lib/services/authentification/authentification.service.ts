@@ -5,6 +5,7 @@ import { map } from 'rxjs/internal/operators/map';
 import { HttpClient } from '@angular/common/http';
 import { filter } from 'rxjs/internal/operators/filter';
 import { from } from 'rxjs/internal/observable/from';
+import { CONFIG_ID_QUERY_PARAM } from '../../tools/utils';
 
 export const NOT_CONFIGURED = 'NOT_CONFIGURED';
 
@@ -221,7 +222,7 @@ export class AuthentificationService {
         authServiceConfig.dummyClientSecret = authConfigValue['dummy_client_secret'];
       }
       if (authConfigValue['custom_query_params'] !== undefined && authConfigValue['custom_query_params'] !== NOT_CONFIGURED) {
-        const customQueryParams= {};
+        const customQueryParams = {};
         authConfigValue['custom_query_params'].forEach(obj => {
           for (const [key, value] of Object.entries(obj)) {
             customQueryParams[key] = value;
@@ -241,13 +242,33 @@ export class AuthentificationService {
         }
       }
     }
-    // Apend all query parameters in the redirectUrl
-    authServiceConfig.redirectUri = authServiceConfig.redirectUri + window.location.search;
-
+    // Apend arlas query parameters in the redirectUrl
+    const queryParam =
+      this.getQueryParam(CONFIG_ID_QUERY_PARAM) +
+      this.getQueryParam('filter') +
+      this.getQueryParam('extend') +
+      this.getQueryParam('lg') +
+      this.getQueryParam('rt') +
+      this.getQueryParam('vs') +
+      this.getQueryParam('at') +
+      this.getQueryParam('ao') +
+      this.getQueryParam('to') +
+      this.getQueryParam('ro');
+    if (queryParam !== '') {
+      // remove last &
+      authServiceConfig.redirectUri = authServiceConfig.redirectUri + '?' + queryParam.slice(0, -1);;
+    }
     return authServiceConfig;
   }
+  private getQueryParam(param) {
+    const value = (new URL(window.location.href)).searchParams.get(param);
+    if (value) {
+      return param.concat('=').concat(value).concat('&');
+    } else {
+      return '';
+    }
+  }
 }
-
 
 export interface AuthentSetting {
   use_discovery: boolean;
