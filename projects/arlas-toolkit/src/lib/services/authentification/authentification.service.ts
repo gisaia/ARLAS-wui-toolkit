@@ -256,7 +256,7 @@ export class AuthentificationService {
       this.getQueryParam('ro');
     if (queryParam !== '') {
       // remove last &
-      authServiceConfig.redirectUri = authServiceConfig.redirectUri + '?' + queryParam.slice(0, -1);;
+      authServiceConfig.redirectUri = authServiceConfig.redirectUri + '?' + encodeURI(queryParam.slice(0, -1));
     }
     return authServiceConfig;
   }
