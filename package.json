@@ -1,6 +1,6 @@
 {
   "name": "arlas-wui-toolkit",
-  "version": "23.3.0-dev0",
+  "version": "24.0.0",
   "description": "Tool Kit Library for ARLAS wui web App",
   "author": "gisaia",
   "license": "Apache-2.0",
@@ -44,7 +44,6 @@
     "arlas-tagger-api": "~24.0.1",
     "arlas-web-components": "~24.0.1",
     "arlas-web-contributors": "~24.0.1",
-  
     "cli-color": "^1.2.0",
     "core-js": "~3.26.1",
     "fetch-intercept": "^2.3.1",
