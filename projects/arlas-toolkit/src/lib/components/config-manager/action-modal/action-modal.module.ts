@@ -51,7 +51,6 @@ import { ErrorService } from '../../../services/error/error.service';
   declarations: [
     ActionModalComponent
   ],
-  entryComponents: [ActionModalComponent],
   providers: [
     PersistenceService,
     ErrorService

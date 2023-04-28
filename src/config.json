@@ -20,6 +20,7 @@
               "include_fields": [
                 "metadata.ObservationContext.processusUsed.platform"
               ],
+              "short_form_fields": [],
               "colors_from_fields": [],
               "provided_fields": [],
               "normalization_fields": [],
@@ -36,6 +37,7 @@
               "include_fields": [
                 "metadata.ObservationContext.processusUsed.platform"
               ],
+              "short_form_fields": [],
               "colors_from_fields": [],
               "provided_fields": [],
               "normalization_fields": [],
@@ -51,6 +53,7 @@
               "minzoom": 1,
               "maxzoom": 15,
               "include_fields": [],
+              "short_form_fields": [],
               "colors_from_fields": [],
               "provided_fields": [],
               "normalization_fields": [],
@@ -95,6 +98,7 @@
               "minzoom": 1,
               "maxzoom": 22,
               "include_fields": [],
+              "short_form_fields": [],
               "colors_from_fields": [
                 "object.ship_type"
               ],
@@ -121,6 +125,7 @@
               "minzoom": 0,
               "maxzoom": 22,
               "include_fields": [],
+              "short_form_fields": [],
               "colors_from_fields": [],
               "provided_fields": [],
               "normalization_fields": [],
@@ -155,6 +160,7 @@
               "minzoom": 1,
               "maxzoom": 22,
               "include_fields": [],
+              "short_form_fields": [],
               "colors_from_fields": [
                 "osm.building"
               ],
@@ -177,6 +183,7 @@
               "minzoom": 1,
               "maxzoom": 22,
               "include_fields": [],
+              "short_form_fields": [],
               "colors_from_fields": [],
               "provided_fields": [],
               "normalization_fields": [],
@@ -210,12 +217,13 @@
           "icon": "check_box_outline_blank",
           "layers_sources": [
             {
-              "id": "arlas_id:Salinity:1641574127410",
-              "name": "Salinity",
+              "id": "arlas_id:Salinity orig:1659451777286",
+              "name": "Salinity orig",
               "source": "feature-metric-location_id-box_geom--6-demo_sea_phys_bcg",
               "minzoom": 3,
               "maxzoom": 22,
               "include_fields": [],
+              "short_form_fields": [],
               "colors_from_fields": [],
               "provided_fields": [],
               "normalization_fields": [],
@@ -235,37 +243,13 @@
               "network_fetching_level": 6
             },
             {
-              "id": "arlas_id:PH:1641574217998",
-              "name": "PH",
-              "source": "feature-metric-location_id-box_geom--6-demo_sea_phys_bcg",
-              "minzoom": 3,
-              "maxzoom": 22,
-              "include_fields": [],
-              "colors_from_fields": [],
-              "provided_fields": [],
-              "normalization_fields": [],
-              "metrics": [
-                {
-                  "field": "ph",
-                  "metric": "avg",
-                  "normalize": true
-                }
-              ],
-              "maxfeatures": 10000,
-              "raw_geometry": {
-                "geometry": "box_geom",
-                "sort": ""
-              },
-              "geometry_id": "location_id",
-              "network_fetching_level": 6
-            },
-            {
               "id": "arlas_id:Pressure (Pa):1641574207396",
               "name": "Pressure (Pa)",
               "source": "feature-metric-location_id-box_geom--6-demo_sea_phys_bcg",
               "minzoom": 3,
               "maxzoom": 22,
               "include_fields": [],
+              "short_form_fields": [],
               "colors_from_fields": [],
               "provided_fields": [],
               "normalization_fields": [],
@@ -291,6 +275,7 @@
               "minzoom": 3,
               "maxzoom": 22,
               "include_fields": [],
+              "short_form_fields": [],
               "colors_from_fields": [],
               "provided_fields": [],
               "normalization_fields": [],
@@ -316,6 +301,7 @@
               "minzoom": 3,
               "maxzoom": 22,
               "include_fields": [],
+              "short_form_fields": [],
               "colors_from_fields": [],
               "provided_fields": [],
               "normalization_fields": [],
@@ -335,12 +321,13 @@
               "network_fetching_level": 6
             },
             {
-              "id": "arlas_id:Concentration (mmol / m3):1641575697047",
+              "id": "arlas_id:Concentration (mmol / m3):1659441039348",
               "name": "Concentration (mmol / m3)",
               "source": "feature-metric-location_id-box_geom--6-demo_sea_phys_bcg",
               "minzoom": 3,
               "maxzoom": 22,
               "include_fields": [],
+              "short_form_fields": [],
               "colors_from_fields": [],
               "provided_fields": [],
               "normalization_fields": [],
@@ -360,12 +347,13 @@
               "network_fetching_level": 6
             },
             {
-              "id": "arlas_id:Concentration (mmol / m3):1641575660077",
+              "id": "arlas_id:Concentration (mmol / m3):1659440945664",
               "name": "Concentration (mmol / m3)",
               "source": "feature-metric-location_id-box_geom--6-demo_sea_phys_bcg",
               "minzoom": 3,
               "maxzoom": 22,
               "include_fields": [],
+              "short_form_fields": [],
               "colors_from_fields": [],
               "provided_fields": [],
               "normalization_fields": [],
@@ -373,7 +361,7 @@
                 {
                   "field": "o2",
                   "metric": "avg",
-                  "normalize": true
+                  "normalize": false
                 }
               ],
               "maxfeatures": 10000,
@@ -385,20 +373,21 @@
               "network_fetching_level": 6
             },
             {
-              "id": "arlas_id:Concentration (mmol / m3):1641836497409",
+              "id": "arlas_id:Concentration (mmol / m3):1659441508962",
               "name": "Concentration (mmol / m3)",
               "source": "feature-metric-location_id-box_geom--6-demo_sea_phys_bcg",
               "minzoom": 3,
               "maxzoom": 22,
               "include_fields": [],
+              "short_form_fields": [],
               "colors_from_fields": [],
               "provided_fields": [],
               "normalization_fields": [],
               "metrics": [
                 {
-                  "field": "po",
+                  "field": "po4",
                   "metric": "avg",
-                  "normalize": true
+                  "normalize": false
                 }
               ],
               "maxfeatures": 10000,
@@ -410,12 +399,13 @@
               "network_fetching_level": 6
             },
             {
-              "id": "arlas_id:Temperature (°c):1641836702700",
+              "id": "arlas_id:Temperature (°c):1659440599643",
               "name": "Temperature (°c)",
               "source": "feature-metric-location_id-box_geom--6-demo_sea_phys_bcg",
               "minzoom": 3,
               "maxzoom": 22,
               "include_fields": [],
+              "short_form_fields": [],
               "colors_from_fields": [],
               "provided_fields": [],
               "normalization_fields": [],
@@ -423,7 +413,7 @@
                 {
                   "field": "thetao",
                   "metric": "avg",
-                  "normalize": true
+                  "normalize": false
                 }
               ],
               "maxfeatures": 10000,
@@ -435,18 +425,45 @@
               "network_fetching_level": 6
             },
             {
-              "id": "arlas_id:Speed (m/s):1642149030682",
+              "id": "arlas_id:Speed (m/s):1648224992011",
               "name": "Speed (m/s)",
               "source": "feature-metric-location_id-box_geom--6-demo_sea_phys_bcg",
               "minzoom": 3,
               "maxzoom": 22,
               "include_fields": [],
+              "short_form_fields": [],
               "colors_from_fields": [],
               "provided_fields": [],
               "normalization_fields": [],
               "metrics": [
                 {
                   "field": "current_speed",
+                  "metric": "avg",
+                  "normalize": false
+                }
+              ],
+              "maxfeatures": 10000,
+              "raw_geometry": {
+                "geometry": "box_geom",
+                "sort": ""
+              },
+              "geometry_id": "location_id",
+              "network_fetching_level": 6
+            },
+            {
+              "id": "arlas_id:Salinity:1659451812469",
+              "name": "Salinity",
+              "source": "feature-metric-location_id-box_geom--6-demo_sea_phys_bcg",
+              "minzoom": 3,
+              "maxzoom": 22,
+              "include_fields": [],
+              "short_form_fields": [],
+              "colors_from_fields": [],
+              "provided_fields": [],
+              "normalization_fields": [],
+              "metrics": [
+                {
+                  "field": "so",
                   "metric": "avg",
                   "normalize": false
                 }
@@ -488,10 +505,6 @@
           ],
           "additionalCollections": [
             {
-              "collectionName": "demo_osm",
-              "field": "osm.timestamp"
-            },
-            {
               "collectionName": "demo_sea_phys_bcg",
               "field": "timestamp"
             }
@@ -499,8 +512,8 @@
         },
         {
           "identifier": "demo_eo-metadata.core.identity.identifier-150-Sensor-Date-Cloud %-Incidence angle-Location-Source-Technical details-Processing-Acquisition-",
-          "name": "DATA",
-          "title": "DATA",
+          "name": "EO images",
+          "title": "EO images",
           "collection": "demo_eo",
           "icon": "table_chart",
           "type": "resultlist",
@@ -509,18 +522,20 @@
             "idFieldName": "metadata.core.identity.identifier",
             "titleFieldNames": [
               {
-                "fieldPath": "",
+                "fieldPath": "metadata.core.identity.collection",
                 "process": ""
               }
             ],
             "tooltipFieldNames": [
               {
-                "fieldPath": "",
+                "fieldPath": "metadata.core.temporalCoverage.begin",
                 "process": ""
               }
             ],
             "icon": "fiber_manual_record",
-            "iconColorFieldName": ""
+            "iconColorFieldName": "metadata.core.identity.collection",
+            "urlThumbnailTemplate": "{metadata.core.graphics.thumbnail}",
+            "urlImageTemplate": "{metadata.core.graphics.quicklook}"
           },
           "columns": [
             {
@@ -528,28 +543,32 @@
               "fieldName": "metadata.ObservationContext.processusUsed.platform",
               "dataType": "",
               "process": "",
-              "useColorService": true
+              "useColorService": true,
+              "sort": ""
             },
             {
               "columnName": "Date",
               "fieldName": "metadata.ObservationContext.phenomenonTime.begin",
               "dataType": "",
               "process": "(new Date(result)).toUTCString().split(',')[1] !== undefined ? (new Date(result)).toUTCString().split(',')[1].replace('GMT', '') :'undefined'",
-              "useColorService": false
+              "useColorService": false,
+              "sort": ""
             },
             {
               "columnName": "Cloud %",
               "fieldName": "metadata.ObservationContext.eo.opt.cloudCoverPercentage",
               "dataType": "%",
               "process": "",
-              "useColorService": false
+              "useColorService": false,
+              "sort": ""
             },
             {
               "columnName": "Incidence angle",
               "fieldName": "metadata.ObservationContext.eo.acquisition.incidenceAngle",
               "dataType": "°",
               "process": "(result !== undefined && result !== null) ? result.toString().split('.')[0].concat((result.toString().split('.')[1] !== undefined && result.toString().split('.')[1] !== null) ? '.'+result.toString().split('.')[1].substring(0, 4) : '') : ''",
-              "useColorService": false
+              "useColorService": false,
+              "sort": ""
             }
           ],
           "details": [
@@ -664,7 +683,12 @@
               ]
             }
           ],
-          "includeMetadata": []
+          "includeMetadata": [
+            "metadata.core.identity.collection",
+            "metadata.core.temporalCoverage.begin",
+            "{metadata.core.graphics.thumbnail}",
+            "{metadata.core.graphics.quicklook}"
+          ]
         },
         {
           "type": "detailedhistogram",
@@ -685,17 +709,13 @@
           "selectionExtentPercentage": 0.02,
           "additionalCollections": [
             {
-              "collectionName": "demo_osm",
-              "field": "osm.timestamp"
-            },
-            {
               "collectionName": "demo_sea_phys_bcg",
               "field": "timestamp"
             }
           ]
         },
         {
-          "identifier": "demo_ais_flow-object.id-cardinality",
+          "identifier": "demo_ais_flow-object.id-cardinality-0",
           "name": "Number of vessels",
           "title": "Number of vessels",
           "collection": "demo_ais_flow",
@@ -710,7 +730,7 @@
           ]
         },
         {
-          "identifier": "demo_ais_flow-m[0]/1852track.distance.gps.travelled_m-sum",
+          "identifier": "demo_ais_flow-m[0]/1852track.distance.gps.travelled_m-sum-0",
           "name": "Travelled distance",
           "title": "Travelled distance",
           "collection": "demo_ais_flow",
@@ -725,7 +745,7 @@
           ]
         },
         {
-          "identifier": "demo_ais_flow-track.nb_geopoints-sum",
+          "identifier": "demo_ais_flow-track.nb_geopoints-sum-0",
           "name": "Nb Geopoints",
           "title": "Nb Geopoints",
           "collection": "demo_ais_flow",
@@ -755,7 +775,7 @@
           ]
         },
         {
-          "identifier": "demo_ais_flow-object.ship_type-6-Count",
+          "identifier": "demo_ais_flow-object.ship_type-6-Count-desc-count",
           "name": "Ship type",
           "title": "Ship type",
           "collection": "demo_ais_flow",
@@ -766,9 +786,13 @@
             {
               "type": "term",
               "field": "object.ship_type",
-              "size": 6
+              "size": 6,
+              "order": "desc",
+              "on": "count"
             }
-          ]
+          ],
+          "filterOperator": "Eq",
+          "allowOperatorChange": true
         },
         {
           "identifier": "demo_ais_flow-track.dynamics.sensor.heading-numeric-bucket-Count--50",
@@ -807,7 +831,7 @@
           ]
         },
         {
-          "identifier": "demo_ais_flow-object.name-10-Count",
+          "identifier": "demo_ais_flow-object.name-10-Count-desc-count",
           "name": "Ship",
           "title": "Ship",
           "collection": "demo_ais_flow",
@@ -818,7 +842,41 @@
             {
               "type": "term",
               "field": "object.name",
-              "size": 10
+              "size": 10,
+              "order": "desc",
+              "on": "count"
+            }
+          ],
+          "filterOperator": "Eq",
+          "allowOperatorChange": true
+        },
+        {
+          "identifier": "demo_ais_flow-course.departure.timestamp-time-bucket-Count--50course.arrival.address.country",
+          "name": "Swimlane",
+          "title": "Swimlane",
+          "collection": "demo_ais_flow",
+          "icon": "poll",
+          "type": "swimlane",
+          "numberOfBuckets": 50,
+          "swimlanes": [
+            {
+              "id": 1,
+              "name": "Swimlane",
+              "xAxisField": "course.departure.timestamp",
+              "termField": "course.arrival.address.country",
+              "aggregationmodels": [
+                {
+                  "type": "term",
+                  "field": "course.arrival.address.country",
+                  "size": 5
+                },
+                {
+                  "type": "datehistogram",
+                  "field": "course.departure.timestamp"
+                }
+              ],
+              "useUtc": true,
+              "jsonpath": "$.count"
             }
           ]
         },
@@ -838,7 +896,7 @@
           ]
         },
         {
-          "identifier": "demo_osm-osm.building-6-Count",
+          "identifier": "demo_osm-osm.building-6-Count-desc-count",
           "name": "Type",
           "title": "Type",
           "collection": "demo_osm",
@@ -849,9 +907,13 @@
             {
               "type": "term",
               "field": "osm.building",
-              "size": 6
+              "size": 6,
+              "order": "desc",
+              "on": "count"
             }
-          ]
+          ],
+          "filterOperator": "Eq",
+          "allowOperatorChange": true
         },
         {
           "identifier": "demo_osm-osm.area-numeric-bucket-Count--50",
@@ -892,7 +954,7 @@
           ]
         },
         {
-          "identifier": "demo_eo-metadata.ObservationContext.processusUsed.platform-6-Count",
+          "identifier": "demo_eo-metadata.ObservationContext.processusUsed.platform-6-Count-desc-count",
           "name": "Collections",
           "title": "Collections",
           "collection": "demo_eo",
@@ -903,9 +965,13 @@
             {
               "type": "term",
               "field": "metadata.ObservationContext.processusUsed.platform",
-              "size": 6
+              "size": 6,
+              "order": "desc",
+              "on": "count"
             }
-          ]
+          ],
+          "filterOperator": "Eq",
+          "allowOperatorChange": true
         },
         {
           "identifier": "demo_eo-metadata.ObservationContext.eo.opt.cloudCoverPercentage-numeric-bucket-Count--50",
@@ -944,7 +1010,7 @@
           ]
         },
         {
-          "identifier": "demo_sea_phys_bcg-location_id-cardinality",
+          "identifier": "demo_sea_phys_bcg-location_id-cardinality-0",
           "name": "Sea cells",
           "title": "Sea cells",
           "collection": "demo_sea_phys_bcg",
@@ -959,7 +1025,7 @@
           ]
         },
         {
-          "identifier": "demo_sea_phys_bcg-location_id_depth-cardinality",
+          "identifier": "demo_sea_phys_bcg-location_id_depth-cardinality-0",
           "name": "3D Cells number (depth)",
           "title": "3D Cells number (depth)",
           "collection": "demo_sea_phys_bcg",
@@ -974,7 +1040,7 @@
           ]
         },
         {
-          "identifier": "demo_sea_phys_bcg-depth_status-4-Count",
+          "identifier": "demo_sea_phys_bcg-depth_status-4-Count-desc-count",
           "name": "Depth status",
           "title": "Depth status",
           "collection": "demo_sea_phys_bcg",
@@ -985,9 +1051,13 @@
             {
               "type": "term",
               "field": "depth_status",
-              "size": 4
+              "size": 4,
+              "order": "desc",
+              "on": "count"
             }
-          ]
+          ],
+          "filterOperator": "Eq",
+          "allowOperatorChange": true
         },
         {
           "identifier": "demo_sea_phys_bcg-depth-numeric-bucket-Count--50",
@@ -1593,24 +1663,29 @@
           "input": {
             "defaultBasemapStyle": {
               "name": "Streets-light - No label",
-              "styleFile": "https://api.maptiler.com/maps/bfbf9c99-aa66-4830-8b6c-2251d177f2f5/style.json?key=E7xmD2y9rRj1z4TcNnj9"
+              "styleFile": "https://api.maptiler.com/maps/bfbf9c99-aa66-4830-8b6c-2251d177f2f5/style.json?key=E7xmD2y9rRj1z4TcNnj9",
+              "image": null
             },
             "basemapStyles": [
               {
                 "name": "Basic",
-                "styleFile": "https://api.maptiler.com/maps/basic/style.json?key=E7xmD2y9rRj1z4TcNnj9"
+                "styleFile": "https://api.maptiler.com/maps/basic/style.json?key=E7xmD2y9rRj1z4TcNnj9",
+                "image": null
               },
               {
                 "name": "Streets-dark",
-                "styleFile": "https://api.maptiler.com/maps/a1e62ee0-aca6-451a-a4b8-42250422a212/style.json?key=E7xmD2y9rRj1z4TcNnj9"
+                "styleFile": "https://api.maptiler.com/maps/a1e62ee0-aca6-451a-a4b8-42250422a212/style.json?key=E7xmD2y9rRj1z4TcNnj9",
+                "image": null
               },
               {
                 "name": "Streets-light",
-                "styleFile": "https://api.maptiler.com/maps/208a41eb-368f-4003-8e3c-2dba0d90b3cb/style.json?key=E7xmD2y9rRj1z4TcNnj9"
+                "styleFile": "https://api.maptiler.com/maps/208a41eb-368f-4003-8e3c-2dba0d90b3cb/style.json?key=E7xmD2y9rRj1z4TcNnj9",
+                "image": null
               },
               {
                 "name": "Streets-light - No label",
-                "styleFile": "https://api.maptiler.com/maps/bfbf9c99-aa66-4830-8b6c-2251d177f2f5/style.json?key=E7xmD2y9rRj1z4TcNnj9"
+                "styleFile": "https://api.maptiler.com/maps/bfbf9c99-aa66-4830-8b6c-2251d177f2f5/style.json?key=E7xmD2y9rRj1z4TcNnj9",
+                "image": null
               }
             ],
             "margePanForLoad": 5,
@@ -1622,7 +1697,7 @@
             ],
             "displayScale": true,
             "displayCurrentCoordinates": false,
-            "idFeatureField": "track.id",
+            "idFeatureField": "deprecated, to be removed",
             "mapLayers": {
               "layers": [],
               "events": {
@@ -1672,9 +1747,7 @@
               },
               {
                 "name": "Water PH",
-                "layers": [
-                  "arlas_id:PH:1641574217998"
-                ],
+                "layers": [],
                 "enabled": false
               },
               {
@@ -1687,7 +1760,8 @@
               {
                 "name": "Salinity",
                 "layers": [
-                  "arlas_id:Salinity:1641574127410"
+                  "arlas_id:Salinity orig:1659451777286",
+                  "arlas_id:Salinity:1659451812469"
                 ],
                 "enabled": false
               },
@@ -1708,35 +1782,35 @@
               {
                 "name": "Nitrate",
                 "layers": [
-                  "arlas_id:Concentration (mmol / m3):1641575697047"
+                  "arlas_id:Concentration (mmol / m3):1659441039348"
                 ],
                 "enabled": false
               },
               {
                 "name": "Dissolved O2",
                 "layers": [
-                  "arlas_id:Concentration (mmol / m3):1641575660077"
+                  "arlas_id:Concentration (mmol / m3):1659440945664"
                 ],
                 "enabled": false
               },
               {
                 "name": "Phosphate",
                 "layers": [
-                  "arlas_id:Concentration (mmol / m3):1641836497409"
+                  "arlas_id:Concentration (mmol / m3):1659441508962"
                 ],
                 "enabled": false
               },
               {
                 "name": "Potential Temperature",
                 "layers": [
-                  "arlas_id:Temperature (°c):1641836702700"
+                  "arlas_id:Temperature (°c):1659440599643"
                 ],
                 "enabled": false
               },
               {
                 "name": "Current Speed",
                 "layers": [
-                  "arlas_id:Speed (m/s):1642149030682"
+                  "arlas_id:Speed (m/s):1648224992011"
                 ],
                 "enabled": false
               }
@@ -1756,8 +1830,8 @@
               "detailedGridHeight": 300,
               "nbGridColumns": 3,
               "displayFilters": false,
-              "hasGridMode": false,
-              "defautMode": "list",
+              "hasGridMode": true,
+              "defautMode": "grid",
               "visualisationLink": "{_services_WMS_0_url}",
               "downloadLink": "https://demo.cloud.arlas.io/arlas/server/explore/demo_eo/_search?f=metadata.core.identity.identifier:eq:{metadata_core_identity_identifier}",
               "isBodyHidden": false,
@@ -1772,7 +1846,10 @@
               "options": {
                 "showActionsOnhover": "true",
                 "showDetailIconName": "keyboard_arrow_down",
-                "hideDetailIconName": "keyboard_arrow_up"
+                "hideDetailIconName": "keyboard_arrow_up",
+                "icon": "camera",
+                "showName": true,
+                "showIcon": true
               }
             }
           }
@@ -1832,7 +1909,7 @@
           "icon": "multiline_chart",
           "components": [
             {
-              "contributorId": "demo_ais_flow-object.id-cardinality",
+              "contributorId": "demo_ais_flow-object.id-cardinality-0",
               "componentType": "metric",
               "input": {
                 "customizedCssClass": "power",
@@ -1843,7 +1920,7 @@
               }
             },
             {
-              "contributorId": "demo_ais_flow-m[0]/1852track.distance.gps.travelled_m-sum",
+              "contributorId": "demo_ais_flow-m[0]/1852track.distance.gps.travelled_m-sum-0",
               "componentType": "metric",
               "input": {
                 "customizedCssClass": "power",
@@ -1854,7 +1931,7 @@
               }
             },
             {
-              "contributorId": "demo_ais_flow-track.nb_geopoints-sum",
+              "contributorId": "demo_ais_flow-track.nb_geopoints-sum-0",
               "componentType": "metric",
               "input": {
                 "customizedCssClass": "power",
@@ -1882,17 +1959,22 @@
                 "diameter": 170,
                 "containerWidth": 223,
                 "multiselectable": true,
-                "opacity": 0.8
+                "opacity": 0.4
               }
             },
             {
-              "contributorId": "demo_ais_flow-object.ship_type-6-Count",
+              "contributorId": "demo_ais_flow-object.ship_type-6-Count-desc-count",
               "showExportCsv": "",
               "componentType": "powerbars",
               "input": {
                 "chartTitle": "Ship type",
                 "powerbarTitle": "Ship type",
                 "displayFilter": true,
+                "scrollable": false,
+                "filterOperator": {
+                  "value": "Eq",
+                  "display": true
+                },
                 "useColorService": true,
                 "useColorFromData": false,
                 "unit": "",
@@ -1990,18 +2072,77 @@
           "icon": "fingerprint",
           "components": [
             {
-              "contributorId": "demo_ais_flow-object.name-10-Count",
+              "contributorId": "demo_ais_flow-object.name-10-Count-desc-count",
               "showExportCsv": "",
               "componentType": "powerbars",
               "input": {
                 "chartTitle": "Ship",
                 "powerbarTitle": "Ship",
                 "displayFilter": true,
+                "scrollable": false,
+                "filterOperator": {
+                  "value": "Eq",
+                  "display": true
+                },
                 "useColorService": false,
                 "useColorFromData": false,
                 "unit": "",
                 "chartWidth": 445
               }
+            }
+          ]
+        },
+        {
+          "groupId": "Vessels-4",
+          "title": "Departures per country",
+          "tab": "Vessels",
+          "icon": "poll",
+          "components": [
+            {
+              "contributorId": "demo_ais_flow-course.departure.timestamp-time-bucket-Count--50course.arrival.address.country",
+              "input": {
+                "id": "demo_ais_flow-course.departure.timestamp-time-bucket-Count--50course.arrival.address.country",
+                "isHistogramSelectable": true,
+                "multiselectable": false,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 0.8,
+                "yAxisStartsFromZero": true,
+                "chartTitle": "Swimlane",
+                "chartHeight": 100,
+                "chartWidth": 445,
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "xUnit": "",
+                "yUnit": "",
+                "chartXLabel": "",
+                "shortYLabels": false,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "barWeight": 0.8,
+                "dataType": "time",
+                "swimLaneLabelsWidth": 100,
+                "swimlaneHeight": 20,
+                "swimlaneMode": "fixedHeight",
+                "swimlaneBorderRadius": 3,
+                "paletteColors": [
+                  330,
+                  170
+                ],
+                "swimlane_representation": "global",
+                "customizedCssClass": "arlas-swimlane",
+                "swimlane_options": {
+                  "nan_color": "#D6D6D6"
+                }
+              },
+              "componentType": "swimlane",
+              "showExportCsv": false
             }
           ]
         },
@@ -2025,13 +2166,18 @@
               }
             },
             {
-              "contributorId": "demo_osm-osm.building-6-Count",
+              "contributorId": "demo_osm-osm.building-6-Count-desc-count",
               "showExportCsv": "",
               "componentType": "powerbars",
               "input": {
                 "chartTitle": "Type",
                 "powerbarTitle": "Type",
                 "displayFilter": true,
+                "scrollable": false,
+                "filterOperator": {
+                  "value": "Eq",
+                  "display": true
+                },
                 "useColorService": true,
                 "useColorFromData": false,
                 "unit": "",
@@ -2105,13 +2251,18 @@
               }
             },
             {
-              "contributorId": "demo_eo-metadata.ObservationContext.processusUsed.platform-6-Count",
+              "contributorId": "demo_eo-metadata.ObservationContext.processusUsed.platform-6-Count-desc-count",
               "showExportCsv": false,
               "componentType": "powerbars",
               "input": {
                 "chartTitle": "Collections",
                 "powerbarTitle": "Collections",
                 "displayFilter": true,
+                "scrollable": false,
+                "filterOperator": {
+                  "value": "Eq",
+                  "display": true
+                },
                 "useColorService": true,
                 "useColorFromData": false,
                 "unit": "",
@@ -2217,7 +2368,7 @@
           "icon": "apps",
           "components": [
             {
-              "contributorId": "demo_sea_phys_bcg-location_id-cardinality",
+              "contributorId": "demo_sea_phys_bcg-location_id-cardinality-0",
               "componentType": "metric",
               "input": {
                 "customizedCssClass": "power",
@@ -2228,7 +2379,7 @@
               }
             },
             {
-              "contributorId": "demo_sea_phys_bcg-location_id_depth-cardinality",
+              "contributorId": "demo_sea_phys_bcg-location_id_depth-cardinality-0",
               "componentType": "metric",
               "input": {
                 "customizedCssClass": "power",
@@ -2247,13 +2398,18 @@
           "icon": "arrow_downward",
           "components": [
             {
-              "contributorId": "demo_sea_phys_bcg-depth_status-4-Count",
+              "contributorId": "demo_sea_phys_bcg-depth_status-4-Count-desc-count",
               "showExportCsv": true,
               "componentType": "powerbars",
               "input": {
                 "chartTitle": "Depth status",
                 "powerbarTitle": "Depth status",
                 "displayFilter": true,
+                "scrollable": false,
+                "filterOperator": {
+                  "value": "Eq",
+                  "display": true
+                },
                 "useColorService": false,
                 "useColorFromData": false,
                 "unit": "measures",
@@ -2970,7 +3126,7 @@
           "icon": "apps",
           "components": [
             {
-              "contributorId": "demo_sea_phys_bcg-location_id-cardinality",
+              "contributorId": "demo_sea_phys_bcg-location_id-cardinality-0",
               "componentType": "metric",
               "input": {
                 "customizedCssClass": "power",
@@ -2981,7 +3137,7 @@
               }
             },
             {
-              "contributorId": "demo_sea_phys_bcg-location_id_depth-cardinality",
+              "contributorId": "demo_sea_phys_bcg-location_id_depth-cardinality-0",
               "componentType": "metric",
               "input": {
                 "customizedCssClass": "power",
@@ -3000,13 +3156,18 @@
           "icon": "arrow_downward",
           "components": [
             {
-              "contributorId": "demo_sea_phys_bcg-depth_status-4-Count",
+              "contributorId": "demo_sea_phys_bcg-depth_status-4-Count-desc-count",
               "showExportCsv": "",
               "componentType": "powerbars",
               "input": {
                 "chartTitle": "Depth status",
                 "powerbarTitle": "Depth status",
                 "displayFilter": false,
+                "scrollable": false,
+                "filterOperator": {
+                  "value": "Eq",
+                  "display": true
+                },
                 "useColorService": false,
                 "useColorFromData": false,
                 "unit": "measures",
@@ -3578,7 +3739,39 @@
           "show": true,
           "color": "accent",
           "diameter": 50
-        }
+        },
+        "tabs": [
+          {
+            "name": "Vessels",
+            "icon": "directions_boat",
+            "showIcon": true,
+            "showName": true
+          },
+          {
+            "name": "Buildings",
+            "icon": "home",
+            "showIcon": true,
+            "showName": true
+          },
+          {
+            "name": "Images",
+            "icon": "collections",
+            "showIcon": true,
+            "showName": true
+          },
+          {
+            "name": "Sea Geo Chemistry",
+            "icon": "invert_colors",
+            "showIcon": true,
+            "showName": true
+          },
+          {
+            "name": "Sea Physics",
+            "icon": "cloud",
+            "showIcon": true,
+            "showName": true
+          }
+        ]
       },
       "externalNode": {}
     },
@@ -3602,23 +3795,23 @@
         "name": "ARLAS",
         "units": [
           {
-            "collection": "demo_ais_flow",
-            "unit": "vessel tracks",
+            "collection": "demo_eo",
+            "unit": "EO images",
             "ignored": false
           },
           {
-            "collection": "demo_eo",
-            "unit": "eo images",
+            "collection": "demo_ais_flow",
+            "unit": "Vessel tracks",
             "ignored": false
           },
           {
             "collection": "demo_osm",
-            "unit": "buildings",
+            "unit": "Buildings",
             "ignored": false
           },
           {
             "collection": "demo_sea_phys_bcg",
-            "unit": "sea measures",
+            "unit": "Sea measures",
             "ignored": false
           }
         ],

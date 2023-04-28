@@ -21,17 +21,13 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { OwlDateTimeIntl, OWL_DATE_TIME_LOCALE } from '@gisaia-team/ng-pick-datetime';
+import { OwlDateTimeIntl, OWL_DATE_TIME_LOCALE } from '@danielmoncada/angular-datetime-picker';
 import { TranslateService } from '@ngx-translate/core';
-import { JwksValidationHandler, OAuthModule, ValidationHandler } from 'angular-oauth2-oidc';
+import { OAuthModule, ValidationHandler } from 'angular-oauth2-oidc';
+import { JwksValidationHandler } from 'angular-oauth2-oidc-jwks';
 import { ColorGeneratorLoader, ColorGeneratorModule } from 'arlas-web-components';
 import { ToolkitComponent } from './toolkit.component';
-import { BookmarkAddDialogComponent, BookmarkComponent } from './components/bookmark/bookmark.component';
-import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.component';
-import { DownloadDialogComponent } from './components/download/download.component';
-import { ErrorModalMsgComponent } from './components/errormodal/errormodal.component';
 import { ErrorModalModule } from './components/errormodal/errormodal.module';
-import { ShareDialogComponent } from './components/share/share.component';
 import { ArlasTranslateIntl } from './components/timeline/date-picker/ArlasTranslateIntl';
 import { ArlasAoiService } from './services/aoi/aoi.service';
 import { AuthentificationService } from './services/authentification/authentification.service';
@@ -44,7 +40,6 @@ import { ArlasExtendService } from './services/extend/extend.service';
 import { ArlasMapSettings } from './services/map-settings/map-settings.service';
 import { ArlasMapService } from './services/map/map.service';
 import { PermissionService } from './services/permission/permission.service';
-import { isArray } from 'util';
 import { GET_OPTIONS, PersistenceService } from './services/persistence/persistence.service';
 import { ArlasSettingsService } from './services/settings/arlas.settings.service';
 import {
@@ -102,10 +97,10 @@ export function configUpdater(data) {
   if (!!data[0] && !!data[0].arlas && !!data[0].arlas.web && !!data[0].arlas.web.components.mapgl) {
     const layers = data[0].arlas.web.components.mapgl.input.mapLayers.layers;
     layers.forEach(layer => {
-      if (!!layer.filter && isArray(layer.filter)) {
+      if (!!layer.filter && Array.isArray(layer.filter)) {
         const filters = [];
         layer.filter.forEach(expression => {
-          if (isArray(expression) && expression.length === 3) {
+          if (Array.isArray(expression) && expression.length === 3) {
             if (expression[0] === '!=' && expression[2] === 'Infinity') {
               expression = ['<=', (expression[1] as any).replace(/\./g, '_'), Number.MAX_VALUE];
             } else if (expression[0] === '!=' && expression[2] === '-Infinity') {
@@ -223,14 +218,6 @@ export const MY_CUSTOM_FORMATS = {
       useClass: PaginatorI18n
     },
   ],
-  bootstrap: [ToolkitComponent],
-  entryComponents: [
-    BookmarkAddDialogComponent,
-    BookmarkComponent, // Usefull for bookmark-menu
-    ConfirmModalComponent,
-    DownloadDialogComponent,
-    ErrorModalMsgComponent,
-    ShareDialogComponent
-  ],
+  bootstrap: [ToolkitComponent]
 })
 export class ArlasToolKitModule { }

@@ -44,8 +44,9 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import {
-  OwlDateTimeModule, OwlMomentDateTimeModule, OwlNativeDateTimeModule
-} from '@gisaia-team/ng-pick-datetime';
+  OwlDateTimeModule, OwlNativeDateTimeModule
+} from '@danielmoncada/angular-datetime-picker';
+import { OwlMomentDateTimeModule } from '@danielmoncada/angular-datetime-picker-moment-adapter';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import {
   ColorGeneratorLoader, ColorGeneratorModule, DonutModule, FormatNumberModule,
@@ -124,7 +125,6 @@ export class CustomTranslateLoader implements TranslateLoader {
 }
 
 @NgModule({
-
   imports: [
     ActionModalModule,
     CommonModule,

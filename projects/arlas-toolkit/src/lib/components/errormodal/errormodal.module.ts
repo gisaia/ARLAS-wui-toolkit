@@ -17,7 +17,6 @@ import { ErrorService } from '../../services/error/error.service';
     ErrormodalComponent,
     ErrorModalMsgComponent,
   ],
-  entryComponents: [ErrorModalMsgComponent],
   providers: [
     ErrorService
   ]

@@ -21,7 +21,6 @@ import { BehaviorSubject, catchError, map, mergeMap, Observable, of } from 'rxjs
 import { ArlasStorageObject } from './utils';
 import { PersistenceService } from '../services/persistence/persistence.service';
 import { DataResource, DataWithLinks } from 'arlas-persistence-api';
-import { merge } from 'rxjs/operators';
 
 export class ArlasPersistenceDatabase<T extends ArlasStorageObject> {
   /** Stream that emits whenever the data has been modified. */

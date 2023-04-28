@@ -108,7 +108,6 @@ export class CustomTranslateLoader implements TranslateLoader {
   providers: [
     forwardRef(() => ArlasTagService)
   ],
-  bootstrap: [],
-  entryComponents: [TagDialogComponent, TagManagementDialogComponent],
+  bootstrap: []
 })
 export class ArlasTaggerModule { }

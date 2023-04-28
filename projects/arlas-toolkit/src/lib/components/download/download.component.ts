@@ -17,7 +17,7 @@
  * under the License.
  */
 import { Component, Inject, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AuthentificationService } from '../../services/authentification/authentification.service';
 import { CollectionReferenceDescription } from 'arlas-api';
@@ -25,7 +25,6 @@ import { projType } from 'arlas-web-core';
 import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from '../../services/startup/startup.service';
 import { ArlasSearchField } from '../share/model/ArlasSearchField';
 import { DeviceDetectorService, OS } from 'ngx-device-detector';
-import { startupServiceFactory } from '../../toolkit.module';
 import { MatSelectionList } from '@angular/material/list';
 
 export const ARLAS_HITS_EXPORTER_VERSION = 2.2;
@@ -73,8 +72,8 @@ export class DownloadDialogComponent implements OnInit {
 
   public isCopied = false;
 
-  public exportTypeGroup: FormGroup;
-  public paramFormGroup: FormGroup;
+  public exportTypeGroup: UntypedFormGroup;
+  public paramFormGroup: UntypedFormGroup;
   public collectionRef: CollectionReferenceDescription;
 
   public operatingSystems = ['Linux/Mac', 'Windows'];
@@ -88,7 +87,7 @@ export class DownloadDialogComponent implements OnInit {
 
   public constructor(
     @Inject(MAT_DIALOG_DATA) public data: string[],
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private collaborativeService: ArlasCollaborativesearchService,
     private configService: ArlasConfigService,
     private authService: AuthentificationService,

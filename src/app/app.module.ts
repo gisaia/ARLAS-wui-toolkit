@@ -30,7 +30,6 @@ import { AppComponent } from './app.component';
   exports: [AppComponent],
   declarations: [AppComponent],
   providers: [],
-  bootstrap: [AppComponent],
-  entryComponents: [],
+  bootstrap: [AppComponent]
 })
 export class ToolKitAppModule { }

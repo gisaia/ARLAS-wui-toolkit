@@ -17,15 +17,15 @@
  * under the License.
  */
 
-import { ChangeDetectorRef, Component, Input, Output, ElementRef } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { ChangeDetectorRef, Component, Input, ElementRef } from '@angular/core';
+import { UntypedFormControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { Aggregation, AggregationResponse, Filter } from 'arlas-api';
 import { ChipsSearchContributor } from 'arlas-web-contributors';
 import { projType, Collaboration } from 'arlas-web-core';
-import { ArlasCollaborativesearchService, ArlasConfigService } from '../../services/startup/startup.service';
+import { ArlasCollaborativesearchService } from '../../services/startup/startup.service';
 import { Observable, Subject, from } from 'rxjs';
-import { filter, flatMap, first, merge, startWith, pairwise, debounceTime, map } from 'rxjs/operators';
+import { filter, first, startWith, pairwise, debounceTime, map, mergeMap, mergeWith } from 'rxjs/operators';
 
 @Component({
   selector: 'arlas-search',
@@ -35,7 +35,7 @@ import { filter, flatMap, first, merge, startWith, pairwise, debounceTime, map }
 export class SearchComponent {
   @Input() public searchContributor: ChipsSearchContributor;
   public onLastBackSpace: Subject<boolean> = new Subject<boolean>();
-  public searchCtrl: FormControl;
+  public searchCtrl: UntypedFormControl;
   public filteredSearch: Observable<any[]>;
   private keyEvent: Subject<number> = new Subject<number>();
 
@@ -45,7 +45,7 @@ export class SearchComponent {
   ) {
 
 
-    this.searchCtrl = new FormControl();
+    this.searchCtrl = new UntypedFormControl();
 
     this.keyEvent.pipe(pairwise()).subscribe(l => {
       if (l[1] === 0 && l[0] !== 0 && this.searchContributor) {
@@ -82,7 +82,7 @@ export class SearchComponent {
       startWith(''),
       filter(search => search !== null),
       filter(search => search.length > 1),
-      flatMap(search => this.filterSearch(search)),
+      mergeMap(search => this.filterSearch(search)),
       map(f => f.elements)
     );
 
@@ -101,7 +101,7 @@ export class SearchComponent {
       map(f => [])
     );
 
-    this.filteredSearch = noautocomplete.pipe(merge(autocomplete), merge(nullautocomplete));
+    this.filteredSearch = noautocomplete.pipe(mergeWith(autocomplete), mergeWith(nullautocomplete));
   }
 
   public filterSearch(search: string): Observable<AggregationResponse> {

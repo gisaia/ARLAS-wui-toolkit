@@ -17,7 +17,7 @@
  * under the License.
  */
 import { Component, Input, OnInit, ViewEncapsulation, Inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Aggregation } from 'arlas-api';
 import { projType } from 'arlas-web-core';
@@ -90,8 +90,8 @@ export class ShareDialogComponent implements OnInit {
     [12, '3.7cm x 1.9cm']
   ];
 
-  public geojsonTypeGroup: FormGroup;
-  public paramFormGroup: FormGroup;
+  public geojsonTypeGroup: UntypedFormGroup;
+  public paramFormGroup: UntypedFormGroup;
 
   public selectedFields = new Array<ArlasSearchField>();
   public selectedOrderField: ArlasSearchField;
@@ -109,7 +109,7 @@ export class ShareDialogComponent implements OnInit {
   // the server, and this can lead to incoherences
   public constructor(
     @Inject(MAT_DIALOG_DATA) public data: Map<string, boolean>,
-    private _formBuilder: FormBuilder,
+    private _formBuilder: UntypedFormBuilder,
     private collaborativeService: ArlasCollaborativesearchService,
     private configService: ArlasConfigService,
     public dialogRef: MatDialogRef<ShareDialogComponent>,

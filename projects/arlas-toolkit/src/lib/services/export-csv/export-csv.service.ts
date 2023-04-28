@@ -5,7 +5,7 @@ import { Contributor, Collaboration, projType } from 'arlas-web-core';
 import { TreeContributor, HistogramContributor } from 'arlas-web-contributors';
 import { AggregationResponse, Aggregation, ComputationRequest, ComputationResponse } from 'arlas-api';
 import { getAggregationPrecision } from 'arlas-web-contributors/utils/histoswimUtils';
-import { map, flatMap } from 'rxjs/operators';
+import { map, mergeMap } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
 import { ArlasSettingsService } from '../settings/arlas.settings.service';
 
@@ -97,7 +97,7 @@ export class ArlasExportCsvService {
             [projType.aggregate, aggregations], collaborations, contributor.collection);
         }
         )),
-        flatMap(a => a)
+        mergeMap(a => a)
       );
     return agg;
   }
