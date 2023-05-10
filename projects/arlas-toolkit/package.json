@@ -40,7 +40,7 @@
     "arlas-persistence-api": "~24.0.0",
     "arlas-tagger-api": "~24.0.1",
     "arlas-web-components": "~24.0.1",
-    "arlas-web-contributors": "~24.0.1",
+    "arlas-web-contributors": "~24.1.0-beta.1",
     "cli-color": "^1.2.0",
     "fetch-intercept": "^2.3.1",
     "hopscotch": "0.3.1",
