@@ -1,0 +1,32 @@
+.container {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    min-width: 100px;
+    border-radius: 2px;
+    border: 1px solid #000;
+    background-color: #fff;
+    font-family: Roboto, 'Helvetica Neue', sans-serif
+}
+.chevron {
+    cursor: pointer;
+}
+.title {
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px;
+}
+
+.content {
+    padding: 4px;
+}
+
+::ng-deep .powerbarTitle {
+    display: none;
+}
+
+::ng-deep .histogram__description {
+    display: none;
+}

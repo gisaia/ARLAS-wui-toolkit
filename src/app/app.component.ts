@@ -23,6 +23,7 @@ import { TimelineConfiguration } from '../../projects/arlas-toolkit/src/lib/comp
 import {
   ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService
 } from '../../projects/arlas-toolkit/src/lib/services/startup/startup.service';
+import { FilterShortcutConfiguration } from '../../projects/arlas-toolkit/src/lib/components/filter-shortcut/filter-shortcut.utils';
 
 
 
@@ -35,6 +36,7 @@ import {
 export class AppComponent implements OnInit {
 
   public analytics: Array<any>;
+  public shortcuts: Array<FilterShortcutConfiguration>;
   public languages: string[];
   public analyticsOpen = false;
   public target: string;
@@ -52,6 +54,7 @@ export class AppComponent implements OnInit {
   public ngOnInit(): void {
 
     this.analytics = this.arlasStartupService.analytics;
+    this.shortcuts = this.arlasStartupService.filtersShortcuts;
     this.languages = ['en', 'fr', 'it', 'es', 'de', 'us', 'cn'];
     this.timelineComponentConfig = this.arlasConfigService.getValue('arlas.web.components.timeline');
   }

@@ -19,7 +19,7 @@
 
 export { AnalyticsBoardComponent } from './lib/components/analytics-board/analytics-board.component';
 export {
-  AnalyticGroupConfiguration, WidgetConfiguration, AnalyticsTabs
+  AnalyticGroupConfiguration, AnalyticsTabs
 } from './lib/components/analytics-board/analytics.utils';
 export { AoiComponent } from './lib/components/aoi/aoi.component';
 export { BookmarkMenuComponent } from './lib/components/bookmark-menu/bookmark-menu.component';
@@ -102,7 +102,7 @@ export {
 export { ArlasDataSource } from './lib/tools/arlasDataSource';
 export { PaginatorI18n } from './lib/tools/paginatori18n';
 export {
-  ArlasOverlayRef, ArlasStorageObject,
+  ArlasOverlayRef, ArlasStorageObject, WidgetConfiguration,
   ArlasStorageType, CollectionCount, CollectionUnit, Config, ConfigAction, ConfigActionEnum,
   CONFIG_ID_QUERY_PARAM, DONUT_TOOLTIP_DATA, getFieldProperties, getKeyForColor, hashCode,
   HISTOGRAM_TOOLTIP_DATA, intToRGB, MapService, sortOnDate, SpinnerOptions

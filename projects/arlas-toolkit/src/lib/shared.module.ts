@@ -95,6 +95,8 @@ import { FetchInterceptorService } from './services/interceptor/fetch-intercepto
 import { ArlasOverlayService } from './services/overlays/overlay.service';
 import { ArlasWalkthroughModule } from './services/walkthrough/walkthrough.module';
 import { CalendarTimelineToolComponent } from './components/calendar-timeline/calendar-timeline.component';
+import { FilterShortcutComponent } from './components/filter-shortcut/filter-shortcut.component';
+import { MatDividerModule } from '@angular/material/divider';
 
 export class CustomTranslateLoader implements TranslateLoader {
 
@@ -155,6 +157,7 @@ export class CustomTranslateLoader implements TranslateLoader {
     MatSnackBarModule,
     MatStepperModule,
     MatTableModule,
+    MatDividerModule,
     MatTabsModule,
     MatTooltipModule,
     OwlDateTimeModule,
@@ -206,7 +209,6 @@ export class CustomTranslateLoader implements TranslateLoader {
     ShareDialogComponent,
     TimelineComponent,
     TimelineShortcutComponent,
-    WidgetComponent,
     HistogramWidgetComponent,
     ProgressSpinnerComponent,
     UserInfosComponent,
@@ -214,7 +216,9 @@ export class CustomTranslateLoader implements TranslateLoader {
     InvalidConfigDialogComponent,
     HistogramTooltipOverlayComponent,
     CalendarTimelineTooltipOverlayComponent,
-    DonutTooltipOverlayComponent
+    DonutTooltipOverlayComponent,
+    WidgetComponent,
+    FilterShortcutComponent
   ],
 
 
@@ -245,7 +249,6 @@ export class CustomTranslateLoader implements TranslateLoader {
     ShareDialogComponent,
     TimelineComponent,
     TimelineShortcutComponent,
-    WidgetComponent,
     HistogramWidgetComponent,
     ProgressSpinnerComponent,
     UserInfosComponent,
@@ -253,7 +256,9 @@ export class CustomTranslateLoader implements TranslateLoader {
     InvalidConfigDialogComponent,
     HistogramTooltipOverlayComponent,
     CalendarTimelineTooltipOverlayComponent,
-    DonutTooltipOverlayComponent
+    DonutTooltipOverlayComponent,
+    WidgetComponent,
+    FilterShortcutComponent
   ],
   providers: [
     FetchInterceptorService, ArlasOverlayService

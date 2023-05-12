@@ -52,6 +52,7 @@ import { ContributorBuilder } from './contributorBuilder';
 import * as arlasSettingsSchema from './settings.schema.json';
 import Ajv from 'ajv';
 import ajvKeywords from 'ajv-keywords';
+import { FilterShortcutConfiguration } from '../../components/filter-shortcut/filter-shortcut.utils';
 
 @Injectable({
   providedIn: 'root'
@@ -139,6 +140,7 @@ export class ArlasStartupService {
   public shouldRunApp = true;
   public emptyMode = false;
   public analytics: Array<{ groupId: string; components: Array<any>; }>;
+  public filtersShortcuts: Array<FilterShortcutConfiguration>;
   public collectionsMap: Map<string, CollectionReferenceParameters> = new Map();
   public collectionId: string;
   public selectorById: string;
@@ -640,6 +642,7 @@ export class ArlasStartupService {
           this.contributorRegistry.set(contributorIdentifier, contributor);
         });
         this.analytics = this.configService.getValue('arlas.web.analytics');
+        this.filtersShortcuts = this.configService.getValue('arlas.web.filters_shortcuts');
         this.arlasIsUp.next(true);
         resolve(data);
       });

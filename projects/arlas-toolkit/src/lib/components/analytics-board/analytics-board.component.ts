@@ -399,7 +399,7 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
 
   private updateFromCollaboration(contributor: Contributor) {
     contributor.updateFromCollaboration({
-      id: '',
+      id: contributor.linkedContributorId,
       operation: OperationEnum.add,
       all: false
     });
@@ -407,7 +407,7 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
       const histContributor = contributor as HistogramContributor;
       if (histContributor.detailedHistrogramContributor) {
         histContributor.detailedHistrogramContributor.updateFromCollaboration({
-          id: '',
+          id: contributor.linkedContributorId,
           operation: OperationEnum.add,
           all: false
         });

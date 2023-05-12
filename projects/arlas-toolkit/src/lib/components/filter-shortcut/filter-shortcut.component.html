@@ -1,0 +1,19 @@
+<ng-container *ngIf="shortcut">
+    <div class="container">
+        <section class="title" (click)="toggle()">
+            <div class="title_text">{{shortcut.title}}</div>
+            <mat-icon class="chevron">{{isOpen ? 'expand_less' : 'expand_more'}}</mat-icon>
+        </section>
+        <mat-divider *ngIf="isOpen"></mat-divider>
+        <section *ngIf="isOpen" class="content">
+            <arlas-tool-widget
+                id="{{'shortcut-content-' +  shortcut.component?.contributorId}}"
+                [componentType]="shortcut.component.componentType"
+                [contributorId]="shortcut.component?.contributorId"
+                [componentParams]="shortcut.component?.input"
+                [groupLength]="1"
+            ></arlas-tool-widget>
+        </section>
+    </div>
+
+</ng-container>

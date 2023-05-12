@@ -194,3 +194,22 @@ export class ArlasOverlayRef {
 export const HISTOGRAM_TOOLTIP_DATA = new InjectionToken<any>('HISTOGRAM_TOOLTIP_DATA');
 export const CALENDAR_TIMELINE_TOOLTIP_DATA = new InjectionToken<any>('CALENDAR_TIMELINE_TOOLTIP_DATA');
 export const DONUT_TOOLTIP_DATA = new InjectionToken<any>('DONUT_TOOLTIP_DATA');
+
+export interface WidgetConfiguration {
+  /**
+   * @description Identifier of the contributor that serves data to the graphic component.
+   */
+  contributorId: string;
+  /**
+   * @description swimlane | histogram | donut | powerbars | resultlist
+   */
+  componentType?: string;
+    /**
+   * @description whether we display export csv button
+   */
+  showExportCsv?: boolean;
+  /**
+   * @description Set of inputs of a ARLAS-web-component.
+   */
+  input: any;
+}
