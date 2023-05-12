@@ -40,7 +40,7 @@ import YAML from 'js-yaml';
 import { Subject, zip } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 import { GET_OPTIONS, PersistenceService, PersistenceSetting } from '../persistence/persistence.service';
-import { CONFIG_ID_QUERY_PARAM, getFieldProperties } from '../../tools/utils';
+import { CONFIG_ID_QUERY_PARAM, WidgetConfiguration, getFieldProperties } from '../../tools/utils';
 import { AuthentificationService, AuthentSetting, NOT_CONFIGURED } from '../authentification/authentification.service';
 import { ArlasConfigurationUpdaterService } from '../configuration-updater/configurationUpdater.service';
 import { ErrorService } from '../error/error.service';
@@ -139,7 +139,7 @@ export class ArlasStartupService {
   public contributorRegistry: Map<string, Contributor> = new Map<string, any>();
   public shouldRunApp = true;
   public emptyMode = false;
-  public analytics: Array<{ groupId: string; components: Array<any>; }>;
+  public analytics: Array<{ groupId: string; components: Array<WidgetConfiguration>; }>;
   public filtersShortcuts: Array<FilterShortcutConfiguration>;
   public collectionsMap: Map<string, CollectionReferenceParameters> = new Map();
   public collectionId: string;
@@ -643,6 +643,11 @@ export class ArlasStartupService {
         });
         this.analytics = this.configService.getValue('arlas.web.analytics');
         this.filtersShortcuts = this.configService.getValue('arlas.web.filters_shortcuts');
+        if (this.filtersShortcuts) {
+          this.filtersShortcuts.forEach(fs => {
+            fs.component = this.getShortcutComponent(fs.uuid);
+          });
+        }
         this.arlasIsUp.next(true);
         resolve(data);
       });
@@ -722,6 +727,21 @@ export class ArlasStartupService {
       object = object[element];
     }
     object[pathToList[pathLength - 1]] = value;
+  }
+
+  private getShortcutComponent(uuid: string) {
+    let component: WidgetConfiguration;
+    const componentGroup = Object.assign({}, this.analytics.find(g => !!g.components.find(c => c.uuid === uuid)));
+    for (const g of this.analytics){
+      component = g.components.find(c => c.uuid === uuid);
+      if (!!component) {
+        if (component.componentType === 'histogram') {
+          component.contributorId = uuid;
+        }
+        break;
+      }
+    }
+    return component;
   }
 }
 

@@ -200,6 +200,8 @@ export interface WidgetConfiguration {
    * @description Identifier of the contributor that serves data to the graphic component.
    */
   contributorId: string;
+
+  uuid: string;
   /**
    * @description swimlane | histogram | donut | powerbars | resultlist
    */

@@ -20,7 +20,6 @@ export class FilterShortcutComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    console.log(this.shortcut);
     if (this.isOpen) {
       this.activateContributor();
     }
@@ -41,7 +40,6 @@ export class FilterShortcutComponent implements OnInit {
 
   private triggerContributorCollaboration() {
     const c = this.activateContributor();
-    console.log(c.linkedContributorId);
     c.updateFromCollaboration({
       id: c.linkedContributorId,
       operation: OperationEnum.add,

@@ -167,93 +167,23 @@
                                 "description": "Analytic components organisation configuration",
                                 "type": "object",
                                 "properties": {
-                                    "identifier": {
+                                    "uuid": {
                                         "description": "identifier of the shortcut",
                                         "type": "string"
-                                    },
-                                    "component": {
-                                        "description": "An ARLAS component that is used as a shortcut to filter the data.",
-                                        "type": "object",
-                                        "properties": {
-                                            "contributorId": {
-                                                "description": "Identifer of contributor link to this component",
-                                                "type": "string"
-                                            },
-                                            "componentType": {
-                                                "description": "Type of component",
-                                                "enum": [
-                                                    "histogram",
-                                                    "powerbars",
-                                                    "swimlane",
-                                                    "resultlist",
-                                                    "donut",
-                                                    "metric"
-                                                ]
-                                            },
-                                            "title": {
-                                                "description": "Title of the component",
-                                                "type": "string"
-                                            },
-                                            "icon": {
-                                                "description": "icon of the component, from material design icon",
-                                                "type": "string"
-                                            },
-                                            "customizedCssClass": {
-                                                "description": "css class name to be applied on the component container",
-                                                "type": "string"
-                                            }
-                                        },
-                                        "required": [
-                                            "contributorId",
-                                            "componentType",
-                                            "input"
-                                        ],
-                                        "anyOf": [
-                                            {
-                                                "properties": {
-                                                    "componentType": {
-                                                        "enum": [
-                                                            "histogram"
-                                                        ]
-                                                    },
-                                                    "input": {
-                                                        "description": "Input of histogram component.",
-                                                        "allOf": [
-                                                            {
-                                                                "$ref": "histogram.schema.json#"
-                                                            }
-                                                        ]
-                                                    }
-                                                }
-                                            },
-                                            {
-                                                "properties": {
-                                                    "componentType": {
-                                                        "enum": [
-                                                            "powerbars"
-                                                        ]
-                                                    },
-                                                    "input": {
-                                                        "description": "Input of powerbars component.",
-                                                        "allOf": [
-                                                            {
-                                                                "$ref": "powerbars.schema.json#"
-                                                            }
-                                                        ]
-                                                    }
-                                                }
-                                            }
-                                        ]
                                     },
                                     "title": {
                                         "description": "Title of the shortcut",
                                         "type": "string"
+                                    },
+                                    "order":  {
+                                        "description": "order in the list",
+                                        "type": "number"
                                     }
                                 },
                                 "required": [
-                                    "identifier",
+                                    "uuid",
                                     "title",
-                                    "component"
+                                    "order"
                                 ]
                             }
                         },
