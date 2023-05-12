@@ -5,7 +5,7 @@
         <h2>ARLAS</h2>
       </div>
       <div>
-        <form [formGroup]="validateForm" (ngSubmit)="onSubmit()">
+        <form [formGroup]="validateForm" (ngSubmit)="onSubmit(formDirective)" #formDirective="ngForm">
           <div class="form-content">
             <mat-form-field appearance="outline">
               <mat-label>{{'Password' | translate}}</mat-label>

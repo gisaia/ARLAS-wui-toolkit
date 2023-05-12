@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ArlasIamService } from '../../services/arlas-iam/arlas-iam.service';
 import { ConfirmedValidator } from '../../tools/utils';
@@ -37,10 +37,12 @@ export class VerifyComponent implements OnInit {
     });
   }
 
-  public onSubmit(): void {
+  public onSubmit(formDirective: FormGroupDirective): void {
     this.validated = false;
     this.iamService.verify(this.userId, this.token, this.validateForm.get('password').value).subscribe({
       next: () => {
+        formDirective.resetForm();
+        this.validateForm.reset();
         this.validated = true;
       },
       error: err => {
