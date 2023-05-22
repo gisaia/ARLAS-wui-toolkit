@@ -19,6 +19,15 @@
     padding: 4px;
 }
 
+.text {
+    padding-right: 10px;
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+}
+
 .content {
     padding: 4px;
 }

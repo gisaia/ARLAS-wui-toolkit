@@ -17,9 +17,9 @@
  * under the License.
  */
 
-import { Component, OnInit, Input, ViewChild, ChangeDetectorRef, Output, ElementRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ChangeDetectorRef, Output, ElementRef, OnDestroy, EventEmitter } from '@angular/core';
 import { ArlasCollaborativesearchService, ArlasConfigService } from '../../services/startup/startup.service';
-import { HistogramComponent, HistogramTooltip } from 'arlas-web-components';
+import { DataType, HistogramComponent, HistogramTooltip } from 'arlas-web-components';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
 import { ArlasExportCsvService } from '../../services/export-csv/export-csv.service';
@@ -92,6 +92,8 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy {
    */
   @Output() public outEvents: Subject<{ origin: string; event: string; data?: any; }>
     = new Subject<{ origin: string; event: string; data?: any; }>();
+
+  @Output() public currentInterval: EventEmitter<string> = new EventEmitter();
 
   @ViewChild('histogram', { static: false }) public histogramComponent: HistogramComponent;
   @ViewChild('detailedhistogram', { static: false }) public detailedHistogramComponent: HistogramComponent;
@@ -267,6 +269,17 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy {
           this.histogramComponent.resizeHistogram();
         } else if (c.operation === OperationEnum.add) {
           this.histogramIsFiltered = true;
+          let left = this.histogramComponent.histogram.histogramParams.startValue;
+          let right = this.histogramComponent.histogram.histogramParams.endValue;
+          if (this.histogramComponent.dataType === DataType.time) {
+            this.currentInterval.emit(`${left} - ${right}`);
+          } else {
+            if (this.histogramComponent.xUnit) {
+              left = left + ' ' + this.histogramComponent.xUnit;
+              right = right + ' ' + this.histogramComponent.xUnit;
+            }
+            this.currentInterval.emit(`${left} - ${right}`);
+          }
         }
       });
 

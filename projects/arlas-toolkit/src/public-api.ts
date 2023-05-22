@@ -17,6 +17,9 @@
  * under the License.
  */
 
+export { FilterShortcutChipComponent } from './lib/components/filter-shortcut/chip/chip.component';
+export { FilterShortcutComponent } from './lib/components/filter-shortcut/filter-shortcut.component';
+
 export { AnalyticsBoardComponent } from './lib/components/analytics-board/analytics-board.component';
 export {
   AnalyticGroupConfiguration, AnalyticsTabs
@@ -113,4 +116,3 @@ export { PermissionService, PermissionSetting } from './lib/services/permission/
 export { ArlasExportCsvService } from './lib/services/export-csv/export-csv.service';
 export { ArlasTagService } from './lib/services/tag/tag.service';
 export { TaggerResponse } from './lib/services/tag/model';
-

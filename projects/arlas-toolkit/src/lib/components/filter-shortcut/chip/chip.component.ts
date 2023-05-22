@@ -16,12 +16,24 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 
-import { WidgetConfiguration } from '../../tools/utils';
+@Component({
+  selector: 'arlas-filter-shortcut-chip',
+  templateUrl: './chip.component.html',
+  styleUrls: ['./chip.component.css']
+})
+export class FilterShortcutChipComponent {
+  @Input() public label;
+  @Input() public hide = false;
 
-export interface FilterShortcutConfiguration {
-  uuid: string;
-  title: string;
-  order: 1;
-  component?: WidgetConfiguration;
+  @Output() public clearEmitter: EventEmitter<string> = new EventEmitter();
+
+  public clear(event: Event) {
+    event.stopPropagation();
+    if (!this.hide) {
+      this.clearEmitter.emit(this.label.replace('≠', ''));
+    }
+  }
+
 }

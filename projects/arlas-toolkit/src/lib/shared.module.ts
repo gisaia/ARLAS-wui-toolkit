@@ -97,6 +97,8 @@ import { ArlasWalkthroughModule } from './services/walkthrough/walkthrough.modul
 import { CalendarTimelineToolComponent } from './components/calendar-timeline/calendar-timeline.component';
 import { FilterShortcutComponent } from './components/filter-shortcut/filter-shortcut.component';
 import { MatDividerModule } from '@angular/material/divider';
+import { FilterShortcutChipComponent } from './components/filter-shortcut/chip/chip.component';
+import { ShortcutFiltersHandlerComponent } from './components/filter-shortcut/filters-handler/filters-handler.component';
 
 export class CustomTranslateLoader implements TranslateLoader {
 
@@ -218,7 +220,9 @@ export class CustomTranslateLoader implements TranslateLoader {
     CalendarTimelineTooltipOverlayComponent,
     DonutTooltipOverlayComponent,
     WidgetComponent,
-    FilterShortcutComponent
+    FilterShortcutComponent,
+    FilterShortcutChipComponent,
+    ShortcutFiltersHandlerComponent
   ],
 
 
@@ -258,7 +262,9 @@ export class CustomTranslateLoader implements TranslateLoader {
     CalendarTimelineTooltipOverlayComponent,
     DonutTooltipOverlayComponent,
     WidgetComponent,
-    FilterShortcutComponent
+    FilterShortcutComponent,
+    FilterShortcutChipComponent,
+    ShortcutFiltersHandlerComponent
   ],
   providers: [
     FetchInterceptorService, ArlasOverlayService

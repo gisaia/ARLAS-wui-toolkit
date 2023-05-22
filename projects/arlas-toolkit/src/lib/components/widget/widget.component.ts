@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { Component, OnInit, Input, ViewChild, ChangeDetectorRef, Output, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ChangeDetectorRef, Output, ElementRef, EventEmitter } from '@angular/core';
 import { ArlasStartupService, ArlasCollaborativesearchService } from '../../services/startup/startup.service';
 import { Contributor, CollaborationEvent, OperationEnum } from 'arlas-web-core';
 import { ChartType, HistogramComponent, CellBackgroundStyleEnum, DataType } from 'arlas-web-components';
@@ -101,6 +101,9 @@ export class WidgetComponent implements OnInit {
    */
   @Output() public outEvents: Subject<{ origin: string; event: string; data?: any; }>
     = new Subject<{ origin: string; event: string; data?: any; }>();
+
+  @Output() public currentSelection: EventEmitter<string> = new EventEmitter();
+
 
   @ViewChild('histogram', { static: false }) public histogramComponent: HistogramComponent;
 

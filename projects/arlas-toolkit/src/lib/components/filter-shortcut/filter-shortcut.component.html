@@ -1,17 +1,27 @@
 <ng-container *ngIf="shortcut">
-    <div class="container">
+    <div class="container" id="{{'shortcut-' +  shortcut.component?.contributorId}}">
         <section class="title" (click)="toggle()">
-            <div class="title_text">{{shortcut.title}}</div>
-            <mat-icon class="chevron">{{isOpen ? 'expand_less' : 'expand_more'}}</mat-icon>
+            <div class="text">{{shortcut.title}}</div>
+            <div class="actions">
+                <arlas-shortcut-filters-handler 
+                    [histogramInterval]="histogramInterval"
+                    [contributorId]="shortcut.component?.contributorId"
+                    [widgetType]="shortcut.component.componentType"
+                    (histogramIntervalFetcher)="getHistogramInterval()"
+                    ></arlas-shortcut-filters-handler>
+                <mat-icon class="chevron">{{isOpen ? 'expand_less' : 'expand_more'}}</mat-icon>
+            </div>
         </section>
         <mat-divider *ngIf="isOpen"></mat-divider>
         <section *ngIf="isOpen" class="content">
             <arlas-tool-widget
-                id="{{'shortcut-content-' +  shortcut.component?.contributorId}}"
+                id="{{'shortcut-widget-' +  shortcut.component?.contributorId}}"
                 [componentType]="shortcut.component.componentType"
                 [contributorId]="shortcut.component?.contributorId"
                 [componentParams]="shortcut.component?.input"
                 [groupLength]="1"
+                (currentSelection)="setCurrentSelection($event)"
+                (outEvents)="listenOutput($event)"
             ></arlas-tool-widget>
         </section>
     </div>
