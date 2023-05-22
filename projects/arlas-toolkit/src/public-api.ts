@@ -17,9 +17,11 @@
  * under the License.
  */
 
+
+export { ShortcutFiltersHandlerComponent } from './lib/components/filter-shortcut/filters-handler/filters-handler.component';
+
 export { FilterShortcutChipComponent } from './lib/components/filter-shortcut/chip/chip.component';
 export { FilterShortcutComponent } from './lib/components/filter-shortcut/filter-shortcut.component';
-
 export { AnalyticsBoardComponent } from './lib/components/analytics-board/analytics-board.component';
 export {
   AnalyticGroupConfiguration, AnalyticsTabs
