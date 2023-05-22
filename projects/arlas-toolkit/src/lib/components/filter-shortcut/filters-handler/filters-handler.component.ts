@@ -17,10 +17,15 @@
  * under the License.
  */
 import { animate, group, state, style, transition, trigger } from '@angular/animations';
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ArlasCollaborativesearchService } from '../../../services/startup/startup.service';
 import { Filter, Expression } from 'arlas-api';
+import { DataType } from 'arlas-web-components';
+import * as _moment from 'moment';
+import { DateTimeAdapter, OWL_DATE_TIME_LOCALE } from '@danielmoncada/angular-datetime-picker';
+import { MomentDateTimeAdapter } from '@danielmoncada/angular-datetime-picker-moment-adapter';
 import { HistogramContributor } from 'arlas-web-contributors';
+const moment = (_moment as any).default ? (_moment as any).default : _moment;
 
 @Component({
   selector: 'arlas-shortcut-filters-handler',
@@ -37,11 +42,17 @@ import { HistogramContributor } from 'arlas-web-contributors';
       //   ])
       // ), // Animation duration and easing
     ])
+  ],
+  providers: [
+    { provide: DateTimeAdapter, useClass: MomentDateTimeAdapter, deps: [OWL_DATE_TIME_LOCALE] }
   ]
 })
-export class ShortcutFiltersHandlerComponent implements OnInit, OnChanges {
+export class ShortcutFiltersHandlerComponent implements OnInit {
   @Input() public contributorId;
   @Input() public widgetType: string;
+  @Input() public histogramUnit: string;
+  @Input() public histogramDatatype: string;
+
   public showMore = false;
   public moreClicked = false;
 
@@ -49,10 +60,6 @@ export class ShortcutFiltersHandlerComponent implements OnInit, OnChanges {
   public firstLabel;
 
   public constructor(private collaborativeSearchService: ArlasCollaborativesearchService) {
-
-  }
-
-  public ngOnChanges(changes: SimpleChanges): void {
 
   }
 
@@ -125,9 +132,27 @@ export class ShortcutFiltersHandlerComponent implements OnInit, OnChanges {
         this.showMore = this.labels.length > 1;
       }
     } else {
-      const histogramContributor: HistogramContributor = this.collaborativeSearchService.registry.get(this.contributorId) as HistogramContributor;
-      const interval = `${histogramContributor.startValue} - ${histogramContributor.endValue}`;
-      this.firstLabel = interval;
+      const startEnd = expression.value.replace('[', '').replace(']', '').split('<');
+      if (this.histogramDatatype === 'time') {
+        const contributor = this.collaborativeSearchService.registry.get(this.contributorId) as HistogramContributor;
+        if (contributor.useUtc) {
+          const end = moment.utc(+startEnd[1]).format('DD/MM/YYYY HH:mm');
+          const start = moment.utc(+startEnd[0]).format('DD/MM/YYYY HH:mm');
+          this.firstLabel = `${start} - ${end}`;
+        } else {
+          const end = moment(+startEnd[1]).format('DD/MM/YYYY HH:mm');
+          const start = moment(+startEnd[0]).format('DD/MM/YYYY HH:mm');
+          this.firstLabel = `${start} - ${end}`;
+        }
+      } else {
+        let end: string | number = Math.round(+startEnd[1] * 10) / 10;
+        let start: string | number  = Math.round(+startEnd[0] * 10) / 10;
+        if (this.histogramUnit) {
+          end = end + ' ' + this.histogramUnit;
+          start = start + ' ' + this.histogramUnit;
+        }
+        this.firstLabel = `${start} - ${end}`;
+      }
     }
   }
 

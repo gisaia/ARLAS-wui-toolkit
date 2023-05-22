@@ -33,6 +33,7 @@ export class FilterShortcutComponent implements OnInit {
 
   @Input() public shortcut: FilterShortcutConfiguration;
 
+  public inputs;
   public isOpen = false;
   public labels = [];
   public histogramUnit: string;
@@ -46,7 +47,9 @@ export class FilterShortcutComponent implements OnInit {
     if (this.isOpen) {
       this.activateContributor();
     }
+    this.inputs = Object.assign({}, this.shortcut.component.input);
     this.setHistogramInput();
+    this.setPowerbarsInput();
   }
 
   public toggle() {
@@ -73,12 +76,26 @@ export class FilterShortcutComponent implements OnInit {
 
   private setHistogramInput() {
     if (this.shortcut.component) {
-      this.histogramUnit = this.shortcut.component['xUnit'];
-      Object.keys(this.shortcut.component).forEach(key => {
+      this.histogramUnit = this.inputs['xUnit'];
+      Object.keys(this.inputs).forEach(key => {
         if (key === 'dataType') {
-          this.histogramDatatype = DataType[this.shortcut.component[key]];
+          this.histogramDatatype = this.inputs[key];
         }
+        this.inputs['showXTicks'] = false;
+        this.inputs['showYTicks'] = false;
+        this.inputs['showXLabels'] = false;
+        this.inputs['showYLabels'] = false;
+        this.inputs['chartWidth'] = 300;
+        this.inputs['chartHeight'] = 90;
       });
+    }
+  }
+
+  private setPowerbarsInput() {
+    if (this.shortcut.component) {
+      this.inputs['groupSelections'] = false;
+      this.inputs['selectWithCheckbox'] = true;
+
     }
   }
 }

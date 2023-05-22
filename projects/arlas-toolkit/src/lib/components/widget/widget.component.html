@@ -2,7 +2,6 @@
 <div *ngIf="componentType === 'histogram'">
   <arlas-tool-histogram-widget [contributor]="contributor" [componentInputs]="graphParam" [showExportCsv]="showExportCsv"
     [spinnerOptions]="spinnerOptions" [position]="position" [groupLength]="groupLength"
-    (currentInterval)="currentSelection.emit($event)"
     (exportCsvEvent)="exportCsv($event.contributor, $event.firstLevel, $event.type, 'histogram')"></arlas-tool-histogram-widget>
 </div>
 <div *ngIf="componentType === 'swimlane'">

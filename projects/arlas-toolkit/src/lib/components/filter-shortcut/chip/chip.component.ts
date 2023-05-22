@@ -26,7 +26,7 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 export class FilterShortcutChipComponent {
   @Input() public label;
   @Input() public hide = false;
-
+  @Input() public shortenValues = true;
   @Output() public clearEmitter: EventEmitter<string> = new EventEmitter();
 
   public clear(event: Event) {

@@ -329,7 +329,7 @@
           "charttype": "bars",
           "isOneDimension": false,
           "type": "histogram",
-          "numberOfBuckets": 50,
+          "numberOfBuckets": 100,
           "jsonpath": "$.count",
           "aggregationmodels": [
             {
@@ -373,7 +373,7 @@
           "charttype": "bars",
           "isOneDimension": false,
           "type": "histogram",
-          "numberOfBuckets": 50,
+          "numberOfBuckets": 100,
           "jsonpath": "$.metrics[0].value",
           "useUtc": true,
           "aggregationmodels": [

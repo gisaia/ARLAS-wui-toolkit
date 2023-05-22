@@ -4,8 +4,6 @@
     flex-direction: column;
     min-width: 100px;
     border-radius: 2px;
-    border: 1px solid #000;
-    background-color: #fff;
     font-family: Roboto, 'Helvetica Neue', sans-serif
 }
 .chevron {
@@ -14,9 +12,15 @@
 .title {
     cursor: pointer;
     display: flex;
+    background-color: #fff;
     justify-content: space-between;
+    border: 1px solid #000;
     align-items: center;
     padding: 4px;
+}
+
+.open_title {
+    border-bottom: unset;
 }
 
 .text {
@@ -30,6 +34,21 @@
 
 .content {
     padding: 4px;
+    max-width: 300px;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    border-bottom: 1px solid #000;
+    border-left: 1px solid #000;
+    border-right: 1px solid #000;
+}
+
+.content ::ng-deep .powerbar__powerbar--top-group {
+    height: 20px;
+}
+
+.widget {
+    max-width: 300px;
 }
 
 ::ng-deep .powerbarTitle {

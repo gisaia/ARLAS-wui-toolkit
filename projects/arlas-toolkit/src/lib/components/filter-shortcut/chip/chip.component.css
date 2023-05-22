@@ -10,6 +10,10 @@
     border: 1px solid #e7e7e7;
 }
 
+.long_text_container {
+    max-width: unset;
+}
+
 .label {
     padding-right: 3px;
     font-size: 13px;
@@ -17,6 +21,10 @@
     overflow: hidden;
     text-overflow: ellipsis;
     width: 90%;
+}
+
+.no_wrap_label {
+    overflow: unset;
 }
 
 .clear {

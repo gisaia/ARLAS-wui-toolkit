@@ -731,12 +731,14 @@ export class ArlasStartupService {
 
   private getShortcutComponent(uuid: string) {
     let component: WidgetConfiguration;
-    const componentGroup = Object.assign({}, this.analytics.find(g => !!g.components.find(c => c.uuid === uuid)));
     for (const g of this.analytics){
+      let clonedComponent: WidgetConfiguration;
       component = g.components.find(c => c.uuid === uuid);
       if (!!component) {
         if (component.componentType === 'histogram') {
-          component.contributorId = uuid;
+          clonedComponent = Object.assign({}, component);
+          clonedComponent.contributorId = uuid;
+          return clonedComponent;
         }
         break;
       }
