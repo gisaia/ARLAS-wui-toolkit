@@ -19,9 +19,8 @@
 
 import { Component, Input, OnInit, Output } from '@angular/core';
 import { FilterShortcutConfiguration } from './filter-shortcut.utils';
-import { ArlasCollaborativesearchService, ArlasConfigService } from '../../services/startup/startup.service';
+import { ArlasCollaborativesearchService } from '../../services/startup/startup.service';
 import { OperationEnum, Contributor } from 'arlas-web-core';
-import { DataType } from 'arlas-web-components';
 import { Subject } from 'rxjs';
 
 
@@ -82,17 +81,13 @@ export class FilterShortcutComponent implements OnInit {
   private setHistogramInput() {
     if (this.shortcut.component) {
       this.histogramUnit = this.inputs['xUnit'];
-      Object.keys(this.inputs).forEach(key => {
-        if (key === 'dataType') {
-          this.histogramDatatype = this.inputs[key];
-        }
-        this.inputs['showXTicks'] = false;
-        this.inputs['showYTicks'] = false;
-        this.inputs['showXLabels'] = false;
-        this.inputs['showYLabels'] = false;
-        this.inputs['chartWidth'] = 300;
-        this.inputs['chartHeight'] = 90;
-      });
+      this.histogramDatatype = this.inputs['dataType'];
+      this.inputs['showXTicks'] = false;
+      this.inputs['showYTicks'] = false;
+      this.inputs['showXLabels'] = false;
+      this.inputs['showYLabels'] = false;
+      this.inputs['chartWidth'] = 300;
+      this.inputs['chartHeight'] = 90;
     }
   }
 

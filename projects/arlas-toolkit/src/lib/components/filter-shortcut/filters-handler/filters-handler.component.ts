@@ -26,6 +26,8 @@ import { MomentDateTimeAdapter } from '@danielmoncada/angular-datetime-picker-mo
 import { HistogramContributor } from 'arlas-web-contributors';
 import { Collaboration } from 'arlas-web-core';
 import { TranslateService } from '@ngx-translate/core';
+import { HistogramUtils, HistogramParams } from 'arlas-d3';
+import { ChartType, DataType } from 'arlas-web-components';
 const moment = (_moment as any).default ? (_moment as any).default : _moment;
 
 @Component({
@@ -53,6 +55,9 @@ export class ShortcutFiltersHandlerComponent implements OnInit {
   @Input() public widgetType: string;
   @Input() public histogramUnit: string;
   @Input() public histogramDatatype: string;
+  @Input() public ticksDateFormat: string;
+
+  public histogramParams: HistogramParams = new HistogramParams();
 
   public showMore = false;
   public moreClicked = false;
@@ -75,6 +80,8 @@ export class ShortcutFiltersHandlerComponent implements OnInit {
       const collaboration = this.collaborativeSearchService.getCollaboration(this.contributorId);
       this.checkCollaboration(collaboration);
     });
+
+    this.setHistogramParams();
   }
 
   public showFilters(clickEvent: Event) {
@@ -145,26 +152,30 @@ export class ShortcutFiltersHandlerComponent implements OnInit {
     } else {
       const startEnd = expression.value.replace('[', '').replace(']', '').split('<');
       if (this.histogramDatatype === 'time') {
-        const contributor = this.collaborativeSearchService.registry.get(this.contributorId) as HistogramContributor;
-        if (contributor.useUtc) {
-          const end = moment.utc(+startEnd[1]).format('DD/MM/YYYY HH:mm');
-          const start = moment.utc(+startEnd[0]).format('DD/MM/YYYY HH:mm');
-          this.firstLabel = `${start} - ${end}`;
-        } else {
-          const end = moment(+startEnd[1]).format('DD/MM/YYYY HH:mm');
-          const start = moment(+startEnd[0]).format('DD/MM/YYYY HH:mm');
-          this.firstLabel = `${start} - ${end}`;
-        }
+        const start = HistogramUtils.toString(new Date(+startEnd[0]), this.histogramParams);
+        const end = HistogramUtils.toString(new Date(+startEnd[1]), this.histogramParams);
+
+        this.firstLabel = `${start} - ${end}`;
       } else {
-        let end: string | number = Math.round(+startEnd[1] * 10) / 10;
-        let start: string | number  = Math.round(+startEnd[0] * 10) / 10;
-        if (this.histogramUnit) {
-          end = end + ' ' + this.histogramUnit;
-          start = start + ' ' + this.histogramUnit;
-        }
+        const start = HistogramUtils.toString(+startEnd[0], this.histogramParams);
+        const end = HistogramUtils.toString(+startEnd[1], this.histogramParams);
+
         this.firstLabel = `${start} ${this.translate.instant('to')} ${end}`;
+        if (this.histogramUnit) {
+          this.firstLabel += ' ' + this.histogramUnit;
+        }
       }
     }
+  }
+
+  private setHistogramParams() {
+    const contributor = this.collaborativeSearchService.registry.get(this.contributorId) as HistogramContributor;
+
+    this.histogramParams.id = this.contributorId;
+    this.histogramParams.chartType = ChartType.bars;
+    this.histogramParams.useUtc = contributor.useUtc;
+    this.histogramParams.dataType = this.histogramDatatype === 'time' ? DataType.time : DataType.numeric;
+    this.histogramParams.valuesDateFormat = this.ticksDateFormat;
   }
 
 }
