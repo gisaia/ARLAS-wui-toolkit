@@ -28,6 +28,7 @@ import { ArlasColorGeneratorLoader } from '../../services/color-generator-loader
 import { CollectionUnit, CollectionCount } from '../../tools/utils';
 
 
+const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
 @Pipe({ name: 'getContributorLabel' })
 export class GetContributorLabelPipe implements PipeTransform {
@@ -223,14 +224,16 @@ export class FiltersComponent implements OnInit {
   }
 
   private retrieveCurrentCollaborations() {
-    Array.from(this.contributors.keys()).filter(id => this.ignoredContributors.indexOf(id) < 0).forEach(contributorId => {
-      const collaboration = this.collaborativeSearchService.getCollaboration(contributorId);
-      if (collaboration != null) {
-        this.collaborations.add(contributorId);
-      } else {
-        this.collaborations.delete(contributorId);
-      }
-    });
+    // If a contributor is the one of a shortcut, then its id is an UUID
+    Array.from(this.contributors.keys()).filter(id => (this.ignoredContributors.indexOf(id) < 0) && !id.match(UUID_REGEX))
+      .forEach(contributorId => {
+        const collaboration = this.collaborativeSearchService.getCollaboration(contributorId);
+        if (collaboration != null) {
+          this.collaborations.add(contributorId);
+        } else {
+          this.collaborations.delete(contributorId);
+        }
+      });
   }
 
   private subscribeToFutureCollaborations() {
