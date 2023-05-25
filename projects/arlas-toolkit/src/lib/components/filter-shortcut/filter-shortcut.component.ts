@@ -39,7 +39,6 @@ export class FilterShortcutComponent implements OnInit {
 
   public inputs;
   public isOpen = false;
-  public labels = [];
   public histogramUnit: string;
   public histogramDatatype: string;
 

@@ -17,11 +17,12 @@
         <section *ngIf="isOpen" class="content">
             <div class="widget">
                 <arlas-tool-widget
-                id="{{'shortcut-widget-' +  shortcut.component?.contributorId}}"
-                [componentType]="shortcut.component.componentType"
-                [contributorId]="shortcut.component?.contributorId"
-                [componentParams]="inputs"
-                [groupLength]="1"
+                    id="{{'shortcut-widget-' +  shortcut.component?.contributorId}}"
+                    [componentType]="shortcut.component.componentType"
+                    [contributorId]="shortcut.component?.contributorId"
+                    [componentParams]="inputs"
+                    [groupLength]="1"
+                    [noDetail]="true"
             ></arlas-tool-widget>
             </div>
         </section>

@@ -1,7 +1,7 @@
 <div #arlas_tooltip_anchor></div>
 <div *ngIf="componentType === 'histogram'">
   <arlas-tool-histogram-widget [contributor]="contributor" [componentInputs]="graphParam" [showExportCsv]="showExportCsv"
-    [spinnerOptions]="spinnerOptions" [position]="position" [groupLength]="groupLength"
+    [spinnerOptions]="spinnerOptions" [position]="position" [groupLength]="groupLength" [noDetail]="noDetail"
     (exportCsvEvent)="exportCsv($event.contributor, $event.firstLevel, $event.type, 'histogram')"></arlas-tool-histogram-widget>
 </div>
 <div *ngIf="componentType === 'swimlane'">

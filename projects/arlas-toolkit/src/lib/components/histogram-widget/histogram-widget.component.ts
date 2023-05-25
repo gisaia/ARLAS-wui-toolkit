@@ -80,6 +80,12 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy {
    */
   @Input() public spinnerOptions: SpinnerOptions;
 
+  /**
+   * @Input : Angular
+   * @description Whether to display a detailed histogram
+   */
+  @Input() public noDetail: boolean;
+
   @Output() public exportCsvEvent: Subject<{ contributor: HistogramContributor; type: string; firstLevel: boolean; }> = new Subject();
 
 
@@ -127,8 +133,10 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
-    this.initDetailedContributor();
-    this.showDetailedHistogramOnCollaborationEnd();
+    if (!this.noDetail) {
+      this.initDetailedContributor();
+      this.showDetailedHistogramOnCollaborationEnd();
+    }
   }
 
   public ngOnDestroy() {
@@ -167,7 +175,7 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy {
     const selection = event[event.length - 1];
     if (histogramRange && !!selection) {
       const detailedHistogramRange = (+selection.endvalue - +selection.startvalue);
-      this.showDetailedHistogram = (detailedHistogramRange <= 0.2 * histogramRange);
+      this.showDetailedHistogram = !this.noDetail && (detailedHistogramRange <= 0.2 * histogramRange);
       this.resizeMainHistogram();
       if (!this.showDetailedHistogram && !!this.detailedContributor) {
         this.detailedContributor.updateData = false;

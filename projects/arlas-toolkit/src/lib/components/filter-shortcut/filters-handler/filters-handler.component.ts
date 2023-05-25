@@ -25,6 +25,7 @@ import * as _moment from 'moment';
 import { DateTimeAdapter, OWL_DATE_TIME_LOCALE } from '@danielmoncada/angular-datetime-picker';
 import { MomentDateTimeAdapter } from '@danielmoncada/angular-datetime-picker-moment-adapter';
 import { HistogramContributor } from 'arlas-web-contributors';
+import { TranslateService } from '@ngx-translate/core';
 const moment = (_moment as any).default ? (_moment as any).default : _moment;
 
 @Component({
@@ -57,9 +58,10 @@ export class ShortcutFiltersHandlerComponent implements OnInit {
   public moreClicked = false;
 
   public labels: string[];
-  public firstLabel;
+  public firstLabel: string | undefined;
 
-  public constructor(private collaborativeSearchService: ArlasCollaborativesearchService) {
+  public constructor(private collaborativeSearchService: ArlasCollaborativesearchService,
+    private translate: TranslateService) {
 
   }
 
@@ -151,7 +153,7 @@ export class ShortcutFiltersHandlerComponent implements OnInit {
           end = end + ' ' + this.histogramUnit;
           start = start + ' ' + this.histogramUnit;
         }
-        this.firstLabel = `${start} - ${end}`;
+        this.firstLabel = `${start} ${this.translate.instant('to')} ${end}`;
       }
     }
   }

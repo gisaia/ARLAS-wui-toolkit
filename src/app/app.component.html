@@ -6,7 +6,6 @@
   <div *ngFor="let shortcut of shortcuts; let even=even; let idx=index" style="padding: 2px;">
     <arlas-filter-shortcut [shortcut]="shortcut" [openAtFirst]="even" (openEvent)="onOpen($event, idx)"></arlas-filter-shortcut>
   </div>
-
 </div>
 
 

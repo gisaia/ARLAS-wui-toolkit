@@ -94,6 +94,12 @@ export class WidgetComponent implements OnInit {
   @Input() public groupLength: number;
 
   /**
+   * @Input : Angular
+   * @description Whether the widget has to display a detailed version of itself. Currently only used for histograms
+   */
+  @Input() public noDetail: boolean;
+
+  /**
    * @Output : Angular
    * @description Emits an output that comes from the component (ARLAS-web-components). The emitted output has information about
    * the `origin` which is the contributor id of the component; `event` the name of the event; and eventually `data` which contains

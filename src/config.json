@@ -336,7 +336,28 @@
               "type": "histogram",
               "field": "valeurfonc"
             }
-          ]
+          ],
+          "linked_contributor_id": "40cf9f83-aea3-47f2-a6aa-0d9f9e2375c0"
+        },
+        {
+          "identifier": "40cf9f83-aea3-47f2-a6aa-0d9f9e2375c0",
+          "name": "Distribution de la valeur",
+          "title": "Distribution de la valeur",
+          "collection": "demo_algoe",
+          "icon": "euro_symbol",
+          "charttype": "bars",
+          "isOneDimension": false,
+          "type": "histogram",
+          "numberOfBuckets": 20,
+          "jsonpath": "$.count",
+          "aggregationmodels": [
+            {
+              "type": "histogram",
+              "field": "valeurfonc"
+            }
+          ],
+          "linked_contributor_id": "demo_algoe-valeurfonc-numeric-bucket-Count--50"
+
         },
         {
           "identifier": "d0fc0203-e56c-4c36-a330-dda760344196",
@@ -860,7 +881,7 @@
               "showExportCsv": "",
               "contributorId": "demo_algoe-valeurfonc-numeric-bucket-Count--50",
               "uuid": "40cf9f83-aea3-47f2-a6aa-0d9f9e2375c0",
-              "usage": "analytics"
+              "usage": "both"
             },
             {
               "input": {
@@ -1097,6 +1118,11 @@
           "uuid": "d0fc0203-e56c-4c36-a330-dda760344196",
           "title": "Valeur moyenne à travers le temps",
           "order": 2
+        },
+        {
+          "uuid": "40cf9f83-aea3-47f2-a6aa-0d9f9e2375c0",
+          "title": "Distribution de la valeur",
+          "order": 3
         }
       ],
       "colorGenerator": {
