@@ -58,4 +58,9 @@ export class AppComponent implements OnInit {
     this.languages = ['en', 'fr', 'it', 'es', 'de', 'us', 'cn'];
     this.timelineComponentConfig = this.arlasConfigService.getValue('arlas.web.components.timeline');
   }
+
+  public onOpen(event: boolean, idx: number): void {
+    console.log(event);
+    console.log(idx);
+  }
 }

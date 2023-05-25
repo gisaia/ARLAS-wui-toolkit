@@ -17,11 +17,12 @@
  * under the License.
  */
 
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output } from '@angular/core';
 import { FilterShortcutConfiguration } from './filter-shortcut.utils';
 import { ArlasCollaborativesearchService, ArlasConfigService } from '../../services/startup/startup.service';
 import { OperationEnum, Contributor } from 'arlas-web-core';
 import { DataType } from 'arlas-web-components';
+import { Subject } from 'rxjs';
 
 
 @Component({
@@ -32,6 +33,9 @@ import { DataType } from 'arlas-web-components';
 export class FilterShortcutComponent implements OnInit {
 
   @Input() public shortcut: FilterShortcutConfiguration;
+  @Input() public openAtFirst: boolean | undefined;
+
+  @Output() public openEvent: Subject<boolean> = new Subject();
 
   public inputs;
   public isOpen = false;
@@ -44,6 +48,7 @@ export class FilterShortcutComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+    this.isOpen = (this.openAtFirst === true);
     if (this.isOpen) {
       this.activateContributor();
     }
@@ -54,6 +59,7 @@ export class FilterShortcutComponent implements OnInit {
 
   public toggle() {
     this.isOpen = !this.isOpen;
+    this.openEvent.next(this.isOpen);
     if (this.isOpen) {
       this.triggerContributorCollaboration();
     }
