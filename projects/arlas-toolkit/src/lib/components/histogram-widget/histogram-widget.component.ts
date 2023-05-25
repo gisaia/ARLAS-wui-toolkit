@@ -235,6 +235,7 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy {
       yOffset = 20;
     }
     const analyticsBoardWidth = 445;
+    const shortcutWidth = 300;
     let itemPerLine = 1;
     let xOffset = 470;
     if (this.componentInputs.chartWidth === Math.ceil(analyticsBoardWidth / 2) - 6 ||
@@ -254,6 +255,9 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy {
       } else if (this.position % itemPerLine === 2) {
         xOffset = 170;
       }
+    } else if (this.componentInputs.chartWidth === shortcutWidth) {
+      xOffset = 320;
+      yOffset = -15;
     }
     this.showHistogramTooltip(tooltip, e, xOffset, yOffset);
   }
