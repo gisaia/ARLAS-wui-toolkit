@@ -16,15 +16,15 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { animate, group, state, style, transition, trigger } from '@angular/animations';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, Input, OnInit } from '@angular/core';
 import { ArlasCollaborativesearchService } from '../../../services/startup/startup.service';
 import { Filter, Expression } from 'arlas-api';
-import { DataType } from 'arlas-web-components';
 import * as _moment from 'moment';
 import { DateTimeAdapter, OWL_DATE_TIME_LOCALE } from '@danielmoncada/angular-datetime-picker';
 import { MomentDateTimeAdapter } from '@danielmoncada/angular-datetime-picker-moment-adapter';
 import { HistogramContributor } from 'arlas-web-contributors';
+import { Collaboration } from 'arlas-web-core';
 import { TranslateService } from '@ngx-translate/core';
 const moment = (_moment as any).default ? (_moment as any).default : _moment;
 
@@ -66,23 +66,14 @@ export class ShortcutFiltersHandlerComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+    // Check if collaboration already occured (useful when moving the shortcut from a list to another)
+    const collaboration = this.collaborativeSearchService.getCollaboration(this.contributorId);
+    this.checkCollaboration(collaboration);
+
+    // Check if collaboration occurs during the lifetime of the shortcut
     this.collaborativeSearchService.collaborationBus.subscribe(collaborationBus => {
       const collaboration = this.collaborativeSearchService.getCollaboration(this.contributorId);
-      this.firstLabel = undefined;
-      this.labels = [];
-      if (collaboration) {
-        const filters: Filter[] = collaboration.filters.values().next().value;
-        if (filters && filters.length > 0) {
-          const filterF: Expression[] = filters[0].f[0];
-          if (filterF && filterF.length > 0) {
-            const expression = filterF[0];
-            this.setLabels(this.widgetType, expression);
-          }
-        }
-      } else {
-        this.showMore = false;
-        this.moreClicked = false;
-      }
+      this.checkCollaboration(collaboration);
     });
   }
 
@@ -120,6 +111,24 @@ export class ShortcutFiltersHandlerComponent implements OnInit {
       }
     } else {
       this.collaborativeSearchService.removeFilter(this.contributorId);
+    }
+  }
+
+  private checkCollaboration(collaboration: Collaboration): void {
+    this.firstLabel = undefined;
+    this.labels = [];
+    if (collaboration) {
+      const filters: Filter[] = collaboration.filters.values().next().value;
+      if (filters && filters.length > 0) {
+        const filterF: Expression[] = filters[0].f[0];
+        if (filterF && filterF.length > 0) {
+          const expression = filterF[0];
+          this.setLabels(this.widgetType, expression);
+        }
+      }
+    } else {
+      this.showMore = false;
+      this.moreClicked = false;
     }
   }
 
