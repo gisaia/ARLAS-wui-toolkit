@@ -256,8 +256,8 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy {
         xOffset = 170;
       }
     } else if (this.componentInputs.chartWidth === shortcutWidth) {
-      xOffset = 320;
-      yOffset = -15;
+      xOffset = 15;
+      yOffset = 80;
     }
     this.showHistogramTooltip(tooltip, e, xOffset, yOffset);
   }
