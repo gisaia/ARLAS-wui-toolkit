@@ -157,7 +157,7 @@ export class FiltersComponent implements OnInit {
    * @Output : Angular
    * @description This output emit contributor id  on click on filter chip
    */
-     @Output() public clickOnFilter: Subject<string> = new Subject<string>();
+  @Output() public clickOnFilter: Subject<string> = new Subject<string>();
 
   /**
    * @Output : Angular
@@ -271,7 +271,7 @@ export class FiltersComponent implements OnInit {
         }
         this.cdr.detectChanges();
       });
-      if (!collaborationBus.all && this.ignoredContributors.indexOf(collaborationBus.id) < 0) {
+      if (!collaborationBus.all && (this.ignoredContributors.indexOf(collaborationBus.id) < 0) && !collaborationBus.id.match(UUID_REGEX)) {
         const collaboration = this.collaborativeSearchService.getCollaboration(collaborationBus.id);
         if (collaboration != null) {
           if (collaborationBus.operation === 0) {
