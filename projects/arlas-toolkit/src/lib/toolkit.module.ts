@@ -25,7 +25,7 @@ import { OwlDateTimeIntl, OWL_DATE_TIME_LOCALE } from '@danielmoncada/angular-da
 import { TranslateService } from '@ngx-translate/core';
 import { OAuthModule, ValidationHandler } from 'angular-oauth2-oidc';
 import { JwksValidationHandler } from 'angular-oauth2-oidc-jwks';
-import { ColorGeneratorLoader, ColorGeneratorModule } from 'arlas-web-components';
+import { ColorGeneratorLoader, ColorGeneratorModule, ShortenNumberPipe } from 'arlas-web-components';
 import { ToolkitComponent } from './toolkit.component';
 import { ErrorModalModule } from './components/errormodal/errormodal.module';
 import { ArlasTranslateIntl } from './components/timeline/date-picker/ArlasTranslateIntl';
@@ -217,6 +217,7 @@ export const MY_CUSTOM_FORMATS = {
       deps: [TranslateService],
       useClass: PaginatorI18n
     },
+    ShortenNumberPipe
   ],
   bootstrap: [ToolkitComponent]
 })
