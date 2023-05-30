@@ -17,6 +17,7 @@
     border: 1px solid #000;
     align-items: center;
     padding: 4px;
+    width: fit-content;
 }
 
 .open_title {
