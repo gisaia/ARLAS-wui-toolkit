@@ -34,7 +34,6 @@
 
 .content {
     padding: 4px;
-    max-width: 300px;
     background-color: #fff;
     display: flex;
     justify-content: center;
@@ -45,10 +44,6 @@
 
 .content ::ng-deep .powerbar__powerbar--top-group {
     height: 20px;
-}
-
-.widget {
-    max-width: 300px;
 }
 
 ::ng-deep .powerbarTitle {

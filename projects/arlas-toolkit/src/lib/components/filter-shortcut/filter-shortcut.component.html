@@ -14,17 +14,15 @@
             </div>
         </section>
         <mat-divider *ngIf="isOpen"></mat-divider>
-        <section *ngIf="isOpen" class="content">
-            <div class="widget">
-                <arlas-tool-widget
-                    id="{{'shortcut-widget-' +  shortcut.uuid}}"
-                    [componentType]="shortcut.component.componentType"
-                    [contributorId]="shortcut.component?.contributorId"
-                    [componentParams]="inputs"
-                    [groupLength]="1"
-                    [noDetail]="true"
+        <section *ngIf="isOpen" [style.max-width]="shortcutWidth + 'px'" class="content">
+            <arlas-tool-widget
+                id="{{'shortcut-widget-' +  shortcut.uuid}}"
+                [componentType]="shortcut.component.componentType"
+                [contributorId]="shortcut.component?.contributorId"
+                [componentParams]="inputs"
+                [groupLength]="1"
+                [noDetail]="true"
             ></arlas-tool-widget>
-            </div>
         </section>
     </div>
 

@@ -33,6 +33,8 @@ export class FilterShortcutComponent implements OnInit {
 
   @Input() public shortcut: FilterShortcutConfiguration;
   @Input() public openAtFirst: boolean | undefined;
+  @Input() public shortcutWidth = 300;
+  @Input() public shortcutHeight = 90;
 
   @Output() public openEvent: Subject<boolean> = new Subject();
 
@@ -86,8 +88,8 @@ export class FilterShortcutComponent implements OnInit {
       this.inputs['showYTicks'] = false;
       this.inputs['showXLabels'] = false;
       this.inputs['showYLabels'] = false;
-      this.inputs['chartWidth'] = 300;
-      this.inputs['chartHeight'] = 90;
+      this.inputs['chartWidth'] = this.shortcutWidth;
+      this.inputs['chartHeight'] = this.shortcutHeight;
     }
   }
 
