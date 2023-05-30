@@ -1,5 +1,5 @@
 <ng-container *ngIf="shortcut">
-    <div class="container" id="{{'shortcut-' +  shortcut.component?.contributorId}}">
+    <div class="container" id="{{'shortcut-' +  shortcut.uuid}}">
         <section class="title" [class.open_title]="isOpen" (click)="toggle()">
             <div class="text">{{shortcut.title}}</div>
             <div class="actions">
@@ -17,7 +17,7 @@
         <section *ngIf="isOpen" class="content">
             <div class="widget">
                 <arlas-tool-widget
-                    id="{{'shortcut-widget-' +  shortcut.component?.contributorId}}"
+                    id="{{'shortcut-widget-' +  shortcut.uuid}}"
                     [componentType]="shortcut.component.componentType"
                     [contributorId]="shortcut.component?.contributorId"
                     [componentParams]="inputs"
