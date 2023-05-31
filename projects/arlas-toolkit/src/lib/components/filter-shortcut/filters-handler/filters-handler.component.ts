@@ -28,6 +28,7 @@ import { Collaboration } from 'arlas-web-core';
 import { TranslateService } from '@ngx-translate/core';
 import { HistogramUtils, HistogramParams } from 'arlas-d3';
 import { ChartType, DataType, ShortenNumberPipe } from 'arlas-web-components';
+import { numberToShortString } from '../filter-shortcut.utils';
 const moment = (_moment as any).default ? (_moment as any).default : _moment;
 
 @Component({
@@ -155,8 +156,8 @@ export class ShortcutFiltersHandlerComponent implements OnInit {
         this.firstLabel = `${start} - ${end}`;
       } else {
         // If the number is small, truncate it to only have the first two digits
-        const start = Math.abs(+startEnd[0]) < 1 ? Math.round(+startEnd[0] * 100) / 100 : this.shortenNumberPipe.transform(+startEnd[0]);
-        const end = Math.abs(+startEnd[1]) < 1 ? Math.round(+startEnd[1] * 100) / 100 : this.shortenNumberPipe.transform(+startEnd[1]);
+        const start = numberToShortString(+startEnd[0]);
+        const end = numberToShortString(+startEnd[1]);
 
         this.firstLabel = `${start} ${this.translate.instant('to')} ${end}`;
         if (this.histogramUnit) {

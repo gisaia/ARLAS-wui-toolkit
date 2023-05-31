@@ -18,10 +18,20 @@
  */
 
 import { WidgetConfiguration } from '../../tools/utils';
+import { numberToShortValue } from 'arlas-web-components';
 
 export interface FilterShortcutConfiguration {
   uuid: string;
   title: string;
   order: 1;
   component?: WidgetConfiguration;
+}
+
+export function numberToShortString(value: number, precision=2) {
+  // Handle case not present for numberToShortValue
+  if (Math.abs(value) < 1000) {
+    return value.toFixed(precision);
+  }
+
+  return numberToShortValue(value, precision);
 }
