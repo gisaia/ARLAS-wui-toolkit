@@ -39,11 +39,6 @@ const moment = (_moment as any).default ? (_moment as any).default : _moment;
       state('void', style({ opacity: 0 })), // Initial state when element is not present
       state('*', style({ opacity: 1 })), // Final state when element is present
       transition(':enter', animate('500ms ease-in-out')), // Animation duration and easing
-      // transition(':leave',
-      //   group([
-      //     animate('500ms ease-in-out')
-      //   ])
-      // ), // Animation duration and easing
     ])
   ],
   providers: [
@@ -153,8 +148,9 @@ export class ShortcutFiltersHandlerComponent implements OnInit {
     } else {
       const startEnd = expression.value.replace('[', '').replace(']', '').split('<');
       if (this.histogramDatatype === 'time') {
-        const start = HistogramUtils.toString(new Date(+startEnd[0]), this.histogramParams);
-        const end = HistogramUtils.toString(new Date(+startEnd[1]), this.histogramParams);
+        // Truncate the hours since this is a shortcut
+        const start = HistogramUtils.toString(new Date(+startEnd[0]), this.histogramParams).slice(0, -6);
+        const end = HistogramUtils.toString(new Date(+startEnd[1]), this.histogramParams).slice(0, -6);
 
         this.firstLabel = `${start} - ${end}`;
       } else {

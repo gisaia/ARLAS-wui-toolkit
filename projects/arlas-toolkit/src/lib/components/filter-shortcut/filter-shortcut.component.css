@@ -2,13 +2,14 @@
     display: flex;
     justify-content: space-between;
     flex-direction: column;
-    min-width: 100px;
     border-radius: 2px;
     font-family: Roboto, 'Helvetica Neue', sans-serif
 }
+
 .chevron {
     cursor: pointer;
 }
+
 .title {
     cursor: pointer;
     display: flex;
@@ -22,10 +23,13 @@
 
 .open_title {
     border-bottom: unset;
+    padding-bottom: 11px;
 }
 
 .text {
     padding-right: 10px;
+    padding-left: 2px;
+    padding-bottom: 1px;
 }
 
 .actions {
@@ -41,6 +45,8 @@
     border-bottom: 1px solid #000;
     border-left: 1px solid #000;
     border-right: 1px solid #000;
+    position: absolute;
+    top: 90px;
 }
 
 .content ::ng-deep .powerbar__powerbar--top-group {
@@ -53,4 +59,23 @@
 
 ::ng-deep .histogram__description {
     display: none;
+}
+
+.line {
+    height: 1px;
+    border-color: black;
+    background-color: black;
+    position: relative;
+    transform-origin: left;
+    transform: rotate(180deg);
+    top: -1px;
+}
+
+.separator {
+    width: 80%;
+    height: 1px;
+    position: relative;
+    top: -2px;
+    left: 10%;
+    background-color: grey;
 }

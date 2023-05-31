@@ -2,9 +2,11 @@
   <arlas-filter [title]="'ARLAS toolkit'" [backgroundColor]="'#FFF'"></arlas-filter>
 </div>
 
-<div style="display: flex;">
-  <div *ngFor="let shortcut of shortcuts; let even=even; let idx=index" style="padding: 2px;">
-    <arlas-filter-shortcut [shortcut]="shortcut" [openAtFirst]="even" (openEvent)="onOpen($event, idx)"></arlas-filter-shortcut>
+<div style="display: flex; height: 330px;">
+  <div *ngFor="let shortcut of shortcuts; let even=even; let idx=index" class="shortcut" [style.z-index]="lastShortcutOpen === idx ? 2 : 1">
+    <arlas-filter-shortcut [shortcut]="shortcut" [openAtFirst]="even"
+    (openEvent)="onOpen($event, idx)" (click)="onOpen(true, idx)"
+    [shortcutWidth]="300"></arlas-filter-shortcut>
   </div>
 </div>
 

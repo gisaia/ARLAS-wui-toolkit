@@ -1,6 +1,7 @@
 <ng-container *ngIf="shortcut">
     <div class="container" id="{{'shortcut-' +  shortcut.uuid}}">
-        <section class="title" [class.open_title]="isOpen" (click)="toggle()">
+        <section #title class="title" [class.open_title]="isOpen" (click)="toggle()"
+            [style.min-width.px]="shortcutWidth / 2">
             <div class="text">{{shortcut.title}}</div>
             <div class="actions">
                 <arlas-shortcut-filters-handler 
@@ -13,8 +14,12 @@
                 <mat-icon class="chevron">{{isOpen ? 'expand_less' : 'expand_more'}}</mat-icon>
             </div>
         </section>
-        <mat-divider *ngIf="isOpen"></mat-divider>
-        <section *ngIf="isOpen" [style.max-width]="shortcutWidth + 'px'" class="content">
+        <!-- The 10px come from the padding and border. If the values change, update those values -->
+        <div *ngIf="isOpen && titleWidth < shortcutWidth + 10" class="line"
+            [style.left.px]="shortcutWidth + 10"
+            [style.width.px]="shortcutWidth + 10 - titleWidth"></div>
+        <div *ngIf="isOpen" class="separator"></div>
+        <section *ngIf="isOpen" class="content" [style.width.px]="titleWidth > shortcutWidth + 10 ? titleWidth - 10 : shortcutWidth">
             <arlas-tool-widget
                 id="{{'shortcut-widget-' +  shortcut.uuid}}"
                 [componentType]="shortcut.component.componentType"

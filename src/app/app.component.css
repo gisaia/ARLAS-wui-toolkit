@@ -6,3 +6,7 @@
 .arlas-board{
     position: relative;
 }
+
+.shortcut {
+    padding: 2px;
+}

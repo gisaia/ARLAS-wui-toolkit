@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { Component, Input, OnInit, Output } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FilterShortcutConfiguration } from './filter-shortcut.utils';
 import { ArlasCollaborativesearchService } from '../../services/startup/startup.service';
 import { OperationEnum, Contributor } from 'arlas-web-core';
@@ -29,7 +29,7 @@ import { Subject } from 'rxjs';
   templateUrl: './filter-shortcut.component.html',
   styleUrls: ['./filter-shortcut.component.css']
 })
-export class FilterShortcutComponent implements OnInit {
+export class FilterShortcutComponent implements OnInit, AfterViewInit {
 
   @Input() public shortcut: FilterShortcutConfiguration;
   @Input() public openAtFirst: boolean | undefined;
@@ -42,8 +42,13 @@ export class FilterShortcutComponent implements OnInit {
   public isOpen = false;
   public histogramUnit: string;
   public histogramDatatype: string;
+  public titleWidth = 300;
 
-  public constructor(private collaborativeSearchService: ArlasCollaborativesearchService) {
+  @ViewChild('title') public titleElement: ElementRef;
+
+  public constructor(
+    private collaborativeSearchService: ArlasCollaborativesearchService,
+    public cdr: ChangeDetectorRef) {
 
   }
 
@@ -55,6 +60,21 @@ export class FilterShortcutComponent implements OnInit {
     this.inputs = Object.assign({}, this.shortcut.component.input);
     this.setHistogramInput();
     this.setPowerbarsInput();
+
+    // Check if collaboration occurs during the lifetime of the shortcut to update title size
+    this.collaborativeSearchService.collaborationBus.subscribe(c => {
+      if ((c.id === this.shortcut.component.contributorId || c.id === this.shortcut.uuid || c.id === 'url')) {
+        // Allows the check to be done right after the view is changed
+        setTimeout(() => {
+          this.titleWidth = this.titleElement.nativeElement.getBoundingClientRect().width;
+        }, 0);
+      }
+    });
+  }
+
+  public ngAfterViewInit(): void {
+    this.titleWidth = this.titleElement.nativeElement.getBoundingClientRect().width;
+    this.cdr.detectChanges();
   }
 
   public toggle() {

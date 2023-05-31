@@ -43,6 +43,8 @@ export class AppComponent implements OnInit {
   public timelineComponentConfig;
   public detailedTimelineComponentConfig: TimelineConfiguration;
 
+  public lastShortcutOpen: number;
+
   public constructor(
     private arlasStartupService: ArlasStartupService,
     private arlasConfigService: ArlasConfigService,
@@ -60,7 +62,8 @@ export class AppComponent implements OnInit {
   }
 
   public onOpen(event: boolean, idx: number): void {
-    console.log(event);
-    console.log(idx);
+    if (event) {
+      this.lastShortcutOpen = idx;
+    }
   }
 }
