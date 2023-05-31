@@ -30,6 +30,9 @@ export interface FilterShortcutConfiguration {
 export function numberToShortString(value: number, precision=2) {
   // Handle case not present for numberToShortValue
   if (Math.abs(value) < 1000) {
+    if (Math.round(value) === value) {
+      return value.toFixed(0);
+    }
     return value.toFixed(precision);
   }
 
