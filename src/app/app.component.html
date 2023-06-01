@@ -3,13 +3,16 @@
 </div>
 
 <div style="display: flex; height: 330px;">
-  <div *ngFor="let shortcut of shortcuts; let even=even; let idx=index" class="shortcut" [style.z-index]="lastShortcutOpen === idx ? 2 : 1">
-    <arlas-filter-shortcut [shortcut]="shortcut" [openAtFirst]="even"
-    (openEvent)="onOpen($event, idx)" (click)="onOpen(true, idx)"
-    [shortcutWidth]="300"></arlas-filter-shortcut>
+  <div *ngFor="let shortcut of shortcuts; let even=even; let idx=index" class="shortcut"
+    [style.z-index]="lastShortcutOpen === idx ? 2 : 1">
+    <arlas-filter-shortcut [shortcut]="shortcut" [openAtFirst]="even" (openEvent)="onOpen($event, idx)"
+      (click)="onOpen(true, idx)" [shortcutWidth]="300"></arlas-filter-shortcut>
   </div>
 </div>
 
+<arlas-timeline *ngIf="timelineComponentConfig" [activeDatePicker]="true" [timelineComponent]="timelineComponentConfig"
+  [detailedTimelineComponent]="detailedTimelineComponentConfig">
+</arlas-timeline>
 
 <arlas-analytics-board class="arlas-board" [showSpinner]="true" [groups]="analytics"></arlas-analytics-board>
 <arlas-tool-root></arlas-tool-root>

@@ -4,7 +4,7 @@ import { DateTimeAdapter, OWL_DATE_TIME_LOCALE } from '@danielmoncada/angular-da
 import { MomentDateTimeAdapter } from '@danielmoncada/angular-datetime-picker-moment-adapter';
 
 import { HistogramContributor } from 'arlas-web-contributors';
-import { ArlasCollaborativesearchService, ArlasStartupService } from '../../../services/startup/startup.service';
+import { ArlasStartupService } from '../../../services/startup/startup.service';
 import { TranslateService } from '@ngx-translate/core';
 
 const moment = (_moment as any).default ? (_moment as any).default : _moment;
@@ -26,26 +26,28 @@ export class DatePickerComponent implements OnInit, OnChanges {
    * @Input : Angular
    * @description Start value of the date picker. It must be date or a timestamp.
    */
-  @Input()
-  public startSelectedMoment: _moment.Moment | Date | number;
+  @Input() public startSelectedDate: Date | number;
+
   /**
    * @Input : Angular
    * @description End value of the date picker. It must be date or a timestamp.
    */
-  @Input()
-  public endSelectedMoment: _moment.Moment | Date | number;
+  @Input() public endSelectedDate: Date | number;
+
   /**
    * @Input : Angular
    * @description In this object, all the necessary inputs of HistogramComponent (ARLAS-web-components)
    * must be set as well as the identifier of the contributor that fetches timeline data. The `HistogramContributor`
    * should be declared before in the `contributorRegistry` of `ArlasStartupService`.
    */
-  @Input()
-  public timelineComponent: any;
+  @Input() public timelineComponent: any;
 
   public timelineContributor: HistogramContributor;
 
-  public constructor(private arlasCollaborativesearchService: ArlasCollaborativesearchService,
+  public startSelectedMoment: _moment.Moment;
+  public endSelectedMoment: _moment.Moment;
+
+  public constructor(
     private arlasStartupService: ArlasStartupService,
     public translate: TranslateService) {
   }
@@ -59,42 +61,50 @@ export class DatePickerComponent implements OnInit, OnChanges {
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    if (changes['startSelectedMoment'] !== undefined) {
-      if (this.timelineContributor) {
-        this.startSelectedMoment = this.setMomentDate(changes['startSelectedMoment'].currentValue);
+    if (changes['startSelectedDate'] !== undefined) {
+      if (!!this.timelineContributor) {
+        this.startSelectedMoment = this.convertDateToMoment(changes['startSelectedDate'].currentValue);
       }
     }
-    if (changes['endSelectedMoment'] !== undefined) {
+    if (changes['endSelectedDate'] !== undefined) {
       if (!!this.timelineContributor) {
-        this.endSelectedMoment = this.setMomentDate((changes['endSelectedMoment'].currentValue));
+        this.endSelectedMoment = this.convertDateToMoment((changes['endSelectedDate'].currentValue));
       }
     }
   }
 
   /**
-   * Applies a temporal filter on the timeline on date selection on the date picker
+   * Applies a temporal filter on the timeline when a date is selected on the date picker
    */
   public setDate(): void {
     const selectedIntervalsList = new Array();
-    this.startSelectedMoment = this.setMomentDate(this.startSelectedMoment);
-    this.endSelectedMoment = this.setMomentDate(this.endSelectedMoment);
     this.timelineContributor.intervalListSelection
       .forEach(intervalSelection => {
         selectedIntervalsList.push(intervalSelection);
       });
     selectedIntervalsList
       .push({
-        startvalue: this.startSelectedMoment.valueOf(),
-        endvalue: this.endSelectedMoment.valueOf()
+        startvalue: this.fixUtc(this.startSelectedMoment).valueOf(),
+        endvalue: this.fixUtc(this.endSelectedMoment).valueOf()
       });
     this.timelineContributor.valueChanged(selectedIntervalsList, this.timelineContributor.getAllCollections());
   }
 
-  public setMomentDate(date: any) {
+  public convertDateToMoment(date: Date | number) {
     if (this.timelineContributor.useUtc) {
       return moment.utc(date);
     } else {
       return moment(date);
     }
+  }
+
+  /** Owl-datetime-picker produces a moment that is based on the local.
+   * Offsets the time by the UTC offset to receive a correct UTC time when updating the contributor. */
+  public fixUtc(date: _moment.Moment) {
+    if (this.timelineContributor.useUtc) {
+      const localUTCSOffset = date.utcOffset();
+      return date.add(localUTCSOffset, 'minutes');
+    }
+    return date;
   }
 }

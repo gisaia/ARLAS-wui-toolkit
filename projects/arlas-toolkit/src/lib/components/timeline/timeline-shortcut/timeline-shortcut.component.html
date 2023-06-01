@@ -5,8 +5,8 @@
         [matTooltipPosition]="'above'">access_time</mat-icon>
       <div *ngIf="activeDatePicker" class="arlas-datepicker-container">
         <arlas-tool-date-picker class="shortcut-button__label"
-        [startSelectedMoment]="timelineContributor?.intervalSelection?.startvalue"
-        [endSelectedMoment]="timelineContributor?.intervalSelection?.endvalue"
+        [startSelectedDate]="timelineContributor?.intervalSelection?.startvalue"
+        [endSelectedDate]="timelineContributor?.intervalSelection?.endvalue"
         [timelineComponent]="timelineComponent">
         </arlas-tool-date-picker>
         <div class="time-zone" matTooltip="{{'Time zone' | translate}} {{timeZone}}" [matTooltipPosition]="'above'">
