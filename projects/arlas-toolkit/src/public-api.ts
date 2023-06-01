@@ -17,9 +17,15 @@
  * under the License.
  */
 
+
+export { ShortcutFiltersHandlerComponent } from './lib/components/filter-shortcut/filters-handler/filters-handler.component';
+
+export { FilterShortcutChipComponent } from './lib/components/filter-shortcut/chip/chip.component';
+export { FilterShortcutComponent } from './lib/components/filter-shortcut/filter-shortcut.component';
+export { FilterShortcutConfiguration } from './lib/components/filter-shortcut/filter-shortcut.utils';
 export { AnalyticsBoardComponent } from './lib/components/analytics-board/analytics-board.component';
 export {
-  AnalyticGroupConfiguration, WidgetConfiguration, AnalyticsTabs
+  AnalyticGroupConfiguration, AnalyticsTabs
 } from './lib/components/analytics-board/analytics.utils';
 export { AoiComponent } from './lib/components/aoi/aoi.component';
 export { BookmarkMenuComponent } from './lib/components/bookmark-menu/bookmark-menu.component';
@@ -102,7 +108,7 @@ export {
 export { ArlasDataSource } from './lib/tools/arlasDataSource';
 export { PaginatorI18n } from './lib/tools/paginatori18n';
 export {
-  ArlasOverlayRef, ArlasStorageObject,
+  ArlasOverlayRef, ArlasStorageObject, WidgetConfiguration,
   ArlasStorageType, CollectionCount, CollectionUnit, Config, ConfigAction, ConfigActionEnum,
   CONFIG_ID_QUERY_PARAM, DONUT_TOOLTIP_DATA, getFieldProperties, getKeyForColor, hashCode,
   HISTOGRAM_TOOLTIP_DATA, intToRGB, MapService, sortOnDate, SpinnerOptions
@@ -113,4 +119,3 @@ export { PermissionService, PermissionSetting } from './lib/services/permission/
 export { ArlasExportCsvService } from './lib/services/export-csv/export-csv.service';
 export { ArlasTagService } from './lib/services/tag/tag.service';
 export { TaggerResponse } from './lib/services/tag/model';
-

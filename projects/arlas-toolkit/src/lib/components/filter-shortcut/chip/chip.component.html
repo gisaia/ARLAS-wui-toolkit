@@ -1,0 +1,4 @@
+<div class="container" [class.hide]="hide" [class.long_text_container]="!shortenValues" (click)="$event.stopPropagation()">
+    <div class="label" [class.no_wrap_label]="!shortenValues">{{label}}</div>
+    <mat-icon class="clear" (click)="clear($event)">clear</mat-icon>
+</div>

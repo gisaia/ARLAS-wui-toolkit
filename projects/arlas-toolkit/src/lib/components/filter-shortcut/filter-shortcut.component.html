@@ -1,0 +1,34 @@
+<ng-container *ngIf="shortcut">
+    <div class="container" id="{{'shortcut-' +  shortcut.uuid}}">
+        <section #title class="title" [class.open_title]="isOpen" (click)="toggle()"
+            [style.min-width.px]="shortcutWidth / 2">
+            <div class="text">{{shortcut.title}}</div>
+            <div class="actions">
+                <arlas-shortcut-filters-handler 
+                    [histogramInterval]="histogramInterval"
+                    [contributorId]="shortcut.component?.contributorId"
+                    [widgetType]="shortcut.component.componentType"
+                    [histogramDatatype]="histogramDatatype"
+                    [histogramUnit]="histogramUnit"
+                    ></arlas-shortcut-filters-handler>
+                <mat-icon class="chevron">{{isOpen ? 'expand_less' : 'expand_more'}}</mat-icon>
+            </div>
+        </section>
+        <!-- The 10px come from the padding and border. If the values change, update those values -->
+        <div *ngIf="isOpen && titleWidth < shortcutWidth + 10" class="line"
+            [style.left.px]="shortcutWidth + 10"
+            [style.width.px]="shortcutWidth + 10 - titleWidth"></div>
+        <div *ngIf="isOpen" class="separator"></div>
+        <section *ngIf="isOpen" class="content" [style.width.px]="titleWidth > shortcutWidth + 10 ? titleWidth - 10 : shortcutWidth">
+            <arlas-tool-widget
+                id="{{'shortcut-widget-' +  shortcut.uuid}}"
+                [componentType]="shortcut.component.componentType"
+                [contributorId]="shortcut.component?.contributorId"
+                [componentParams]="inputs"
+                [groupLength]="1"
+                [noDetail]="true"
+            ></arlas-tool-widget>
+        </section>
+    </div>
+
+</ng-container>

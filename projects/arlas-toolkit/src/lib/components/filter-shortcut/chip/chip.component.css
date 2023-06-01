@@ -1,0 +1,41 @@
+.container {
+    height: 18px;
+    border-radius: 11px;
+    background-color: #e7e7e7;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1px 3px 1px 6px;
+    max-width: 160px;
+    border: 1px solid #e7e7e7;
+}
+
+.long_text_container {
+    max-width: unset;
+}
+
+.label {
+    padding-right: 3px;
+    font-size: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 90%;
+}
+
+.no_wrap_label {
+    overflow: unset;
+}
+
+.clear {
+    width: 12px;
+    height: 12px;
+    font-size: 12px;
+}
+
+.hide {
+    background-color: #fff;
+    color: #fff;
+    border: 1px solid #fff;
+
+}

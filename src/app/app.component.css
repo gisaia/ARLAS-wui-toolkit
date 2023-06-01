@@ -4,6 +4,9 @@
     top: 175px;
 }
 .arlas-board{
-    top: 200px;
     position: relative;
+}
+
+.shortcut {
+    padding: 2px;
 }

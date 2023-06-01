@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { Component, OnInit, Input, ViewChild, ChangeDetectorRef, Output, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ChangeDetectorRef, Output, ElementRef, EventEmitter } from '@angular/core';
 import { ArlasStartupService, ArlasCollaborativesearchService } from '../../services/startup/startup.service';
 import { Contributor, CollaborationEvent, OperationEnum } from 'arlas-web-core';
 import { ChartType, HistogramComponent, CellBackgroundStyleEnum, DataType } from 'arlas-web-components';
@@ -42,9 +42,7 @@ import { Expression } from 'arlas-api';
 })
 export class WidgetComponent implements OnInit {
 
-
   public chartType = ChartType;
-
   public contributorType;
   public contributor;
   public swimSelected;
@@ -54,7 +52,6 @@ export class WidgetComponent implements OnInit {
   public showSwimlaneDropDown: boolean;
   public graphParam: any = {};
   public metricApproximate = false;
-
   public donutOverlayRef: ArlasOverlayRef;
 
 
@@ -95,6 +92,12 @@ export class WidgetComponent implements OnInit {
    * @description Number of widgets in the group to whom this widget belongs
    */
   @Input() public groupLength: number;
+
+  /**
+   * @Input : Angular
+   * @description Whether the widget has to display a detailed version of itself. Currently only used for histograms
+   */
+  @Input() public noDetail: boolean;
 
   /**
    * @Output : Angular
@@ -154,28 +157,13 @@ export class WidgetComponent implements OnInit {
     } else if (this.contributorType === 'compute') {
       this.metricApproximate = (this.contributor.metrics as Array<ComputeConfig>).filter(c => c.metric === 'cardinality').length > 0;
     }
+
     this.setComponentInput(this.graphParam);
+    /** Init filter operator (include/exclude) of powerbars */
     if (this.contributor instanceof TreeContributor) {
+      this.setPowerbarsFilterOperator((this.contributor as TreeContributor).getFilterOperator());
       this.contributor.operatorChangedEvent.subscribe(op => {
-        if (op === Expression.OpEnum.Ne) {
-          if (!!this.graphParam.filterOperator) {
-            this.graphParam.filterOperator.value = 'Neq';
-          } else {
-            this.graphParam.filterOperator = {
-              value: 'Neq',
-              display: true
-            };
-          }
-        } else {
-          if (!!this.graphParam.filterOperator) {
-            this.graphParam.filterOperator.value = 'Eq';
-          } else {
-            this.graphParam.filterOperator = {
-              value: 'Eq',
-              display: true
-            };
-          }
-        }
+        this.setPowerbarsFilterOperator(op);
       });
     }
   }
@@ -230,9 +218,9 @@ export class WidgetComponent implements OnInit {
 
   public changePowerbarsOperator(op: 'Neq' | 'Eq'): void {
     if (op === 'Neq') {
-      (this.contributor as TreeContributor).setFilterOperator(Expression.OpEnum.Ne);
+      (this.contributor as TreeContributor).setFilterOperator(Expression.OpEnum.Ne, /** emit */ true);
     } else {
-      (this.contributor as TreeContributor).setFilterOperator(Expression.OpEnum.Eq);
+      (this.contributor as TreeContributor).setFilterOperator(Expression.OpEnum.Eq, /** emit */ true);
     }
     (this.contributor as TreeContributor).selectedNodesListChanged((this.contributor as TreeContributor).selectedNodesPathsList);
   }
@@ -274,6 +262,28 @@ export class WidgetComponent implements OnInit {
           component[key] = this.componentParams[key];
         }
       });
+    }
+  }
+
+  private setPowerbarsFilterOperator(filterOperatorEnum: Expression.OpEnum) {
+    if (filterOperatorEnum === Expression.OpEnum.Ne) {
+      if (!!this.graphParam.filterOperator) {
+        this.graphParam.filterOperator.value = 'Neq';
+      } else {
+        this.graphParam.filterOperator = {
+          value: 'Neq',
+          display: true
+        };
+      }
+    } else {
+      if (!!this.graphParam.filterOperator) {
+        this.graphParam.filterOperator.value = 'Eq';
+      } else {
+        this.graphParam.filterOperator = {
+          value: 'Eq',
+          display: true
+        };
+      }
     }
   }
 }

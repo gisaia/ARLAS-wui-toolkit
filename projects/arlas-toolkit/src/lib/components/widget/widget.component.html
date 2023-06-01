@@ -1,7 +1,7 @@
 <div #arlas_tooltip_anchor></div>
 <div *ngIf="componentType === 'histogram'">
   <arlas-tool-histogram-widget [contributor]="contributor" [componentInputs]="graphParam" [showExportCsv]="showExportCsv"
-    [spinnerOptions]="spinnerOptions" [position]="position" [groupLength]="groupLength"
+    [spinnerOptions]="spinnerOptions" [position]="position" [groupLength]="groupLength" [noDetail]="noDetail"
     (exportCsvEvent)="exportCsv($event.contributor, $event.firstLevel, $event.type, 'histogram')"></arlas-tool-histogram-widget>
 </div>
 <div *ngIf="componentType === 'swimlane'">
@@ -35,7 +35,8 @@
     [inputData]="contributor?.treeData" [unit]="graphParam?.unit" [missingLeafEvent]="contributor?.emitMissingLeaf"
     [filterOperator]="graphParam?.filterOperator" [useColorService]="graphParam?.useColorService" [useColorFromData]="graphParam?.useColorFromData" [keysToColors]="graphParam?.keysToColors"
     [colorsSaturationWeight]="graphParam?.colorsSaturationWeight" (selectedPowerBarEvent)="contributor?.selectedNodesListChanged($event)" [scrollable]="graphParam?.scrollable"
-    [selectedPaths]="contributor?.selectedNodesPathsList" (searchedTerm)="contributor?.updateTreeDataSearch($event)" 
+    [selectedPaths]="contributor?.selectedNodesPathsList" (searchedTerm)="contributor?.updateTreeDataSearch($event)"
+    [groupSelections]="graphParam?.groupSelections"  [selectWithCheckbox]="graphParam?.selectWithCheckbox"
     (filterOperatorEvent)="changePowerbarsOperator($event)"
     [chartWidth]="graphParam?.chartWidth">
   </arlas-powerbars>

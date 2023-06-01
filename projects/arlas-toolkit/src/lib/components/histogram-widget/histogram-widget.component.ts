@@ -17,9 +17,9 @@
  * under the License.
  */
 
-import { Component, OnInit, Input, ViewChild, ChangeDetectorRef, Output, ElementRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ChangeDetectorRef, Output, ElementRef, OnDestroy, EventEmitter } from '@angular/core';
 import { ArlasCollaborativesearchService, ArlasConfigService } from '../../services/startup/startup.service';
-import { HistogramComponent, HistogramTooltip } from 'arlas-web-components';
+import { DataType, HistogramComponent, HistogramTooltip } from 'arlas-web-components';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
 import { ArlasExportCsvService } from '../../services/export-csv/export-csv.service';
@@ -80,6 +80,12 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy {
    */
   @Input() public spinnerOptions: SpinnerOptions;
 
+  /**
+   * @Input : Angular
+   * @description Whether to display a detailed histogram
+   */
+  @Input() public noDetail: boolean;
+
   @Output() public exportCsvEvent: Subject<{ contributor: HistogramContributor; type: string; firstLevel: boolean; }> = new Subject();
 
 
@@ -92,6 +98,8 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy {
    */
   @Output() public outEvents: Subject<{ origin: string; event: string; data?: any; }>
     = new Subject<{ origin: string; event: string; data?: any; }>();
+
+  @Output() public currentInterval: EventEmitter<string> = new EventEmitter();
 
   @ViewChild('histogram', { static: false }) public histogramComponent: HistogramComponent;
   @ViewChild('detailedhistogram', { static: false }) public detailedHistogramComponent: HistogramComponent;
@@ -125,8 +133,10 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
-    this.initDetailedContributor();
-    this.showDetailedHistogramOnCollaborationEnd();
+    if (!this.noDetail) {
+      this.initDetailedContributor();
+      this.showDetailedHistogramOnCollaborationEnd();
+    }
   }
 
   public ngOnDestroy() {
@@ -165,7 +175,7 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy {
     const selection = event[event.length - 1];
     if (histogramRange && !!selection) {
       const detailedHistogramRange = (+selection.endvalue - +selection.startvalue);
-      this.showDetailedHistogram = (detailedHistogramRange <= 0.2 * histogramRange);
+      this.showDetailedHistogram = !this.noDetail && (detailedHistogramRange <= 0.2 * histogramRange);
       this.resizeMainHistogram();
       if (!this.showDetailedHistogram && !!this.detailedContributor) {
         this.detailedContributor.updateData = false;
@@ -219,12 +229,13 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy {
     }
   }
 
-  public emitTooltip(tooltip: HistogramTooltip, e: ElementRef, detailed: boolean) {
+  public emitTooltip(tooltip, e: ElementRef, detailed: boolean) {
     let yOffset = 20;
     if (detailed) {
       yOffset = 20;
     }
     const analyticsBoardWidth = 445;
+    const shortcutWidth = 300;
     let itemPerLine = 1;
     let xOffset = 470;
     if (this.componentInputs.chartWidth === Math.ceil(analyticsBoardWidth / 2) - 6 ||
@@ -244,6 +255,9 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy {
       } else if (this.position % itemPerLine === 2) {
         xOffset = 170;
       }
+    } else if (this.componentInputs.chartWidth === shortcutWidth) {
+      xOffset = 15;
+      yOffset = 80;
     }
     this.showHistogramTooltip(tooltip, e, xOffset, yOffset);
   }
@@ -267,6 +281,17 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy {
           this.histogramComponent.resizeHistogram();
         } else if (c.operation === OperationEnum.add) {
           this.histogramIsFiltered = true;
+          let left = this.histogramComponent.histogram.histogramParams.startValue;
+          let right = this.histogramComponent.histogram.histogramParams.endValue;
+          if (this.histogramComponent.dataType === DataType.time) {
+            this.currentInterval.emit(`${left} - ${right}`);
+          } else {
+            if (this.histogramComponent.xUnit) {
+              left = left + ' ' + this.histogramComponent.xUnit;
+              right = right + ' ' + this.histogramComponent.xUnit;
+            }
+            this.currentInterval.emit(`${left} - ${right}`);
+          }
         }
       });
 

@@ -1,5 +1,41 @@
 # Change Log
 
+## [v24.1.0-beta.9](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.1.0-beta.9) (2023-05-31)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.1.0-beta.8...v24.1.0-beta.9)
+
+## [v24.1.0-beta.8](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.1.0-beta.8) (2023-05-31)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.1.0-beta.7...v24.1.0-beta.8)
+
+## [v24.1.0-beta.7](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.1.0-beta.7) (2023-05-31)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.1.0-beta.6...v24.1.0-beta.7)
+
+## [v24.1.0-beta.6](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.1.0-beta.6) (2023-05-30)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.1.0-beta.5...v24.1.0-beta.6)
+
+## [v24.1.0-beta.5](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.1.0-beta.5) (2023-05-26)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.1.0-beta.4...v24.1.0-beta.5)
+
+## [v24.1.0-beta.4](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.1.0-beta.4) (2023-05-25)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.1.0-beta.3...v24.1.0-beta.4)
+
+## [v24.1.0-beta.3](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.1.0-beta.3) (2023-05-23)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.1.0-beta.2...v24.1.0-beta.3)
+
+## [v24.1.0-beta.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.1.0-beta.2) (2023-05-22)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.1.0-beta.1...v24.1.0-beta.2)
+
+## [v24.1.0-beta.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.1.0-beta.1) (2023-05-10)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.0.1...v24.1.0-beta.1)
+
 ## [v24.0.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.0.1) (2023-04-28)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.0.0...v24.0.1)
