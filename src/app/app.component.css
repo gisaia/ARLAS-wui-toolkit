@@ -10,3 +10,17 @@
 .shortcut {
     padding: 2px;
 }
+
+::ng-deep.arlas-timeline--tools {
+    position: relative !important;
+    bottom: unset !important;
+}
+
+::ng-deep.arlas-timeline--timelines {
+    position: relative !important;
+    left: 0px !important;
+}
+
+::ng-deep.arlas-timeline--legend {
+    height: 0px !important;
+}

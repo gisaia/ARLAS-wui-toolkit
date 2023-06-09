@@ -40,7 +40,7 @@ export class AppComponent implements OnInit {
   public languages: string[];
   public analyticsOpen = false;
   public target: string;
-  public timelineComponentConfig;
+  public timelineComponentConfig: TimelineConfiguration;
   public detailedTimelineComponentConfig: TimelineConfiguration;
 
   public lastShortcutOpen: number;
@@ -59,6 +59,7 @@ export class AppComponent implements OnInit {
     this.shortcuts = this.arlasStartupService.filtersShortcuts;
     this.languages = ['en', 'fr', 'it', 'es', 'de', 'us', 'cn'];
     this.timelineComponentConfig = this.arlasConfigService.getValue('arlas.web.components.timeline');
+    this.detailedTimelineComponentConfig = this.arlasConfigService.getValue('arlas.web.components.detailedTimeline');
   }
 
   public onOpen(event: boolean, idx: number): void {
