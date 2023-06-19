@@ -31,7 +31,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { ContactComponent } from './components/contact/contact.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginModule } from '../../projects/arlas-toolkit/src/lib/login.module';
-import { ArlasSettingsService } from '../../projects/arlas-toolkit/src/lib/services/settings/arlas.settings.service';
 import { RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 
