@@ -24,6 +24,7 @@ import {
   ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService
 } from '../../projects/arlas-toolkit/src/lib/services/startup/startup.service';
 import { FilterShortcutConfiguration } from '../../projects/arlas-toolkit/src/lib/components/filter-shortcut/filter-shortcut.utils';
+import packageJson from '../../package.json';
 
 
 
@@ -45,6 +46,8 @@ export class AppComponent implements OnInit {
 
   public lastShortcutOpen: number;
 
+  public version: string;
+
   public constructor(
     private arlasStartupService: ArlasStartupService,
     private arlasConfigService: ArlasConfigService,
@@ -60,6 +63,8 @@ export class AppComponent implements OnInit {
     this.languages = ['en', 'fr', 'it', 'es', 'de', 'us', 'cn'];
     this.timelineComponentConfig = this.arlasConfigService.getValue('arlas.web.components.timeline');
     this.detailedTimelineComponentConfig = this.arlasConfigService.getValue('arlas.web.components.detailedTimeline');
+
+    this.version = packageJson.version;
   }
 
   public onOpen(event: boolean, idx: number): void {
