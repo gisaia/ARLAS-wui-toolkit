@@ -50,6 +50,7 @@
     "hopscotch": "0.3.1",
     "js-yaml": "^3.14.0",
     "ngx-device-detector": "4.0.1",
+    "ngx-markdown": "14.0.1",
     "ngx-spinner": "^14.0.0",
     "portable-fetch": "3.0.0",
     "rxjs": "~7.4.0",

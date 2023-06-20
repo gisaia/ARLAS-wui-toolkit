@@ -17,9 +17,9 @@
  * under the License.
  */
 
-
+export { TopMenuComponent } from './lib/components/top-menu/top-menu.component';
+export { AboutComponent, AboutDialogComponent } from './lib/components/top-menu/about/about.component';
 export { ShortcutFiltersHandlerComponent } from './lib/components/filter-shortcut/filters-handler/filters-handler.component';
-
 export { FilterShortcutChipComponent } from './lib/components/filter-shortcut/chip/chip.component';
 export { FilterShortcutComponent } from './lib/components/filter-shortcut/filter-shortcut.component';
 export { FilterShortcutConfiguration } from './lib/components/filter-shortcut/filter-shortcut.utils';

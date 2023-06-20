@@ -43,6 +43,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import {
   OwlDateTimeModule, OwlNativeDateTimeModule
 } from '@danielmoncada/angular-datetime-picker';
@@ -99,6 +100,9 @@ import { FilterShortcutComponent } from './components/filter-shortcut/filter-sho
 import { MatDividerModule } from '@angular/material/divider';
 import { FilterShortcutChipComponent } from './components/filter-shortcut/chip/chip.component';
 import { ShortcutFiltersHandlerComponent } from './components/filter-shortcut/filters-handler/filters-handler.component';
+import { TopMenuComponent } from './components/top-menu/top-menu.component';
+import { MarkdownModule } from 'ngx-markdown';
+import { AboutComponent, AboutDialogComponent } from './components/top-menu/about/about.component';
 
 export class CustomTranslateLoader implements TranslateLoader {
 
@@ -162,6 +166,7 @@ export class CustomTranslateLoader implements TranslateLoader {
     MatDividerModule,
     MatTabsModule,
     MatTooltipModule,
+    MatToolbarModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
     OwlMomentDateTimeModule,
@@ -187,7 +192,8 @@ export class CustomTranslateLoader implements TranslateLoader {
         deps: [HttpClient]
       }
     }),
-    ArlasWalkthroughModule.forRoot()
+    ArlasWalkthroughModule.forRoot(),
+    MarkdownModule.forRoot()
   ],
   exports: [
     AnalyticsBoardComponent,
@@ -222,7 +228,10 @@ export class CustomTranslateLoader implements TranslateLoader {
     WidgetComponent,
     FilterShortcutComponent,
     FilterShortcutChipComponent,
-    ShortcutFiltersHandlerComponent
+    ShortcutFiltersHandlerComponent,
+    TopMenuComponent,
+    AboutComponent,
+    AboutDialogComponent
   ],
 
 
@@ -264,7 +273,10 @@ export class CustomTranslateLoader implements TranslateLoader {
     WidgetComponent,
     FilterShortcutComponent,
     FilterShortcutChipComponent,
-    ShortcutFiltersHandlerComponent
+    ShortcutFiltersHandlerComponent,
+    TopMenuComponent,
+    AboutComponent,
+    AboutDialogComponent
   ],
   providers: [
     FetchInterceptorService, ArlasOverlayService

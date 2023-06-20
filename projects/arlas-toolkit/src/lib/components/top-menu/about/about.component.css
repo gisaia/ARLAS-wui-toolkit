@@ -16,24 +16,3 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
-import { ArlasToolKitModule, ArlasToolkitSharedModule } from '../../projects/arlas-toolkit/src/public-api';
-import { AppComponent } from './app.component';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-
-@NgModule({
-  imports: [
-    CommonModule,
-    ArlasToolkitSharedModule,
-    ArlasToolKitModule,
-    MatIconModule,
-    MatButtonModule
-  ],
-  exports: [AppComponent],
-  declarations: [AppComponent],
-  providers: [],
-  bootstrap: [AppComponent]
-})
-export class ToolKitAppModule { }
