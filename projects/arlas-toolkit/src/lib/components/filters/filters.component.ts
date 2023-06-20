@@ -24,11 +24,10 @@ import { Subject } from 'rxjs';
 import { Contributor, Collaboration } from 'arlas-web-core';
 import { CollectionReferenceParameters } from 'arlas-api';
 import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from '../../services/startup/startup.service';
-import { ArlasColorGeneratorLoader } from '../../tools/color-generator-loader';
 import { CollectionUnit, CollectionCount } from '../../tools/utils';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { isShortcutID } from '../filter-shortcut/filter-shortcut.utils';
-import { ArlasColorService, ColorGeneratorLoader } from 'arlas-web-components';
+import { ArlasColorService } from 'arlas-web-components';
 
 
 @Pipe({ name: 'getContributorLabel' })
