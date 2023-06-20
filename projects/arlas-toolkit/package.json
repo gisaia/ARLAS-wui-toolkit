@@ -1,10 +1,6 @@
 {
   "name": "arlas-wui-toolkit",
-<<<<<<< HEAD
   "version": "24.2.1",
-=======
-  "version": "24.2.0",
->>>>>>> aca8db3 (Merge feat/24.3.0 devs)
   "description": "Tool Kit Library for ARLAS wui web App",
   "author": "gisaia",
   "license": "Apache-2.0",
