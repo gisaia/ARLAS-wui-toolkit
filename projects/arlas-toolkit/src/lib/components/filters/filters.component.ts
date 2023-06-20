@@ -26,6 +26,7 @@ import { CollectionReferenceParameters } from 'arlas-api';
 import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from '../../services/startup/startup.service';
 import { ArlasColorGeneratorLoader } from '../../services/color-generator-loader/color-generator-loader.service';
 import { CollectionUnit, CollectionCount } from '../../tools/utils';
+import { trigger, state, style, transition, animate } from '@angular/animations';
 
 
 const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
@@ -90,15 +91,24 @@ export class GetCollaborationIconPipe implements PipeTransform {
 @Component({
   selector: 'arlas-filter',
   templateUrl: './filters.component.html',
-  styleUrls: ['./filters.component.css'],
+  styleUrls: ['./filters.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [
+    trigger('fadeInOut', [
+      state('void', style({ opacity: 0 })), // Initial state when element is not present
+      state('*', style({ opacity: 1 })), // Final state when element is present
+      transition(':enter', animate('500ms ease-in-out')), // Animation duration and easing
+      transition(':leave', animate('500ms ease-in-out'))
+    ])
+  ]
 })
 export class FiltersComponent implements OnInit {
 
   /**
    * @Input : Angular
    * @description Title to display in filter bar
+   * @deprecated There is no display of the title in this component
    */
   @Input() public title = '';
   /**
@@ -106,25 +116,15 @@ export class FiltersComponent implements OnInit {
    * @description List of collection-unit
    */
   @Input() public units: CollectionUnit[] = [];
-  /**
-   * @Input : Angular
-   * @description Background color of the title bar
-   */
-  @Input() public backgroundColor = '#FFF';
-  /**
-   * @Input : Angular
-   * @description Color of the title icon
-   */
-  @Input() public color = '#FFF';
 
   /**
    * @Input : Angular
-   * @description Background color of the title bar
+   * @description Background color of the filters chips
    */
   @Input() public backgroundColorFilter = '#FFF';
   /**
     * @Input : Angular
-    * @description Color of the title icon
+    * @description Color of the filters icon
     */
   @Input() public colorFilter = '#000';
 
@@ -150,6 +150,7 @@ export class FiltersComponent implements OnInit {
   /**
    * @Output : Angular
    * @description This output emit app name on click on the title of the filter
+   * @deprecated There is no display of the title in this component
    */
   @Output() public clickOnTitle: Subject<string> = new Subject<string>();
 
