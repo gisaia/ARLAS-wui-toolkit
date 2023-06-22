@@ -159,5 +159,8 @@
 	"month": "month",
 	"years": "years",
 	"year": "year",
-	"Collapse": "Collapse"
+	"Collapse": "Collapse",
+	"No search": "Two characters or more are needed.",
+	"No results": "No results matching the search.",
+	"Searching": "Searching..."
 }

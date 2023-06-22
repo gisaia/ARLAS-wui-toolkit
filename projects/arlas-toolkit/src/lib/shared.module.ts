@@ -82,7 +82,7 @@ import { LanguageSwitcherComponent } from './components/language-switcher/langua
 import { LinkComponent } from './components/link/link.component';
 import { ProgressSpinnerComponent } from './components/progress-spinner/progress-spinner.component';
 import { ReconnectDialogComponent } from './components/reconnect-dialog/reconnect-dialog.component';
-import { SearchComponent } from './components/search/search.component';
+import { SearchComponent, SearchDialogComponent } from './components/search/search.component';
 import { ExcludeTypePipe } from './components/share/exclude-type.pipe';
 import { ShareComponent, ShareDialogComponent } from './components/share/share.component';
 import { DatePickerComponent } from './components/timeline/date-picker/date-picker.component';
@@ -213,6 +213,7 @@ export class CustomTranslateLoader implements TranslateLoader {
     LanguageSwitcherComponent,
     LinkComponent,
     SearchComponent,
+    SearchDialogComponent,
     ShareComponent,
     ShareDialogComponent,
     TimelineComponent,
@@ -258,6 +259,7 @@ export class CustomTranslateLoader implements TranslateLoader {
     LanguageSwitcherComponent,
     LinkComponent,
     SearchComponent,
+    SearchDialogComponent,
     ShareComponent,
     ShareDialogComponent,
     TimelineComponent,

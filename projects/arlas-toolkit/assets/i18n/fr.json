@@ -168,5 +168,8 @@
 	"days (~ 2 years)": "jours (~ 2 ans)",
 	"days (~ 5 years)": "jours (~ 5 ans)",
 	"days (~ 10 years)": "jours (~ 10 ans)",
-	"Collapse": "Réduire"
+	"Collapse": "Réduire",
+	"No search": "Deux caractères ou plus sont nécessaires.",
+	"No results": "Aucun résultats pour cette recherche.",
+	"Searching": "Recherche en cours..."
 }

@@ -17,42 +17,44 @@
  * under the License.
  */
 
-.full-width-input{
-  border: 0;
-  width:100%;
-}
+$search-height: 30px;
 
-.full-width-input:focus{
-  outline: none;
-}
+.arlas-search-container {
+  min-width: 150px;
+  display: flex;
+  align-items: center;
+  border: 1px solid black;
+  border-radius: 8px;
+  height: $search-height;
+  margin-left: -2px;
 
-.full-width{
-  width:100%;
-}
-
-.search-option{
-  font-size: 0.9em;
-}
-
-.search-option.mat-active{
-  background-color: lightslategray;
-  font-size: 1em;
-}
-
-.search-option:hover{
-  background-color: lightslategray;
-  font-size: 1em;
-}
-
-.arlas-search-container{
-  width:100%;
-  display:flex;
-  align-items:center;
-}
-
-.arlas-search-container .mat-icon{
-  font-size: 20px;
-  width: 20px;
-  height: 20px;
-  margin: 0 5px;
+  .search {
+    margin: 0 4px;
+  }
+  
+  .search-text {
+    color: black;
+    font-size: 14px;
+    margin-right: auto;
+    cursor: pointer;
+    width: 150px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    padding-bottom: 2px;
+    margin-left: -4px;
+  }
+  
+  .search-text-empty {
+    color: grey;
+    margin-left: -2px;
+  }
+  
+  .close {
+    margin-bottom: 2px;
+  
+    .icon {
+      font-size: 16px;
+    }
+  }
 }

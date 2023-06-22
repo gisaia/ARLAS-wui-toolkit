@@ -1,5 +1,8 @@
 <arlas-top-menu [wuiName]="'ARLAS Toolkit'" [version]="version">
-  <div left-menu>ARLAS Toolkit</div>
+  <div left-menu class="left-menu">
+    <div>ARLAS Toolkit</div>
+    <arlas-search [searchContributor]="searchContributor" [dialogPositionTop]="10" [dialogPositionLeft]="50"></arlas-search>
+  </div>
   <div right-menu>
     <button mat-icon-button class="button">
       <mat-icon>thumb_up</mat-icon>

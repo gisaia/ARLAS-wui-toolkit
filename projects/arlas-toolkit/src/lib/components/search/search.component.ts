@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { ChangeDetectorRef, Component, Input, ElementRef } from '@angular/core';
+import { Component, Input, Inject, OnInit } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { Aggregation, AggregationResponse, Filter } from 'arlas-api';
@@ -25,57 +25,174 @@ import { ChipsSearchContributor } from 'arlas-web-contributors';
 import { projType, Collaboration } from 'arlas-web-core';
 import { ArlasCollaborativesearchService } from '../../services/startup/startup.service';
 import { Observable, Subject, from } from 'rxjs';
-import { filter, first, startWith, pairwise, debounceTime, map, mergeMap, mergeWith } from 'rxjs/operators';
+import { filter, startWith, debounceTime, map, mergeMap, mergeWith } from 'rxjs/operators';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'arlas-search',
   templateUrl: './search.component.html',
-  styleUrls: ['./search.component.css']
+  styleUrls: ['./search.component.scss']
 })
-export class SearchComponent {
+export class SearchComponent implements OnInit {
+  /**
+   * @Input : Angular
+   * @description Search contributor
+   */
   @Input() public searchContributor: ChipsSearchContributor;
-  public onLastBackSpace: Subject<boolean> = new Subject<boolean>();
-  public searchCtrl: UntypedFormControl;
-  public filteredSearch: Observable<any[]>;
-  private keyEvent: Subject<number> = new Subject<number>();
 
-  public constructor(private collaborativeService: ArlasCollaborativesearchService,
-    private cdr: ChangeDetectorRef,
-    public translate: TranslateService
-  ) {
+  /**
+   * @Input : Angular
+   * @description Top position of the search dialog in pixels
+   */
+  @Input() public dialogPositionTop: number;
 
+  /**
+   * @Input : Angular
+   * @description Left position of the search dialog in pixels
+   */
+  @Input() public dialogPositionLeft: number;
 
-    this.searchCtrl = new UntypedFormControl();
+  /**
+   * @description Value of the search filter
+   */
+  public searchValue: string;
 
-    this.keyEvent.pipe(pairwise()).subscribe(l => {
-      if (l[1] === 0 && l[0] !== 0 && this.searchContributor) {
-        this.collaborativeService.removeFilter(this.searchContributor.identifier);
-        this.cdr.detectChanges();
-      }
-    });
+  /**
+   * @description Placeholder value as retrieved from the search contributor
+   */
+  public searchPlaceholder: string;
 
-    this.collaborativeService.contribFilterBus.pipe(
-      filter(contributor => !!contributor && this.searchContributor && contributor.identifier === this.searchContributor.identifier),
-      filter(contributor => (<ChipsSearchContributor>contributor).chipMapData.size !== 0),
-      first()
+  public constructor(
+    private collaborativeService: ArlasCollaborativesearchService,
+    public translate: TranslateService,
+    private dialog: MatDialog,
+  ) {}
+
+  public ngOnInit(): void {
+    this.searchPlaceholder = this.translate.instant(this.searchContributor?.getName());
+    this.searchValue = this.searchPlaceholder;
+
+    // Retrieve value from the url and future collaborations
+    this.collaborativeService.collaborationBus.pipe(
+      filter(e => e.id === this.searchContributor.identifier || e.id === 'url')
     ).subscribe(
-      contributor => {
-        let initSearchValue = '';
-        (<ChipsSearchContributor>contributor).chipMapData.forEach((v, k) => {
-          let searchtxt = k;
-          if (k.split(':').length > 0) {
-            searchtxt = k.split(':')[1];
-          }
-          const pattern = /\"/gi;
-          initSearchValue += searchtxt.replace(pattern, '') + ' ';
-        });
-        this.searchCtrl.setValue(initSearchValue);
+      e => {
+        const collaboration = this.collaborativeService.getCollaboration(this.searchContributor.identifier);
+        if (collaboration) {
+          collaboration.filters.forEach((f, collection) => {
+            let initSearchValue = '';
+            if (collection === this.searchContributor.collection) {
+              for (const filter of f) {
+                let searchtxt = filter.q[0][0];
+                if (filter.q[0][0].split(':').length > 0) {
+                  searchtxt = filter.q[0][0].split(':')[1];
+                }
+                const pattern = /\"/gi;
+                initSearchValue += searchtxt.replace(pattern, '') + ' ';
+              }
+              this.searchValue = initSearchValue.slice(0, -1);
+            }
+          });
+        }
       }
     );
+  }
+
+  public search(value: string) {
+    if (value.trim() !== '' && this.searchContributor) {
+      const filter: Filter = {
+        q: [[this.searchContributor.search_field + ':' + value.trim()]]
+      };
+
+      const collabFilters = new Map<string, Filter[]>();
+      collabFilters.set(this.searchContributor.collection, [filter]);
+      const collaboration: Collaboration = {
+        filters: collabFilters,
+        enabled: true
+      };
+
+      this.collaborativeService.setFilter(this.searchContributor.identifier, collaboration);
+    }
+  }
+
+  public openDialog() {
+    const dialogRef = this.dialog.open(SearchDialogComponent,{
+      id: 'arlas-search-dialog',
+      position: {
+        top: this.dialogPositionTop + 'px',
+        left: this.dialogPositionLeft + 'px',
+      },
+      data: {
+        searchContributor: this.searchContributor,
+        value: this.searchValue
+      },
+      enterAnimationDuration: '0',
+      exitAnimationDuration: '0'
+    });
+
+    dialogRef.afterClosed().subscribe(searchValue => {
+      if (searchValue) {
+        this.searchValue = searchValue.trim();
+        this.search(searchValue);
+      }
+    });
+  }
+
+  public clearSearch() {
+    this.searchValue = this.translate.instant(this.searchContributor?.getName());
+    this.collaborativeService.removeFilter(this.searchContributor.identifier);
+  }
+}
+
+@Component({
+  templateUrl: './search-dialog.component.html',
+  styleUrls: ['./search-dialog.component.scss']
+})
+export class SearchDialogComponent {
+
+  /**
+   * @description Search contributor
+   */
+  public searchContributor: ChipsSearchContributor;
+
+  public onLastBackSpace: Subject<boolean> = new Subject<boolean>();
+
+  /**
+   * @description Form for the search
+   */
+  public searchCtrl: UntypedFormControl;
+
+  /**
+   * @description List of results displayed in the autocomplete
+   */
+  public filteredSearch: Observable<any[]>;
+
+  private keyEvent: Subject<number> = new Subject<number>();
+
+  /**
+   * @description Placeholder value as retrieved from the search contributor
+   */
+  public searchPlaceholder: string;
+
+  /**
+   * @description Indicates whether a search request has been launched
+   */
+  public searching = false;
+
+  public constructor(
+    public dialogRef: MatDialogRef<SearchDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: {'searchContributor': ChipsSearchContributor; 'value': string;},
+    private collaborativeService: ArlasCollaborativesearchService,
+    public translate: TranslateService
+  ) {
+    this.searchContributor = data.searchContributor;
+    this.searchPlaceholder = this.translate.instant(this.searchContributor?.getName());
 
     if (this.searchContributor) {
       this.searchContributor.activateLastBackspace(this.onLastBackSpace);
     }
+
+    this.searchCtrl = new UntypedFormControl();
 
     const autocomplete = this.searchCtrl.valueChanges.pipe(
       debounceTime(250),
@@ -97,11 +214,21 @@ export class SearchComponent {
     const nullautocomplete = this.searchCtrl.valueChanges.pipe(
       debounceTime(250),
       startWith(''),
-      filter(search => search == null),
+      filter(search => search === null),
       map(f => [])
     );
 
-    this.filteredSearch = noautocomplete.pipe(mergeWith(autocomplete), mergeWith(nullautocomplete));
+    // Create observable of default value autocomplete to merge it with others
+    if (data.value !== this.searchPlaceholder) {
+      this.searchCtrl.setValue(data.value);
+      const defaultAutocomplete = this.filterSearch(data.value).pipe(map(f => f.elements));
+      this.filteredSearch = noautocomplete.pipe(mergeWith(autocomplete), mergeWith(nullautocomplete), mergeWith(defaultAutocomplete));
+    } else {
+      this.filteredSearch = noautocomplete.pipe(mergeWith(autocomplete), mergeWith(nullautocomplete));
+    }
+    this.filteredSearch.subscribe((val) => {
+      this.searching = false;
+    });
   }
 
   public filterSearch(search: string): Observable<AggregationResponse> {
@@ -115,6 +242,8 @@ export class SearchComponent {
       const filterAgg: Filter = {
         q: [[this.searchContributor.autocomplete_field + ':' + search + '*']]
       };
+
+      this.searching = true;
       return this.collaborativeService.resolveButNotAggregation(
         [projType.aggregate, [aggregation]],
         this.collaborativeService.collaborations,
@@ -133,31 +262,16 @@ export class SearchComponent {
     }
     if (event.keyCode === 13) {
       if (this.searchCtrl.value && this.searchCtrl.value.trim() !== '') {
-        this.search(this.searchCtrl.value);
+        this.dialogRef.close(this.searchCtrl.value);
       }
     }
   }
 
-  public clickItemSearch(event) {
-    (<ElementRef>event.option._element).nativeElement.focus();
-    this.search('"' + this.searchCtrl.value + '"');
+  public clickItemSearch(event: string) {
+    this.dialogRef.close(event);
   }
 
-  public search(value: string) {
-    if (value.trim() !== '' && this.searchContributor) {
-      const filter: Filter = {
-        q: [[this.searchContributor.search_field + ':' + value.trim()]]
-      };
-
-      const collabFilters = new Map<string, Filter[]>();
-      collabFilters.set(this.searchContributor.collection, [filter]);
-      const collaboration: Collaboration = {
-        filters: collabFilters,
-        enabled: true
-      };
-
-      this.collaborativeService.setFilter(this.searchContributor.identifier, collaboration);
-    }
+  public clearSearch() {
+    this.searchCtrl.reset();
   }
-
 }
