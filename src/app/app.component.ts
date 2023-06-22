@@ -26,14 +26,7 @@ import { Component, OnInit } from '@angular/core';
   providers: [Location],
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent{
 
-  public constructor(
-  ) {
-  }
-
-  public ngOnInit(): void {
-
-  }
-
+  public constructor() {}
 }
