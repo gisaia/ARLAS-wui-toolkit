@@ -2,8 +2,7 @@
     display: flex;
     justify-content: space-between;
     flex-direction: column;
-    border-radius: 2px;
-    font-family: Roboto, 'Helvetica Neue', sans-serif
+    font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
 
 .chevron {
@@ -17,7 +16,7 @@
     justify-content: space-between;
     border: 1px solid #000;
     align-items: center;
-    padding: 4px;
+    padding: 0 4px;
     width: fit-content;
 }
 

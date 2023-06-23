@@ -7,8 +7,29 @@
     position: relative;
 }
 
+.shortcut-list {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    font-size: 14px;
+    height: 30px;
+}
+
 .shortcut {
-    padding: 2px;
+    padding: 0 8px;
+    height: fit-content;
+}
+
+::ng-deep.title {
+    height: 28px;
+}
+
+::ng-deep.open_title {
+    margin-bottom: 0;
+}
+
+::ng-deep.content {
+    top: 53px !important;
 }
 
 ::ng-deep.arlas-timeline--tools {
@@ -29,4 +50,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.timeline {
+    position: relative;
+    top: 100px;
 }

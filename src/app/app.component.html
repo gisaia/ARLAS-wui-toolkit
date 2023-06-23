@@ -3,6 +3,13 @@
     <div>ARLAS Toolkit</div>
     <arlas-search [searchContributor]="searchContributor" [dialogPositionTop]="10" [dialogPositionLeft]="50"></arlas-search>
   </div>
+  <div middle-menu class="shortcut-list">
+    <div *ngFor="let shortcut of shortcuts; let even=even; let idx=index" class="shortcut"
+      [style.z-index]="lastShortcutOpen === idx ? 2 : 1">
+      <arlas-filter-shortcut [shortcut]="shortcut" [openAtFirst]="even" (openEvent)="onOpen($event, idx)"
+        (click)="onOpen(true, idx)" [shortcutWidth]="300"></arlas-filter-shortcut>
+    </div>
+  </div>
   <div right-menu>
     <button mat-icon-button class="button">
       <mat-icon>thumb_up</mat-icon>
@@ -14,16 +21,8 @@
   <arlas-filter [title]="'ARLAS toolkit'" [backgroundColorFilter]="'#eee'" [colorFilter]="'#000'"></arlas-filter>
 </div>
 
-<div style="display: flex; height: 330px;">
-  <div *ngFor="let shortcut of shortcuts; let even=even; let idx=index" class="shortcut"
-    [style.z-index]="lastShortcutOpen === idx ? 2 : 1">
-    <arlas-filter-shortcut [shortcut]="shortcut" [openAtFirst]="even" (openEvent)="onOpen($event, idx)"
-      (click)="onOpen(true, idx)" [shortcutWidth]="300"></arlas-filter-shortcut>
-  </div>
-</div>
-
 <arlas-timeline *ngIf="timelineComponentConfig" [activeDatePicker]="true" [timelineComponent]="timelineComponentConfig"
-  [detailedTimelineComponent]="detailedTimelineComponentConfig">
+  [detailedTimelineComponent]="detailedTimelineComponentConfig" class="timeline">
 </arlas-timeline>
 
 <arlas-analytics-board class="arlas-board" [showSpinner]="true" [groups]="analytics"></arlas-analytics-board>
