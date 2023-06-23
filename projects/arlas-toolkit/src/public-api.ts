@@ -66,7 +66,7 @@ export { LanguageSwitcherComponent } from './lib/components/language-switcher/la
 export { LinkComponent } from './lib/components/link/link.component';
 export { ProgressSpinnerComponent } from './lib/components/progress-spinner/progress-spinner.component';
 export { ReconnectDialogComponent } from './lib/components/reconnect-dialog/reconnect-dialog.component';
-export { SearchComponent } from './lib/components/search/search.component';
+export { SearchComponent, SearchDialogComponent } from './lib/components/search/search.component';
 export { ArlasSearchField } from './lib/components/share/model/ArlasSearchField';
 export { ExcludeTypePipe } from './lib/components/share/exclude-type.pipe';
 export { ShareComponent, ShareDialogComponent, ShareLayerSourceConfig } from './lib/components/share/share.component';

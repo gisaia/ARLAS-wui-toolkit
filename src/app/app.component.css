@@ -24,3 +24,9 @@
 ::ng-deep.arlas-timeline--legend {
     height: 0px !important;
 }
+
+.left-menu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

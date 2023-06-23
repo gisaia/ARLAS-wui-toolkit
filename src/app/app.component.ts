@@ -25,6 +25,7 @@ import {
 } from '../../projects/arlas-toolkit/src/lib/services/startup/startup.service';
 import { FilterShortcutConfiguration } from '../../projects/arlas-toolkit/src/lib/components/filter-shortcut/filter-shortcut.utils';
 import packageJson from '../../package.json';
+import { ChipsSearchContributor } from 'arlas-web-contributors';
 
 
 
@@ -48,10 +49,12 @@ export class AppComponent implements OnInit {
 
   public version: string;
 
+  public searchContributor: ChipsSearchContributor;
+  public CHIPSSEARCH_ID = 'chipssearch';
+
   public constructor(
     private arlasStartupService: ArlasStartupService,
     private arlasConfigService: ArlasConfigService,
-
     private collaborativeService: ArlasCollaborativesearchService,
   ) {
   }
@@ -64,6 +67,11 @@ export class AppComponent implements OnInit {
     this.timelineComponentConfig = this.arlasConfigService.getValue('arlas.web.components.timeline');
     this.detailedTimelineComponentConfig = this.arlasConfigService.getValue('arlas.web.components.detailedTimeline');
 
+    const chipssearchContributorConfig = this.getContributorConfig(this.CHIPSSEARCH_ID);
+    if (chipssearchContributorConfig !== undefined) {
+      this.searchContributor = this.arlasStartupService.contributorRegistry.get(this.CHIPSSEARCH_ID) as ChipsSearchContributor;
+    }
+
     this.version = packageJson.version;
   }
 
@@ -71,5 +79,11 @@ export class AppComponent implements OnInit {
     if (event) {
       this.lastShortcutOpen = idx;
     }
+  }
+
+  private getContributorConfig(contributorIdentifier: string) {
+    return this.arlasStartupService.emptyMode ? undefined : this.arlasConfigService.getValue('arlas.web.contributors').find(
+      contrib => (contrib.identifier === contributorIdentifier)
+    );
   }
 }
