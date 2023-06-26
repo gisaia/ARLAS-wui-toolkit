@@ -159,8 +159,8 @@ export function getKeyForColor(dataModel: Object): string {
 }
 
 export function getFieldProperties(fieldList: any, parentPrefix?: string,
-  arlasFields?: Array<{ label: string; type: string; }>, isFirstLevel?: boolean
-): Array<{ label: string; type: string; }> {
+  arlasFields?: Array<{ label: string; type: string; hashField: string; }>, isFirstLevel?: boolean
+): Array<{ label: string; type: string; hashField: string; }> {
   if (!arlasFields) {
     arlasFields = new Array();
   }
@@ -174,7 +174,11 @@ export function getFieldProperties(fieldList: any, parentPrefix?: string,
         getFieldProperties(subFields, (parentPrefix ? parentPrefix : '') + fieldName + '.', arlasFields, false);
       }
     } else {
-      arlasFields.push({ label: (parentPrefix ? parentPrefix : '') + fieldName, type: fieldList[fieldName].type });
+      arlasFields.push({
+        label: (parentPrefix ? parentPrefix : '') + fieldName, type: fieldList[fieldName].type,
+        hashField: fieldList[fieldName].hash_field
+      });
+
     }
   });
 

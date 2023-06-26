@@ -554,7 +554,7 @@ export class ArlasStartupService {
     if (!this.emptyMode) {
       return new Promise<any>((resolve, reject) => {
         const collectionName = data.collection;
-        zip([this.collaborativesearchService.list(),this.collaborativesearchService.describe(collectionName)])
+        zip([this.collaborativesearchService.list(), this.collaborativesearchService.describe(collectionName)])
           .subscribe(
             result => {
               const allCollections = result[0];
@@ -588,6 +588,9 @@ export class ArlasStartupService {
               if (p.type === 'GEO_POINT') {
                 hiddenAvailableFields.push(p.label + '.lon');
                 hiddenAvailableFields.push(p.label + '.lat');
+              }
+              if (!!p.hashField) {
+                hiddenAvailableFields.push(p.label + '.' + p.hashField);
               }
               return p.label;
             }).forEach(label => availableFields.add(label));
