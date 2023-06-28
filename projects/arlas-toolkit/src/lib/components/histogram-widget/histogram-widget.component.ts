@@ -29,6 +29,7 @@ import { filter } from 'rxjs/operators';
 import { OperationEnum } from 'arlas-web-core';
 import { SpinnerOptions, ArlasOverlayRef } from '../../tools/utils';
 import { ArlasOverlayService } from '../../services/overlays/overlay.service';
+import { isShortcutID } from '../filter-shortcut/filter-shortcut.utils';
 
 
 /**
@@ -255,9 +256,9 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy {
       } else if (this.position % itemPerLine === 2) {
         xOffset = 170;
       }
-    } else if (this.componentInputs.chartWidth === shortcutWidth) {
-      xOffset = 15;
-      yOffset = 80;
+    } else if (isShortcutID(this.contributor.identifier)) {
+      xOffset = 20;
+      yOffset = 120;
     }
     this.showHistogramTooltip(tooltip, e, xOffset, yOffset);
   }
