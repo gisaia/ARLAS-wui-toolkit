@@ -107,7 +107,6 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
   ) { }
 
   public ngOnInit() {
-    this.isActiveDragDrop = false;
     this.spinnerOptions = {
       color: !!this.colorSpinner ? this.colorSpinner : 'primary',
       diameter: (this.diameterSpinner !== undefined && this.diameterSpinner !== null) ? this.diameterSpinner : 100,
