@@ -96,6 +96,24 @@
   gap: 0 10px;
 }
 
+.analytics-tabs {
+  flex-direction: row;
+
+  ::ng-deep.mat-tab-labels {
+    flex-direction: column;
+  }
+
+  ::ng-deep.mat-ink-bar {
+    visibility: hidden !important;
+  }
+
+  ::ng-deep.mat-tab-header {
+    background-color: white !important;
+    border-radius: 4px !important;
+    margin: 0 2px !important;
+  }
+}
+
 
 .active-filter-tab{
   position: absolute;
