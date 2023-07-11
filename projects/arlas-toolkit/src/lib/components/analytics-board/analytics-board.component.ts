@@ -36,7 +36,7 @@ import { HistogramContributor } from 'arlas-web-contributors';
 @Component({
   selector: 'arlas-analytics-board',
   templateUrl: './analytics-board.component.html',
-  styleUrls: ['./analytics-board.component.css']
+  styleUrls: ['./analytics-board.component.scss']
 })
 export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges {
 
@@ -51,6 +51,10 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
    */
   @Input() public groupsDisplayStatusMap: Map<string, boolean>;
 
+  /**
+   * @Input : Angular
+   * @description Display mode of the analytics tab. Can be 'normal' or 'compact'.
+   */
   @Input() public mode = 'normal';
   @Input() public target: string;
 
@@ -193,22 +197,14 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
 
   public ngAfterViewInit() {
     this.scrollToAnalyticsComponent(this.target);
-    // hide tabs group if only one
-    if (this.groupsByTab.length === 1) {
-      const firstTabs = document.querySelectorAll('.only-one > :first-child');
-      firstTabs.forEach(tab => {
-        if (!!tab && tab.outerHTML.startsWith('<mat-tab-header')) {
-          tab.remove();
-        }
-      });
-    } else {
-      const tabHeader: Element = document.querySelector('.analytics-tabs .mat-tab-header');
-      if (tabHeader && tabHeader !== undefined) {
-        tabHeader.setAttribute('style', 'background-color: white !important;border-radius: 4px !important;margin: 0 2px !important;');
-      }
-    }
 
-    this.cancelAllOtherTabsContribution(0);
+    // Remove all contributions but the one of the active tab
+    if (this.activeIndex !== undefined) {
+      this.cancelAllOtherTabsContribution(this.activeIndex);
+    } else {
+      // If no active tab, then remove every tab contributions
+      this.cancelAllTabsContribution();
+    }
   }
 
   public scrollToAnalyticsComponent(target: string) {
@@ -306,7 +302,7 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
     this.cancelGroupContribution(group);
   }
 
-  public getContributorStatus(id) {
+  public getContributorStatus(id: string) {
     return this.collaborativeService.registry.get(id).isDataUpdating;
   }
 
@@ -318,8 +314,17 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
   }
 
   public cancelAllOtherTabsContribution(tabIndex: number) {
-
     this.groupsByTab.filter(groupTab => groupTab.index !== this.groupsTabsKey[tabIndex])
+      .map(groupTab => groupTab.groups)
+      .forEach(groups => {
+        groups.forEach(group => {
+          this.cancelGroupContribution(group);
+        });
+      });
+  }
+
+  public cancelAllTabsContribution() {
+    this.groupsByTab
       .map(groupTab => groupTab.groups)
       .forEach(groups => {
         groups.forEach(group => {
