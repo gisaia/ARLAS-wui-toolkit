@@ -47,10 +47,40 @@ const moment = (_moment as any).default ? (_moment as any).default : _moment;
   ]
 })
 export class ShortcutFiltersHandlerComponent implements OnInit {
-  @Input() public contributorId;
+  /**
+   * @Input : Angular
+   * @description The contributor Id of the shortcut
+   */
+  @Input() public contributorId: string;
+
+  /**
+   * @Input : Angular
+   * @description The type of widget represented by the shortcut. can be 'powerbars' or 'histogram'.
+   */
   @Input() public widgetType: string;
+
+  /**
+   * @Input : Angular
+   * @description Whether to display the value of the first filter. It will allow the user to only see the values by clicking the +X chip.
+   */
+  @Input() public displayFilterFirstValue: boolean;
+
+  /**
+   * @Input : Angular
+   * @description The unit of the histogram values
+   */
   @Input() public histogramUnit: string;
+
+  /**
+   * @Input : Angular
+   * @description The type of data of the histogram. It can have the same values as a non-shortcut histogram.
+   */
   @Input() public histogramDatatype: string;
+
+  /**
+   * @Input : Angular
+   * @description The format to use for the date ticks of the shortcut's histogram
+   */
   @Input() public ticksDateFormat: string;
 
   public histogramParams: HistogramParams = new HistogramParams();
@@ -91,7 +121,7 @@ export class ShortcutFiltersHandlerComponent implements OnInit {
       this.labels = this.labels.map(l => l.replace('≠', '')).filter(l => l !== label);
       if (this.labels.length > 0) {
         this.firstLabel = this.labels[0];
-        this.showMore = this.labels.length > 1;
+        this.showMore = !this.displayFilterFirstValue || this.labels.length > 1;
         /** hide list when there is one label left */
         if (this.moreClicked && this.labels.length <= 1) {
           this.moreClicked = false;
@@ -144,10 +174,11 @@ export class ShortcutFiltersHandlerComponent implements OnInit {
       }
       if (this.labels && this.labels.length > 0) {
         this.firstLabel = this.labels[0];
-        this.showMore = this.labels.length > 1;
+        this.showMore = !this.displayFilterFirstValue || this.labels.length > 1;
       }
     } else {
       const startEnd = expression.value.replace('[', '').replace(']', '').split('<');
+
       if (this.histogramDatatype === 'time') {
         // Truncate the hours since this is a shortcut
         const start = HistogramUtils.toString(new Date(+startEnd[0]), this.histogramParams).slice(0, -6);
@@ -164,6 +195,9 @@ export class ShortcutFiltersHandlerComponent implements OnInit {
           this.firstLabel += ' ' + this.histogramUnit;
         }
       }
+
+      this.showMore = !this.displayFilterFirstValue;
+      this.labels = [this.firstLabel];
     }
   }
 

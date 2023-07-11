@@ -46,6 +46,7 @@ export class AppComponent implements OnInit {
   public detailedTimelineComponentConfig: TimelineConfiguration;
 
   public lastShortcutOpen: number;
+  public isShortcutOpen: Array<boolean> = new Array();
 
   public version: string;
 
@@ -73,12 +74,10 @@ export class AppComponent implements OnInit {
     }
 
     this.version = packageJson.version;
-  }
 
-  public onOpen(event: boolean, idx: number): void {
-    if (event) {
-      this.lastShortcutOpen = idx;
-    }
+    this.shortcuts.forEach((_, idx) => {
+      this.isShortcutOpen.push(idx % 2 === 0);
+    });
   }
 
   private getContributorConfig(contributorIdentifier: string) {

@@ -4,11 +4,10 @@
     <arlas-search [searchContributor]="searchContributor" [dialogPositionTop]="10" [dialogPositionLeft]="50"></arlas-search>
   </div>
   <div middle-menu class="shortcut-list">
-    <div *ngFor="let shortcut of shortcuts; let even=even; let idx=index" class="shortcut"
-      [style.z-index]="lastShortcutOpen === idx ? 2 : 1">
-      <arlas-filter-shortcut [shortcut]="shortcut" [openAtFirst]="even" (openEvent)="onOpen($event, idx)"
-        (click)="onOpen(true, idx)" [shortcutWidth]="300"></arlas-filter-shortcut>
-    </div>
+    <ng-container *ngFor="let shortcut of shortcuts; let idx=index" >
+      <arlas-filter-shortcut class="shortcut" [style.z-index]="lastShortcutOpen === idx ? 2 : 1"
+        [shortcut]="shortcut" [(isOpen)]="isShortcutOpen[idx]" [shortcutWidth]="250" [displayFilterFirstValue]="false"></arlas-filter-shortcut>
+    </ng-container>
   </div>
   <div right-menu>
     <button mat-icon-button class="button">
