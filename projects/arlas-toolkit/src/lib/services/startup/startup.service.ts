@@ -89,6 +89,11 @@ export class ArlasCollaborativesearchService extends CollaborativesearchService 
 
   public endOfUrlCollaboration = false;
 
+  /**
+   * @param filter The filter query parameter
+   * @param changeOperator Whether to change the operator of the filters applied for TreeContributors
+   * @returns A dictionnary of the current collaborations
+   */
   public dataModelBuilder(filter, changeOperator = false) {
     const dataModel = JSON.parse(filter);
     const defaultCollection = this.defaultCollection;
@@ -312,7 +317,8 @@ export class ArlasStartupService {
       return this.listAvailableFields(collectionNames)
         .then((availableFields: Set<string>) => this.updateConfiguration(data[0], availableFields))
         .then((d) => {
-          this.configService.setConfig(d); return d;
+          this.configService.setConfig(d);
+          return d;
         })
         .catch(err => {
           this.shouldRunApp = false;
@@ -554,15 +560,14 @@ export class ArlasStartupService {
     if (!this.emptyMode) {
       return new Promise<any>((resolve, reject) => {
         const collectionName = data.collection;
-        zip([this.collaborativesearchService.list(),this.collaborativesearchService.describe(collectionName)])
+        this.collaborativesearchService.list()
           .subscribe(
-            result => {
-              const allCollections = result[0];
-              const mainCollections = result[1];
+            allCollections => {
+              // mainCollection is included in allCollections
               allCollections.forEach(c => this.collectionsMap.set(c.collection_name, c.params));
-              this.collectionsMap.set(collectionName, mainCollections.params);
-              this.collectionId = mainCollections.params.id_path;
-              resolve(result);
+
+              this.collectionId = allCollections.find(c => c.collection_name === collectionName).params.id_path;
+              resolve(allCollections);
             },
             error => {
               reject(error);
@@ -580,7 +585,7 @@ export class ArlasStartupService {
   public listAvailableFields(collectionNames: Set<string>): Promise<Set<string>> {
     const availableFields = new Set<string>();
     const hiddenAvailableFields = [];
-    return this.collaborativesearchService.list(false).toPromise().then(
+    return this.collaborativesearchService.list().toPromise().then(
       (collectionDescriptions: Array<CollectionReferenceDescription>) => {
         collectionDescriptions.filter((cd: CollectionReferenceDescription) => collectionNames.has(cd.collection_name))
           .forEach((cd: CollectionReferenceDescription) => {

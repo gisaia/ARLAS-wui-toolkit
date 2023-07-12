@@ -47,9 +47,7 @@ export class AppComponent implements OnInit {
 
   public constructor(
     private arlasStartupService: ArlasStartupService,
-    private arlasConfigService: ArlasConfigService,
-
-    private collaborativeService: ArlasCollaborativesearchService,
+    private arlasConfigService: ArlasConfigService
   ) {
   }
 
