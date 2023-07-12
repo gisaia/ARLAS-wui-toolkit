@@ -65,7 +65,6 @@ export class ContributorBuilder {
         contributor = new DetailedHistogramContributor(identifier, collaborativesearchService, configService, collection,
           isOneDimension, additionalCollections);
         (contributor as DetailedHistogramContributor).maxBuckets = settingsService.getHistogramMaxBucket();
-
         break;
       case 'resultlist':
         contributor = new ResultListContributor(identifier, collaborativesearchService, configService, collection);

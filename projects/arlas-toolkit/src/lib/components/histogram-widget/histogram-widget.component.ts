@@ -121,7 +121,7 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy {
         + this.contributor.identifier + '-arlas__detailed',
         this.arlasCollaborativesearchService, this.arlasConfigurationService, this.contributor.collection, false);
       this.contributor.detailedHistrogramContributor = this.detailedContributor;
-      this.detailedContributor.updateData = this.contributor.updateData;
+      this.detailedContributor.updateData = false;
       this.detailedContributor.annexedContributorId = this.contributor.identifier;
       this.detailedContributor.useUtc = this.contributor.useUtc;
       this.detailedContributor.selectionExtentPercentage = 0.02;
@@ -178,10 +178,8 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy {
       const detailedHistogramRange = (+selection.endvalue - +selection.startvalue);
       this.showDetailedHistogram = !this.noDetail && (detailedHistogramRange <= 0.2 * histogramRange);
       this.resizeMainHistogram();
-      if (!this.showDetailedHistogram && !!this.detailedContributor) {
-        this.detailedContributor.updateData = false;
-      } else if (this.showDetailedHistogram) {
-        this.detailedContributor.updateData = true;
+      if (!!this.detailedContributor) {
+        this.detailedContributor.updateData = this.showDetailedHistogram;
       }
     }
     this.contributor.valueChanged(event);
@@ -277,7 +275,7 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy {
       .subscribe(c => {
         if (c.operation === OperationEnum.remove) {
           this.histogramIsFiltered = false;
-          this.showDetailedHistogram = false;
+          this.hideDetailedHistogram();
           this.histogramComponent.histogram.histogramParams.chartHeight = this.componentInputs.chartHeight;
           this.histogramComponent.resizeHistogram();
         } else if (c.operation === OperationEnum.add) {
@@ -293,46 +291,68 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy {
             }
             this.currentInterval.emit(`${left} - ${right}`);
           }
+          this.checkDisplayDetailedHistogram();
         }
       });
 
     this.arlasCollaborativesearchService.ongoingSubscribe.subscribe(nb => {
       if (this.arlasCollaborativesearchService.totalSubscribe === 0 && this.histogramIsFiltered) {
-        const histogramRange = this.contributor.range;
-        this.showSpinner = false;
-        const selection = this.contributor.intervalSelection;
-        if (histogramRange && !!selection) {
-          const detailedHistogramRange = (+selection.endvalue - +selection.startvalue);
-          this.showDetailedHistogram = (detailedHistogramRange <= 0.2 * histogramRange);
-          this.resizeMainHistogram();
-          if (this.showDetailedHistogram) {
-            if (!this.detailedContributor) {
-              this.initDetailedContributor();
-            }
-            this.detailedContributor.updateData = true;
-            if (this.detailedHistogramComponent) {
-              this.detailedHistogramComponent.histogram.histogramParams.chartHeight = this.componentInputs.chartHeight;
-              this.detailedHistogramComponent.resizeHistogram();
-            }
-          } else {
-            if (!!this.detailedContributor) {
-              this.detailedContributor.updateData = false;
-            }
-          }
-          if (this.applicationFirstLoad && !!this.detailedContributor && this.detailedContributor.currentSelectedInterval) {
-            // Sets current selection of detailed histogram
-            const select = this.detailedContributor.currentSelectedInterval;
-            this.detailedTimelineIntervalSelection = { startvalue: select.startvalue, endvalue: select.endvalue };
-            this.applicationFirstLoad = false;
-          }
-        } else {
-          this.showDetailedHistogram = false;
-          this.histogramComponent.histogram.histogramParams.chartHeight = this.componentInputs.chartHeight;
-          this.histogramComponent.resizeHistogram();
-        }
+        this.checkDisplayDetailedHistogram();
       }
     });
   }
 
+  /**
+   * Based on the extent of the selection of the histogram, checks whether the detailed histogram should be displayed.
+   * If so, resizes the histograms and fetches data if no data is present for the detailed histogram.
+   * Otherwise, hides the detailed histogram, and resizes the main one.
+   */
+  private checkDisplayDetailedHistogram() {
+    const histogramRange = this.contributor.range;
+    this.showSpinner = false;
+    const selection = this.contributor.intervalSelection;
+    if (histogramRange && !!selection) {
+      const detailedHistogramRange = (+selection.endvalue - +selection.startvalue);
+      this.showDetailedHistogram = (detailedHistogramRange <= 0.2 * histogramRange);
+      this.resizeMainHistogram();
+      if (this.showDetailedHistogram) {
+        if (!this.detailedContributor) {
+          this.initDetailedContributor();
+        }
+        this.detailedContributor.updateData = true;
+        if (!this.detailedContributor.range) {
+          // Simulate a collaboration event that will result in a fetchData
+          this.detailedContributor.updateFromCollaboration({
+            id: 'url',
+            operation: OperationEnum.add,
+            all: false
+          });
+        }
 
+        if (this.detailedHistogramComponent) {
+          this.detailedHistogramComponent.histogram.histogramParams.chartHeight = this.componentInputs.chartHeight;
+          this.detailedHistogramComponent.resizeHistogram();
+        }
+      } else {
+        this.hideDetailedHistogram();
+      }
+      if (this.applicationFirstLoad && !!this.detailedContributor && this.detailedContributor.currentSelectedInterval) {
+        // Sets current selection of detailed histogram
+        const select = this.detailedContributor.currentSelectedInterval;
+        this.detailedTimelineIntervalSelection = { startvalue: select.startvalue, endvalue: select.endvalue };
+        this.applicationFirstLoad = false;
+      }
+    } else {
+      this.hideDetailedHistogram();
+      this.histogramComponent.histogram.histogramParams.chartHeight = this.componentInputs.chartHeight;
+      this.histogramComponent.resizeHistogram();
+    }
+  }
+
+  private hideDetailedHistogram() {
+    this.showDetailedHistogram = false;
+    if (!!this.detailedContributor) {
+      this.detailedContributor.updateData = false;
+    }
+  }
 }

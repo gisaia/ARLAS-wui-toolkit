@@ -127,7 +127,7 @@ export class TimelineComponent implements OnInit {
         this.resetHistogramsInputs(this.detailedTimelineComponent.input);
         this.detailedTimelineContributor = <DetailedHistogramContributor>this.arlasStartupService.contributorRegistry
           .get(this.detailedTimelineComponent.contributorId);
-        this.detailedTimelineContributor.updateData = true;
+        this.detailedTimelineContributor.updateData = false;
         this.timelineContributor.endCollaborationEvent.subscribe(() => {
           this.timelineContributor.setSelection(this.timelineData,
             this.arlasCollaborativesearchService.collaborations.get(this.timelineContributor.identifier));
@@ -225,7 +225,7 @@ export class TimelineComponent implements OnInit {
     if (this.timelineContributor.collections.length === 0) {
       this.timelineData = this.timelineContributor.chartData = [];
       this.detailedTimelineData = this.detailedTimelineContributor.chartData = [];
-      this.showDetailedTimeline = false;
+      this.hideDetailedTimeline();
     } else {
       this.timelineContributor.updateFromCollaboration({
         id: '',
@@ -249,7 +249,7 @@ export class TimelineComponent implements OnInit {
       .subscribe(c => {
         if (c.operation === OperationEnum.remove) {
           this.timelineIsFiltered = false;
-          this.showDetailedTimeline = false;
+          this.hideDetailedTimeline();
           this.timelineHistogramComponent.histogram.histogramParams.chartHeight = this.timelineComponent.input.chartHeight;
           this.timelineHistogramComponent.resizeHistogram();
         } else if (c.operation === OperationEnum.add) {
@@ -261,7 +261,7 @@ export class TimelineComponent implements OnInit {
       if (this.arlasCollaborativesearchService.totalSubscribe === 0 && this.timelineIsFiltered) {
         if (!!this.detailedTimelineContributor && !!this.detailedTimelineData) {
           if (this.detailedTimelineData.length === 0) {
-            this.showDetailedTimeline = false;
+            this.hideDetailedTimeline();
             this.timelineHistogramComponent.histogram.histogramParams.chartHeight = this.timelineComponent.input.chartHeight;
             this.timelineHistogramComponent.resizeHistogram();
           } else {
@@ -294,6 +294,7 @@ export class TimelineComponent implements OnInit {
         +this.timelineContributor.intervalSelection.startvalue);
       const intervalSelectionCondition = intervalSelection <= 0.2 * timelineRange;
       this.showDetailedTimeline = (detailedTimelineRange <= 0.2 * timelineRange) && intervalSelectionCondition;
+      this.detailedTimelineContributor.updateData = this.showDetailedTimeline;
       this.timelineHistogramComponent.histogram.histogramParams.chartHeight = (this.showDetailedTimeline) ?
         45 : this.timelineComponent.input.chartHeight;
       this.timelineHistogramComponent.histogram.histogramParams.yTicks = (this.showDetailedTimeline) ?
@@ -310,7 +311,7 @@ export class TimelineComponent implements OnInit {
         this.applicationFirstLoad = false;
       }
     } else {
-      this.showDetailedTimeline = false;
+      this.hideDetailedTimeline();
       this.timelineHistogramComponent.histogram.histogramParams.chartHeight = this.timelineComponent.input.chartHeight;
       this.timelineHistogramComponent.resizeHistogram();
     }
@@ -328,5 +329,12 @@ export class TimelineComponent implements OnInit {
         inputs = Position[inputs[key]];
       }
     });
+  }
+
+  private hideDetailedTimeline() {
+    this.showDetailedTimeline = false;
+    if (!!this.detailedTimelineContributor) {
+      this.detailedTimelineContributor.updateData = false;
+    }
   }
 }
