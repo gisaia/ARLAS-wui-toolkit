@@ -392,7 +392,7 @@ export class ArlasStartupService {
       .then(s => {
         this.settingsService.setSettings(s);
         this.persistenceService.createPersistenceApiInstance();
-        this.persmissionService.createPermissionApiInstance();
+        this.permissionService.createPermissionApiInstance();
         return s;
       });
   }
