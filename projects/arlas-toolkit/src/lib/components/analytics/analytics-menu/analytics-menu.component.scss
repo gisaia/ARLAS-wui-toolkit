@@ -1,0 +1,40 @@
+.analytics-menu {
+    width: 48px;
+
+    ::ng-deep.mat-list-item-content {
+        padding: 0 !important;
+        justify-content: center;
+    }
+
+    .tab-icon {
+        color: grey;
+    }
+
+    .selectedTab {
+        color: black;
+    }
+
+    .active-filter-tab{
+        position: absolute;
+        width: 14px;
+        height: 14px;
+        border-radius: 9px;
+        left: 10px;
+        top: 8px;
+        background-color: #F44336;
+
+        &:hover .active-filter-tab-close {
+            display: block;
+        }
+
+        .active-filter-tab-close{
+            display: none;
+            font-size: 12px;
+            color: white;
+            width: 14px;
+            height: 14px;
+            padding-top: 1px;
+            padding-left: 1px;
+        }
+    }
+}

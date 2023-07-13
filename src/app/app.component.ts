@@ -26,6 +26,7 @@ import {
 import { FilterShortcutConfiguration } from '../../projects/arlas-toolkit/src/lib/components/filter-shortcut/filter-shortcut.utils';
 import packageJson from '../../package.json';
 import { ChipsSearchContributor } from 'arlas-web-contributors';
+import { AnalyticsService } from '../../projects/arlas-toolkit/src/lib/services/analytics/analytics.service';
 
 
 
@@ -37,7 +38,6 @@ import { ChipsSearchContributor } from 'arlas-web-contributors';
 })
 export class AppComponent implements OnInit {
 
-  public analytics: Array<any>;
   public shortcuts: Array<FilterShortcutConfiguration>;
   public languages: string[];
   public analyticsOpen = false;
@@ -57,12 +57,12 @@ export class AppComponent implements OnInit {
     private arlasStartupService: ArlasStartupService,
     private arlasConfigService: ArlasConfigService,
     private collaborativeService: ArlasCollaborativesearchService,
+    private analyticsService: AnalyticsService
   ) {
   }
 
   public ngOnInit(): void {
-
-    this.analytics = this.arlasStartupService.analytics;
+    this.analyticsService.initializeGroups(this.arlasStartupService.analytics);
     this.shortcuts = this.arlasStartupService.filtersShortcuts;
     this.languages = ['en', 'fr', 'it', 'es', 'de', 'us', 'cn'];
     this.timelineComponentConfig = this.arlasConfigService.getValue('arlas.web.components.timeline');
@@ -75,7 +75,7 @@ export class AppComponent implements OnInit {
 
     this.version = packageJson.version;
 
-    this.shortcuts.forEach((_, idx) => {
+    this.shortcuts?.forEach((_, idx) => {
       this.isShortcutOpen.push(idx % 2 === 0);
     });
   }

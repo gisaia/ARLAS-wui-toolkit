@@ -11,9 +11,7 @@
   <arlas-timeline-shortcut class="arlas-timeline--timeshortcuts" [activeDatePicker]="activeDatePicker"
     [timelineComponent]="timelineComponent" [dateFormat]="timelineComponent?.dateFormat"></arlas-timeline-shortcut>
 </div>
-<div class="arlas-timeline--legend">
 
-</div>
 <div class="arlas-timeline--timelines" #arlasTimeline>
   <div *ngIf="detailedTimelineComponent" class="show-detailedtimeline-{{showDetailedTimeline.valueOf()}}"
     (mouseleave)="hideHistogramTooltip()">
