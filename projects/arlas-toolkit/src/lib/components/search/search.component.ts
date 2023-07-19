@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { ChangeDetectorRef, Component, Input, ElementRef } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, ElementRef, OnInit } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { Aggregation, AggregationResponse, Filter } from 'arlas-api';
@@ -32,7 +32,7 @@ import { filter, first, startWith, pairwise, debounceTime, map, mergeMap, mergeW
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.css']
 })
-export class SearchComponent {
+export class SearchComponent implements OnInit {
   @Input() public searchContributor: ChipsSearchContributor;
   public onLastBackSpace: Subject<boolean> = new Subject<boolean>();
   public searchCtrl: UntypedFormControl;
@@ -43,39 +43,7 @@ export class SearchComponent {
     private cdr: ChangeDetectorRef,
     public translate: TranslateService
   ) {
-
-
     this.searchCtrl = new UntypedFormControl();
-
-    this.keyEvent.pipe(pairwise()).subscribe(l => {
-      if (l[1] === 0 && l[0] !== 0 && this.searchContributor) {
-        this.collaborativeService.removeFilter(this.searchContributor.identifier);
-        this.cdr.detectChanges();
-      }
-    });
-
-    this.collaborativeService.contribFilterBus.pipe(
-      filter(contributor => !!contributor && this.searchContributor && contributor.identifier === this.searchContributor.identifier),
-      filter(contributor => (<ChipsSearchContributor>contributor).chipMapData.size !== 0),
-      first()
-    ).subscribe(
-      contributor => {
-        let initSearchValue = '';
-        (<ChipsSearchContributor>contributor).chipMapData.forEach((v, k) => {
-          let searchtxt = k;
-          if (k.split(':').length > 0) {
-            searchtxt = k.split(':')[1];
-          }
-          const pattern = /\"/gi;
-          initSearchValue += searchtxt.replace(pattern, '') + ' ';
-        });
-        this.searchCtrl.setValue(initSearchValue);
-      }
-    );
-
-    if (this.searchContributor) {
-      this.searchContributor.activateLastBackspace(this.onLastBackSpace);
-    }
 
     const autocomplete = this.searchCtrl.valueChanges.pipe(
       debounceTime(250),
@@ -102,6 +70,46 @@ export class SearchComponent {
     );
 
     this.filteredSearch = noautocomplete.pipe(mergeWith(autocomplete), mergeWith(nullautocomplete));
+  }
+
+  public ngOnInit() {
+    this.keyEvent.pipe(pairwise()).subscribe(l => {
+      if (l[1] === 0 && l[0] !== 0 && this.searchContributor) {
+        this.collaborativeService.removeFilter(this.searchContributor.identifier);
+        this.cdr.detectChanges();
+      }
+    });
+
+    // Retrieve value from the url and future collaborations
+    this.collaborativeService.collaborationBus.pipe(
+      filter(e => e.id === this.searchContributor.identifier || e.id === 'url')
+    ).subscribe(
+      e => {
+        const collaboration = this.collaborativeService.getCollaboration(this.searchContributor.identifier);
+        if (collaboration) {
+          collaboration.filters.forEach((f, collection) => {
+            let initSearchValue = '';
+            if (collection === this.searchContributor.collection) {
+              for (const filter of f) {
+                if (filter.q.length === 1 && filter.q[0].length === 1) {
+                  let searchtxt = filter.q[0][0];
+                  if (searchtxt.split(':').length > 0) {
+                    searchtxt = searchtxt.split(':')[1];
+                  }
+                  const pattern = /\"/gi;
+                  initSearchValue += searchtxt.replace(pattern, '') + ' ';
+                }
+              }
+              this.searchCtrl.setValue(initSearchValue.slice(0, -1));
+            }
+          });
+        }
+      }
+    );
+
+    if (this.searchContributor) {
+      this.searchContributor.activateLastBackspace(this.onLastBackSpace);
+    }
   }
 
   public filterSearch(search: string): Observable<AggregationResponse> {
