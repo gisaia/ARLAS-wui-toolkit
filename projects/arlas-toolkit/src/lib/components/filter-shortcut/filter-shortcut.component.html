@@ -2,9 +2,9 @@
     <div class="container" id="{{'shortcut-' +  shortcut.uuid}}">
         <section #title class="title" [class.open_title]="isOpen" (click)="toggle()"
             [style.min-width.px]="shortcutWidth / 2">
-            <div class="text">{{shortcut.title}}</div>
+            <div class="text">{{shortcut.title | translate}}</div>
             <div class="actions">
-                <arlas-shortcut-filters-handler 
+                <arlas-shortcut-filters-handler
                     [histogramInterval]="histogramInterval"
                     [contributorId]="shortcut.component?.contributorId"
                     [widgetType]="shortcut.component.componentType"
