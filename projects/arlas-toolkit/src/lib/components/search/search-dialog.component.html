@@ -1,7 +1,7 @@
 <form mat-dialog-content class="search-dialog">
     <div class="arlas-search-container">
         <mat-icon class="search">search</mat-icon>
-        <input matInput [formControl]="searchCtrl" class="full-width-input"
+        <input matInput [formControl]="searchCtrl" class="full-width-input" autocomplete="off"
             placeholder="{{searchContributor?.getName() | translate}}" (keyup)="onKeyUp($event)" name="search">
         <button *ngIf="searchCtrl.value" mat-icon-button type="button" class="close" (click)="clearSearch()">
             <mat-icon class="icon">close</mat-icon>
