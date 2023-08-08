@@ -209,7 +209,7 @@ export class ArlasBookmarkService {
     if (language) {
       queryParams['lg'] = language;
     }
-    this.router.navigate(['.'], { queryParams: queryParams, relativeTo: this.activatedRoute });
+    this.router.navigate([], { queryParams: queryParams, relativeTo: this.activatedRoute });
   }
 
   private combineBookmarkFromIds(selectedBookmark: Set<string>, changeOperator = false): Set<string> {
