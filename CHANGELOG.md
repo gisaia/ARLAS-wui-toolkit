@@ -1,8 +1,17 @@
 # Change Log
 
-## [v24.1.5](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.1.5) (2023-08-08)
+## [v24.1.6](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.1.6) (2023-08-09)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.1.5...v24.1.6)
+
+## [v24.1.5](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.1.5) (2023-08-09)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.1.4...v24.1.5)
+
+**Fixed bugs:**
+
+- Filter bars don't show icons [\#652](https://github.com/gisaia/ARLAS-wui-toolkit/issues/652)
+- Navigation in toolkitcomponent ignores the current path route of the app [\#651](https://github.com/gisaia/ARLAS-wui-toolkit/issues/651)
 
 ## [v24.1.4](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.1.4) (2023-07-25)
 
