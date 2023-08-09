@@ -22,6 +22,7 @@ import { OverlayRef } from '@angular/cdk/overlay';
 import { InjectionToken } from '@angular/core';
 
 export const CONFIG_ID_QUERY_PARAM = 'config_id';
+export const GET_OPTIONS = new InjectionToken<Function>('get_options');
 
 export interface ConfigAction {
   type: ConfigActionEnum;

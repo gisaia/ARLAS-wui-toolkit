@@ -2,7 +2,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 import { DateTimeProvider, OAuthLogger, OAuthModule, OAuthService, UrlHelperService } from 'angular-oauth2-oidc';
 import { AuthentificationService } from '../authentification/authentification.service';
-import { GET_OPTIONS } from '../persistence/persistence.service';
+import { GET_OPTIONS } from '../../tools/utils';
 import { ArlasSettingsService } from '../settings/arlas.settings.service';
 import { PermissionService } from './permission.service';
 import { getOptionsFactory } from '../../toolkit.module';
@@ -17,7 +17,6 @@ describe('PermissionService', () => {
       OAuthLogger,
       UrlHelperService,
       AuthentificationService,
-      { provide: GET_OPTIONS, useValue: {} },
       {
         provide: GET_OPTIONS,
         useFactory: getOptionsFactory,

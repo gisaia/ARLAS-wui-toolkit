@@ -87,7 +87,7 @@ export { ArlasConfigurationUpdaterService } from './lib/services/configuration-u
 export { ErrorService } from './lib/services/error/error.service';
 export { ArlasMapSettings } from './lib/services/map-settings/map-settings.service';
 export { ArlasMapService } from './lib/services/map/map.service';
-export { GET_OPTIONS, PersistenceService, PersistenceSetting } from './lib/services/persistence/persistence.service';
+export { PersistenceService, PersistenceSetting } from './lib/services/persistence/persistence.service';
 export { ArlasSettingsService } from './lib/services/settings/arlas.settings.service';
 export { ContributorBuilder } from './lib/services/startup/contributorBuilder';
 export {
@@ -111,7 +111,7 @@ export {
   ArlasOverlayRef, ArlasStorageObject, WidgetConfiguration,
   ArlasStorageType, CollectionCount, CollectionUnit, Config, ConfigAction, ConfigActionEnum,
   CONFIG_ID_QUERY_PARAM, DONUT_TOOLTIP_DATA, getFieldProperties, getKeyForColor, hashCode,
-  HISTOGRAM_TOOLTIP_DATA, intToRGB, MapService, sortOnDate, SpinnerOptions
+  HISTOGRAM_TOOLTIP_DATA, intToRGB, MapService, sortOnDate, SpinnerOptions, GET_OPTIONS
 } from './lib/tools/utils';
 export { FetchInterceptorService } from './lib/services/interceptor/fetch-interceptor.service';
 export { ArlasOverlayService, HistogramTooltipConfig, DonutTooltipConfig } from './lib/services/overlays/overlay.service';

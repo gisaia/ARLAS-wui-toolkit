@@ -23,6 +23,9 @@ import { Configuration, FetchAPI, StatusApi, TagRefRequest, WriteApi } from 'arl
 import { from, interval, Observable, Subject, Subscription } from 'rxjs';
 import { ArlasCollaborativesearchService, ArlasConfigService } from '../startup/startup.service';
 import { TaggerResponse } from './model';
+import { AuthentificationService } from '../authentification/authentification.service';
+import { GET_OPTIONS } from '../../tools/utils';
+import { ArlasSettingsService } from '../settings/arlas.settings.service';
 
 @Injectable()
 export class ArlasTaggerWriteApi extends WriteApi {
@@ -50,24 +53,42 @@ export class ArlasTagService implements OnDestroy {
   public processStatus: Map<string, TaggerResponse> = new Map<string, TaggerResponse>();
   private taggerApi: ArlasTaggerWriteApi;
   private statusApi: ArlasTaggerStatusApi;
+  private options;
 
   private tagger: any;
   private onGoingSubscription: Map<string, Subscription> = new Map<string, Subscription>();
 
 
   public constructor(
+    @Inject(GET_OPTIONS) private getOptions,
     private collaborativeSearchService: ArlasCollaborativesearchService,
     private configService: ArlasConfigService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private authService: AuthentificationService,
+    private arlasSettingsService: ArlasSettingsService
   ) {
     // for now, the ARLAS-tagger url  and collection name are fetched from the config.
     // we should keep doing it for now, otherwise we will have two sources (settings.yaml (it was env.js) & config.json) to configure
     // the taggger, and this can lead to incoherences
+    this.setOptions(this.getOptions());
     const configuration: Configuration = new Configuration();
     this.tagger = this.configService.getValue('arlas.tagger');
+    const settings = this.arlasSettingsService.settings;
     if (this.tagger && this.tagger.url) {
       this.taggerApi = new ArlasTaggerWriteApi(configuration, this.tagger.url, window.fetch);
       this.statusApi = new ArlasTaggerStatusApi(configuration, this.tagger.url, window.fetch);
+      const useAuthent = !!settings && !!settings.authentication && !!settings.authentication.use_authent;
+      if (useAuthent) {
+        this.authService.canActivateProtectedRoutes.subscribe(isActivable => {
+          if (isActivable) {
+            this.setOptions({
+              headers: {
+                Authorization: 'bearer ' + this.authService.accessToken
+              }
+            });
+          }
+        });
+      }
     }
   }
 
@@ -143,7 +164,7 @@ export class ArlasTagService implements OnDestroy {
     this.isProcessing = true;
 
     if (mode === 'tag') {
-      from(this.taggerApi.tagPost(this.tagger.collection, data)).subscribe(
+      from(this.taggerApi.tagPost(this.tagger.collection, data, false, this.options)).subscribe(
         (response: TaggerResponse) => {
           this.snackBar.open('Tag task running', '', snackConfig);
           this.status.next(new Map<string, boolean>().set(mode, true));
@@ -164,7 +185,7 @@ export class ArlasTagService implements OnDestroy {
         }
       );
     } else {
-      from(this.taggerApi.untagPost(this.tagger.collection, data)).subscribe(
+      from(this.taggerApi.untagPost(this.tagger.collection, data, false, this.options)).subscribe(
         (response: TaggerResponse) => {
           this.snackBar.open('Untag task running', '', snackConfig);
           this.status.next(new Map<string, boolean>().set(mode, true));
@@ -188,7 +209,7 @@ export class ArlasTagService implements OnDestroy {
   }
 
   public followStatus(response: any) {
-    from(this.statusApi.taggingGet(this.tagger.collection, response.id)).subscribe(
+    from(this.statusApi.taggingGet(this.tagger.collection, response.id, false, this.options)).subscribe(
       (response: TaggerResponse) => {
         this.processStatus.set(response.id, response);
         if (response.progress === 100) {
@@ -199,11 +220,14 @@ export class ArlasTagService implements OnDestroy {
   }
 
   public list(): Observable<TagRefRequest[]> {
-    return from(this.statusApi.taggingGetList(this.tagger.collection));
+    return from(this.statusApi.taggingGetList(this.tagger.collection, false, this.options));
   }
 
   public unfollowStatus(responseId: string) {
     this.processStatus.delete(responseId);
+  }
+  public setOptions(options): void {
+    this.options = options;
   }
 
   public ngOnDestroy(): void {

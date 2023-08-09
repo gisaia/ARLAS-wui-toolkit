@@ -1,12 +1,12 @@
-import { Injectable, InjectionToken, Inject } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 
 import { Observable } from 'rxjs/internal/Observable';
 import { from } from 'rxjs/internal/observable/from';
 import { Configuration, PersistApi, DataResource, DataWithLinks, Exists } from 'arlas-persistence-api';
 import { ArlasSettingsService } from '../settings/arlas.settings.service';
 import { map, mergeMap } from 'rxjs/operators';
+import { GET_OPTIONS } from '../../tools/utils';
 
-export const GET_OPTIONS = new InjectionToken<Function>('get_options');
 
 @Injectable({
   providedIn: 'root'

@@ -20,7 +20,7 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { OAuthLogger, OAuthModule, OAuthService, UrlHelperService } from 'angular-oauth2-oidc';
 import { AuthentificationService } from '../authentification/authentification.service';
-import { GET_OPTIONS } from '../persistence/persistence.service';
+import { GET_OPTIONS } from '../../tools/utils';
 import { ArlasExtendService } from './extend.service';
 import {
   ArlasStartupService, ArlasConfigService, ArlasCollaborativesearchService,

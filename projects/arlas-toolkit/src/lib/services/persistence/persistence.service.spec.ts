@@ -1,5 +1,6 @@
 import { TestBed, inject } from '@angular/core/testing';
-import { PersistenceService, GET_OPTIONS } from './persistence.service';
+import { PersistenceService } from './persistence.service';
+import { GET_OPTIONS } from '../../tools/utils';
 import { HttpClientModule } from '@angular/common/http';
 import { OAuthService, OAuthModule, OAuthLogger, UrlHelperService, DateTimeProvider } from 'angular-oauth2-oidc';
 import { AuthentificationService } from '../authentification/authentification.service';
@@ -18,7 +19,6 @@ describe('PersistenceService', () => {
         OAuthLogger,
         UrlHelperService,
         AuthentificationService,
-        { provide: GET_OPTIONS, useValue: {} },
         {
           provide: GET_OPTIONS,
           useFactory: getOptionsFactory,
