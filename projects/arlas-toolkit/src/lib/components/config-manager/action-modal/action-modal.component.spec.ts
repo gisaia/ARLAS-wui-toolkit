@@ -9,12 +9,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
-import { GET_OPTIONS } from '../../../services/persistence/persistence.service';
 import { AuthentificationService } from '../../../services/authentification/authentification.service';
 import { getOptionsFactory } from '../../../toolkit.module';
 import { DateTimeProvider, OAuthLogger, OAuthService, UrlHelperService } from 'angular-oauth2-oidc';
 import { HttpClientModule } from '@angular/common/http';
 import { ShareConfigModule } from '../share-config/share-config.module';
+import { GET_OPTIONS } from '../../../tools/utils';
 
 describe('ActionModalComponent', () => {
   let component: ActionModalComponent;

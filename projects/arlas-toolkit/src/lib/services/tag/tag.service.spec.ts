@@ -16,34 +16,42 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { APP_BASE_HREF } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
-import { TestBed } from '@angular/core/testing';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { ArlasConfigurationUpdaterService } from '../configuration-updater/configurationUpdater.service';
-import { ArlasCollaborativesearchService, ArlasStartupService } from '../startup/startup.service';
+import {  HttpClientModule } from '@angular/common/http';
+import { TestBed, inject } from '@angular/core/testing';
 import { ArlasTagService } from './tag.service';
+import { GET_OPTIONS } from '../../tools/utils';
+import { getOptionsFactory } from '../../toolkit.module';
+import { AuthentificationService } from '../authentification/authentification.service';
+import { DateTimeProvider, OAuthLogger, OAuthModule, OAuthService, UrlHelperService } from 'angular-oauth2-oidc';
+import { ArlasSettingsService } from '../settings/arlas.settings.service';
+import { ArlasCollaborativesearchService } from '../startup/startup.service';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('ArlasTagService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [HttpClientModule, OAuthModule, MatSnackBarModule],
       providers: [
+        ArlasTagService,
+        ArlasCollaborativesearchService,
+        ArlasSettingsService,
+        OAuthService,
+        DateTimeProvider,
+        OAuthLogger,
+        UrlHelperService,
+        AuthentificationService,
         {
-          provide: ArlasStartupService,
-          useClass: ArlasStartupService,
-          deps: [ArlasConfigurationUpdaterService]
-        },
-        {
-          provide: ArlasConfigurationUpdaterService,
-          useClass: ArlasConfigurationUpdaterService
-        },
-        ArlasTagService, ArlasCollaborativesearchService, { provide: APP_BASE_HREF, useValue: '/' }],
-      imports: [MatSnackBarModule, HttpClientModule]
+          provide: GET_OPTIONS,
+          useFactory: getOptionsFactory,
+          deps: [AuthentificationService]
+        }]
     });
   });
 
-  it('should be created', (() => {
-    const service: ArlasTagService = TestBed.get(ArlasTagService);
-    expect(service).toBeTruthy();
-  }));
+  it('should be created', inject([ArlasSettingsService],
+    (arlasSettingsSerivce: ArlasSettingsService) => {
+      const service: ArlasTagService = TestBed.get(ArlasTagService);
+      expect(service).toBeTruthy();
+      expect(arlasSettingsSerivce).toBeTruthy();
+    }));
 });

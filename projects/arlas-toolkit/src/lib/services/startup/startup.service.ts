@@ -39,13 +39,13 @@ import { projType } from 'arlas-web-core/models/projections';
 import YAML from 'js-yaml';
 import { Subject, zip } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
-import { GET_OPTIONS, PersistenceService, PersistenceSetting } from '../persistence/persistence.service';
-import { CONFIG_ID_QUERY_PARAM, WidgetConfiguration, getFieldProperties } from '../../tools/utils';
+import { PersistenceService, PersistenceSetting } from '../persistence/persistence.service';
+import { CONFIG_ID_QUERY_PARAM, GET_OPTIONS, WidgetConfiguration, getFieldProperties } from '../../tools/utils';
 import { AuthentificationService, AuthentSetting, NOT_CONFIGURED } from '../authentification/authentification.service';
 import { ArlasConfigurationUpdaterService } from '../configuration-updater/configurationUpdater.service';
 import { ErrorService } from '../error/error.service';
 import { FetchInterceptorService } from '../interceptor/fetch-interceptor.service';
-import { PermissionSetting } from '../permission/permission.service';
+import { PermissionService, PermissionSetting } from '../permission/permission.service';
 import { ArlasSettingsService } from '../settings/arlas.settings.service';
 import * as arlasConfSchema from './arlasconfig.schema.json';
 import { ContributorBuilder } from './contributorBuilder';
@@ -166,6 +166,7 @@ export class ArlasStartupService {
     private http: HttpClient, private translateService: TranslateService,
     @Inject(CONFIG_UPDATER) private configUpdater,
     private persistenceService: PersistenceService,
+    private persmissionService: PermissionService,
     private errorService: ErrorService, private fetchInterceptorService: FetchInterceptorService) {
     this.configurationUpdaterService = new ArlasConfigurationUpdaterService;
   }
@@ -445,8 +446,15 @@ export class ArlasStartupService {
             this.fetchOptions.headers = {
               Authorization: 'bearer ' + authService.accessToken
             };
+            // ARLAS-Permission
+            this.persmissionService.setOptions({
+              headers: {
+                Authorization: 'bearer ' + authService.accessToken
+              }
+            });
           } else {
             this.persistenceService.setOptions(this.getOptions());
+            this.persmissionService.setOptions(this.getOptions());
           }
           this.collaborativesearchService.setFetchOptions(this.fetchOptions);
           resolve(settings);
@@ -454,6 +462,7 @@ export class ArlasStartupService {
 
       } else {
         this.persistenceService.setOptions(this.getOptions());
+        this.persmissionService.setOptions(this.getOptions());
         resolve(settings);
       }
     });

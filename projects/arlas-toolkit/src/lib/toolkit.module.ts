@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { APP_INITIALIZER, forwardRef, NgModule } from '@angular/core';
+import { APP_INITIALIZER, forwardRef, InjectionToken, NgModule } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { BrowserModule } from '@angular/platform-browser';
@@ -40,7 +40,7 @@ import { ArlasExtendService } from './services/extend/extend.service';
 import { ArlasMapSettings } from './services/map-settings/map-settings.service';
 import { ArlasMapService } from './services/map/map.service';
 import { PermissionService } from './services/permission/permission.service';
-import { GET_OPTIONS, PersistenceService } from './services/persistence/persistence.service';
+import { PersistenceService } from './services/persistence/persistence.service';
 import { ArlasSettingsService } from './services/settings/arlas.settings.service';
 import {
   ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService, CONFIG_UPDATER, FETCH_OPTIONS
@@ -50,6 +50,9 @@ import { ArlasToolkitSharedModule } from './shared.module';
 import { PaginatorI18n } from './tools/paginatori18n';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { ToolkitRoutingModule } from './toolkit-routing.module';
+import { GET_OPTIONS } from './tools/utils';
+
+
 
 export function startupServiceFactory(startupService: ArlasStartupService) {
   const load = () => startupService.load();
