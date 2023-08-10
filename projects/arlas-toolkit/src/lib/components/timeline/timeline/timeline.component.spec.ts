@@ -30,9 +30,11 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserModule } from '@angular/platform-browser';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from '@danielmoncada/angular-datetime-picker';
 import { TranslateFakeLoader, TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
-import { DonutModule, HistogramModule, MetricModule, PowerbarsModule, ResultsModule } from 'arlas-web-components';
+import {
+  AwcColorGeneratorLoader, ColorGeneratorLoader, ColorGeneratorModule,
+  DonutModule, HistogramModule, MetricModule, PowerbarsModule, ResultsModule
+} from 'arlas-web-components';
 import { GetTimeLabelPipe } from '../../../pipes/get-time-label.pipe';
-import { ArlasColorGeneratorLoader } from '../../../services/color-generator-loader/color-generator-loader.service';
 import { ArlasConfigurationUpdaterService } from '../../../services/configuration-updater/configurationUpdater.service';
 import { ArlasOverlayService } from '../../../services/overlays/overlay.service';
 import {
@@ -57,11 +59,16 @@ describe('TimelineComponent', () => {
         MatTooltipModule, BrowserModule, HistogramModule, ResultsModule, PowerbarsModule, DonutModule, MetricModule,
         TranslateModule.forRoot({
           loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
+        }),
+        ColorGeneratorModule.forRoot({
+          loader: {
+            provide: ColorGeneratorLoader,
+            useClass: AwcColorGeneratorLoader
+          }
         })
       ],
       providers: [
         ArlasCollaborativesearchService,
-        ArlasColorGeneratorLoader,
         ArlasOverlayService,
         {
           provide: ArlasStartupService,
@@ -69,12 +76,12 @@ describe('TimelineComponent', () => {
           deps: [ArlasConfigurationUpdaterService]
         },
         ArlasConfigService, TranslateService, HttpClient,
-        {provide: CONFIG_UPDATER, useValue: {}},
+        { provide: CONFIG_UPDATER, useValue: {} },
         {
           provide: ArlasConfigurationUpdaterService,
           useClass: ArlasConfigurationUpdaterService
         },
-        {provide: FETCH_OPTIONS, useValue: {}},
+        { provide: FETCH_OPTIONS, useValue: {} },
       ]
     })
       .compileComponents();

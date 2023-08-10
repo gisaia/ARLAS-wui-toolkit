@@ -29,7 +29,7 @@ import {
   MapContributor
 } from 'arlas-web-contributors';
 import { ArlasConfigService, ArlasCollaborativesearchService } from './startup.service';
-import { ArlasColorGeneratorLoader } from '../color-generator-loader/color-generator-loader.service';
+import { ArlasColorGeneratorLoader } from '../../tools/color-generator-loader';
 import { ArlasSettingsService } from '../settings/arlas.settings.service';
 
 export class ContributorBuilder {

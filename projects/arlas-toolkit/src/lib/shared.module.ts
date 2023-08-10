@@ -90,7 +90,7 @@ import { TimelineComponent } from './components/timeline/timeline/timeline.compo
 import { UserInfosComponent } from './components/user-infos/user-infos.component';
 import { WidgetComponent } from './components/widget/widget.component';
 import { GetTimeLabelPipe } from './pipes/get-time-label.pipe';
-import { ArlasColorGeneratorLoader } from './services/color-generator-loader/color-generator-loader.service';
+import { ArlasColorGeneratorLoader } from './tools/color-generator-loader';
 import { FetchInterceptorService } from './services/interceptor/fetch-interceptor.service';
 import { ArlasOverlayService } from './services/overlays/overlay.service';
 import { ArlasWalkthroughModule } from './services/walkthrough/walkthrough.module';
@@ -99,6 +99,7 @@ import { FilterShortcutComponent } from './components/filter-shortcut/filter-sho
 import { MatDividerModule } from '@angular/material/divider';
 import { FilterShortcutChipComponent } from './components/filter-shortcut/chip/chip.component';
 import { ShortcutFiltersHandlerComponent } from './components/filter-shortcut/filters-handler/filters-handler.component';
+import { ArlasCollaborativesearchService, ArlasConfigService } from './services/startup/startup.service';
 
 export class CustomTranslateLoader implements TranslateLoader {
 
@@ -177,7 +178,8 @@ export class CustomTranslateLoader implements TranslateLoader {
     ColorGeneratorModule.forRoot({
       loader: {
         provide: ColorGeneratorLoader,
-        useClass: ArlasColorGeneratorLoader
+        useClass: ArlasColorGeneratorLoader,
+        deps:[ArlasConfigService, ArlasCollaborativesearchService]
       }
     }),
     TranslateModule.forRoot({

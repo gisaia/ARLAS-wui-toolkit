@@ -24,9 +24,10 @@ import { Subject } from 'rxjs';
 import { Contributor, Collaboration } from 'arlas-web-core';
 import { CollectionReferenceParameters } from 'arlas-api';
 import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from '../../services/startup/startup.service';
-import { ArlasColorGeneratorLoader } from '../../services/color-generator-loader/color-generator-loader.service';
+import { ArlasColorGeneratorLoader } from '../../tools/color-generator-loader';
 import { CollectionUnit, CollectionCount } from '../../tools/utils';
 import { isShortcutID } from '../filter-shortcut/filter-shortcut.utils';
+import { ArlasColorService, ColorGeneratorLoader } from 'arlas-web-components';
 
 
 @Pipe({ name: 'getContributorLabel' })
@@ -177,7 +178,7 @@ export class FiltersComponent implements OnInit {
     private collaborativeSearchService: ArlasCollaborativesearchService,
     private arlasStartupService: ArlasStartupService,
     private configService: ArlasConfigService,
-    private arlasColorService: ArlasColorGeneratorLoader,
+    private arlasColorService: ArlasColorService,
     private cdr: ChangeDetectorRef
   ) {
 

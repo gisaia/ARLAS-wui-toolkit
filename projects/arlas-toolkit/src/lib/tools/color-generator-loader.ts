@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
 import { mix } from 'tinycolor2';
-import { ArlasConfigService, ArlasCollaborativesearchService } from '../startup/startup.service';
+import { ArlasConfigService, ArlasCollaborativesearchService } from '../services/startup/startup.service';
 import { Aggregation } from 'arlas-api';
 import { projType } from 'arlas-web-core';
 import { ColorGeneratorLoader } from 'arlas-web-components';
 import * as tinycolor from 'tinycolor2';
+import { Subject } from 'rxjs';
 
 /**
  * This service allows to generate a color for a given term.
@@ -16,20 +16,24 @@ import * as tinycolor from 'tinycolor2';
  * If an external `externalColorsSaturationWeight` list is given to the service `getColor` method,
  * it is used insted of `colorsSaturationWeight`
  */
-@Injectable()
-export class ArlasColorGeneratorLoader implements ColorGeneratorLoader {
-  // TODO: keysToColors should be private and only accessed with setters and getters
+export class ArlasColorGeneratorLoader extends ColorGeneratorLoader {
+
   public keysToColors: Array<[string, string]> = new Array<[string, string]>();
   public colorsSaturationWeight: number;
   public keysToColorsMap: Map<string, string> = new Map<string, string>();
   public colorAggregations: Array<[Aggregation, Aggregation]>;
-
+  private changekeysToColors = new Subject<void>();
+  public changekeysToColors$ = this.changekeysToColors.asObservable();
   public constructor(
     private configService: ArlasConfigService,
     private collaborativesearchService: ArlasCollaborativesearchService) {
+    super();
     const webConfig = this.configService.getValue('arlas.web');
     if (webConfig && webConfig.colorGenerator) {
       this.keysToColors = webConfig.colorGenerator.keysToColors;
+      this.keysToColors.forEach(item => {
+        this.keysToColorsMap.set(item[0], item[1]);
+      });
       this.colorsSaturationWeight = webConfig.colorGenerator.colorsSaturationWeight;
       this.colorAggregations = webConfig.colorGenerator.colorAggregations;
     }
@@ -39,7 +43,9 @@ export class ArlasColorGeneratorLoader implements ColorGeneratorLoader {
     if (this.colorsSaturationWeight === undefined || this.colorsSaturationWeight === null) {
       this.colorsSaturationWeight = 0.5;
     }
+    this.changekeysToColors.next();
   }
+
 
   public getColor(key: string, externalKeysToColors?: Array<[string, string]>, externalColorsSaturationWeight?: number): string {
     let colorHex = null;
@@ -85,6 +91,7 @@ export class ArlasColorGeneratorLoader implements ColorGeneratorLoader {
         this.keysToColors.push([k, c]);
       });
     }
+    this.changekeysToColors.next();
   }
 
   /**
@@ -96,6 +103,7 @@ export class ArlasColorGeneratorLoader implements ColorGeneratorLoader {
     this.keysToColors.forEach(item => {
       this.keysToColorsMap.set(item[0], item[1]);
     });
+    this.changekeysToColors.next();
   }
 
   private getHexColor(key: string, saturationWeight: number): string {

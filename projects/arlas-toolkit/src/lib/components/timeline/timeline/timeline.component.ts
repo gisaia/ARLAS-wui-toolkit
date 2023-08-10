@@ -23,12 +23,11 @@ import { OperationEnum } from 'arlas-web-core';
 import { ArlasCollaborativesearchService, ArlasStartupService } from '../../../services/startup/startup.service';
 import { SelectedOutputValues } from 'arlas-web-contributors/models/models';
 import { ChartType, DataType, Position, HistogramTooltip } from 'arlas-d3';
-import { HistogramComponent } from 'arlas-web-components';
+import { ArlasColorService, HistogramComponent } from 'arlas-web-components';
 import { filter } from 'rxjs/operators';
 import { CollectionLegend, TimelineConfiguration } from './timeline.utils';
 import { ArlasOverlayService } from '../../../services/overlays/overlay.service';
 import { ArlasOverlayRef } from '../../../tools/utils';
-import { ArlasColorGeneratorLoader } from '../../../services/color-generator-loader/color-generator-loader.service';
 
 
 /**
@@ -83,7 +82,7 @@ export class TimelineComponent implements OnInit {
 
   public constructor(private arlasCollaborativesearchService: ArlasCollaborativesearchService, private cdr: ChangeDetectorRef,
     private arlasStartupService: ArlasStartupService, private arlasOverlayService: ArlasOverlayService,
-    private arlasColorService: ArlasColorGeneratorLoader) {
+    private arlasColorService: ArlasColorService) {
   }
 
   public ngOnInit() {
