@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@angular/core';
+import { Injectable, Inject, InjectionToken } from '@angular/core';
 import { AuthorizeApi, Configuration, Resource } from 'arlas-permissions-api';
 import { ArlasSettingsService } from '../settings/arlas.settings.service';
 import { from } from 'rxjs/internal/observable/from';

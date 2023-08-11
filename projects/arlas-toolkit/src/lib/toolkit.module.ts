@@ -32,7 +32,7 @@ import { ArlasTranslateIntl } from './components/timeline/date-picker/ArlasTrans
 import { ArlasAoiService } from './services/aoi/aoi.service';
 import { AuthentificationService } from './services/authentification/authentification.service';
 import { ArlasBookmarkService } from './services/bookmark/bookmark.service';
-import { ArlasColorGeneratorLoader } from './services/color-generator-loader/color-generator-loader.service';
+import { ArlasColorGeneratorLoader } from './tools/color-generator-loader';
 import { ArlasConfigurationDescriptor } from './services/configuration-descriptor/configurationDescriptor.service';
 import { ErrorService } from './services/error/error.service';
 import { ArlasExportCsvService } from './services/export-csv/export-csv.service';
@@ -135,12 +135,6 @@ export const MY_CUSTOM_FORMATS = {
     ArlasToolkitSharedModule,
     BrowserModule,
     BrowserAnimationsModule,
-    ColorGeneratorModule.forRoot({
-      loader: {
-        provide: ColorGeneratorLoader,
-        useClass: ArlasColorGeneratorLoader
-      }
-    }),
     ErrorModalModule,
     OAuthModule.forRoot()
   ],
@@ -169,7 +163,6 @@ export const MY_CUSTOM_FORMATS = {
     forwardRef(() => ArlasMapSettings),
     forwardRef(() => ArlasMapService),
     forwardRef(() => ArlasConfigurationDescriptor),
-    forwardRef(() => ArlasColorGeneratorLoader),
     forwardRef(() => ArlasExtendService),
     forwardRef(() => ArlasWalkthroughService),
     forwardRef(() => ArlasExportCsvService),

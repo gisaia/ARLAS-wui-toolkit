@@ -81,7 +81,7 @@ export { GetTimeLabelPipe } from './lib/pipes/get-time-label.pipe';
 export { ArlasAoiService } from './lib/services/aoi/aoi.service';
 export { AuthentificationService, AuthentSetting, NOT_CONFIGURED } from './lib/services/authentification/authentification.service';
 export { ArlasBookmarkService } from './lib/services/bookmark/bookmark.service';
-export { ArlasColorGeneratorLoader } from './lib/services/color-generator-loader/color-generator-loader.service';
+export { ArlasColorGeneratorLoader } from './lib/tools/color-generator-loader';
 export { ArlasConfigurationDescriptor } from './lib/services/configuration-descriptor/configurationDescriptor.service';
 export { ArlasConfigurationUpdaterService } from './lib/services/configuration-updater/configurationUpdater.service';
 export { ErrorService } from './lib/services/error/error.service';
