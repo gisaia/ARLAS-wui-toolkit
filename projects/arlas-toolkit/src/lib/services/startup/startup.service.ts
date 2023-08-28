@@ -508,18 +508,18 @@ export class ArlasStartupService {
                 this.persistenceService.setOptions({
                   headers: {
                     Authorization: 'Bearer ' + userSubject.accessToken,
-                    'arlas-org-filter': !!org ? org : userSubject.user.organisations[0].name
+                    'arlas-org-filter': !!org ? org : userSubject.user.organisations[0]?.name
                   }
                 });
                 this.permissionService.setOptions({
                   headers: {
-                    Authorization: 'bearer ' + userSubject.accessToken
+                    Authorization: 'Bearer ' + userSubject.accessToken
                   }
                 });
                 // ARLAS-server
                 this.fetchOptions.headers = {
                   Authorization: 'Bearer ' + userSubject.accessToken,
-                  'arlas-org-filter': !!org ? org : userSubject.user.organisations[0].name
+                  'arlas-org-filter': !!org ? org : userSubject.user.organisations[0]?.name
                 };
               } else {
                 this.persistenceService.setOptions({});

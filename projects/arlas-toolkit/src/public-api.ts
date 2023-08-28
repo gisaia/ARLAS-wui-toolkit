@@ -112,7 +112,7 @@ export {
   ArlasOverlayRef, ArlasStorageObject, WidgetConfiguration,
   ArlasStorageType, CollectionCount, CollectionUnit, Config, ConfigAction, ConfigActionEnum,
   CONFIG_ID_QUERY_PARAM, DONUT_TOOLTIP_DATA, getFieldProperties, getKeyForColor, hashCode,
-  HISTOGRAM_TOOLTIP_DATA, intToRGB, MapService, sortOnDate, SpinnerOptions, AuthentSetting, NOT_CONFIGURED
+  HISTOGRAM_TOOLTIP_DATA, intToRGB, MapService, sortOnDate, SpinnerOptions, AuthentSetting, NOT_CONFIGURED, GET_OPTIONS
 } from './lib/tools/utils';
 export { FetchInterceptorService } from './lib/services/interceptor/fetch-interceptor.service';
 export { ArlasOverlayService, HistogramTooltipConfig, DonutTooltipConfig } from './lib/services/overlays/overlay.service';
