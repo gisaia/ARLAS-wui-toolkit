@@ -268,7 +268,8 @@ export class ArlasStartupService {
    */
   public setConfigService(data) {
     /** First set the raw config data in order to create an ArlasExploreApi instance */
-    const newConfig = this.configUpdater(data);
+    const configAfterUpdater = this.configUpdater(data);
+    const newConfig = this.fixLayerStyleInfinity(configAfterUpdater);
     if (!this.emptyMode) {
       this.configService.setConfig(newConfig);
       this.collaborativesearchService.setFetchOptions(this.fetchOptions);
@@ -758,6 +759,30 @@ export class ArlasStartupService {
       }
     }
     return component;
+  }
+
+  private fixLayerStyleInfinity(config) {
+    /** FIX wrong v15 map filters about Infinity values */
+    if (!!config && !!config.arlas && !!config.arlas.web && !!config.arlas.web.components.mapgl) {
+      const layers = config.arlas.web.components.mapgl.input.mapLayers.layers;
+      layers.forEach(layer => {
+        if (!!layer.filter && Array.isArray(layer.filter)) {
+          const filters = [];
+          layer.filter.forEach(expression => {
+            if (Array.isArray(expression) && expression.length === 3) {
+              if (expression[0] === '!=' && expression[2] === 'Infinity') {
+                expression = ['<=', (expression[1] as any).replace(/\./g, '_'), Number.MAX_VALUE];
+              } else if (expression[0] === '!=' && expression[2] === '-Infinity') {
+                expression = ['>=', (expression[1] as any).replace(/\./g, '_'), -Number.MAX_VALUE];
+              }
+            }
+            filters.push(expression);
+          });
+          layer.filter = filters;
+        }
+      });
+    }
+    return config;
   }
 }
 

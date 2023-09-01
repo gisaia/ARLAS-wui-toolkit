@@ -102,7 +102,7 @@ export { ArlasTaggerModule } from './lib/tagger.module';
 export { ToolkitRoutingModule } from './lib/toolkit-routing.module';
 export { ToolkitComponent } from './lib/toolkit.component';
 export {
-  ArlasToolKitModule, auhtentServiceFactory, configServiceFactory, configUpdater, configUpdaterFactory,
+  ArlasToolKitModule, auhtentServiceFactory, configServiceFactory, configUpdaterFactory,
   getOptionsFactory, localDatePickerFactory, MY_CUSTOM_FORMATS, settingsServiceFactory, startupServiceFactory
 } from './lib/toolkit.module';
 export { ArlasDataSource } from './lib/tools/arlasDataSource';
