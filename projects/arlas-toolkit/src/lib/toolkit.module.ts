@@ -95,30 +95,6 @@ export function getOptionsFactory(arlasAuthService: AuthentificationService): an
   return getOptions;
 }
 
-export function configUpdater(data) {
-  /** FIX wrong v15 map filters about Infinity values */
-  if (!!data[0] && !!data[0].arlas && !!data[0].arlas.web && !!data[0].arlas.web.components.mapgl) {
-    const layers = data[0].arlas.web.components.mapgl.input.mapLayers.layers;
-    layers.forEach(layer => {
-      if (!!layer.filter && Array.isArray(layer.filter)) {
-        const filters = [];
-        layer.filter.forEach(expression => {
-          if (Array.isArray(expression) && expression.length === 3) {
-            if (expression[0] === '!=' && expression[2] === 'Infinity') {
-              expression = ['<=', (expression[1] as any).replace(/\./g, '_'), Number.MAX_VALUE];
-            } else if (expression[0] === '!=' && expression[2] === '-Infinity') {
-              expression = ['>=', (expression[1] as any).replace(/\./g, '_'), -Number.MAX_VALUE];
-            }
-          }
-          filters.push(expression);
-        });
-        layer.filter = filters;
-      }
-    });
-  }
-  return data[0];
-}
-
 export const MY_CUSTOM_FORMATS = {
   parseInput: 'lll',
   fullPickerInput: 'll LTS',
@@ -149,7 +125,7 @@ export const MY_CUSTOM_FORMATS = {
     },
     {
       provide: CONFIG_UPDATER,
-      useValue: configUpdater
+      useFactory: configUpdaterFactory
     },
     { provide: MAT_DIALOG_DATA, useValue: {} },
     { provide: MatDialogRef, useValue: {} },

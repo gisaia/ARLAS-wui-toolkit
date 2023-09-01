@@ -14,7 +14,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
 import {
   ArlasCollaborativesearchService,
-  ArlasConfigService, ArlasStartupService, FETCH_OPTIONS
+  ArlasConfigService, ArlasStartupService, CONFIG_UPDATER, FETCH_OPTIONS
 } from '../../services/startup/startup.service';
 import { ArlasTagService } from '../../services/tag/tag.service';
 import { TagComponent } from './tag.component';
@@ -45,6 +45,7 @@ describe('TagComponent', () => {
           useClass: ArlasConfigurationUpdaterService
         },
         { provide: FETCH_OPTIONS, useValue: {} },
+        { provide: CONFIG_UPDATER, useValue: {} },
         {
           provide: GET_OPTIONS,
           useFactory: getOptionsFactory,
