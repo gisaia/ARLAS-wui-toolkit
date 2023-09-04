@@ -5,7 +5,6 @@ authentication:
   use_authent: true
   auth_mode: 'iam'
   force_connect: false
-  use_discovery: false
   threshold: 5000
   url: http://localhost:9997/arlas_iam_server
 
