@@ -11,22 +11,23 @@ import { takeUntil } from 'rxjs/internal/operators/takeUntil';
 import { Subject } from 'rxjs/internal/Subject';
 import { AuthentSetting, NOT_CONFIGURED } from '../../tools/utils';
 import { ArlasIamApi } from '../startup/startup.service';
+import { ArlasAuthentificationService } from '../arlas-authentification/arlas-authentification.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ArlasIamService {
+export class ArlasIamService extends ArlasAuthentificationService {
 
   private options;
   public currentUserSubject: BehaviorSubject<{ accessToken: string; refreshToken: RefreshToken; user: UserData; }>;
   public arlasIamApi: ArlasIamApi;
   private executionObservable;
   private unsubscribe: Subject<void> = new Subject<void>();
-  public authConfigValue: AuthentSetting;
 
   public constructor(
     private router: Router
   ) {
+    super();
     this.currentUserSubject = new BehaviorSubject<{ accessToken: string; refreshToken: RefreshToken; user: UserData; }>(null);
   }
 
@@ -36,24 +37,6 @@ export class ArlasIamService {
 
   public setArlasIamApi(api: ArlasIamApi) {
     this.arlasIamApi = api;
-  }
-
-  public areSettingsValid(authentSetting: AuthentSetting): [boolean, string] {
-    let valid = true;
-    const missingInfo = [];
-    if (authentSetting && authentSetting.use_authent) {
-      if (authentSetting.auth_mode === 'iam') {
-        if (!authentSetting.url || authentSetting.url === NOT_CONFIGURED) {
-          valid = false;
-          missingInfo.push('- `iam server url` must be configured when `auth_mode=iam`');
-        }
-        if (!authentSetting.threshold) {
-          valid = false;
-          missingInfo.push('- `iam server threshold` must be configured when `auth_mode=iam`');
-        }
-      }
-    }
-    return [valid, missingInfo.join('\n')];
   }
 
   public startRefreshTokenTimer(authentSetting: AuthentSetting): void {
@@ -80,6 +63,57 @@ export class ArlasIamService {
       });
     }
 
+  }
+
+  public initAuthService() {
+    let refreshToken: RefreshToken = {};
+    try {
+      refreshToken = JSON.parse(localStorage.getItem('refreshToken'));
+    } catch (error) {
+      refreshToken = null;
+    }
+    if (!!refreshToken) {
+      this.setOptions({
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('accessToken')
+        }
+      });
+      return this.refresh(refreshToken.value).toPromise()
+        .then(
+          response => {
+            const accessToken = response.accessToken;
+            localStorage.setItem('accessToken', accessToken);
+            localStorage.setItem('refreshToken', JSON.stringify(response.refreshToken));
+            this.setOptions({
+              headers: {
+                Authorization: 'Bearer ' + accessToken
+              }
+            });
+            this.currentUserSubject.next(
+              { accessToken: accessToken, refreshToken: response.refreshToken, user: response.user }
+            );
+            return Promise.resolve();
+          }).catch((err) => console.log(err));
+    } else {
+      return Promise.resolve();
+    }
+  }
+
+  public areSettingsValid(authentSetting: AuthentSetting): [boolean, string] {
+    let valid = true;
+    const missingInfo = [];
+    if (authentSetting && authentSetting.use_authent) {
+      if (!authentSetting.url || authentSetting.url === NOT_CONFIGURED) {
+        valid = false;
+        missingInfo.push('- `iam server url` must be configured when `auth_mode=iam`');
+      }
+      if (!authentSetting.threshold) {
+        valid = false;
+        missingInfo.push('- `iam server threshold` must be configured when `auth_mode=iam`');
+      }
+
+    }
+    return [valid, missingInfo.join('\n')];
   }
 
   public stopRefreshTokenTimer(): void {

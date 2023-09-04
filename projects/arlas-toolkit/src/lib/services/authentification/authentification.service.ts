@@ -1,23 +1,21 @@
-import { Injectable } from '@angular/core';
-import { OAuthService, AuthConfig, OAuthErrorEvent, OAuthStorage, UserInfo } from 'angular-oauth2-oidc';
-import { BehaviorSubject, ReplaySubject, Observable, combineLatest } from 'rxjs';
-import { map } from 'rxjs/internal/operators/map';
 import { HttpClient } from '@angular/common/http';
-import { AuthentSetting, CONFIG_ID_QUERY_PARAM, NOT_CONFIGURED } from '../../tools/utils';
-import { filter } from 'rxjs/internal/operators/filter';
+import { Injectable } from '@angular/core';
+import { AuthConfig, OAuthErrorEvent, OAuthService, OAuthStorage, UserInfo } from 'angular-oauth2-oidc';
+import { BehaviorSubject, Observable, ReplaySubject, combineLatest } from 'rxjs';
 import { from } from 'rxjs/internal/observable/from';
-import { ArlasIamService } from '../arlas-iam/arlas-iam.service';
-import { RefreshToken } from 'arlas-iam-api';
+import { filter } from 'rxjs/internal/operators/filter';
+import { map } from 'rxjs/internal/operators/map';
+import { AuthentSetting, CONFIG_ID_QUERY_PARAM, NOT_CONFIGURED } from '../../tools/utils';
+import { ArlasAuthentificationService } from '../arlas-authentification/arlas-authentification.service';
 
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthentificationService {
+export class AuthentificationService extends ArlasAuthentificationService {
 
   public authConfig: AuthConfig;
-  public authConfigValue: AuthentSetting;
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
   public isAuthenticated = this.isAuthenticatedSubject.asObservable();
   private isDoneLoadingSubject = new ReplaySubject<boolean>();
@@ -41,22 +39,21 @@ export class AuthentificationService {
 
   public constructor(
     private oauthService: OAuthService,
-    private arlasIamService: ArlasIamService,
     private http: HttpClient
   ) {
+    super();
     this.silentRefreshErrorSubject = this.oauthService.events.pipe(filter(e => e instanceof OAuthErrorEvent),
       filter((e: OAuthErrorEvent) => e.type === 'silent_refresh_error' || e.type === 'silent_refresh_timeout'));
   }
 
-  public initAuthService(authentSettings: AuthentSetting): Promise<void> {
-    this.authConfigValue = authentSettings;
+  public initAuthService(): Promise<void> {
     if (this.authConfigValue) {
-      if (this.authConfigValue.use_authent && (!this.authConfigValue.auth_mode || this.authConfigValue.auth_mode === 'openid')) {
+      if (this.authConfigValue.use_authent) {
         const storage = this.authConfigValue['storage'] === 'localstorage' ? localStorage : sessionStorage;
-        if (authentSettings.use_discovery || this.authConfigValue['jwks_endpoint'] === undefined) {
+        if (this.authConfigValue.use_discovery || this.authConfigValue['jwks_endpoint'] === undefined) {
           this.authConfig = this.getAuthConfig(this.authConfigValue);
           this.setupAuthService(storage);
-          return this.runInitialLoginSequence(authentSettings.use_discovery, authentSettings.force_connect);
+          return this.runInitialLoginSequence(this.authConfigValue.use_discovery, this.authConfigValue.force_connect);
         } else {
           // Call jwks endpoint to set in config
           if (this.authConfigValue['token_endpoint'] && this.authConfigValue['userinfo_endpoint']
@@ -65,44 +62,12 @@ export class AuthentificationService {
               .then(jwks => {
                 this.authConfig = this.getAuthConfig(this.authConfigValue, jwks);
                 this.setupAuthService(storage);
-                this.runInitialLoginSequence(false, authentSettings.force_connect);
+                this.runInitialLoginSequence(false, this.authConfigValue.force_connect);
               });
           } else {
             console.error('Authentication config error : if useDiscovery ' +
               'is set to false in configuration, tokenEndpoint, userinfoEndpoint, loginUrl and jwksEndpoint must be defined.');
           }
-        }
-      } else if (this.authConfigValue.use_authent && this.authConfigValue.auth_mode === 'iam') {
-        let refreshToken: RefreshToken = {};
-        try {
-          refreshToken = JSON.parse(localStorage.getItem('refreshToken'));
-        } catch (error) {
-          refreshToken = null;
-        }
-        if (!!refreshToken) {
-          this.arlasIamService.setOptions({
-            headers: {
-              Authorization: 'Bearer ' + localStorage.getItem('accessToken')
-            }
-          });
-          return this.arlasIamService.refresh(refreshToken.value).toPromise()
-            .then(
-              response => {
-                const accessToken = response.accessToken;
-                localStorage.setItem('accessToken', accessToken);
-                localStorage.setItem('refreshToken', JSON.stringify(response.refreshToken));
-                this.arlasIamService.setOptions({
-                  headers: {
-                    Authorization: 'Bearer ' + accessToken
-                  }
-                });
-                this.arlasIamService.currentUserSubject.next(
-                  { accessToken: accessToken, refreshToken: response.refreshToken, user: response.user }
-                );
-                return Promise.resolve();
-              }).catch((err) => console.log(err));
-        } else {
-          return Promise.resolve();
         }
       }
     }
@@ -171,52 +136,42 @@ export class AuthentificationService {
     let valid = true;
     const missingInfo = [];
     if (authentSetting && authentSetting.use_authent) {
-      if (authentSetting.auth_mode === 'openid' || !authentSetting.auth_mode) {
-        if (!authentSetting.client_id || authentSetting.client_id === NOT_CONFIGURED) {
+
+      if (!authentSetting.client_id || authentSetting.client_id === NOT_CONFIGURED) {
+        valid = false;
+        missingInfo.push('- `client_id` must be configured when `auth_mode=openid`');
+      }
+      if (!authentSetting.issuer || authentSetting.issuer === NOT_CONFIGURED) {
+        valid = false;
+        missingInfo.push('- `issuer` must be configured when `auth_mode=openid`');
+      }
+      if (!authentSetting.scope || authentSetting.scope === NOT_CONFIGURED) {
+        valid = false;
+        missingInfo.push('- `scope` must be configured when `auth_mode=openid`');
+      }
+      if (!authentSetting.response_type || authentSetting.response_type === NOT_CONFIGURED) {
+        valid = false;
+        missingInfo.push('- `response_type` must be configured when `auth_mode=openid`');
+      }
+      if (authentSetting.use_discovery === false) {
+        if (!authentSetting.login_url || authentSetting.login_url === NOT_CONFIGURED) {
           valid = false;
-          missingInfo.push('- `client_id` must be configured when `auth_mode=openid`');
+          missingInfo.push('- `login_url`  must be configured when `use_discovery=false`');
         }
-        if (!authentSetting.issuer || authentSetting.issuer === NOT_CONFIGURED) {
+        if (!authentSetting.token_endpoint || authentSetting.token_endpoint === NOT_CONFIGURED) {
           valid = false;
-          missingInfo.push('- `issuer` must be configured when `auth_mode=openid`');
+          missingInfo.push('- `token_endpoint` must be configured when `use_discovery=false`');
         }
-        if (!authentSetting.scope || authentSetting.scope === NOT_CONFIGURED) {
+        if (!authentSetting.jwks_endpoint || authentSetting.jwks_endpoint === NOT_CONFIGURED) {
           valid = false;
-          missingInfo.push('- `scope` must be configured when `auth_mode=openid`');
+          missingInfo.push('- `jwks_endpoint` must be configured when `use_discovery=false`');
         }
-        if (!authentSetting.response_type || authentSetting.response_type === NOT_CONFIGURED) {
+        if (!authentSetting.userinfo_endpoint || authentSetting.userinfo_endpoint === NOT_CONFIGURED) {
           valid = false;
-          missingInfo.push('- `response_type` must be configured when `auth_mode=openid`');
-        }
-        if (authentSetting.use_discovery === false) {
-          if (!authentSetting.login_url || authentSetting.login_url === NOT_CONFIGURED) {
-            valid = false;
-            missingInfo.push('- `login_url`  must be configured when `use_discovery=false`');
-          }
-          if (!authentSetting.token_endpoint || authentSetting.token_endpoint === NOT_CONFIGURED) {
-            valid = false;
-            missingInfo.push('- `token_endpoint` must be configured when `use_discovery=false`');
-          }
-          if (!authentSetting.jwks_endpoint || authentSetting.jwks_endpoint === NOT_CONFIGURED) {
-            valid = false;
-            missingInfo.push('- `jwks_endpoint` must be configured when `use_discovery=false`');
-          }
-          if (!authentSetting.userinfo_endpoint || authentSetting.userinfo_endpoint === NOT_CONFIGURED) {
-            valid = false;
-            missingInfo.push('- `userinfo_endpoint` must be configured when `use_discovery=false`');
-          }
+          missingInfo.push('- `userinfo_endpoint` must be configured when `use_discovery=false`');
         }
       }
-      if (authentSetting.auth_mode === 'iam') {
-        if (!authentSetting.url || authentSetting.url === NOT_CONFIGURED) {
-          valid = false;
-          missingInfo.push('- `iam server url` must be configured when `auth_mode=iam`');
-        }
-        if (!authentSetting.threshold) {
-          valid = false;
-          missingInfo.push('- `iam server threshold` must be configured when `auth_mode=iam`');
-        }
-      }
+
     }
     return [valid, missingInfo.join('\n')];
   }

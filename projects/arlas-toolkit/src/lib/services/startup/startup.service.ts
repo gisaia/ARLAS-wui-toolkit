@@ -56,6 +56,7 @@ import * as arlasConfSchema from './arlasconfig.schema.json';
 import { ContributorBuilder } from './contributorBuilder';
 import * as arlasSettingsSchema from './settings.schema.json';
 import { FilterShortcutConfiguration } from '../../components/filter-shortcut/filter-shortcut.utils';
+import { ArlasAuthentificationService } from '../arlas-authentification/arlas-authentification.service';
 
 @Injectable({
   providedIn: 'root'
@@ -181,7 +182,8 @@ export class ArlasStartupService {
     private persmissionService: PermissionService,
     private errorService: ErrorService, private fetchInterceptorService: FetchInterceptorService,
     private arlasIamService: ArlasIamService,
-    private permissionService: PermissionService
+    private permissionService: PermissionService,
+    private arlasAuthService: ArlasAuthentificationService
   ) {
     this.configurationUpdaterService = new ArlasConfigurationUpdaterService;
   }
@@ -406,23 +408,23 @@ export class ArlasStartupService {
       // redirects to login page if it's the first time and fetches the appropriate token
       if (settings) {
         const authent: AuthentSetting = settings.authentication;
-        const authService: AuthentificationService = this.injector.get('AuthentificationService')[0];
-        if (authent && authent.use_authent && authent.auth_mode === 'iam') {
+        this.arlasAuthService.authConfigValue = authent;
+        if (authent && authent.use_authent && authent.auth_mode === 'iam') { // Authentication activated with IAM mode
           if (!this.arlasIamService.areSettingsValid(authent)[0]) {
             const err = 'Authentication is set while ' + this.arlasIamService.areSettingsValid(authent)[1] + ' are not configured';
             reject(err);
           }
           this.arlasIamApi = new ArlasIamApi(new IamConfiguration(), authent.url, window.fetch);
           this.arlasIamService.setArlasIamApi(this.arlasIamApi);
-          this.arlasIamService.authConfigValue = authent;
 
-          resolve(authService.initAuthService(authent).then(() => settings));
-        } else if (authent && authent.use_authent) {
+          resolve(this.arlasIamService.initAuthService().then(() => settings));
+        } else if (authent && authent.use_authent) { // Authentication activated with OPENID mode
+          const authService: AuthentificationService = this.injector.get('AuthentificationService')[0];
           if (!authService.areSettingsValid(authent)[0]) {
             const err = 'Authentication is set while ' + authService.areSettingsValid(authent)[1] + ' are not configured';
             reject(err);
           }
-          resolve(authService.initAuthService(authent).then(() => settings));
+          resolve(authService.initAuthService().then(() => settings));
         }
       }
       return resolve(settings);
@@ -767,7 +769,7 @@ export class ArlasStartupService {
       });
   }
 
-  public changeOrgHeader(org: string, accessToken: string){
+  public changeOrgHeader(org: string, accessToken: string) {
     this.persistenceService.setOptions({
       headers: {
         Authorization: 'Bearer ' + accessToken,
