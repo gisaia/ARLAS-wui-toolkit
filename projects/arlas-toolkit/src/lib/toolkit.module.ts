@@ -76,7 +76,7 @@ export function localDatePickerFactory(translate: TranslateService) {
 }
 
 export function configUpdaterFactory(x): any {
-  return x[0];
+  return (x) => x[0];
 }
 
 export function getOptionsFactory(arlasAuthService: AuthentificationService): any {
