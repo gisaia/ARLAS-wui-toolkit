@@ -19,7 +19,7 @@
 
 import {
   Component, Input, Output, OnInit, AfterViewInit,
-  OnChanges, SimpleChanges
+  OnChanges, SimpleChanges, EventEmitter
 } from '@angular/core';
 import { Subject } from 'rxjs';
 import { AnalyticGroupConfiguration, AnalyticsTabs } from './analytics.utils';
@@ -82,6 +82,8 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
     = new Subject<{ origin: string; event: string; data?: any; }>();
 
   @Output() public modeChange: Subject<string> = new Subject<string>();
+
+  @Output() public tabChangeEmitter: EventEmitter<string> = new EventEmitter();
 
   public spinnerOptions: SpinnerOptions;
   private compGroup: Map<string, string> = new Map<string, string>();
@@ -171,11 +173,8 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
       });
     }
 
-    const tab = this.getParamValue('at');
-    if (tab) {
-      const tabIndex = this.groupsTabsKey.indexOf(decodeURI(tab));
-      this.activeIndex = tabIndex > 0 ? tabIndex : 0;
-    }
+    this.setActiveTabFromName(this.getParamValue('at'));
+
     // Set groups and tabs badge
     this.setActiveFilterGroup();
     this.setActiveFilterTab();
@@ -183,6 +182,13 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
       this.setActiveFilterTab();
       this.setActiveFilterGroup();
     });
+  }
+
+  public setActiveTabFromName(tabName: string) {
+    if (tabName) {
+      const tabIndex = this.groupsTabsKey.indexOf(decodeURI(tabName));
+      this.activeIndex = tabIndex > 0 ? tabIndex : 0;
+    }
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
@@ -313,6 +319,7 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
 
   public tabChange(index: number) {
     this.activeIndex = index;
+    this.tabChangeEmitter.next(this.groupsTabsKey[index]);
     const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
     queryParams['at'] = this.groupsTabsKey[index];
     this.router.navigate([], { replaceUrl: true, queryParams: queryParams });
