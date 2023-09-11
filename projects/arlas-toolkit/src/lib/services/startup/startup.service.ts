@@ -131,6 +131,7 @@ export class ArlasCollaborativesearchService extends CollaborativesearchService 
 
 export const CONFIG_UPDATER = new InjectionToken<Function>('config_updater');
 export const FETCH_OPTIONS = new InjectionToken<any>('fetch_options');
+export const CUSTOM_LOAD = new InjectionToken<Function>('custom_load');
 
 export interface Error {
   origin: string;
@@ -141,7 +142,7 @@ export const SETTINGS_FILE_NAME = 'settings.yaml?' + Date.now();
 
 @Injectable()
 export class ArlasStartupService {
-  public contributorRegistry: Map<string, Contributor> = new Map<string, any>();
+  public contributorRegistry: Map<string, Contributor> = new Map();
   public shouldRunApp = true;
   public emptyMode = false;
   public analytics: Array<{ groupId: string; components: Array<WidgetConfiguration>; }>;
@@ -167,7 +168,8 @@ export class ArlasStartupService {
     @Inject(CONFIG_UPDATER) private configUpdater,
     private persistenceService: PersistenceService,
     private persmissionService: PermissionService,
-    private errorService: ErrorService, private fetchInterceptorService: FetchInterceptorService) {
+    private errorService: ErrorService, private fetchInterceptorService: FetchInterceptorService,
+    @Inject(CUSTOM_LOAD) private customLoadFunction: (data) => any) {
     this.configurationUpdaterService = new ArlasConfigurationUpdaterService;
   }
 
@@ -712,6 +714,7 @@ export class ArlasStartupService {
       .then((data) => this.testArlasUp(data))
       .then((data) => this.getCollections(data))
       .then((data) => this.buildContributor(data))
+      .then((data) => this.customLoadFunction(data))
       .catch((err: any) => {
         this.shouldRunApp = false;
         console.error(err);

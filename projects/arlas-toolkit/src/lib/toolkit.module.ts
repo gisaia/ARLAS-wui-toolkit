@@ -43,7 +43,7 @@ import { PermissionService } from './services/permission/permission.service';
 import { PersistenceService } from './services/persistence/persistence.service';
 import { ArlasSettingsService } from './services/settings/arlas.settings.service';
 import {
-  ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService, CONFIG_UPDATER, FETCH_OPTIONS
+  ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService, CONFIG_UPDATER, CUSTOM_LOAD, FETCH_OPTIONS
 } from './services/startup/startup.service';
 import { ArlasWalkthroughService } from './services/walkthrough/walkthrough.service';
 import { ArlasToolkitSharedModule } from './shared.module';
@@ -189,7 +189,11 @@ export const MY_CUSTOM_FORMATS = {
       deps: [TranslateService],
       useClass: PaginatorI18n
     },
-    ShortenNumberPipe
+    ShortenNumberPipe,
+    {
+      provide: CUSTOM_LOAD,
+      useValue: (data) => data
+    }
   ],
   bootstrap: [ToolkitComponent]
 })

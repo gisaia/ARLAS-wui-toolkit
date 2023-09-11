@@ -92,7 +92,7 @@ export { ArlasSettingsService } from './lib/services/settings/arlas.settings.ser
 export { ContributorBuilder } from './lib/services/startup/contributorBuilder';
 export {
   ArlasCollaborativesearchService, ArlasConfigService, ArlasExploreApi, ArlasSettings,
-  ArlasStartupService, CONFIG_UPDATER, FETCH_OPTIONS, LinkSettings, Error, ExtraConfig
+  ArlasStartupService, CONFIG_UPDATER, FETCH_OPTIONS, LinkSettings, Error, ExtraConfig, CUSTOM_LOAD
 } from './lib/services/startup/startup.service';
 export { ArlasWalkthroughModule, WalkthroughModuleConfig } from './lib/services/walkthrough/walkthrough.module';
 export { ArlasWalkthroughService } from './lib/services/walkthrough/walkthrough.service';
