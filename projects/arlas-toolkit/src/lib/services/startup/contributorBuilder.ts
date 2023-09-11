@@ -70,7 +70,7 @@ export class ContributorBuilder {
         contributor = new ResultListContributor(identifier, collaborativesearchService, configService, collection);
         break;
       case 'map':
-        contributor = new MapContributor(identifier, collaborativesearchService, configService, collection, colorService.colorGenerator);
+        contributor = new MapContributor(identifier, collaborativesearchService, configService, collection, colorService?.colorGenerator);
         break;
       case 'swimlane':
         isOneDimension = config['isOneDimension'];
