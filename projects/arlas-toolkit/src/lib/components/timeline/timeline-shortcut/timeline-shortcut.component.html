@@ -1,4 +1,9 @@
 <div class="arlas-time-shortcuts--container">
+  <div *ngIf="showShortcuts" class="arlas-time-shortcuts__list--container">
+    <ul class="arlas-time-shortcuts__list" *ngFor="let shortcutType of getKeys(timeShortcutsMap)">
+      <li class="arlas-time-shortcut" *ngFor="let shortCut of timeShortcutsMap.get(shortcutType)" (click)="setShortcut(shortCut)">{{shortCut.label | translate}}</li>
+    </ul>
+  </div>
   <div>
     <mat-basic-chip class="shortcut-button">
       <mat-icon id="shortcut-btn" class="shortcut-button__icon" [class.cursor]="timeShortcuts?.length > 0" (click)="showSortcuts()" matTooltip="{{HIDE_SHOW + ' time shortcuts' | translate}}"
@@ -26,10 +31,5 @@
       </div>
 
     </mat-basic-chip>
-  </div>
-  <div *ngIf="showShortcuts" class="arlas-time-shortcuts__list--container">
-    <ul class="arlas-time-shortcuts__list" *ngFor="let shortcutType of getKeys(timeShortcutsMap)">
-      <li class="arlas-time-shortcut" *ngFor="let shortCut of timeShortcutsMap.get(shortcutType)" (click)="setShortcut(shortCut)">{{shortCut.label | translate}}</li>
-    </ul>
   </div>
 </div>
