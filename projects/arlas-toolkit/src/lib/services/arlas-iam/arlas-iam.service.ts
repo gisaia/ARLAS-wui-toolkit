@@ -92,6 +92,7 @@ export class ArlasIamService extends ArlasAuthentificationService {
             this.currentUserSubject.next(
               { accessToken: accessToken, refreshToken: response.refreshToken, user: response.user }
             );
+            this.startRefreshTokenTimer(this.authConfigValue);
             return Promise.resolve();
           }).catch((err) => console.log(err));
     } else {
