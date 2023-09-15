@@ -5,6 +5,12 @@
 
 .arlas-timeline--legend {
   display: flex;
+<<<<<<< HEAD
+=======
+  background-color: white;
+  padding: 0 5px;
+  max-width: 695px;
+>>>>>>> 237e105 (feat: move shortcuts above the date picker and date picker to the left)
   height: 30px;
   overflow-y: hidden;
   overflow-x: auto;
