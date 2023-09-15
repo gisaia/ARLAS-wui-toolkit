@@ -49,7 +49,7 @@ export class ArlasIamService extends ArlasAuthentificationService {
       const timeout = expires.getTime() - Date.now() - (60 * 1000);
       // refresh accessToken when timeout ended (passing the refreshToken)
       // accessToken expires in 15 minutes (900s), refreshToken expires in 15 days
-      this.executionObservable = timer(authentSetting.threshold, timeout).pipe(takeUntil(this.unsubscribe)).subscribe(() => {
+      this.executionObservable = timer(10000, timeout).pipe(takeUntil(this.unsubscribe)).subscribe(() => {
         this.refresh(refresh.value)
           .pipe(mergeMap((response) => {
             // store localy accessToken
@@ -92,6 +92,7 @@ export class ArlasIamService extends ArlasAuthentificationService {
             this.currentUserSubject.next(
               { accessToken: accessToken, refreshToken: response.refreshToken, user: response.user }
             );
+            this.startRefreshTokenTimer(this.authConfigValue);
             return Promise.resolve();
           }).catch((err) => console.log(err));
     } else {

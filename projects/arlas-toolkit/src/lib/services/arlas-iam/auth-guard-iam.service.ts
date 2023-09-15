@@ -20,7 +20,6 @@ export class AuthGuardIamService {
   ) { }
 
   public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-
     let refreshToken: RefreshToken = {};
     try {
       refreshToken = JSON.parse(localStorage.getItem('refreshToken'));
@@ -43,9 +42,7 @@ export class AuthGuardIamService {
               Authorization: 'Bearer ' + accessToken
             }
           });
-
           this.arlasIamService.currentUserSubject.next({ accessToken: accessToken, refreshToken: session.refreshToken, user: session.user });
-          this.arlasIamService.startRefreshTokenTimer(this.settingsService.settings.authentication);
           return true;
         } else {
           return false;
@@ -60,6 +57,7 @@ export class AuthGuardIamService {
       this.arlasIamService.currentUserSubject.next(null);
       return of(false);
     }
+
   }
 
 

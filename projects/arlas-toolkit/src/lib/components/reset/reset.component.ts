@@ -42,7 +42,6 @@ export class ResetComponent implements OnInit {
     this.iamService.reset(this.userId, this.token, this.resetForm.get('password').value).subscribe({
       next: (data) => {
         this.validated = true;
-        console.log(data);
       },
       error: err => {
         console.error(err);
