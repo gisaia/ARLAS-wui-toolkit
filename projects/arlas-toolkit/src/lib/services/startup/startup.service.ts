@@ -179,10 +179,9 @@ export class ArlasStartupService {
     private http: HttpClient, private translateService: TranslateService,
     @Inject(CONFIG_UPDATER) private configUpdater,
     private persistenceService: PersistenceService,
-    private persmissionService: PermissionService,
+    private permissionService: PermissionService,
     private errorService: ErrorService, private fetchInterceptorService: FetchInterceptorService,
     private arlasIamService: ArlasIamService,
-    private permissionService: PermissionService,
     private arlasAuthService: ArlasAuthentificationService
   ) {
     this.configurationUpdaterService = new ArlasConfigurationUpdaterService;
@@ -486,14 +485,14 @@ export class ArlasStartupService {
                 Authorization: 'bearer ' + authService.accessToken
               };
               // ARLAS-Permission
-              this.persmissionService.setOptions({
+              this.permissionService.setOptions({
                 headers: {
                   Authorization: 'bearer ' + authService.accessToken
                 }
               });
             } else {
               this.persistenceService.setOptions(this.getOptions());
-              this.persmissionService.setOptions(this.getOptions());
+              this.permissionService.setOptions(this.getOptions());
             }
             this.collaborativesearchService.setFetchOptions(this.fetchOptions);
             resolve(settings);
