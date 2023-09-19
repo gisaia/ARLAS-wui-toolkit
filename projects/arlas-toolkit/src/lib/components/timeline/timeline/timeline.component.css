@@ -3,6 +3,10 @@
   box-sizing: border-box;
 }
 
+.arlas-timeline--timelines-with-legend {
+  height: 160px;
+}
+
 .arlas-timeline--legend {
   display: flex;
 <<<<<<< HEAD
