@@ -17,11 +17,11 @@
 </arlas-top-menu>
 
 <div style="margin-bottom: 10px;">
-  <arlas-filter [title]="'ARLAS toolkit'" [backgroundColorFilter]="'#eee'" [colorFilter]="'#000'"></arlas-filter>
+  <arlas-filter [title]="'ARLAS toolkit'" [backgroundColorFilter]="'#eee'" [colorFilter]="'#000'" [units]="units"></arlas-filter>
 </div>
 
 <arlas-timeline *ngIf="timelineComponentConfig" [activeDatePicker]="true" [timelineComponent]="timelineComponentConfig"
-  [detailedTimelineComponent]="detailedTimelineComponentConfig" class="timeline">
+  [detailedTimelineComponent]="detailedTimelineComponentConfig" [units]="units" class="timeline">
 </arlas-timeline>
 
 <arlas-analytics-menu class="analytics-menu-container" [tabIndexByDefault]="2" [showIndicators]="true"></arlas-analytics-menu>

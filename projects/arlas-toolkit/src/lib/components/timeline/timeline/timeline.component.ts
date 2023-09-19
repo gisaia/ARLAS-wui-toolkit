@@ -27,7 +27,7 @@ import { HistogramComponent } from 'arlas-web-components';
 import { filter } from 'rxjs/operators';
 import { CollectionLegend, TimelineConfiguration } from './timeline.utils';
 import { ArlasOverlayService } from '../../../services/overlays/overlay.service';
-import { ArlasOverlayRef } from '../../../tools/utils';
+import { ArlasOverlayRef, CollectionUnit, getCollectionUnit } from '../../../tools/utils';
 import { ArlasColorGeneratorLoader } from '../../../services/color-generator-loader/color-generator-loader.service';
 
 
@@ -65,6 +65,13 @@ export class TimelineComponent implements OnInit {
    * @description Whether the date picker is enabled
    */
   @Input() public activeDatePicker = false;
+
+  /**
+   * @Input : Angular
+   * @description Units to use as display names for the timeline legend
+   */
+  @Input() public units: Array<CollectionUnit> = new Array();
+
   @ViewChild('timeline', { static: false }) public timelineHistogramComponent: HistogramComponent;
   @ViewChild('detailedtimeline', { static: false }) public detailedTimelineHistogramComponent: HistogramComponent;
 
@@ -93,23 +100,19 @@ export class TimelineComponent implements OnInit {
       this.timelineContributor.updateData = true;
       const mainCollection = this.timelineContributor.collection;
       this.mainCollection = mainCollection;
-      const mainCollectionDisplayName = !!this.arlasStartupService.collectionsMap.get(mainCollection).display_names?.collection ?
-        this.arlasStartupService.collectionsMap.get(mainCollection).display_names?.collection : mainCollection;
       this.resetHistogramsInputs(this.timelineComponent.input);
       this.timelineLegend.push({
         collection: mainCollection,
-        display_name: mainCollectionDisplayName,
+        display_name: getCollectionUnit(this.units, mainCollection),
         color: this.arlasColorService.getColor(mainCollection),
         active: true,
         main: true
       });
       if (!!this.timelineContributor.additionalCollections) {
         this.timelineContributor.additionalCollections.forEach(ac => {
-          const collectionnDisplayName = !!this.arlasStartupService.collectionsMap.get(ac.collectionName).display_names?.collection ?
-            this.arlasStartupService.collectionsMap.get(ac.collectionName).display_names?.collection : ac.collectionName;
           this.timelineLegend.push({
             collection: ac.collectionName,
-            display_name: collectionnDisplayName,
+            display_name: getCollectionUnit(this.units, ac.collectionName),
             color: this.arlasColorService.getColor(ac.collectionName),
             active: true,
             main: (ac.collectionName === mainCollection)

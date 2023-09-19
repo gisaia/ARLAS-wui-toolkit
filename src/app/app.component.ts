@@ -27,6 +27,7 @@ import { FilterShortcutConfiguration } from '../../projects/arlas-toolkit/src/li
 import packageJson from '../../package.json';
 import { ChipsSearchContributor } from 'arlas-web-contributors';
 import { AnalyticsService } from '../../projects/arlas-toolkit/src/lib/services/analytics/analytics.service';
+import { CollectionUnit } from '../../projects/arlas-toolkit/src/lib/tools/utils';
 
 
 
@@ -53,6 +54,8 @@ export class AppComponent implements OnInit {
   public searchContributor: ChipsSearchContributor;
   public CHIPSSEARCH_ID = 'chipssearch';
 
+  public units: Array<CollectionUnit> = new Array();
+
   public constructor(
     private arlasStartupService: ArlasStartupService,
     private arlasConfigService: ArlasConfigService,
@@ -78,6 +81,11 @@ export class AppComponent implements OnInit {
     this.shortcuts?.forEach((_, idx) => {
       this.isShortcutOpen.push(idx % 2 === 0);
     });
+
+    this.units = [
+      { collection: 'demo_algoe', unit: 'Buildings', ignored: false },
+      { collection: 'demo_sea_phys_bcg', unit: 'Sea measures', ignored: false }
+    ];
   }
 
   private getContributorConfig(contributorIdentifier: string) {

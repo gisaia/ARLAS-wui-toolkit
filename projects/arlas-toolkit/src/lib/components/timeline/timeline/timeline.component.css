@@ -12,6 +12,10 @@
     0 1px 5px 0 rgba(0, 0, 0, 0.12);
 }
 
+.arlas-timeline--timelines-with-legend {
+  height: 160px;
+}
+
 .arlas-timeline--legend {
   display: flex;
   background-color: white;
