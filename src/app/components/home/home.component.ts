@@ -53,13 +53,7 @@ export class HomeComponent implements OnInit {
     if (!!authConfig && authConfig.use_authent) {
       if (authConfig.auth_mode === 'iam') {
         // IAM
-        this.arlasIamService.currentUserSubject.subscribe({
-          next: (data) => {
-            if (!!data && !!data.user) {
-              this.connected = true;
-            }
-          }
-        });
+        this.arlasIamService.tokenRefreshed$.subscribe({ next: (data) => this.connected = !!data && !!data.user });
       } else {
         // AUTH 0
       }

@@ -95,7 +95,7 @@ export function getOptionsFactory(arlasAuthService: AuthentificationService, arl
     let token = null;
 
     if (!!arlasAuthService.authConfigValue?.auth_mode && arlasAuthService.authConfigValue?.auth_mode === 'iam') {
-      token = !!arlasIamService.currentUserValue ? arlasIamService.currentUserValue.accessToken : null;
+      token = arlasIamService.getAccessToken();
     } else {
       token = !!arlasAuthService.accessToken ? arlasAuthService.accessToken : null;
     }
