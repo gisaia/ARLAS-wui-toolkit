@@ -41,11 +41,11 @@ import { CollaborativesearchService, ConfigService, Contributor } from 'arlas-we
 import { projType } from 'arlas-web-core/models/projections';
 import YAML from 'js-yaml';
 import { Subject, zip } from 'rxjs';
-import { mergeMap } from 'rxjs/operators';
+import { mergeMap, take } from 'rxjs/operators';
 import { PersistenceService, PersistenceSetting } from '../persistence/persistence.service';
 import { CONFIG_ID_QUERY_PARAM, GET_OPTIONS, WidgetConfiguration, getFieldProperties, AuthentSetting, NOT_CONFIGURED } from '../../tools/utils';
 import { flatMap } from 'rxjs/operators';
-import { ArlasIamService } from '../arlas-iam/arlas-iam.service';
+import { ArlasIamService, IamHeader } from '../arlas-iam/arlas-iam.service';
 import { AuthentificationService, } from '../authentification/authentification.service';
 import { ArlasConfigurationUpdaterService } from '../configuration-updater/configurationUpdater.service';
 import { ErrorService } from '../error/error.service';
@@ -442,6 +442,15 @@ export class ArlasStartupService {
     });
   }
 
+  public enrichServicesIamsHeaders(): void {
+    const accessToken = this.arlasIamService.getAccessToken();
+    const arlasOrganisation = this.arlasIamService.getOrganisation();
+    const iamHeader: IamHeader = {
+      Authorization: 'Bearer ' + accessToken,
+      'arlas-org-filter': arlasOrganisation
+    };
+  }
+
   /**
    * Enriches headers of calls sent to ARLAS-server & ARLAS-persistence
    * @param settings
@@ -458,7 +467,6 @@ export class ArlasStartupService {
 
         if (useAuthentOpenID) {
           const authService: AuthentificationService = this.injector.get('AuthentificationService')[0];
-
           if (usePersistence) {
             // To open reconnect dialog on silent refresh failed
             authService.silentRefreshErrorSubject.subscribe(error =>
@@ -500,28 +508,21 @@ export class ArlasStartupService {
           });
 
         } else if (useAuthentIam) {
-          const url = new URL(window.location.href);
-          const org = url.searchParams.get('org');
-          this.arlasIamService.currentUserSubject.subscribe({
-            next: (userSubject) => {
-              if (!!userSubject) {
-                // ARLAS-persistence
-                this.persistenceService.setOptions({
-                  headers: {
-                    Authorization: 'Bearer ' + userSubject.accessToken,
-                    'arlas-org-filter': !!org ? org : userSubject.user.organisations[0]?.name
-                  }
-                });
-                this.permissionService.setOptions({
-                  headers: {
-                    Authorization: 'Bearer ' + userSubject.accessToken
-                  }
-                });
-                // ARLAS-server
-                this.fetchOptions.headers = {
-                  Authorization: 'Bearer ' + userSubject.accessToken,
-                  'arlas-org-filter': !!org ? org : userSubject.user.organisations[0]?.name
+          this.arlasIamService.tokenRefreshed$.subscribe({
+            next: (loginData) => {
+              if (!!loginData) {
+                const storedArlasOrganisation = this.arlasIamService.getOrganisation();
+                const org = !!storedArlasOrganisation ? storedArlasOrganisation : loginData.user.organisations[0]?.name;
+                const iamHeader = {
+                  Authorization: 'Bearer ' + loginData.accessToken,
                 };
+                // Set the org filter only if the organisation is defined
+                if (!!org) {
+                  iamHeader['arlas-org-filter'] = org;
+                }
+                this.persistenceService.setOptions({ headers: iamHeader });
+                this.permissionService.setOptions({ headers: iamHeader });
+                this.fetchOptions.headers = iamHeader;
               } else {
                 this.persistenceService.setOptions({});
                 this.permissionService.setOptions({});
@@ -530,7 +531,6 @@ export class ArlasStartupService {
               resolve(settings);
             }
           });
-
         }
       } else {
         this.persistenceService.setOptions(this.getOptions());
@@ -770,16 +770,14 @@ export class ArlasStartupService {
   }
 
   public changeOrgHeader(org: string, accessToken: string) {
-    this.persistenceService.setOptions({
-      headers: {
-        Authorization: 'Bearer ' + accessToken,
-        'arlas-org-filter': org,
-      }
-    });
-    this.fetchOptions.headers = {
+    this.arlasIamService.setHeaders(org, accessToken);
+    const headers: IamHeader = {
       Authorization: 'Bearer ' + accessToken,
-      'arlas-org-filter': org
+      'arlas-org-filter': org,
     };
+    this.persistenceService.setOptions({ headers });
+    this.permissionService.setOptions({ headers });
+    this.fetchOptions.headers = headers;
     this.collaborativesearchService.setFetchOptions(this.fetchOptions);
   }
 

@@ -27,7 +27,7 @@ export class UserInfosComponent implements OnInit {
   public ngOnInit() {
     if (!!this.arlasAuthentService.authConfigValue) {
       if (this.arlasAuthentService.authConfigValue.auth_mode === 'iam') {
-        const userInfos = this.arlasIamService.currentUserValue.user;
+        const userInfos = this.arlasIamService.user;
         this.name = userInfos.email;
         this.email = userInfos.email;
         this.roles = userInfos.roles.filter(r => r.fullName.startsWith('role/'))

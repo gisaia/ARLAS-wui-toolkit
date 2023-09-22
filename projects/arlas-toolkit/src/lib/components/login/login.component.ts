@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { RefreshToken } from 'arlas-iam-api';
+import { LoginData, RefreshToken } from 'arlas-iam-api';
 import { ArlasIamService } from '../../services/arlas-iam/arlas-iam.service';
 import { ArlasSettingsService } from '../../services/settings/arlas.settings.service';
 
@@ -18,34 +18,26 @@ export class LoginComponent implements OnInit {
   public constructor(
     private formBuilder: FormBuilder,
     private iamService: ArlasIamService,
-    private settings: ArlasSettingsService,
     private router: Router
   ) { }
 
   public ngOnInit(): void {
-    let refreshToken: RefreshToken = {};
-    try {
-      refreshToken = JSON.parse(localStorage.getItem('refreshToken'));
-    } catch (error) {
-      refreshToken = null;
-    }
+    const refreshToken: RefreshToken = this.iamService.getRefreshToken();
     if (!!refreshToken) {
-      this.iamService.setOptions({
-        headers: {
-          Authorization: 'Bearer ' + localStorage.getItem('accessToken')
+      /** set latest stored headers info. */
+      const accessToken = this.iamService.getAccessToken();
+      this.iamService.setHeadersFromAccesstoken(accessToken);
+      this.iamService.refresh(refreshToken.value).subscribe({
+        next: (loginData: LoginData) => {
+          this.iamService.user = loginData.user;
+          this.iamService.setHeadersFromAccesstoken(loginData.accessToken);
+          this.iamService.storeRefreshToken(loginData.refreshToken);
+          this.iamService.notifyTokenRefresh(loginData);
+          this.router.navigate(['/']);
+        },
+        error: () => {
+          this.iamService.logoutWithoutRedirection();
         }
-      });
-      this.iamService.refresh(refreshToken.value).subscribe(response => {
-        const accessToken = response.accessToken;
-        localStorage.setItem('accessToken', accessToken);
-        localStorage.setItem('refreshToken', JSON.stringify(response.refreshToken));
-        this.iamService.setOptions({
-          headers: {
-            Authorization: 'Bearer ' + accessToken
-          }
-        });
-        this.iamService.currentUserSubject.next({ accessToken: accessToken, refreshToken: response.refreshToken, user: response.user });
-        this.router.navigate(['/']);
       });
     }
 
@@ -57,20 +49,16 @@ export class LoginComponent implements OnInit {
 
   public onSubmit(): void {
     this.iamService.login(this.loginForm.get('email').value, this.loginForm.get('password').value).subscribe({
-      next: session => {
-        localStorage.setItem('accessToken', session.accessToken);
-        localStorage.setItem('refreshToken', JSON.stringify(session.refreshToken));
-        this.iamService.currentUserSubject.next(
-          { accessToken: session.accessToken, refreshToken: session.refreshToken, user: session.user }
-        );
-
-        this.iamService.startRefreshTokenTimer(this.settings.settings.authentication);
-
-        if (this.iamService.currentUserValue) {
-          this.router.navigate(['/']);
-        }
+      next: loginData => {
+        this.iamService.user = loginData.user;
+        this.iamService.setHeadersFromAccesstoken(loginData.accessToken);
+        this.iamService.storeRefreshToken(loginData.refreshToken);
+        this.iamService.notifyTokenRefresh(loginData);
+        this.iamService.startRefreshTokenTimer(loginData);
+        this.router.navigate(['/']);
       },
       error: () => {
+        this.iamService.logoutWithoutRedirection();
         this.loginForm.setErrors({
           wrong: true
         });
