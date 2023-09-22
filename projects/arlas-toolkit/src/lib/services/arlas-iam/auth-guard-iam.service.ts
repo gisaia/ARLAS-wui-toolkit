@@ -20,44 +20,28 @@ export class AuthGuardIamService {
   ) { }
 
   public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-    let refreshToken: RefreshToken = {};
-    try {
-      refreshToken = JSON.parse(localStorage.getItem('refreshToken'));
-    } catch (error) {
-      refreshToken = null;
-    }
+    const refreshToken: RefreshToken = this.arlasIamService.getRefreshToken();
     if (!!refreshToken) {
-      this.arlasIamService.setOptions({
-        headers: {
-          Authorization: 'Bearer ' + localStorage.getItem('accessToken')
-        }
-      });
-      return this.arlasIamService.refresh(refreshToken.value).pipe(map(session => {
-        if (!!session) {
-          const accessToken = session.accessToken;
-          localStorage.setItem('accessToken', accessToken);
-          localStorage.setItem('refreshToken', JSON.stringify(session.refreshToken));
-          this.arlasIamService.setOptions({
-            headers: {
-              Authorization: 'Bearer ' + accessToken
-            }
-          });
-          this.arlasIamService.currentUserSubject.next({ accessToken: accessToken, refreshToken: session.refreshToken, user: session.user });
+      const accessToken = this.arlasIamService.getAccessToken();
+      this.arlasIamService.setHeadersFromAccesstoken(accessToken);
+      return this.arlasIamService.refresh(refreshToken.value).pipe(map(loginData => {
+        if (!!loginData) {
+          this.arlasIamService.setHeadersFromAccesstoken(loginData.accessToken);
+          this.arlasIamService.storeRefreshToken(loginData.refreshToken);
           return true;
         } else {
           return false;
         }
       }), catchError(() => {
+        this.arlasIamService.logoutWithoutRedirection();
         this.router.navigate(['/login']);
-        this.arlasIamService.currentUserSubject.next(null);
         return of(false);
       }));
     } else {
+      this.arlasIamService.logoutWithoutRedirection();
       this.router.navigate(['/login']);
-      this.arlasIamService.currentUserSubject.next(null);
-      return of(false);
+      return of(true);
     }
-
   }
 
 
