@@ -12,9 +12,12 @@
 <<<<<<< HEAD
 =======
   background-color: white;
+<<<<<<< HEAD
   padding: 0 5px;
   max-width: 695px;
 >>>>>>> 237e105 (feat: move shortcuts above the date picker and date picker to the left)
+=======
+>>>>>>> a59c1dc (feat: move toggle in timeline)
   height: 30px;
   overflow-y: hidden;
   overflow-x: auto;
@@ -40,6 +43,21 @@
   cursor: pointer;
 }
 
+<<<<<<< HEAD
+=======
+.arlas-timeline--tools {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  bottom: 125px;
+  overflow: visible;
+  right: 7px;
+  z-index: 1000;
+  background-color: transparent;
+  padding: 0 0 5px 5px;
+}
+
+>>>>>>> a59c1dc (feat: move toggle in timeline)
 .show-detailedtimeline-true {
   visibility: visible;
 }
@@ -48,6 +66,20 @@
   height: 0;
 }
 
+<<<<<<< HEAD
+=======
+.arlas-timeline-toggle {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  background-color: white;
+  width: 24px;
+  height: 24px;
+  margin-left: 4px;
+  cursor: pointer;
+}
+
+>>>>>>> a59c1dc (feat: move toggle in timeline)
 .arlas-timeline-hidden {
   height: 0px;
 }
