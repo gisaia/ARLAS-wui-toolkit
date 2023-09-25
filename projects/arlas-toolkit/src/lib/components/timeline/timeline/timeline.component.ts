@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { Component, Input, OnInit, ViewChild, ChangeDetectorRef, ElementRef } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, ChangeDetectorRef, ElementRef, Output, EventEmitter } from '@angular/core';
 import { HistogramContributor, DetailedHistogramContributor } from 'arlas-web-contributors';
 import { OperationEnum } from 'arlas-web-core';
 import { ArlasCollaborativesearchService, ArlasStartupService } from '../../../services/startup/startup.service';
@@ -71,6 +71,18 @@ export class TimelineComponent implements OnInit {
    * @description Units to use as display names for the timeline legend
    */
   @Input() public units: Array<CollectionUnit> = new Array();
+
+  /**
+   * @Input : Angular
+   * @description Whether to display the timelines' histogram
+   */
+  @Input() public isDisplayHistogram = true;
+
+  /**
+   * @Output : Angular
+   * @description Emits when the value of isDisplayHistogram changes
+   */
+  @Output() public isDisplayHistogramChange: EventEmitter<boolean> = new EventEmitter();
 
   @ViewChild('timeline', { static: false }) public timelineHistogramComponent: HistogramComponent;
   @ViewChild('detailedtimeline', { static: false }) public detailedTimelineHistogramComponent: HistogramComponent;
@@ -276,6 +288,28 @@ export class TimelineComponent implements OnInit {
         }
       }
     });
+  }
+
+  public toggleTimeline() {
+    this.isDisplayHistogram = !this.isDisplayHistogram;
+    this.isDisplayHistogramChange.next(this.isDisplayHistogram);
+    // Disable the update of both normal and detailed timeline if not open
+    this.timelineContributor.updateData = this.isDisplayHistogram;
+    this.detailedTimelineContributor.updateData = this.showDetailedTimeline && this.isDisplayHistogram;
+    if (this.isDisplayHistogram) {
+      this.timelineContributor.updateFromCollaboration({
+        id: this.timelineContributor.linkedContributorId,
+        operation: OperationEnum.add,
+        all: false
+      });
+      if (this.showDetailedTimeline) {
+        this.detailedTimelineContributor.updateFromCollaboration({
+          id: this.detailedTimelineContributor.linkedContributorId,
+          operation: OperationEnum.add,
+          all: false
+        });
+      }
+    }
   }
 
   private hideShowDetailedTimeline() {

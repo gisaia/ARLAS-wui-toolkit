@@ -19,8 +19,6 @@
 .arlas-timeline--legend {
   display: flex;
   background-color: white;
-  padding: 0 5px;
-  max-width: 695px;
   height: 30px;
   overflow-y: hidden;
   overflow-x: auto;
@@ -48,7 +46,7 @@
 
 .arlas-timeline--tools {
   display: flex;
-  flex-wrap: wrap-reverse;
+  align-items: center;
   position: absolute;
   bottom: 125px;
   overflow: visible;
@@ -64,4 +62,19 @@
 .show-detailedtimeline-false {
   visibility: hidden;
   height: 0;
+}
+
+.arlas-timeline-toggle {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  background-color: white;
+  width: 24px;
+  height: 24px;
+  margin-left: 4px;
+  cursor: pointer;
+}
+
+.arlas-timeline-hidden {
+  height: 0px;
 }

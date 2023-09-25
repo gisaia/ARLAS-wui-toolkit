@@ -1,9 +1,13 @@
 <div class="arlas-timeline--tools">
   <arlas-timeline-shortcut class="arlas-timeline--timeshortcuts" [activeDatePicker]="activeDatePicker"
     [timelineComponent]="timelineComponent" [dateFormat]="timelineComponent?.dateFormat"></arlas-timeline-shortcut>
+  <div class="arlas-timeline-toggle" (click)="toggleTimeline()">
+    <mat-icon *ngIf="!isDisplayHistogram">keyboard_arrow_up</mat-icon>
+    <mat-icon *ngIf="isDisplayHistogram">keyboard_arrow_down</mat-icon>
+  </div>
 </div>
 
-<div class="arlas-timeline--timelines" #arlasTimeline [class.arlas-timeline--timelines-with-legend]="!!timelineLegend && timelineLegend.length > 1">
+<div class="arlas-timeline--legend-timeline" *ngIf="isDisplayHistogram">
   <div class="arlas-timeline--legend" *ngIf="!!timelineLegend && timelineLegend.length > 1">
     <div *ngFor="let collectionLegend of timelineLegend" class="arlas-timeline--legend-container"
       (click)="hideShowCollection(collectionLegend)">

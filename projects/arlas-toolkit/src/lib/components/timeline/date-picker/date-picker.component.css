@@ -78,4 +78,7 @@ input:focus {
   text-decoration: underline;
 }
 
-
+.arlas-date-picker-input-to,
+.arlas-date-picker-input-from {
+  width: 135px;
+}
