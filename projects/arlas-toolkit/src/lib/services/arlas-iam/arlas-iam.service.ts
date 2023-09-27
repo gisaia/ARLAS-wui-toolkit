@@ -3,15 +3,13 @@ import { Router } from '@angular/router';
 import { LoginData, RefreshToken, UserData } from 'arlas-iam-api';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { Observable } from 'rxjs/internal/Observable';
-import { from } from 'rxjs/internal/observable/from';
-import { of } from 'rxjs/internal/observable/of';
-import { timer } from 'rxjs/internal/observable/timer';
-import { mergeMap } from 'rxjs/internal/operators/mergeMap';
-import { takeUntil } from 'rxjs/internal/operators/takeUntil';
 import { Subject } from 'rxjs/internal/Subject';
+import { from } from 'rxjs/internal/observable/from';
+import { timer } from 'rxjs/internal/observable/timer';
+import { takeUntil } from 'rxjs/internal/operators/takeUntil';
 import { AuthentSetting, NOT_CONFIGURED } from '../../tools/utils';
-import { ArlasIamApi } from '../startup/startup.service';
 import { ArlasAuthentificationService } from '../arlas-authentification/arlas-authentification.service';
+import { ArlasIamApi } from '../startup/startup.service';
 
 
 export interface IamHeader {
@@ -87,6 +85,13 @@ export class ArlasIamService extends ArlasAuthentificationService {
     const stringifiedRefreshToken = localStorage.getItem('refreshToken');
     if (!!stringifiedRefreshToken) {
       // parse json object from base64 encoded jwt token
+      // NOTE SB: It's on purpose that the parse is done 2 times
+      // I haven't found a better way to deal with an invalid token
+      try {
+        JSON.parse(stringifiedRefreshToken);
+      } catch (e) {
+        return undefined;
+      }
       return JSON.parse(stringifiedRefreshToken);
     }
     return undefined;
@@ -138,7 +143,8 @@ export class ArlasIamService extends ArlasAuthentificationService {
       const timeout = expires.getTime() - Date.now() - (60 * 1000);
       // todo: !! attention if the token expires in less than one minute !
       // refresh accessToken when timeout ended (passing the refreshToken)
-      this.refreshTokenTimer$ = timer(0, timeout).pipe(takeUntil(this.unsubscribe)).subscribe(() => {
+      // start the delay after 10 seconds
+      this.refreshTokenTimer$ = timer(10000, timeout).pipe(takeUntil(this.unsubscribe)).subscribe(() => {
         const newestRefreshToken = this.getRefreshToken();
         this.refresh(newestRefreshToken.value).subscribe({
           next: (loginData: LoginData) => {
@@ -171,7 +177,8 @@ export class ArlasIamService extends ArlasAuthentificationService {
             this.tokenRefreshedSource.next(loginData);
             this.startRefreshTokenTimer(loginData);
             return Promise.resolve();
-          }).catch((err) => {
+          })
+        .catch((err) => {
           console.log(err);
           return Promise.resolve();
         });
