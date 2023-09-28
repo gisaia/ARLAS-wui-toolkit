@@ -103,6 +103,7 @@ import { ShortcutFiltersHandlerComponent } from './components/filter-shortcut/fi
 import { TopMenuComponent } from './components/top-menu/top-menu.component';
 import { MarkdownModule } from 'ngx-markdown';
 import { AboutComponent, AboutDialogComponent } from './components/top-menu/about/about.component';
+import { MatMenuModule } from '@angular/material/menu';
 
 export class CustomTranslateLoader implements TranslateLoader {
 
@@ -167,6 +168,7 @@ export class CustomTranslateLoader implements TranslateLoader {
     MatTabsModule,
     MatTooltipModule,
     MatToolbarModule,
+    MatMenuModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
     OwlMomentDateTimeModule,
