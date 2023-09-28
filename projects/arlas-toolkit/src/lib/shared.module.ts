@@ -59,7 +59,8 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { Observable } from 'rxjs';
 import { CalendarTimelineTooltipOverlayComponent } from
   './components/calendar-timeline-tooltip-overlay/calendar-timeline-tooltip-overlay.component';
-import { AnalyticsBoardComponent } from './components/analytics-board/analytics-board.component';
+import { AnalyticsBoardComponent } from './components/analytics/analytics-board/analytics-board.component';
+import { AnalyticsMenuComponent } from './components/analytics/analytics-menu/analytics-menu.component';
 import { AoiComponent } from './components/aoi/aoi.component';
 import { BookmarkMenuComponent } from './components/bookmark-menu/bookmark-menu.component';
 import { BookmarkAddDialogComponent, BookmarkComponent } from './components/bookmark/bookmark.component';
@@ -197,6 +198,7 @@ export class CustomTranslateLoader implements TranslateLoader {
   ],
   exports: [
     AnalyticsBoardComponent,
+    AnalyticsMenuComponent,
     AoiComponent,
     BookmarkComponent,
     BookmarkAddDialogComponent,
@@ -234,10 +236,9 @@ export class CustomTranslateLoader implements TranslateLoader {
     AboutComponent,
     AboutDialogComponent
   ],
-
-
   declarations: [
     AnalyticsBoardComponent,
+    AnalyticsMenuComponent,
     AoiComponent,
     BookmarkComponent,
     BookmarkAddDialogComponent,

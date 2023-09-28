@@ -5,6 +5,9 @@
 }
 .arlas-board{
     position: relative;
+    top: 115px;
+    width: 466px;
+    display: block;
 }
 
 .shortcut-list {
@@ -53,6 +56,11 @@
 }
 
 .timeline {
+    position: relative;
+    top: 100px;
+}
+
+.analytics-menu-container {
     position: relative;
     top: 100px;
 }

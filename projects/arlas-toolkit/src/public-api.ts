@@ -23,10 +23,12 @@ export { ShortcutFiltersHandlerComponent } from './lib/components/filter-shortcu
 export { FilterShortcutChipComponent } from './lib/components/filter-shortcut/chip/chip.component';
 export { FilterShortcutComponent } from './lib/components/filter-shortcut/filter-shortcut.component';
 export { FilterShortcutConfiguration } from './lib/components/filter-shortcut/filter-shortcut.utils';
-export { AnalyticsBoardComponent } from './lib/components/analytics-board/analytics-board.component';
+export { AnalyticsBoardComponent } from './lib/components/analytics/analytics-board/analytics-board.component';
+export { AnalyticsMenuComponent } from './lib/components/analytics/analytics-menu/analytics-menu.component';
 export {
   AnalyticGroupConfiguration, AnalyticsTabs
-} from './lib/components/analytics-board/analytics.utils';
+} from './lib/components/analytics/analytics.utils';
+export { AnalyticsService } from './lib/services/analytics/analytics.service';
 export { AoiComponent } from './lib/components/aoi/aoi.component';
 export { BookmarkMenuComponent } from './lib/components/bookmark-menu/bookmark-menu.component';
 export { BookmarkAddDialogComponent, BookmarkComponent } from './lib/components/bookmark/bookmark.component';
