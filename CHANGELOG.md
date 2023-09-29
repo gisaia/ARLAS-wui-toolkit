@@ -1,5 +1,70 @@
 # Change Log
 
+## [v24.2.0-beta.5](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.2.0-beta.5) (2023-09-29)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.2.0...v24.2.0-beta.5)
+
+## [v24.2.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.2.0) (2023-09-29)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.2.0-beta-iam.11...v24.2.0)
+
+## [v24.2.0-beta-iam.11](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.2.0-beta-iam.11) (2023-09-27)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.2.0-beta-iam.10...v24.2.0-beta-iam.11)
+
+## [v24.2.0-beta-iam.10](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.2.0-beta-iam.10) (2023-09-22)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.2.0-beta-iam.8...v24.2.0-beta-iam.10)
+
+## [v24.2.0-beta-iam.8](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.2.0-beta-iam.8) (2023-09-15)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.2.0-beta-iam.6...v24.2.0-beta-iam.8)
+
+## [v24.2.0-beta-iam.6](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.2.0-beta-iam.6) (2023-09-11)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.2.0-beta-iam.5...v24.2.0-beta-iam.6)
+
+## [v24.2.0-beta-iam.5](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.2.0-beta-iam.5) (2023-09-04)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.2.0-beta-iam.4...v24.2.0-beta-iam.5)
+
+## [v24.2.0-beta-iam.4](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.2.0-beta-iam.4) (2023-08-28)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.2.0-beta-iam.3...v24.2.0-beta-iam.4)
+
+## [v24.2.0-beta-iam.3](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.2.0-beta-iam.3) (2023-08-28)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.1.6...v24.2.0-beta-iam.3)
+
+## [v24.1.6](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.1.6) (2023-08-09)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.1.5...v24.1.6)
+
+**Fixed bugs:**
+
+- PermissionService in arlas-config-menu dont update the token correctly during refresh [\#613](https://github.com/gisaia/ARLAS-wui-toolkit/issues/613)
+
+## [v24.1.5](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.1.5) (2023-08-09)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.1.4...v24.1.5)
+
+**Fixed bugs:**
+
+- Filter bars don't show icons [\#652](https://github.com/gisaia/ARLAS-wui-toolkit/issues/652)
+- Navigation in toolkitcomponent ignores the current path route of the app [\#651](https://github.com/gisaia/ARLAS-wui-toolkit/issues/651)
+
+## [v24.1.4](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.1.4) (2023-07-25)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.1.3...v24.1.4)
+
+## [v24.1.3](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.1.3) (2023-07-21)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.1.2...v24.1.3)
+
+## [v24.1.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.1.2) (2023-07-12)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.2.0-beta.4...v24.1.2)
+
 ## [v24.2.0-beta.4](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.2.0-beta.4) (2023-07-11)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.2.0-beta.3...v24.2.0-beta.4)
