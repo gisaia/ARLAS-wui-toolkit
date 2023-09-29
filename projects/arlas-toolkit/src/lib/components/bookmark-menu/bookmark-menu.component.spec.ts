@@ -28,9 +28,9 @@ import {
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateService, TranslateModule, TranslateFakeLoader, TranslateLoader } from '@ngx-translate/core';
 import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
-import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatMenuModule } from '@angular/material/menu';
 
 describe('BookmarkMenuComponent', () => {
   let component: BookmarkMenuComponent;
@@ -41,7 +41,7 @@ describe('BookmarkMenuComponent', () => {
     TestBed.configureTestingModule({
       declarations: [BookmarkMenuComponent],
       imports: [
-        MatChipsModule, MatIconModule, MatTooltipModule, HttpClientModule,
+        MatMenuModule, MatIconModule, MatTooltipModule, HttpClientModule,
         TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } })
       ],
       providers: [
