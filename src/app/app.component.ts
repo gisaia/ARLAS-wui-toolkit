@@ -27,6 +27,7 @@ import { FilterShortcutConfiguration } from '../../projects/arlas-toolkit/src/li
 import packageJson from '../../package.json';
 import { ChipsSearchContributor } from 'arlas-web-contributors';
 import { AnalyticsService } from '../../projects/arlas-toolkit/src/lib/services/analytics/analytics.service';
+import { CollectionUnit } from '../../projects/arlas-toolkit/src/lib/tools/utils';
 
 
 
@@ -52,6 +53,8 @@ export class AppComponent implements OnInit {
 
   public searchContributor: ChipsSearchContributor;
   public CHIPSSEARCH_ID = 'chipssearch';
+
+  public units: Array<CollectionUnit> = new Array();
 
   public constructor(
     private arlasStartupService: ArlasStartupService,

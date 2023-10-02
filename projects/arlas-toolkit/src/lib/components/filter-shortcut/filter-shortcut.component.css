@@ -5,6 +5,10 @@
     font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
 
+.container ::ng-deep.histogram-container {
+    right: 0;
+}
+
 .chevron {
     cursor: pointer;
 }

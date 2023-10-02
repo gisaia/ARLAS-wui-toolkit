@@ -1,18 +1,22 @@
 <div class="arlas-timeline--tools">
+  <arlas-timeline-shortcut class="arlas-timeline--timeshortcuts" [activeDatePicker]="activeDatePicker"
+    [timelineComponent]="timelineComponent" [dateFormat]="timelineComponent?.dateFormat"></arlas-timeline-shortcut>
+  <div class="arlas-timeline-toggle" (click)="toggleTimeline()">
+    <mat-icon *ngIf="!isDisplayHistogram">keyboard_arrow_up</mat-icon>
+    <mat-icon *ngIf="isDisplayHistogram">keyboard_arrow_down</mat-icon>
+  </div>
+</div>
+
+<div class="arlas-timeline--container" *ngIf="isDisplayHistogram" #arlasTimeline>
   <div class="arlas-timeline--legend" *ngIf="!!timelineLegend && timelineLegend.length > 1">
     <div *ngFor="let collectionLegend of timelineLegend" class="arlas-timeline--legend-container"
       (click)="hideShowCollection(collectionLegend)">
       <div class="arlas-timeline--legend-chip"
         [style.backgroundColor]="collectionLegend.active ? collectionLegend.color : '#dadada'"></div>
       <div class="arlas-timeline--legend-collection" [style.color]="collectionLegend.active ? '#444' : '#bbb'">
-        {{collectionLegend.display_name}}</div>
+        {{ collectionLegend.display_name }}</div>
     </div>
   </div>
-  <arlas-timeline-shortcut class="arlas-timeline--timeshortcuts" [activeDatePicker]="activeDatePicker"
-    [timelineComponent]="timelineComponent" [dateFormat]="timelineComponent?.dateFormat"></arlas-timeline-shortcut>
-</div>
-
-<div class="arlas-timeline--timelines" #arlasTimeline>
   <div *ngIf="detailedTimelineComponent" class="show-detailedtimeline-{{showDetailedTimeline.valueOf()}}"
     (mouseleave)="hideHistogramTooltip()">
     <arlas-histogram #detailedtimeline [data]="detailedTimelineData" [mainChartId]="mainCollection"

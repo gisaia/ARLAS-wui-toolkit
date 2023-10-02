@@ -78,6 +78,11 @@ export interface CollectionUnit {
   ignored: boolean;
 }
 
+export function getCollectionUnit(units: Array<CollectionUnit>, collection: string): string {
+  const unit = units.find(u => u.collection === collection);
+  return unit ? unit.unit : collection;
+}
+
 export interface CollectionCount {
   count: number;
   collection: number;
