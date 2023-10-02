@@ -294,9 +294,13 @@ export class AnalyticsService {
   public setActiveFilterGroup() {
     this._activeFilterGroup.clear();
     this.collaborativeService.getEnableContributors().forEach(contrib => {
-      this._contributorGroup.get(contrib).forEach(groupId => {
-        this._activeFilterGroup.set(groupId, true);
-      });
+      // It is possible that a contributor is not linked to a group (timeline)
+      const groups = this._contributorGroup.get(contrib);
+      if (!!groups) {
+        groups.forEach(groupId => {
+          this._activeFilterGroup.set(groupId, true);
+        });
+      }
     });
   }
 
@@ -306,9 +310,13 @@ export class AnalyticsService {
   public setActiveFilterTab() {
     this._activeFilterTab.clear();
     this.collaborativeService.getEnableContributors().forEach(contrib => {
-      this._contributorGroup.get(contrib).forEach(groupId => {
-        this._activeFilterTab.set(this._groupTab.get(groupId), true);
-      });
+      // It is possible that a contributor is not linked to a group (timeline)
+      const groups = this._contributorGroup.get(contrib);
+      if (!!groups) {
+        groups.forEach(groupId => {
+          this._activeFilterTab.set(this._groupTab.get(groupId), true);
+        });
+      }
     });
   }
 
