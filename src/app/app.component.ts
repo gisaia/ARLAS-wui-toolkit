@@ -81,11 +81,6 @@ export class AppComponent implements OnInit {
     this.shortcuts?.forEach((_, idx) => {
       this.isShortcutOpen.push(idx % 2 === 0);
     });
-
-    this.units = [
-      { collection: 'demo_algoe', unit: 'Buildings', ignored: false },
-      { collection: 'demo_sea_phys_bcg', unit: 'Sea measures', ignored: false }
-    ];
   }
 
   private getContributorConfig(contributorIdentifier: string) {

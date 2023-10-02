@@ -138,7 +138,7 @@ export class TimelineComponent implements OnInit {
         });
       });
       if (this.detailedTimelineComponent) {
-        this.detailedTimelineComponent.input.chartHeight = 75;
+        this.detailedTimelineComponent.input.chartHeight = 76;
         this.resetHistogramsInputs(this.detailedTimelineComponent.input);
         this.detailedTimelineContributor = <DetailedHistogramContributor>this.arlasStartupService.contributorRegistry
           .get(this.detailedTimelineComponent.contributorId);
@@ -222,7 +222,7 @@ export class TimelineComponent implements OnInit {
   }
 
   public emitTooltip(tooltip: HistogramTooltip, e: ElementRef) {
-    const yOffset = -80;
+    const yOffset = -140;
     let xOffset = tooltip.xPosition;
     let right = false;
     if (!!tooltip && tooltip.shown && tooltip.xPosition > tooltip.chartWidth / 2) {

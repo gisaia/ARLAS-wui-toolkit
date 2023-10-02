@@ -7,7 +7,7 @@
   </div>
 </div>
 
-<div class="arlas-timeline--legend-timeline" *ngIf="isDisplayHistogram">
+<div class="arlas-timeline--container" *ngIf="isDisplayHistogram" #arlasTimeline>
   <div class="arlas-timeline--legend" *ngIf="!!timelineLegend && timelineLegend.length > 1">
     <div *ngFor="let collectionLegend of timelineLegend" class="arlas-timeline--legend-container"
       (click)="hideShowCollection(collectionLegend)">
