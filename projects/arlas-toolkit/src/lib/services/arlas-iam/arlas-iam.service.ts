@@ -26,6 +26,7 @@ export class ArlasIamService extends ArlasAuthentificationService {
   private refreshTokenTimer$;
   private unsubscribe: Subject<void> = new Subject<void>();
   private tokenRefreshedSource: BehaviorSubject<LoginData> = new BehaviorSubject(null);
+  private currentOrganisation = '';
   public tokenRefreshed$ = this.tokenRefreshedSource.asObservable();
   public user: UserData;
 
@@ -98,25 +99,22 @@ export class ArlasIamService extends ArlasAuthentificationService {
   }
 
   /** Gets organisation from localstorage.
-   * The method checks if the organisation in lc is within the user's organisations.
-   * If not the organisation is removed from lc.
+   * The method checks if the organisation is defined
+   * If not returned the first of the list in user's organisations.
    */
   public getOrganisation(): string {
-    const storedOrganisation = localStorage.getItem('arlas-org-filter');
-    if (this.user && this.user.organisations && !!storedOrganisation) {
-      if ((new Set(this.user.organisations.map(o => o.name))).has(storedOrganisation)) {
-        return storedOrganisation;
-      } else {
-        /** cleans organisation from lc that is not part of the user's organisations */
-        this.clearOrganisation();
-        return;
+    if (!!this.currentOrganisation) {
+      return this.currentOrganisation;
+    } else {
+      if (!!this.user && this.user.organisations?.length > 0) {
+        return this.user.organisations[0].name;
       }
+      return null;
     }
-    return undefined;
   }
 
   public storeOrganisation(organisation: string): void {
-    localStorage.setItem('arlas-org-filter', organisation);
+    this.currentOrganisation = organisation;
   }
 
   public notifyTokenRefresh(loginData: LoginData) {
@@ -129,7 +127,7 @@ export class ArlasIamService extends ArlasAuthentificationService {
   }
 
   private clearOrganisation() {
-    localStorage.removeItem('arlas-org-filter');
+    this.currentOrganisation = null;
   }
 
   public startRefreshTokenTimer(loginData: LoginData): void {

@@ -508,11 +508,15 @@ export class ArlasStartupService {
           });
 
         } else if (useAuthentIam) {
+          const url = new URL(window.location.href);
+          const paramOrg = url.searchParams.get('org');
+          if (!!paramOrg) {
+            this.arlasIamService.storeOrganisation(paramOrg);
+          }
           this.arlasIamService.tokenRefreshed$.subscribe({
             next: (loginData) => {
               if (!!loginData) {
-                const storedArlasOrganisation = this.arlasIamService.getOrganisation();
-                const org = !!storedArlasOrganisation ? storedArlasOrganisation : loginData.user.organisations[0]?.name;
+                const org = this.arlasIamService.getOrganisation();
                 const iamHeader = {
                   Authorization: 'Bearer ' + loginData.accessToken,
                 };
