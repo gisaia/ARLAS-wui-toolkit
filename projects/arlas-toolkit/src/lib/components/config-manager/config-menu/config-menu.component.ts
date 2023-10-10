@@ -86,7 +86,11 @@ export class ConfigMenuComponent implements OnInit {
       case ConfigActionEnum.EDIT: {
         // redirect to arlas wui-builer with config ID
         if (action.url && action.config && action.config.id) {
-          this.openUrl(action.url.concat(action.config.id));
+          let url = action.url.concat(action.config.id);
+          if (!!action.config.org) {
+            url = url.concat('?org=' + action.config.org);
+          }
+          this.openUrl(url);
         }
         this.actionExecutedEmitter.next(action);
         break;
