@@ -30,35 +30,12 @@
   cursor: pointer;
 }
 
-.arlas-timeline--tools {
-  display: flex;
-  align-items: center;
-  position: absolute;
-  bottom: 125px;
-  overflow: visible;
-  right: 7px;
-  z-index: 1000;
-  background-color: transparent;
-  padding: 0 0 5px 5px;
-}
-
 .show-detailedtimeline-true {
   visibility: visible;
 }
 .show-detailedtimeline-false {
   visibility: hidden;
   height: 0;
-}
-
-.arlas-timeline-toggle {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  background-color: white;
-  width: 24px;
-  height: 24px;
-  margin-left: 4px;
-  cursor: pointer;
 }
 
 .arlas-timeline-hidden {

@@ -1,4 +1,30 @@
 .arlas-time-shortcuts--container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  position: absolute;
+  bottom: 125px;
+  left: 7px;
+  z-index: 1000;
+  background-color: transparent;
+  padding: 0 0 5px 5px;
+  overflow: visible;
+}
+
+.arlas-time--tools {
+  display: flex;
+  align-items: center;
+}
+
+.arlas-timeline-toggle {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  background-color: white;
+  width: 24px;
+  height: 24px;
+  margin-left: 4px;
+  cursor: pointer;
 }
 
 .shortcut-button {
@@ -6,6 +32,7 @@
   float: right;
   display: flex;
   height: 30px;
+  width: fit-content;
   justify-content: center;
   align-items: center;
   border-top-left-radius: 2px;
@@ -69,7 +96,8 @@
 .arlas-time-shortcuts__list {
   list-style-type: none;
   margin-bottom: 0;
-  padding-right: 20px;
+  /* Align in width the time shortcuts and the time picker */
+  padding-right: 13px;
   padding-left: 0;
 }
 

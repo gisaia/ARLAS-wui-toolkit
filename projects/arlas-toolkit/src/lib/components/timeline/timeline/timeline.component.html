@@ -1,11 +1,6 @@
-<div class="arlas-timeline--tools">
-  <arlas-timeline-shortcut class="arlas-timeline--timeshortcuts" [activeDatePicker]="activeDatePicker"
-    [timelineComponent]="timelineComponent" [dateFormat]="timelineComponent?.dateFormat"></arlas-timeline-shortcut>
-  <div class="arlas-timeline-toggle" (click)="toggleTimeline()">
-    <mat-icon *ngIf="!isDisplayHistogram">keyboard_arrow_up</mat-icon>
-    <mat-icon *ngIf="isDisplayHistogram">keyboard_arrow_down</mat-icon>
-  </div>
-</div>
+<arlas-timeline-shortcut class="arlas-timeline--timeshortcuts" [activeDatePicker]="activeDatePicker"
+    [timelineComponent]="timelineComponent" [dateFormat]="timelineComponent?.dateFormat"
+    [isDisplayHistogram]="isDisplayHistogram" (isDisplayHistogramChange)="toggleTimeline()"></arlas-timeline-shortcut>
 
 <div class="arlas-timeline--container" *ngIf="isDisplayHistogram" #arlasTimeline>
   <div class="arlas-timeline--legend" *ngIf="!!timelineLegend && timelineLegend.length > 1">
