@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { HistogramContributor } from 'arlas-web-contributors';
 import { StringifiedTimeShortcut, SelectedOutputValues } from 'arlas-web-contributors/models/models';
 import { ArlasCollaborativesearchService, ArlasStartupService } from '../../../services/startup/startup.service';
@@ -36,6 +36,18 @@ export class TimelineShortcutComponent implements OnInit {
    * @description Whether the date picker is enabled
    */
   @Input() public activeDatePicker = false;
+
+  /**
+   * @Input : Angular
+   * @description Whether to display the timelines' histogram
+   */
+  @Input() public isDisplayHistogram = true;
+
+  /**
+   * @Output : Angular
+   * @description Emits when the value of isDisplayHistogram changes
+   */
+  @Output() public isDisplayHistogramChange: EventEmitter<boolean> = new EventEmitter();
 
   public timelineContributor: HistogramContributor;
   public timeShortcuts: Array<StringifiedTimeShortcut>;
@@ -118,6 +130,11 @@ export class TimelineShortcutComponent implements OnInit {
    */
   public getKeys(map): Array<string> {
     return Array.from(map.keys());
+  }
+
+  public toggleTimeline() {
+    this.isDisplayHistogram = !this.isDisplayHistogram;
+    this.isDisplayHistogramChange.next(this.isDisplayHistogram);
   }
 
   /**
