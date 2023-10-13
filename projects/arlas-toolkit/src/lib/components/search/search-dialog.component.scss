@@ -22,7 +22,6 @@ $search-width: 400px;
 
 @mixin search-text {
     font-size: 14px;
-    font-family: Roboto, 'Helvetica Neue', sans-serif;
     padding: 6px 4px;
 }
 
@@ -32,26 +31,26 @@ $search-width: 400px;
     display: flex;
     flex-direction: column;
     padding: 0 4px;
-    font-family: Roboto, 'Helvetica Neue', sans-serif;
 
     .arlas-search-container {
         min-width: 150px;
         display: flex;
         align-items: center;
         border: 2px solid #0969da;
-        border-radius: 8px;
+        border-radius: 4px;
         height: $search-height;
         width: $search-width;
 
         .search {
             margin: 0 4px;
+            color: grey;
         }
 
         .full-width-input {
             border: 0;
             width: 100%;
-            font-family: Roboto, 'Helvetica Neue', sans-serif;
             font-size: 14px;
+            margin-bottom: 2px;
 
             &:focus {
                 outline: none;
