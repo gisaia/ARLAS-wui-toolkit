@@ -1,23 +1,6 @@
 <mat-chip-list class="chips--container">
-  <ng-container *ngFor="let contributorId of collaborations; let index = index">
-    <ng-container *ngIf="contributorId === 'timeline'">
-      <mat-basic-chip class="timeline-chip mat-elevation-z1" [@fadeInOut]>
-        <div class="chip-text">{{ 'Timeline' | translate }}</div>
-        <mat-basic-chip id="filter-chip-{{contributorId}}" class="filter-chip"
-          [style.color]="contributorId | getGlobalColorFilter:'color':colorFilter:backgroundColorFilter:collaborationsMap"
-          [style.background-color]="contributorId | getGlobalColorFilter:'background':colorFilter:backgroundColorFilter:collaborationsMap "
-          (click)="changeCollaborationState(contributorId)"
-          [matTooltip]="contributorId | getContributorLabel:contributors | translate">
-          <mat-icon class="icon">{{contributorId | getCollaborationIcon :contributorsIcons }}</mat-icon>
-          <mat-icon (click)="removeCollaboration(contributorId)" class="icon_close mat-icon material-icons">
-            clear</mat-icon>
-        </mat-basic-chip>
-      </mat-basic-chip>
-    </ng-container>
-  </ng-container>
-
   <ng-container *ngFor="let c of countAll">
-    <mat-basic-chip class="collection-chip mat-elevation-z1" id="arlas-count" [style.borderColor]="c.color"
+    <mat-basic-chip class="collection-chip" id="arlas-count" [style.borderColor]="c.color"
       *ngIf="!c.ignored">
       <div class="count-container">
         <div *ngIf="c.hasCentroidPath" class="zoom" (click)="zoomToData(c.collection)"
@@ -51,8 +34,21 @@
     </mat-basic-chip>
   </ng-container>
 
-  <mat-basic-chip id="clear-all" class="clear-chip mat-elevation-z1" *ngIf="collaborations.size > 0" [@fadeInOut]>
-    <div class="chip-text" (click)="removeAllFilters()">
-      {{ 'Clear all filters' | translate }}</div>
+  <ng-container *ngFor="let contributorId of collaborations; let index = index">
+    <ng-container *ngIf="contributorId === 'timeline'">
+      <mat-basic-chip class="timeline-chip" [@fadeInOut] id="filter-chip-{{contributorId}}"
+      [style.color]="contributorId | getGlobalColorFilter:'color':colorFilter:backgroundColorFilter:collaborationsMap "
+        (click)="changeCollaborationState(contributorId)"
+        [matTooltip]="contributorId | getContributorLabel:contributors | translate">
+        <mat-icon class="icon">{{contributorId | getCollaborationIcon :contributorsIcons }}</mat-icon>
+        <mat-icon (click)="removeCollaboration(contributorId)" class="icon_close mat-icon material-icons">
+          clear</mat-icon>
+      </mat-basic-chip>
+    </ng-container>
+  </ng-container>
+
+  <mat-basic-chip id="clear-all" class="clear-chip" *ngIf="collaborations.size > 0" [@fadeInOut]
+    (click)="removeAllFilters()" [matTooltip]="'Clear all filters' | translate">
+    <mat-icon>filter_alt_off</mat-icon>
   </mat-basic-chip>
 </mat-chip-list>
