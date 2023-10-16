@@ -27,7 +27,7 @@ import { Subject } from 'rxjs';
 @Component({
   selector: 'arlas-filter-shortcut',
   templateUrl: './filter-shortcut.component.html',
-  styleUrls: ['./filter-shortcut.component.css']
+  styleUrls: ['./filter-shortcut.component.scss']
 })
 export class FilterShortcutComponent implements OnInit, AfterViewInit {
 
