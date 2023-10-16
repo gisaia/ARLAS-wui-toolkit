@@ -23,13 +23,15 @@ $search-height: 30px;
   min-width: 150px;
   display: flex;
   align-items: center;
-  border: 1px solid black;
-  border-radius: 8px;
+  border: 1px solid #dadada;
+  border-radius: 4px;
   height: $search-height;
   margin-left: -2px;
+  box-sizing: border-box;
 
   .search {
     margin: 0 4px;
+    color: grey;
   }
   
   .search-text {
@@ -41,13 +43,12 @@ $search-height: 30px;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
-    padding-bottom: 2px;
-    margin-left: -4px;
+    margin-bottom: 2px;
+    box-sizing: border-box;
   }
   
   .search-text-empty {
     color: grey;
-    margin-left: -2px;
   }
   
   .close {

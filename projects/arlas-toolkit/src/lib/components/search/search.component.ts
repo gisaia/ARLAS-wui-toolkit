@@ -74,7 +74,7 @@ export class SearchComponent implements OnInit {
 
     // Retrieve value from the url and future collaborations
     this.collaborativeService.collaborationBus.pipe(
-      filter(e => e.id === this.searchContributor.identifier || e.id === 'url')
+      filter(e => this.searchContributor.isMyOwnCollaboration(e) || e.id === 'url' || e.id === 'all')
     ).subscribe(
       e => {
         const collaboration = this.collaborativeService.getCollaboration(this.searchContributor.identifier);
@@ -93,6 +93,8 @@ export class SearchComponent implements OnInit {
               this.searchValue = initSearchValue.slice(0, -1);
             }
           });
+        } else {
+          this.searchValue = this.searchPlaceholder;
         }
       }
     );
