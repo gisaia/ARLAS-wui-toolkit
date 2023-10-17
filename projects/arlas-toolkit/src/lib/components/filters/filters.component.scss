@@ -41,10 +41,11 @@ $count-chip-height: 30px;
 .chips--container {
   display: flex;
   align-items: center;
+}
 
-  ::ng-deep.mat-chip-list-wrapper {
-    margin: 0 !important;
-  }
+::ng-deep.mat-chip-list-wrapper {
+  margin: 0 !important;
+  align-items: flex-start;
 }
 
 ::ng-deep.mat-chip-list-wrapper {
@@ -78,7 +79,6 @@ $count-chip-height: 30px;
 .timeline-chip,
 .clear-chip {
   cursor: pointer;
-  border: 1px solid #a1a1a1 !important;
 }
 
 .timeline-chip,
