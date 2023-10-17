@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ArlasSettings, LinkSettings } from '../startup/startup.service';
+import { ArlasSettings, LinkSettings, ProcessSettings } from '../startup/startup.service';
 import { PersistenceSetting } from '../persistence/persistence.service';
 import { PermissionSetting } from '../permission/permission.service';
 import { AuthentSetting } from '../../tools/utils';
@@ -63,5 +63,9 @@ export class ArlasSettingsService {
 
   public getAuthentSettings(): AuthentSetting {
     return !!this.settings && !!this.settings.authentication ? this.settings.authentication : undefined;
+  }
+
+  public getProcessSettings(): ProcessSettings {
+    return !!this.settings && !!this.settings.process ? this.settings.process : undefined;
   }
 }
