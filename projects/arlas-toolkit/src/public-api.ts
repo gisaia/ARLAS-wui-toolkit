@@ -119,3 +119,5 @@ export { PermissionService, PermissionSetting } from './lib/services/permission/
 export { ArlasExportCsvService } from './lib/services/export-csv/export-csv.service';
 export { ArlasTagService } from './lib/services/tag/tag.service';
 export { TaggerResponse } from './lib/services/tag/model';
+export { ProcessComponent } from './lib/components/process/process.component';
+export { ProcessService } from './lib/services/process/process.service';

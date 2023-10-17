@@ -1,0 +1,35 @@
+{
+  "id": "d-w",
+  "version": "0.0.0",
+  "title": "Download",
+  "description": "Télécharger un ou plusieurs produits",
+  "inputs": {
+    "format": {
+      "title": "Format",
+      "description": "Format des produits téléchargés",
+      "schema": {
+        "type": "string",
+        "enum": [
+          "GEOTIFF",
+          "JPEG2000"
+        ],
+        "required": true
+      }
+    },
+    "projection": {
+      "title": "Système de coordonées",
+      "description": "Système de coordonées des produits téléchargés",
+      "schema": {
+        "type": "string",
+        "enum": [
+          "WGS 84",
+          "Projection Lambert Maroc Zone I (Nord Maroc)",
+          "Projection Lambert Maroc Zone II (Sud Maroc)",
+          "Projection Lambert Maroc Zone III",
+          "Projection Lambert Maroc Zone IV",
+          "Projection UTM Zone 28"
+        ]
+      }
+    }
+  }
+}

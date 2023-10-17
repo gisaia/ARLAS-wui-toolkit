@@ -803,6 +803,7 @@ export interface ArlasSettings {
   links?: LinkSettings[];
   ticketing_key?: string;
   histogram?: HistogramSettings;
+  process?: ProcessSettings;
 }
 
 export interface LinkSettings {
@@ -814,6 +815,13 @@ export interface LinkSettings {
 export interface HistogramSettings {
   max_buckets: number;
   export_nb_buckets: number;
+}
+
+export interface ProcessSettings {
+  settings: {
+    url: string;
+  };
+  url?: string;
 }
 
 

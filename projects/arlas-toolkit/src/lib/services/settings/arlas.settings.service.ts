@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ArlasSettings, LinkSettings } from '../startup/startup.service';
+import { ArlasSettings, LinkSettings, ProcessSettings } from '../startup/startup.service';
 import { PersistenceSetting } from '../persistence/persistence.service';
 import { PermissionSetting } from '../permission/permission.service';
 
@@ -54,5 +54,9 @@ export class ArlasSettingsService {
   public getHistogramNbBucketAtExport(): number {
     return !!this.settings && !!this.settings.histogram && !!this.settings.histogram.export_nb_buckets ?
       this.settings.histogram.export_nb_buckets : 1000;
+  }
+
+  public getProcessSettings(): ProcessSettings {
+    return !!this.settings && !!this.settings.process ? this.settings.process : undefined;
   }
 }
