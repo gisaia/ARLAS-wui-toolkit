@@ -135,3 +135,5 @@ export { ForgotComponent } from './lib/components/forgot/forgot.component';
 export { ResetComponent } from './lib/components/reset/reset.component';
 export { ArlasIamApi } from './lib/services/startup/startup.service';
 export { ArlasAuthentificationService } from './lib/services/arlas-authentification/arlas-authentification.service';
+export { ProcessComponent } from './lib/components/process/process.component';
+export { ProcessService } from './lib/services/process/process.service';

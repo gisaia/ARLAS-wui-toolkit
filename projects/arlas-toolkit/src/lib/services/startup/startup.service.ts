@@ -59,6 +59,7 @@ import { FilterShortcutConfiguration } from '../../components/filter-shortcut/fi
 import { AnalyticGroupConfiguration } from '../../components/analytics/analytics.utils';
 import { ArlasAuthentificationService } from '../arlas-authentification/arlas-authentification.service';
 import { Filter } from 'arlas-api';
+import { ProcessService } from '../process/process.service';
 
 @Injectable({
   providedIn: 'root'
@@ -192,7 +193,8 @@ export class ArlasStartupService {
     private permissionService: PermissionService,
     private errorService: ErrorService, private fetchInterceptorService: FetchInterceptorService,
     private arlasIamService: ArlasIamService,
-    private arlasAuthService: ArlasAuthentificationService
+    private arlasAuthService: ArlasAuthentificationService,
+    private processService: ProcessService
   ) {
     this.configurationUpdaterService = new ArlasConfigurationUpdaterService;
   }
@@ -501,9 +503,16 @@ export class ArlasStartupService {
                   Authorization: 'bearer ' + authService.accessToken
                 }
               });
+              // Process
+              this.processService.setOptions({
+                headers: {
+                  Authorization: 'bearer ' + authService.accessToken
+                }
+              });
             } else {
               this.persistenceService.setOptions(this.getOptions());
               this.permissionService.setOptions(this.getOptions());
+              this.processService.setOptions(this.getOptions());
             }
             this.collaborativesearchService.setFetchOptions(this.fetchOptions);
             resolve(settings);
@@ -528,10 +537,12 @@ export class ArlasStartupService {
                 }
                 this.persistenceService.setOptions({ headers: iamHeader });
                 this.permissionService.setOptions({ headers: iamHeader });
+                this.processService.setOptions({ headers: iamHeader });
                 this.fetchOptions.headers = iamHeader;
               } else {
                 this.persistenceService.setOptions({});
                 this.permissionService.setOptions({});
+                this.processService.setOptions({});
               }
               this.collaborativesearchService.setFetchOptions(this.fetchOptions);
               resolve(settings);
@@ -896,6 +907,7 @@ export interface ArlasSettings {
   links?: LinkSettings[];
   ticketing_key?: string;
   histogram?: HistogramSettings;
+  process?: ProcessSettings;
 }
 
 export interface LinkSettings {
@@ -907,6 +919,13 @@ export interface LinkSettings {
 export interface HistogramSettings {
   max_buckets: number;
   export_nb_buckets: number;
+}
+
+export interface ProcessSettings {
+  settings: {
+    url: string;
+  };
+  url?: string;
 }
 
 
