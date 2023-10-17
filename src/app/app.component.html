@@ -17,7 +17,8 @@
 </arlas-top-menu>
 
 <div style="margin-bottom: 10px;">
-  <arlas-filter [title]="'ARLAS toolkit'" [backgroundColorFilter]="'#eee'" [colorFilter]="'#000'" [units]="units"></arlas-filter>
+  <arlas-filter [title]="'ARLAS toolkit'" [backgroundColorFilter]="'#eee'" [colorFilter]="'#000'" [units]="units"
+    [availableSpace]="300"></arlas-filter>
 </div>
 
 <arlas-timeline *ngIf="timelineComponentConfig" [activeDatePicker]="true" [timelineComponent]="timelineComponentConfig"

@@ -85,7 +85,7 @@ export function getCollectionUnit(units: Array<CollectionUnit>, collection: stri
 
 export interface CollectionCount {
   count: number;
-  collection: number;
+  collection: string;
   color: string;
   hasCentroidPath: boolean;
   ignored: boolean;

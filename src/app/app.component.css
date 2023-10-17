@@ -32,7 +32,7 @@
 }
 
 ::ng-deep.content {
-    top: 53px !important;
+    top: 52px !important;
 }
 
 ::ng-deep.arlas-timeline--tools {
@@ -54,4 +54,8 @@
 .analytics-menu-container {
     position: relative;
     top: 220px;
+}
+
+::ng-deep.extra-counts {
+    top: 78px !important;
 }
