@@ -33,6 +33,7 @@ import { HomeComponent } from './components/home/home.component';
 import { LoginModule } from '../../projects/arlas-toolkit/src/lib/login.module';
 import { RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
+import { DEFAULT_SHORTCUT_WIDTH, SHORTCUT_WIDTH } from '../../projects/arlas-toolkit/src/lib/tools/utils';
 
 @NgModule({
   imports: [

@@ -21,6 +21,7 @@ import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Inject, Input, 
 import { FilterShortcutConfiguration } from './filter-shortcut.utils';
 import { ArlasCollaborativesearchService } from '../../services/startup/startup.service';
 import { OperationEnum, Contributor } from 'arlas-web-core';
+import { DEFAULT_SHORTCUT_WIDTH, SHORTCUT_WIDTH } from '../../tools/utils';
 
 
 @Component({
