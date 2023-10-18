@@ -18,7 +18,7 @@
  */
 import {
   ChangeDetectorRef, Component, ViewEncapsulation, Input, ChangeDetectionStrategy,
-  OnInit, Output, PipeTransform, Pipe
+  OnInit, Output, PipeTransform, Pipe, OnChanges, SimpleChanges
 } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Contributor, Collaboration } from 'arlas-web-core';
@@ -103,7 +103,7 @@ export class GetCollaborationIconPipe implements PipeTransform {
     ])
   ]
 })
-export class FiltersComponent implements OnInit {
+export class FiltersComponent implements OnInit, OnChanges {
 
   /**
    * @Input : Angular
@@ -148,6 +148,27 @@ export class FiltersComponent implements OnInit {
   @Input() public collectionToDescription = new Map<string, CollectionReferenceParameters>();
 
   /**
+   * @Input : Angular
+   * @description Specifies which space in pixels is available to display the collection counts,
+   * in order to hide the one that would overflow. If not set, this behavior is not put in place.
+   */
+  @Input() public availableSpace: number;
+
+  /**
+   * @Input : Angular
+   * @description Width of the extra count box to use for space computation.
+   * Can be subject to modifications based on the style used
+   */
+  @Input() public extraTitleWidth = 150;
+
+  /**
+   * @Input : Angular
+   * @description Spacing used between collection count elements.
+   * Used to compute how much space is available for the counts.
+   */
+  @Input() public spacing = 5;
+
+  /**
    * @Output : Angular
    * @description This output emit app name on click on the title of the filter
    * @deprecated There is no display of the title in this component
@@ -172,8 +193,10 @@ export class FiltersComponent implements OnInit {
   public contributorsIcons: Map<string, string>;
   public collaborationByCollection: Array<{ collection: string; collaborationId: string; }> = [];
   public countAll: CollectionCount[];
+  public extraCountAll: CollectionCount[];
   public NUMBER_FORMAT_CHAR = 'NUMBER_FORMAT_CHAR';
   public collaborationsMap: Map<string, Collaboration>;
+  public isExtraOpen = false;
 
   public constructor(
     private collaborativeSearchService: ArlasCollaborativesearchService,
@@ -191,6 +214,12 @@ export class FiltersComponent implements OnInit {
     this.contributorsIcons = new Map(this.getAllContributorsIcons());
     if (!this.units) {
       this.units = [];
+    }
+  }
+
+  public ngOnChanges(changes: SimpleChanges): void {
+    if (changes['availableSpace'] || changes['extraTitleWidth']) {
+      this.hideExtraCollections(true);
     }
   }
 
@@ -224,6 +253,10 @@ export class FiltersComponent implements OnInit {
     this.zoomEvent.next(collection);
   }
 
+  public toggleExtraCounts() {
+    this.isExtraOpen = !this.isExtraOpen;
+  }
+
   private retrieveCurrentCollaborations() {
     // If a contributor is the one of a shortcut, then its id is an UUID
     Array.from(this.contributors.keys()).filter(id => (this.ignoredContributors.indexOf(id) < 0) && !id.match(UUID_REGEX))
@@ -245,7 +278,7 @@ export class FiltersComponent implements OnInit {
           this.countAll = [];
           /** respects order of units list that is given by config */
           const unitsSet = new Set(this.units.map(u => u.collection));
-          const countsMap = new Map();
+          const countsMap = new Map<string, CollectionCount>();
           count.forEach(c => {
             const unit = this.units.find(u => u.collection === c.collection);
             countsMap.set(c.collection, {
@@ -271,6 +304,7 @@ export class FiltersComponent implements OnInit {
           });
         }
         this.cdr.detectChanges();
+        this.hideExtraCollections(false);
       });
       if (!collaborationBus.all && (this.ignoredContributors.indexOf(collaborationBus.id) < 0) && !collaborationBus.id.match(UUID_REGEX)) {
         const collaboration = this.collaborativeSearchService.getCollaboration(collaborationBus.id);
@@ -287,5 +321,42 @@ export class FiltersComponent implements OnInit {
         this.retrieveCurrentCollaborations();
       }
     });
+  }
+
+  /**
+   * Based on the space available, decide which collection count go in a 'See more' section. If no 'availableSpace' is set, nothing is done.
+   */
+  private hideExtraCollections(resizeEvent: boolean) {
+    if (this.availableSpace && this.countAll) {
+      if (resizeEvent && this.extraCountAll) {
+        this.countAll = this.countAll.concat(this.extraCountAll);
+        this.cdr.detectChanges();
+      }
+      const widths = this.countAll.map(
+        c => document.getElementById(`arlas-count-${c.collection}`).getBoundingClientRect().width + this.spacing);
+      const clearAllWidth = this.collaborations.size > 0 ?
+        document.getElementById('clear-all').getBoundingClientRect().width + this.spacing : 0;
+      const timelineChipWidth = this.collaborations.has('timeline') ?
+        document.getElementById('filter-chip-timeline').getBoundingClientRect().width + this.spacing : 0;
+
+      let breakoffIndex = -1;
+      let cumulativeWidth = 0;
+      const threshold = this.availableSpace - timelineChipWidth - clearAllWidth;
+      for (let idx = 0; idx < widths.length; idx++) {
+        cumulativeWidth += widths[idx];
+        // If this count overflows
+        if (cumulativeWidth > threshold) {
+          // If the previous count + the 'See more' overflows
+          if (idx - 1 > 0 && cumulativeWidth - widths[idx] > threshold - this.extraTitleWidth) {
+            breakoffIndex = idx - 1;
+          } else {
+            breakoffIndex = idx;
+          }
+          break;
+        }
+      }
+      this.extraCountAll = breakoffIndex >= 0 ? this.countAll.splice(breakoffIndex, this.countAll.length - breakoffIndex) : [];
+      this.cdr.detectChanges();
+    }
   }
 }

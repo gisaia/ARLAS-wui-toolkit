@@ -22,6 +22,7 @@ import { ArlasToolKitModule, ArlasToolkitSharedModule } from '../../projects/arl
 import { AppComponent } from './app.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { DEFAULT_SHORTCUT_WIDTH, SHORTCUT_WIDTH } from '../../projects/arlas-toolkit/src/lib/tools/utils';
 
 @NgModule({
   imports: [
@@ -33,7 +34,9 @@ import { MatButtonModule } from '@angular/material/button';
   ],
   exports: [AppComponent],
   declarations: [AppComponent],
-  providers: [],
+  providers: [
+    {provide: SHORTCUT_WIDTH, useValue: DEFAULT_SHORTCUT_WIDTH}
+  ],
   bootstrap: [AppComponent]
 })
 export class ToolKitAppModule { }

@@ -17,31 +17,25 @@
  * under the License.
  */
 
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FilterShortcutConfiguration } from './filter-shortcut.utils';
 import { ArlasCollaborativesearchService } from '../../services/startup/startup.service';
 import { OperationEnum, Contributor } from 'arlas-web-core';
-import { Subject } from 'rxjs';
+import { DEFAULT_SHORTCUT_WIDTH, SHORTCUT_WIDTH } from '../../tools/utils';
 
 
 @Component({
   selector: 'arlas-filter-shortcut',
   templateUrl: './filter-shortcut.component.html',
-  styleUrls: ['./filter-shortcut.component.css']
+  styleUrls: ['./filter-shortcut.component.scss']
 })
-export class FilterShortcutComponent implements OnInit, AfterViewInit {
+export class FilterShortcutComponent implements OnInit {
 
   /**
    * @Input : Angular
    * @description Configuration of the shortcut to display
   */
   @Input() public shortcut: FilterShortcutConfiguration;
-
-  /**
-   * @Input : Angular
-   * @description Width of the shortcut when opened
-   */
-  @Input() public shortcutWidth = 300;
 
   /**
    * @Input : Angular
@@ -71,14 +65,16 @@ export class FilterShortcutComponent implements OnInit, AfterViewInit {
   public inputs;
   public histogramUnit: string;
   public histogramDatatype: string;
-  public titleWidth: number;
+  public shortcutWidth: number;
 
   @ViewChild('title') public titleElement: ElementRef;
 
   public constructor(
     private collaborativeSearchService: ArlasCollaborativesearchService,
-    public cdr: ChangeDetectorRef) {
-
+    public cdr: ChangeDetectorRef,
+    @Inject(SHORTCUT_WIDTH) public SHORTCUT_WIDTH: number
+  ) {
+    this.shortcutWidth = SHORTCUT_WIDTH ? SHORTCUT_WIDTH : DEFAULT_SHORTCUT_WIDTH;
   }
 
   public ngOnInit(): void {
@@ -88,22 +84,6 @@ export class FilterShortcutComponent implements OnInit, AfterViewInit {
     this.inputs = Object.assign({}, this.shortcut.component.input);
     this.setHistogramInput();
     this.setPowerbarsInput();
-    this.titleWidth = this.shortcutWidth;
-
-    // Check if collaboration occurs during the lifetime of the shortcut to update title size
-    this.collaborativeSearchService.collaborationBus.subscribe(c => {
-      if ((c.id === this.shortcut.component.contributorId || c.id === this.shortcut.uuid || c.id === 'url')) {
-        // Allows the check to be done right after the view is changed
-        setTimeout(() => {
-          this.titleWidth = this.titleElement.nativeElement.getBoundingClientRect().width;
-        }, 0);
-      }
-    });
-  }
-
-  public ngAfterViewInit(): void {
-    this.titleWidth = this.titleElement.nativeElement.getBoundingClientRect().width;
-    this.cdr.detectChanges();
   }
 
   public toggle() {

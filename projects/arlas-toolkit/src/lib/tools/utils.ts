@@ -85,7 +85,7 @@ export function getCollectionUnit(units: Array<CollectionUnit>, collection: stri
 
 export interface CollectionCount {
   count: number;
-  collection: number;
+  collection: string;
   color: string;
   hasCentroidPath: boolean;
   ignored: boolean;
@@ -259,3 +259,10 @@ export function hasContributorData(contributor: Contributor): boolean {
     return false;
   }
 }
+
+/**
+ * @description Default width in pixel of a shortcut
+ */
+export const DEFAULT_SHORTCUT_WIDTH = 250;
+
+export const SHORTCUT_WIDTH = new InjectionToken<Number>('SHORTCUT_WIDTH');

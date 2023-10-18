@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { Component, OnInit, Input, ViewChild, ChangeDetectorRef, Output, ElementRef, OnDestroy, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ChangeDetectorRef, Output, ElementRef, OnDestroy, EventEmitter, Inject } from '@angular/core';
 import { ArlasCollaborativesearchService, ArlasConfigService } from '../../services/startup/startup.service';
 import { DataType, HistogramComponent, HistogramTooltip } from 'arlas-web-components';
 import { TranslateService } from '@ngx-translate/core';
@@ -27,7 +27,7 @@ import { HistogramContributor, DetailedHistogramContributor } from 'arlas-web-co
 import { SelectedOutputValues } from 'arlas-web-contributors/models/models';
 import { filter } from 'rxjs/operators';
 import { OperationEnum } from 'arlas-web-core';
-import { SpinnerOptions, ArlasOverlayRef } from '../../tools/utils';
+import { SpinnerOptions, ArlasOverlayRef, SHORTCUT_WIDTH, DEFAULT_SHORTCUT_WIDTH } from '../../tools/utils';
 import { ArlasOverlayService } from '../../services/overlays/overlay.service';
 
 
@@ -54,6 +54,7 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy {
 
   public histogramOverlayRef: ArlasOverlayRef;
 
+  private shortcutWidth: number;
 
   @Input() public contributor: HistogramContributor;
   @Input() public componentInputs;
@@ -110,7 +111,10 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef,
     public translate: TranslateService,
     public arlasExportCsvService: ArlasExportCsvService,
-    private arlasOverlayService: ArlasOverlayService) {
+    private arlasOverlayService: ArlasOverlayService,
+    @Inject(SHORTCUT_WIDTH) public SHORTCUT_WIDTH: number
+  ) {
+    this.shortcutWidth = SHORTCUT_WIDTH ? SHORTCUT_WIDTH : DEFAULT_SHORTCUT_WIDTH;
   }
 
   public initDetailedContributor() {
@@ -235,7 +239,6 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy {
       yOffset = 20;
     }
     const analyticsBoardWidth = 445;
-    const shortcutWidth = 300;
     let itemPerLine = 1;
     let xOffset = 470;
     if (this.componentInputs.chartWidth === Math.ceil(analyticsBoardWidth / 2) - 6 ||
@@ -255,7 +258,7 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy {
       } else if (this.position % itemPerLine === 2) {
         xOffset = 170;
       }
-    } else if (this.componentInputs.chartWidth === shortcutWidth) {
+    } else if (this.componentInputs.chartWidth === this.shortcutWidth) {
       xOffset = 15;
       yOffset = 80;
     }
