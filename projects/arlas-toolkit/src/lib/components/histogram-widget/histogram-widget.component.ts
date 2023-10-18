@@ -27,7 +27,7 @@ import { HistogramContributor, DetailedHistogramContributor } from 'arlas-web-co
 import { SelectedOutputValues } from 'arlas-web-contributors/models/models';
 import { filter } from 'rxjs/operators';
 import { OperationEnum } from 'arlas-web-core';
-import { SpinnerOptions, ArlasOverlayRef, SHORTCUT_WIDTH, DEFAULT_SHORTCUT_WIDTH } from '../../tools/utils';
+import { SpinnerOptions, ArlasOverlayRef } from '../../tools/utils';
 import { ArlasOverlayService } from '../../services/overlays/overlay.service';
 import { isShortcutID } from '../filter-shortcut/filter-shortcut.utils';
 
@@ -54,8 +54,6 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy {
   public tooltipEvent: Subject<HistogramTooltip> = new Subject<HistogramTooltip>();
 
   public histogramOverlayRef: ArlasOverlayRef;
-
-  private shortcutWidth: number;
 
   @Input() public contributor: HistogramContributor;
   @Input() public componentInputs;
@@ -112,11 +110,8 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef,
     public translate: TranslateService,
     public arlasExportCsvService: ArlasExportCsvService,
-    private arlasOverlayService: ArlasOverlayService,
-    @Inject(SHORTCUT_WIDTH) public SHORTCUT_WIDTH: number
-  ) {
-    this.shortcutWidth = SHORTCUT_WIDTH ? SHORTCUT_WIDTH : DEFAULT_SHORTCUT_WIDTH;
-  }
+    private arlasOverlayService: ArlasOverlayService
+  ) {  }
 
   public initDetailedContributor() {
     if (!!this.contributor) {

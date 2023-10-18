@@ -260,10 +260,3 @@ export function hasContributorData(contributor: Contributor): boolean {
     return false;
   }
 }
-
-/**
- * @description Default width in pixel of a shortcut
- */
-export const DEFAULT_SHORTCUT_WIDTH = 250;
-
-export const SHORTCUT_WIDTH = new InjectionToken<Number>('SHORTCUT_WIDTH');

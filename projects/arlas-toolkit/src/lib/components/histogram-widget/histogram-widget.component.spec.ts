@@ -18,7 +18,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { DEFAULT_SHORTCUT_WIDTH, SHORTCUT_WIDTH } from '../../tools/utils';
 
 describe('HistogramWidgetComponent', () => {
   let component: HistogramWidgetComponent;
@@ -40,8 +39,7 @@ describe('HistogramWidgetComponent', () => {
           provide: ArlasConfigurationUpdaterService,
           useClass: ArlasConfigurationUpdaterService
         },
-        { provide: FETCH_OPTIONS, useValue: {} },
-        { provide: SHORTCUT_WIDTH, useValue: DEFAULT_SHORTCUT_WIDTH }
+        { provide: FETCH_OPTIONS, useValue: {} }
       ],
       imports: [
         HistogramModule,
