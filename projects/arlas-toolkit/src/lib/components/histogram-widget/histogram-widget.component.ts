@@ -27,7 +27,7 @@ import { HistogramContributor, DetailedHistogramContributor } from 'arlas-web-co
 import { SelectedOutputValues } from 'arlas-web-contributors/models/models';
 import { filter } from 'rxjs/operators';
 import { OperationEnum } from 'arlas-web-core';
-import { SpinnerOptions, ArlasOverlayRef, SHORTCUT_WIDTH, DEFAULT_SHORTCUT_WIDTH } from '../../tools/utils';
+import { SpinnerOptions, ArlasOverlayRef } from '../../tools/utils';
 import { ArlasOverlayService } from '../../services/overlays/overlay.service';
 import { isShortcutID } from '../filter-shortcut/filter-shortcut.utils';
 
