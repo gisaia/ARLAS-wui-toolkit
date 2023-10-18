@@ -2,8 +2,8 @@
 ############   AUTHENTICATION SETTINGS   ###############
 ########################################################
 authentication:
-  use_authent: true
-  auth_mode: 'iam'
+  use_authent: false
+  auth_mode: 'openid'
   force_connect: false
   threshold: 5000
   url: http://localhost:9997/arlas_iam_server

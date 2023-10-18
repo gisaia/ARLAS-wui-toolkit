@@ -28,3 +28,8 @@
   background-color: #fafafa;
   border-radius: 2px;
 }
+
+.histogram-container {
+  position: relative;
+  right: 10px;
+}

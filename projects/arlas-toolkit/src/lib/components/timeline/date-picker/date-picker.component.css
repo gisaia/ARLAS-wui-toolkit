@@ -62,16 +62,6 @@ input:focus {
 
 }
 
-.arlas-time-shortcuts__list--container {
-  float: right;
-  display: inline-flex;
-  padding-top: 5px;
-  padding-left: 5px;
-  font-size: 0.8em;
-  background-color: white;
-  box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
-}
-
 .arlas-time-shortcuts__list {
   list-style-type: none;
   margin-bottom: 0;
@@ -88,4 +78,7 @@ input:focus {
   text-decoration: underline;
 }
 
-
+.arlas-date-picker-input-to,
+.arlas-date-picker-input-from {
+  width: 135px;
+}

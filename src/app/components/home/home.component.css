@@ -4,12 +4,35 @@
   top: 175px;
 }
 .arlas-board{
-  top: 200px;
   position: relative;
+  top: 115px;
+  width: 466px;
+  display: block;
+}
+
+.shortcut-list {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  font-size: 14px;
+  height: 30px;
 }
 
 .shortcut {
-  padding: 2px;
+  padding: 0 8px;
+  height: fit-content;
+}
+
+::ng-deep.title {
+  height: 28px;
+}
+
+::ng-deep.open_title {
+  margin-bottom: 0;
+}
+
+::ng-deep.content {
+  top: 52px !important;
 }
 
 ::ng-deep.arlas-timeline--tools {
@@ -17,11 +40,22 @@
   bottom: unset !important;
 }
 
-::ng-deep.arlas-timeline--timelines {
-  position: relative !important;
-  left: 0px !important;
+.left-menu {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-::ng-deep.arlas-timeline--legend {
-  height: 0px !important;
+.timeline {
+  position: relative;
+  top: 220px;
+}
+
+.analytics-menu-container {
+  position: relative;
+  top: 220px;
+}
+
+::ng-deep.extra-counts {
+  top: 78px !important;
 }

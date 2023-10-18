@@ -39,7 +39,7 @@ describe('HistogramWidgetComponent', () => {
           provide: ArlasConfigurationUpdaterService,
           useClass: ArlasConfigurationUpdaterService
         },
-        { provide: FETCH_OPTIONS, useValue: {} },
+        { provide: FETCH_OPTIONS, useValue: {} }
       ],
       imports: [
         HistogramModule,

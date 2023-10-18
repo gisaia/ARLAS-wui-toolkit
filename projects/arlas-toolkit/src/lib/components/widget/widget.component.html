@@ -1,5 +1,5 @@
 <div #arlas_tooltip_anchor></div>
-<div *ngIf="componentType === 'histogram'">
+<div *ngIf="componentType === 'histogram'" class="histogram-container">
   <arlas-tool-histogram-widget [contributor]="contributor" [componentInputs]="graphParam" [showExportCsv]="showExportCsv"
     [spinnerOptions]="spinnerOptions" [position]="position" [groupLength]="groupLength" [noDetail]="noDetail"
     (exportCsvEvent)="exportCsv($event.contributor, $event.firstLevel, $event.type, 'histogram')"></arlas-tool-histogram-widget>
@@ -27,6 +27,7 @@
     [swimlaneRepresentation]="graphParam?.swimlane_representation" [swimlaneOptions]="graphParam?.swimlane_options" [useUtc]="contributor?.useUtc"></arlas-histogram>
 </div>
 
+<!-- TODO: Passer l'export dans web components ? -->
 <div *ngIf="componentType==='powerbars'">
   <button *ngIf="showExportCsv" id="export-csv" matTooltip="{{'Export' | translate }}" class="export-csv-button" [class.export-csv-button-powerbars]="graphParam?.displayFilter" (click)="exportCsv(contributor,true,componentType)">
     <mat-icon class="analytics-board-panel-icon export-csv">get_app</mat-icon>

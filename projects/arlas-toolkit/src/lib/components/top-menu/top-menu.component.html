@@ -1,0 +1,33 @@
+<mat-toolbar class="top-menu">
+    <!-- Insert on the left -->
+    <ng-content select="[left-menu]"></ng-content>
+    <span class="spacer"></span>
+
+    <!-- Insert in the middle -->
+    <ng-content select="[middle-menu]"></ng-content>
+
+    <span class="spacer"></span>
+    <!-- Insert on the right -->
+    <ng-content select="[right-menu]"></ng-content>
+
+    <!-- Information -->
+    <button mat-icon-button matTooltip="{{ 'About' | translate }} {{ wuiName }} {{ version }}" (click)="displayAbout()">
+        <mat-icon class="icon">info_outline</mat-icon>
+    </button>
+
+    <!-- User info and login -->
+    <button mat-icon-button *ngIf="connected && isAuthentActivated" matTooltip="{{'User info' | translate}}"
+        (click)="getUserInfos()">
+        <img src="{{avatar}}" class="user_avatar">
+    </button>
+    <button mat-icon-button *ngIf="!connected && isAuthentActivated" matTooltip="{{'Log In' | translate}}"
+        (click)="connect()">
+        <mat-icon class="icon">account_circle</mat-icon>
+    </button>
+    <button mat-icon-button *ngIf="connected && isAuthentActivated" matTooltip="{{'Log Out' | translate}}"
+        (click)="connect()">
+        <mat-icon class="icon">lock_open</mat-icon>
+    </button>
+</mat-toolbar>
+
+<arlas-about #about [pathToMd]="aboutFile" [extraTextData]="extraAboutText"></arlas-about>

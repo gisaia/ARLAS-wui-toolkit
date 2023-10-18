@@ -15,14 +15,14 @@ import {
   TranslateFakeLoader, TranslateLoader, TranslateModule, TranslateService, TranslateStore
 } from '@ngx-translate/core';
 import { DonutModule, HistogramModule, MetricModule, PowerbarsModule, ResultsModule } from 'arlas-web-components';
-import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
+import { ArlasConfigurationUpdaterService } from '../../../services/configuration-updater/configurationUpdater.service';
 import {
   ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService, CONFIG_UPDATER,
   FETCH_OPTIONS
-} from '../../services/startup/startup.service';
-import { HistogramWidgetComponent } from '../histogram-widget/histogram-widget.component';
-import { ProgressSpinnerComponent } from '../progress-spinner/progress-spinner.component';
-import { WidgetComponent } from '../widget/widget.component';
+} from '../../../services/startup/startup.service';
+import { HistogramWidgetComponent } from '../../histogram-widget/histogram-widget.component';
+import { ProgressSpinnerComponent } from '../../progress-spinner/progress-spinner.component';
+import { WidgetComponent } from '../../widget/widget.component';
 import { AnalyticsBoardComponent } from './analytics-board.component';
 import { RouterModule } from '@angular/router';
 
