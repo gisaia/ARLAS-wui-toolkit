@@ -10,14 +10,11 @@
                     [widgetType]="shortcut.component.componentType"
                     [histogramDatatype]="histogramDatatype"
                     [histogramUnit]="histogramUnit"
+                    [displayFilterFirstValue]="displayFilterFirstValue"
                     ></arlas-shortcut-filters-handler>
                 <mat-icon class="chevron">{{isOpen ? 'expand_less' : 'expand_more'}}</mat-icon>
             </div>
         </section>
-        <!-- The 10px come from the padding and border. If the values change, update those values -->
-        <div *ngIf="isOpen && titleWidth < shortcutWidth + 10" class="line"
-            [style.left.px]="shortcutWidth + 10"
-            [style.width.px]="shortcutWidth + 10 - titleWidth"></div>
         <div *ngIf="isOpen" class="separator"></div>
         <section *ngIf="isOpen" class="content" [style.width.px]="titleWidth > shortcutWidth + 10 ? titleWidth - 10 : shortcutWidth">
             <arlas-tool-widget

@@ -1,18 +1,31 @@
-<div style="margin-bottom: 10px;">
-  <arlas-filter [title]="'ARLAS toolkit'" [backgroundColor]="'#FFF'"></arlas-filter>
-</div>
-
-<div style="display: flex; height: 330px;">
-  <div *ngFor="let shortcut of shortcuts; let even=even; let idx=index" class="shortcut"
-    [style.z-index]="lastShortcutOpen === idx ? 2 : 1">
-    <arlas-filter-shortcut [shortcut]="shortcut" [openAtFirst]="even" (openEvent)="onOpen($event, idx)"
-      (click)="onOpen(true, idx)" [shortcutWidth]="300"></arlas-filter-shortcut>
+<arlas-top-menu [wuiName]="'ARLAS Toolkit'" [version]="version">
+  <div left-menu class="left-menu">
+    <div>ARLAS Toolkit</div>
+    <arlas-search [searchContributor]="searchContributor" [dialogPositionTop]="10" [dialogPositionLeft]="50"></arlas-search>
   </div>
+  <div middle-menu class="shortcut-list">
+    <ng-container *ngFor="let shortcut of shortcuts; let idx=index" >
+      <arlas-filter-shortcut class="shortcut" [style.z-index]="lastShortcutOpen === idx ? 2 : 1"
+        [shortcut]="shortcut" [(isOpen)]="isShortcutOpen[idx]" [displayFilterFirstValue]="false"></arlas-filter-shortcut>
+    </ng-container>
+  </div>
+  <div right-menu>
+    <button mat-icon-button class="button">
+      <mat-icon>thumb_up</mat-icon>
+    </button>
+  </div>
+</arlas-top-menu>
+
+<div style="margin-bottom: 10px;">
+  <arlas-filter [title]="'ARLAS toolkit'" [backgroundColorFilter]="'#eee'" [colorFilter]="'#000'" [units]="units"
+    [availableSpace]="300"></arlas-filter>
 </div>
 
 <arlas-timeline *ngIf="timelineComponentConfig" [activeDatePicker]="true" [timelineComponent]="timelineComponentConfig"
-  [detailedTimelineComponent]="detailedTimelineComponentConfig">
+  [detailedTimelineComponent]="detailedTimelineComponentConfig" [units]="units" class="timeline">
 </arlas-timeline>
 
-<arlas-analytics-board class="arlas-board" [showSpinner]="true" [groups]="analytics"></arlas-analytics-board>
+<arlas-analytics-menu class="analytics-menu-container" [tabIndexByDefault]="2" [showIndicators]="true"></arlas-analytics-menu>
+
+<arlas-analytics-board class="arlas-board" [showSpinner]="true" [showIndicators]="true"></arlas-analytics-board>
 <arlas-tool-root></arlas-tool-root>

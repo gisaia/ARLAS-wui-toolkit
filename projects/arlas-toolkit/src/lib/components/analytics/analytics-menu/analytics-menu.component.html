@@ -1,0 +1,18 @@
+<mat-action-list class="analytics-menu">
+    <button mat-list-item *ngFor="let tab of analyticsService.tabs; let tabIdx = index" (click)="selectTab(tabIdx)">
+        <mat-icon *ngIf="tab.icon" [matTooltip]="tab.name" class="tab-icon" [class.selectedTab]="tabIdx === analyticsService.activeTab">
+            {{ tab.icon }}
+        </mat-icon>
+        <!-- TODO: find pipe to shorten text -->
+        <div *ngIf="!tab.icon" [matTooltip]="tab.name" [class.selectedTab]="tabIdx === analyticsService.activeTab">
+            {{ tab.name }}
+        </div>
+
+        <div *ngIf="showIndicators && analyticsService.activeFilterTab.get(tab.name)" class="active-filter-tab"
+            (click)="removeTabFilter(tab.name, $event);">
+            <mat-icon class="active-filter-tab-close"
+                matTooltip="{{'Click to remove all filters of this tab' | translate}}"
+                matTooltipPosition="right">clear</mat-icon>
+        </div>
+    </button>
+</mat-action-list>

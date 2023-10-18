@@ -20,12 +20,16 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ArlasToolKitModule, ArlasToolkitSharedModule } from '../../projects/arlas-toolkit/src/public-api';
 import { AppComponent } from './app.component';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   imports: [
     CommonModule,
     ArlasToolkitSharedModule,
-    ArlasToolKitModule
+    ArlasToolKitModule,
+    MatIconModule,
+    MatButtonModule
   ],
   exports: [AppComponent],
   declarations: [AppComponent],

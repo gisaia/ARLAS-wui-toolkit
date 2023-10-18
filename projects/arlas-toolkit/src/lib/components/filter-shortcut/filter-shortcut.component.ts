@@ -17,69 +17,79 @@
  * under the License.
  */
 
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FilterShortcutConfiguration } from './filter-shortcut.utils';
 import { ArlasCollaborativesearchService } from '../../services/startup/startup.service';
 import { OperationEnum, Contributor } from 'arlas-web-core';
-import { Subject } from 'rxjs';
 
 
 @Component({
   selector: 'arlas-filter-shortcut',
   templateUrl: './filter-shortcut.component.html',
-  styleUrls: ['./filter-shortcut.component.css']
+  styleUrls: ['./filter-shortcut.component.scss']
 })
-export class FilterShortcutComponent implements OnInit, AfterViewInit {
+export class FilterShortcutComponent implements OnInit {
 
+  /**
+   * @Input : Angular
+   * @description Configuration of the shortcut to display
+  */
   @Input() public shortcut: FilterShortcutConfiguration;
-  @Input() public openAtFirst: boolean | undefined;
-  @Input() public shortcutWidth = 300;
-  @Input() public shortcutHeight = 90;
 
-  @Output() public openEvent: Subject<boolean> = new Subject();
+  /**
+   * @Input : Angular
+   * @description Width of the shortcut when opened
+   */
+  @Input() public shortcutWidth = 250;
+
+  /**
+   * @Input : Angular
+   * @description Height of the chart contained in the shortcut
+   */
+  @Input() public chartHeight = 90;
+
+  /**
+   * @Input : Angular
+   * @description Whether to display the value of the first filter.
+   * If false, it will allow the user to only see the values by clicking the chip.
+   */
+  @Input() public displayFilterFirstValue = true;
+
+  /**
+   * @Input : Angular
+   * @description Whether the shortcut is opened and displays its widget
+   */
+  @Input() public isOpen = false;
+
+  /**
+   * @Output : Angular
+   * @description Event emitted when the shortcut is opened or closed
+   */
+  @Output() public isOpenChange = new EventEmitter<boolean>();
 
   public inputs;
-  public isOpen = false;
   public histogramUnit: string;
   public histogramDatatype: string;
-  public titleWidth = 300;
 
   @ViewChild('title') public titleElement: ElementRef;
 
   public constructor(
     private collaborativeSearchService: ArlasCollaborativesearchService,
-    public cdr: ChangeDetectorRef) {
-
-  }
+    public cdr: ChangeDetectorRef,
+  ) {}
 
   public ngOnInit(): void {
-    this.isOpen = (this.openAtFirst === true);
     if (this.isOpen) {
       this.activateContributor();
     }
     this.inputs = Object.assign({}, this.shortcut.component.input);
     this.setHistogramInput();
     this.setPowerbarsInput();
-
-    // Check if collaboration occurs during the lifetime of the shortcut to update title size
-    this.collaborativeSearchService.collaborationBus.subscribe(c => {
-      if ((c.id === this.shortcut.component.contributorId || c.id === this.shortcut.uuid || c.id === 'url')) {
-        // Allows the check to be done right after the view is changed
-        setTimeout(() => {
-          this.titleWidth = this.titleElement.nativeElement.getBoundingClientRect().width;
-        }, 0);
-      }
-    });
-  }
-
-  public ngAfterViewInit(): void {
-    this.titleWidth = this.titleElement.nativeElement.getBoundingClientRect().width;
-    this.cdr.detectChanges();
   }
 
   public toggle() {
     this.isOpen = !this.isOpen;
-    this.openEvent.next(this.isOpen);
+    this.isOpenChange.next(this.isOpen);
     if (this.isOpen) {
       this.triggerContributorCollaboration();
     }
@@ -109,7 +119,7 @@ export class FilterShortcutComponent implements OnInit, AfterViewInit {
       this.inputs['showXLabels'] = false;
       this.inputs['showYLabels'] = false;
       this.inputs['chartWidth'] = this.shortcutWidth;
-      this.inputs['chartHeight'] = this.shortcutHeight;
+      this.inputs['chartHeight'] = this.chartHeight;
     }
   }
 

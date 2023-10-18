@@ -24,6 +24,10 @@ import {
   ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService
 } from '../../projects/arlas-toolkit/src/lib/services/startup/startup.service';
 import { FilterShortcutConfiguration } from '../../projects/arlas-toolkit/src/lib/components/filter-shortcut/filter-shortcut.utils';
+import packageJson from '../../package.json';
+import { ChipsSearchContributor } from 'arlas-web-contributors';
+import { AnalyticsService } from '../../projects/arlas-toolkit/src/lib/services/analytics/analytics.service';
+import { CollectionUnit } from '../../projects/arlas-toolkit/src/lib/tools/utils';
 
 
 
@@ -35,7 +39,6 @@ import { FilterShortcutConfiguration } from '../../projects/arlas-toolkit/src/li
 })
 export class AppComponent implements OnInit {
 
-  public analytics: Array<any>;
   public shortcuts: Array<FilterShortcutConfiguration>;
   public languages: string[];
   public analyticsOpen = false;
@@ -44,25 +47,45 @@ export class AppComponent implements OnInit {
   public detailedTimelineComponentConfig: TimelineConfiguration;
 
   public lastShortcutOpen: number;
+  public isShortcutOpen: Array<boolean> = new Array();
+
+  public version: string;
+
+  public searchContributor: ChipsSearchContributor;
+  public CHIPSSEARCH_ID = 'chipssearch';
+
+  public units: Array<CollectionUnit> = new Array();
 
   public constructor(
     private arlasStartupService: ArlasStartupService,
-    private arlasConfigService: ArlasConfigService
+    private arlasConfigService: ArlasConfigService,
+    private collaborativeService: ArlasCollaborativesearchService,
+    private analyticsService: AnalyticsService
   ) {
   }
 
   public ngOnInit(): void {
-
-    this.analytics = this.arlasStartupService.analytics;
+    this.analyticsService.initializeGroups(this.arlasStartupService.analytics);
     this.shortcuts = this.arlasStartupService.filtersShortcuts;
     this.languages = ['en', 'fr', 'it', 'es', 'de', 'us', 'cn'];
     this.timelineComponentConfig = this.arlasConfigService.getValue('arlas.web.components.timeline');
     this.detailedTimelineComponentConfig = this.arlasConfigService.getValue('arlas.web.components.detailedTimeline');
+
+    const chipssearchContributorConfig = this.getContributorConfig(this.CHIPSSEARCH_ID);
+    if (chipssearchContributorConfig !== undefined) {
+      this.searchContributor = this.arlasStartupService.contributorRegistry.get(this.CHIPSSEARCH_ID) as ChipsSearchContributor;
+    }
+
+    this.version = packageJson.version;
+
+    this.shortcuts?.forEach((_, idx) => {
+      this.isShortcutOpen.push(idx % 2 === 0);
+    });
   }
 
-  public onOpen(event: boolean, idx: number): void {
-    if (event) {
-      this.lastShortcutOpen = idx;
-    }
+  private getContributorConfig(contributorIdentifier: string) {
+    return this.arlasStartupService.emptyMode ? undefined : this.arlasConfigService.getValue('arlas.web.contributors').find(
+      contrib => (contrib.identifier === contributorIdentifier)
+    );
   }
 }

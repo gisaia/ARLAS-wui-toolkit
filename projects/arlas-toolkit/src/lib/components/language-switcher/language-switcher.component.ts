@@ -1,4 +1,5 @@
 import { OnInit, Component, Input } from '@angular/core';
+import { getParamValue } from '../../tools/utils';
 
 /**
  * This component changes the `lg` parameter of ARLAS-wui url.
@@ -21,13 +22,10 @@ export class LanguageSwitcherComponent implements OnInit {
   }
 
   public ngOnInit() {
-    const url = window.location.href;
-    const paramLangage = 'lg';
     this.currentLanguage = navigator.language.slice(0, 2);
-    const regex = new RegExp('[?&]' + paramLangage + '(=([^&#]*)|&|#|$)');
-    const results = regex.exec(url);
-    if (results && results[2]) {
-      this.currentLanguage = decodeURIComponent(results[2].replace(/\+/g, ' '));
+    const urlLanguage = getParamValue('lg');
+    if (urlLanguage) {
+      this.currentLanguage = decodeURIComponent(urlLanguage.replace(/\+/g, ' '));
     }
   }
 

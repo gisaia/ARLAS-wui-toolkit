@@ -1,13 +1,18 @@
 <div class="arlas-time-shortcuts--container">
-  <div>
+  <div *ngIf="showShortcuts" class="arlas-time-shortcuts__list--container">
+    <ul class="arlas-time-shortcuts__list" *ngFor="let shortcutType of getKeys(timeShortcutsMap)">
+      <li class="arlas-time-shortcut" *ngFor="let shortCut of timeShortcutsMap.get(shortcutType)" (click)="setShortcut(shortCut)">{{shortCut.label | translate}}</li>
+    </ul>
+  </div>
+  <div class="arlas-time--tools">
     <mat-basic-chip class="shortcut-button">
       <mat-icon id="shortcut-btn" class="shortcut-button__icon" [class.cursor]="timeShortcuts?.length > 0" (click)="showSortcuts()" matTooltip="{{HIDE_SHOW + ' time shortcuts' | translate}}"
         [matTooltipPosition]="'above'">access_time</mat-icon>
       <div *ngIf="activeDatePicker" class="arlas-datepicker-container">
         <arlas-tool-date-picker class="shortcut-button__label"
-        [startSelectedDate]="timelineContributor?.intervalSelection?.startvalue"
-        [endSelectedDate]="timelineContributor?.intervalSelection?.endvalue"
-        [timelineComponent]="timelineComponent">
+          [startSelectedDate]="timelineContributor?.intervalSelection?.startvalue"
+          [endSelectedDate]="timelineContributor?.intervalSelection?.endvalue"
+          [timelineComponent]="timelineComponent">
         </arlas-tool-date-picker>
         <div class="time-zone" matTooltip="{{'Time zone' | translate}} {{timeZone}}" [matTooltipPosition]="'above'">
           <mat-icon class="time-zone-icon" >language</mat-icon>
@@ -24,12 +29,10 @@
       <div *ngIf="showRemoveIcon" class="shortcut-remove-filter" matTooltip="{{'Remove time filter' | translate}}" [matTooltipPosition]="'before'" (click)="removeTimelineCollaboration()">
         <mat-icon class="shortcut-remove-filter-icon" >clear</mat-icon>
       </div>
-
     </mat-basic-chip>
-  </div>
-  <div *ngIf="showShortcuts" class="arlas-time-shortcuts__list--container">
-    <ul class="arlas-time-shortcuts__list" *ngFor="let shortcutType of getKeys(timeShortcutsMap)">
-      <li class="arlas-time-shortcut" *ngFor="let shortCut of timeShortcutsMap.get(shortcutType)" (click)="setShortcut(shortCut)">{{shortCut.label | translate}}</li>
-    </ul>
+    <div class="arlas-timeline-toggle" (click)="toggleTimeline()">
+      <mat-icon *ngIf="!isDisplayHistogram">keyboard_arrow_up</mat-icon>
+      <mat-icon *ngIf="isDisplayHistogram">keyboard_arrow_down</mat-icon>
+    </div>
   </div>
 </div>

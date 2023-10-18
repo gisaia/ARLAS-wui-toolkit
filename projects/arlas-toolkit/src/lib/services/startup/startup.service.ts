@@ -40,7 +40,7 @@ import YAML from 'js-yaml';
 import { Subject, zip } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 import { PersistenceService, PersistenceSetting } from '../persistence/persistence.service';
-import { CONFIG_ID_QUERY_PARAM, GET_OPTIONS, WidgetConfiguration, getFieldProperties } from '../../tools/utils';
+import { CONFIG_ID_QUERY_PARAM, GET_OPTIONS, WidgetConfiguration, getFieldProperties, getParamValue } from '../../tools/utils';
 import { AuthentificationService, AuthentSetting, NOT_CONFIGURED } from '../authentification/authentification.service';
 import { ArlasConfigurationUpdaterService } from '../configuration-updater/configurationUpdater.service';
 import { ErrorService } from '../error/error.service';
@@ -53,6 +53,7 @@ import * as arlasSettingsSchema from './settings.schema.json';
 import Ajv from 'ajv';
 import ajvKeywords from 'ajv-keywords';
 import { FilterShortcutConfiguration } from '../../components/filter-shortcut/filter-shortcut.utils';
+import { AnalyticGroupConfiguration } from '../../components/analytics/analytics.utils';
 
 @Injectable({
   providedIn: 'root'
@@ -144,7 +145,7 @@ export class ArlasStartupService {
   public contributorRegistry: Map<string, Contributor> = new Map<string, any>();
   public shouldRunApp = true;
   public emptyMode = false;
-  public analytics: Array<{ groupId: string; components: Array<WidgetConfiguration>; }>;
+  public analytics: Array<AnalyticGroupConfiguration>;
   public filtersShortcuts: Array<FilterShortcutConfiguration>;
   public collectionsMap: Map<string, CollectionReferenceParameters> = new Map();
   public collectionId: string;
@@ -237,14 +238,11 @@ export class ArlasStartupService {
   }
   public translationLoaded(data) {
     return new Promise<any>((resolve: any) => {
-      const url = window.location.href;
-      const paramLangage = 'lg';
       // Set default language to current browser language
       let langToSet = navigator.language.slice(0, 2);
-      const regex = new RegExp('[?&]' + paramLangage + '(=([^&#]*)|&|#|$)');
-      const results = regex.exec(url);
-      if (results && results[2]) {
-        langToSet = decodeURIComponent(results[2].replace(/\+/g, ' '));
+      const urlLanguage = getParamValue('lg');
+      if (urlLanguage) {
+        langToSet = decodeURIComponent(urlLanguage.replace(/\+/g, ' '));
       }
       const locationInitialized = this.injector.get(LOCATION_INITIALIZED, Promise.resolve(null));
       locationInitialized.then(() => {

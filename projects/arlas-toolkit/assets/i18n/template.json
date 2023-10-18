@@ -135,5 +135,8 @@
 	"FIRST_PAGE_LABEL": "FIRST_PAGE_LABEL",
 	"LAST_PAGE_LABEL": "LAST_PAGE_LABEL",
 	"RANGE_PAGE_LABEL_1": "RANGE_PAGE_LABEL_1",
-	"RANGE_PAGE_LABEL_2": "RANGE_PAGE_LABEL_2"
+	"RANGE_PAGE_LABEL_2": "RANGE_PAGE_LABEL_2",
+	"No search": "No search",
+	"No results": "No results",
+	"Searching": "Searching"
 }
