@@ -6,7 +6,7 @@
   <div middle-menu class="shortcut-list">
     <ng-container *ngFor="let shortcut of shortcuts; let idx=index" >
       <arlas-filter-shortcut class="shortcut" [style.z-index]="lastShortcutOpen === idx ? 2 : 1"
-        [shortcut]="shortcut" [(isOpen)]="isShortcutOpen[idx]" [shortcutWidth]="250" [displayFilterFirstValue]="false"></arlas-filter-shortcut>
+        [shortcut]="shortcut" [(isOpen)]="isShortcutOpen[idx]" [displayFilterFirstValue]="false"></arlas-filter-shortcut>
     </ng-container>
   </div>
   <div right-menu>

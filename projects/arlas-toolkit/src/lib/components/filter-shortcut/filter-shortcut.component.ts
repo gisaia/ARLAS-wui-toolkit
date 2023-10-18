@@ -17,10 +17,11 @@
  * under the License.
  */
 
-import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FilterShortcutConfiguration } from './filter-shortcut.utils';
 import { ArlasCollaborativesearchService } from '../../services/startup/startup.service';
 import { OperationEnum, Contributor } from 'arlas-web-core';
+import { DEFAULT_SHORTCUT_WIDTH, SHORTCUT_WIDTH } from '../../tools/utils';
 
 
 @Component({
@@ -35,12 +36,6 @@ export class FilterShortcutComponent implements OnInit {
    * @description Configuration of the shortcut to display
   */
   @Input() public shortcut: FilterShortcutConfiguration;
-
-  /**
-   * @Input : Angular
-   * @description Width of the shortcut when opened
-   */
-  @Input() public shortcutWidth = 300;
 
   /**
    * @Input : Angular
@@ -70,13 +65,16 @@ export class FilterShortcutComponent implements OnInit {
   public inputs;
   public histogramUnit: string;
   public histogramDatatype: string;
+  public shortcutWidth: number;
 
   @ViewChild('title') public titleElement: ElementRef;
 
   public constructor(
     private collaborativeSearchService: ArlasCollaborativesearchService,
-    public cdr: ChangeDetectorRef) {
-
+    public cdr: ChangeDetectorRef,
+    @Inject(SHORTCUT_WIDTH) public SHORTCUT_WIDTH: number
+  ) {
+    this.shortcutWidth = SHORTCUT_WIDTH ? SHORTCUT_WIDTH : DEFAULT_SHORTCUT_WIDTH;
   }
 
   public ngOnInit(): void {
