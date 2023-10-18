@@ -1,0 +1,145 @@
+.analytics-board-content{
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+
+  .analytics-board-panel{
+    margin: 2px;
+    box-shadow: none;
+  
+    .analytics-board-panel-title{
+      align-items: center;
+    
+      .analytics-board-panel-icon{
+        margin-right: 5px;
+        font-size: 20px;
+        height: 20px;
+        width: 20px;
+      }
+    }
+
+    ::ng-deep .mat-expansion-panel-body {
+      padding-right: 0;
+      padding-left: 0;
+    }
+  }
+
+  .analytics-board-group{
+    flex:1;
+    flex-wrap: wrap;
+    display: flex;
+    flex-direction: row;
+    padding-top: 3px;
+    align-items: center; /** to center vertically powerbars and donuts*/
+
+    .analytics-board-card{
+      flex:1;
+      width: 100%;
+      margin: 3px;
+      padding: 3px;
+
+      .mat-card-title{
+        font-size: 15px;
+        margin-bottom: 5px;
+      }
+
+      .analytics-board-card-title{
+        display: flex;
+        align-items: center;
+        padding: 3px 0 0 25px;
+      
+        .analytics-board-card-icon{
+          margin-right: 5px;
+          font-size: 20px;
+          height: 20px;
+          width: 20px;
+        }
+      }
+    }
+  }
+
+  .active-filter-group{
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border-radius: 9px;
+    left: 7px;
+  }
+  
+  .active-filter-group-close{
+    padding: 1px 0 0 1px;
+  }
+  
+  
+  .active-filter-group-close{
+    display: none;
+    font-size: 12px;
+    color: white;
+    width: 14px;
+    height: 14px;
+  }
+  
+  .active-filter:hover .active-filter-close,
+  .active-filter-group:hover .active-filter-group-close{
+    display: block;
+  }
+  
+  .active-filter, .active-filter-group{
+    background-color: #F44336;
+  }
+}
+
+.analytics-board-compact{
+  width: 35px;
+
+  .mat-card{
+    padding: 5px 5px 0 5px !important;
+    border-radius: 0px;
+  }
+
+  .analytics-compact-card{
+    cursor: pointer;
+
+    .active-filter{
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      border-radius: 9px;
+      right: -12px;
+      top: 8px;
+    }
+    
+    .active-filter-close{
+      display: none;
+      padding: 2px 0px 0 2px;
+      font-size: 14px;
+      color: white;
+    }
+  }
+}
+
+::ng-deep .mat-tab-label-active{
+  opacity: 1 !important;
+}
+
+.cdk-drag-preview {
+  box-sizing: border-box;
+  border-radius: 4px;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+              0 8px 10px 1px rgba(0, 0, 0, 0.14),
+              0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.cdk-drag-placeholder {
+  opacity: 0;
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1) !important;
+}
+
+::ng-deep .mat-expansion-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

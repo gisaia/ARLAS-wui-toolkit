@@ -18,10 +18,6 @@ export interface AnalyticGroupConfiguration {
    */
   title?: string;
   /**
-   * @description Description of the group
-   */
-  description?: string;
-  /**
    * @description Values used to filter the display of group
    */
   filterValues?: Array<string>;

@@ -1,0 +1,109 @@
+/*
+ * Licensed to Gisaïa under one or more contributor
+ * license agreements. See the NOTICE.txt file distributed with
+ * this work for additional information regarding copyright
+ * ownership. Gisaïa licenses this file to you under
+ * the Apache License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
+$search-height: 30px;
+$search-width: 400px;
+
+@mixin search-text {
+    font-size: 14px;
+    padding: 6px 4px;
+}
+
+.search-dialog {
+    // Search width + padding width
+    width: calc($search-width + 8px);
+    display: flex;
+    flex-direction: column;
+    padding: 0 4px;
+
+    .arlas-search-container {
+        min-width: 150px;
+        display: flex;
+        align-items: center;
+        border: 2px solid #0969da;
+        border-radius: 4px;
+        height: $search-height;
+        width: $search-width;
+
+        .search {
+            margin: 0 4px;
+            color: grey;
+        }
+
+        .full-width-input {
+            border: 0;
+            width: 100%;
+            font-size: 14px;
+            margin-bottom: 2px;
+
+            &:focus {
+                outline: none;
+            }
+        }
+
+        .close {
+            .icon {
+                font-size: 18px;
+            }
+        }
+    }
+
+    .autocomplete {
+        margin: 4px 2px;
+        padding: 0;
+    
+        li:last {
+            padding-bottom: 0;
+        }
+
+        .search-warning {
+            @include search-text;
+        }
+    
+        .search-option {
+            @include search-text;
+            display: flex;
+            justify-content: space-between;
+            cursor: pointer;
+    
+            &:hover {
+                background-color: rgba(208, 217, 226, 0.548);
+            }
+    
+            span {
+                padding: 0 4px;
+            }
+    
+            .count {
+                color: #5a5555;
+            }
+        }
+    }
+}
+
+::ng-deep .mat-dialog-content {
+    padding: 0;
+    margin: -20px;
+}
+
+::ng-deep.mat-dialog-container {
+    border: 1px solid #a1a1a1;
+    border-radius: 8px !important;
+    box-shadow: none;
+}

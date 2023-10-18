@@ -8,7 +8,10 @@ import { ArlasIamService } from '../../../../projects/arlas-toolkit/src/lib/serv
 import {
   ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService
 } from '../../../../projects/arlas-toolkit/src/lib/services/startup/startup.service';
-import { AuthentSetting } from '../../../../projects/arlas-toolkit/src/lib/tools/utils';
+import { AuthentSetting, CollectionUnit } from '../../../../projects/arlas-toolkit/src/lib/tools/utils';
+import { ChipsSearchContributor } from 'arlas-web-contributors';
+import { AnalyticsService } from '../../../../projects/arlas-toolkit/src/public-api';
+import packageJson from '../../../../package.json';
 
 
 @Component({
@@ -18,36 +21,52 @@ import { AuthentSetting } from '../../../../projects/arlas-toolkit/src/lib/tools
 })
 export class HomeComponent implements OnInit {
 
-  public analytics: Array<any>;
   public shortcuts: Array<FilterShortcutConfiguration>;
   public languages: string[];
   public analyticsOpen = false;
   public target: string;
-  public timelineComponentConfig;
+  public timelineComponentConfig: TimelineConfiguration;
   public detailedTimelineComponentConfig: TimelineConfiguration;
 
-  public connected = false;
   public lastShortcutOpen: number;
+  public isShortcutOpen: Array<boolean> = new Array();
 
+  public version: string;
+
+  public searchContributor: ChipsSearchContributor;
+  public CHIPSSEARCH_ID = 'chipssearch';
+
+  public units: Array<CollectionUnit> = new Array();
+  public connected = false;
   public constructor(
     private arlasStartupService: ArlasStartupService,
     private arlasConfigService: ArlasConfigService,
     private arlasIamService: ArlasIamService,
     private collaborativeService: ArlasCollaborativesearchService,
-    private arlasAuthentService: ArlasAuthentificationService
+    private arlasAuthentService: ArlasAuthentificationService,
+    private analyticsService: AnalyticsService
   ) {
-    this.analytics = this.arlasStartupService.analytics;
-    this.shortcuts = this.arlasStartupService.filtersShortcuts;
-    this.languages = ['en', 'fr', 'it', 'es', 'de', 'us', 'cn'];
-    this.timelineComponentConfig = this.arlasConfigService.getValue('arlas.web.components.timeline');
-    this.detailedTimelineComponentConfig = this.arlasConfigService.getValue('arlas.web.components.detailedTimeline');
+
   }
 
   public ngOnInit(): void {
 
-    this.collaborativeService.setCollaborations({});
-    this.analytics = this.arlasStartupService.analytics;
+    this.analyticsService.initializeGroups(this.arlasStartupService.analytics);
+    this.shortcuts = this.arlasStartupService.filtersShortcuts;
     this.languages = ['en', 'fr', 'it', 'es', 'de', 'us', 'cn'];
+    this.timelineComponentConfig = this.arlasConfigService.getValue('arlas.web.components.timeline');
+    this.detailedTimelineComponentConfig = this.arlasConfigService.getValue('arlas.web.components.detailedTimeline');
+
+    const chipssearchContributorConfig = this.getContributorConfig(this.CHIPSSEARCH_ID);
+    if (chipssearchContributorConfig !== undefined) {
+      this.searchContributor = this.arlasStartupService.contributorRegistry.get(this.CHIPSSEARCH_ID) as ChipsSearchContributor;
+    }
+
+    this.version = packageJson.version;
+
+    this.shortcuts?.forEach((_, idx) => {
+      this.isShortcutOpen.push(idx % 2 === 0);
+    });
 
     const authConfig: AuthentSetting = this.arlasAuthentService.authConfigValue;
     if (!!authConfig && authConfig.use_authent) {
@@ -68,5 +87,10 @@ export class HomeComponent implements OnInit {
     if (event) {
       this.lastShortcutOpen = idx;
     }
+  }
+  private getContributorConfig(contributorIdentifier: string) {
+    return this.arlasStartupService.emptyMode ? undefined : this.arlasConfigService.getValue('arlas.web.contributors').find(
+      contrib => (contrib.identifier === contributorIdentifier)
+    );
   }
 }

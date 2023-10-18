@@ -2,111 +2,12 @@
 
 ## [v24.2.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.2.1) (2023-11-22)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.3.0-beta.15...v24.2.1)
-
-## [v24.3.0-beta.15](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.3.0-beta.15) (2023-11-17)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.3.0-beta.14...v24.3.0-beta.15)
-
-## [v24.3.0-beta.14](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.3.0-beta.14) (2023-11-16)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.3.0-beta.13...v24.3.0-beta.14)
-
-## [v24.3.0-beta.13](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.3.0-beta.13) (2023-11-16)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.3.0-beta.12...v24.3.0-beta.13)
-
-## [v24.3.0-beta.12](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.3.0-beta.12) (2023-11-16)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.3.0-beta.11...v24.3.0-beta.12)
-
-## [v24.3.0-beta.11](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.3.0-beta.11) (2023-11-15)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.3.0-beta.10...v24.3.0-beta.11)
-
-## [v24.3.0-beta.10](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.3.0-beta.10) (2023-11-14)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.3.0-beta.9...v24.3.0-beta.10)
-
-## [v24.3.0-beta.9](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.3.0-beta.9) (2023-11-13)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.3.0-beta.8...v24.3.0-beta.9)
-
-## [v24.3.0-beta.8](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.3.0-beta.8) (2023-11-10)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.3.0-beta.7...v24.3.0-beta.8)
-
-## [v24.3.0-beta.7](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.3.0-beta.7) (2023-11-10)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.3.0-beta.6...v24.3.0-beta.7)
-
-## [v24.3.0-beta.6](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.3.0-beta.6) (2023-11-09)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.3.0-beta.5...v24.3.0-beta.6)
-
-## [v24.3.0-beta.5](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.3.0-beta.5) (2023-11-05)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.3.0-beta.4...v24.3.0-beta.5)
-
-## [v24.3.0-beta.4](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.3.0-beta.4) (2023-10-31)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.3.0-beta.3...v24.3.0-beta.4)
-
-## [v24.3.0-beta.3](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.3.0-beta.3) (2023-10-27)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.3.0-beta.2...v24.3.0-beta.3)
-
-## [v24.3.0-beta.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.3.0-beta.2) (2023-10-20)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.3.0-beta.1...v24.3.0-beta.2)
-
-## [v24.3.0-beta.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.3.0-beta.1) (2023-10-20)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.2.0-beta.7...v24.3.0-beta.1)
-
-## [v24.2.0-beta.7](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.2.0-beta.7) (2023-10-12)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.2.0-beta.6...v24.2.0-beta.7)
-
-## [v24.2.0-beta.6](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.2.0-beta.6) (2023-10-12)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.2.0-beta.5...v24.2.0-beta.6)
-
-## [v24.2.0-beta.5](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.2.0-beta.5) (2023-09-29)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.2.0...v24.2.0-beta.5)
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.2.0...v24.2.1)
 
 ## [v24.2.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.2.0) (2023-09-29)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.2.0-beta-iam.11...v24.2.0)
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.1.6...v24.2.0)
 
-## [v24.2.0-beta-iam.11](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.2.0-beta-iam.11) (2023-09-27)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.2.0-beta-iam.10...v24.2.0-beta-iam.11)
-
-## [v24.2.0-beta-iam.10](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.2.0-beta-iam.10) (2023-09-22)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.2.0-beta-iam.8...v24.2.0-beta-iam.10)
-
-## [v24.2.0-beta-iam.8](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.2.0-beta-iam.8) (2023-09-15)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.2.0-beta-iam.6...v24.2.0-beta-iam.8)
-
-## [v24.2.0-beta-iam.6](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.2.0-beta-iam.6) (2023-09-11)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.2.0-beta-iam.5...v24.2.0-beta-iam.6)
-
-## [v24.2.0-beta-iam.5](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.2.0-beta-iam.5) (2023-09-04)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.2.0-beta-iam.3...v24.2.0-beta-iam.5)
-
-## [v24.2.0-beta-iam.3](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.2.0-beta-iam.3) (2023-08-28)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.2.0-beta-iam.4...v24.2.0-beta-iam.3)
-
-## [v24.2.0-beta-iam.4](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.2.0-beta-iam.4) (2023-08-28)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.1.6...v24.2.0-beta-iam.4)
 
 ## [v24.1.6](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.1.6) (2023-08-09)
 

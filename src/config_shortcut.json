@@ -1,0 +1,1249 @@
+{
+  "arlas": {
+    "web": {
+      "contributors": [
+        {
+          "type": "map",
+          "identifier": "demo_algoe",
+          "name": "Map demo_algoe",
+          "collection": "demo_algoe",
+          "geo_query_op": "Intersects",
+          "geo_query_field": "centroid",
+          "icon": "check_box_outline_blank",
+          "layers_sources": [
+            {
+              "id": "arlas_id:Valeur moyenne au mètre carré:1668606805007",
+              "name": "Valeur moyenne au mètre carré",
+              "source": "cluster-centroid-Finest-tile-cell-demo_algoe",
+              "minzoom": 1,
+              "maxzoom": 15,
+              "include_fields": [],
+              "short_form_fields": [],
+              "colors_from_fields": [],
+              "provided_fields": [],
+              "normalization_fields": [],
+              "metrics": [
+                {
+                  "field": "pricePerSquareMeter",
+                  "metric": "avg",
+                  "normalize": false
+                }
+              ],
+              "agg_geo_field": "centroid",
+              "aggType": "tile",
+              "granularity": "Finest",
+              "minfeatures": 0,
+              "aggregated_geometry": "cell"
+            },
+            {
+              "id": "arlas_id:Mutation - Valeur moyenne au mètre carré:1668606823097",
+              "name": "Mutation - Valeur moyenne au mètre carré",
+              "source": "feature-WKT-wide-demo_algoe",
+              "minzoom": 15,
+              "maxzoom": 23,
+              "include_fields": [
+                "pricePerSquareMeter"
+              ],
+              "short_form_fields": [],
+              "colors_from_fields": [],
+              "provided_fields": [],
+              "normalization_fields": [],
+              "metrics": [],
+              "maxfeatures": 5000,
+              "returned_geometry": "WKT",
+              "render_mode": "wide"
+            },
+            {
+              "id": "arlas_id:Mutation - Valeur moyenne au mètre carré:1668610497518",
+              "name": "Mutation - Valeur moyenne au mètre carré",
+              "source": "feature-WKT-wide-demo_algoe",
+              "minzoom": 15,
+              "maxzoom": 23,
+              "include_fields": [
+                "valeurfonc"
+              ],
+              "short_form_fields": [
+                "valeurfonc"
+              ],
+              "colors_from_fields": [],
+              "provided_fields": [],
+              "normalization_fields": [],
+              "metrics": [],
+              "maxfeatures": 5000,
+              "returned_geometry": "WKT",
+              "render_mode": "wide"
+            },
+            {
+              "id": "arlas_id:Mutation - Valeur moyenne au mètre carré copy:1668707397713",
+              "name": "Mutation - Valeur moyenne au mètre carré copy",
+              "source": "feature-WKT-wide-demo_algoe",
+              "minzoom": 15,
+              "maxzoom": 23,
+              "include_fields": [],
+              "short_form_fields": [],
+              "colors_from_fields": [],
+              "provided_fields": [],
+              "normalization_fields": [],
+              "metrics": [],
+              "maxfeatures": 5000,
+              "returned_geometry": "WKT",
+              "render_mode": "wide"
+            },
+            {
+              "id": "arlas_id:Densité de mutations:1668610797848",
+              "name": "Densité de mutations",
+              "source": "cluster-centroid-Finest-tile-cell-demo_algoe",
+              "minzoom": 1,
+              "maxzoom": 23,
+              "include_fields": [],
+              "short_form_fields": [],
+              "colors_from_fields": [],
+              "provided_fields": [],
+              "normalization_fields": [],
+              "metrics": [
+                {
+                  "field": "",
+                  "metric": "count",
+                  "normalize": true
+                }
+              ],
+              "agg_geo_field": "centroid",
+              "aggType": "tile",
+              "granularity": "Finest",
+              "minfeatures": 0,
+              "aggregated_geometry": "cell"
+            }
+          ]
+        },
+        {
+          "type": "chipssearch",
+          "identifier": "chipssearch",
+          "collection": "demo_algoe",
+          "search_field": "internal.fulltext",
+          "name": "Search...",
+          "icon": "search",
+          "autocomplete_field": "internal.autocomplete",
+          "autocomplete_size": 10
+        },
+        {
+          "type": "histogram",
+          "identifier": "timeline",
+          "collection": "demo_algoe",
+          "name": "Timeline",
+          "icon": "watch_later",
+          "isOneDimension": false,
+          "useUtc": true,
+          "numberOfBuckets": 50,
+          "aggregationmodels": [
+            {
+              "type": "datehistogram",
+              "field": "timestamp"
+            }
+          ]
+        },
+        {
+          "identifier": "demo_algoe-uniqueId-100-Valeur-Date-Type de bien-Informations-",
+          "name": "Mutation",
+          "title": "Mutation",
+          "collection": "demo_algoe",
+          "icon": "table_chart",
+          "type": "resultlist",
+          "search_size": 100,
+          "fieldsConfiguration": {
+            "idFieldName": "uniqueId",
+            "titleFieldNames": [
+              {
+                "fieldPath": "",
+                "process": ""
+              }
+            ],
+            "tooltipFieldNames": [
+              {
+                "fieldPath": "",
+                "process": ""
+              }
+            ],
+            "icon": "fiber_manual_record",
+            "iconColorFieldName": ""
+          },
+          "columns": [
+            {
+              "columnName": "Valeur",
+              "fieldName": "valeurfonc",
+              "dataType": "€",
+              "process": "",
+              "useColorService": false,
+              "sort": ""
+            },
+            {
+              "columnName": "Date",
+              "fieldName": "datemut",
+              "dataType": "",
+              "process": "",
+              "useColorService": false,
+              "sort": ""
+            },
+            {
+              "columnName": "Type de bien",
+              "fieldName": "libtypbien",
+              "dataType": "",
+              "process": "",
+              "useColorService": true,
+              "sort": ""
+            }
+          ],
+          "details": [
+            {
+              "name": "Informations",
+              "order": 1,
+              "fields": [
+                {
+                  "path": "valeurfonc",
+                  "label": "Valeur",
+                  "process": ""
+                },
+                {
+                  "path": "datemut",
+                  "label": "Date",
+                  "process": ""
+                },
+                {
+                  "path": "area",
+                  "label": "Surface",
+                  "process": ""
+                },
+                {
+                  "path": "libnatmut",
+                  "label": "Nature de mutation",
+                  "process": ""
+                },
+                {
+                  "path": "libtypbien",
+                  "label": "Type de bien",
+                  "process": ""
+                },
+                {
+                  "path": "pricePerSquareMeter",
+                  "label": "Prix au mètre carré",
+                  "process": ""
+                }
+              ]
+            }
+          ],
+          "includeMetadata": []
+        },
+        {
+          "type": "detailedhistogram",
+          "identifier": "detailedTimeline",
+          "collection": "demo_algoe",
+          "name": "Timeline",
+          "icon": "watch_later",
+          "isOneDimension": false,
+          "useUtc": true,
+          "numberOfBuckets": 50,
+          "aggregationmodels": [
+            {
+              "type": "datehistogram",
+              "field": "timestamp"
+            }
+          ],
+          "annexedContributorId": "timeline",
+          "selectionExtentPercentage": 0.02
+        },
+        {
+          "identifier": "demo_algoe-libtypbien-10-",
+          "name": "Type de bien",
+          "title": "Type de bien",
+          "collection": "demo_algoe",
+          "icon": "business",
+          "type": "tree",
+          "aggregationmodels": [
+            {
+              "field": "libtypbien",
+              "size": 10,
+              "type": "term"
+            }
+          ]
+        },
+        {
+          "identifier": "demo_algoe-libtypbien-10-Count-desc-count",
+          "name": "Type de bien",
+          "title": "Type de bien",
+          "collection": "demo_algoe",
+          "icon": "business",
+          "type": "tree",
+          "jsonpath": "$.count",
+          "aggregationmodels": [
+            {
+              "type": "term",
+              "field": "libtypbien",
+              "size": 10,
+              "order": "desc",
+              "on": "count"
+            }
+          ],
+          "filterOperator": "Eq",
+          "allowOperatorChange": true
+        },
+        {
+          "identifier": "demo_algoe-libnatmut-10-",
+          "name": "Nature mutation",
+          "title": "Nature mutation",
+          "collection": "demo_algoe",
+          "icon": "compare_arrows",
+          "type": "tree",
+          "aggregationmodels": [
+            {
+              "field": "libnatmut",
+              "size": 10,
+              "type": "term"
+            }
+          ]
+        },
+        {
+          "identifier": "demo_algoe-libnatmut-10-Count-desc-count",
+          "name": "Nature  mutation",
+          "title": "Nature  mutation",
+          "collection": "demo_algoe",
+          "icon": "compare_arrows",
+          "type": "tree",
+          "jsonpath": "$.count",
+          "aggregationmodels": [
+            {
+              "type": "term",
+              "field": "libnatmut",
+              "size": 10,
+              "order": "desc",
+              "on": "count"
+            }
+          ],
+          "filterOperator": "Eq",
+          "allowOperatorChange": true
+        },
+        {
+          "identifier": "demo_algoe-valeurfonc-numeric-bucket-Count--50",
+          "name": "Distribution de la valeur",
+          "title": "Distribution de la valeur",
+          "collection": "demo_algoe",
+          "icon": "euro_symbol",
+          "charttype": "bars",
+          "isOneDimension": false,
+          "type": "histogram",
+          "numberOfBuckets": 100,
+          "jsonpath": "$.count",
+          "aggregationmodels": [
+            {
+              "type": "histogram",
+              "field": "valeurfonc"
+            }
+          ],
+          "linked_contributor_id": "40cf9f83-aea3-47f2-a6aa-0d9f9e2375c0"
+        },
+        {
+          "identifier": "40cf9f83-aea3-47f2-a6aa-0d9f9e2375c0",
+          "name": "Distribution de la valeur",
+          "title": "Distribution de la valeur",
+          "collection": "demo_algoe",
+          "icon": "euro_symbol",
+          "charttype": "bars",
+          "isOneDimension": false,
+          "type": "histogram",
+          "numberOfBuckets": 20,
+          "jsonpath": "$.count",
+          "aggregationmodels": [
+            {
+              "type": "histogram",
+              "field": "valeurfonc"
+            }
+          ],
+          "linked_contributor_id": "demo_algoe-valeurfonc-numeric-bucket-Count--50"
+
+        },
+        {
+          "identifier": "d0fc0203-e56c-4c36-a330-dda760344196",
+          "name": "Valeur moyenne à travers le temps",
+          "title": "Valeur moyenne à travers le temps",
+          "collection": "demo_algoe",
+          "icon": "euro_symbol",
+          "charttype": "bars",
+          "isOneDimension": false,
+          "type": "histogram",
+          "numberOfBuckets": 20,
+          "jsonpath": "$.metrics[0].value",
+          "useUtc": true,
+          "aggregationmodels": [
+            {
+              "type": "datehistogram",
+              "field": "timestamp",
+              "metrics": [
+                {
+                  "collect_fct": "avg",
+                  "collect_field": "valeurfonc"
+                }
+              ]
+            }
+          ],
+          "linked_contributor_id": "demo_algoe-timestamp-time-bucket-AVG-valeurfonc-50"
+        },
+        {
+          "identifier": "demo_algoe-timestamp-time-bucket-AVG-valeurfonc-50",
+          "name": "Valeur moyenne à travers le temps",
+          "title": "Valeur moyenne à travers le temps",
+          "collection": "demo_algoe",
+          "icon": "euro_symbol",
+          "charttype": "bars",
+          "isOneDimension": false,
+          "type": "histogram",
+          "numberOfBuckets": 100,
+          "jsonpath": "$.metrics[0].value",
+          "useUtc": true,
+          "aggregationmodels": [
+            {
+              "type": "datehistogram",
+              "field": "timestamp",
+              "metrics": [
+                {
+                  "collect_fct": "avg",
+                  "collect_field": "valeurfonc"
+                }
+              ]
+            }
+          ],
+          "linked_contributor_id": "d0fc0203-e56c-4c36-a330-dda760344196"
+        },
+        {
+          "identifier": "demo_algoe-pricePerSquareMeter-numeric-bucket-Count--50",
+          "name": "Distribution de la valeur au mètre carré",
+          "title": "Distribution de la valeur au mètre carré",
+          "collection": "demo_algoe",
+          "icon": "euro_symbol",
+          "charttype": "bars",
+          "isOneDimension": false,
+          "type": "histogram",
+          "numberOfBuckets": 50,
+          "jsonpath": "$.count",
+          "aggregationmodels": [
+            {
+              "type": "histogram",
+              "field": "pricePerSquareMeter"
+            }
+          ]
+        },
+        {
+          "identifier": "demo_algoe-timestamp-time-bucket-AVG-pricePerSquareMeter-50",
+          "name": "Valeur moyenne au mètre carré à travers le temps",
+          "title": "Valeur moyenne au mètre carré à travers le temps",
+          "collection": "demo_algoe",
+          "icon": "euro_symbol",
+          "charttype": "bars",
+          "isOneDimension": false,
+          "type": "histogram",
+          "numberOfBuckets": 50,
+          "jsonpath": "$.metrics[0].value",
+          "useUtc": true,
+          "aggregationmodels": [
+            {
+              "type": "datehistogram",
+              "field": "timestamp",
+              "metrics": [
+                {
+                  "collect_fct": "avg",
+                  "collect_field": "pricePerSquareMeter"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "identifier": "demo_algoe-area-numeric-bucket-Count--50",
+          "name": "Surface",
+          "title": "Surface",
+          "collection": "demo_algoe",
+          "icon": "straighten",
+          "charttype": "bars",
+          "isOneDimension": false,
+          "type": "histogram",
+          "numberOfBuckets": 50,
+          "jsonpath": "$.count",
+          "aggregationmodels": [
+            {
+              "type": "histogram",
+              "field": "area"
+            }
+          ]
+        },
+        {
+          "identifier": "demo_algoe-timestamp-time-bucket-Count--50libtypbien",
+          "name": "nb elements by type",
+          "title": "nb elements by type",
+          "collection": "demo_algoe",
+          "icon": "straighten",
+          "type": "swimlane",
+          "numberOfBuckets": 50,
+          "swimlanes": [
+            {
+              "id": 1,
+              "name": "nb elements by type",
+              "xAxisField": "timestamp",
+              "termField": "libtypbien",
+              "aggregationmodels": [
+                {
+                  "type": "term",
+                  "field": "libtypbien",
+                  "size": 5
+                },
+                {
+                  "type": "datehistogram",
+                  "field": "timestamp"
+                }
+              ],
+              "useUtc": true,
+              "jsonpath": "$.count"
+            }
+          ]
+        }
+      ],
+      "components": {
+        "timeline": {
+          "contributorId": "timeline",
+          "componentType": "histogram",
+          "uuid": "",
+          "input": {
+            "id": "histogram-timeline",
+            "xTicks": 9,
+            "yTicks": 2,
+            "xLabels": 9,
+            "yLabels": 2,
+            "xUnit": "",
+            "yUnit": "",
+            "chartXLabel": "",
+            "shortYLabels": false,
+            "chartTitle": "Timeline",
+            "customizedCssClass": "arlas-timeline",
+            "multiselectable": true,
+            "brushHandlesHeightWeight": 0.8,
+            "dataType": "time",
+            "isHistogramSelectable": true,
+            "ticksDateFormat": "%b %d %Y  %H:%M",
+            "chartType": "bars",
+            "chartHeight": 128,
+            "chartWidth": null,
+            "xAxisPosition": "bottom",
+            "yAxisStartsFromZero": true,
+            "descriptionPosition": "top",
+            "showXTicks": true,
+            "showYTicks": true,
+            "showXLabels": true,
+            "showYLabels": true,
+            "showHorizontalLines": false,
+            "isSmoothedCurve": true,
+            "barWeight": 0.8,
+            "topOffsetRemoveInterval": 10
+          }
+        },
+        "mapgl": {
+          "allowMapExtend": true,
+          "nbVerticesLimit": 100,
+          "input": {
+            "defaultBasemapStyle": {
+              "name": "Positron",
+              "styleFile": "https://api.maptiler.com/maps/8bb9093c-9865-452b-8be4-7a397f552b49/style.json?key=xIhbu1RwgdbxfZNmoXn4",
+              "image": "https://api.maptiler.com/maps/8bb9093c-9865-452b-8be4-7a397f552b49/0/0/0.png?key=xIhbu1RwgdbxfZNmoXn4"
+            },
+            "basemapStyles": [
+              {
+                "name": "Basic",
+                "styleFile": "https://api.maptiler.com/maps/basic/style.json?key=xIhbu1RwgdbxfZNmoXn4",
+                "image": "https://cloud.maptiler.com/static/img/maps/basic.png"
+              },
+              {
+                "name": "Bright",
+                "styleFile": "https://api.maptiler.com/maps/bright/style.json?key=xIhbu1RwgdbxfZNmoXn4",
+                "image": "https://cloud.maptiler.com/static/img/maps/bright.png"
+              },
+              {
+                "name": "Outdoor",
+                "styleFile": "https://api.maptiler.com/maps/outdoor/style.json?key=xIhbu1RwgdbxfZNmoXn4",
+                "image": "https://cloud.maptiler.com/static/img/maps/outdoor.png"
+              },
+              {
+                "name": "Pastel",
+                "styleFile": "https://api.maptiler.com/maps/pastel/style.json?key=xIhbu1RwgdbxfZNmoXn4",
+                "image": "https://cloud.maptiler.com/static/img/maps/pastel.png"
+              },
+              {
+                "name": "Satellite Hybrid",
+                "styleFile": "https://api.maptiler.com/maps/hybrid/style.json?key=xIhbu1RwgdbxfZNmoXn4",
+                "image": "https://cloud.maptiler.com/static/img/maps/hybrid.png"
+              },
+              {
+                "name": "Streets",
+                "styleFile": "https://api.maptiler.com/maps/streets/style.json?key=xIhbu1RwgdbxfZNmoXn4",
+                "image": "https://cloud.maptiler.com/static/img/maps/streets.png"
+              },
+              {
+                "name": "Toner",
+                "styleFile": "https://api.maptiler.com/maps/toner/style.json?key=xIhbu1RwgdbxfZNmoXn4",
+                "image": "https://cloud.maptiler.com/static/img/maps/toner.png"
+              },
+              {
+                "name": "Topo",
+                "styleFile": "https://api.maptiler.com/maps/topo/style.json?key=xIhbu1RwgdbxfZNmoXn4",
+                "image": "https://cloud.maptiler.com/static/img/maps/topo.png"
+              },
+              {
+                "name": "Topographique",
+                "styleFile": "https://api.maptiler.com/maps/topographique/style.json?key=xIhbu1RwgdbxfZNmoXn4",
+                "image": "https://cloud.maptiler.com/static/img/maps/topographique.png"
+              },
+              {
+                "name": "Voyager",
+                "styleFile": "https://api.maptiler.com/maps/voyager/style.json?key=xIhbu1RwgdbxfZNmoXn4",
+                "image": "https://cloud.maptiler.com/static/img/maps/voyager.png"
+              },
+              {
+                "name": "Positron",
+                "styleFile": "https://api.maptiler.com/maps/8bb9093c-9865-452b-8be4-7a397f552b49/style.json?key=xIhbu1RwgdbxfZNmoXn4",
+                "image": "https://api.maptiler.com/maps/8bb9093c-9865-452b-8be4-7a397f552b49/0/0/0.png?key=xIhbu1RwgdbxfZNmoXn4"
+              },
+              {
+                "name": "Streets-dark",
+                "styleFile": "https://api.maptiler.com/maps/a1e62ee0-aca6-451a-a4b8-42250422a212/style.json?key=xIhbu1RwgdbxfZNmoXn4",
+                "image": "https://api.maptiler.com/maps/a1e62ee0-aca6-451a-a4b8-42250422a212/0/0/0.png?key=xIhbu1RwgdbxfZNmoXn4"
+              },
+              {
+                "name": "Streets-light",
+                "styleFile": "https://api.maptiler.com/maps/208a41eb-368f-4003-8e3c-2dba0d90b3cb/style.json?key=xIhbu1RwgdbxfZNmoXn4",
+                "image": "https://api.maptiler.com/maps/208a41eb-368f-4003-8e3c-2dba0d90b3cb/0/0/0.png?key=xIhbu1RwgdbxfZNmoXn4"
+              },
+              {
+                "name": "Streets-light - No label",
+                "styleFile": "https://api.maptiler.com/maps/bfbf9c99-aa66-4830-8b6c-2251d177f2f5/style.json?key=xIhbu1RwgdbxfZNmoXn4",
+                "image": "https://api.maptiler.com/maps/bfbf9c99-aa66-4830-8b6c-2251d177f2f5/0/0/0.png?key=xIhbu1RwgdbxfZNmoXn4"
+              }
+            ],
+            "margePanForLoad": 5,
+            "margePanForTest": 5,
+            "initZoom": 2,
+            "initCenter": [
+              0,
+              0
+            ],
+            "displayScale": true,
+            "displayCurrentCoordinates": false,
+            "idFeatureField": "deprecated, to be removed",
+            "mapLayers": {
+              "layers": [],
+              "events": {
+                "zoomOnClick": [],
+                "emitOnClick": [],
+                "onHover": []
+              },
+              "externalEventLayers": []
+            },
+            "visualisations_sets": [
+              {
+                "name": "Valeur des mutations",
+                "layers": [
+                  "arlas_id:Valeur moyenne au mètre carré:1668606805007",
+                  "arlas_id:Mutation - Valeur moyenne au mètre carré:1668610497518",
+                  "arlas_id:Mutation - Valeur moyenne au mètre carré:1668606823097",
+                  "arlas_id:Mutation - Valeur moyenne au mètre carré copy:1668707397713"
+                ],
+                "enabled": true
+              },
+              {
+                "name": "Densité de mutations",
+                "layers": [
+                  "arlas_id:Densité de mutations:1668610797848"
+                ],
+                "enabled": false
+              }
+            ]
+          }
+        },
+        "resultlists": [
+          {
+            "componentType": "resultlist",
+            "input": {
+              "id": "demo_algoe-uniqueId-100-Valeur-Date-Type de bien-Informations-",
+              "tableWidth": 445,
+              "globalActionsList": [],
+              "searchSize": 100,
+              "nLastLines": 3,
+              "detailedGridHeight": 300,
+              "nbGridColumns": 3,
+              "displayFilters": false,
+              "hasGridMode": false,
+              "defautMode": "list",
+              "visualisationLink": "",
+              "downloadLink": "",
+              "isBodyHidden": false,
+              "isGeoSortActived": false,
+              "isAutoGeoSortActived": null,
+              "selectedItemsEvent": null,
+              "consultedItemEvent": null,
+              "actionOnItemEvent": null,
+              "globalActionEvent": 300,
+              "useColorService": true,
+              "cellBackgroundStyle": "filled",
+              "options": {
+                "showActionsOnhover": "true",
+                "showDetailIconName": "keyboard_arrow_down",
+                "hideDetailIconName": "keyboard_arrow_up",
+                "icon": "short_text",
+                "showName": true,
+                "showIcon": true
+              }
+            },
+            "contributorId": "demo_algoe-uniqueId-100-Valeur-Date-Type de bien-Informations-",
+            "uuid": {},
+            "usage": "analytics"
+          }
+        ],
+        "detailedTimeline": {
+          "contributorId": "detailedTimeline",
+          "componentType": "histogram",
+          "uuid": "",
+          "input": {
+            "id": "histogram-detailed-timeline",
+            "xTicks": 5,
+            "yTicks": 2,
+            "xLabels": 5,
+            "yLabels": 2,
+            "xUnit": "",
+            "yUnit": "",
+            "chartXLabel": "",
+            "shortYLabels": false,
+            "chartTitle": "Detailed timeline",
+            "customizedCssClass": "arlas-detailed-timeline",
+            "multiselectable": false,
+            "brushHandlesHeightWeight": 0.8,
+            "dataType": "time",
+            "isHistogramSelectable": true,
+            "ticksDateFormat": "%b %d %Y  %H:%M",
+            "chartType": "bars",
+            "chartHeight": 60,
+            "chartWidth": null,
+            "xAxisPosition": "top",
+            "yAxisStartsFromZero": true,
+            "descriptionPosition": "bottom",
+            "showXTicks": true,
+            "showYTicks": true,
+            "showXLabels": true,
+            "showYLabels": true,
+            "showHorizontalLines": false,
+            "isSmoothedCurve": true,
+            "barWeight": 0.8
+          }
+        },
+        "share": {
+          "geojson": {
+            "max_for_feature": 5000,
+            "max_for_topology": 5000,
+            "sort_excluded_type": [
+              "TEXT",
+              "GEO_POINT"
+            ]
+          }
+        },
+        "download": {}
+      },
+      "analytics": [
+        {
+          "groupId": "Mutations-0",
+          "title": "Type",
+          "tab": "Mutations",
+          "icon": "business",
+          "components": [
+            {
+              "componentType": "donut",
+              "showExportCsv": "",
+              "input": {
+                "id": "demo_algoe-libtypbien-10-",
+                "customizedCssClass": "arlas-donuts-analytics",
+                "diameter": 170,
+                "containerWidth": 223,
+                "multiselectable": true,
+                "opacity": 0.4
+              },
+              "contributorId": "demo_algoe-libtypbien-10-",
+              "uuid": "9479877b-e362-4764-93cc-6c24cb20b18c",
+              "usage": "analytics"
+            },
+            {
+              "showExportCsv": true,
+              "componentType": "powerbars",
+              "input": {
+                "chartTitle": "Type de bien",
+                "powerbarTitle": "Type de bien",
+                "displayFilter": false,
+                "scrollable": true,
+                "filterOperator": {
+                  "value": "Eq",
+                  "display": true
+                },
+                "useColorService": true,
+                "useColorFromData": false,
+                "unit": "",
+                "chartWidth": 217
+              },
+              "contributorId": "demo_algoe-libtypbien-10-Count-desc-count",
+              "uuid": "85fc2576-10cd-4a90-9691-d26b60d9b774",
+              "usage": "both"
+            }
+          ]
+        },
+        {
+          "groupId": "Mutations-1",
+          "title": "Nature de mutation",
+          "tab": "Mutations",
+          "icon": "compare_arrows",
+          "components": [
+            {
+              "componentType": "donut",
+              "showExportCsv": "",
+              "input": {
+                "id": "demo_algoe-libnatmut-10-",
+                "customizedCssClass": "arlas-donuts-analytics",
+                "diameter": 170,
+                "containerWidth": 223,
+                "multiselectable": true,
+                "opacity": 0.4
+              },
+              "contributorId": "demo_algoe-libnatmut-10-",
+              "uuid": "e3a87378-7dbb-441e-9ca2-120fcc5b2348",
+              "usage": "analytics"
+            },
+            {
+              "showExportCsv": true,
+              "componentType": "powerbars",
+              "input": {
+                "chartTitle": "Nature  mutation",
+                "powerbarTitle": "Nature  mutation",
+                "displayFilter": false,
+                "scrollable": true,
+                "filterOperator": {
+                  "value": "Eq",
+                  "display": true
+                },
+                "useColorService": true,
+                "useColorFromData": false,
+                "unit": "",
+                "chartWidth": 217
+              },
+              "contributorId": "demo_algoe-libnatmut-10-Count-desc-count",
+              "uuid": "be990f44-9656-4d4f-8690-2936fddded03",
+              "usage": "analytics"
+            }
+          ]
+        },
+        {
+          "groupId": "Mutations-2",
+          "title": "Valeur",
+          "tab": "Mutations",
+          "icon": "euro_symbol",
+          "components": [
+            {
+              "input": {
+                "id": "demo_algoe-valeurfonc-numeric-bucket-Count--50",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 0.8,
+                "yAxisStartsFromZero": true,
+                "chartType": "bars",
+                "chartTitle": "Distribution de la valeur",
+                "chartHeight": 100,
+                "chartWidth": 445,
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "xUnit": "",
+                "yUnit": "",
+                "chartXLabel": "",
+                "shortYLabels": false,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": true,
+                "barWeight": 0.8,
+                "dataType": "numeric",
+                "customizedCssClass": "arlas-histogram-analytics",
+                "isSmoothedCurve": false
+              },
+              "componentType": "histogram",
+              "showExportCsv": "",
+              "contributorId": "demo_algoe-valeurfonc-numeric-bucket-Count--50",
+              "uuid": "40cf9f83-aea3-47f2-a6aa-0d9f9e2375c0",
+              "usage": "both"
+            },
+            {
+              "input": {
+                "id": "demo_algoe-timestamp-time-bucket-AVG-valeurfonc-50",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 0.8,
+                "yAxisStartsFromZero": true,
+                "chartType": "bars",
+                "chartTitle": "Valeur moyenne à travers le temps",
+                "chartHeight": 100,
+                "chartWidth": 445,
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "xUnit": "",
+                "yUnit": "",
+                "chartXLabel": "",
+                "shortYLabels": false,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": true,
+                "barWeight": 0.8,
+                "dataType": "time",
+                "ticksDateFormat": "%b %d %Y  %H:%M",
+                "customizedCssClass": "arlas-timeline-analytics",
+                "isSmoothedCurve": false
+              },
+              "componentType": "histogram",
+              "showExportCsv": "",
+              "contributorId": "demo_algoe-timestamp-time-bucket-AVG-valeurfonc-50",
+              "uuid": "d0fc0203-e56c-4c36-a330-dda760344196",
+              "usage": "both"
+            }
+          ]
+        },
+        {
+          "groupId": "Mutations-3",
+          "title": "Au mètre carré",
+          "tab": "Mutations",
+          "icon": "euro_symbol",
+          "components": [
+            {
+              "input": {
+                "id": "demo_algoe-pricePerSquareMeter-numeric-bucket-Count--50",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 0.8,
+                "yAxisStartsFromZero": true,
+                "chartType": "bars",
+                "chartTitle": "Distribution de la valeur au mètre carré",
+                "chartHeight": 100,
+                "chartWidth": 445,
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "xUnit": "",
+                "yUnit": "",
+                "chartXLabel": "",
+                "shortYLabels": false,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": true,
+                "barWeight": 0.8,
+                "dataType": "numeric",
+                "customizedCssClass": "arlas-histogram-analytics",
+                "isSmoothedCurve": false
+              },
+              "componentType": "histogram",
+              "showExportCsv": "",
+              "contributorId": "demo_algoe-pricePerSquareMeter-numeric-bucket-Count--50",
+              "uuid": "f5308abb-339a-491a-a03b-00f3b701d3f0",
+              "usage": "analytics"
+            },
+            {
+              "input": {
+                "id": "demo_algoe-timestamp-time-bucket-AVG-pricePerSquareMeter-50",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 0.8,
+                "yAxisStartsFromZero": true,
+                "chartType": "bars",
+                "chartTitle": "Valeur moyenne au mètre carré à travers le temps",
+                "chartHeight": 100,
+                "chartWidth": 445,
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "xUnit": "",
+                "yUnit": "",
+                "chartXLabel": "",
+                "shortYLabels": false,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": true,
+                "barWeight": 0.8,
+                "dataType": "time",
+                "ticksDateFormat": "%b %d %Y  %H:%M",
+                "customizedCssClass": "arlas-timeline-analytics",
+                "isSmoothedCurve": false
+              },
+              "componentType": "histogram",
+              "showExportCsv": "",
+              "contributorId": "demo_algoe-timestamp-time-bucket-AVG-pricePerSquareMeter-50",
+              "uuid": "387905c1-4a63-45b3-b8cb-73ec8730a87e",
+              "usage": "analytics"
+            }
+          ]
+        },
+        {
+          "groupId": "Mutations-4",
+          "title": "Surface",
+          "tab": "Mutations",
+          "icon": "straighten",
+          "components": [
+            {
+              "input": {
+                "id": "demo_algoe-area-numeric-bucket-Count--50",
+                "isHistogramSelectable": true,
+                "multiselectable": true,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 0.8,
+                "yAxisStartsFromZero": true,
+                "chartType": "bars",
+                "chartTitle": "Surface",
+                "chartHeight": 100,
+                "chartWidth": 445,
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "xUnit": "",
+                "yUnit": "",
+                "chartXLabel": "",
+                "shortYLabels": false,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "showHorizontalLines": true,
+                "barWeight": 0.8,
+                "dataType": "numeric",
+                "customizedCssClass": "arlas-histogram-analytics",
+                "isSmoothedCurve": false
+              },
+              "componentType": "histogram",
+              "showExportCsv": "",
+              "contributorId": "demo_algoe-area-numeric-bucket-Count--50",
+              "uuid": "01db4d9a-9baa-41ae-8644-cf0ce310b2cf",
+              "usage": "analytics"
+            },
+            {
+              "input": {
+                "id": "demo_algoe-timestamp-time-bucket-Count--50libtypbien",
+                "isHistogramSelectable": true,
+                "multiselectable": false,
+                "topOffsetRemoveInterval": 40,
+                "leftOffsetRemoveInterval": 18,
+                "brushHandlesHeightWeight": 0.8,
+                "yAxisStartsFromZero": true,
+                "chartTitle": "nb elements by type",
+                "chartHeight": 100,
+                "chartWidth": 445,
+                "xAxisPosition": "bottom",
+                "descriptionPosition": "bottom",
+                "xTicks": 4,
+                "yTicks": 1,
+                "xLabels": 4,
+                "yLabels": 4,
+                "xUnit": "",
+                "yUnit": "",
+                "chartXLabel": "",
+                "shortYLabels": false,
+                "showXTicks": true,
+                "showYTicks": true,
+                "showXLabels": true,
+                "showYLabels": true,
+                "barWeight": 0.8,
+                "dataType": "time",
+                "swimLaneLabelsWidth": 100,
+                "swimlaneHeight": 20,
+                "swimlaneMode": "fixedHeight",
+                "swimlaneBorderRadius": 3,
+                "paletteColors": [
+                  330,
+                  170
+                ],
+                "swimlane_representation": "global",
+                "customizedCssClass": "arlas-swimlane",
+                "swimlane_options": {
+                  "nan_color": "#D6D6D6"
+                }
+              },
+              "componentType": "swimlane",
+              "showExportCsv": false,
+              "contributorId": "demo_algoe-timestamp-time-bucket-Count--50libtypbien",
+              "uuid": "9ca3a7eb-dbe1-446c-b493-bd97e57179cf",
+              "usage": "analytics"
+            }
+          ]
+        }
+      ],
+      "filters_shortcuts": [
+        {
+          "uuid": "85fc2576-10cd-4a90-9691-d26b60d9b774",
+          "title": "Type de bien",
+          "order": 1
+        },
+        {
+          "uuid": "d0fc0203-e56c-4c36-a330-dda760344196",
+          "title": "Valeur moyenne à travers le temps",
+          "order": 2
+        },
+        {
+          "uuid": "40cf9f83-aea3-47f2-a6aa-0d9f9e2375c0",
+          "title": "Distribution de la valeur",
+          "order": 3
+        }
+      ],
+      "colorGenerator": {
+        "keysToColors": [
+          [
+            "UNE MAISON",
+            "#baff36"
+          ],
+          [
+            "UN APPARTEMENT",
+            "#ff2c3d"
+          ],
+          [
+            "TERRAIN DE TYPE TAB",
+            "#50ffbf"
+          ],
+          [
+            "TERRAIN DE TYPE TERRE ET PRE",
+            "#fd31ef"
+          ],
+          [
+            "BATI - INDETERMINE : Vefa sans descriptif",
+            "#ce923e"
+          ],
+          [
+            "TERRAIN NON BATIS INDETERMINE",
+            "#ff49c4"
+          ],
+          [
+            "ACTIVITE",
+            "#87ff2d"
+          ],
+          [
+            "TERRAIN ARTIFICIALISE MIXTE",
+            "#5a4aff"
+          ],
+          [
+            "UNE DEPENDANCE",
+            "#ffb42e"
+          ],
+          [
+            "DES MAISONS",
+            "#64a6ff"
+          ],
+          [
+            "OTHER",
+            "#9d9ca9"
+          ],
+          [
+            "Vente",
+            "#526aff"
+          ],
+          [
+            "Vente en l'état futur d'achèvement",
+            "#5c68b3"
+          ],
+          [
+            "Echange",
+            "#f7ff0a"
+          ],
+          [
+            "Vente terrain à bâtir",
+            "#a5b1ff"
+          ],
+          [
+            "Adjudication",
+            "#ff4bb2"
+          ],
+          [
+            "Expropriation",
+            "#ff2bab"
+          ]
+        ]
+      },
+      "options": {
+        "drag_items": false,
+        "zoom_to_data": true,
+        "indicators": true,
+        "spinner": {
+          "show": true,
+          "color": "accent",
+          "diameter": 50
+        },
+        "tabs": [
+          {
+            "name": "Mutations",
+            "icon": "short_text",
+            "showIcon": false,
+            "showName": true
+          }
+        ]
+      },
+      "externalNode": {}
+    },
+    "server": {
+      "url": "http://localhost:81/server",
+      "max_age_cache": 120,
+      "collection": {
+        "name": "demo_algoe"
+      }
+    }
+  },
+  "arlas-wui": {
+    "web": {
+      "app": {
+        "components": {
+          "chipssearch": {
+            "name": "Search...",
+            "icon": "search"
+          }
+        },
+        "name": "ARLAS",
+        "units": [
+          {
+            "collection": "demo_algoe",
+            "unit": "demo_algoe",
+            "ignored": false
+          }
+        ],
+        "name_background_color": "#FF4081"
+      }
+    }
+  }
+}

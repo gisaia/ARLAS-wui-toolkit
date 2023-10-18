@@ -21,6 +21,9 @@ import { Filter } from 'arlas-api';
 import { OverlayRef } from '@angular/cdk/overlay';
 import { InjectionToken } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { Contributor } from 'arlas-web-core';
+import { ChipsSearchContributor, ComputeContributor, DetailedHistogramContributor,
+  HistogramContributor, ResultListContributor, SwimLaneContributor, TreeContributor } from 'arlas-web-contributors';
 
 export const CONFIG_ID_QUERY_PARAM = 'config_id';
 export const GET_OPTIONS = new InjectionToken<Function>('get_options');
@@ -79,9 +82,14 @@ export interface CollectionUnit {
   ignored: boolean;
 }
 
+export function getCollectionUnit(units: Array<CollectionUnit>, collection: string): string {
+  const unit = units.find(u => u.collection === collection);
+  return unit ? unit.unit : collection;
+}
+
 export interface CollectionCount {
   count: number;
-  collection: number;
+  collection: string;
   color: string;
   hasCentroidPath: boolean;
   ignored: boolean;
@@ -257,12 +265,48 @@ export interface WidgetConfiguration {
    * @description swimlane | histogram | donut | powerbars | resultlist
    */
   componentType?: string;
-    /**
-   * @description whether we display export csv button
-   */
+  /**
+ * @description whether we display export csv button
+ */
   showExportCsv?: boolean;
   /**
    * @description Set of inputs of a ARLAS-web-component.
    */
   input: any;
+}
+
+/**
+ * @param param Parameter to extract
+ * @returns Value of the parameter contained in the URL
+ */
+export function getParamValue(param: string) {
+  let paramValue = null;
+  const url = window.location.href;
+  const regex = new RegExp('[?&]' + param + '(=([^&#]*)|&|#|$)');
+  const results = regex.exec(url);
+  if (results && results[2]) {
+    paramValue = results[2];
+  }
+  return paramValue;
+}
+
+export function hasContributorData(contributor: Contributor): boolean {
+  if (contributor instanceof ChipsSearchContributor) {
+    return contributor.chipMapData.size > 0;
+  } else if (contributor instanceof ComputeContributor) {
+    return contributor.metricValue !== undefined;
+  } else if (contributor instanceof DetailedHistogramContributor) {
+    return contributor.chartData.length > 0;
+  } else if (contributor instanceof HistogramContributor) {
+    return contributor.chartData.length > 0;
+  } else if (contributor instanceof ResultListContributor) {
+    return contributor.data.length > 0;
+  } else if (contributor instanceof SwimLaneContributor) {
+    return contributor.swimData !== undefined;
+  } else if (contributor instanceof TreeContributor) {
+    return contributor.treeData !== undefined;
+  } else {
+    // Other types of histogram don't have data
+    return false;
+  }
 }

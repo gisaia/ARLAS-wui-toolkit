@@ -37,7 +37,8 @@
 }
 
 html, body{
-  background-color: white;
+  background-color: whitesmoke;
+  font-family: Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
 }
 
 .dropdownSwimlane{
@@ -69,7 +70,6 @@ html, body{
 
 .arlas-metric-container {
   text-align: center;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
   height: 116px;
 }
 

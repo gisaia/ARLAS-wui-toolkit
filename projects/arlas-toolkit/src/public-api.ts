@@ -17,16 +17,18 @@
  * under the License.
  */
 
-
+export { TopMenuComponent } from './lib/components/top-menu/top-menu.component';
+export { AboutComponent, AboutDialogComponent } from './lib/components/top-menu/about/about.component';
 export { ShortcutFiltersHandlerComponent } from './lib/components/filter-shortcut/filters-handler/filters-handler.component';
-
 export { FilterShortcutChipComponent } from './lib/components/filter-shortcut/chip/chip.component';
 export { FilterShortcutComponent } from './lib/components/filter-shortcut/filter-shortcut.component';
 export { FilterShortcutConfiguration } from './lib/components/filter-shortcut/filter-shortcut.utils';
-export { AnalyticsBoardComponent } from './lib/components/analytics-board/analytics-board.component';
+export { AnalyticsBoardComponent } from './lib/components/analytics/analytics-board/analytics-board.component';
+export { AnalyticsMenuComponent } from './lib/components/analytics/analytics-menu/analytics-menu.component';
 export {
   AnalyticGroupConfiguration, AnalyticsTabs
-} from './lib/components/analytics-board/analytics.utils';
+} from './lib/components/analytics/analytics.utils';
+export { AnalyticsService } from './lib/services/analytics/analytics.service';
 export { AoiComponent } from './lib/components/aoi/aoi.component';
 export { BookmarkMenuComponent } from './lib/components/bookmark-menu/bookmark-menu.component';
 export { BookmarkAddDialogComponent, BookmarkComponent } from './lib/components/bookmark/bookmark.component';
@@ -66,7 +68,7 @@ export { LanguageSwitcherComponent } from './lib/components/language-switcher/la
 export { LinkComponent } from './lib/components/link/link.component';
 export { ProgressSpinnerComponent } from './lib/components/progress-spinner/progress-spinner.component';
 export { ReconnectDialogComponent } from './lib/components/reconnect-dialog/reconnect-dialog.component';
-export { SearchComponent } from './lib/components/search/search.component';
+export { SearchComponent, SearchDialogComponent } from './lib/components/search/search.component';
 export { ArlasSearchField } from './lib/components/share/model/ArlasSearchField';
 export { ExcludeTypePipe } from './lib/components/share/exclude-type.pipe';
 export { ShareComponent, ShareDialogComponent, ShareLayerSourceConfig } from './lib/components/share/share.component';

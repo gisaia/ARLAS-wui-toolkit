@@ -43,6 +43,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import {
   OwlDateTimeModule, OwlNativeDateTimeModule
 } from '@danielmoncada/angular-datetime-picker';
@@ -58,7 +59,8 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { Observable } from 'rxjs';
 import { CalendarTimelineTooltipOverlayComponent } from
   './components/calendar-timeline-tooltip-overlay/calendar-timeline-tooltip-overlay.component';
-import { AnalyticsBoardComponent } from './components/analytics-board/analytics-board.component';
+import { AnalyticsBoardComponent } from './components/analytics/analytics-board/analytics-board.component';
+import { AnalyticsMenuComponent } from './components/analytics/analytics-menu/analytics-menu.component';
 import { AoiComponent } from './components/aoi/aoi.component';
 import { BookmarkMenuComponent } from './components/bookmark-menu/bookmark-menu.component';
 import { BookmarkAddDialogComponent, BookmarkComponent } from './components/bookmark/bookmark.component';
@@ -81,7 +83,7 @@ import { LanguageSwitcherComponent } from './components/language-switcher/langua
 import { LinkComponent } from './components/link/link.component';
 import { ProgressSpinnerComponent } from './components/progress-spinner/progress-spinner.component';
 import { ReconnectDialogComponent } from './components/reconnect-dialog/reconnect-dialog.component';
-import { SearchComponent } from './components/search/search.component';
+import { SearchComponent, SearchDialogComponent } from './components/search/search.component';
 import { ExcludeTypePipe } from './components/share/exclude-type.pipe';
 import { ShareComponent, ShareDialogComponent } from './components/share/share.component';
 import { DatePickerComponent } from './components/timeline/date-picker/date-picker.component';
@@ -99,6 +101,10 @@ import { FilterShortcutComponent } from './components/filter-shortcut/filter-sho
 import { MatDividerModule } from '@angular/material/divider';
 import { FilterShortcutChipComponent } from './components/filter-shortcut/chip/chip.component';
 import { ShortcutFiltersHandlerComponent } from './components/filter-shortcut/filters-handler/filters-handler.component';
+import { TopMenuComponent } from './components/top-menu/top-menu.component';
+import { MarkdownModule } from 'ngx-markdown';
+import { AboutComponent, AboutDialogComponent } from './components/top-menu/about/about.component';
+import { MatMenuModule } from '@angular/material/menu';
 import { ArlasCollaborativesearchService, ArlasConfigService } from './services/startup/startup.service';
 
 export class CustomTranslateLoader implements TranslateLoader {
@@ -163,6 +169,8 @@ export class CustomTranslateLoader implements TranslateLoader {
     MatDividerModule,
     MatTabsModule,
     MatTooltipModule,
+    MatToolbarModule,
+    MatMenuModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
     OwlMomentDateTimeModule,
@@ -189,10 +197,12 @@ export class CustomTranslateLoader implements TranslateLoader {
         deps: [HttpClient]
       }
     }),
-    ArlasWalkthroughModule.forRoot()
+    ArlasWalkthroughModule.forRoot(),
+    MarkdownModule.forRoot()
   ],
   exports: [
     AnalyticsBoardComponent,
+    AnalyticsMenuComponent,
     AoiComponent,
     BookmarkComponent,
     BookmarkAddDialogComponent,
@@ -209,6 +219,7 @@ export class CustomTranslateLoader implements TranslateLoader {
     LanguageSwitcherComponent,
     LinkComponent,
     SearchComponent,
+    SearchDialogComponent,
     ShareComponent,
     ShareDialogComponent,
     TimelineComponent,
@@ -224,12 +235,14 @@ export class CustomTranslateLoader implements TranslateLoader {
     WidgetComponent,
     FilterShortcutComponent,
     FilterShortcutChipComponent,
-    ShortcutFiltersHandlerComponent
+    ShortcutFiltersHandlerComponent,
+    TopMenuComponent,
+    AboutComponent,
+    AboutDialogComponent
   ],
-
-
   declarations: [
     AnalyticsBoardComponent,
+    AnalyticsMenuComponent,
     AoiComponent,
     BookmarkComponent,
     BookmarkAddDialogComponent,
@@ -251,6 +264,7 @@ export class CustomTranslateLoader implements TranslateLoader {
     LanguageSwitcherComponent,
     LinkComponent,
     SearchComponent,
+    SearchDialogComponent,
     ShareComponent,
     ShareDialogComponent,
     TimelineComponent,
@@ -266,7 +280,10 @@ export class CustomTranslateLoader implements TranslateLoader {
     WidgetComponent,
     FilterShortcutComponent,
     FilterShortcutChipComponent,
-    ShortcutFiltersHandlerComponent
+    ShortcutFiltersHandlerComponent,
+    TopMenuComponent,
+    AboutComponent,
+    AboutDialogComponent
   ],
   providers: [
     FetchInterceptorService, ArlasOverlayService
