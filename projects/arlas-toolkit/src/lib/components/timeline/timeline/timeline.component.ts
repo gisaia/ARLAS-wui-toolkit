@@ -23,12 +23,11 @@ import { OperationEnum } from 'arlas-web-core';
 import { ArlasCollaborativesearchService, ArlasStartupService } from '../../../services/startup/startup.service';
 import { SelectedOutputValues } from 'arlas-web-contributors/models/models';
 import { ChartType, DataType, Position, HistogramTooltip } from 'arlas-d3';
-import { HistogramComponent } from 'arlas-web-components';
+import { ArlasColorService, HistogramComponent } from 'arlas-web-components';
 import { filter } from 'rxjs/operators';
 import { CollectionLegend, TimelineConfiguration } from './timeline.utils';
 import { ArlasOverlayService } from '../../../services/overlays/overlay.service';
 import { ArlasOverlayRef, CollectionUnit, getCollectionUnit } from '../../../tools/utils';
-import { ArlasColorGeneratorLoader } from '../../../services/color-generator-loader/color-generator-loader.service';
 
 
 /**
@@ -102,7 +101,7 @@ export class TimelineComponent implements OnInit {
 
   public constructor(private arlasCollaborativesearchService: ArlasCollaborativesearchService, private cdr: ChangeDetectorRef,
     private arlasStartupService: ArlasStartupService, private arlasOverlayService: ArlasOverlayService,
-    private arlasColorService: ArlasColorGeneratorLoader) {
+    private arlasColorService: ArlasColorService) {
   }
 
   public ngOnInit() {
@@ -142,7 +141,7 @@ export class TimelineComponent implements OnInit {
         this.resetHistogramsInputs(this.detailedTimelineComponent.input);
         this.detailedTimelineContributor = <DetailedHistogramContributor>this.arlasStartupService.contributorRegistry
           .get(this.detailedTimelineComponent.contributorId);
-        this.detailedTimelineContributor.updateData = true;
+        this.detailedTimelineContributor.updateData = false;
         this.timelineContributor.endCollaborationEvent.subscribe(() => {
           this.timelineContributor.setSelection(this.timelineData,
             this.arlasCollaborativesearchService.collaborations.get(this.timelineContributor.identifier));
@@ -240,7 +239,7 @@ export class TimelineComponent implements OnInit {
     if (this.timelineContributor.collections.length === 0) {
       this.timelineData = this.timelineContributor.chartData = [];
       this.detailedTimelineData = this.detailedTimelineContributor.chartData = [];
-      this.showDetailedTimeline = false;
+      this.hideDetailedTimeline();
     } else {
       this.timelineContributor.updateFromCollaboration({
         id: '',
@@ -264,7 +263,7 @@ export class TimelineComponent implements OnInit {
       .subscribe(c => {
         if (c.operation === OperationEnum.remove) {
           this.timelineIsFiltered = false;
-          this.showDetailedTimeline = false;
+          this.hideDetailedTimeline();
           this.timelineHistogramComponent.histogram.histogramParams.chartHeight = this.timelineComponent.input.chartHeight;
           this.timelineHistogramComponent.resizeHistogram();
         } else if (c.operation === OperationEnum.add) {
@@ -276,7 +275,7 @@ export class TimelineComponent implements OnInit {
       if (this.arlasCollaborativesearchService.totalSubscribe === 0 && this.timelineIsFiltered) {
         if (!!this.detailedTimelineContributor && !!this.detailedTimelineData) {
           if (this.detailedTimelineData.length === 0) {
-            this.showDetailedTimeline = false;
+            this.hideDetailedTimeline();
             this.timelineHistogramComponent.histogram.histogramParams.chartHeight = this.timelineComponent.input.chartHeight;
             this.timelineHistogramComponent.resizeHistogram();
           } else {
@@ -331,6 +330,7 @@ export class TimelineComponent implements OnInit {
         +this.timelineContributor.intervalSelection.startvalue);
       const intervalSelectionCondition = intervalSelection <= 0.2 * timelineRange;
       this.showDetailedTimeline = (detailedTimelineRange <= 0.2 * timelineRange) && intervalSelectionCondition;
+      this.detailedTimelineContributor.updateData = this.showDetailedTimeline;
       this.timelineHistogramComponent.histogram.histogramParams.chartHeight = (this.showDetailedTimeline) ?
         45 : this.timelineComponent.input.chartHeight;
       this.timelineHistogramComponent.histogram.histogramParams.yTicks = (this.showDetailedTimeline) ?
@@ -347,7 +347,7 @@ export class TimelineComponent implements OnInit {
         this.applicationFirstLoad = false;
       }
     } else {
-      this.showDetailedTimeline = false;
+      this.hideDetailedTimeline();
       this.timelineHistogramComponent.histogram.histogramParams.chartHeight = this.timelineComponent.input.chartHeight;
       this.timelineHistogramComponent.resizeHistogram();
     }
@@ -365,5 +365,12 @@ export class TimelineComponent implements OnInit {
         inputs = Position[inputs[key]];
       }
     });
+  }
+
+  private hideDetailedTimeline() {
+    this.showDetailedTimeline = false;
+    if (!!this.detailedTimelineContributor) {
+      this.detailedTimelineContributor.updateData = false;
+    }
   }
 }

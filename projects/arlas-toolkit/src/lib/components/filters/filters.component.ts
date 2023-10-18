@@ -24,12 +24,12 @@ import { Subject } from 'rxjs';
 import { Contributor, Collaboration } from 'arlas-web-core';
 import { CollectionReferenceParameters } from 'arlas-api';
 import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from '../../services/startup/startup.service';
-import { ArlasColorGeneratorLoader } from '../../services/color-generator-loader/color-generator-loader.service';
+import { ArlasColorGeneratorLoader } from '../../tools/color-generator-loader';
 import { CollectionUnit, CollectionCount } from '../../tools/utils';
 import { trigger, state, style, transition, animate } from '@angular/animations';
+import { isShortcutID } from '../filter-shortcut/filter-shortcut.utils';
+import { ArlasColorService, ColorGeneratorLoader } from 'arlas-web-components';
 
-
-const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
 @Pipe({ name: 'getContributorLabel' })
 export class GetContributorLabelPipe implements PipeTransform {
@@ -202,7 +202,7 @@ export class FiltersComponent implements OnInit, OnChanges {
     private collaborativeSearchService: ArlasCollaborativesearchService,
     private arlasStartupService: ArlasStartupService,
     private configService: ArlasConfigService,
-    private arlasColorService: ArlasColorGeneratorLoader,
+    private arlasColorService: ArlasColorService,
     private cdr: ChangeDetectorRef
   ) {
 
@@ -259,7 +259,7 @@ export class FiltersComponent implements OnInit, OnChanges {
 
   private retrieveCurrentCollaborations() {
     // If a contributor is the one of a shortcut, then its id is an UUID
-    Array.from(this.contributors.keys()).filter(id => (this.ignoredContributors.indexOf(id) < 0) && !id.match(UUID_REGEX))
+    Array.from(this.contributors.keys()).filter(id => (this.ignoredContributors.indexOf(id) < 0) && !isShortcutID(id))
       .forEach(contributorId => {
         const collaboration = this.collaborativeSearchService.getCollaboration(contributorId);
         if (collaboration != null) {
@@ -306,7 +306,7 @@ export class FiltersComponent implements OnInit, OnChanges {
         this.cdr.detectChanges();
         this.hideExtraCollections(false);
       });
-      if (!collaborationBus.all && (this.ignoredContributors.indexOf(collaborationBus.id) < 0) && !collaborationBus.id.match(UUID_REGEX)) {
+      if (!collaborationBus.all && (this.ignoredContributors.indexOf(collaborationBus.id) < 0) && !isShortcutID(collaborationBus.id)) {
         const collaboration = this.collaborativeSearchService.getCollaboration(collaborationBus.id);
         if (collaboration != null) {
           if (collaborationBus.operation === 0) {

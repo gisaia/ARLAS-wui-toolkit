@@ -25,6 +25,7 @@ import { ChipsSearchContributor, ComputeContributor, DetailedHistogramContributo
   HistogramContributor, ResultListContributor, SwimLaneContributor, TreeContributor } from 'arlas-web-contributors';
 
 export const CONFIG_ID_QUERY_PARAM = 'config_id';
+export const GET_OPTIONS = new InjectionToken<Function>('get_options');
 
 export interface ConfigAction {
   type: ConfigActionEnum;

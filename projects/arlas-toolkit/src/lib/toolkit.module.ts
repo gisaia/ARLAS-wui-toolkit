@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { APP_INITIALIZER, forwardRef, NgModule } from '@angular/core';
+import { APP_INITIALIZER, forwardRef, InjectionToken, NgModule } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { BrowserModule } from '@angular/platform-browser';
@@ -32,7 +32,7 @@ import { ArlasTranslateIntl } from './components/timeline/date-picker/ArlasTrans
 import { ArlasAoiService } from './services/aoi/aoi.service';
 import { AuthentificationService } from './services/authentification/authentification.service';
 import { ArlasBookmarkService } from './services/bookmark/bookmark.service';
-import { ArlasColorGeneratorLoader } from './services/color-generator-loader/color-generator-loader.service';
+import { ArlasColorGeneratorLoader } from './tools/color-generator-loader';
 import { ArlasConfigurationDescriptor } from './services/configuration-descriptor/configurationDescriptor.service';
 import { ErrorService } from './services/error/error.service';
 import { ArlasExportCsvService } from './services/export-csv/export-csv.service';
@@ -40,7 +40,7 @@ import { ArlasExtendService } from './services/extend/extend.service';
 import { ArlasMapSettings } from './services/map-settings/map-settings.service';
 import { ArlasMapService } from './services/map/map.service';
 import { PermissionService } from './services/permission/permission.service';
-import { GET_OPTIONS, PersistenceService } from './services/persistence/persistence.service';
+import { PersistenceService } from './services/persistence/persistence.service';
 import { ArlasSettingsService } from './services/settings/arlas.settings.service';
 import {
   ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService, CONFIG_UPDATER, FETCH_OPTIONS
@@ -50,6 +50,9 @@ import { ArlasToolkitSharedModule } from './shared.module';
 import { PaginatorI18n } from './tools/paginatori18n';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { ToolkitRoutingModule } from './toolkit-routing.module';
+import { GET_OPTIONS } from './tools/utils';
+
+
 
 export function startupServiceFactory(startupService: ArlasStartupService) {
   const load = () => startupService.load();
@@ -73,7 +76,7 @@ export function localDatePickerFactory(translate: TranslateService) {
 }
 
 export function configUpdaterFactory(x): any {
-  return x[0];
+  return (x) => x[0];
 }
 
 export function getOptionsFactory(arlasAuthService: AuthentificationService): any {
@@ -92,30 +95,6 @@ export function getOptionsFactory(arlasAuthService: AuthentificationService): an
   return getOptions;
 }
 
-export function configUpdater(data) {
-  /** FIX wrong v15 map filters about Infinity values */
-  if (!!data[0] && !!data[0].arlas && !!data[0].arlas.web && !!data[0].arlas.web.components.mapgl) {
-    const layers = data[0].arlas.web.components.mapgl.input.mapLayers.layers;
-    layers.forEach(layer => {
-      if (!!layer.filter && Array.isArray(layer.filter)) {
-        const filters = [];
-        layer.filter.forEach(expression => {
-          if (Array.isArray(expression) && expression.length === 3) {
-            if (expression[0] === '!=' && expression[2] === 'Infinity') {
-              expression = ['<=', (expression[1] as any).replace(/\./g, '_'), Number.MAX_VALUE];
-            } else if (expression[0] === '!=' && expression[2] === '-Infinity') {
-              expression = ['>=', (expression[1] as any).replace(/\./g, '_'), -Number.MAX_VALUE];
-            }
-          }
-          filters.push(expression);
-        });
-        layer.filter = filters;
-      }
-    });
-  }
-  return data[0];
-}
-
 export const MY_CUSTOM_FORMATS = {
   parseInput: 'lll',
   fullPickerInput: 'll LTS',
@@ -132,12 +111,6 @@ export const MY_CUSTOM_FORMATS = {
     ArlasToolkitSharedModule,
     BrowserModule,
     BrowserAnimationsModule,
-    ColorGeneratorModule.forRoot({
-      loader: {
-        provide: ColorGeneratorLoader,
-        useClass: ArlasColorGeneratorLoader
-      }
-    }),
     ErrorModalModule,
     OAuthModule.forRoot()
   ],
@@ -152,7 +125,7 @@ export const MY_CUSTOM_FORMATS = {
     },
     {
       provide: CONFIG_UPDATER,
-      useValue: configUpdater
+      useFactory: configUpdaterFactory
     },
     { provide: MAT_DIALOG_DATA, useValue: {} },
     { provide: MatDialogRef, useValue: {} },
@@ -166,7 +139,6 @@ export const MY_CUSTOM_FORMATS = {
     forwardRef(() => ArlasMapSettings),
     forwardRef(() => ArlasMapService),
     forwardRef(() => ArlasConfigurationDescriptor),
-    forwardRef(() => ArlasColorGeneratorLoader),
     forwardRef(() => ArlasExtendService),
     forwardRef(() => ArlasWalkthroughService),
     forwardRef(() => ArlasExportCsvService),

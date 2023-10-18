@@ -1,10 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HistogramWidgetComponent } from './histogram-widget.component';
-import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService,
+import {
+  ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService,
   CONFIG_UPDATER,
-  FETCH_OPTIONS} from '../../services/startup/startup.service';
-import { HistogramModule, ResultsModule, DonutModule, MetricModule, PowerbarsModule } from 'arlas-web-components';
+  FETCH_OPTIONS
+} from '../../services/startup/startup.service';
+import { HistogramModule, ResultsModule, DonutModule, MetricModule, PowerbarsModule,
+  AwcColorGeneratorLoader, ColorGeneratorLoader, ColorGeneratorModule, ArlasColorService } from 'arlas-web-components';
 
 import { HttpClientModule } from '@angular/common/http';
 import { TranslateModule, TranslateService, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
@@ -24,7 +27,7 @@ describe('HistogramWidgetComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [HistogramWidgetComponent, ProgressSpinnerComponent],
-      providers: [ArlasCollaborativesearchService, ArlasConfigService,
+      providers: [ArlasCollaborativesearchService, ArlasConfigService, ArlasColorService,
         {
           provide: ArlasStartupService,
           useClass: ArlasStartupService,
@@ -32,13 +35,13 @@ describe('HistogramWidgetComponent', () => {
         },
         TranslateService,
         ArlasOverlayService,
-        {provide: CONFIG_UPDATER, useValue: {}},
+        { provide: CONFIG_UPDATER, useValue: {} },
         {
           provide: ArlasConfigurationUpdaterService,
           useClass: ArlasConfigurationUpdaterService
         },
-        {provide: FETCH_OPTIONS, useValue: {}},
-        {provide: SHORTCUT_WIDTH, useValue: DEFAULT_SHORTCUT_WIDTH}
+        { provide: FETCH_OPTIONS, useValue: {} },
+        { provide: SHORTCUT_WIDTH, useValue: DEFAULT_SHORTCUT_WIDTH }
       ],
       imports: [
         HistogramModule,
@@ -53,6 +56,12 @@ describe('HistogramWidgetComponent', () => {
         MatProgressSpinnerModule,
         TranslateModule.forRoot({
           loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
+        }),
+        ColorGeneratorModule.forRoot({
+          loader: {
+            provide: ColorGeneratorLoader,
+            useClass: AwcColorGeneratorLoader
+          }
         })
       ]
     })

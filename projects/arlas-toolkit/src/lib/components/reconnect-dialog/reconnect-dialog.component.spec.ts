@@ -3,7 +3,7 @@ import { TranslateModule, TranslateLoader, TranslateFakeLoader } from '@ngx-tran
 
 import { ReconnectDialogComponent } from './reconnect-dialog.component';
 import { MatDialogModule, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { GET_OPTIONS } from '../../services/persistence/persistence.service';
+import { GET_OPTIONS } from '../../tools/utils';
 import { AuthentificationService } from '../../services/authentification/authentification.service';
 import { getOptionsFactory } from '../../toolkit.module';
 import { OAuthService, OAuthModule, OAuthLogger, UrlHelperService, DateTimeProvider } from 'angular-oauth2-oidc';

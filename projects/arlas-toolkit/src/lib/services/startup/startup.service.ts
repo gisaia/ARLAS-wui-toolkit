@@ -39,13 +39,13 @@ import { projType } from 'arlas-web-core/models/projections';
 import YAML from 'js-yaml';
 import { Subject, zip } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
-import { GET_OPTIONS, PersistenceService, PersistenceSetting } from '../persistence/persistence.service';
-import { CONFIG_ID_QUERY_PARAM, WidgetConfiguration, getFieldProperties, getParamValue } from '../../tools/utils';
+import { PersistenceService, PersistenceSetting } from '../persistence/persistence.service';
+import { CONFIG_ID_QUERY_PARAM, GET_OPTIONS, WidgetConfiguration, getFieldProperties, getParamValue } from '../../tools/utils';
 import { AuthentificationService, AuthentSetting, NOT_CONFIGURED } from '../authentification/authentification.service';
 import { ArlasConfigurationUpdaterService } from '../configuration-updater/configurationUpdater.service';
 import { ErrorService } from '../error/error.service';
 import { FetchInterceptorService } from '../interceptor/fetch-interceptor.service';
-import { PermissionSetting } from '../permission/permission.service';
+import { PermissionService, PermissionSetting } from '../permission/permission.service';
 import { ArlasSettingsService } from '../settings/arlas.settings.service';
 import * as arlasConfSchema from './arlasconfig.schema.json';
 import { ContributorBuilder } from './contributorBuilder';
@@ -90,6 +90,11 @@ export class ArlasCollaborativesearchService extends CollaborativesearchService 
 
   public endOfUrlCollaboration = false;
 
+  /**
+   * @param filter The filter query parameter
+   * @param changeOperator Whether to change the operator of the filters applied for TreeContributors
+   * @returns A dictionnary of the current collaborations
+   */
   public dataModelBuilder(filter, changeOperator = false) {
     const dataModel = JSON.parse(filter);
     const defaultCollection = this.defaultCollection;
@@ -162,6 +167,7 @@ export class ArlasStartupService {
     private http: HttpClient, private translateService: TranslateService,
     @Inject(CONFIG_UPDATER) private configUpdater,
     private persistenceService: PersistenceService,
+    private persmissionService: PermissionService,
     private errorService: ErrorService, private fetchInterceptorService: FetchInterceptorService) {
     this.configurationUpdaterService = new ArlasConfigurationUpdaterService;
   }
@@ -260,7 +266,8 @@ export class ArlasStartupService {
    */
   public setConfigService(data) {
     /** First set the raw config data in order to create an ArlasExploreApi instance */
-    const newConfig = this.configUpdater(data);
+    const configAfterUpdater = this.configUpdater(data);
+    const newConfig = this.fixLayerStyleInfinity(configAfterUpdater);
     if (!this.emptyMode) {
       this.configService.setConfig(newConfig);
       this.collaborativesearchService.setFetchOptions(this.fetchOptions);
@@ -310,7 +317,8 @@ export class ArlasStartupService {
       return this.listAvailableFields(collectionNames)
         .then((availableFields: Set<string>) => this.updateConfiguration(data[0], availableFields))
         .then((d) => {
-          this.configService.setConfig(d); return d;
+          this.configService.setConfig(d);
+          return d;
         })
         .catch(err => {
           this.shouldRunApp = false;
@@ -367,6 +375,7 @@ export class ArlasStartupService {
       .then(s => {
         this.settingsService.setSettings(s);
         this.persistenceService.createPersistenceApiInstance();
+        this.persmissionService.createPermissionApiInstance();
         return s;
       });
   }
@@ -437,8 +446,15 @@ export class ArlasStartupService {
             this.fetchOptions.headers = {
               Authorization: 'bearer ' + authService.accessToken
             };
+            // ARLAS-Permission
+            this.persmissionService.setOptions({
+              headers: {
+                Authorization: 'bearer ' + authService.accessToken
+              }
+            });
           } else {
             this.persistenceService.setOptions(this.getOptions());
+            this.persmissionService.setOptions(this.getOptions());
           }
           this.collaborativesearchService.setFetchOptions(this.fetchOptions);
           resolve(settings);
@@ -446,6 +462,7 @@ export class ArlasStartupService {
 
       } else {
         this.persistenceService.setOptions(this.getOptions());
+        this.persmissionService.setOptions(this.getOptions());
         resolve(settings);
       }
     });
@@ -552,15 +569,14 @@ export class ArlasStartupService {
     if (!this.emptyMode) {
       return new Promise<any>((resolve, reject) => {
         const collectionName = data.collection;
-        zip([this.collaborativesearchService.list(),this.collaborativesearchService.describe(collectionName)])
+        this.collaborativesearchService.list()
           .subscribe(
-            result => {
-              const allCollections = result[0];
-              const mainCollections = result[1];
+            allCollections => {
+              // mainCollection is included in allCollections
               allCollections.forEach(c => this.collectionsMap.set(c.collection_name, c.params));
-              this.collectionsMap.set(collectionName, mainCollections.params);
-              this.collectionId = mainCollections.params.id_path;
-              resolve(result);
+
+              this.collectionId = allCollections.find(c => c.collection_name === collectionName).params.id_path;
+              resolve(allCollections);
             },
             error => {
               reject(error);
@@ -578,7 +594,7 @@ export class ArlasStartupService {
   public listAvailableFields(collectionNames: Set<string>): Promise<Set<string>> {
     const availableFields = new Set<string>();
     const hiddenAvailableFields = [];
-    return this.collaborativesearchService.list(false).toPromise().then(
+    return this.collaborativesearchService.list().toPromise().then(
       (collectionDescriptions: Array<CollectionReferenceDescription>) => {
         collectionDescriptions.filter((cd: CollectionReferenceDescription) => collectionNames.has(cd.collection_name))
           .forEach((cd: CollectionReferenceDescription) => {
@@ -742,6 +758,30 @@ export class ArlasStartupService {
       }
     }
     return component;
+  }
+
+  private fixLayerStyleInfinity(config) {
+    /** FIX wrong v15 map filters about Infinity values */
+    if (!!config && !!config.arlas && !!config.arlas.web && !!config.arlas.web.components.mapgl) {
+      const layers = config.arlas.web.components.mapgl.input.mapLayers.layers;
+      layers.forEach(layer => {
+        if (!!layer.filter && Array.isArray(layer.filter)) {
+          const filters = [];
+          layer.filter.forEach(expression => {
+            if (Array.isArray(expression) && expression.length === 3) {
+              if (expression[0] === '!=' && expression[2] === 'Infinity') {
+                expression = ['<=', (expression[1] as any).replace(/\./g, '_'), Number.MAX_VALUE];
+              } else if (expression[0] === '!=' && expression[2] === '-Infinity') {
+                expression = ['>=', (expression[1] as any).replace(/\./g, '_'), -Number.MAX_VALUE];
+              }
+            }
+            filters.push(expression);
+          });
+          layer.filter = filters;
+        }
+      });
+    }
+    return config;
   }
 }
 

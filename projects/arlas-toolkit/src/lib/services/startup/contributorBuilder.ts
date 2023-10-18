@@ -29,7 +29,7 @@ import {
   MapContributor
 } from 'arlas-web-contributors';
 import { ArlasConfigService, ArlasCollaborativesearchService } from './startup.service';
-import { ArlasColorGeneratorLoader } from '../color-generator-loader/color-generator-loader.service';
+import { ArlasColorGeneratorLoader } from '../../tools/color-generator-loader';
 import { ArlasSettingsService } from '../settings/arlas.settings.service';
 
 export class ContributorBuilder {
@@ -65,7 +65,6 @@ export class ContributorBuilder {
         contributor = new DetailedHistogramContributor(identifier, collaborativesearchService, configService, collection,
           isOneDimension, additionalCollections);
         (contributor as DetailedHistogramContributor).maxBuckets = settingsService.getHistogramMaxBucket();
-
         break;
       case 'resultlist':
         contributor = new ResultListContributor(identifier, collaborativesearchService, configService, collection);

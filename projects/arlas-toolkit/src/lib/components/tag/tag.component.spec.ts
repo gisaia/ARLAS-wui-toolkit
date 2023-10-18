@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -14,10 +14,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
 import {
   ArlasCollaborativesearchService,
-  ArlasConfigService, ArlasStartupService, FETCH_OPTIONS
+  ArlasConfigService, ArlasStartupService, CONFIG_UPDATER, FETCH_OPTIONS
 } from '../../services/startup/startup.service';
 import { ArlasTagService } from '../../services/tag/tag.service';
 import { TagComponent } from './tag.component';
+import { GET_OPTIONS } from '../../tools/utils';
+import { ToolKitAppModule } from 'app/app.module';
+import { ArlasToolKitModule, getOptionsFactory } from '../../toolkit.module';
+import { AuthentificationService } from '../../services/authentification/authentification.service';
 
 describe('TagComponent', () => {
   let component: TagComponent;
@@ -26,6 +30,7 @@ describe('TagComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
+        ArlasToolKitModule,
         ReactiveFormsModule, MatAutocompleteModule,
         MatInputModule, FormsModule, BrowserAnimationsModule,
         MatIconModule, HttpClientModule, MatDialogModule, MatStepperModule,
@@ -33,17 +38,19 @@ describe('TagComponent', () => {
       ],
       declarations: [TagComponent],
       providers: [ArlasConfigService, ArlasCollaborativesearchService,
-        {
-          provide: ArlasStartupService,
-          useClass: ArlasStartupService,
-          deps: [ArlasConfigurationUpdaterService]
-        },
         ArlasTagService,
+        AuthentificationService,
         {
           provide: ArlasConfigurationUpdaterService,
           useClass: ArlasConfigurationUpdaterService
         },
-        {provide: FETCH_OPTIONS, useValue: {}},
+        { provide: FETCH_OPTIONS, useValue: {} },
+        { provide: CONFIG_UPDATER, useValue: {} },
+        {
+          provide: GET_OPTIONS,
+          useFactory: getOptionsFactory,
+          deps: [AuthentificationService]
+        }, HttpClient
       ]
     })
       .compileComponents();

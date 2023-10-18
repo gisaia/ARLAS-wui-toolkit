@@ -19,6 +19,7 @@
 
 import { WidgetConfiguration } from '../../tools/utils';
 import { numberToShortValue } from 'arlas-web-components';
+import { Contributor } from 'arlas-web-core';
 
 export interface FilterShortcutConfiguration {
   uuid: string;
@@ -27,7 +28,7 @@ export interface FilterShortcutConfiguration {
   component?: WidgetConfiguration;
 }
 
-export function numberToShortString(value: number, precision=2) {
+export function numberToShortString(value: number, precision = 2) {
   // Handle case not present for numberToShortValue
   if (Math.abs(value) < 1000) {
     if (Math.round(value) === value) {
@@ -37,4 +38,14 @@ export function numberToShortString(value: number, precision=2) {
   }
 
   return numberToShortValue(value, precision);
+}
+
+const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
+export function isShortcutID(id: string): boolean {
+  if (!!id.match(UUID_REGEX)) {
+    return id.match(UUID_REGEX).length !== 0;
+  } else {
+    return false;
+  }
 }

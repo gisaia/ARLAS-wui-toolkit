@@ -83,13 +83,13 @@ export { GetTimeLabelPipe } from './lib/pipes/get-time-label.pipe';
 export { ArlasAoiService } from './lib/services/aoi/aoi.service';
 export { AuthentificationService, AuthentSetting, NOT_CONFIGURED } from './lib/services/authentification/authentification.service';
 export { ArlasBookmarkService } from './lib/services/bookmark/bookmark.service';
-export { ArlasColorGeneratorLoader } from './lib/services/color-generator-loader/color-generator-loader.service';
+export { ArlasColorGeneratorLoader } from './lib/tools/color-generator-loader';
 export { ArlasConfigurationDescriptor } from './lib/services/configuration-descriptor/configurationDescriptor.service';
 export { ArlasConfigurationUpdaterService } from './lib/services/configuration-updater/configurationUpdater.service';
 export { ErrorService } from './lib/services/error/error.service';
 export { ArlasMapSettings } from './lib/services/map-settings/map-settings.service';
 export { ArlasMapService } from './lib/services/map/map.service';
-export { GET_OPTIONS, PersistenceService, PersistenceSetting } from './lib/services/persistence/persistence.service';
+export { PersistenceService, PersistenceSetting } from './lib/services/persistence/persistence.service';
 export { ArlasSettingsService } from './lib/services/settings/arlas.settings.service';
 export { ContributorBuilder } from './lib/services/startup/contributorBuilder';
 export {
@@ -104,7 +104,7 @@ export { ArlasTaggerModule } from './lib/tagger.module';
 export { ToolkitRoutingModule } from './lib/toolkit-routing.module';
 export { ToolkitComponent } from './lib/toolkit.component';
 export {
-  ArlasToolKitModule, auhtentServiceFactory, configServiceFactory, configUpdater, configUpdaterFactory,
+  ArlasToolKitModule, auhtentServiceFactory, configServiceFactory, configUpdaterFactory,
   getOptionsFactory, localDatePickerFactory, MY_CUSTOM_FORMATS, settingsServiceFactory, startupServiceFactory
 } from './lib/toolkit.module';
 export { ArlasDataSource } from './lib/tools/arlasDataSource';
@@ -113,7 +113,7 @@ export {
   ArlasOverlayRef, ArlasStorageObject, WidgetConfiguration,
   ArlasStorageType, CollectionCount, CollectionUnit, Config, ConfigAction, ConfigActionEnum,
   CONFIG_ID_QUERY_PARAM, DONUT_TOOLTIP_DATA, getFieldProperties, getKeyForColor, hashCode,
-  HISTOGRAM_TOOLTIP_DATA, intToRGB, MapService, sortOnDate, SpinnerOptions
+  HISTOGRAM_TOOLTIP_DATA, intToRGB, MapService, sortOnDate, SpinnerOptions, GET_OPTIONS
 } from './lib/tools/utils';
 export { FetchInterceptorService } from './lib/services/interceptor/fetch-interceptor.service';
 export { ArlasOverlayService, HistogramTooltipConfig, DonutTooltipConfig } from './lib/services/overlays/overlay.service';

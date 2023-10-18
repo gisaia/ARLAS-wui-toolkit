@@ -1,9 +1,9 @@
-import { Injectable, Inject } from '@angular/core';
+import { Injectable, Inject, InjectionToken } from '@angular/core';
 import { AuthorizeApi, Configuration, Resource } from 'arlas-permissions-api';
-import { GET_OPTIONS } from '../persistence/persistence.service';
 import { ArlasSettingsService } from '../settings/arlas.settings.service';
 import { from } from 'rxjs/internal/observable/from';
 import { Observable } from 'rxjs/internal/Observable';
+import { GET_OPTIONS } from '../../tools/utils';
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +31,7 @@ export class PermissionService {
       const configuration = new Configuration();
       this.authorizeApi = new AuthorizeApi(configuration, permissionSettings.url, window.fetch);
     }
+
   }
 
   public get(filter: string): Observable<Resource[]> {

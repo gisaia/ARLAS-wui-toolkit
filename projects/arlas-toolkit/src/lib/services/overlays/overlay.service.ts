@@ -102,7 +102,7 @@ export class ArlasOverlayService {
   }
 
   private getOverlayConfig(config: any, elementRef: ElementRef, xOffset: number, yOffset: number,
-    right: boolean): OverlayConfig {
+    right: boolean, bottom: boolean): OverlayConfig {
     const origins = {
       topLeft: { originX: 'start', originY: 'top' } as OriginConnectionPosition,
       topRight: { originX: 'end', originY: 'top' } as OriginConnectionPosition,
@@ -149,8 +149,8 @@ export class ArlasOverlayService {
         overlayY: 'bottom'
       } as OverlayConnectionPosition
     };
-    const origin = right ? origins.bottomRight : origins.bottomLeft;
-    const overlay = right ? overlays.bottomRight : overlays.bottomLeft;
+    const origin = right ? (bottom ? origins.bottomRight : origins.topRight) : (bottom ? origins.bottomLeft : origins.topLeft);
+    const overlay = right ? (bottom ? overlays.bottomRight : overlays.topRight) : (bottom ? overlays.bottomLeft : overlays.topLeft);
     const positionStrategy = this.overlay.position().flexibleConnectedTo(elementRef)
       .withDefaultOffsetX(xOffset)
       .withDefaultOffsetY(yOffset).withPositions([{
@@ -175,7 +175,7 @@ export class ArlasOverlayService {
   private createHistogramTooltipOverlay(config: HistogramTooltipConfig, elementRef: ElementRef, xOffset: number, yOffset: number,
     right: boolean) {
     // Returns an OverlayConfig
-    const overlayConfig = this.getOverlayConfig(config, elementRef, xOffset, yOffset, right);
+    const overlayConfig = this.getOverlayConfig(config, elementRef, xOffset, yOffset, right, /** bottom */ false);
 
     // Returns an OverlayRef
     return this.overlay.create(overlayConfig);
@@ -184,7 +184,7 @@ export class ArlasOverlayService {
   private createCalendarTimelineTooltipOverlay(config: CalendarTimelineTooltipConfig, elementRef: ElementRef, xOffset: number, yOffset: number,
     right: boolean) {
     // Returns an OverlayConfig
-    const overlayConfig = this.getOverlayConfig(config, elementRef, xOffset, yOffset, right);
+    const overlayConfig = this.getOverlayConfig(config, elementRef, xOffset, yOffset, right, /** bottom */ true);
 
     // Returns an OverlayRef
     return this.overlay.create(overlayConfig);
@@ -194,7 +194,7 @@ export class ArlasOverlayService {
   private createDonutTooltipOverlay(config: DonutTooltipConfig, elementRef: ElementRef, xOffset: number, yOffset: number,
     right: boolean) {
     // Returns an OverlayConfig
-    const overlayConfig = this.getOverlayConfig(config, elementRef, xOffset, yOffset, right);
+    const overlayConfig = this.getOverlayConfig(config, elementRef, xOffset, yOffset, right, /** bottom */ true);
 
     // Returns an OverlayRef
     return this.overlay.create(overlayConfig);

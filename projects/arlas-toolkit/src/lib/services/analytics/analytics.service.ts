@@ -363,7 +363,7 @@ export class AnalyticsService {
     });
     if (contributor instanceof HistogramContributor) {
       const histContributor = contributor as HistogramContributor;
-      if (histContributor.detailedHistrogramContributor) {
+      if (histContributor.detailedHistrogramContributor && histContributor.detailedHistrogramContributor.updateData) {
         histContributor.detailedHistrogramContributor.updateFromCollaboration({
           id: contributor.linkedContributorId,
           operation: OperationEnum.add,
