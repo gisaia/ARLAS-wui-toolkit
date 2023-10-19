@@ -538,6 +538,7 @@ export class ArlasStartupService {
       } else {
         this.persistenceService.setOptions(this.getOptions());
         this.permissionService.setOptions(this.getOptions());
+        this.collaborativesearchService.setFetchOptions(this.fetchOptions);
         resolve(settings);
       }
     });
