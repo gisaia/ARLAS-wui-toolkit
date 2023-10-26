@@ -10,8 +10,15 @@
       "type": "object",
       "properties": {
         "use_authent": {
-          "description": "Defines whether to be authenticated to Auth0",
+          "description": "Defines whether to be authenticated or not",
           "type": "boolean"
+        },
+        "auth_mode": {
+          "description": "Defines which type of authentication is used. `openid` by default",
+          "enum": [
+            "iam",
+            "openid"
+          ]
         },
         "force_connect": {
           "description": "When authentication is enabled, this option forces to be connected to Auth0 at application bootstrap.",
@@ -107,10 +114,7 @@
       },
       "required": [
         "use_authent",
-        "force_connect",
-        "use_discovery",
-        "client_id",
-        "issuer"
+        "force_connect"
       ]
     },
     "persistence": {

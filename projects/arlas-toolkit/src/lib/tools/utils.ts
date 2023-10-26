@@ -20,12 +20,14 @@
 import { Filter } from 'arlas-api';
 import { OverlayRef } from '@angular/cdk/overlay';
 import { InjectionToken } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { Contributor } from 'arlas-web-core';
 import { ChipsSearchContributor, ComputeContributor, DetailedHistogramContributor,
   HistogramContributor, ResultListContributor, SwimLaneContributor, TreeContributor } from 'arlas-web-contributors';
 
 export const CONFIG_ID_QUERY_PARAM = 'config_id';
 export const GET_OPTIONS = new InjectionToken<Function>('get_options');
+export const NOT_CONFIGURED = 'NOT_CONFIGURED';
 
 export interface ConfigAction {
   type: ConfigActionEnum;
@@ -44,6 +46,7 @@ export interface Config {
   readers: Array<string>;
   writers: Array<string>;
   zone: string;
+  org: string;
 }
 
 export enum ConfigActionEnum {
@@ -91,6 +94,36 @@ export interface CollectionCount {
   hasCentroidPath: boolean;
   ignored: boolean;
   unit?: string;
+}
+
+export interface AuthentSetting {
+  use_discovery: boolean;
+  force_connect: boolean;
+  use_authent: boolean;
+  auth_mode?: 'openid' | 'iam';
+  client_id: string;
+  issuer: string;
+  scope?: string;
+  response_type?: string;
+  redirect_uri?: string;
+  silent_refresh_redirect_uri?: string;
+  silent_refresh_timeout?: number;
+  timeout_factor?: number;
+  session_checks_enabled?: boolean;
+  show_debug_information?: boolean;
+  clear_hash_after_login?: boolean;
+  disable_at_hash_check?: boolean;
+  require_https?: boolean;
+  dummy_client_secret?: string;
+  userinfo_endpoint?: string;
+  token_endpoint?: string;
+  jwks_endpoint?: string;
+  login_url?: string;
+  logout_url?: string;
+  storage?: string;
+  customQueryParams?: Object;
+  threshold?: number;
+  url?: string;
 }
 
 /**
@@ -190,6 +223,23 @@ export function getFieldProperties(fieldList: any, parentPrefix?: string,
   if (isFirstLevel) {
     return arlasFields;
   }
+}
+
+
+
+export function ConfirmedValidator(controlName: string, matchingControlName: string) {
+  return (formGroup: FormGroup) => {
+    const control = formGroup.controls[controlName];
+    const matchingControl = formGroup.controls[matchingControlName];
+    if (matchingControl.errors && !matchingControl.errors.confirmedValidator) {
+      return;
+    }
+    if (control.value !== matchingControl.value) {
+      matchingControl.setErrors({ confirmedValidator: true });
+    } else {
+      matchingControl.setErrors(null);
+    }
+  };
 }
 
 export class ArlasOverlayRef {

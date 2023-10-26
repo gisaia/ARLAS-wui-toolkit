@@ -29,8 +29,8 @@ import {
   MapContributor
 } from 'arlas-web-contributors';
 import { ArlasConfigService, ArlasCollaborativesearchService } from './startup.service';
-import { ArlasColorGeneratorLoader } from '../../tools/color-generator-loader';
 import { ArlasSettingsService } from '../settings/arlas.settings.service';
+import { ArlasColorService } from 'arlas-web-components';
 
 export class ContributorBuilder {
 
@@ -39,7 +39,7 @@ export class ContributorBuilder {
     configService: ArlasConfigService,
     collaborativesearchService: ArlasCollaborativesearchService,
     settingsService: ArlasSettingsService,
-    colorGenerator?: ArlasColorGeneratorLoader): any {
+    colorService?: ArlasColorService): any {
 
     const config = configService.getValue('arlas.web.contributors').find(contrib =>
       contrib.type === contributorType && contrib.identifier === identifier
@@ -70,7 +70,7 @@ export class ContributorBuilder {
         contributor = new ResultListContributor(identifier, collaborativesearchService, configService, collection);
         break;
       case 'map':
-        contributor = new MapContributor(identifier, collaborativesearchService, configService, collection, colorGenerator);
+        contributor = new MapContributor(identifier, collaborativesearchService, configService, collection, colorService?.colorGenerator);
         break;
       case 'swimlane':
         isOneDimension = config['isOneDimension'];

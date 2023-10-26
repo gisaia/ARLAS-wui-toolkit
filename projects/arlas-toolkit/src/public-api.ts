@@ -81,7 +81,7 @@ export { UserInfosComponent } from './lib/components/user-infos/user-infos.compo
 export { WidgetComponent } from './lib/components/widget/widget.component';
 export { GetTimeLabelPipe } from './lib/pipes/get-time-label.pipe';
 export { ArlasAoiService } from './lib/services/aoi/aoi.service';
-export { AuthentificationService, AuthentSetting, NOT_CONFIGURED } from './lib/services/authentification/authentification.service';
+export { AuthentificationService } from './lib/services/authentification/authentification.service';
 export { ArlasBookmarkService } from './lib/services/bookmark/bookmark.service';
 export { ArlasColorGeneratorLoader } from './lib/tools/color-generator-loader';
 export { ArlasConfigurationDescriptor } from './lib/services/configuration-descriptor/configurationDescriptor.service';
@@ -104,7 +104,7 @@ export { ArlasTaggerModule } from './lib/tagger.module';
 export { ToolkitRoutingModule } from './lib/toolkit-routing.module';
 export { ToolkitComponent } from './lib/toolkit.component';
 export {
-  ArlasToolKitModule, auhtentServiceFactory, configServiceFactory, configUpdaterFactory,
+  ArlasToolKitModule, auhtentServiceFactory, iamServiceFactory, configServiceFactory, configUpdaterFactory,
   getOptionsFactory, localDatePickerFactory, MY_CUSTOM_FORMATS, settingsServiceFactory, startupServiceFactory
 } from './lib/toolkit.module';
 export { ArlasDataSource } from './lib/tools/arlasDataSource';
@@ -113,7 +113,7 @@ export {
   ArlasOverlayRef, ArlasStorageObject, WidgetConfiguration,
   ArlasStorageType, CollectionCount, CollectionUnit, Config, ConfigAction, ConfigActionEnum,
   CONFIG_ID_QUERY_PARAM, DONUT_TOOLTIP_DATA, getFieldProperties, getKeyForColor, hashCode,
-  HISTOGRAM_TOOLTIP_DATA, intToRGB, MapService, sortOnDate, SpinnerOptions, GET_OPTIONS
+  HISTOGRAM_TOOLTIP_DATA, intToRGB, MapService, sortOnDate, SpinnerOptions, AuthentSetting, NOT_CONFIGURED, GET_OPTIONS
 } from './lib/tools/utils';
 export { FetchInterceptorService } from './lib/services/interceptor/fetch-interceptor.service';
 export { ArlasOverlayService, HistogramTooltipConfig, DonutTooltipConfig } from './lib/services/overlays/overlay.service';
@@ -121,3 +121,13 @@ export { PermissionService, PermissionSetting } from './lib/services/permission/
 export { ArlasExportCsvService } from './lib/services/export-csv/export-csv.service';
 export { ArlasTagService } from './lib/services/tag/tag.service';
 export { TaggerResponse } from './lib/services/tag/model';
+export { LoginModule } from './lib/login.module';
+export { ArlasIamService } from './lib/services/arlas-iam/arlas-iam.service';
+export { AuthGuardIamService } from './lib/services/arlas-iam/auth-guard-iam.service';
+export { LoginComponent } from './lib/components/login/login.component';
+export { RegisterComponent } from './lib/components/register/register.component';
+export { VerifyComponent } from './lib/components/verify/verify.component';
+export { ForgotComponent } from './lib/components/forgot/forgot.component';
+export { ResetComponent } from './lib/components/reset/reset.component';
+export { ArlasIamApi } from './lib/services/startup/startup.service';
+export { ArlasAuthentificationService } from './lib/services/arlas-authentification/arlas-authentification.service';

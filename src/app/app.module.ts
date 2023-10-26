@@ -17,23 +17,38 @@
  * under the License.
  */
 import { CommonModule } from '@angular/common';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { ArlasToolKitModule, ArlasToolkitSharedModule } from '../../projects/arlas-toolkit/src/public-api';
+import { ErrorModalModule } from '../../projects/arlas-toolkit/src/lib/components/errormodal/errormodal.module';
+import {
+  ArlasIamService
+} from '../../projects/arlas-toolkit/src/lib/services/arlas-iam/arlas-iam.service';
+import { ArlasToolkitSharedModule } from '../../projects/arlas-toolkit/src/lib/shared.module';
+import { ArlasToolKitModule } from '../../projects/arlas-toolkit/src/lib/toolkit.module';
+import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MatIconModule } from '@angular/material/icon';
+import { ContactComponent } from './components/contact/contact.component';
+import { HomeComponent } from './components/home/home.component';
+import { LoginModule } from '../../projects/arlas-toolkit/src/lib/login.module';
+import { ArlasSettingsService } from '../../projects/arlas-toolkit/src/lib/services/settings/arlas.settings.service';
+import { RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   imports: [
     CommonModule,
+    AppRoutingModule,
     ArlasToolkitSharedModule,
     ArlasToolKitModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    ErrorModalModule,
+    LoginModule,
+    RouterModule
   ],
   exports: [AppComponent],
-  declarations: [AppComponent],
-  providers: [],
+  declarations: [AppComponent, HomeComponent, ContactComponent],
   bootstrap: [AppComponent]
 })
 export class ToolKitAppModule { }

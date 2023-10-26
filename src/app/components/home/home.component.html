@@ -1,0 +1,29 @@
+<arlas-top-menu [wuiName]="'ARLAS Toolkit'" [version]="version">
+  <div left-menu class="left-menu">
+    <div>ARLAS Toolkit</div>
+    <arlas-search [searchContributor]="searchContributor" [dialogPositionTop]="10" [dialogPositionLeft]="50"></arlas-search>
+  </div>
+  <div middle-menu class="shortcut-list">
+    <ng-container *ngFor="let shortcut of shortcuts; let idx=index" >
+      <arlas-filter-shortcut class="shortcut" [style.z-index]="lastShortcutOpen === idx ? 2 : 1"
+        [shortcut]="shortcut" [(isOpen)]="isShortcutOpen[idx]" [displayFilterFirstValue]="false"></arlas-filter-shortcut>
+    </ng-container>
+  </div>
+  <div right-menu>
+      <button *ngIf="connected" mat-flat-button color="accent" (click)="logout()">Log out</button>
+  </div>
+</arlas-top-menu>
+
+<div style="margin-bottom: 10px;">
+  <arlas-filter [title]="'ARLAS toolkit'" [backgroundColorFilter]="'#eee'" [colorFilter]="'#000'" [units]="units"
+    [availableSpace]="300"></arlas-filter>
+</div>
+
+<arlas-timeline *ngIf="timelineComponentConfig" [activeDatePicker]="true" [timelineComponent]="timelineComponentConfig"
+  [detailedTimelineComponent]="detailedTimelineComponentConfig" [units]="units" class="timeline">
+</arlas-timeline>
+
+<arlas-analytics-menu class="analytics-menu-container" [tabIndexByDefault]="2" [showIndicators]="true"></arlas-analytics-menu>
+
+<arlas-analytics-board class="arlas-board" [showSpinner]="true" [showIndicators]="true"></arlas-analytics-board>
+<arlas-tool-root></arlas-tool-root>

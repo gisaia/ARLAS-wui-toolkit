@@ -1,21 +1,21 @@
-import { Injectable } from '@angular/core';
-import { OAuthService, AuthConfig, OAuthErrorEvent, OAuthStorage, UserInfo } from 'angular-oauth2-oidc';
-import { BehaviorSubject, ReplaySubject, Observable, combineLatest } from 'rxjs';
-import { map } from 'rxjs/internal/operators/map';
 import { HttpClient } from '@angular/common/http';
-import { filter } from 'rxjs/internal/operators/filter';
+import { Injectable } from '@angular/core';
+import { AuthConfig, OAuthErrorEvent, OAuthService, OAuthStorage, UserInfo } from 'angular-oauth2-oidc';
+import { BehaviorSubject, Observable, ReplaySubject, combineLatest } from 'rxjs';
 import { from } from 'rxjs/internal/observable/from';
-import { CONFIG_ID_QUERY_PARAM } from '../../tools/utils';
+import { filter } from 'rxjs/internal/operators/filter';
+import { map } from 'rxjs/internal/operators/map';
+import { AuthentSetting, CONFIG_ID_QUERY_PARAM, NOT_CONFIGURED } from '../../tools/utils';
+import { ArlasAuthentificationService } from '../arlas-authentification/arlas-authentification.service';
 
-export const NOT_CONFIGURED = 'NOT_CONFIGURED';
+
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthentificationService {
+export class AuthentificationService extends ArlasAuthentificationService {
 
   public authConfig: AuthConfig;
-  public authConfigValue: AuthentSetting;
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
   public isAuthenticated = this.isAuthenticatedSubject.asObservable();
   private isDoneLoadingSubject = new ReplaySubject<boolean>();
@@ -36,32 +36,38 @@ export class AuthentificationService {
     this.isAuthenticated,
     this.isDoneLoading
   ).pipe(map(values => values.every(b => b)));
-  public constructor(private oauthService: OAuthService, private http: HttpClient) {
+
+  public constructor(
+    private oauthService: OAuthService,
+    private http: HttpClient
+  ) {
+    super();
     this.silentRefreshErrorSubject = this.oauthService.events.pipe(filter(e => e instanceof OAuthErrorEvent),
       filter((e: OAuthErrorEvent) => e.type === 'silent_refresh_error' || e.type === 'silent_refresh_timeout'));
   }
 
-  public initAuthService(authentSettings: AuthentSetting): Promise<void> {
-    this.authConfigValue = authentSettings;
+  public initAuthService(): Promise<void> {
     if (this.authConfigValue) {
-      const storage = this.authConfigValue['storage'] === 'localstorage' ? localStorage : sessionStorage;
-      if (authentSettings.use_discovery || this.authConfigValue['jwks_endpoint'] === undefined) {
-        this.authConfig = this.getAuthConfig(this.authConfigValue);
-        this.setupAuthService(storage);
-        return this.runInitialLoginSequence(authentSettings.use_discovery, authentSettings.force_connect);
-      } else {
-        // Call jwks endpoint to set in config
-        if (this.authConfigValue['token_endpoint'] && this.authConfigValue['userinfo_endpoint']
-          && this.authConfigValue['login_url'] && this.authConfigValue['jwks_endpoint']) {
-          return this.http.get(this.authConfigValue['jwks_endpoint']).toPromise()
-            .then(jwks => {
-              this.authConfig = this.getAuthConfig(this.authConfigValue, jwks);
-              this.setupAuthService(storage);
-              this.runInitialLoginSequence(false, authentSettings.force_connect);
-            });
+      if (this.authConfigValue.use_authent) {
+        const storage = this.authConfigValue['storage'] === 'localstorage' ? localStorage : sessionStorage;
+        if (this.authConfigValue.use_discovery || this.authConfigValue['jwks_endpoint'] === undefined) {
+          this.authConfig = this.getAuthConfig(this.authConfigValue);
+          this.setupAuthService(storage);
+          return this.runInitialLoginSequence(this.authConfigValue.use_discovery, this.authConfigValue.force_connect);
         } else {
-          console.error('Authentication config error : if useDiscovery ' +
-            'is set to false in configuration, tokenEndpoint, userinfoEndpoint, loginUrl must be defined.');
+          // Call jwks endpoint to set in config
+          if (this.authConfigValue['token_endpoint'] && this.authConfigValue['userinfo_endpoint']
+            && this.authConfigValue['login_url'] && this.authConfigValue['jwks_endpoint']) {
+            return this.http.get(this.authConfigValue['jwks_endpoint']).toPromise()
+              .then(jwks => {
+                this.authConfig = this.getAuthConfig(this.authConfigValue, jwks);
+                this.setupAuthService(storage);
+                this.runInitialLoginSequence(false, this.authConfigValue.force_connect);
+              });
+          } else {
+            console.error('Authentication config error : if useDiscovery ' +
+              'is set to false in configuration, tokenEndpoint, userinfoEndpoint, loginUrl and jwksEndpoint must be defined.');
+          }
         }
       }
     }
@@ -130,21 +136,22 @@ export class AuthentificationService {
     let valid = true;
     const missingInfo = [];
     if (authentSetting && authentSetting.use_authent) {
+
       if (!authentSetting.client_id || authentSetting.client_id === NOT_CONFIGURED) {
         valid = false;
-        missingInfo.push('- `client_id` is not configured');
+        missingInfo.push('- `client_id` must be configured when `auth_mode=openid`');
       }
       if (!authentSetting.issuer || authentSetting.issuer === NOT_CONFIGURED) {
         valid = false;
-        missingInfo.push('- `issuer` is not configured');
+        missingInfo.push('- `issuer` must be configured when `auth_mode=openid`');
       }
       if (!authentSetting.scope || authentSetting.scope === NOT_CONFIGURED) {
         valid = false;
-        missingInfo.push('- `scope` is not configured');
+        missingInfo.push('- `scope` must be configured when `auth_mode=openid`');
       }
       if (!authentSetting.response_type || authentSetting.response_type === NOT_CONFIGURED) {
         valid = false;
-        missingInfo.push('- `response_type` is not configured');
+        missingInfo.push('- `response_type` must be configured when `auth_mode=openid`');
       }
       if (authentSetting.use_discovery === false) {
         if (!authentSetting.login_url || authentSetting.login_url === NOT_CONFIGURED) {
@@ -155,11 +162,16 @@ export class AuthentificationService {
           valid = false;
           missingInfo.push('- `token_endpoint` must be configured when `use_discovery=false`');
         }
+        if (!authentSetting.jwks_endpoint || authentSetting.jwks_endpoint === NOT_CONFIGURED) {
+          valid = false;
+          missingInfo.push('- `jwks_endpoint` must be configured when `use_discovery=false`');
+        }
         if (!authentSetting.userinfo_endpoint || authentSetting.userinfo_endpoint === NOT_CONFIGURED) {
           valid = false;
           missingInfo.push('- `userinfo_endpoint` must be configured when `use_discovery=false`');
         }
       }
+
     }
     return [valid, missingInfo.join('\n')];
   }
@@ -268,31 +280,4 @@ export class AuthentificationService {
       return '';
     }
   }
-}
-
-export interface AuthentSetting {
-  use_discovery: boolean;
-  force_connect: boolean;
-  use_authent: boolean;
-  client_id: string;
-  issuer: string;
-  scope?: string;
-  response_type?: string;
-  redirect_uri?: string;
-  silent_refresh_redirect_uri?: string;
-  silent_refresh_timeout?: number;
-  timeout_factor?: number;
-  session_checks_enabled?: boolean;
-  show_debug_information?: boolean;
-  clear_hash_after_login?: boolean;
-  disable_at_hash_check?: boolean;
-  require_https?: boolean;
-  dummy_client_secret?: string;
-  userinfo_endpoint?: string;
-  token_endpoint?: string;
-  jwks_endpoint?: string;
-  login_url?: string;
-  logout_url?: string;
-  storage?: string;
-  customQueryParams?: Object;
 }

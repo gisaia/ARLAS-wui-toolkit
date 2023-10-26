@@ -36,7 +36,7 @@
   font-feature-settings: 'liga';
 }
 
-body{
+html, body{
   background-color: whitesmoke;
   font-family: Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
 }

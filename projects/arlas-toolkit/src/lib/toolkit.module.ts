@@ -27,9 +27,17 @@ import { OAuthModule, ValidationHandler } from 'angular-oauth2-oidc';
 import { JwksValidationHandler } from 'angular-oauth2-oidc-jwks';
 import { ColorGeneratorLoader, ColorGeneratorModule, ShortenNumberPipe } from 'arlas-web-components';
 import { ToolkitComponent } from './toolkit.component';
+import { DeviceDetectorService } from 'ngx-device-detector';
+import { isArray } from 'util';
+import { BookmarkAddDialogComponent, BookmarkComponent } from './components/bookmark/bookmark.component';
+import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.component';
+import { DownloadDialogComponent } from './components/download/download.component';
+import { ErrorModalMsgComponent } from './components/errormodal/errormodal.component';
 import { ErrorModalModule } from './components/errormodal/errormodal.module';
 import { ArlasTranslateIntl } from './components/timeline/date-picker/ArlasTranslateIntl';
 import { ArlasAoiService } from './services/aoi/aoi.service';
+import { ArlasIamService } from './services/arlas-iam/arlas-iam.service';
+import { AuthGuardIamService } from './services/arlas-iam/auth-guard-iam.service';
 import { AuthentificationService } from './services/authentification/authentification.service';
 import { ArlasBookmarkService } from './services/bookmark/bookmark.service';
 import { ArlasColorGeneratorLoader } from './tools/color-generator-loader';
@@ -47,10 +55,9 @@ import {
 } from './services/startup/startup.service';
 import { ArlasWalkthroughService } from './services/walkthrough/walkthrough.service';
 import { ArlasToolkitSharedModule } from './shared.module';
-import { PaginatorI18n } from './tools/paginatori18n';
-import { DeviceDetectorService } from 'ngx-device-detector';
 import { ToolkitRoutingModule } from './toolkit-routing.module';
 import { GET_OPTIONS } from './tools/utils';
+import { PaginatorI18n } from './tools/paginatori18n';
 
 
 
@@ -71,6 +78,10 @@ export function auhtentServiceFactory(service: AuthentificationService) {
   return service;
 }
 
+export function iamServiceFactory(service: ArlasIamService) {
+  return service;
+}
+
 export function localDatePickerFactory(translate: TranslateService) {
   return translate.currentLang;
 }
@@ -79,13 +90,20 @@ export function configUpdaterFactory(x): any {
   return (x) => x[0];
 }
 
-export function getOptionsFactory(arlasAuthService: AuthentificationService): any {
+export function getOptionsFactory(arlasAuthService: AuthentificationService, arlasIamService: ArlasIamService): any {
   const getOptions = () => {
-    const token = !!arlasAuthService.accessToken ? arlasAuthService.accessToken : null;
+    let token = null;
+
+    if (!!arlasAuthService.authConfigValue?.auth_mode && arlasAuthService.authConfigValue?.auth_mode === 'iam') {
+      token = arlasIamService.getAccessToken();
+    } else {
+      token = !!arlasAuthService.accessToken ? arlasAuthService.accessToken : null;
+    }
+
     if (token !== null) {
       return {
         headers: {
-          Authorization: 'bearer ' + token
+          Authorization: 'Bearer ' + token
         }
       };
     } else {
@@ -135,6 +153,7 @@ export const MY_CUSTOM_FORMATS = {
     forwardRef(() => ArlasConfigService),
     forwardRef(() => ArlasCollaborativesearchService),
     forwardRef(() => AuthentificationService),
+    forwardRef(() => ArlasIamService),
     forwardRef(() => ArlasStartupService),
     forwardRef(() => ArlasMapSettings),
     forwardRef(() => ArlasMapService),
@@ -182,14 +201,17 @@ export const MY_CUSTOM_FORMATS = {
     {
       provide: GET_OPTIONS,
       useFactory: getOptionsFactory,
-      deps: [AuthentificationService]
+      deps: [AuthentificationService, ArlasIamService]
     },
     {
       provide: MatPaginatorIntl,
       deps: [TranslateService],
       useClass: PaginatorI18n
     },
-    ShortenNumberPipe
+    ShortenNumberPipe,
+    AuthGuardIamService,
+    ArlasIamService
+
   ],
   bootstrap: [ToolkitComponent]
 })

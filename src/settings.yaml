@@ -3,24 +3,9 @@
 ########################################################
 authentication:
   use_authent: false
+  auth_mode: 'openid'
   force_connect: false
-  use_discovery: true
-  issuer: https://arlas-cloud-dev.eu.auth0.com/
-  client_id: TrAfmjESYNWrikvK1d7RPnc5Uve7WJqs
-  redirect_uri: http://localhost:4200/callback
-  scope: "openid profile"
-  silent_refresh_redirect_uri: http://localhost:4200/silent-refresh.html
-  require_https: true
-  response_type: "id_token token"
-  silent_refresh_timeout: 10000
-  timeout_factor: 0.75
-  session_checks_enabled: true
-  clear_hash_after_login: true
-  disable_at_hash_check: false
-  show_debug_information: true
-  logout_url: https://arlas-cloud-dev.eu.auth0.com/v2/logout?returnTo=http://localhost:4200
-  storage: sessionstorage
-  custom_query_params: [{"audience":"http://arlas.io/api/server"}]
-histogram:
-  max_buckets: 200
-  export_nb_buckets: 1000
+  threshold: 5000
+  url: http://localhost:9997/arlas_iam_server
+
+

@@ -1,6 +1,6 @@
 {
   "name": "arlas-wui-toolkit",
-  "version": "24.3.0-beta.1",
+  "version": "24.3.0-beta.2",
   "description": "Tool Kit Library for ARLAS wui web App",
   "author": "gisaia",
   "license": "Apache-2.0",
@@ -36,6 +36,7 @@
     "ajv-keywords": "5.1.0",
     "angular-oauth2-oidc": "~14.0.1",
     "angular-oauth2-oidc-jwks": "~14.0.1",
+    "arlas-iam-api": "24.0.2-beta.5",
     "arlas-permissions-api": "~24.0.0",
     "arlas-persistence-api": "~24.0.0",
     "arlas-tagger-api": "~24.0.1",

@@ -22,8 +22,11 @@ import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable, InjectionToken, Injector } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
+import Ajv from 'ajv';
+import ajvKeywords from 'ajv-keywords';
 import * as draftSchema from 'ajv/lib/refs/json-schema-draft-06.json';
-import { CollectionReferenceDescription, CollectionReferenceParameters, CollectionsApi, Configuration, ExploreApi, Filter } from 'arlas-api';
+import { CollectionReferenceDescription, CollectionReferenceParameters, CollectionsApi, Configuration, ExploreApi } from 'arlas-api';
+import { Configuration as IamConfiguration, DefaultApi } from 'arlas-iam-api';
 import { DataWithLinks } from 'arlas-persistence-api';
 import { DonutComponent, HistogramComponent, MapglComponent, MetricComponent, PowerbarsComponent } from 'arlas-web-components';
 import {
@@ -38,10 +41,13 @@ import { CollaborativesearchService, ConfigService, Contributor } from 'arlas-we
 import { projType } from 'arlas-web-core/models/projections';
 import YAML from 'js-yaml';
 import { Subject, zip } from 'rxjs';
-import { mergeMap } from 'rxjs/operators';
+import { mergeMap, take } from 'rxjs/operators';
 import { PersistenceService, PersistenceSetting } from '../persistence/persistence.service';
-import { CONFIG_ID_QUERY_PARAM, GET_OPTIONS, WidgetConfiguration, getFieldProperties, getParamValue } from '../../tools/utils';
-import { AuthentificationService, AuthentSetting, NOT_CONFIGURED } from '../authentification/authentification.service';
+import { CONFIG_ID_QUERY_PARAM, GET_OPTIONS, WidgetConfiguration, getFieldProperties,
+  AuthentSetting, NOT_CONFIGURED, getParamValue } from '../../tools/utils';
+import { flatMap } from 'rxjs/operators';
+import { ArlasIamService, IamHeader } from '../arlas-iam/arlas-iam.service';
+import { AuthentificationService, } from '../authentification/authentification.service';
 import { ArlasConfigurationUpdaterService } from '../configuration-updater/configurationUpdater.service';
 import { ErrorService } from '../error/error.service';
 import { FetchInterceptorService } from '../interceptor/fetch-interceptor.service';
@@ -50,10 +56,9 @@ import { ArlasSettingsService } from '../settings/arlas.settings.service';
 import * as arlasConfSchema from './arlasconfig.schema.json';
 import { ContributorBuilder } from './contributorBuilder';
 import * as arlasSettingsSchema from './settings.schema.json';
-import Ajv from 'ajv';
-import ajvKeywords from 'ajv-keywords';
 import { FilterShortcutConfiguration } from '../../components/filter-shortcut/filter-shortcut.utils';
 import { AnalyticGroupConfiguration } from '../../components/analytics/analytics.utils';
+import { ArlasAuthentificationService } from '../arlas-authentification/arlas-authentification.service';
 
 @Injectable({
   providedIn: 'root'
@@ -77,6 +82,14 @@ export class ArlasExploreApi extends ExploreApi {
 @Injectable()
 export class ArlasCollectionApi extends CollectionsApi {
   public constructor(@Inject('CONF') conf: Configuration, @Inject('base_path') basePath: string,
+    @Inject('fetch') fetch) {
+    super(conf, basePath, fetch);
+  }
+}
+
+@Injectable()
+export class ArlasIamApi extends DefaultApi {
+  public constructor(@Inject('CONF') conf: IamConfiguration, @Inject('base_path') basePath: string,
     @Inject('fetch') fetch) {
     super(conf, basePath, fetch);
   }
@@ -156,6 +169,7 @@ export class ArlasStartupService {
   public arlasIsUp: Subject<boolean> = new Subject<boolean>();
   public arlasExploreApi: ArlasExploreApi;
   public configurationUpdaterService: ArlasConfigurationUpdaterService;
+  public arlasIamApi: ArlasIamApi;
 
   public constructor(
     private settingsService: ArlasSettingsService,
@@ -167,8 +181,11 @@ export class ArlasStartupService {
     private http: HttpClient, private translateService: TranslateService,
     @Inject(CONFIG_UPDATER) private configUpdater,
     private persistenceService: PersistenceService,
-    private persmissionService: PermissionService,
-    private errorService: ErrorService, private fetchInterceptorService: FetchInterceptorService) {
+    private permissionService: PermissionService,
+    private errorService: ErrorService, private fetchInterceptorService: FetchInterceptorService,
+    private arlasIamService: ArlasIamService,
+    private arlasAuthService: ArlasAuthentificationService
+  ) {
     this.configurationUpdaterService = new ArlasConfigurationUpdaterService;
   }
 
@@ -342,7 +359,7 @@ export class ArlasStartupService {
    * @returns ARLAS settings object Promise
    */
   public applyAppSettings(): Promise<ArlasSettings> {
-    return this.http.get(SETTINGS_FILE_NAME, { responseType: 'text' }).toPromise()
+    return this.http.get(SETTINGS_FILE_NAME, { responseType: 'text', headers: { 'X-Skip-Interceptor': '' } }).toPromise()
       .catch((err) => {
         // application should not run if the settings.yaml file is absent
         this.shouldRunApp = false;
@@ -375,7 +392,7 @@ export class ArlasStartupService {
       .then(s => {
         this.settingsService.setSettings(s);
         this.persistenceService.createPersistenceApiInstance();
-        this.persmissionService.createPermissionApiInstance();
+        this.permissionService.createPermissionApiInstance();
         return s;
       });
   }
@@ -390,13 +407,23 @@ export class ArlasStartupService {
       // redirects to login page if it's the first time and fetches the appropriate token
       if (settings) {
         const authent: AuthentSetting = settings.authentication;
-        if (authent && authent.use_authent) {
+        this.arlasAuthService.authConfigValue = authent;
+        if (authent && authent.use_authent && authent.auth_mode === 'iam') { // Authentication activated with IAM mode
+          if (!this.arlasIamService.areSettingsValid(authent)[0]) {
+            const err = 'Authentication is set while ' + this.arlasIamService.areSettingsValid(authent)[1] + ' are not configured';
+            reject(err);
+          }
+          this.arlasIamApi = new ArlasIamApi(new IamConfiguration(), authent.url, window.fetch);
+          this.arlasIamService.setArlasIamApi(this.arlasIamApi);
+
+          resolve(this.arlasIamService.initAuthService().then(() => settings));
+        } else if (authent && authent.use_authent) { // Authentication activated with OPENID mode
           const authService: AuthentificationService = this.injector.get('AuthentificationService')[0];
           if (!authService.areSettingsValid(authent)[0]) {
             const err = 'Authentication is set while ' + authService.areSettingsValid(authent)[1] + ' are not configured';
             reject(err);
           }
-          resolve(authService.initAuthService(authent).then(() => settings));
+          resolve(authService.initAuthService().then(() => settings));
         }
       }
       return resolve(settings);
@@ -414,55 +441,99 @@ export class ArlasStartupService {
     });
   }
 
+  public enrichServicesIamsHeaders(): void {
+    const accessToken = this.arlasIamService.getAccessToken();
+    const arlasOrganisation = this.arlasIamService.getOrganisation();
+    const iamHeader: IamHeader = {
+      Authorization: 'Bearer ' + accessToken,
+      'arlas-org-filter': arlasOrganisation
+    };
+  }
+
   /**
    * Enriches headers of calls sent to ARLAS-server & ARLAS-persistence
    * @param settings
    */
   public enrichHeaders(settings: ArlasSettings): Promise<ArlasSettings> {
     return new Promise<ArlasSettings>((resolve, reject) => {
-      const useAuthent = !!settings && !!settings.authentication && !!settings.authentication.use_authent;
+      const useAuthent = !!settings && !!settings.authentication
+        && !!settings.authentication.use_authent;
+      const useAuthentOpenID = useAuthent && settings.authentication.auth_mode === 'openid';
+      const useAuthentIam = useAuthent && settings.authentication.auth_mode === 'iam';
       if (useAuthent) {
-        const authService: AuthentificationService = this.injector.get('AuthentificationService')[0];
         const usePersistence = (!!settings && !!settings.persistence && !!settings.persistence.url
           && settings.persistence.url !== '' && settings.persistence.url !== NOT_CONFIGURED);
-        if (usePersistence) {
-          // To open reconnect dialog on silent refresh failed
-          authService.silentRefreshErrorSubject.subscribe(error =>
-            // eslint-disable-next-line arrow-body-style
-            this.persistenceService.list('config.json', 10, 1, 'asc').subscribe(data => {
-              return;
-            }));
-        }
-        this.fetchInterceptorService.applyInterceptor();
-        authService.canActivateProtectedRoutes.subscribe(isActivable => {
-          if (isActivable) {
-            // ARLAS-persistence
-            this.persistenceService.setOptions({
-              headers: {
-                Authorization: 'bearer ' + authService.accessToken
-              }
-            });
-            // ARLAS-server
-            this.fetchOptions.headers = {
-              Authorization: 'bearer ' + authService.accessToken
-            };
-            // ARLAS-Permission
-            this.persmissionService.setOptions({
-              headers: {
-                Authorization: 'bearer ' + authService.accessToken
-              }
-            });
-          } else {
-            this.persistenceService.setOptions(this.getOptions());
-            this.persmissionService.setOptions(this.getOptions());
-          }
-          this.collaborativesearchService.setFetchOptions(this.fetchOptions);
-          resolve(settings);
-        });
 
+        if (useAuthentOpenID) {
+          const authService: AuthentificationService = this.injector.get('AuthentificationService')[0];
+          if (usePersistence) {
+            // To open reconnect dialog on silent refresh failed
+            authService.silentRefreshErrorSubject.subscribe(error =>
+              // eslint-disable-next-line arrow-body-style
+              this.persistenceService.list('config.json', 10, 1, 'asc').subscribe(data => {
+                return;
+              }));
+          }
+          this.fetchInterceptorService.applyInterceptor();
+          authService.canActivateProtectedRoutes.subscribe(isActivable => {
+            if (isActivable) {
+              // ARLAS-persistence
+              this.persistenceService.setOptions({
+                headers: {
+                  Authorization: 'bearer ' + authService.accessToken
+                }
+              });
+              // ARLAS-server
+              this.fetchOptions.headers = {
+                Authorization: 'bearer ' + authService.accessToken
+              };
+              // ARLAS-Permission
+              this.permissionService.setOptions({
+                headers: {
+                  Authorization: 'bearer ' + authService.accessToken
+                }
+              });
+            } else {
+              this.persistenceService.setOptions(this.getOptions());
+              this.permissionService.setOptions(this.getOptions());
+            }
+            this.collaborativesearchService.setFetchOptions(this.fetchOptions);
+            resolve(settings);
+          });
+
+        } else if (useAuthentIam) {
+          const url = new URL(window.location.href);
+          const paramOrg = url.searchParams.get('org');
+          if (!!paramOrg) {
+            this.arlasIamService.storeOrganisation(paramOrg);
+          }
+          this.arlasIamService.tokenRefreshed$.subscribe({
+            next: (loginData) => {
+              if (!!loginData) {
+                const org = this.arlasIamService.getOrganisation();
+                const iamHeader = {
+                  Authorization: 'Bearer ' + loginData.accessToken,
+                };
+                // Set the org filter only if the organisation is defined
+                if (!!org) {
+                  iamHeader['arlas-org-filter'] = org;
+                }
+                this.persistenceService.setOptions({ headers: iamHeader });
+                this.permissionService.setOptions({ headers: iamHeader });
+                this.fetchOptions.headers = iamHeader;
+              } else {
+                this.persistenceService.setOptions({});
+                this.permissionService.setOptions({});
+              }
+              this.collaborativesearchService.setFetchOptions(this.fetchOptions);
+              resolve(settings);
+            }
+          });
+        }
       } else {
         this.persistenceService.setOptions(this.getOptions());
-        this.persmissionService.setOptions(this.getOptions());
+        this.permissionService.setOptions(this.getOptions());
+        this.collaborativesearchService.setFetchOptions(this.fetchOptions);
         resolve(settings);
       }
     });
@@ -697,6 +768,18 @@ export class ArlasStartupService {
       });
   }
 
+  public changeOrgHeader(org: string, accessToken: string) {
+    this.arlasIamService.setHeaders(org, accessToken);
+    const headers: IamHeader = {
+      Authorization: 'Bearer ' + accessToken,
+      'arlas-org-filter': org,
+    };
+    this.persistenceService.setOptions({ headers });
+    this.permissionService.setOptions({ headers });
+    this.fetchOptions.headers = headers;
+    this.collaborativesearchService.setFetchOptions(this.fetchOptions);
+  }
+
 
   public load(): Promise<any> {
     return this.applyAppSettings()
@@ -745,7 +828,7 @@ export class ArlasStartupService {
 
   private getShortcutComponent(uuid: string) {
     let component: WidgetConfiguration;
-    for (const g of this.analytics){
+    for (const g of this.analytics) {
       let clonedComponent: WidgetConfiguration;
       component = g.components.find(c => c.uuid === uuid);
       if (!!component) {
