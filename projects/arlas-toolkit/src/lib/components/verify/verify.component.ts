@@ -5,7 +5,7 @@ import { ArlasIamService } from '../../services/arlas-iam/arlas-iam.service';
 import { ConfirmedValidator } from '../../tools/utils';
 
 @Component({
-  selector: 'arlas-tool-verify',
+  selector: 'arlas-verify',
   templateUrl: './verify.component.html',
   styleUrls: ['./verify.component.css']
 })

@@ -1,5 +1,5 @@
 .container {
-  font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  font-family: Roboto, "Helvetica Neue", Arial;
 }
 
 .reset-form {
@@ -64,7 +64,7 @@
   gap: 0 10px;
   align-items: baseline;
   padding-top: 15px;
-  font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  font-family: Roboto, "Helvetica Neue", Arial;
 }
 
 .account button {
