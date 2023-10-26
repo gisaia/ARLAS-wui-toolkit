@@ -483,11 +483,6 @@ export class ArlasStartupService {
                   Authorization: 'bearer ' + authService.accessToken
                 }
               });
-              this.permissionService.setOptions({
-                headers: {
-                  Authorization: 'bearer ' + authService.accessToken
-                }
-              });
               // ARLAS-server
               this.fetchOptions.headers = {
                 Authorization: 'bearer ' + authService.accessToken
