@@ -19,13 +19,14 @@
 
 import {
   Component, Input, Output, OnInit, AfterViewInit,
-  OnChanges, SimpleChanges, EventEmitter
+  OnChanges, SimpleChanges, EventEmitter, OnDestroy
 } from '@angular/core';
 import { AnalyticGroupConfiguration } from '../analytics.utils';
 import { ArlasCollaborativesearchService } from '../../../services/startup/startup.service';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { SpinnerOptions } from '../../../tools/utils';
 import { AnalyticsService } from '../../../services/analytics/analytics.service';
+import { Subscription } from 'rxjs';
 
 /**
  * This component organizes the `Widgets` in a board.
@@ -36,7 +37,7 @@ import { AnalyticsService } from '../../../services/analytics/analytics.service'
   templateUrl: './analytics-board.component.html',
   styleUrls: ['./analytics-board.component.scss']
 })
-export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges {
+export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
 
   /**
    * @Input : Angular
@@ -90,7 +91,7 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
 
   public expandedHeaderHeight = 48;
   public collapsedHeaderHeight = 32;
-
+  private tabChangeSubscription: Subscription;
   public constructor(
     private collaborativeService: ArlasCollaborativesearchService,
     public analyticsService: AnalyticsService,
@@ -105,7 +106,7 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
 
     // When the tab is changed, get the groups to display
     this.groups = this.analyticsService.getActiveGroups();
-    this.analyticsService.tabChange.subscribe(() => {
+    this.tabChangeSubscription = this.analyticsService.tabChange.subscribe(() => {
       this.groups = this.analyticsService.getActiveGroups();
     });
 
@@ -161,5 +162,11 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
 
   public closePanel(group: AnalyticGroupConfiguration) {
     this.analyticsService.closePanel(group);
+  }
+
+  public ngOnDestroy(): void {
+    if (this.tabChangeSubscription) {
+      this.tabChangeSubscription.unsubscribe();
+    }
   }
 }

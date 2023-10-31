@@ -381,8 +381,8 @@ export class AnalyticsService {
   }
 
   public initializeGroups(groups: Array<AnalyticGroupConfiguration>) {
+    this.reset();
     this._groups = groups;
-
     if (this._groups) {
       this._groups.forEach(group => {
         this.initTabMapping(group.tab ? group.tab : this.defaultGroupTabName);
@@ -414,10 +414,25 @@ export class AnalyticsService {
         const tabsWithGroups = this._groupsByTab.map(v => v.name);
         this._tabs = this._tabs.filter(tab => tabsWithGroups.includes(tab.name));
       }
+    } else {
+      const tabsSet = new Set<string>();
+      this._groups.forEach(group => {
+        if (!tabsSet.has(group.tab)) {
+          tabsSet.add(group.tab);
+          this._tabs.push({
+            icon: 'short_text',
+            name: group.tab,
+            showIcon: false,
+            showName: false
+          });
+        }
+      });
+    }
+    if (!this._groupsDisplayStatusMap) {
+      this._groupsDisplayStatusMap = new Map<string, boolean>();
     }
 
-    if (!this._groupsDisplayStatusMap && this._groups) {
-      this._groupsDisplayStatusMap = new Map<string, boolean>();
+    if (this._groups) {
       this._groups.forEach(group => this._groupsDisplayStatusMap.set(group.groupId, true));
     }
 
@@ -440,6 +455,16 @@ export class AnalyticsService {
       this.setActiveFilterTab();
       this.setActiveFilterGroup();
     });
+  }
+
+  /**
+   * In case of using the service with several instances of AnalyticsBoardComponent, the global variables should
+   * be reset if we re-initialize groups.
+   */
+  private reset() {
+    this._tabs = [];
+    this._groupsByTab = [];
+    this._groupsDisplayStatusMap = new Map<string, boolean>();
   }
 
   /**
