@@ -1,0 +1,13 @@
+<div mat-dialog-title>{{'Create permission' | translate}}</div>
+<mat-dialog-content class="content">
+    <div class="create-content" [formGroup]="createPermissionForm">
+        <mat-form-field>
+            <mat-label>{{'Description' | translate}}</mat-label>
+            <input formControlName="description" matInput type="text" required >
+        </mat-form-field>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-button [mat-dialog-close]="null">{{'Cancel' | translate}}</button>
+    <button mat-button [disabled]="this.createPermissionForm.invalid">{{'Create' | translate}}</button>
+</mat-dialog-actions> 
