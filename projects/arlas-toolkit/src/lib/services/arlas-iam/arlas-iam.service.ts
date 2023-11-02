@@ -177,7 +177,7 @@ export class ArlasIamService extends ArlasAuthentificationService {
             return Promise.resolve();
           })
         .catch((err) => {
-          console.log(err);
+          console.error(err);
           return Promise.resolve();
         });
     } else {

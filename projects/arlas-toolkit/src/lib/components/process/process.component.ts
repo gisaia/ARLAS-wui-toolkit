@@ -38,12 +38,16 @@ export class ProcessComponent implements OnInit {
     this.process = this.processService.getProcessDescription();
     this.formInputs = this.process.inputs;
     Object.keys(this.formInputs).forEach(inputKey => {
-      if( this.matchingAdditionalParams.has(inputKey) && this.matchingAdditionalParams.get(inputKey)){
-        const matchingProp = this.process.additionalParameters.parameters.find( p => p.name === inputKey);
+      if (this.matchingAdditionalParams.has(inputKey) && this.matchingAdditionalParams.get(inputKey)) {
+        const matchingProp = this.process.additionalParameters.parameters.find(p => p.name === inputKey);
         this.formInputs[inputKey].schema = matchingProp.value.newSchema;
       }
       if (!!this.formInputs[inputKey].schema.enum) {
-        this.formInputs[inputKey].schema.type = 'enum';
+        if (this.formInputs[inputKey].schema.type === 'object') {
+          this.formInputs[inputKey].schema.type = 'object_enum';
+        } else {
+          this.formInputs[inputKey].schema.type = 'enum';
+        }
       }
       if (this.formInputs[inputKey].schema.type === 'array') {
         this.formInputs[inputKey].schema.items.type = 'enum';
@@ -64,7 +68,7 @@ export class ProcessComponent implements OnInit {
     if (!!input.default) {
       defaultValue = input.default;
     }
-    if( input.type === 'AOI'){
+    if (input.type === 'AOI') {
       defaultValue = this.wktAoi;
     }
     return !!input.required ? new FormControl(defaultValue || '', Validators.required)

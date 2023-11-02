@@ -42,6 +42,17 @@
               </mat-select>
               <mat-hint [align]="'end'">{{inputs[fieldIndex].description}}</mat-hint>
             </mat-form-field>
+            <!-- Object Enum case -->
+            <mat-form-field *ngSwitchCase="'object_enum'" class="field" appearance="outline"
+              matTooltip="{{inputs[fieldIndex].description}}" [matTooltipShowDelay]="tooltipDelay"
+              [matTooltipPosition]="'before'">
+              <mat-label>{{inputs[fieldIndex].title! | translate}}</mat-label>
+              <mat-select [formControlName]="field" class="data-cy-{{field}}"
+                required="{{!!inputs[fieldIndex].schema.required}}">
+                <mat-option *ngFor="let opt of inputs[fieldIndex].schema.enum" [value]="opt.value">{{opt.label}}</mat-option>
+              </mat-select>
+              <mat-hint [align]="'end'">{{inputs[fieldIndex].description}}</mat-hint>
+            </mat-form-field>
             <!-- Boolean case -->
             <div class="field" *ngSwitchCase="'boolean'" matTooltip="{{inputs[fieldIndex].description}}"
               [matTooltipShowDelay]="tooltipDelay" [matTooltipPosition]="'before'">
@@ -68,7 +79,7 @@
         </ng-container>
       </div>
       <div class="buttons">
-        <button mat-flat-button mat-dialog-close="true">{{'Cancel' | translate}}</button>
+        <button mat-flat-button mat-dialog-close>{{'Cancel' | translate}}</button>
         <button [color]="'primary'" matStepperNext mat-flat-button [disabled]="!formGroup.valid">
           {{'Next' | translate}}</button>
       </div>
@@ -77,8 +88,7 @@
   <mat-step label="{{'Summary' | translate}}" class="step" state="summary">
     <div class="step">
       <div class="summary">
-        <div class="infos">Vous êtes sur le point de lancer le téléchargement de {{nbProducts}} produits <br />avec les
-          paramètres suivants
+        <div class="infos">{{'You are about to launch process for' | translate}} {{nbProducts}} {{'product(s)' | translate}} <br />{{'with the following parameters' | translate }}
           : </div>
         <ng-container *ngFor="let param of controlsName;let fieldIndex=index">
           <div *ngIf="!!formGroup.get(param).value && inputs[fieldIndex]?.schema.type !== 'AOI'" class="params">
