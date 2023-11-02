@@ -43,11 +43,7 @@ export class PermissionsCreatorDialogComponent implements OnDestroy {
   public creationButtonHidden = false;
 
   public creationStatus: 'successful' | 'errored';
-  public creationError = {
-    type : 'error',
-    status: 401,
-    message: 'The user is not owner of the organisation toto'
-  };
+  public creationError;
 
   public showErrorDetails = false;
   public showSpinner = false;
