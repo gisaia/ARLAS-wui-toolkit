@@ -35,12 +35,12 @@ export class ProcessService {
     ids.forEach(id => {
       requests.push({ collection, item_id: id });
     });
-    let data = {
+    const data = {
       inputs: {
         requests
       }
     };
-    data = Object.assign(data, payload);
+    data.inputs = Object.assign(data.inputs, payload);
     return this.http.post(this.arlasSettingsService.getProcessSettings()?.url, data, this.options);
   }
 
