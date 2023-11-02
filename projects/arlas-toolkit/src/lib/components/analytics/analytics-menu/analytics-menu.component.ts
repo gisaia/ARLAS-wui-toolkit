@@ -65,7 +65,6 @@ export class AnalyticsMenuComponent implements OnInit {
    */
   public removeTabFilter(tabId: string, event: any) {
     // find out the type of the click event
-    console.log(event);
     this.analyticsService.removeTabFilter(tabId);
     event.stopPropagation();
   }
