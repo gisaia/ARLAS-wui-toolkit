@@ -1,13 +1,42 @@
-<div mat-dialog-title>{{'Create permission' | translate}}</div>
+<div mat-dialog-title class="title">{{'Create permission' | translate}}</div>
 <mat-dialog-content class="content">
-    <div class="create-content" [formGroup]="createPermissionForm">
+    <div class="announcement"  *ngIf="!descriptionInputHidden">
+        <span>{{'The current filters applied to' | translate}} </span>
+        <span class="collection">{{data.mainCollection}}, </span>
+        <span>{{'will be associated to a' | translate}} </span>
+        <span>{{'new permission' | translate}}.</span>
+    </div>
+    <div class="call_to_action"  *ngIf="!descriptionInputHidden">{{'Add permission description' | translate}}</div>
+    <div class="create-content" [formGroup]="createPermissionForm" *ngIf="!descriptionInputHidden">
         <mat-form-field>
             <mat-label>{{'Description' | translate}}</mat-label>
-            <input formControlName="description" matInput type="text" required >
+            <input [disabled]="descriptionInputDisabled" formControlName="description" matInput type="text" required >
         </mat-form-field>
     </div>
+    <div class="successful" *ngIf="creationStatus === 'successful'">
+        <div><mat-icon class="icon">check_circle</mat-icon></div>
+        <div class="state">{{'The permission is created successfully' | translate}}</div>
+        <div class="action">{{'go to iam' | translate}}</div>
+    </div>
+    <div class="errored" *ngIf="creationStatus === 'errored'">
+        <div><mat-icon class="icon">error</mat-icon></div>
+        <div class="state">{{'The permission creation failed' | translate}}</div>
+        <div class="action" (click)="showErrorDetails = !showErrorDetails">
+            <span>{{'See details' | translate}}</span>
+            <mat-icon *ngIf="!showErrorDetails">chevron_right</mat-icon>
+            <mat-icon *ngIf="showErrorDetails">expand_more</mat-icon>
+        </div>
+        <div class="detail" *ngIf="showErrorDetails">
+            {{creationError | json}}
+        </div>
+    </div>
 </mat-dialog-content>
-<mat-dialog-actions>
-    <button mat-button [mat-dialog-close]="null">{{'Cancel' | translate}}</button>
-    <button mat-button [disabled]="this.createPermissionForm.invalid">{{'Create' | translate}}</button>
-</mat-dialog-actions> 
+<mat-dialog-actions class="actions">
+    <button mat-button [disabled]="creationButtonDisabled" [mat-dialog-close]="null">{{CLOSE_TEXT | translate}}
+    </button>
+    <button class="create-action" *ngIf="!creationButtonHidden" mat-button
+        [disabled]="createPermissionForm.invalid || creationButtonDisabled">
+        <span class="label">{{CREATE_TEXT | translate}}</span>
+        <mat-spinner *ngIf="showSpinner" diameter="20"></mat-spinner>
+    </button>
+</mat-dialog-actions>

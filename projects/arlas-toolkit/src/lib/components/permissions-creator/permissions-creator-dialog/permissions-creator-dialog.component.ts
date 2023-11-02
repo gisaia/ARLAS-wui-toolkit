@@ -17,25 +17,46 @@
  * under the License.
  */
 
-import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Component, Inject, OnDestroy } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { PermissionDialogData } from '../_interfaces';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ArlasIamService } from '../../../services/arlas-iam/arlas-iam.service';
-import { PermissionDef } from 'arlas-iam-api';
+import { PermissionData, PermissionDef } from 'arlas-iam-api';
+import { Subscription, finalize } from 'rxjs';
 
 @Component({
   templateUrl: './permissions-creator-dialog.component.html',
   styleUrls: ['./permissions-creator-dialog.component.scss']
 })
-export class PermissionsCreatorDialogComponent {
+export class PermissionsCreatorDialogComponent implements OnDestroy {
 
   public createPermissionForm: FormGroup;
 
+  public CREATE_TEXT = 'Create the permission';
+  public CLOSE_TEXT = 'Close';
+
+  public descriptionInputDisabled = false;
+  public descriptionInputHidden = false;
+
+  public creationButtonDisabled = false;
+  public creationButtonHidden = false;
+
+  public creationStatus: 'successful' | 'errored';
+  public creationError = {
+    type : 'error',
+    status: 401,
+    message: 'The user is not owner of the organisation toto'
+  };
+
+  public showErrorDetails = false;
+  public showSpinner = false;
+
+  private subscription: Subscription;
+
   public constructor(
     private iamService: ArlasIamService,
-    private dialogRef: MatDialogRef<PermissionsCreatorDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) private data: PermissionDialogData) {
+    @Inject(MAT_DIALOG_DATA) public data: PermissionDialogData) {
 
     this.createPermissionForm = new FormGroup({
       description: new FormControl<string>('', [Validators.required])
@@ -43,11 +64,38 @@ export class PermissionsCreatorDialogComponent {
   }
 
   public createPermission() {
+    this.CREATE_TEXT = 'Creating';
+    this.showSpinner = true;
+    this.creationButtonDisabled = true;
+    this.descriptionInputDisabled = false;
     const permissionDef: PermissionDef = {
       value: this.data.partitionFilterHeader,
       description: this.createPermissionForm.get('description').value
     };
-    this.iamService.createPermission(this.data.oid, permissionDef);
+    this.subscription = this.iamService.createPermission(this.data.oid, permissionDef).pipe(
+      finalize(() => {
+        this.showSpinner = false;
+        this.creationButtonDisabled = false;
+        this.creationButtonHidden = true;
+        this.descriptionInputHidden = true;
+      })
+    ).subscribe({
+      next: (permissionData: PermissionData) => {
+        this.creationStatus = 'successful';
+        console.log(permissionData);
+      },
+      error: (err: any) => {
+        this.creationStatus = 'errored';
+        this.creationError = err;
+        console.log(err);
+      }
+    });
+  }
+
+  public ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
 }

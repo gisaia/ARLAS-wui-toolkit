@@ -200,5 +200,19 @@
 	"Collapse": "Réduire",
 	"No search": "Deux caractères ou plus sont nécessaires.",
 	"No results": "Aucun résultats pour cette recherche.",
-	"Searching": "Recherche en cours..."
+	"Searching": "Recherche en cours...",
+	"Create permission from filters": "Créer une permisson à partir des filtres courants",
+	"Create permission": "Créer une permission",
+	"Add permission description": "Ajouter une description pour spécifer cette permission :",
+	"The current filters applied to": "Les filtres courants appliqués à",
+	"will be associated to a": "seront associés à",
+	"new permission": "une nouvelle permission",
+	"The permission is created successfully": "La permission est créée avec succès.",
+	"go to iam": "Associer la permission à un groupe d'utilisateurs dans ARLAS IAM.",
+	"The permission creation failed": "La création de la permission a échoué.",
+	"Create the permission": "Créer la permission",
+	"Creating": "Création en cours ...",
+	"See details": "Voir les détails"
+
+
 }
