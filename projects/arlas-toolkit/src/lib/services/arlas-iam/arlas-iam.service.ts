@@ -197,7 +197,6 @@ export class ArlasIamService extends ArlasAuthentificationService {
         valid = false;
         missingInfo.push('- `iam server threshold` must be configured when `auth_mode=iam`');
       }
-
     }
     return [valid, missingInfo.join('\n')];
   }

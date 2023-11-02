@@ -60,6 +60,8 @@ export {
   GetContributorLabelPipe, GetGlobalColorFilterPipe
 } from './lib/components/filters/filters.component';
 export { PermissionsCreatorComponent } from './lib/components/permissions-creator/permissions-creator.component';
+export { PermissionsCreatorDialogComponent } from
+  './lib/components/permissions-creator/permissions-creator-dialog/permissions-creator-dialog.component';
 export { HistogramTooltipOverlayComponent } from './lib/components/histogram-tooltip-overlay/histogram-tooltip-overlay.component';
 export { CalendarTimelineTooltipOverlayComponent } from
   './lib/components/calendar-timeline-tooltip-overlay/calendar-timeline-tooltip-overlay.component';

@@ -107,7 +107,8 @@ import { AboutComponent, AboutDialogComponent } from './components/top-menu/abou
 import { MatMenuModule } from '@angular/material/menu';
 import { ArlasCollaborativesearchService, ArlasConfigService } from './services/startup/startup.service';
 import { PermissionsCreatorComponent } from './components/permissions-creator/permissions-creator.component';
-import { PermissionsCreatorDialogComponent } from './components/permissions-creator/permissions-creator-dialog/permissions-creator-dialog.component';
+import { PermissionsCreatorDialogComponent } from
+  './components/permissions-creator/permissions-creator-dialog/permissions-creator-dialog.component';
 
 export class CustomTranslateLoader implements TranslateLoader {
 

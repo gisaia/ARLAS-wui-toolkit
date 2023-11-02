@@ -196,5 +196,7 @@
 	"days (~ 1 year)": "jours (~ 1 an)",
 	"days (~ 2 years)": "jours (~ 2 ans)",
 	"days (~ 5 years)": "jours (~ 5 ans)",
-	"days (~ 10 years)": "jours (~ 10 ans)"
+	"days (~ 10 years)": "jours (~ 10 ans)",
+	"You are about to create a new permission on data, based on the current filters applied to": "Vous êtes sur le point de créer une nouvelle permission sur les données, basée sur les filtres actuels appliqués à",
+	"Add permission description": "Ajouter une description pour spécifer la permission :"
 }
