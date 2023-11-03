@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginData, RefreshToken } from 'arlas-iam-api';
 import { ArlasIamService } from '../../services/arlas-iam/arlas-iam.service';
-import { ArlasSettingsService } from '../../services/settings/arlas.settings.service';
 
 @Component({
   selector: 'arlas-tool-login',

@@ -106,6 +106,9 @@ import { MarkdownModule } from 'ngx-markdown';
 import { AboutComponent, AboutDialogComponent } from './components/top-menu/about/about.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { ArlasCollaborativesearchService, ArlasConfigService } from './services/startup/startup.service';
+import { PermissionsCreatorComponent } from './components/permissions-creator/permissions-creator.component';
+import { PermissionsCreatorDialogComponent } from
+  './components/permissions-creator/permissions-creator-dialog/permissions-creator-dialog.component';
 
 export class CustomTranslateLoader implements TranslateLoader {
 
@@ -218,6 +221,8 @@ export class CustomTranslateLoader implements TranslateLoader {
     GetTimeLabelPipe,
     LanguageSwitcherComponent,
     LinkComponent,
+    PermissionsCreatorComponent,
+    PermissionsCreatorDialogComponent,
     SearchComponent,
     SearchDialogComponent,
     ShareComponent,
@@ -263,6 +268,8 @@ export class CustomTranslateLoader implements TranslateLoader {
     GetContributorLabelPipe,
     LanguageSwitcherComponent,
     LinkComponent,
+    PermissionsCreatorComponent,
+    PermissionsCreatorDialogComponent,
     SearchComponent,
     SearchDialogComponent,
     ShareComponent,

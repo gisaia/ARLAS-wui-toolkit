@@ -40,12 +40,11 @@ import * as rootContributorConfSchema from 'arlas-web-contributors/jsonSchemas/r
 import { CollaborativesearchService, ConfigService, Contributor } from 'arlas-web-core';
 import { projType } from 'arlas-web-core/models/projections';
 import YAML from 'js-yaml';
-import { Subject, zip } from 'rxjs';
-import { mergeMap, take } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { mergeMap } from 'rxjs/operators';
 import { PersistenceService, PersistenceSetting } from '../persistence/persistence.service';
 import { CONFIG_ID_QUERY_PARAM, GET_OPTIONS, WidgetConfiguration, getFieldProperties,
   AuthentSetting, NOT_CONFIGURED, getParamValue } from '../../tools/utils';
-import { flatMap } from 'rxjs/operators';
 import { ArlasIamService, IamHeader } from '../arlas-iam/arlas-iam.service';
 import { AuthentificationService, } from '../authentification/authentification.service';
 import { ArlasConfigurationUpdaterService } from '../configuration-updater/configurationUpdater.service';
@@ -59,6 +58,7 @@ import * as arlasSettingsSchema from './settings.schema.json';
 import { FilterShortcutConfiguration } from '../../components/filter-shortcut/filter-shortcut.utils';
 import { AnalyticGroupConfiguration } from '../../components/analytics/analytics.utils';
 import { ArlasAuthentificationService } from '../arlas-authentification/arlas-authentification.service';
+import { Filter } from 'arlas-api';
 
 @Injectable({
   providedIn: 'root'
@@ -140,6 +140,14 @@ export class ArlasCollaborativesearchService extends CollaborativesearchService 
       }
     });
     return dataModel;
+  }
+
+  public getFilters(collection: string): Array<Filter> {
+    const filters: Filter[] = [];
+    Array.from(this.collaborations.values()).forEach(c => {
+      filters.push(...c.filters.get(collection));
+    });
+    return filters;
   }
 }
 

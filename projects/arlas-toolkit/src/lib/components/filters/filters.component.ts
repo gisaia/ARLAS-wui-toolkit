@@ -24,18 +24,15 @@ import { Subject } from 'rxjs';
 import { Contributor, Collaboration } from 'arlas-web-core';
 import { CollectionReferenceParameters } from 'arlas-api';
 import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from '../../services/startup/startup.service';
-import { ArlasColorGeneratorLoader } from '../../tools/color-generator-loader';
 import { CollectionUnit, CollectionCount } from '../../tools/utils';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { isShortcutID } from '../filter-shortcut/filter-shortcut.utils';
-import { ArlasColorService, ColorGeneratorLoader } from 'arlas-web-components';
-
+import { ArlasColorService } from 'arlas-web-components';
 
 @Pipe({ name: 'getContributorLabel' })
 export class GetContributorLabelPipe implements PipeTransform {
   public transform(value: string, registry?: Map<string, Contributor>): string {
     let label = registry.get(value).getFilterDisplayName();
-    const collection = registry.get(value).collection;
     if (label !== undefined && label !== '') {
       const labelSplited = label.split('<=');
       if (labelSplited.length === 3) {
@@ -88,6 +85,7 @@ export class GetCollaborationIconPipe implements PipeTransform {
 
   }
 }
+
 @Component({
   selector: 'arlas-filter',
   templateUrl: './filters.component.html',
