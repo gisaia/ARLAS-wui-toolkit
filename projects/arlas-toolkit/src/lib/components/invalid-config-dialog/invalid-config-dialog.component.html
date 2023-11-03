@@ -1,8 +1,26 @@
-<div>
-    <h2 mat-dialog-title>Invalid dashboard id : {{configId}}</h2>
-    <mat-dialog-content>The dashboard you try to load is invalid. Please load another one</mat-dialog-content>
-    <mat-dialog-actions>
-        <!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->
-        <button mat-raised-button class="modal_button" color="primary" [mat-dialog-close]="true">Ok</button>
-    </mat-dialog-actions>
-</div>
+<div mat-dialog-title class="title">{{'Could not access the dashboard' | translate}}</div>
+<mat-dialog-content class="content">
+    <div class="errored">
+        <div><mat-icon class="icon">error</mat-icon></div>
+        <div class="state">{{ERROR_MESSAGE | translate}}</div>
+        <ng-container *ngIf="status === 403; else not403">
+            <!-- propose to go to ARLAS-hub -->
+            <div *ngIf="showAction" class="action" (click)="goToArlasHub()">{{ACTION_MESSAGE | translate}}</div>
+        </ng-container>
+        <ng-template #not403>
+            <ng-container *ngIf="status === 401; else otherStatus">
+                <!-- propose to login if we could keep the config id after authentication, otherwise we should go to hub-->
+                <!-- <button mat-button>{{ ACTION_MESSAGE | translate}}</button> -->
+
+                <!-- propose to go to ARLAS-hub -->
+                <div *ngIf="showAction" class="action" (click)="goToArlasHub()">{{ACTION_MESSAGE | translate}}</div>
+            </ng-container>
+            <ng-template #otherStatus>
+                <!-- no action to propose -->
+            </ng-template>
+        </ng-template>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions class="actions">
+    <button mat-button [mat-dialog-close]="true">{{'Close' | translate}}</button>
+</mat-dialog-actions>
