@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ArlasSettings, LinkSettings } from '../startup/startup.service';
 import { PersistenceSetting } from '../persistence/persistence.service';
 import { PermissionSetting } from '../permission/permission.service';
+import { AuthentSetting } from '../../tools/utils';
 
 @Injectable({
   providedIn: 'root'
@@ -39,6 +40,10 @@ export class ArlasSettingsService {
     return !!this.settings && !!this.settings.arlas_hub_url ? this.settings.arlas_hub_url : undefined;
   }
 
+  public getArlasIAMWuiUrl(): string {
+    return !!this.settings && !!this.settings.arlas_iam_wui_url ? this.settings.arlas_iam_wui_url : undefined;
+  }
+
   public getLinksSettings(): LinkSettings[] {
     return !!this.settings && !!this.settings.links ? this.settings.links : undefined;
   }
@@ -54,5 +59,9 @@ export class ArlasSettingsService {
   public getHistogramNbBucketAtExport(): number {
     return !!this.settings && !!this.settings.histogram && !!this.settings.histogram.export_nb_buckets ?
       this.settings.histogram.export_nb_buckets : 1000;
+  }
+
+  public getAuthentSettings(): AuthentSetting {
+    return !!this.settings && !!this.settings.authentication ? this.settings.authentication : undefined;
   }
 }

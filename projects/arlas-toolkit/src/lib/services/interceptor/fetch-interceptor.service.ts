@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ReconnectDialogComponent } from '../../components/reconnect-dialog/reconnect-dialog.component';
 import { ArlasSettingsService } from '../settings/arlas.settings.service';
 import { InvalidConfigDialogComponent } from '../../components/invalid-config-dialog/invalid-config-dialog.component';
+import { DashboardDeniedData } from '../../tools/utils';
 
 @Injectable({
   providedIn: 'root'
@@ -48,7 +49,7 @@ export class FetchInterceptorService {
     }
   }
 
-  public interceptInvalidConfig(configId: string) {
-    this.dialog.open(InvalidConfigDialogComponent, { disableClose: true, data: { configId } });
+  public interceptInvalidConfig(dahsboardDeniedData: DashboardDeniedData) {
+    this.dialog.open(InvalidConfigDialogComponent, { disableClose: true, data: dahsboardDeniedData });
   }
 }
