@@ -6,6 +6,7 @@ import { DateTimeProvider, OAuthLogger, OAuthService, UrlHelperService } from 'a
 import { HttpClientModule } from '@angular/common/http';
 import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { ArlasSettingsService } from '../../services/settings/arlas.settings.service';
 
 describe('TopMenuComponent', () => {
   let component: TopMenuComponent;
@@ -32,6 +33,7 @@ describe('TopMenuComponent', () => {
           provide: MatDialogRef,
           useValue: mockDialogRef
         },
+        ArlasSettingsService
       ]
     })
       .compileComponents();

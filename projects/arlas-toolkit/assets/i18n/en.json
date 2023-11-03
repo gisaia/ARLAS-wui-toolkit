@@ -196,13 +196,16 @@
 	"Create permission": "Create permission",
 	"Add permission description": "Add a description to the permission:",
 	"The current filters applied to": "The current filters applied to",
-	"will be associated to a": "will be associated to a",
-	"new permission": "new permission",
-	"The permission is created successfully": "The permission is created successfully.",
+	"will be associated to a new permission": "will be associated to a new permission",
+	"The permission was created successfully": "The permission was created successfully.",
 	"The permission creation failed": "The permission creation failed.",
 	"go to iam": "Associate this permission to a group of users in ARLAS IAM.",
 	"Create the permission": "Create the permission",
 	"Creating": "Creating ...",
-	"See details": "Show details"
+	"See details": "Show details",
+	"Could not access the dashboard": "Access to dashboard denied",
+	"dashboard access not authorized": "You are not authorised to access this dashboard.",
+	"go to arlas hub": "Go to ARLAS-Hub to consult your dashboards.",
+	"The connection to dashbords is lost": "The connection to dashbords is lost"
 
 }

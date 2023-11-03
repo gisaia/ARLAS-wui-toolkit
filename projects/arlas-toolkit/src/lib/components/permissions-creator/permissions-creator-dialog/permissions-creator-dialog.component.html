@@ -3,8 +3,7 @@
     <div class="announcement"  *ngIf="!descriptionInputHidden">
         <span>{{'The current filters applied to' | translate}} </span>
         <span class="collection">{{data.mainCollection}}, </span>
-        <span>{{'will be associated to a' | translate}} </span>
-        <span>{{'new permission' | translate}}.</span>
+        <span>{{'will be associated to a new permission' | translate}} </span>
     </div>
     <div class="call_to_action"  *ngIf="!descriptionInputHidden">{{'Add permission description' | translate}}</div>
     <div class="create-content" [formGroup]="createPermissionForm" *ngIf="!descriptionInputHidden">
@@ -15,8 +14,8 @@
     </div>
     <div class="successful" *ngIf="creationStatus === 'successful'">
         <div><mat-icon class="icon">check_circle</mat-icon></div>
-        <div class="state">{{'The permission is created successfully' | translate}}</div>
-        <div class="action">{{'go to iam' | translate}}</div>
+        <div class="state">{{'The permission was created successfully' | translate}}</div>
+        <div class="action" *ngIf="showAction" (click)="goToArlasIAMWui()">{{'go to iam' | translate}}</div>
     </div>
     <div class="errored" *ngIf="creationStatus === 'errored'">
         <div><mat-icon class="icon">error</mat-icon></div>
@@ -34,7 +33,7 @@
 <mat-dialog-actions class="actions">
     <button mat-button [disabled]="creationButtonDisabled" [mat-dialog-close]="null">{{CLOSE_TEXT | translate}}
     </button>
-    <button class="create-action" *ngIf="!creationButtonHidden" mat-button
+    <button class="create-action" *ngIf="!creationButtonHidden" mat-button (click)="createPermission()"
         [disabled]="createPermissionForm.invalid || creationButtonDisabled">
         <span class="label">{{CREATE_TEXT | translate}}</span>
         <mat-spinner *ngIf="showSpinner" diameter="20"></mat-spinner>

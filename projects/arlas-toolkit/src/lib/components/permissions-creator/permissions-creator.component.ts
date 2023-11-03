@@ -69,9 +69,9 @@ export class PermissionsCreatorComponent implements OnInit, OnDestroy {
       // - Get filters of the main collection
       const filters: Filter[] = this.collaborativeSearchService.getFilters(mainCollection);
       // - Build the permission
-      const partitionFilter = {
-        mainCollection: this.collaborativeSearchService.getFinalFilter(filters)
-      };
+      const partitionFilter = {};
+
+      partitionFilter[mainCollection] = this.collaborativeSearchService.getFinalFilter(filters);
       const partitionFilterHeader = `h:partition-filter:${JSON.stringify(partitionFilter)}`;
       const permissionData: PermissionDialogData = {
         partitionFilterHeader,
@@ -84,7 +84,7 @@ export class PermissionsCreatorComponent implements OnInit, OnDestroy {
         disableClose: true
       });
     } else {
-      // todo : hide the button because we finally realise we can't create permissions ?
+      this.show = false;
     }
   }
 
@@ -100,10 +100,9 @@ export class PermissionsCreatorComponent implements OnInit, OnDestroy {
       // logout ?
     }
     const currentOrg = currentUser.organisations.find(o => o.name === orgName);
-    if (currentOrg.isOwner) {
+    if (!!currentOrg && currentOrg.isOwner) {
       return true;
     } else {
-      console.log('USER is not owner');
       // the user cannot create permissions as they're not owner of the organisation.
     }
     return false;

@@ -222,7 +222,9 @@ export class ArlasIamService extends ArlasAuthentificationService {
 
   public logout(redirectPageAfterLogout: string[] = ['/login']): void {
     this.logoutWithoutRedirection();
-    this.router.navigate(redirectPageAfterLogout);
+    this.router.navigate(redirectPageAfterLogout).then(() => {
+      window.location.reload();
+    });
   }
 
   public refresh(refreshToken): Observable<LoginData> {
