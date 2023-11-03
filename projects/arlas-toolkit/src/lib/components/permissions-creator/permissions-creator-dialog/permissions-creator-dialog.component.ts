@@ -24,6 +24,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ArlasIamService } from '../../../services/arlas-iam/arlas-iam.service';
 import { PermissionData, PermissionDef } from 'arlas-iam-api';
 import { Subscription, finalize } from 'rxjs';
+import { ArlasSettingsService } from '../../../services/settings/arlas.settings.service';
 
 @Component({
   templateUrl: './permissions-creator-dialog.component.html',
@@ -47,13 +48,13 @@ export class PermissionsCreatorDialogComponent implements OnDestroy {
 
   public showErrorDetails = false;
   public showSpinner = false;
-
+  public showAction = true;
   private subscription: Subscription;
 
   public constructor(
     private iamService: ArlasIamService,
-    @Inject(MAT_DIALOG_DATA) public data: PermissionDialogData) {
-
+    @Inject(MAT_DIALOG_DATA) public data: PermissionDialogData,
+    private settingsService: ArlasSettingsService) {
     this.createPermissionForm = new FormGroup({
       description: new FormControl<string>('', [Validators.required])
     });
@@ -78,7 +79,7 @@ export class PermissionsCreatorDialogComponent implements OnDestroy {
     ).subscribe({
       next: (permissionData: PermissionData) => {
         this.creationStatus = 'successful';
-        console.log(permissionData);
+        this.showAction = !!this.settingsService.getArlasIAMWuiUrl();
       },
       error: (err: any) => {
         this.creationStatus = 'errored';
@@ -91,6 +92,13 @@ export class PermissionsCreatorDialogComponent implements OnDestroy {
   public ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();
+    }
+  }
+
+  public goToArlasIAMWui() {
+    const iamUrl = this.settingsService.getArlasIAMWuiUrl();
+    if (!!iamUrl) {
+      window.open(iamUrl);
     }
   }
 

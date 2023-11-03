@@ -1,12 +1,12 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { AuthentificationService } from '../../services/authentification/authentification.service';
-import { ArlasAuthentificationService } from '../../services/arlas-authentification/arlas-authentification.service';
 import { ArlasIamService } from '../../services/arlas-iam/arlas-iam.service';
 import { AboutComponent } from './about/about.component';
 import { TranslateService } from '@ngx-translate/core';
 import { UserInfosComponent } from '../user-infos/user-infos.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { ArlasSettingsService } from '../../services/settings/arlas.settings.service';
 
 @Component({
   selector: 'arlas-top-menu',
@@ -41,19 +41,19 @@ export class TopMenuComponent implements OnInit {
 
   public constructor(
     private authentService: AuthentificationService,
-    private arlasAuthentService: ArlasAuthentificationService,
     private arlasIamService: ArlasIamService,
     private translate: TranslateService,
     private router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private settingsService: ArlasSettingsService
   ) {
     this.extraAboutText = this.translate.instant('extraAboutText') === 'extraAboutText' ? '' : this.translate.instant('extraAboutText');
     this.aboutFile = 'assets/about/about_' + this.translate.currentLang + '.md?' + Date.now() + '.md';
-    this.authentMode = this.arlasAuthentService.authConfigValue.auth_mode;
-    this.isAuthentActivated = !!this.authentService.authConfigValue && !!this.authentService.authConfigValue.use_authent;
   }
 
   public ngOnInit(): void {
+    this.authentMode = !!this.settingsService.getAuthentSettings() ? this.settingsService.getAuthentSettings().auth_mode : undefined;
+    this.isAuthentActivated = !!this.settingsService.getAuthentSettings() && !!this.settingsService.getAuthentSettings().use_authent;
     if (this.authentMode === 'openid') {
       const claims = this.authentService.identityClaims as any;
       this.authentService.canActivateProtectedRoutes.subscribe(isConnected => {
@@ -67,6 +67,7 @@ export class TopMenuComponent implements OnInit {
         }
       });
     } else if (this.authentMode === 'iam') {
+      this.connected = false;
       this.arlasIamService.tokenRefreshed$.subscribe({
         next: (data) => {
           if (!!data) {
