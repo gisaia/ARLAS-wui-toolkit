@@ -3,21 +3,12 @@
     <div class="errored">
         <div><mat-icon class="icon">error</mat-icon></div>
         <div class="state">{{ERROR_MESSAGE | translate}}</div>
-        <ng-container *ngIf="status === 403; else not403">
+        <ng-container *ngIf="status === 403 || status === 401 || status === 404; else otherStatus">
             <!-- propose to go to ARLAS-hub -->
             <div *ngIf="showAction" class="action" (click)="goToArlasHub()">{{ACTION_MESSAGE | translate}}</div>
         </ng-container>
-        <ng-template #not403>
-            <ng-container *ngIf="status === 401; else otherStatus">
-                <!-- propose to login if we could keep the config id after authentication, otherwise we should go to hub-->
-                <!-- <button mat-button>{{ ACTION_MESSAGE | translate}}</button> -->
-
-                <!-- propose to go to ARLAS-hub -->
-                <div *ngIf="showAction" class="action" (click)="goToArlasHub()">{{ACTION_MESSAGE | translate}}</div>
-            </ng-container>
-            <ng-template #otherStatus>
-                <!-- no action to propose -->
-            </ng-template>
+        <ng-template #otherStatus>
+            <!-- no action to propose -->
         </ng-template>
     </div>
 </mat-dialog-content>

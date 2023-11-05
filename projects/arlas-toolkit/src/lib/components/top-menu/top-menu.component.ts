@@ -21,7 +21,7 @@ export class TopMenuComponent implements OnInit {
 
   public name: string;
   public avatar: string;
-
+  public initials: string;
   public aboutFile: string;
   public extraAboutText: string;
 
@@ -54,6 +54,9 @@ export class TopMenuComponent implements OnInit {
   public ngOnInit(): void {
     this.authentMode = !!this.settingsService.getAuthentSettings() ? this.settingsService.getAuthentSettings().auth_mode : undefined;
     this.isAuthentActivated = !!this.settingsService.getAuthentSettings() && !!this.settingsService.getAuthentSettings().use_authent;
+    if (this.isAuthentActivated && !this.authentMode) {
+      this.authentMode = 'openid';
+    }
     if (this.authentMode === 'openid') {
       const claims = this.authentService.identityClaims as any;
       this.authentService.canActivateProtectedRoutes.subscribe(isConnected => {
@@ -73,11 +76,11 @@ export class TopMenuComponent implements OnInit {
           if (!!data) {
             this.connected = true;
             this.name = data?.user.email;
-            this.avatar = this.getInitials(this.name);
+            this.initials = this.getInitials(this.name);
           } else {
             this.connected = false;
             this.name = '';
-            this.avatar = '';
+            this.initials = '';
           }
         },
         error: () => {
@@ -112,31 +115,8 @@ export class TopMenuComponent implements OnInit {
   }
 
   public getInitials(name) {
-
-    const canvas = document.createElement('canvas');
-    canvas.style.display = 'none';
-    canvas.width = 32;
-    canvas.height = 32;
-    document.body.appendChild(canvas);
-
-
-    const context = canvas.getContext('2d');
-    const centerX = canvas.width / 2;
-    const centerY = canvas.height / 2;
-    const radius = 16;
-    context.beginPath();
-    context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
-    context.fillStyle = '#999';
-    context.fill();
-    context.font = '16px Roboto';
-    context.fillStyle = '#eee';
-
     if (name && name !== '') {
-      const first = name[0];
-      context.fillText(first.toUpperCase(), 10, 23);
-      const data = canvas.toDataURL();
-      document.body.removeChild(canvas);
-      return data;
+      return name[0];
     } else {
       return '';
     }

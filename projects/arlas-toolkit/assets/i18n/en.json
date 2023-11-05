@@ -205,7 +205,10 @@
 	"See details": "Show details",
 	"Could not access the dashboard": "Access to dashboard denied",
 	"dashboard access not authorized": "You are not authorised to access this dashboard.",
+	"dashboard does not exist": "This dashboard was not found.",
 	"go to arlas hub": "Go to ARLAS-Hub to consult your dashboards.",
-	"The connection to dashbords is lost": "The connection to dashbords is lost"
+	"The connection to dashbords is lost": "The connection to the dashbords is lost",
+	"Your profile": "Your profile",
+	"Logout": "Logout"
 
 }

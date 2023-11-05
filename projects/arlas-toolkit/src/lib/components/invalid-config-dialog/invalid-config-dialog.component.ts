@@ -35,8 +35,15 @@ export class InvalidConfigDialogComponent implements OnInit {
       this.ACTION_MESSAGE = 'go to arlas hub';
       this.ERROR_MESSAGE = 'dashboard access not authorized';
       this.showAction = !!this.settingsService.getArlasHubUrl();
+    } else if (this.status === 404) {
+      // propose to login if we could keep the config id after authentication, otherwise we should go to hub
+      // this.ACTION_MESSAGE = 'Login';
+      this.ACTION_MESSAGE = 'go to arlas hub';
+      this.ERROR_MESSAGE = 'dashboard does not exist';
+      this.showAction = !!this.settingsService.getArlasHubUrl();
     } else {
       this.ERROR_MESSAGE = 'The connection to dashbords is lost';
+      this.showAction = false;
     }
   }
 
