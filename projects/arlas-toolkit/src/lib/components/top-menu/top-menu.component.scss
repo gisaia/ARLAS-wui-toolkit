@@ -1,8 +1,19 @@
+$sm-spacing: 5px;
+$sm-margin: 5px;
+$default-margin: 10px;
+$default-spacing: 10px;
+$sm-font-size: 14px;
+$xs-font-size: 12px;
+$default-font-size: 16px;
+$icon-height: 24px;
+$avatar-color: #999;
+
 .top-menu {
     width: 100%;
     height: 40px;
     background-color: #fff;
-    padding: 0;;
+    padding: 0;
+
 
     .user_avatar {
         vertical-align: middle;
@@ -13,11 +24,25 @@
         flex: 1 1 auto;
     }
 
-    .icon {
-        font-size: 20px;
-    }
-
     mat-icon {
         color: #666;
+    }
+
+    .action-menu-button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: $icon-height;
+        margin-right: $sm-margin;
+        .avatar {
+            height: $icon-height;
+            width: $icon-height;
+            line-height: $icon-height;
+            font-size: $sm-font-size;
+            font-weight: bold;
+            border-radius: calc($icon-height / 2);
+            background-color: $avatar-color;
+            color: white;
+        }
     }
 }

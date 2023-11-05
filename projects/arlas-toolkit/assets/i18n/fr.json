@@ -214,7 +214,10 @@
 	"See details": "Voir les détails",
 	"Could not access the dashboard": "Accès au dashboard refusé",
 	"dashboard access not authorized": "Vous n'êtes pas autorisé à accéder à ce dashboard.",
+	"dashboard does not exist": "Ce dashboard n'a pas été trouvé.",
 	"go to arlas hub": "Aller sur ARLAS-Hub pour consulter vos dashboards.",
-	"The connection to dashbord is lost": "La connexion aux dashboards a échoué."
+	"The connection to dashbord is lost": "La connexion aux dashboards a échoué.",
+	"Your profile": "Mon profil",
+	"Logout": "Déconnexion"
 
 }
