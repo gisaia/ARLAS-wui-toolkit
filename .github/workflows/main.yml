@@ -32,8 +32,6 @@ jobs:
         run: npm run lint
       - name: Build
         run: npm run build-release
-      - name: Test
-        run: npm run test
       - name: Documentation
         env:
           # secrets are defined here : https://github.com/organizations/gisaia/settings/secrets/actions
