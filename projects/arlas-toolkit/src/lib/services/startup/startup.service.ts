@@ -581,7 +581,10 @@ export class ArlasStartupService {
               } else {
                 // this mode will allow us to start an
                 this.emptyMode = true;
-                this.fetchInterceptorService.interceptInvalidConfig(configurationId);
+                this.fetchInterceptorService.interceptInvalidConfig({
+                  id: configurationId,
+                  error: err
+                });
                 return Promise.resolve(null);
               }
             });
@@ -889,6 +892,7 @@ export interface ArlasSettings {
   arlas_wui_url?: string;
   arlas_builder_url?: string;
   arlas_hub_url?: string;
+  arlas_iam_wui_url?: string;
   links?: LinkSettings[];
   ticketing_key?: string;
   histogram?: HistogramSettings;

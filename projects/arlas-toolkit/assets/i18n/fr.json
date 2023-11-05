@@ -205,14 +205,16 @@
 	"Create permission": "Créer une permission",
 	"Add permission description": "Ajouter une description pour spécifer cette permission :",
 	"The current filters applied to": "Les filtres courants appliqués à",
-	"will be associated to a": "seront associés à",
-	"new permission": "une nouvelle permission",
-	"The permission is created successfully": "La permission est créée avec succès.",
+	"will be associated to a new permission": "seront associés à une nouvelle permission",
+	"The permission was created successfully": "La permission a été créée avec succès.",
 	"go to iam": "Associer la permission à un groupe d'utilisateurs dans ARLAS IAM.",
 	"The permission creation failed": "La création de la permission a échoué.",
 	"Create the permission": "Créer la permission",
 	"Creating": "Création en cours ...",
-	"See details": "Voir les détails"
-
+	"See details": "Voir les détails",
+	"Could not access the dashboard": "Accès au dashboard refusé",
+	"dashboard access not authorized": "Vous n'êtes pas autorisé à accéder à ce dashboard.",
+	"go to arlas hub": "Aller sur ARLAS-Hub pour consulter vos dashboards.",
+	"The connection to dashbord is lost": "La connexion aux dashboards a échoué."
 
 }

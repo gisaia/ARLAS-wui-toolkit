@@ -126,6 +126,11 @@ export interface AuthentSetting {
   url?: string;
 }
 
+export interface DashboardDeniedData {
+  id: string;
+  error: any;
+}
+
 /**
  * This interface lists the possible methods to apply on a Map object of a given cartographic client
  */
