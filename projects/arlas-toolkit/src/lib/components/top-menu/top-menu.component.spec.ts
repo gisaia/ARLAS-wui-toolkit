@@ -7,6 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { ArlasSettingsService } from '../../services/settings/arlas.settings.service';
+import { MatMenuModule } from '@angular/material/menu';
 
 describe('TopMenuComponent', () => {
   let component: TopMenuComponent;
@@ -22,6 +23,7 @@ describe('TopMenuComponent', () => {
         HttpClientModule,
         TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }),
         MatDialogModule,
+        MatMenuModule
       ],
       providers: [
         AuthentificationService,
