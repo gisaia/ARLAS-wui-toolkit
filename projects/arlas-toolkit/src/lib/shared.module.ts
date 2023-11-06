@@ -28,6 +28,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -50,8 +51,9 @@ import {
 import { OwlMomentDateTimeModule } from '@danielmoncada/angular-datetime-picker-moment-adapter';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import {
+  CalendarTimelineModule,
   ColorGeneratorLoader, ColorGeneratorModule, DonutModule, FormatNumberModule,
-  HistogramModule, MapglLegendModule, MetricModule, PowerbarsModule, ResultsModule, CalendarTimelineModule, CalendarTimelineComponent
+  HistogramModule, MapglLegendModule, MetricModule, PowerbarsModule, ResultsModule
 } from 'arlas-web-components';
 import en from 'arlas-web-components/assets/i18n/en.json';
 import fr from 'arlas-web-components/assets/i18n/fr.json';
@@ -64,6 +66,7 @@ import { AnalyticsMenuComponent } from './components/analytics/analytics-menu/an
 import { AoiComponent } from './components/aoi/aoi.component';
 import { BookmarkMenuComponent } from './components/bookmark-menu/bookmark-menu.component';
 import { BookmarkAddDialogComponent, BookmarkComponent } from './components/bookmark/bookmark.component';
+import { CalendarTimelineToolComponent } from './components/calendar-timeline/calendar-timeline.component';
 import { ActionModalComponent } from './components/config-manager/action-modal/action-modal.component';
 import { ActionModalModule } from './components/config-manager/action-modal/action-modal.module';
 import { ConfigMenuModule } from './components/config-manager/config-menu/config-menu.module';
@@ -72,6 +75,9 @@ import { DonutTooltipOverlayComponent } from './components/donut-tooltip-overlay
 import { DownloadComponent, DownloadDialogComponent } from './components/download/download.component';
 import { ErrorModalModule } from './components/errormodal/errormodal.module';
 import { ExtendComponent } from './components/extend/extend.component';
+import { FilterShortcutChipComponent } from './components/filter-shortcut/chip/chip.component';
+import { FilterShortcutComponent } from './components/filter-shortcut/filter-shortcut.component';
+import { ShortcutFiltersHandlerComponent } from './components/filter-shortcut/filters-handler/filters-handler.component';
 import {
   ConcatCollectionPipe, FiltersComponent, GetCollaborationIconPipe, GetColorFilterPipe,
   GetContributorLabelPipe, GetGlobalColorFilterPipe
@@ -81,6 +87,7 @@ import { HistogramWidgetComponent } from './components/histogram-widget/histogra
 import { InvalidConfigDialogComponent } from './components/invalid-config-dialog/invalid-config-dialog.component';
 import { LanguageSwitcherComponent } from './components/language-switcher/language-switcher.component';
 import { LinkComponent } from './components/link/link.component';
+import { ProcessComponent } from './components/process/process.component';
 import { ProgressSpinnerComponent } from './components/progress-spinner/progress-spinner.component';
 import { ReconnectDialogComponent } from './components/reconnect-dialog/reconnect-dialog.component';
 import { SearchComponent, SearchDialogComponent } from './components/search/search.component';
@@ -92,16 +99,9 @@ import { TimelineComponent } from './components/timeline/timeline/timeline.compo
 import { UserInfosComponent } from './components/user-infos/user-infos.component';
 import { WidgetComponent } from './components/widget/widget.component';
 import { GetTimeLabelPipe } from './pipes/get-time-label.pipe';
-import { ArlasColorGeneratorLoader } from './tools/color-generator-loader';
 import { FetchInterceptorService } from './services/interceptor/fetch-interceptor.service';
 import { ArlasOverlayService } from './services/overlays/overlay.service';
 import { ArlasWalkthroughModule } from './services/walkthrough/walkthrough.module';
-import { CalendarTimelineToolComponent } from './components/calendar-timeline/calendar-timeline.component';
-import { FilterShortcutComponent } from './components/filter-shortcut/filter-shortcut.component';
-import { MatDividerModule } from '@angular/material/divider';
-import { FilterShortcutChipComponent } from './components/filter-shortcut/chip/chip.component';
-import { ShortcutFiltersHandlerComponent } from './components/filter-shortcut/filters-handler/filters-handler.component';
-import { TopMenuComponent } from './components/top-menu/top-menu.component';
 import { MarkdownModule } from 'ngx-markdown';
 import { AboutComponent, AboutDialogComponent } from './components/top-menu/about/about.component';
 import { MatMenuModule } from '@angular/material/menu';
@@ -109,6 +109,8 @@ import { ArlasCollaborativesearchService, ArlasConfigService } from './services/
 import { PermissionsCreatorComponent } from './components/permissions-creator/permissions-creator.component';
 import { PermissionsCreatorDialogComponent } from
   './components/permissions-creator/permissions-creator-dialog/permissions-creator-dialog.component';
+import { ArlasColorGeneratorLoader } from './tools/color-generator-loader';
+import { TopMenuComponent } from './components/top-menu/top-menu.component';
 
 export class CustomTranslateLoader implements TranslateLoader {
 
@@ -190,7 +192,7 @@ export class CustomTranslateLoader implements TranslateLoader {
       loader: {
         provide: ColorGeneratorLoader,
         useClass: ArlasColorGeneratorLoader,
-        deps:[ArlasConfigService, ArlasCollaborativesearchService]
+        deps: [ArlasConfigService, ArlasCollaborativesearchService]
       }
     }),
     TranslateModule.forRoot({
@@ -290,7 +292,8 @@ export class CustomTranslateLoader implements TranslateLoader {
     ShortcutFiltersHandlerComponent,
     TopMenuComponent,
     AboutComponent,
-    AboutDialogComponent
+    AboutDialogComponent,
+    ProcessComponent
   ],
   providers: [
     FetchInterceptorService, ArlasOverlayService

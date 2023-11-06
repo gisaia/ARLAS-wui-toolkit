@@ -1,0 +1,56 @@
+.sub-title {
+  font-size: 14px;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.75);
+}
+
+.step {
+  .form {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 0 10px;
+    justify-content: space-between;
+    align-items: baseline;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+    padding-bottom: 20px;
+    .field {
+      width: 100%;
+    }
+  }
+
+  .summary {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+    padding-bottom: 20px;
+
+    .infos {
+      padding-bottom: 15px;
+    }
+
+    .params {
+      .value {
+        font-weight: 400;
+        color: rgba(0, 0, 0, 0.55);
+      }
+    }
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+}
+
+::ng-deep .mat-form-field-wrapper {
+  margin: 0.3em !important;
+  padding-bottom: 1.1em !important;
+}
+
+::ng-deep .mat-horizontal-content-container {
+  padding: 0 24px !important;
+}
+
+::ng-deep .mat-dialog-content {
+  max-height: none !important;
+}

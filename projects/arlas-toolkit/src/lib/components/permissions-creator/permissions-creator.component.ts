@@ -102,8 +102,6 @@ export class PermissionsCreatorComponent implements OnInit, OnDestroy {
     const currentOrg = currentUser.organisations.find(o => o.name === orgName);
     if (!!currentOrg && currentOrg.isOwner) {
       return true;
-    } else {
-      // the user cannot create permissions as they're not owner of the organisation.
     }
     return false;
   }

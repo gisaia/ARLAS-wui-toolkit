@@ -133,7 +133,7 @@ export class ArlasBookmarkService {
         action: 'delete',
         id: id
       }),
-      error: err => console.log(err)
+      error: err => console.error(err)
     });
   }
 
