@@ -52,8 +52,9 @@ export class TopMenuComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.authentMode = !!this.settingsService.getAuthentSettings() ? this.settingsService.getAuthentSettings().auth_mode : undefined;
-    this.isAuthentActivated = !!this.settingsService.getAuthentSettings() && !!this.settingsService.getAuthentSettings().use_authent;
+    const authSettings = this.settingsService.getAuthentSettings();
+    this.authentMode = !!authSettings ? authSettings.auth_mode : undefined;
+    this.isAuthentActivated = !!authSettings && !!authSettings.use_authent;
     if (this.isAuthentActivated && !this.authentMode) {
       this.authentMode = 'openid';
     }
