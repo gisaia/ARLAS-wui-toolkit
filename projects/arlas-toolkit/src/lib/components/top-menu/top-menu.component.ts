@@ -37,6 +37,12 @@ export class TopMenuComponent implements OnInit {
    */
   @Input() public wuiName: string;
 
+  /**
+   * @Input : Angular
+   * @description Whether to display the "About" button
+   */
+  @Input() public showAboutButton = true;
+
   @ViewChild('about', { static: false }) private aboutcomponent: AboutComponent;
 
   public constructor(
