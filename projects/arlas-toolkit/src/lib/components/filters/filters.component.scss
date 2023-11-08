@@ -35,25 +35,27 @@ $sm-margin: 5px;
 $default-margin: 10px;
 $default-spacing: 10px;
 $sm-font-size: 14px;
+$xs-font-size: 12px;
 
 $count-chip-height: 30px;
 
 .chips--container {
   display: flex;
   align-items: center;
-}
 
-::ng-deep.mat-chip-list-wrapper {
-  margin: 0 !important;
-  align-items: flex-start;
+  div.mat-chip-list-wrapper {
+    margin: 0 !important;
+    align-items: flex-start;
+    flex-wrap: nowrap;
+  }
 }
 
 .collection-chip,
 .clear-chip,
 .timeline-chip {
   background-color: white;
-  margin-right: 5px;
-  padding: 0 5px;
+  margin-right: $sm-margin;
+  padding: 0 $sm-spacing;
   @include border-important();
   height: $count-chip-height;
   display: flex;
@@ -135,12 +137,13 @@ $count-chip-height: 30px;
 
 .value {
   font-weight: 600;
-  margin: 0 5px;
+  margin: 0 $sm-margin;
+  white-space: nowrap;
 }
 
 .unit {
   font-weight: 100;
-  font-size: 0.95em;
+  font-size: $xs-font-size;
   color: #555;
 }
 
@@ -163,6 +166,7 @@ $count-chip-height: 30px;
     .text {
       padding-right: $default-margin;
       font-size: $sm-font-size;
+      white-space: nowrap;
     }
 
     .info {
