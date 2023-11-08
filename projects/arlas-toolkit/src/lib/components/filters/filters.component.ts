@@ -154,13 +154,6 @@ export class FiltersComponent implements OnInit, OnChanges {
 
   /**
    * @Input : Angular
-   * @description Width of the extra count box to use for space computation.
-   * Can be subject to modifications based on the style used
-   */
-  @Input() public extraTitleWidth = 150;
-
-  /**
-   * @Input : Angular
    * @description Spacing used between collection count elements.
    * Used to compute how much space is available for the counts.
    */
@@ -195,6 +188,11 @@ export class FiltersComponent implements OnInit, OnChanges {
   public NUMBER_FORMAT_CHAR = 'NUMBER_FORMAT_CHAR';
   public collaborationsMap: Map<string, Collaboration>;
   public isExtraOpen = false;
+
+  /**
+   * @description Whether to exceptionally display the extra collections for space computations
+   */
+  public showExtraCollections = false;
 
   public constructor(
     private collaborativeSearchService: ArlasCollaborativesearchService,
@@ -326,16 +324,20 @@ export class FiltersComponent implements OnInit, OnChanges {
    */
   private hideExtraCollections(resizeEvent: boolean) {
     if (this.availableSpace && this.countAll) {
+      this.showExtraCollections = true;
       if (resizeEvent && this.extraCountAll) {
-        this.countAll = this.countAll.concat(this.extraCountAll);
-        this.cdr.detectChanges();
+        this.countAll = [...this.countAll, ...this.extraCountAll];
+        this.extraCountAll = new Array();
       }
+      this.cdr.detectChanges();
+
       const widths = this.countAll.map(
         c => document.getElementById(`arlas-count-${c.collection}`).getBoundingClientRect().width + this.spacing);
       const clearAllWidth = this.collaborations.size > 0 ?
         document.getElementById('clear-all').getBoundingClientRect().width + this.spacing : 0;
       const timelineChipWidth = this.collaborations.has('timeline') ?
         document.getElementById('filter-chip-timeline').getBoundingClientRect().width + this.spacing : 0;
+      const extraCollectionsWidth = document.getElementById('extra-collections').getBoundingClientRect().width + this.spacing;
 
       let breakoffIndex = -1;
       let cumulativeWidth = 0;
@@ -345,7 +347,7 @@ export class FiltersComponent implements OnInit, OnChanges {
         // If this count overflows
         if (cumulativeWidth > threshold) {
           // If the previous count + the 'See more' overflows
-          if (idx - 1 > 0 && cumulativeWidth - widths[idx] > threshold - this.extraTitleWidth) {
+          if (idx - 1 >= 0 && cumulativeWidth - widths[idx] > threshold - extraCollectionsWidth) {
             breakoffIndex = idx - 1;
           } else {
             breakoffIndex = idx;
@@ -354,6 +356,7 @@ export class FiltersComponent implements OnInit, OnChanges {
         }
       }
       this.extraCountAll = breakoffIndex >= 0 ? this.countAll.splice(breakoffIndex, this.countAll.length - breakoffIndex) : [];
+      this.showExtraCollections = false;
       this.cdr.detectChanges();
     }
   }

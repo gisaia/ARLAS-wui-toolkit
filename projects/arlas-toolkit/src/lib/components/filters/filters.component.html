@@ -34,11 +34,11 @@
     </mat-basic-chip>
   </ng-container>
 
-  <div *ngIf="extraCountAll && extraCountAll.length > 0" class="extra" [class.extra-open]="isExtraOpen">
+  <div *ngIf="showExtraCollections || (extraCountAll && extraCountAll.length > 0)" class="extra" [class.extra-open]="isExtraOpen" id="extra-collections">
     <section class="title" (click)="toggleExtraCounts()">
       <div class="text">{{ 'See more' | translate }}</div>
       <div class="info">
-        <div class="extra-count-number">{{ extraCountAll.length }}</div>
+        <div class="extra-count-number">{{ extraCountAll ? extraCountAll.length : 0 }}</div>
         <mat-icon class="chevron">
           {{isExtraOpen ? 'expand_less' : 'expand_more'}}
         </mat-icon>
