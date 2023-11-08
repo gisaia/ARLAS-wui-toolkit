@@ -1,0 +1,42 @@
+$default-font-size: 16px;
+$default-icon-size: 24px;
+$default-spacing: 10px;
+$sm-spacing: 5px;
+$title-font-size: 24px;
+$bold-font-weight: 700;
+
+.user_info-title {
+    font-size: $title-font-size;
+    font-weight: $bold-font-weight;
+    padding-bottom: calc(2 * $default-spacing);
+    display: flex;
+    align-items: center;
+
+    .user_info-img {
+        vertical-align: middle;
+        height: $default-icon-size;
+        width: $default-icon-size;
+        padding-left: $default-spacing;
+    }
+}
+
+.user_info-list {
+    display: flex;
+    flex-direction: column;
+
+    .user_info {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        font-size: $default-font-size;
+        padding-top: $default-spacing;
+
+        &:first-child {
+            padding-top: 0;
+        }
+
+        .info {
+            padding-right: $default-spacing;
+        }
+    }
+}

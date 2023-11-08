@@ -1,40 +1,21 @@
-<h1>{{'User informations' | translate}}
-    <img src="{{avatar}}" style="vertical-align: middle; height:26px" class="user_info_img">
-</h1>
+<div class="user_info-title">
+    {{ 'User informations' | translate }}
+    <img *ngIf="avatar" src="{{avatar}}" class="user_info-img">
+</div>
 
-<ul>
-    <li>
-        <dl>
-            <dt>{{'Name' | translate}}</dt>
-            <dd>{{name}}</dd>
-        </dl>
-    </li>
-    <li>
-        <dl>
-            <dt>{{'Email' | translate}}</dt>
-            <dd>{{email}}</dd>
-        </dl>
-    </li>
-    <li>
-        <dl>
-            <dt>{{'Organisation' | translate}}</dt>
-            <dd>{{organisation}}</dd>
-        </dl>
-    </li>
-    <li>
-        <dl>
-            <dt>{{'Roles' | translate}}</dt>
-            <mat-list class=role>
-                <mat-list-item *ngFor="let role of roles">{{role}}</mat-list-item>
-            </mat-list>
-        </dl>
-    </li>
-    <li>
-        <dl>
-            <dt>{{'Groups' | translate}}</dt>
-            <mat-list class=group>
-                <mat-list-item *ngFor="let group of groups">{{group}}</mat-list-item>
-            </mat-list>
-        </dl>
-    </li>
-</ul>
+<div class="user_info-list">
+    <div *ngIf="name" class="user_info">
+        <i class="info">{{ 'Name' | translate }}</i>
+        <div>{{ name }}</div>
+    </div>
+    <div class="user_info">
+        <i class="info">{{ 'Email' | translate }}</i>
+        <div>{{ email }}</div>
+    </div>
+    <div class="user_info">
+        <i class="info">{{ 'Organisations' | translate }}</i>
+        <div class="organisations">
+            <div *ngFor="let o of organisations"> {{organisations.length > 1 ? '-' : ''}} {{ o }}</div>
+        </div>
+    </div>
+</div>
