@@ -417,23 +417,23 @@ export class ArlasStartupService {
       // redirects to login page if it's the first time and fetches the appropriate token
       if (settings) {
         const authent: AuthentSetting = settings.authentication;
-        this.arlasAuthService.authConfigValue = authent;
         if (authent && authent.use_authent && authent.auth_mode === 'iam') { // Authentication activated with IAM mode
           if (!this.arlasIamService.areSettingsValid(authent)[0]) {
             const err = 'Authentication is set while ' + this.arlasIamService.areSettingsValid(authent)[1] + ' are not configured';
-            reject(err);
+            return reject(err);
           }
           this.arlasIamApi = new ArlasIamApi(new IamConfiguration(), authent.url, window.fetch);
           this.arlasIamService.setArlasIamApi(this.arlasIamApi);
 
-          resolve(this.arlasIamService.initAuthService().then(() => settings));
+          return resolve(this.arlasIamService.initAuthService().then(() => settings));
         } else if (authent && authent.use_authent) { // Authentication activated with OPENID mode
           const authService: AuthentificationService = this.injector.get('AuthentificationService')[0];
+          authService.authConfigValue = authent;
           if (!authService.areSettingsValid(authent)[0]) {
             const err = 'Authentication is set while ' + authService.areSettingsValid(authent)[1] + ' are not configured';
-            reject(err);
+            return reject(err);
           }
-          resolve(authService.initAuthService().then(() => settings));
+          return resolve(authService.initAuthService().then(() => settings));
         }
       }
       return resolve(settings);
@@ -468,7 +468,8 @@ export class ArlasStartupService {
     return new Promise<ArlasSettings>((resolve, reject) => {
       const useAuthent = !!settings && !!settings.authentication
         && !!settings.authentication.use_authent;
-      const useAuthentOpenID = useAuthent && settings.authentication.auth_mode === 'openid';
+      // The default behavior is openid, so if there is no auth_mode specified, it is openid
+      const useAuthentOpenID = useAuthent && settings.authentication.auth_mode !== 'iam';
       const useAuthentIam = useAuthent && settings.authentication.auth_mode === 'iam';
       if (useAuthent) {
         const usePersistence = (!!settings && !!settings.persistence && !!settings.persistence.url
