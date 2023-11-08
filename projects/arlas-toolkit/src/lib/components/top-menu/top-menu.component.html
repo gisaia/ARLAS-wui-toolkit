@@ -11,12 +11,13 @@
   <ng-content select="[right-menu]"></ng-content>
 
   <!-- Information -->
-  <button mat-icon-button matTooltip="{{ 'About' | translate }} {{ wuiName }} {{ version }}" (click)="displayAbout()">
+  <button mat-icon-button *ngIf="showAboutButton"
+    matTooltip="{{ 'About' | translate }} {{ wuiName }} {{ version }}"(click)="displayAbout()">
     <mat-icon class="icon">info_outline</mat-icon>
   </button>
 
   <!-- User info and login -->
-  <button mat-icon-button matTooltip="{{'Log In' | translate}}" *ngIf="connected && isAuthentActivated"
+  <button mat-icon-button matTooltip="{{'My account' | translate}}" *ngIf="connected && isAuthentActivated"
     [matMenuTriggerFor]="actionMenu" class="action-menu-button">
     <img *ngIf="authentMode !== 'iam'; else iamAvatar" src="{{avatar}}" class="user_avatar">
     <ng-template #iamAvatar>
@@ -35,6 +36,7 @@
       <span>{{ 'Logout' | translate }}</span>
     </button>
   </mat-menu>
+
   <button mat-icon-button *ngIf="!connected && isAuthentActivated" matTooltip="{{'Log In' | translate}}"
     (click)="connect()">
     <mat-icon class="icon">account_circle</mat-icon>
