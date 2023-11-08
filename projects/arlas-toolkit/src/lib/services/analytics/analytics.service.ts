@@ -383,24 +383,22 @@ export class AnalyticsService {
   public initializeGroups(groups: Array<AnalyticGroupConfiguration>) {
     this.reset();
     this._groups = groups;
-    if (this._groups) {
-      this._groups.forEach(group => {
-        this.initTabMapping(group.tab ? group.tab : this.defaultGroupTabName);
-        this.fillTabMapping(group, group.tab ? group.tab : this.defaultGroupTabName);
+    this._groups?.forEach(group => {
+      this.initTabMapping(group.tab ? group.tab : this.defaultGroupTabName);
+      this.fillTabMapping(group, group.tab ? group.tab : this.defaultGroupTabName);
 
-        // Issue with same contributor in different tabs ?
-        group.components.forEach(comp => {
-          if (!this._contributorGroup.get(comp.contributorId)) {
-            this._contributorGroup.set(comp.contributorId, [group.groupId]);
-          } else {
-            this._contributorGroup.get(comp.contributorId).push(group.groupId);
-          }
-        });
-        if (group.collapsed) {
-          this._wasClosedMap.set(group.groupId, group.collapsed);
+      // Issue with same contributor in different tabs ?
+      group.components.forEach(comp => {
+        if (!this._contributorGroup.get(comp.contributorId)) {
+          this._contributorGroup.set(comp.contributorId, [group.groupId]);
+        } else {
+          this._contributorGroup.get(comp.contributorId).push(group.groupId);
         }
       });
-    }
+      if (group.collapsed) {
+        this._wasClosedMap.set(group.groupId, group.collapsed);
+      }
+    });
 
     // Get tabs from config
     const webConfig = this.configService.getValue('arlas.web');
@@ -416,7 +414,7 @@ export class AnalyticsService {
       }
     } else {
       const tabsSet = new Set<string>();
-      this._groups.forEach(group => {
+      this._groups?.forEach(group => {
         if (!tabsSet.has(group.tab)) {
           tabsSet.add(group.tab);
           this._tabs.push({
@@ -432,9 +430,7 @@ export class AnalyticsService {
       this._groupsDisplayStatusMap = new Map<string, boolean>();
     }
 
-    if (this._groups) {
-      this._groups.forEach(group => this._groupsDisplayStatusMap.set(group.groupId, true));
-    }
+    this._groups?.forEach(group => this._groupsDisplayStatusMap.set(group.groupId, true));
 
     // sort groups given saved order
     const arlasTabsGroupsOrder = localStorage.getItem('arlas_tabs_groups_order');
