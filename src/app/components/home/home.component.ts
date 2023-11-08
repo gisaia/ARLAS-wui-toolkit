@@ -12,6 +12,7 @@ import { AuthentSetting, CollectionUnit } from '../../../../projects/arlas-toolk
 import { ChipsSearchContributor } from 'arlas-web-contributors';
 import { AnalyticsService } from '../../../../projects/arlas-toolkit/src/public-api';
 import packageJson from '../../../../package.json';
+import { fromEvent } from 'rxjs';
 
 
 @Component({
@@ -38,6 +39,9 @@ export class HomeComponent implements OnInit {
 
   public units: Array<CollectionUnit> = new Array();
   public connected = false;
+
+  public windowWidth = window.innerWidth;
+
   public constructor(
     private arlasStartupService: ArlasStartupService,
     private arlasConfigService: ArlasConfigService,
@@ -77,6 +81,11 @@ export class HomeComponent implements OnInit {
         // AUTH 0
       }
     }
+
+    fromEvent(window, 'resize')
+      .subscribe((event: Event) => {
+        this.windowWidth = window.innerWidth;
+      });
   }
 
   public logout() {
