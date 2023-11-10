@@ -2,117 +2,148 @@
   {{process.title| translate}}
   <div class="sub-title">{{process.description}}</div>
 </div>
-<mat-stepper mat-dialog-content [linear]="true">
-  <mat-step [stepControl]="formGroup" label="{{'Parameters' | translate}}" state="params">
-    <div class="step">
-      <div [formGroup]="formGroup!" class="form">
-        <ng-container *ngFor="let field of controlsName;let fieldIndex=index">
+<div mat-dialog-content>
+  <mat-stepper [linear]="true">
+    <mat-step [stepControl]="formGroup" [editable]="!isProcessStarted" label="{{'Parameters' | translate}}" state="params">
+      <div class="step">
+        <div [formGroup]="formGroup!" class="form">
+          <ng-container *ngFor="let field of controlsName;let fieldIndex=index">
 
-          <ng-container [ngSwitch]="inputs[fieldIndex] && inputs[fieldIndex].schema.type">
-            <!-- Hidden case -->
-            <input matInput *ngSwitchCase="'AOI'" type="hidden" class="data-cy-{{field}}" [formControlName]="field"
-              required="{{!!inputs[fieldIndex].schema.required}}" >
+            <ng-container [ngSwitch]="inputs[fieldIndex] && inputs[fieldIndex].schema.type">
+              <!-- Hidden case -->
+              <input matInput *ngSwitchCase="'AOI'" type="hidden" class="data-cy-{{field}}" [formControlName]="field"
+                required="{{!!inputs[fieldIndex].schema.required}}">
 
-            <!-- String case -->
-            <mat-form-field *ngSwitchCase="'string'" class="field" appearance="outline"
-              matTooltip="{{inputs[fieldIndex].description}}" [matTooltipShowDelay]="tooltipDelay"
-              [matTooltipPosition]="'before'">
-              <mat-label>{{inputs[fieldIndex].title! | translate}}</mat-label>
-              <input matInput type="text" class="data-cy-{{field}}" [formControlName]="field"
-                required="{{!!inputs[fieldIndex].schema.required}}">
-              <mat-hint [align]="'end'">{{inputs[fieldIndex].description}}</mat-hint>
-            </mat-form-field>
-            <!-- Integer case -->
-            <mat-form-field *ngSwitchCase="'number'" class="field" appearance="outline"
-              matTooltip="{{inputs[fieldIndex].description}}" [matTooltipShowDelay]="tooltipDelay"
-              [matTooltipPosition]="'before'">
-              <mat-label>{{inputs[fieldIndex].title! | translate}}</mat-label>
-              <input matInput type="number" class="data-cy-{{field}}" [formControlName]="field"
-                required="{{!!inputs[fieldIndex].schema.required}}">
-              <mat-hint [align]="'end'">{{inputs[fieldIndex].description}}</mat-hint>
-            </mat-form-field>
-            <!-- Enum case -->
-            <mat-form-field *ngSwitchCase="'enum'" class="field" appearance="outline"
-              matTooltip="{{inputs[fieldIndex].description}}" [matTooltipShowDelay]="tooltipDelay"
-              [matTooltipPosition]="'before'">
-              <mat-label>{{inputs[fieldIndex].title! | translate}}</mat-label>
-              <mat-select [formControlName]="field" class="data-cy-{{field}}"
-                required="{{!!inputs[fieldIndex].schema.required}}">
-                <mat-option *ngFor="let opt of inputs[fieldIndex].schema.enum" [value]="opt">{{opt}}</mat-option>
-              </mat-select>
-              <mat-hint [align]="'end'">{{inputs[fieldIndex].description}}</mat-hint>
-            </mat-form-field>
-            <!-- Object Enum case -->
-            <mat-form-field *ngSwitchCase="'object_enum'" class="field" appearance="outline"
-              matTooltip="{{inputs[fieldIndex].description}}" [matTooltipShowDelay]="tooltipDelay"
-              [matTooltipPosition]="'before'">
-              <mat-label>{{inputs[fieldIndex].title! | translate}}</mat-label>
-              <mat-select [formControlName]="field" class="data-cy-{{field}}"
-                required="{{!!inputs[fieldIndex].schema.required}}">
-                <mat-option *ngFor="let opt of inputs[fieldIndex].schema.enum" [value]="opt.value">{{opt.label}}</mat-option>
-              </mat-select>
-              <mat-hint [align]="'end'">{{inputs[fieldIndex].description}}</mat-hint>
-            </mat-form-field>
-            <!-- Boolean case -->
-            <div class="field" *ngSwitchCase="'boolean'" matTooltip="{{inputs[fieldIndex].description}}"
-              [matTooltipShowDelay]="tooltipDelay" [matTooltipPosition]="'before'">
-              <mat-slide-toggle class="data-cy-{{field}}" [formControlName]="field">{{inputs[fieldIndex].title! |
-                translate}}</mat-slide-toggle>
-            </div>
-
-            <!-- Array case -->
-            <ng-container *ngSwitchCase="'array'" [ngSwitch]="inputs[fieldIndex].schema.items.type">
+              <!-- String case -->
+              <mat-form-field *ngSwitchCase="'string'" class="field" appearance="outline"
+                matTooltip="{{inputs[fieldIndex].description}}" [matTooltipShowDelay]="tooltipDelay"
+                [matTooltipPosition]="'before'">
+                <mat-label>{{inputs[fieldIndex].title! | translate}}</mat-label>
+                <input matInput type="text" class="data-cy-{{field}}" [formControlName]="field"
+                  required="{{!!inputs[fieldIndex].schema.required}}">
+                <mat-hint [align]="'end'">{{inputs[fieldIndex].description}}</mat-hint>
+              </mat-form-field>
+              <!-- Integer case -->
+              <mat-form-field *ngSwitchCase="'number'" class="field" appearance="outline"
+                matTooltip="{{inputs[fieldIndex].description}}" [matTooltipShowDelay]="tooltipDelay"
+                [matTooltipPosition]="'before'">
+                <mat-label>{{inputs[fieldIndex].title! | translate}}</mat-label>
+                <input matInput type="number" class="data-cy-{{field}}" [formControlName]="field"
+                  required="{{!!inputs[fieldIndex].schema.required}}">
+                <mat-hint [align]="'end'">{{inputs[fieldIndex].description}}</mat-hint>
+              </mat-form-field>
+              <!-- Enum case -->
               <mat-form-field *ngSwitchCase="'enum'" class="field" appearance="outline"
                 matTooltip="{{inputs[fieldIndex].description}}" [matTooltipShowDelay]="tooltipDelay"
                 [matTooltipPosition]="'before'">
                 <mat-label>{{inputs[fieldIndex].title! | translate}}</mat-label>
-                <mat-select [formControlName]="field" class="data-cy-{{field}}" multiple
+                <mat-select [formControlName]="field" class="data-cy-{{field}}"
                   required="{{!!inputs[fieldIndex].schema.required}}">
-                  <mat-option *ngFor="let opt of inputs[fieldIndex].schema.items.enum"
-                    [value]="opt">{{opt}}</mat-option>
+                  <mat-option *ngFor="let opt of inputs[fieldIndex].schema.enum" [value]="opt">{{opt}}</mat-option>
                 </mat-select>
                 <mat-hint [align]="'end'">{{inputs[fieldIndex].description}}</mat-hint>
               </mat-form-field>
+              <!-- Object Enum case -->
+              <mat-form-field *ngSwitchCase="'object_enum'" class="field" appearance="outline"
+                matTooltip="{{inputs[fieldIndex].description}}" [matTooltipShowDelay]="tooltipDelay"
+                [matTooltipPosition]="'before'">
+                <mat-label>{{inputs[fieldIndex].title! | translate}}</mat-label>
+                <mat-select [formControlName]="field" class="data-cy-{{field}}"
+                  required="{{!!inputs[fieldIndex].schema.required}}">
+                  <mat-option *ngFor="let opt of inputs[fieldIndex].schema.enum"
+                    [value]="opt.value">{{opt.label}}</mat-option>
+                </mat-select>
+                <mat-hint [align]="'end'">{{inputs[fieldIndex].description}}</mat-hint>
+              </mat-form-field>
+              <!-- Boolean case -->
+              <div class="field" *ngSwitchCase="'boolean'" matTooltip="{{inputs[fieldIndex].description}}"
+                [matTooltipShowDelay]="tooltipDelay" [matTooltipPosition]="'before'">
+                <mat-slide-toggle class="data-cy-{{field}}" [formControlName]="field">{{inputs[fieldIndex].title! |
+                  translate}}</mat-slide-toggle>
+              </div>
+
+              <!-- Array case -->
+              <ng-container *ngSwitchCase="'array'" [ngSwitch]="inputs[fieldIndex].schema.items.type">
+                <mat-form-field *ngSwitchCase="'enum'" class="field" appearance="outline"
+                  matTooltip="{{inputs[fieldIndex].description}}" [matTooltipShowDelay]="tooltipDelay"
+                  [matTooltipPosition]="'before'">
+                  <mat-label>{{inputs[fieldIndex].title! | translate}}</mat-label>
+                  <mat-select [formControlName]="field" class="data-cy-{{field}}" multiple
+                    required="{{!!inputs[fieldIndex].schema.required}}">
+                    <mat-option *ngFor="let opt of inputs[fieldIndex].schema.items.enum"
+                      [value]="opt">{{opt}}</mat-option>
+                  </mat-select>
+                  <mat-hint [align]="'end'">{{inputs[fieldIndex].description}}</mat-hint>
+                </mat-form-field>
+              </ng-container>
+
             </ng-container>
-
           </ng-container>
-        </ng-container>
+          <mat-checkbox [checked]="useCrop && wktAoi !== ''" [disabled]="wktAoi === ''" (change)="toggleCrop($event)">{{'Crop using the
+            geographical filter'
+            | translate}}</mat-checkbox>
+        </div>
+        <div class="buttons">
+          <button mat-flat-button mat-dialog-close>{{'Cancel' | translate}}</button>
+          <button [color]="'primary'" matStepperNext mat-flat-button [disabled]="!formGroup.valid">
+            {{'Next' | translate}}</button>
+        </div>
       </div>
-      <div class="buttons">
-        <button mat-flat-button mat-dialog-close>{{'Cancel' | translate}}</button>
-        <button [color]="'primary'" matStepperNext mat-flat-button [disabled]="!formGroup.valid">
-          {{'Next' | translate}}</button>
+    </mat-step>
+    <mat-step label="{{'Summary' | translate}}" class="step" state="summary">
+      <div class="step">
+        <div class="summary">
+          <div class="infos">{{'You are about to launch process for' | translate}} {{nbProducts}} {{'product(s)' |
+            translate}} <br />{{'with the following parameters' | translate }}
+            : </div>
+          <ng-container *ngFor="let param of controlsName;let fieldIndex=index">
+            <div *ngIf="!!formGroup.get(param).value && inputs[fieldIndex]?.schema.type !== 'AOI'" class="params">
+              <span class="label">{{inputs[fieldIndex]?.title}}</span>: <span
+                class="value">{{formGroup.get(param).value}}</span>
+            </div>
+          </ng-container>
+        </div>
+        <div class="buttons" *ngIf="!isProcessing && !isProcessStarted">
+          <button mat-flat-button mat-button matStepperPrevious>{{'Previous' | translate}}</button>
+          <button [color]="'primary'" [disabled]="isProcessing" matStepperNext mat-flat-button
+            [disabled]="!formGroup.valid" (click)="submit()">
+            {{'Run' | translate}}</button>
+        </div>
       </div>
-    </div>
-  </mat-step>
-  <mat-step label="{{'Summary' | translate}}" class="step" state="summary">
-    <div class="step">
-      <div class="summary">
-        <div class="infos">{{'You are about to launch process for' | translate}} {{nbProducts}} {{'product(s)' | translate}} <br />{{'with the following parameters' | translate }}
-          : </div>
-        <ng-container *ngFor="let param of controlsName;let fieldIndex=index">
-          <div *ngIf="!!formGroup.get(param).value && inputs[fieldIndex]?.schema.type !== 'AOI'" class="params">
-            <span class="label">{{inputs[fieldIndex]?.title}}</span>: <span
-              class="value">{{formGroup.get(param).value}}</span>
-          </div>
-        </ng-container>
-      </div>
-      <div class="buttons">
-        <button mat-flat-button mat-button matStepperPrevious>{{'Previous' | translate}}</button>
-        <button [color]="'primary'" matStepperNext mat-flat-button [disabled]="!formGroup.valid" (click)="submit()">
-          {{'Validate' | translate}}</button>
-      </div>
-    </div>
-  </mat-step>
+    </mat-step>
 
-  <!-- Icon overrides. -->
-  <ng-template matStepperIcon="params">
-    <mat-icon>settings</mat-icon>
-  </ng-template>
-  <ng-template matStepperIcon="summary">
-    <mat-icon>summarize</mat-icon>
-  </ng-template>
-  <ng-template matStepperIcon="edit">
-    <mat-icon>check</mat-icon>
-  </ng-template>
-</mat-stepper>
+    <!-- Icon overrides. -->
+    <ng-template matStepperIcon="params">
+      <mat-icon>settings</mat-icon>
+    </ng-template>
+    <ng-template matStepperIcon="summary">
+      <mat-icon>summarize</mat-icon>
+    </ng-template>
+    <ng-template matStepperIcon="edit">
+      <mat-icon>check</mat-icon>
+    </ng-template>
+  </mat-stepper>
+  <div *ngIf="isProcessStarted" class="process-result">
+    <mat-progress-bar *ngIf="isProcessing" [mode]="'indeterminate'"></mat-progress-bar>
+    <div *ngIf="isProcessing" class="processing">
+      <div>{{'Downloading' | translate}}...</div>
+      <div class="status status-{{statusResult.status}}">{{statusResult.status | translate}}</div>
+    </div>
+    <div class="detail" *ngIf="isProcessStarted && !isProcessing">
+      <div>
+        <div class="prop">
+          <div class="label">{{'Started' | translate}}:</div>
+          <div class="value">{{statusResult.started ? (statusResult.started * 1000 | date:'medium') : '--'}}</div>
+        </div>
+        <div class="prop">
+          <div class="label">{{'Finished' | translate}}:</div>
+          <div class="value">{{statusResult.finished ? (statusResult.finished * 1000 | date:'medium') : '--'}}</div>
+        </div>
+      </div>
+      <div class="status status-{{statusResult.status}}">{{statusResult.status | translate}}</div>
+    </div>
+    <div class="close">
+      <button mat-dialog-close="true" mat-button>{{'Close dialog' | translate}}</button>
+    </div>
+  </div>
+</div>

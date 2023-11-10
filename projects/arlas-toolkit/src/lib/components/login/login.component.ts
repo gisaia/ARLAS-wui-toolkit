@@ -13,6 +13,7 @@ export class LoginComponent implements OnInit {
 
   public showPassword = false;
   public loginForm: FormGroup;
+  public isLoading = false;
 
   public constructor(
     private formBuilder: FormBuilder,
@@ -47,6 +48,7 @@ export class LoginComponent implements OnInit {
   }
 
   public onSubmit(): void {
+    this.isLoading = true;
     this.iamService.login(this.loginForm.get('email').value, this.loginForm.get('password').value).subscribe({
       next: loginData => {
         this.iamService.user = loginData.user;
@@ -54,6 +56,7 @@ export class LoginComponent implements OnInit {
         this.iamService.storeRefreshToken(loginData.refreshToken);
         this.iamService.notifyTokenRefresh(loginData);
         this.iamService.startRefreshTokenTimer(loginData);
+        this.isLoading = false;
         this.router.navigate(['/']);
       },
       error: () => {
@@ -61,6 +64,7 @@ export class LoginComponent implements OnInit {
         this.loginForm.setErrors({
           wrong: true
         });
+        this.isLoading = false;
       }
     }
 
