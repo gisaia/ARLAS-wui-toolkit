@@ -221,7 +221,7 @@ export class TimelineComponent implements OnInit {
   }
 
   public emitTooltip(tooltip: HistogramTooltip, e: ElementRef) {
-    const yOffset = -140;
+    const yOffset = this.timelineLegend && this.timelineLegend.length > 1 ? -140 : -110;
     let xOffset = tooltip.xPosition;
     let right = false;
     if (!!tooltip && tooltip.shown && tooltip.xPosition > tooltip.chartWidth / 2) {
