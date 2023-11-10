@@ -17,6 +17,7 @@ import { VerifyComponent } from './components/verify/verify.component';
 import { ResetComponent } from './components/reset/reset.component';
 import { ForgotComponent } from './components/forgot/forgot.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 export class CustomTranslateLoader implements TranslateLoader {
 
@@ -55,14 +56,15 @@ export class CustomTranslateLoader implements TranslateLoader {
     ForgotComponent
   ],
   imports: [
+    CommonModule,
+    FormsModule,
+    MatButtonModule,
+    MatCheckboxModule,
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
-    MatButtonModule,
-    MatCheckboxModule,
-    FormsModule,
+    MatProgressSpinnerModule,
     ReactiveFormsModule,
-    CommonModule,
     RouterModule,
     TranslateModule.forRoot({
       loader: {

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
-import { Process } from '../../tools/process.interface';
+import { Process, ProcessOutput } from '../../tools/process.interface';
 import { ArlasSettingsService } from '../settings/arlas.settings.service';
 import { Expression, Search, Filter } from 'arlas-api';
 import { projType } from 'arlas-web-core';
@@ -30,7 +30,7 @@ export class ProcessService {
    * @param payload Values of the dynamic form
    * @param collection Collection of selectied items
    */
-  public process(ids: string[], payload: any, collection: string) {
+  public process(ids: string[], payload: any, collection: string): Observable<ProcessOutput> {
     const requests: any[] = [];
     ids.forEach(id => {
       requests.push({ collection, item_id: id });
@@ -41,7 +41,13 @@ export class ProcessService {
       }
     };
     data.inputs = Object.assign(data.inputs, payload);
-    return this.http.post(this.arlasSettingsService.getProcessSettings()?.url, data, this.options);
+    return this.http.post(this.arlasSettingsService.getProcessSettings()?.url, data, Object.assign(this.options, { responseType: 'text' }))
+      .pipe(map(
+        p => {
+          const processOutput: ProcessOutput = JSON.parse(p as any);
+          return processOutput;
+        }
+      ));
   }
 
   public getProcessDescription(): Process {
@@ -61,6 +67,19 @@ export class ProcessService {
           return process;
         })
       );
+  }
+
+  public getJobStatus(jobId: string): Observable<ProcessOutput> {
+    return this.http.get(
+      this.arlasSettingsService.getProcessSettings().status.url + '/' + jobId,
+      Object.assign(this.options, { responseType: 'text' })
+    )
+      .pipe(map(
+        p => {
+          const processOutput: ProcessOutput = JSON.parse(p as any);
+          return processOutput;
+        }
+      ));
   }
 
   public getItemsDetail(

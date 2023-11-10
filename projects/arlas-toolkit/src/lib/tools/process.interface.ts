@@ -27,3 +27,26 @@ export interface ProcessInput {
     required?: boolean;
   };
 }
+
+export interface ProcessOutput {
+  processID: 'download' | 'ingest' | 'directory_ingest';
+  type: string;
+  jobID: string;
+  status: ProcessStatus;
+  message: string;
+  created: number;
+  started: number;
+  finished: number;
+  updated: number;
+  progress: number;
+  links: any;
+  resourceID: string;
+}
+
+export enum ProcessStatus {
+  accepted = 'accepted',
+  running = 'running',
+  successful = 'successful',
+  failed = 'failed',
+  dismissed = 'dismissed'
+}
