@@ -923,10 +923,14 @@ export interface HistogramSettings {
 }
 
 export interface ProcessSettings {
+  url?: string;
+  max_items?: number;
   settings: {
     url: string;
   };
-  url?: string;
+  status: {
+    url: string;
+  };
 }
 
 

@@ -9,7 +9,7 @@
           <div class="form-content">
             <mat-form-field appearance="outline">
               <mat-label>{{'Email' | translate}}</mat-label>
-              <input matInput type="email" formControlName="email">
+              <input matInput type="email" name="email" formControlName="email">
               <mat-icon matPrefix>mail_outline</mat-icon>
               <mat-error *ngIf="loginForm.hasError('required', 'email')">
                 {{'Email is required' | translate}}
@@ -33,7 +33,7 @@
             {{ 'Login or password invalid' | translate}}
           </div>
           <div class="buttons">
-            <button type="submit" class="login-button" [disabled]="this.loginForm.invalid" mat-flat-button
+            <button type="submit" class="login-button" [class.spinner]="isLoading" [disabled]="this.loginForm.invalid || isLoading" mat-flat-button
               color="primary">{{ 'Login' | translate}}</button>
 
           </div>

@@ -1,3 +1,38 @@
+$warnColor: #f0ad4e;
+$infoColor: #0c5460;
+$errorColor: #d43f3a;
+$successColor: #5cb85c;
+$progressColor: #337ab7;
+$labelColor: #757575;
+
+@mixin status() {
+  padding: 10px 15px;
+  border: 1px solid;
+  background-color: #fff;
+  border-radius: 25px;
+  font-size: 14px;
+
+  &.status-running {
+    color: $progressColor;
+    border-color: $progressColor;
+  }
+
+  &.status-successful {
+    color: $successColor;
+    border-color: $successColor;
+  }
+
+  &.status-accepted {
+    color: $infoColor;
+    border-color: $infoColor;
+  }
+
+  &.status-failed {
+    color: $errorColor;
+    border-color: $errorColor;
+  }
+}
+
 .sub-title {
   font-size: 14px;
   font-weight: 400;
@@ -39,6 +74,52 @@
     display: flex;
     justify-content: space-between;
     margin-top: 20px;
+  }
+}
+
+.process-result {
+  padding: 10px;
+  margin-top: 25px;
+
+  .processing {
+    align-items: baseline;
+    display: flex;
+    justify-content: space-evenly;
+    padding-top: 5px;
+
+    .status {
+      @include status();
+    }
+  }
+  .detail {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .prop {
+      display: flex;
+      align-items: center;
+      gap: 0 5px;
+      padding: 3px 0;
+      .label {
+        min-width: 100px;
+        text-align: right;
+        color: $labelColor;
+      }
+      .value {
+        font-family: monospace;
+        font-size: 12px;
+      }
+    }
+
+    .status {
+      @include status();
+    }
+  }
+
+  .close {
+    text-align: center;
+    padding-top: 25px;
   }
 }
 
