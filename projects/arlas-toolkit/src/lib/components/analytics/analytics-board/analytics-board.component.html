@@ -20,7 +20,7 @@
       </mat-expansion-panel-header>
       <div class="analytics-board-group analytics-group-{{group.components.length}}">
         <div *ngFor="let component of group.components;let i = index" class="analytics-board-card"
-          [ngClass]="component?.customizedCssClass">
+          [ngClass]="component?.customizedCssClass" [class.centered]="component?.componentType === 'donut'">
           <arlas-tool-widget
             id="{{component?.componentType + '-' +  component?.contributorId + '-' + group.groupId + '-' + i}}"
             [componentType]="component?.componentType" [contributorId]="component?.contributorId"
