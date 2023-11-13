@@ -4,7 +4,7 @@
       *ngIf="!c.ignored">
       <div class="count-container">
         <div *ngIf="c.hasCentroidPath" class="zoom" (click)="zoomToData(c.collection)"
-          matTooltip="{{ 'Zoom to data' | translate }}">
+          matTooltip="{{ 'Zoom to data' | translate }}" matTooltipPosition="below">
           <mat-icon>filter_center_focus</mat-icon>
         </div>
 
@@ -51,7 +51,7 @@
           *ngIf="!c.ignored">
           <div class="count-container">
             <div *ngIf="c.hasCentroidPath" class="zoom" (click)="zoomToData(c.collection)"
-              matTooltip="{{ 'Zoom to data' | translate }}">
+              matTooltip="{{ 'Zoom to data' | translate }}" matTooltipPosition="left">
               <mat-icon>filter_center_focus</mat-icon>
             </div>
     
