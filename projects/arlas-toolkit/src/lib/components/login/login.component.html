@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" *ngIf="showPage; else connecting">
   <div class="login-form text-center" style="align-items: center;">
     <div>
       <div class="title">
@@ -46,3 +46,8 @@
     </div>
   </div>
 </div>
+<ng-template #connecting>
+  <div class="container">
+    <img class="gif" src="assets/spinner.gif">
+  </div>
+</ng-template>

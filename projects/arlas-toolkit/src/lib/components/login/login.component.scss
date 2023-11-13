@@ -111,4 +111,16 @@
   text-decoration: underline;
 }
 
-
+.empty_mode {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  .gif {
+    background-color: #FF4081;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    transform: translateY(-50%);
+  }
+}
