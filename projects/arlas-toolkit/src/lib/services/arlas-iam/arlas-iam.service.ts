@@ -10,6 +10,7 @@ import { takeUntil } from 'rxjs/internal/operators/takeUntil';
 import { AuthentSetting, NOT_CONFIGURED } from '../../tools/utils';
 import { ArlasAuthentificationService } from '../arlas-authentification/arlas-authentification.service';
 import { ArlasIamApi } from '../startup/startup.service';
+import { ArlasSettingsService } from '../settings/arlas.settings.service';
 
 
 export interface IamHeader {
@@ -31,7 +32,8 @@ export class ArlasIamService extends ArlasAuthentificationService {
   public user: UserData;
 
   public constructor(
-    private router: Router
+    private router: Router,
+    private settings: ArlasSettingsService
   ) {
     super();
   }
@@ -177,11 +179,30 @@ export class ArlasIamService extends ArlasAuthentificationService {
             return Promise.resolve();
           })
         .catch((err) => {
+          this.checkForceConnect();
           console.error(err);
           return Promise.resolve();
         });
     } else {
+      this.checkForceConnect();
       return Promise.resolve();
+    }
+  }
+
+  private checkForceConnect() {
+    const authSettings = this.settings.getAuthentSettings();
+    if (!!authSettings) {
+      if (authSettings.force_connect) {
+        this.forceConnect(authSettings);
+      }
+    }
+  }
+
+  private forceConnect(authSettings: AuthentSetting) {
+    if (authSettings.login_url) {
+      window.open(authSettings.login_url, '_self');
+    } else {
+      this.router.navigate(['login']);
     }
   }
 
