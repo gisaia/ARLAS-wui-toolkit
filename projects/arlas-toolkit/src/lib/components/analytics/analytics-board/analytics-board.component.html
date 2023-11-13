@@ -12,7 +12,7 @@
           <div *ngIf="showIndicators && analyticsService.activeFilterGroup.get(group.groupId)"
             class="active-filter-group" (click)="removeFilter(group.groupId, $event);">
             <mat-icon class="active-filter-group-close" matTooltip="{{'Click to remove filter' | translate}}"
-              matTooltipPosition="right">clear</mat-icon>
+              matTooltipPosition="below">clear</mat-icon>
           </div>
           <mat-icon *ngIf="group?.icon !== undefined" class="analytics-board-panel-icon">{{group.icon}}</mat-icon>
           {{group.title | translate}}
@@ -42,8 +42,8 @@
       <mat-icon>{{group.icon}}</mat-icon>
       <div *ngIf="analyticsService.activeFilterGroup.get(group.groupId)" class="active-filter"
         (click)="removeFilter(group.groupId, $event);compactTooltip.hide()">
-        <mat-icon class="active-filter-close" matTooltip="{{'Click to remove filter'  | translate}}"
-          matTooltipPosition="right" (mouseenter)="compactTooltip.hide()">clear</mat-icon>
+        <mat-icon class="active-filter-close" matTooltip="{{'Click to remove filter' | translate}}"
+          matTooltipPosition="below" (mouseenter)="compactTooltip.hide()">clear</mat-icon>
       </div>
     </div>
   </ng-container>

@@ -6,27 +6,23 @@
   </div>
   <div class="arlas-time--tools">
     <mat-basic-chip class="shortcut-button">
-      <mat-icon id="shortcut-btn" class="shortcut-button__icon" [class.cursor]="timeShortcuts?.length > 0" (click)="showSortcuts()" matTooltip="{{HIDE_SHOW + ' time shortcuts' | translate}}"
-        [matTooltipPosition]="'above'">access_time</mat-icon>
-      <div *ngIf="activeDatePicker" class="arlas-datepicker-container">
-        <arlas-tool-date-picker class="shortcut-button__label"
+      <mat-icon id="shortcut-btn" class="shortcut-button__icon" [class.cursor]="timeShortcuts?.length > 0" (click)="showSortcuts()"
+        matTooltip="{{HIDE_SHOW + ' time shortcuts' | translate}}" matTooltipPosition="above">access_time</mat-icon>
+      <div class="arlas-datepicker-container">
+        <arlas-tool-date-picker *ngIf="activeDatePicker" class="shortcut-button__label"
           [startSelectedDate]="timelineContributor?.intervalSelection?.startvalue"
           [endSelectedDate]="timelineContributor?.intervalSelection?.endvalue"
           [timelineComponent]="timelineComponent">
         </arlas-tool-date-picker>
-        <div class="time-zone" matTooltip="{{'Time zone' | translate}} {{timeZone}}" [matTooltipPosition]="'above'">
-          <mat-icon class="time-zone-icon" >language</mat-icon>
-        </div>
-      </div>
-      <div *ngIf="!activeDatePicker" class="arlas-datepicker-container">
-        <div class="shortcut-button__label">
+        <div class="shortcut-button__label" *ngIf="!activeDatePicker">
           {{timelineContributor?.timeLabel | getTimeLabel: dateFormat:translate:timelineContributor?.useUtc}}
         </div>
-        <div class="time-zone" matTooltip="{{'Time zone' | translate}} {{timeZone}}" [matTooltipPosition]="'above'">
+        <div class="time-zone" matTooltip="{{'Time zone' | translate}} {{timeZone}}" matTooltipPosition="above">
           <mat-icon class="time-zone-icon" >language</mat-icon>
         </div>
       </div>
-      <div *ngIf="showRemoveIcon" class="shortcut-remove-filter" matTooltip="{{'Remove time filter' | translate}}" [matTooltipPosition]="'before'" (click)="removeTimelineCollaboration()">
+      <div *ngIf="showRemoveIcon" class="shortcut-remove-filter" (click)="removeTimelineCollaboration()"
+        matTooltip="{{'Remove time filter' | translate}}" matTooltipPosition="above">
         <mat-icon class="shortcut-remove-filter-icon" >clear</mat-icon>
       </div>
     </mat-basic-chip>
