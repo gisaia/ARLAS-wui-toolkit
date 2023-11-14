@@ -50,6 +50,10 @@ export class ProcessService {
       ));
   }
 
+  public check(): Observable<any> {
+    return this.http.get(this.arlasSettingsService.getProcessSettings()?.check_url, this.options);
+  }
+
   public getProcessDescription(): Process {
     return this.processDescription;
   }

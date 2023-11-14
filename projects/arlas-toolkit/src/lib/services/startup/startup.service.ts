@@ -924,6 +924,7 @@ export interface HistogramSettings {
 
 export interface ProcessSettings {
   url?: string;
+  check_url?: string;
   max_items?: number;
   settings: {
     url: string;
