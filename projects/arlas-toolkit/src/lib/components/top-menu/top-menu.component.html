@@ -31,6 +31,10 @@
       <mat-icon>person</mat-icon>
       <span>{{ 'Your profile' | translate }}</span>
     </button>
+    <button mat-menu-item (click)="changePassword()">
+      <mat-icon>password</mat-icon>
+      <span>{{ 'Change my password' | translate }}</span>
+    </button>
     <button mat-menu-item (click)="connect()">
       <mat-icon>logout</mat-icon>
       <span>{{ 'Logout' | translate }}</span>

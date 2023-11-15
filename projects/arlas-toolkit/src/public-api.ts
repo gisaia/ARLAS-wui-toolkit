@@ -130,6 +130,7 @@ export { ArlasIamService } from './lib/services/arlas-iam/arlas-iam.service';
 export { AuthGuardIamService } from './lib/services/arlas-iam/auth-guard-iam.service';
 export { LoginComponent } from './lib/components/login/login.component';
 export { RegisterComponent } from './lib/components/register/register.component';
+export { ChangePasswordComponent } from './lib/components/change-password/change-password.component';
 export { VerifyComponent } from './lib/components/verify/verify.component';
 export { ForgotComponent } from './lib/components/forgot/forgot.component';
 export { ResetComponent } from './lib/components/reset/reset.component';

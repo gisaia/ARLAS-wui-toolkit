@@ -18,6 +18,8 @@ import { ResetComponent } from './components/reset/reset.component';
 import { ForgotComponent } from './components/forgot/forgot.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 export class CustomTranslateLoader implements TranslateLoader {
 
@@ -53,13 +55,15 @@ export class CustomTranslateLoader implements TranslateLoader {
     RegisterComponent,
     VerifyComponent,
     ResetComponent,
-    ForgotComponent
+    ForgotComponent,
+    ChangePasswordComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
     MatButtonModule,
     MatCheckboxModule,
+    MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
