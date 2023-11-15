@@ -73,7 +73,6 @@ import { ConfigMenuModule } from './components/config-manager/config-menu/config
 import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.component';
 import { DonutTooltipOverlayComponent } from './components/donut-tooltip-overlay/donut-tooltip-overlay.component';
 import { DownloadComponent, DownloadDialogComponent } from './components/download/download.component';
-import { ErrorModalModule } from './components/errormodal/errormodal.module';
 import { ExtendComponent } from './components/extend/extend.component';
 import { FilterShortcutChipComponent } from './components/filter-shortcut/chip/chip.component';
 import { FilterShortcutComponent } from './components/filter-shortcut/filter-shortcut.component';
@@ -84,7 +83,7 @@ import {
 } from './components/filters/filters.component';
 import { HistogramTooltipOverlayComponent } from './components/histogram-tooltip-overlay/histogram-tooltip-overlay.component';
 import { HistogramWidgetComponent } from './components/histogram-widget/histogram-widget.component';
-import { InvalidConfigDialogComponent } from './components/invalid-config-dialog/invalid-config-dialog.component';
+import { DeniedAccessDialogComponent } from './components/denied-access-dialog/denied-access-dialog.component';
 import { LanguageSwitcherComponent } from './components/language-switcher/language-switcher.component';
 import { LinkComponent } from './components/link/link.component';
 import { ProcessComponent } from './components/process/process.component';
@@ -99,7 +98,6 @@ import { TimelineComponent } from './components/timeline/timeline/timeline.compo
 import { UserInfosComponent } from './components/user-infos/user-infos.component';
 import { WidgetComponent } from './components/widget/widget.component';
 import { GetTimeLabelPipe } from './pipes/get-time-label.pipe';
-import { FetchInterceptorService } from './services/interceptor/fetch-interceptor.service';
 import { ArlasOverlayService } from './services/overlays/overlay.service';
 import { ArlasWalkthroughModule } from './services/walkthrough/walkthrough.module';
 import { MarkdownModule } from 'ngx-markdown';
@@ -185,7 +183,6 @@ export class CustomTranslateLoader implements TranslateLoader {
     ConfigMenuModule,
     ScrollingModule,
     FormatNumberModule,
-    ErrorModalModule,
     NgxSpinnerModule,
     MapglLegendModule,
     ColorGeneratorModule.forRoot({
@@ -235,7 +232,7 @@ export class CustomTranslateLoader implements TranslateLoader {
     ProgressSpinnerComponent,
     UserInfosComponent,
     ReconnectDialogComponent,
-    InvalidConfigDialogComponent,
+    DeniedAccessDialogComponent,
     HistogramTooltipOverlayComponent,
     CalendarTimelineTooltipOverlayComponent,
     DonutTooltipOverlayComponent,
@@ -282,7 +279,7 @@ export class CustomTranslateLoader implements TranslateLoader {
     ProgressSpinnerComponent,
     UserInfosComponent,
     ReconnectDialogComponent,
-    InvalidConfigDialogComponent,
+    DeniedAccessDialogComponent,
     HistogramTooltipOverlayComponent,
     CalendarTimelineTooltipOverlayComponent,
     DonutTooltipOverlayComponent,
@@ -296,11 +293,11 @@ export class CustomTranslateLoader implements TranslateLoader {
     ProcessComponent
   ],
   providers: [
-    FetchInterceptorService, ArlasOverlayService
+    ArlasOverlayService
   ],
   entryComponents: [
     ReconnectDialogComponent,
-    InvalidConfigDialogComponent,
+    DeniedAccessDialogComponent,
     ActionModalComponent,
     UserInfosComponent,
     HistogramTooltipOverlayComponent,

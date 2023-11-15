@@ -17,12 +17,7 @@
  * under the License.
  */
 import { CommonModule } from '@angular/common';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { ErrorModalModule } from '../../projects/arlas-toolkit/src/lib/components/errormodal/errormodal.module';
-import {
-  ArlasIamService
-} from '../../projects/arlas-toolkit/src/lib/services/arlas-iam/arlas-iam.service';
 import { ArlasToolkitSharedModule } from '../../projects/arlas-toolkit/src/lib/shared.module';
 import { ArlasToolKitModule } from '../../projects/arlas-toolkit/src/lib/toolkit.module';
 import { AppRoutingModule } from './app-routing.module';
@@ -42,7 +37,6 @@ import { MatButtonModule } from '@angular/material/button';
     ArlasToolKitModule,
     MatIconModule,
     MatButtonModule,
-    ErrorModalModule,
     LoginModule,
     RouterModule
   ],
