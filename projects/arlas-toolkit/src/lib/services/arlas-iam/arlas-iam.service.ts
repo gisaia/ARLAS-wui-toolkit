@@ -272,6 +272,9 @@ export class ArlasIamService extends ArlasAuthentificationService {
     return from(this.arlasIamApi.askPasswordReset(email, this.options));
   }
 
+  public change(oldPassword: string, newPassword: string): Observable<UserData> {
+    return from(this.arlasIamApi.updateUser(this.user.id, { oldPassword, newPassword }, this.options));
+  }
 
   public createPermission(oid: string, permissionDef: PermissionDef): Observable<PermissionData> {
     return from(this.arlasIamApi.addPermission(oid, permissionDef, this.options));
