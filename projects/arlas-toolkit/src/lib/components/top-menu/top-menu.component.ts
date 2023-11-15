@@ -7,6 +7,7 @@ import { UserInfosComponent } from '../user-infos/user-infos.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ArlasSettingsService } from '../../services/settings/arlas.settings.service';
+import { ChangePasswordComponent } from '../change-password/change-password.component';
 
 @Component({
   selector: 'arlas-top-menu',
@@ -111,6 +112,10 @@ export class TopMenuComponent implements OnInit {
         this.router.navigate(['login']);
       }
     }
+  }
+
+  public changePassword(){
+    this.dialog.open(ChangePasswordComponent, {panelClass: 'change-dialog'});
   }
 
   public displayAbout() {
