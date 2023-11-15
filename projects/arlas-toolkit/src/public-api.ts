@@ -48,8 +48,6 @@ export { ActionModalComponent } from './lib/components/config-manager/action-mod
 export { ActionModalModule } from './lib/components/config-manager/action-modal/action-modal.module';
 export { DonutTooltipOverlayComponent } from './lib/components/donut-tooltip-overlay/donut-tooltip-overlay.component';
 export { DownloadComponent, DownloadDialogComponent } from './lib/components/download/download.component';
-export { ErrormodalComponent, ErrorModalMsgComponent } from './lib/components/errormodal/errormodal.component';
-export { ErrorModalModule } from './lib/components/errormodal/errormodal.module';
 export { ExtendComponent } from './lib/components/extend/extend.component';
 export { ArlasExtendService } from './lib/services/extend/extend.service';
 export { ExtendPersistenceDatabase } from './lib/services/extend/extendPersistenceDatabase';
@@ -66,7 +64,7 @@ export { HistogramTooltipOverlayComponent } from './lib/components/histogram-too
 export { CalendarTimelineTooltipOverlayComponent } from
   './lib/components/calendar-timeline-tooltip-overlay/calendar-timeline-tooltip-overlay.component';
 export { HistogramWidgetComponent } from './lib/components/histogram-widget/histogram-widget.component';
-export { InvalidConfigDialogComponent } from './lib/components/invalid-config-dialog/invalid-config-dialog.component';
+export { DeniedAccessDialogComponent } from './lib/components/denied-access-dialog/denied-access-dialog.component';
 export { LanguageSwitcherComponent } from './lib/components/language-switcher/language-switcher.component';
 export { LinkComponent } from './lib/components/link/link.component';
 export { ProgressSpinnerComponent } from './lib/components/progress-spinner/progress-spinner.component';

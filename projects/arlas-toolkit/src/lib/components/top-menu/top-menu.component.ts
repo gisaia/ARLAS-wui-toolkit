@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ArlasSettingsService } from '../../services/settings/arlas.settings.service';
 import { ChangePasswordComponent } from '../change-password/change-password.component';
+import { FetchInterceptorService } from '../../services/interceptor/fetch-interceptor.service';
 
 @Component({
   selector: 'arlas-top-menu',
@@ -52,7 +53,8 @@ export class TopMenuComponent implements OnInit {
     private translate: TranslateService,
     private router: Router,
     private dialog: MatDialog,
-    private settingsService: ArlasSettingsService
+    private settingsService: ArlasSettingsService,
+    private fetchInterceptor: FetchInterceptorService
   ) {
     this.extraAboutText = this.translate.instant('extraAboutText') === 'extraAboutText' ? '' : this.translate.instant('extraAboutText');
     this.aboutFile = 'assets/about/about_' + this.translate.currentLang + '.md?' + Date.now() + '.md';
@@ -96,6 +98,18 @@ export class TopMenuComponent implements OnInit {
         }
       });
     }
+
+    /** This is a method to listen to logging out event from other tabs of the same domain. */
+    window.addEventListener('storage', (event) => {
+      if (event.key === 'arlas-logout-event' && this.connected) {
+        if (this.authentMode === 'openid') {
+          this.authentService.logout();
+        } else if (this.authentMode === 'iam') {
+          this.arlasIamService.logoutWithoutRedirection();
+          this.fetchInterceptor.interceptLogout();
+        }
+      }
+    });
   }
 
   public connect() {

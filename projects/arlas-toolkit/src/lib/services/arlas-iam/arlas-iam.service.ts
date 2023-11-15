@@ -28,14 +28,26 @@ export class ArlasIamService extends ArlasAuthentificationService {
   private unsubscribe: Subject<void> = new Subject<void>();
   private tokenRefreshedSource: BehaviorSubject<LoginData> = new BehaviorSubject(null);
   private currentOrganisation = '';
+
   public tokenRefreshed$ = this.tokenRefreshedSource.asObservable();
   public user: UserData;
+  public reloadState: string;
 
   public constructor(
     private router: Router,
     private settings: ArlasSettingsService
   ) {
     super();
+  }
+
+  public declareReloadState(reloadState) {
+    this.reloadState = reloadState;
+  }
+
+  public consumeReloadState() {
+    if (this.reloadState) {
+      window.open(this.reloadState, '_self');
+    }
   }
 
   public setOptions(options): void {
@@ -239,6 +251,8 @@ export class ArlasIamService extends ArlasAuthentificationService {
     this.clearStore();
     this.stopRefreshTokenTimer();
     this.notifyTokenRefresh(null);
+    localStorage.setItem('arlas-logout-event', 'logout' + Date.now());
+
   }
 
   public logout(redirectPageAfterLogout: string[] = ['/login']): void {

@@ -1,18 +1,27 @@
 import { Injectable } from '@angular/core';
 import fetchIntercept from 'fetch-intercept';
-import { MatDialog } from '@angular/material/dialog';
 import { ReconnectDialogComponent } from '../../components/reconnect-dialog/reconnect-dialog.component';
 import { ArlasSettingsService } from '../settings/arlas.settings.service';
-import { InvalidConfigDialogComponent } from '../../components/invalid-config-dialog/invalid-config-dialog.component';
-import { DashboardDeniedData } from '../../tools/utils';
+import { DeniedAccessDialogComponent } from '../../components/denied-access-dialog/denied-access-dialog.component';
+import { DeniedAccessData } from '../../tools/utils';
+import { AuthorisationError } from '../../tools/errors/authorisation-error';
+import { ErrorService } from '../../services/error/error.service';
+import { MatDialog } from '@angular/material/dialog';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FetchInterceptorService {
 
-  public constructor(private arlasSettings: ArlasSettingsService, private dialog: MatDialog) {
+  public constructor(
+    private arlasSettings: ArlasSettingsService,
+    private dialog: MatDialog,
+    private errorService: ErrorService) {
 
+  }
+
+  public interceptLogout() {
+    this.errorService.emitAuthorisationError(new AuthorisationError(401));
   }
 
   public applyInterceptor() {
@@ -33,10 +42,14 @@ export class FetchInterceptorService {
             if (!!response.headers.get('WWW-Authenticate')) {
               code = 403;
             }
-            // Propose to reconnect or stay disconnected
-            // Open just one modal
-            if (!this.dialog.openDialogs || !this.dialog.openDialogs.length) {
-              this.dialog.open(ReconnectDialogComponent, { disableClose: true, data: { code } });
+            if (settings.authentication.auth_mode === 'iam') {
+              this.errorService.emitAuthorisationError(new AuthorisationError(code));
+
+            } else {
+              // Propose to reconnect or stay disconnected
+              if (!this.dialog.openDialogs || !this.dialog.openDialogs.length) {
+                this.dialog.open(ReconnectDialogComponent, { disableClose: true, data: { code } });
+              }
             }
           }
           return response;
@@ -49,7 +62,7 @@ export class FetchInterceptorService {
     }
   }
 
-  public interceptInvalidConfig(dahsboardDeniedData: DashboardDeniedData) {
-    this.dialog.open(InvalidConfigDialogComponent, { disableClose: true, data: dahsboardDeniedData });
+  public interceptInvalidConfig(dahsboardDeniedData: DeniedAccessData) {
+    this.dialog.open(DeniedAccessDialogComponent, { disableClose: true, data: dahsboardDeniedData });
   }
 }
