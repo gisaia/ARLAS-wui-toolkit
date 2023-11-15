@@ -4,7 +4,8 @@
 </div>
 <div mat-dialog-content>
   <mat-stepper [linear]="true">
-    <mat-step [stepControl]="formGroup" [editable]="!isProcessStarted" label="{{'Parameters' | translate}}" state="params">
+    <mat-step [stepControl]="formGroup" [editable]="!isProcessStarted" label="{{'Parameters' | translate}}"
+      state="params">
       <div class="step">
         <div [formGroup]="formGroup!" class="form">
           <ng-container *ngFor="let field of controlsName;let fieldIndex=index">
@@ -79,7 +80,8 @@
 
             </ng-container>
           </ng-container>
-          <mat-checkbox [checked]="useCrop && wktAoi !== ''" [disabled]="wktAoi === ''" (change)="toggleCrop($event)">{{'Crop using the
+          <mat-checkbox [checked]="useCrop && wktAoi !== ''" [disabled]="wktAoi === ''"
+            (change)="toggleCrop($event)">{{'Crop using the
             geographical filter'
             | translate}}</mat-checkbox>
         </div>
@@ -102,6 +104,10 @@
                 class="value">{{formGroup.get(param).value}}</span>
             </div>
           </ng-container>
+          <div class="params">
+            <span class="label">{{'Crop using the geographical filter'| translate}}</span>: <span class="value">{{
+              useCrop ? 'yes' : 'no' | translate}}</span>
+          </div>
         </div>
         <div class="buttons" *ngIf="!isProcessing && !isProcessStarted">
           <button mat-flat-button mat-button matStepperPrevious>{{'Previous' | translate}}</button>
@@ -125,7 +131,7 @@
   </mat-stepper>
   <div *ngIf="isProcessStarted" class="process-result">
     <mat-progress-bar *ngIf="isProcessing" [mode]="'indeterminate'"></mat-progress-bar>
-    <div *ngIf="isProcessing" class="processing">
+    <div *ngIf="isProcessing && !!statusResult?.status" class="processing">
       <div>{{'Downloading' | translate}}...</div>
       <div class="status status-{{statusResult?.status}}">{{statusResult?.status | translate}}</div>
     </div>
