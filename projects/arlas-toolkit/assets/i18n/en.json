@@ -246,7 +246,7 @@
 	"An error occured in ARLAS-server": "An error occured in ARLAS-server.",
 	"An error occured in ARLAS-persistence": "An error occured in ARLAS-persistence.",
 	"ARLAS Front-end Settings error": "ARLAS Front-end Settings error",
-	"Please check if the settings.yaml file is provided and has a valid syntax": "Vérifier que le fichier settings.yaml est fourni et que sa syntaxe est valide.",
+	"Please check if the settings.yaml file is provided and has a valid syntax": "Please check if the settings.yaml file is provided and has a valid syntax.",
 	"accepted": "accepted",
 	"running": "running",
 	"successful": "successful",
