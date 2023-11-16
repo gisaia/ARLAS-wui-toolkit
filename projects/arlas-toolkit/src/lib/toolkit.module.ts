@@ -28,19 +28,12 @@ import { JwksValidationHandler } from 'angular-oauth2-oidc-jwks';
 import { ColorGeneratorLoader, ColorGeneratorModule, ShortenNumberPipe } from 'arlas-web-components';
 import { ToolkitComponent } from './toolkit.component';
 import { DeviceDetectorService } from 'ngx-device-detector';
-import { isArray } from 'util';
-import { BookmarkAddDialogComponent, BookmarkComponent } from './components/bookmark/bookmark.component';
-import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.component';
-import { DownloadDialogComponent } from './components/download/download.component';
-import { ErrorModalMsgComponent } from './components/errormodal/errormodal.component';
-import { ErrorModalModule } from './components/errormodal/errormodal.module';
 import { ArlasTranslateIntl } from './components/timeline/date-picker/ArlasTranslateIntl';
 import { ArlasAoiService } from './services/aoi/aoi.service';
 import { ArlasIamService } from './services/arlas-iam/arlas-iam.service';
 import { AuthGuardIamService } from './services/arlas-iam/auth-guard-iam.service';
 import { AuthentificationService } from './services/authentification/authentification.service';
 import { ArlasBookmarkService } from './services/bookmark/bookmark.service';
-import { ArlasColorGeneratorLoader } from './tools/color-generator-loader';
 import { ArlasConfigurationDescriptor } from './services/configuration-descriptor/configurationDescriptor.service';
 import { ErrorService } from './services/error/error.service';
 import { ArlasExportCsvService } from './services/export-csv/export-csv.service';
@@ -129,7 +122,6 @@ export const MY_CUSTOM_FORMATS = {
     ArlasToolkitSharedModule,
     BrowserModule,
     BrowserAnimationsModule,
-    ErrorModalModule,
     OAuthModule.forRoot()
   ],
   exports: [ToolkitComponent],

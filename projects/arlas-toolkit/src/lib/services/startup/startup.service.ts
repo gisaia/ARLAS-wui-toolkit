@@ -43,8 +43,10 @@ import YAML from 'js-yaml';
 import { Subject } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 import { PersistenceService, PersistenceSetting } from '../persistence/persistence.service';
-import { CONFIG_ID_QUERY_PARAM, GET_OPTIONS, WidgetConfiguration, getFieldProperties,
-  AuthentSetting, NOT_CONFIGURED, getParamValue } from '../../tools/utils';
+import {
+  CONFIG_ID_QUERY_PARAM, GET_OPTIONS, WidgetConfiguration, getFieldProperties,
+  AuthentSetting, NOT_CONFIGURED, getParamValue
+} from '../../tools/utils';
 import { ArlasIamService, IamHeader } from '../arlas-iam/arlas-iam.service';
 import { AuthentificationService, } from '../authentification/authentification.service';
 import { ArlasConfigurationUpdaterService } from '../configuration-updater/configurationUpdater.service';
@@ -60,6 +62,7 @@ import { AnalyticGroupConfiguration } from '../../components/analytics/analytics
 import { ArlasAuthentificationService } from '../arlas-authentification/arlas-authentification.service';
 import { Filter } from 'arlas-api';
 import { ProcessService } from '../process/process.service';
+import { DashboardError } from '../../tools/errors/dashboard-error';
 
 @Injectable({
   providedIn: 'root'
@@ -349,13 +352,15 @@ export class ArlasStartupService {
         })
         .catch(err => {
           this.shouldRunApp = false;
-          console.error(err);
-          const error = {
-            origin: 'ARLAS-wui runtime: an error occured while updating the configuration. Code: 001',
-            message: err.message,
-            reason: 'Please feel free to create an issue in "https://github.com/gisaia/ARLAS-wui-toolkit/issues"'
-          };
-          this.errorService.errorsQueue.push(error);
+          if (err instanceof Response) {
+            err.json().then(r => {
+              console.error(r);
+              this.errorService.emitBackendError(r.status, r.message, 'ARLAS-server');
+            });
+          } else {
+            console.error(err);
+            this.errorService.emitUnavailableService('ARLAS-server');
+          }
           return Promise.resolve(null);
         });
     } else {
@@ -374,12 +379,7 @@ export class ArlasStartupService {
         // application should not run if the settings.yaml file is absent
         this.shouldRunApp = false;
         console.error(err);
-        const error: Error = {
-          origin: SETTINGS_FILE_NAME + ' file',
-          message: 'Cannot read "' + SETTINGS_FILE_NAME + '" file',
-          reason: 'Please check if "' + SETTINGS_FILE_NAME + '" is in "src" folder'
-        };
-        this.errorService.errorsQueue.push(error);
+        this.errorService.emitSettingsError();
         return {};
       })
       .then(s => {
@@ -391,12 +391,7 @@ export class ArlasStartupService {
         // application should not run if the settings.yaml file is not valid
         this.shouldRunApp = false;
         console.error(err);
-        const error = {
-          origin: 'ARLAS-wui `' + SETTINGS_FILE_NAME + '` file',
-          message: err.toString().replace('Error:', ''),
-          reason: 'Please check that the `src/' + SETTINGS_FILE_NAME + '` file is valid.'
-        };
-        this.errorService.errorsQueue.push(error);
+        this.errorService.emitSettingsError();
         return Promise.reject(err);
       })
       .then(s => {
@@ -441,12 +436,7 @@ export class ArlasStartupService {
       // application should not run if the settings.yaml file is not valid
       this.shouldRunApp = false;
       console.error(err);
-      const error = {
-        origin: 'ARLAS-wui `' + SETTINGS_FILE_NAME + '` file',
-        message: err.toString().replace('Error:', ''),
-        reason: 'Please check if authentication is well configured in `' + SETTINGS_FILE_NAME + '` file .'
-      };
-      this.errorService.errorsQueue.push(error);
+      this.errorService.emitSettingsError();
       throw new Error(err);
     });
   }
@@ -475,6 +465,7 @@ export class ArlasStartupService {
         const usePersistence = (!!settings && !!settings.persistence && !!settings.persistence.url
           && settings.persistence.url !== '' && settings.persistence.url !== NOT_CONFIGURED);
 
+        this.fetchInterceptorService.applyInterceptor();
         if (useAuthentOpenID) {
           const authService: AuthentificationService = this.injector.get('AuthentificationService')[0];
           if (usePersistence) {
@@ -485,7 +476,6 @@ export class ArlasStartupService {
                 return;
               }));
           }
-          this.fetchInterceptorService.applyInterceptor();
           authService.canActivateProtectedRoutes.subscribe(isActivable => {
             if (isActivable) {
               // ARLAS-persistence
@@ -544,6 +534,7 @@ export class ArlasStartupService {
                 this.persistenceService.setOptions({});
                 this.permissionService.setOptions({});
                 this.processService.setOptions({});
+                this.fetchOptions.headers = null;
               }
               this.collaborativesearchService.setFetchOptions(this.fetchOptions);
               resolve(settings);
@@ -581,21 +572,18 @@ export class ArlasStartupService {
               configData = config;
               return Promise.resolve(config);
             }).catch((err) => {
-              if (err.toString() === 'TypeError: Failed to fetch') {
+              if (!(err instanceof Response)) {
                 this.shouldRunApp = false;
                 console.error(err);
-                const error: Error = {
-                  origin: 'ARLAS-persistence is unreachable',
-                  message: 'Cannot reach ARLAS-persistence at the configured URL',
-                  reason: 'Please check if ARLAS-persistence is up & running'
-                };
-                this.errorService.errorsQueue.push(error);
+                this.errorService.emitUnavailableService('ARLAS-persistence');
               } else {
-                // this mode will allow us to start an
                 this.emptyMode = true;
-                this.fetchInterceptorService.interceptInvalidConfig({
-                  id: configurationId,
-                  error: err
+                err.json().then(r => {
+                  console.error(r);
+                  this.fetchInterceptorService.interceptInvalidConfig({
+                    error: new DashboardError(err.status, this.settingsService.getArlasHubUrl()),
+                    forceAction: false,
+                  });
                 });
                 return Promise.resolve(null);
               }
@@ -818,19 +806,15 @@ export class ArlasStartupService {
       .then((data) => this.buildContributor(data))
       .catch((err: any) => {
         this.shouldRunApp = false;
-        console.error(err);
-        let message = '';
-        if (err.url) {
-          message = '- A server error occured \n' + '   - url: ' + err.url + '\n' + '   - status : ' + err.status;
+        if (err instanceof Response) {
+          err.json().then(r => {
+            console.error(r);
+            this.errorService.emitBackendError(r.status, r.message, '');
+          });
         } else {
-          message = err.toString();
+          console.error(err);
+          this.errorService.emitUnavailableService('');
         }
-        const error: Error = {
-          origin: 'ARLAS-wui runtime',
-          message: message,
-          reason: ''
-        };
-        this.errorService.errorsQueue.push(error);
         return Promise.resolve(null);
       }).then((x) => { });
   }

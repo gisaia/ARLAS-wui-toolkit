@@ -43,9 +43,6 @@ import { ShareConfigComponent } from './share-config.component';
   ],
   declarations: [
     ShareConfigComponent
-  ],
-  providers: [
-    ErrorService,
   ]
 })
 export class ShareConfigModule { }

@@ -1,17 +1,17 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
 
-import { InvalidConfigDialogComponent } from './invalid-config-dialog.component';
+import { DeniedAccessDialogComponent } from './denied-access-dialog.component';
 import { MatDialogModule, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HttpClientModule } from '@angular/common/http';
 
 describe('ReconnectDialogComponent', () => {
-  let component: InvalidConfigDialogComponent;
-  let fixture: ComponentFixture<InvalidConfigDialogComponent>;
+  let component: DeniedAccessDialogComponent;
+  let fixture: ComponentFixture<DeniedAccessDialogComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [InvalidConfigDialogComponent],
+      declarations: [DeniedAccessDialogComponent],
       providers: [
         {
           provide: MAT_DIALOG_DATA,
@@ -27,7 +27,7 @@ describe('ReconnectDialogComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(InvalidConfigDialogComponent);
+    fixture = TestBed.createComponent(DeniedAccessDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

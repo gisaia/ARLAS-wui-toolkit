@@ -45,6 +45,7 @@ export class LoginComponent implements OnInit {
   ) { }
 
   public ngOnInit(): void {
+    const authSettings = this.settingsService.getAuthentSettings();
     const refreshToken: RefreshToken = this.iamService.getRefreshToken();
     if (!!refreshToken) {
       this.showPage = false;
@@ -57,11 +58,15 @@ export class LoginComponent implements OnInit {
           this.iamService.setHeadersFromAccesstoken(loginData.accessToken);
           this.iamService.storeRefreshToken(loginData.refreshToken);
           this.iamService.notifyTokenRefresh(loginData);
-          const authSettings = this.settingsService.getAuthentSettings();
-          if (!!authSettings && authSettings.redirect_uri) {
-            window.open(authSettings.redirect_uri, '_self');
+          localStorage.removeItem('arlas-logout-event');
+          if (!!this.iamService.reloadState) {
+            this.iamService.consumeReloadState();
           } else {
-            this.router.navigate(['/']);
+            if (!!authSettings && authSettings.redirect_uri) {
+              window.open(authSettings.redirect_uri, '_self');
+            } else {
+              this.router.navigate(['/']);
+            }
           }
         },
         error: () => {
@@ -69,7 +74,11 @@ export class LoginComponent implements OnInit {
         }
       });
     } else {
-      this.showPage = true;
+      if (!!authSettings && authSettings.redirect_uri && !this.iamService.reloadState) {
+        window.open(authSettings.login_url, '_self');
+      } else {
+        this.showPage = true;
+      }
     }
 
     this.loginForm = this.formBuilder.group({
@@ -87,13 +96,18 @@ export class LoginComponent implements OnInit {
         this.iamService.storeRefreshToken(loginData.refreshToken);
         this.iamService.notifyTokenRefresh(loginData);
         this.iamService.startRefreshTokenTimer(loginData);
-        this.isLoading = false;
+        localStorage.removeItem('arlas-logout-event');
         const authSettings = this.settingsService.getAuthentSettings();
-        if (!!authSettings && authSettings.redirect_uri) {
-          window.open(authSettings.redirect_uri, '_self');
+        if (!!this.iamService.reloadState) {
+          this.iamService.consumeReloadState();
         } else {
-          this.router.navigate(['/']);
+          if (!!authSettings && authSettings.redirect_uri) {
+            window.open(authSettings.redirect_uri, '_self');
+          } else {
+            this.router.navigate(['/']);
+          }
         }
+        this.isLoading = false;
       },
       error: () => {
         this.iamService.logoutWithoutRedirection();
