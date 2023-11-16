@@ -211,7 +211,7 @@ export class ArlasIamService extends ArlasAuthentificationService {
   }
 
   private forceConnect(authSettings: AuthentSetting) {
-    if (authSettings.login_url) {
+    if (authSettings.login_url && authSettings.login_url !== NOT_CONFIGURED) {
       window.open(authSettings.login_url, '_self');
     } else {
       this.router.navigate(['login']);
