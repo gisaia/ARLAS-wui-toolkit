@@ -83,4 +83,8 @@
       [yUnit]="timelineComponent?.input?.yUnit" [useUtc]="timelineContributor?.useUtc"
       (tooltipEvent)="emitTooltip($event,arlasTimeline)"></arlas-histogram>
   </div>
+  <div *ngIf="timelineData.length === 0" class="timeline-empty">
+    <mat-icon class="icon">event_busy</mat-icon>
+    {{ 'No data available.' | translate }}
+  </div>
 </div>
