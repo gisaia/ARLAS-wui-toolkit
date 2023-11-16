@@ -102,7 +102,7 @@ export class LoginComponent implements OnInit {
         if (!!this.iamService.reloadState) {
           this.iamService.consumeReloadState();
         } else {
-          if (!!authSettings && authSettings.redirect_uri) {
+          if (!!authSettings && authSettings.redirect_uri && authSettings.redirect_uri !== NOT_CONFIGURED) {
             window.open(authSettings.redirect_uri, '_self');
           } else {
             this.router.navigate(['/']);

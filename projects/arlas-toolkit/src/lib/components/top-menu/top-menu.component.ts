@@ -113,6 +113,7 @@ export class TopMenuComponent implements OnInit {
   }
 
   public connect() {
+    const authSettings = this.settingsService.getAuthentSettings();
     if (this.authentMode === 'openid') {
       if (this.connected) {
         this.authentService.logout();
@@ -121,7 +122,11 @@ export class TopMenuComponent implements OnInit {
       }
     } else if (this.authentMode === 'iam') {
       if (this.connected) {
-        this.arlasIamService.logout(['/']);
+        if (authSettings && authSettings.force_connect) {
+          this.arlasIamService.logout(['/login']);
+        } else {
+          this.arlasIamService.logout(['/']);
+        }
       } else {
         this.router.navigate(['login']);
       }
