@@ -24,6 +24,7 @@ import { LoginData, RefreshToken } from 'arlas-iam-api';
 import { ArlasIamService } from '../../services/arlas-iam/arlas-iam.service';
 import { ArlasSettingsService } from '../../services/settings/arlas.settings.service';
 import { finalize } from 'rxjs';
+import { NOT_CONFIGURED } from '../../tools/utils';
 
 @Component({
   selector: 'arlas-login',
@@ -62,7 +63,7 @@ export class LoginComponent implements OnInit {
           if (!!this.iamService.reloadState) {
             this.iamService.consumeReloadState();
           } else {
-            if (!!authSettings && authSettings.redirect_uri) {
+            if (!!authSettings && authSettings.redirect_uri && authSettings.redirect_uri !== NOT_CONFIGURED) {
               window.open(authSettings.redirect_uri, '_self');
             } else {
               this.router.navigate(['/']);
@@ -74,7 +75,7 @@ export class LoginComponent implements OnInit {
         }
       });
     } else {
-      if (!!authSettings && authSettings.redirect_uri && !this.iamService.reloadState) {
+      if (!!authSettings && authSettings.login_url && authSettings.login_url !== NOT_CONFIGURED && !this.iamService.reloadState) {
         window.open(authSettings.login_url, '_self');
       } else {
         this.showPage = true;
