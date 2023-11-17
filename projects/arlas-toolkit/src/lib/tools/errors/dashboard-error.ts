@@ -32,7 +32,7 @@ export class DashboardError extends ArlasError {
     if (this.status === 403) {
       this.showAction = !!this.hubUrl;
       this.actionMessage = 'go to arlas hub';
-      this.message = 'dashboard access not authorized';
+      this.message = 'dashboard access forbidden';
     } else if (this.status === 401) {
       this.showAction = !!this.hubUrl;
       this.actionMessage = 'go to arlas hub';
