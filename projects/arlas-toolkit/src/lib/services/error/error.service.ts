@@ -61,4 +61,8 @@ export class ErrorService {
       });
     }
   }
+
+  public closeAll() {
+    this.dialog.closeAll();
+  }
 }

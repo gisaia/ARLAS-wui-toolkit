@@ -25,6 +25,7 @@ import { ArlasIamService } from '../../services/arlas-iam/arlas-iam.service';
 import { ArlasSettingsService } from '../../services/settings/arlas.settings.service';
 import { finalize } from 'rxjs';
 import { NOT_CONFIGURED } from '../../tools/utils';
+import { ErrorService } from '../../services/error/error.service';
 
 @Component({
   selector: 'arlas-login',
@@ -42,10 +43,12 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private iamService: ArlasIamService,
     private settingsService: ArlasSettingsService,
+    private errorService: ErrorService,
     private router: Router
   ) { }
 
   public ngOnInit(): void {
+    this.errorService.closeAll();
     const authSettings = this.settingsService.getAuthentSettings();
     const refreshToken: RefreshToken = this.iamService.getRefreshToken();
     if (!!refreshToken) {
@@ -72,6 +75,7 @@ export class LoginComponent implements OnInit {
         },
         error: () => {
           this.iamService.logoutWithoutRedirection();
+          this.errorService.closeAll();
         }
       });
     } else {
