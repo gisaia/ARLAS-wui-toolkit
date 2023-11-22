@@ -42,8 +42,8 @@
     "arlas-permissions-api": "~24.0.0",
     "arlas-persistence-api": "~24.0.0",
     "arlas-tagger-api": "~24.0.1",
-    "arlas-web-components": "~24.2.0",
-    "arlas-web-contributors": "~24.1.3",
+    "arlas-web-components": "~24.2.1",
+    "arlas-web-contributors": "~24.2.0",
     "cli-color": "^1.2.0",
     "core-js": "~3.26.1",
     "fetch-intercept": "^2.3.1",
@@ -57,13 +57,13 @@
     "zone.js": "^0.11.4"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^14.2.10",
+    "@angular-devkit/build-angular": "^14.2.13",
     "@angular-eslint/builder": "14.4.0",
     "@angular-eslint/eslint-plugin": "14.4.0",
     "@angular-eslint/eslint-plugin-template": "14.4.0",
     "@angular-eslint/schematics": "14.4.0",
     "@angular-eslint/template-parser": "14.4.0",
-    "@angular/cli": "^14.2.10",
+    "@angular/cli": "^14.2.13",
     "@angular/compiler-cli": "^14.2.12",
     "@angular/language-service": "^14.2.12",
     "@biesbjerg/ngx-translate-extract-marker": "^1.0.0",
@@ -122,6 +122,7 @@
     },
     "protractor": {
       "xml2js": "~0.5.0"
-    }
+    },
+    "@babel/traverse": "~7.23.2"
   }
 }
