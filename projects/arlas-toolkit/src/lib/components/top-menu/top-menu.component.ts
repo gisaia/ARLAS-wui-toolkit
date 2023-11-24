@@ -45,6 +45,8 @@ export class TopMenuComponent implements OnInit {
    */
   @Input() public showAboutButton = true;
 
+  public showLinks = false;
+  public linksEnabled = false;
   @ViewChild('about', { static: false }) private aboutcomponent: AboutComponent;
 
   public constructor(
@@ -61,6 +63,8 @@ export class TopMenuComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+    const links = this.settingsService.getLinksSettings();
+    this.linksEnabled = !!links && links.length > 0;
     const authSettings = this.settingsService.getAuthentSettings();
     this.authentMode = !!authSettings ? authSettings.auth_mode : undefined;
     this.isAuthentActivated = !!authSettings && !!authSettings.use_authent;
