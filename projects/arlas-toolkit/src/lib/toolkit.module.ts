@@ -83,21 +83,33 @@ export function configUpdaterFactory(x): any {
   return (x) => x[0];
 }
 
-export function getOptionsFactory(arlasAuthService: AuthentificationService, arlasIamService: ArlasIamService): any {
+export function getOptionsFactory(settingsService: ArlasSettingsService, arlasAuthService: AuthentificationService,
+  arlasIamService: ArlasIamService): any {
   const getOptions = () => {
     let token = null;
-
-    if (!!arlasAuthService.authConfigValue?.auth_mode && arlasAuthService.authConfigValue?.auth_mode === 'iam') {
+    const authSettings = settingsService.getAuthentSettings();
+    let authentMode = !!authSettings ? authSettings.auth_mode : undefined;
+    const isAuthentActivated = !!authSettings && !!authSettings.use_authent;
+    if (isAuthentActivated && !authentMode) {
+      authentMode = 'openid';
+    }
+    if (!!authentMode && authentMode === 'iam') {
       token = arlasIamService.getAccessToken();
     } else {
       token = !!arlasAuthService.accessToken ? arlasAuthService.accessToken : null;
     }
 
     if (token !== null) {
+      const headers = {
+        Authorization: 'Bearer ' + token
+      };
+      if (authentMode === 'iam') {
+        const org = arlasIamService.getOrganisation();
+        headers['arlas-org-filter'] = org;
+      }
+
       return {
-        headers: {
-          Authorization: 'Bearer ' + token
-        }
+        headers
       };
     } else {
       return {};
@@ -193,7 +205,7 @@ export const MY_CUSTOM_FORMATS = {
     {
       provide: GET_OPTIONS,
       useFactory: getOptionsFactory,
-      deps: [AuthentificationService, ArlasIamService]
+      deps: [ArlasSettingsService, AuthentificationService, ArlasIamService]
     },
     {
       provide: MatPaginatorIntl,

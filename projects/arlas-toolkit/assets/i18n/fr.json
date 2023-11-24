@@ -264,5 +264,7 @@
 	"running": "en cours",
 	"successful": "terminé",
 	"failed": "en erreur",
-	"dissmissed": "annulé"
+	"dissmissed": "annulé",
+	"Go to": "Aller sur",
+	"no access to apps": "Vous n'avez pas accès à d'autres applications."
 }

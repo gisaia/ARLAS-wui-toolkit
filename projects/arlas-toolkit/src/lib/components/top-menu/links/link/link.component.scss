@@ -1,0 +1,33 @@
+$sm-spacing: 5px;
+$circle-diameter: 40px;
+$default-border-radius: 4px;
+$default-font-size: 14px;
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: calc(2 * $sm-spacing);
+    width: 65px;
+    border-radius: $default-border-radius;
+    padding: $sm-spacing 0;
+    color: #555;
+    cursor: pointer;
+    &:hover {
+        background-color: #eeeeee;
+    }
+    .name {
+        margin-top: calc(2 * $sm-spacing);
+        font-size: $default-font-size;
+        text-align: center;
+    }
+    .circle {
+        height: $circle-diameter;
+        width: $circle-diameter;
+        border: 2px solid #555;
+        border-radius: $circle-diameter;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}

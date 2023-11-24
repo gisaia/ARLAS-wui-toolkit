@@ -899,6 +899,8 @@ export interface LinkSettings {
   name: string;
   url: string;
   icon: string;
+  tooltip?: string;
+  check_url: string;
 }
 
 export interface HistogramSettings {

@@ -66,7 +66,8 @@ export { CalendarTimelineTooltipOverlayComponent } from
 export { HistogramWidgetComponent } from './lib/components/histogram-widget/histogram-widget.component';
 export { DeniedAccessDialogComponent } from './lib/components/denied-access-dialog/denied-access-dialog.component';
 export { LanguageSwitcherComponent } from './lib/components/language-switcher/language-switcher.component';
-export { LinkComponent } from './lib/components/link/link.component';
+export { LinkComponent } from './lib/components/top-menu/links/link/link.component';
+export { LinksComponent } from './lib/components/top-menu/links/links.component';
 export { ProgressSpinnerComponent } from './lib/components/progress-spinner/progress-spinner.component';
 export { ReconnectDialogComponent } from './lib/components/reconnect-dialog/reconnect-dialog.component';
 export { SearchComponent, SearchDialogComponent } from './lib/components/search/search.component';

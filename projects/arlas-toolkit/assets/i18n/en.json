@@ -255,5 +255,7 @@
 	"successful": "successful",
 	"failed": "failed",
 	"dissmissed": "dissmissed",
-	"yes": "yes"
+	"yes": "yes",
+	"Go to": "Go to",
+	"no access to apps": "You don't have access to other apps."
 }

@@ -1,0 +1,23 @@
+$sm-spacing: 5px;
+$border-color: #a1a1a1;
+$default-border-radius: 4px;
+$default-font-size: 14px;
+$top-menu-height: 40px;
+
+.wrapper {
+    max-width: 255px;
+    position: absolute;
+    right: 0;
+    margin-right: 6px;
+    top: calc($top-menu-height + $sm-spacing);
+    background-color: white;
+    display: inline-flex;
+    flex-wrap: wrap;
+    border: 1px solid $border-color;
+    border-radius: $default-border-radius;
+    z-index: 1000;
+    .no-link {
+        font-size: $default-font-size;
+        margin: calc(3 * $sm-spacing);
+    }
+}

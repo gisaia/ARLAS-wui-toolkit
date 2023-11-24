@@ -7,5 +7,18 @@ authentication:
   force_connect: false
   threshold: 5000
   url: http://localhost:9997/arlas_iam_server
-
-
+links:
+  - name: Explorer
+    icon: landscape
+    check_url: http://localhost:81/server/explore/demo_algoe/_count?&righthand=false&pretty=false&max-age-cache=120
+  - name: ARLAS Builder
+    icon: build
+    check_url: http://localhost:9997/arlas_iam_server
+  - name: ARLAS Hub
+    icon: hub
+    check_url: http://localhost:81/server/explore/demo_algoe/_count?&righthand=false&pretty=false&max-age-cache=120
+    url: https://demo.cloud.arlas.io/
+  - name: Fam
+    icon: satellite_alt
+    url: https://demo.cloud.arlas.io/
+    check_url: http://localhost:9997/arlas_iam_server

@@ -1,0 +1,6 @@
+<div class="wrapper" *ngIf="show" (click)="navigateTo(link?.url)" [matTooltip]="link?.tooltip">
+    <div class="circle">
+        <mat-icon>{{link.icon}}</mat-icon>
+    </div>
+    <div class="name">{{link.name}}</div>
+</div>
