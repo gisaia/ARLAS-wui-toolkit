@@ -6,7 +6,7 @@
     <mat-basic-chip [hidden]="!isBookmarkOpen" class="bookmark-chip bookmark-action-left" style="margin-left:5px" matTooltip="{{'Add a dataset' | translate}}" (click)="openDialogAdd()">
       <mat-icon aria-label="Add a dataset">add</mat-icon>
     </mat-basic-chip>
-    <mat-basic-chip [hidden]="!isBookmarkOpen" class="bookmark-chip bookmark-action-right" matTooltip="{{'Manage datasets' | translate}}" (click)="openDialog()">
+    <mat-basic-chip [hidden]="!isBookmarkOpen" class="bookmark-chip bookmark-action-right" matTooltip="{{'Manage datasets' | translate}}" (click)="openDatasetListDialog()">
       <mat-icon aria-label="Manage datasets">{{icon}}</mat-icon>
     </mat-basic-chip>
     <mat-basic-chip class="bookmark-chip bookmark-toggle" [class.bookmark-chip-radius]="isBookmarkOpen" (click)="isBookmarkOpen=!isBookmarkOpen" matTooltip="{{'Toggle datasets' | translate}}">

@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { Component, Output, ViewChild } from '@angular/core';
+import { Component, Inject, Output, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs';
 import { ArlasBookmarkService } from '../../services/bookmark/bookmark.service';
 import { BookMark } from '../../services/bookmark/model';
@@ -25,7 +25,7 @@ import { BookmarkPersistenceDatabase } from '../../services/bookmark/bookmarkPer
 import { BookmarkDataSource } from '../../services/bookmark/bookmarkDataSource';
 import { ArlasStartupService } from '../../services/startup/startup.service';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'arlas-bookmark',
@@ -53,8 +53,14 @@ export class BookmarkComponent {
   public constructor(
     private bookmarkService: ArlasBookmarkService,
     private dialog: MatDialog,
-    private startupService: ArlasStartupService
+    private startupService: ArlasStartupService,
+    @Inject(MAT_DIALOG_DATA) public data: {isSelect: boolean;}
   ) {
+    if (!data.isSelect) {
+      // Remove the 'checked' column
+      this.columnsToDisplay = ['name', 'date', 'count', 'actions'];
+    }
+
     this.currentCollections = Array.from(this.startupService.collectionsMap.keys()).sort().join(',');
     // Init component with data from persistence server, if defined and server is reachable
     if (this.bookmarkService.dataBase instanceof BookmarkPersistenceDatabase) {

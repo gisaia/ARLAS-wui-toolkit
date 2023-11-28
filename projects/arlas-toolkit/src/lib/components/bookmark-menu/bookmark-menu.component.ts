@@ -35,6 +35,7 @@ export class BookmarkMenuComponent implements OnInit {
 
   @Input() public icon: string;
   @Input() public nbTopBookmarks: number;
+  @Input() public isSelectMultipleBookmarks = true;
 
   public topBookmarks: Array<BookMark>;
   public isBookmarkOpen = false;
@@ -77,8 +78,8 @@ export class BookmarkMenuComponent implements OnInit {
     }
   }
 
-  public openDialog() {
-    this.dialog.open(BookmarkComponent, { width: '45vw' });
+  public openDatasetListDialog() {
+    this.dialog.open(BookmarkComponent, { width: '60vw' , maxWidth: '800px', data: {isSelect: this.isSelectMultipleBookmarks} });
   }
 
   public openDialogAdd() {
