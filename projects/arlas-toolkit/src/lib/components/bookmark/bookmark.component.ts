@@ -90,11 +90,13 @@ export class BookmarkComponent {
   }
 
   public getBookmarksList() {
-    this.bookmarkService.listBookmarks(this.pageSize, this.pageNumber);
+    // The subscribe is needed to consume the response to the request and create a dataChange
+    this.bookmarkService.listBookmarks(this.pageSize, this.pageNumber).subscribe(_ => {});
   }
 
   public pageChange(pageEvent: PageEvent) {
-    this.pageNumber = pageEvent.pageIndex;
+    // MatPaginator pageIndex starts at 0 but ARLAS requests start at 1
+    this.pageNumber = pageEvent.pageIndex + 1;
     this.pageSize = pageEvent.pageSize;
     this.bookmarkService.setPage(this.pageSize, this.pageNumber);
     this.getBookmarksList();
