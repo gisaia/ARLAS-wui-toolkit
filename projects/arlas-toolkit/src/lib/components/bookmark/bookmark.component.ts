@@ -97,7 +97,11 @@ export class BookmarkComponent {
 
   public getBookmarksList() {
     // The subscribe is needed to consume the response to the request and create a dataChange
-    this.bookmarkService.listBookmarks(this.pageSize, this.pageNumber).subscribe(_ => {});
+    this.bookmarkService.listBookmarks(this.pageSize, this.pageNumber).subscribe({
+      error(err) {
+        console.error(err);
+      }
+    });
   }
 
   public pageChange(pageEvent: PageEvent) {
