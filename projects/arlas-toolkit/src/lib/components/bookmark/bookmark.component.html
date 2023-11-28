@@ -30,10 +30,11 @@
     <mat-cell *matCellDef="let bookmark"> {{bookmark.count | async}}</mat-cell>
   </ng-container>
 
-  <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
+  <mat-header-row *matHeaderRowDef="columnsToDisplay; sticky: true"></mat-header-row>
   <mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></mat-row>
 </mat-table>
-<mat-paginator *ngIf="isPersistenceActive" [pageIndex]="this.pageNumber"
+<!-- MatPaginator PageIndex is 0 based -->
+<mat-paginator *ngIf="isPersistenceActive" [pageIndex]="this.pageNumber > 0 ? this.pageNumber - 1 : 0"
   [pageSize]="this.pageSize"
   [length]="resultsLength"
   [pageSizeOptions]="[5, 10, 15, 20]"
@@ -42,7 +43,11 @@
 ></mat-paginator>
 
 
-<div class="bookmark-actions">
+<div class="bookmark-actions" *ngIf="data.isSelect">
   <button class="bookmark-action-button" mat-raised-button [disabled]="disableCombine"(click)="viewCombine()">{{ 'View Combine' | translate }}</button>
   <button class="bookmark-action-button" mat-raised-button [disabled]="disableCombine" (click)="combine()">{{ 'Combine' | translate }}</button>
 </div>
+
+<mat-dialog-actions align="end">
+  <button mat-raised-button mat-dialog-close>{{ 'Close' | translate }}</button>
+</mat-dialog-actions>

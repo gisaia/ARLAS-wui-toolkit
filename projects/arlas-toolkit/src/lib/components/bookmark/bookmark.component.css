@@ -16,8 +16,10 @@
  * specific language governing permissions and limitations
  * under the License.
  */
- .bookmark-table-items{
-  overflow: hidden;
+
+.bookmark-table-items{
+  max-height: 60vh;
+  overflow-y: auto;
 }
 
 .bookmark-table-items .mat-column-checked{
