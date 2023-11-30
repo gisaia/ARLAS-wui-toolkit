@@ -19,13 +19,6 @@
 
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { TimelineConfiguration } from '../../projects/arlas-toolkit/src/lib/components/timeline/timeline/timeline.utils';
-import {
-  ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService
-} from '../../projects/arlas-toolkit/src/lib/services/startup/startup.service';
-import { FilterShortcutConfiguration } from '../../projects/arlas-toolkit/src/lib/components/filter-shortcut/filter-shortcut.utils';
-
-
 
 @Component({
   selector: 'arlas-tool-app',
@@ -33,36 +26,7 @@ import { FilterShortcutConfiguration } from '../../projects/arlas-toolkit/src/li
   providers: [Location],
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent{
 
-  public analytics: Array<any>;
-  public shortcuts: Array<FilterShortcutConfiguration>;
-  public languages: string[];
-  public analyticsOpen = false;
-  public target: string;
-  public timelineComponentConfig: TimelineConfiguration;
-  public detailedTimelineComponentConfig: TimelineConfiguration;
-
-  public lastShortcutOpen: number;
-
-  public constructor(
-    private arlasStartupService: ArlasStartupService,
-    private arlasConfigService: ArlasConfigService
-  ) {
-  }
-
-  public ngOnInit(): void {
-
-    this.analytics = this.arlasStartupService.analytics;
-    this.shortcuts = this.arlasStartupService.filtersShortcuts;
-    this.languages = ['en', 'fr', 'it', 'es', 'de', 'us', 'cn'];
-    this.timelineComponentConfig = this.arlasConfigService.getValue('arlas.web.components.timeline');
-    this.detailedTimelineComponentConfig = this.arlasConfigService.getValue('arlas.web.components.detailedTimeline');
-  }
-
-  public onOpen(event: boolean, idx: number): void {
-    if (event) {
-      this.lastShortcutOpen = idx;
-    }
-  }
+  public constructor() {}
 }

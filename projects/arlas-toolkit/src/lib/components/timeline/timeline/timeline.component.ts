@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { Component, Input, OnInit, ViewChild, ChangeDetectorRef, ElementRef } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, ChangeDetectorRef, ElementRef, Output, EventEmitter } from '@angular/core';
 import { HistogramContributor, DetailedHistogramContributor } from 'arlas-web-contributors';
 import { OperationEnum } from 'arlas-web-core';
 import { ArlasCollaborativesearchService, ArlasStartupService } from '../../../services/startup/startup.service';
@@ -27,7 +27,7 @@ import { ArlasColorService, HistogramComponent } from 'arlas-web-components';
 import { filter } from 'rxjs/operators';
 import { CollectionLegend, TimelineConfiguration } from './timeline.utils';
 import { ArlasOverlayService } from '../../../services/overlays/overlay.service';
-import { ArlasOverlayRef } from '../../../tools/utils';
+import { ArlasOverlayRef, CollectionUnit, getCollectionUnit } from '../../../tools/utils';
 
 
 /**
@@ -40,7 +40,7 @@ import { ArlasOverlayRef } from '../../../tools/utils';
 @Component({
   selector: 'arlas-timeline',
   templateUrl: './timeline.component.html',
-  styleUrls: ['./timeline.component.css']
+  styleUrls: ['./timeline.component.scss']
 })
 export class TimelineComponent implements OnInit {
 
@@ -64,6 +64,25 @@ export class TimelineComponent implements OnInit {
    * @description Whether the date picker is enabled
    */
   @Input() public activeDatePicker = false;
+
+  /**
+   * @Input : Angular
+   * @description Units to use as display names for the timeline legend
+   */
+  @Input() public units: Array<CollectionUnit> = new Array();
+
+  /**
+   * @Input : Angular
+   * @description Whether to display the timelines' histogram
+   */
+  @Input() public isDisplayHistogram = true;
+
+  /**
+   * @Output : Angular
+   * @description Emits when the value of isDisplayHistogram changes
+   */
+  @Output() public isDisplayHistogramChange: EventEmitter<boolean> = new EventEmitter();
+
   @ViewChild('timeline', { static: false }) public timelineHistogramComponent: HistogramComponent;
   @ViewChild('detailedtimeline', { static: false }) public detailedTimelineHistogramComponent: HistogramComponent;
 
@@ -92,23 +111,19 @@ export class TimelineComponent implements OnInit {
       this.timelineContributor.updateData = true;
       const mainCollection = this.timelineContributor.collection;
       this.mainCollection = mainCollection;
-      const mainCollectionDisplayName = !!this.arlasStartupService.collectionsMap.get(mainCollection).display_names?.collection ?
-        this.arlasStartupService.collectionsMap.get(mainCollection).display_names?.collection : mainCollection;
       this.resetHistogramsInputs(this.timelineComponent.input);
       this.timelineLegend.push({
         collection: mainCollection,
-        display_name: mainCollectionDisplayName,
+        display_name: getCollectionUnit(this.units, mainCollection),
         color: this.arlasColorService.getColor(mainCollection),
         active: true,
         main: true
       });
       if (!!this.timelineContributor.additionalCollections) {
         this.timelineContributor.additionalCollections.forEach(ac => {
-          const collectionnDisplayName = !!this.arlasStartupService.collectionsMap.get(ac.collectionName).display_names?.collection ?
-            this.arlasStartupService.collectionsMap.get(ac.collectionName).display_names?.collection : ac.collectionName;
           this.timelineLegend.push({
             collection: ac.collectionName,
-            display_name: collectionnDisplayName,
+            display_name: getCollectionUnit(this.units, ac.collectionName),
             color: this.arlasColorService.getColor(ac.collectionName),
             active: true,
             main: (ac.collectionName === mainCollection)
@@ -122,7 +137,7 @@ export class TimelineComponent implements OnInit {
         });
       });
       if (this.detailedTimelineComponent) {
-        this.detailedTimelineComponent.input.chartHeight = 75;
+        this.detailedTimelineComponent.input.chartHeight = 76;
         this.resetHistogramsInputs(this.detailedTimelineComponent.input);
         this.detailedTimelineContributor = <DetailedHistogramContributor>this.arlasStartupService.contributorRegistry
           .get(this.detailedTimelineComponent.contributorId);
@@ -206,7 +221,7 @@ export class TimelineComponent implements OnInit {
   }
 
   public emitTooltip(tooltip: HistogramTooltip, e: ElementRef) {
-    const yOffset = -80;
+    const yOffset = this.timelineLegend && this.timelineLegend.length > 1 ? -140 : -110;
     let xOffset = tooltip.xPosition;
     let right = false;
     if (!!tooltip && tooltip.shown && tooltip.xPosition > tooltip.chartWidth / 2) {
@@ -272,6 +287,28 @@ export class TimelineComponent implements OnInit {
         }
       }
     });
+  }
+
+  public toggleTimeline() {
+    this.isDisplayHistogram = !this.isDisplayHistogram;
+    this.isDisplayHistogramChange.next(this.isDisplayHistogram);
+    // Disable the update of both normal and detailed timeline if not open
+    this.timelineContributor.updateData = this.isDisplayHistogram;
+    this.detailedTimelineContributor.updateData = this.showDetailedTimeline && this.isDisplayHistogram;
+    if (this.isDisplayHistogram) {
+      this.timelineContributor.updateFromCollaboration({
+        id: this.timelineContributor.linkedContributorId,
+        operation: OperationEnum.add,
+        all: false
+      });
+      if (this.showDetailedTimeline) {
+        this.detailedTimelineContributor.updateFromCollaboration({
+          id: this.detailedTimelineContributor.linkedContributorId,
+          operation: OperationEnum.add,
+          all: false
+        });
+      }
+    }
   }
 
   private hideShowDetailedTimeline() {

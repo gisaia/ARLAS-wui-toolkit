@@ -1,0 +1,53 @@
+<div class="container" *ngIf="showPage; else connecting">
+  <div class="login-form text-center" style="align-items: center;">
+    <div>
+      <div class="title">
+        <h2>ARLAS - {{'Sign in' | translate}}</h2>
+      </div>
+      <div>
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          <div class="form-content">
+            <mat-form-field appearance="outline">
+              <mat-label>{{'Email' | translate}}</mat-label>
+              <input matInput type="email" name="email" formControlName="email">
+              <mat-icon matPrefix>mail_outline</mat-icon>
+              <mat-error *ngIf="loginForm.hasError('required', 'email')">
+                {{'Email is required' | translate}}
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>{{ 'Password' | translate}}</mat-label>
+              <input matInput type="{{ showPassword ? 'text' : 'password' }}" formControlName="password">
+              <mat-icon matPrefix>vpn_key</mat-icon>
+              <mat-icon (click)="showPassword = !showPassword" style="cursor: pointer;" matSuffix>{{showPassword ?
+                'visibility' : 'visibility_off'}}</mat-icon>
+              <mat-error *ngIf="loginForm.hasError('required', 'password')">
+                {{ 'Please enter your password' | translate}}
+              </mat-error>
+            </mat-form-field>
+            <div class="forgot">
+              <a routerLink="/password_forgot">{{ 'Forgot password?' | translate}}</a>
+            </div>
+          </div>
+          <div class="error" *ngIf="loginForm.getError('wrong')">
+            {{ 'Login or password invalid' | translate}}
+          </div>
+          <div class="buttons">
+            <button type="submit" class="login-button" [class.spinner]="isLoading" [disabled]="this.loginForm.invalid || isLoading" mat-flat-button
+              color="primary">{{ 'Login' | translate}}</button>
+
+          </div>
+          <div class="no-account">
+            {{'No Account?' | translate}}
+            <button mat-button type="button" [routerLink]="'/register'">{{ 'Sign up' | translate}}</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #connecting>
+  <div class="empty_mode">
+    <img class="gif" src="assets/spinner.gif">
+  </div>
+</ng-template>

@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { Component, OnInit, Input, ViewChild, ChangeDetectorRef, Output, ElementRef, OnDestroy, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ChangeDetectorRef, Output, ElementRef, OnDestroy, EventEmitter, Inject } from '@angular/core';
 import { ArlasCollaborativesearchService, ArlasConfigService } from '../../services/startup/startup.service';
 import { DataType, HistogramComponent, HistogramTooltip } from 'arlas-web-components';
 import { TranslateService } from '@ngx-translate/core';
@@ -54,7 +54,6 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy {
   public tooltipEvent: Subject<HistogramTooltip> = new Subject<HistogramTooltip>();
 
   public histogramOverlayRef: ArlasOverlayRef;
-
 
   @Input() public contributor: HistogramContributor;
   @Input() public componentInputs;
@@ -111,8 +110,8 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef,
     public translate: TranslateService,
     public arlasExportCsvService: ArlasExportCsvService,
-    private arlasOverlayService: ArlasOverlayService) {
-  }
+    private arlasOverlayService: ArlasOverlayService
+  ) {  }
 
   public initDetailedContributor() {
     if (!!this.contributor) {
@@ -234,7 +233,6 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy {
       yOffset = 20;
     }
     const analyticsBoardWidth = 445;
-    const shortcutWidth = 300;
     let itemPerLine = 1;
     let xOffset = 470;
     if (this.componentInputs.chartWidth === Math.ceil(analyticsBoardWidth / 2) - 6 ||

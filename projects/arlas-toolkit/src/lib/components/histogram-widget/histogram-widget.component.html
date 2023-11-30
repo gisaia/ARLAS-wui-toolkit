@@ -6,7 +6,7 @@
       (click)="exportCsv(detailedContributor)">
       <mat-icon class="analytics-board-panel-icon export-csv">get_app</mat-icon>
     </button>
-    <arlas-histogram #detailedhistogram [intervalListSelection]="detailedContributor?.intervalListSelection"
+    <arlas-histogram class="histogram-container" #detailedhistogram [intervalListSelection]="detailedContributor?.intervalListSelection"
       [intervalSelection]="detailedTimelineIntervalSelection" (dataPlottedEvent)="afterDetailedDataPlotted($event)"
       [data]="detailedContributor?.chartData" (valuesListChangedEvent)="onDetailedIntervalBrushed($event)"
       [id]="componentInputs?.id" [dataType]="componentInputs?.dataType" [dataUnit]="componentInputs?.dataUnit"
@@ -32,14 +32,14 @@
       [useUtc]="detailedContributor?.useUtc"
       (tooltipEvent)="emitTooltip($event,detailed, true)"
       [xUnit]="componentInputs?.xUnit" [yUnit]="componentInputs?.yUnit"></arlas-histogram>
-
   </div>
+
   <div style="position: relative;" (mouseleave)="hideHistogramTooltip()" #main>
     <button *ngIf="showExportCsv" id="export-csv" matTooltip="{{'Export' | translate }}" class="export-csv-button"
       (click)="exportCsv(contributor)">
       <mat-icon class="analytics-board-panel-icon export-csv">get_app</mat-icon>
     </button>
-    <arlas-histogram #histogram [intervalListSelection]="contributor?.intervalListSelection"
+    <arlas-histogram class="histogram-container" #histogram [intervalListSelection]="contributor?.intervalListSelection"
       [intervalSelection]="contributor?.intervalSelection" [data]="contributor?.chartData"
       (valuesListChangedEvent)="onMainIntervalBrushed($event)" [id]="componentInputs?.id"
       [dataType]="componentInputs?.dataType" [dataUnit]="componentInputs?.dataUnit"

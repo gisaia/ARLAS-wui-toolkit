@@ -1,5 +1,5 @@
 ARLAS-wui-toolkit
-Copyright 2017-2022 and onwards Gisaïa
+Copyright 2017-2023 and onwards Gisaïa
 
 
 ARLAS-wui-toolkit embeds the following components and their dependencies :

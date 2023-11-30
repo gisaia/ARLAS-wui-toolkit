@@ -1,0 +1,9 @@
+$permission-button-height: 30px;
+$sm-margin: 5px;
+$border-color: #a1a1a1;
+.permission {
+    line-height: $permission-button-height !important;
+    padding: 0 $sm-margin !important;
+    height: $permission-button-height;
+    border-color: $border-color !important;
+}

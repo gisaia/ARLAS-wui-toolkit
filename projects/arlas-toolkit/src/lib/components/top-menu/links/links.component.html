@@ -1,0 +1,15 @@
+<div class="wrapper" (click)="$event.stopPropagation()">
+    <ng-container *ngFor="let link of links; count as count">
+        <arlas-link  [link]="link" (hidden$)="onLinkHidden()" (onCheck$)="onLinkChecked()" (onClick$)="onLinkClicked()"></arlas-link>
+    </ng-container>
+    <ng-container *ngIf="nbHidden === links?.length">
+        <div class="no-link">
+            {{'no access to apps' | translate}}
+        </div>
+    </ng-container>
+    <ng-container *ngIf="showSpinner">
+        <div class="no-link">
+            <mat-spinner [diameter]="20"></mat-spinner>
+        </div>
+    </ng-container>
+</div>

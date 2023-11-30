@@ -1,0 +1,61 @@
+$large-icon-size: 48px;
+
+.arlas-timeline--container {
+  background-color: white;
+  box-sizing: border-box;
+
+  .timeline-empty {
+    height: 132px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    color: grey;
+
+    .icon {
+      height: $large-icon-size;
+      width: $large-icon-size;
+      font-size: $large-icon-size;
+    }
+  }
+}
+
+.arlas-timeline--legend {
+  display: flex;
+  height: 30px;
+  overflow-y: hidden;
+  overflow-x: auto;
+}
+
+.arlas-timeline--legend-collection {
+  font-size: 0.9em;
+  white-space: nowrap;
+}
+
+.arlas-timeline--legend-chip {
+  width: 12px;
+  height: 12px;
+  border-radius: 6px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.arlas-timeline--legend-container {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.show-detailedtimeline-true {
+  visibility: visible;
+}
+.show-detailedtimeline-false {
+  visibility: hidden;
+  height: 0;
+}
+
+.arlas-timeline-hidden {
+  height: 0px;
+}

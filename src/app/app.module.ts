@@ -18,18 +18,30 @@
  */
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ArlasToolKitModule, ArlasToolkitSharedModule } from '../../projects/arlas-toolkit/src/public-api';
+import { ArlasToolkitSharedModule } from '../../projects/arlas-toolkit/src/lib/shared.module';
+import { ArlasToolKitModule } from '../../projects/arlas-toolkit/src/lib/toolkit.module';
+import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { MatIconModule } from '@angular/material/icon';
+import { ContactComponent } from './components/contact/contact.component';
+import { HomeComponent } from './components/home/home.component';
+import { LoginModule } from '../../projects/arlas-toolkit/src/lib/login.module';
+import { RouterModule } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   imports: [
     CommonModule,
+    AppRoutingModule,
     ArlasToolkitSharedModule,
-    ArlasToolKitModule
+    ArlasToolKitModule,
+    MatIconModule,
+    MatButtonModule,
+    LoginModule,
+    RouterModule
   ],
   exports: [AppComponent],
-  declarations: [AppComponent],
-  providers: [],
+  declarations: [AppComponent, HomeComponent, ContactComponent],
   bootstrap: [AppComponent]
 })
 export class ToolKitAppModule { }

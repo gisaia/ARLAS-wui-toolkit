@@ -17,28 +17,34 @@
  * under the License.
  */
 
-import { Component, OnInit, Input } from '@angular/core';
-import { BookMark } from '../../services/bookmark/model';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ArlasBookmarkService } from '../../services/bookmark/bookmark.service';
 import { BookmarkAddDialogComponent, BookmarkComponent } from '../bookmark/bookmark.component';
-import { BookmarkPersistenceDatabase } from '../../services/bookmark/bookmarkPersistenceDatabase';
 import { ArlasStartupService } from '../../services/startup/startup.service';
+import { MatMenu } from '@angular/material/menu';
 
 
 @Component({
   selector: 'arlas-bookmark-menu',
   templateUrl: './bookmark-menu.component.html',
-  styleUrls: ['./bookmark-menu.component.css']
+  styleUrls: ['./bookmark-menu.component.scss']
 })
 export class BookmarkMenuComponent implements OnInit {
 
+  /**
+   * @Input : Angular
+   * @description Icon to use for the 'Manage dataset' action
+   */
   @Input() public icon: string;
+  /**
+   * @deprecated Top bookmarks are no longer displayed
+   */
   @Input() public nbTopBookmarks: number;
   @Input() public isSelectMultipleBookmarks = true;
 
-  public topBookmarks: Array<BookMark>;
-  public isBookmarkOpen = false;
+  @ViewChild('menu') public matMenu: MatMenu;
+
   public currentCollections = '';
 
   public constructor(
@@ -49,33 +55,7 @@ export class BookmarkMenuComponent implements OnInit {
 
   public ngOnInit(): void {
     this.icon = this.icon ? this.icon : 'view_list';
-    this.nbTopBookmarks = this.nbTopBookmarks ? this.nbTopBookmarks : 3;
     this.currentCollections = Array.from(this.startupService.collectionsMap.keys()).sort().join(',');
-
-    if (this.bookmarkService.dataBase instanceof BookmarkPersistenceDatabase) {
-      (this.bookmarkService.dataBase as BookmarkPersistenceDatabase).dataChange
-        .subscribe((bookmarks: { total: number; items: BookMark[]; }) => {
-          const sortedBookmark = bookmarks.items.filter(bk => {
-            if (bk.collections) {
-              return bk.collections === this.currentCollections;
-            } else {
-              return false;
-            }
-          }).sort((a, b) => (a.views < b.views ? -1 : 1) * (-1));
-          this.topBookmarks = sortedBookmark.slice(0, this.nbTopBookmarks);
-        });
-    } else {
-      this.bookmarkService.dataBase.dataChange.subscribe(bookmarks => {
-        const sortedBookmark = bookmarks.filter(bk => {
-          if (bk.collections) {
-            return bk.collections === this.currentCollections;
-          } else {
-            return false;
-          }
-        }).sort((a, b) => (a.views < b.views ? -1 : 1) * (-1));
-        this.topBookmarks = sortedBookmark.slice(0, this.nbTopBookmarks);
-      });
-    }
   }
 
   public openDatasetListDialog() {

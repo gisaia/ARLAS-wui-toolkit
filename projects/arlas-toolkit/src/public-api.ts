@@ -17,16 +17,18 @@
  * under the License.
  */
 
-
+export { TopMenuComponent } from './lib/components/top-menu/top-menu.component';
+export { AboutComponent, AboutDialogComponent } from './lib/components/top-menu/about/about.component';
 export { ShortcutFiltersHandlerComponent } from './lib/components/filter-shortcut/filters-handler/filters-handler.component';
-
 export { FilterShortcutChipComponent } from './lib/components/filter-shortcut/chip/chip.component';
 export { FilterShortcutComponent } from './lib/components/filter-shortcut/filter-shortcut.component';
 export { FilterShortcutConfiguration } from './lib/components/filter-shortcut/filter-shortcut.utils';
-export { AnalyticsBoardComponent } from './lib/components/analytics-board/analytics-board.component';
+export { AnalyticsBoardComponent } from './lib/components/analytics/analytics-board/analytics-board.component';
+export { AnalyticsMenuComponent } from './lib/components/analytics/analytics-menu/analytics-menu.component';
 export {
   AnalyticGroupConfiguration, AnalyticsTabs
-} from './lib/components/analytics-board/analytics.utils';
+} from './lib/components/analytics/analytics.utils';
+export { AnalyticsService } from './lib/services/analytics/analytics.service';
 export { AoiComponent } from './lib/components/aoi/aoi.component';
 export { BookmarkMenuComponent } from './lib/components/bookmark-menu/bookmark-menu.component';
 export { BookmarkAddDialogComponent, BookmarkComponent } from './lib/components/bookmark/bookmark.component';
@@ -46,8 +48,6 @@ export { ActionModalComponent } from './lib/components/config-manager/action-mod
 export { ActionModalModule } from './lib/components/config-manager/action-modal/action-modal.module';
 export { DonutTooltipOverlayComponent } from './lib/components/donut-tooltip-overlay/donut-tooltip-overlay.component';
 export { DownloadComponent, DownloadDialogComponent } from './lib/components/download/download.component';
-export { ErrormodalComponent, ErrorModalMsgComponent } from './lib/components/errormodal/errormodal.component';
-export { ErrorModalModule } from './lib/components/errormodal/errormodal.module';
 export { ExtendComponent } from './lib/components/extend/extend.component';
 export { ArlasExtendService } from './lib/services/extend/extend.service';
 export { ExtendPersistenceDatabase } from './lib/services/extend/extendPersistenceDatabase';
@@ -57,16 +57,20 @@ export {
   ConcatCollectionPipe, FiltersComponent, GetCollaborationIconPipe, GetColorFilterPipe,
   GetContributorLabelPipe, GetGlobalColorFilterPipe
 } from './lib/components/filters/filters.component';
+export { PermissionsCreatorComponent } from './lib/components/permissions-creator/permissions-creator.component';
+export { PermissionsCreatorDialogComponent } from
+  './lib/components/permissions-creator/permissions-creator-dialog/permissions-creator-dialog.component';
 export { HistogramTooltipOverlayComponent } from './lib/components/histogram-tooltip-overlay/histogram-tooltip-overlay.component';
 export { CalendarTimelineTooltipOverlayComponent } from
   './lib/components/calendar-timeline-tooltip-overlay/calendar-timeline-tooltip-overlay.component';
 export { HistogramWidgetComponent } from './lib/components/histogram-widget/histogram-widget.component';
-export { InvalidConfigDialogComponent } from './lib/components/invalid-config-dialog/invalid-config-dialog.component';
+export { DeniedAccessDialogComponent } from './lib/components/denied-access-dialog/denied-access-dialog.component';
 export { LanguageSwitcherComponent } from './lib/components/language-switcher/language-switcher.component';
-export { LinkComponent } from './lib/components/link/link.component';
+export { LinkComponent } from './lib/components/top-menu/links/link/link.component';
+export { LinksComponent } from './lib/components/top-menu/links/links.component';
 export { ProgressSpinnerComponent } from './lib/components/progress-spinner/progress-spinner.component';
 export { ReconnectDialogComponent } from './lib/components/reconnect-dialog/reconnect-dialog.component';
-export { SearchComponent } from './lib/components/search/search.component';
+export { SearchComponent, SearchDialogComponent } from './lib/components/search/search.component';
 export { ArlasSearchField } from './lib/components/share/model/ArlasSearchField';
 export { ExcludeTypePipe } from './lib/components/share/exclude-type.pipe';
 export { ShareComponent, ShareDialogComponent, ShareLayerSourceConfig } from './lib/components/share/share.component';
@@ -79,7 +83,7 @@ export { UserInfosComponent } from './lib/components/user-infos/user-infos.compo
 export { WidgetComponent } from './lib/components/widget/widget.component';
 export { GetTimeLabelPipe } from './lib/pipes/get-time-label.pipe';
 export { ArlasAoiService } from './lib/services/aoi/aoi.service';
-export { AuthentificationService, AuthentSetting, NOT_CONFIGURED } from './lib/services/authentification/authentification.service';
+export { AuthentificationService } from './lib/services/authentification/authentification.service';
 export { ArlasBookmarkService } from './lib/services/bookmark/bookmark.service';
 export { ArlasColorGeneratorLoader } from './lib/tools/color-generator-loader';
 export { ArlasConfigurationDescriptor } from './lib/services/configuration-descriptor/configurationDescriptor.service';
@@ -102,8 +106,9 @@ export { ArlasTaggerModule } from './lib/tagger.module';
 export { ToolkitRoutingModule } from './lib/toolkit-routing.module';
 export { ToolkitComponent } from './lib/toolkit.component';
 export {
-  ArlasToolKitModule, auhtentServiceFactory, configServiceFactory, configUpdaterFactory,
-  getOptionsFactory, localDatePickerFactory, MY_CUSTOM_FORMATS, settingsServiceFactory, startupServiceFactory
+  ArlasToolKitModule, auhtentServiceFactory, iamServiceFactory, configServiceFactory, configUpdaterFactory,
+  getOptionsFactory, localDatePickerFactory, MY_CUSTOM_FORMATS,
+  settingsServiceFactory, startupServiceFactory
 } from './lib/toolkit.module';
 export { ArlasDataSource } from './lib/tools/arlasDataSource';
 export { PaginatorI18n } from './lib/tools/paginatori18n';
@@ -111,7 +116,7 @@ export {
   ArlasOverlayRef, ArlasStorageObject, WidgetConfiguration,
   ArlasStorageType, CollectionCount, CollectionUnit, Config, ConfigAction, ConfigActionEnum,
   CONFIG_ID_QUERY_PARAM, DONUT_TOOLTIP_DATA, getFieldProperties, getKeyForColor, hashCode,
-  HISTOGRAM_TOOLTIP_DATA, intToRGB, MapService, sortOnDate, SpinnerOptions, GET_OPTIONS
+  HISTOGRAM_TOOLTIP_DATA, intToRGB, MapService, sortOnDate, SpinnerOptions, AuthentSetting, NOT_CONFIGURED, GET_OPTIONS
 } from './lib/tools/utils';
 export { FetchInterceptorService } from './lib/services/interceptor/fetch-interceptor.service';
 export { ArlasOverlayService, HistogramTooltipConfig, DonutTooltipConfig } from './lib/services/overlays/overlay.service';
@@ -119,3 +124,16 @@ export { PermissionService, PermissionSetting } from './lib/services/permission/
 export { ArlasExportCsvService } from './lib/services/export-csv/export-csv.service';
 export { ArlasTagService } from './lib/services/tag/tag.service';
 export { TaggerResponse } from './lib/services/tag/model';
+export { LoginModule } from './lib/login.module';
+export { ArlasIamService } from './lib/services/arlas-iam/arlas-iam.service';
+export { AuthGuardIamService } from './lib/services/arlas-iam/auth-guard-iam.service';
+export { LoginComponent } from './lib/components/login/login.component';
+export { RegisterComponent } from './lib/components/register/register.component';
+export { ChangePasswordComponent } from './lib/components/change-password/change-password.component';
+export { VerifyComponent } from './lib/components/verify/verify.component';
+export { ForgotComponent } from './lib/components/forgot/forgot.component';
+export { ResetComponent } from './lib/components/reset/reset.component';
+export { ArlasIamApi } from './lib/services/startup/startup.service';
+export { ArlasAuthentificationService } from './lib/services/arlas-authentification/arlas-authentification.service';
+export { ProcessComponent } from './lib/components/process/process.component';
+export { ProcessService } from './lib/services/process/process.service';

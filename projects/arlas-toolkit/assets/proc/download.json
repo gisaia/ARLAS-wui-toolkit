@@ -1,0 +1,67 @@
+{
+  "id": "d-w",
+  "version": "0.0.0",
+  "title": "download",
+  "description": "Download one or several products",
+  "inputs": {
+    "mock_text": {
+      "title": "mock_text",
+      "description": "mock_text description",
+      "schema": {
+        "type": "string",
+        "required": true
+      }
+    },
+    "mock_enum_single": {
+      "title": "mock_enum_single",
+      "description": "mock_enum_single description",
+      "schema": {
+        "type": "string",
+        "enum": [
+          "f1",
+          "f2"
+        ]
+      }
+    },
+    "mock_enum_multiple": {
+      "title": "mock_enum_multiple",
+      "description": "mock_enum_multiple description",
+      "schema": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "enum": [
+            "p1",
+            "p2",
+            "p3"
+          ]
+        }
+      }
+    },
+    "mock_integer": {
+      "title": "mock_integer",
+      "description": "mock_integer description",
+      "schema": {
+        "type": "number",
+        "format": "integer"
+      }
+    },
+    "mock_double": {
+      "title": "mock_double",
+      "description": "mock_double description",
+      "schema": {
+        "type": "number",
+        "format": "double",
+        "/comment for SB": "If format is not set, consider it is double"
+      }
+    },
+    "mock_boolean": {
+      "title": "mock_boolean",
+      "description": "mock_boolean description",
+      "schema": {
+        "type": "boolean"
+      }
+    }
+
+  }
+}

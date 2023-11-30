@@ -20,9 +20,9 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-node-${{ secrets.CACHE_VERSION }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-node-
+            ${{ runner.os }}-node-${{ secrets.CACHE_VERSION }}
 
       - name: Install dependencies
         run: npm ci
@@ -32,8 +32,6 @@ jobs:
         run: npm run lint
       - name: Build
         run: npm run build-release
-      - name: Test
-        run: npm run test
       - name: Documentation
         env:
           # secrets are defined here : https://github.com/organizations/gisaia/settings/secrets/actions

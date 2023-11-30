@@ -2,15 +2,15 @@
   background-color: transparent;
   border: none;
   position: absolute;
-  right: 4px;
-  top: 2px;
+  right: 15px;
   cursor: pointer;
   z-index: 2;
   padding: 0;
 }
 
 .export-csv-button-powerbars {
-  top: 18px;
+  top: 74px;
+  right: 6px;
 }
 
 .export-csv {

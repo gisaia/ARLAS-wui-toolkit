@@ -36,8 +36,9 @@
   font-feature-settings: 'liga';
 }
 
-body{
+html, body{
   background-color: whitesmoke;
+  font-family: Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
 }
 
 .dropdownSwimlane{
@@ -69,7 +70,6 @@ body{
 
 .arlas-metric-container {
   text-align: center;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
   height: 116px;
 }
 

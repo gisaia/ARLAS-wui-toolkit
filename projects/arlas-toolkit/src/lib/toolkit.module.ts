@@ -27,12 +27,13 @@ import { OAuthModule, ValidationHandler } from 'angular-oauth2-oidc';
 import { JwksValidationHandler } from 'angular-oauth2-oidc-jwks';
 import { ColorGeneratorLoader, ColorGeneratorModule, ShortenNumberPipe } from 'arlas-web-components';
 import { ToolkitComponent } from './toolkit.component';
-import { ErrorModalModule } from './components/errormodal/errormodal.module';
+import { DeviceDetectorService } from 'ngx-device-detector';
 import { ArlasTranslateIntl } from './components/timeline/date-picker/ArlasTranslateIntl';
 import { ArlasAoiService } from './services/aoi/aoi.service';
+import { ArlasIamService } from './services/arlas-iam/arlas-iam.service';
+import { AuthGuardIamService } from './services/arlas-iam/auth-guard-iam.service';
 import { AuthentificationService } from './services/authentification/authentification.service';
 import { ArlasBookmarkService } from './services/bookmark/bookmark.service';
-import { ArlasColorGeneratorLoader } from './tools/color-generator-loader';
 import { ArlasConfigurationDescriptor } from './services/configuration-descriptor/configurationDescriptor.service';
 import { ErrorService } from './services/error/error.service';
 import { ArlasExportCsvService } from './services/export-csv/export-csv.service';
@@ -47,10 +48,9 @@ import {
 } from './services/startup/startup.service';
 import { ArlasWalkthroughService } from './services/walkthrough/walkthrough.service';
 import { ArlasToolkitSharedModule } from './shared.module';
-import { PaginatorI18n } from './tools/paginatori18n';
-import { DeviceDetectorService } from 'ngx-device-detector';
 import { ToolkitRoutingModule } from './toolkit-routing.module';
 import { GET_OPTIONS } from './tools/utils';
+import { PaginatorI18n } from './tools/paginatori18n';
 
 
 
@@ -71,6 +71,10 @@ export function auhtentServiceFactory(service: AuthentificationService) {
   return service;
 }
 
+export function iamServiceFactory(service: ArlasIamService) {
+  return service;
+}
+
 export function localDatePickerFactory(translate: TranslateService) {
   return translate.currentLang;
 }
@@ -79,14 +83,33 @@ export function configUpdaterFactory(x): any {
   return (x) => x[0];
 }
 
-export function getOptionsFactory(arlasAuthService: AuthentificationService): any {
+export function getOptionsFactory(settingsService: ArlasSettingsService, arlasAuthService: AuthentificationService,
+  arlasIamService: ArlasIamService): any {
   const getOptions = () => {
-    const token = !!arlasAuthService.accessToken ? arlasAuthService.accessToken : null;
+    let token = null;
+    const authSettings = settingsService.getAuthentSettings();
+    let authentMode = !!authSettings ? authSettings.auth_mode : undefined;
+    const isAuthentActivated = !!authSettings && !!authSettings.use_authent;
+    if (isAuthentActivated && !authentMode) {
+      authentMode = 'openid';
+    }
+    if (!!authentMode && authentMode === 'iam') {
+      token = arlasIamService.getAccessToken();
+    } else {
+      token = !!arlasAuthService.accessToken ? arlasAuthService.accessToken : null;
+    }
+
     if (token !== null) {
+      const headers = {
+        Authorization: 'Bearer ' + token
+      };
+      if (authentMode === 'iam') {
+        const org = arlasIamService.getOrganisation();
+        headers['arlas-org-filter'] = org;
+      }
+
       return {
-        headers: {
-          Authorization: 'bearer ' + token
-        }
+        headers
       };
     } else {
       return {};
@@ -111,7 +134,6 @@ export const MY_CUSTOM_FORMATS = {
     ArlasToolkitSharedModule,
     BrowserModule,
     BrowserAnimationsModule,
-    ErrorModalModule,
     OAuthModule.forRoot()
   ],
   exports: [ToolkitComponent],
@@ -135,6 +157,7 @@ export const MY_CUSTOM_FORMATS = {
     forwardRef(() => ArlasConfigService),
     forwardRef(() => ArlasCollaborativesearchService),
     forwardRef(() => AuthentificationService),
+    forwardRef(() => ArlasIamService),
     forwardRef(() => ArlasStartupService),
     forwardRef(() => ArlasMapSettings),
     forwardRef(() => ArlasMapService),
@@ -182,14 +205,17 @@ export const MY_CUSTOM_FORMATS = {
     {
       provide: GET_OPTIONS,
       useFactory: getOptionsFactory,
-      deps: [AuthentificationService]
+      deps: [ArlasSettingsService, AuthentificationService, ArlasIamService]
     },
     {
       provide: MatPaginatorIntl,
       deps: [TranslateService],
       useClass: PaginatorI18n
     },
-    ShortenNumberPipe
+    ShortenNumberPipe,
+    AuthGuardIamService,
+    ArlasIamService
+
   ],
   bootstrap: [ToolkitComponent]
 })
