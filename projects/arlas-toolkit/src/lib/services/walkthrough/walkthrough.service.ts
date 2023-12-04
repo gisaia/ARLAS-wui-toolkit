@@ -206,5 +206,7 @@ export class ArlasWalkthroughService {
    */
   public resetTour() {
     localStorage.removeItem(this.tourData.id);
+    // Hopscotch stores the tour step in the session storage
+    this.endTour(true);
   }
 }
