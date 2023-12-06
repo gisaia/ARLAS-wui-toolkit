@@ -133,9 +133,12 @@ export class SearchComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(searchValue => {
-      if (searchValue) {
-        this.searchValue = searchValue.trim();
+      if (!!searchValue) {
         this.search(searchValue);
+      } else if (searchValue === null || searchValue === '') {
+        // When nothing is in the search and no text was typed then it is null
+        // If text was typed then removed, it is ''
+        this.clearSearch();
       }
     });
   }
@@ -262,10 +265,8 @@ export class SearchDialogComponent {
     if (this.searchCtrl.value !== null) {
       this.keyEvent.next(this.searchCtrl.value.length);
     }
-    if (event.keyCode === 13) {
-      if (this.searchCtrl.value && this.searchCtrl.value.trim() !== '') {
-        this.dialogRef.close(this.searchCtrl.value);
-      }
+    if (event.key === 'Enter') {
+      this.dialogRef.close(this.searchCtrl.value?.trim());
     }
   }
 

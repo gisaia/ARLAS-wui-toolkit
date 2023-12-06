@@ -3,7 +3,8 @@
   <div class="search-text" [class.search-text-empty]="searchValue === searchPlaceholder" (click)="openDialog()">
     {{ searchValue }}
   </div>
-  <button *ngIf="searchValue !== searchPlaceholder" mat-icon-button type="button" class="close" (click)="clearSearch()">
+  <button *ngIf="searchValue !== searchPlaceholder" mat-icon-button type="button" class="close"
+  (click)="clearSearch()" [matTooltip]="'Remove search text' | translate">
     <mat-icon class="icon">close</mat-icon>
   </button>
 </div>
