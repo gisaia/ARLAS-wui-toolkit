@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, FormGroupDirective, Validators } from '@angular
 import { ActivatedRoute } from '@angular/router';
 import { ArlasIamService } from '../../services/arlas-iam/arlas-iam.service';
 import { ConfirmedValidator } from '../../tools/utils';
+import { ArlasSettingsService } from '../../services/settings/arlas.settings.service';
+import { NOT_CONFIGURED } from '../../tools/utils';
 
 @Component({
   selector: 'arlas-verify',
@@ -21,6 +23,7 @@ export class VerifyComponent implements OnInit {
     private formBuilder: FormBuilder,
     private iamService: ArlasIamService,
     private route: ActivatedRoute,
+    private settingsService: ArlasSettingsService
   ) { }
 
   public ngOnInit(): void {
@@ -44,6 +47,10 @@ export class VerifyComponent implements OnInit {
         formDirective.resetForm();
         this.validateForm.reset();
         this.validated = true;
+        const authSettings = this.settingsService.getAuthentSettings();
+        if (!!authSettings && authSettings.login_url && authSettings.login_url !== NOT_CONFIGURED) {
+          window.open(authSettings.login_url, '_self');
+        }
       },
       error: err => {
         if( err.statusText === 'Not Found'){
