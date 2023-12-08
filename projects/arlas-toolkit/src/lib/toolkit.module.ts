@@ -93,24 +93,26 @@ export function getOptionsFactory(settingsService: ArlasSettingsService, arlasAu
     if (isAuthentActivated && !authentMode) {
       authentMode = 'openid';
     }
-    if (!!authentMode && authentMode === 'iam') {
-      token = arlasIamService.getAccessToken();
-    } else {
-      token = !!arlasAuthService.accessToken ? arlasAuthService.accessToken : null;
-    }
-
-    if (token !== null) {
-      const headers = {
-        Authorization: 'Bearer ' + token
-      };
-      if (authentMode === 'iam') {
-        const org = arlasIamService.getOrganisation();
-        headers['arlas-org-filter'] = org;
+    if (isAuthentActivated) {
+      if (!!authentMode && authentMode === 'iam') {
+        token = arlasIamService.getAccessToken();
+      } else {
+        token = !!arlasAuthService.accessToken ? arlasAuthService.accessToken : null;
       }
-
-      return {
-        headers
-      };
+      if (token !== null) {
+        const headers = {
+          Authorization: 'Bearer ' + token
+        };
+        if (authentMode === 'iam') {
+          const org = arlasIamService.getOrganisation();
+          if (!!org) {
+            headers['arlas-org-filter'] = org;
+          }
+        }
+        return { headers };
+      } else {
+        return {};
+      }
     } else {
       return {};
     }
