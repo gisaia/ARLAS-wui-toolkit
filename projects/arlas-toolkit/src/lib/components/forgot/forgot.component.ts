@@ -14,7 +14,7 @@ export class ForgotComponent implements OnInit {
 
   public constructor(
     private formBuilder: FormBuilder,
-    private iamService: ArlasIamService,
+    private iamService: ArlasIamService
   ) { }
 
   public ngOnInit(): void {
