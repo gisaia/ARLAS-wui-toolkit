@@ -441,15 +441,6 @@ export class ArlasStartupService {
     });
   }
 
-  public enrichServicesIamsHeaders(): void {
-    const accessToken = this.arlasIamService.getAccessToken();
-    const arlasOrganisation = this.arlasIamService.getOrganisation();
-    const iamHeader: IamHeader = {
-      Authorization: 'Bearer ' + accessToken,
-      'arlas-org-filter': arlasOrganisation
-    };
-  }
-
   /**
    * Enriches headers of calls sent to ARLAS-server & ARLAS-persistence
    * @param settings
