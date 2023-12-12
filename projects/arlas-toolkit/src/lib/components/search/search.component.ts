@@ -69,7 +69,7 @@ export class SearchComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    this.searchPlaceholder = this.translate.instant(this.searchContributor?.getName());
+    this.searchPlaceholder = this.translate.instant(this.searchContributor ? this.searchContributor.getName() : 'Search...');
     this.searchValue = this.searchPlaceholder;
 
     // Retrieve value from the url and future collaborations
