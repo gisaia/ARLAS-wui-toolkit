@@ -43,7 +43,7 @@
 ></mat-paginator>
 
 
-<div class="bookmark-actions" *ngIf="data.isSelect">
+<div class="bookmark-actions" *ngIf="showCombine">
   <button class="bookmark-action-button" mat-raised-button [disabled]="disableCombine"(click)="viewCombine()">{{ 'View Combine' | translate }}</button>
   <button class="bookmark-action-button" mat-raised-button [disabled]="disableCombine" (click)="combine()">{{ 'Combine' | translate }}</button>
 </div>
