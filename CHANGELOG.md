@@ -1,8 +1,29 @@
 # Change Log
 
+## [v24.3.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.3.0) (2023-12-12)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.3.0-rc.1...v24.3.0)
+
+**Fixed bugs:**
+
+- Access tokens could be passed to queries when authent is not activated [\#708](https://github.com/gisaia/ARLAS-wui-toolkit/issues/708)
+- Password change leads to password page after submission [\#710](https://github.com/gisaia/ARLAS-wui-toolkit/issues/710)
+
 ## [v24.3.0-rc.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.3.0-rc.1) (2023-11-30)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.2.1...v24.3.0-rc.1)
+
+**New stuff:**
+
+- Implement a "Messaging service" to display errors to users + robustify the code [\#678](https://github.com/gisaia/ARLAS-wui-toolkit/issues/678)
+- Integrate ARLAS-iam in Authentication service [\#578](https://github.com/gisaia/ARLAS-wui-toolkit/issues/578)
+- Enhance filters chips tooltips [\#506](https://github.com/gisaia/ARLAS-wui-toolkit/issues/506)
+
+**Fixed bugs:**
+
+- Once logged on the Hub, it displays nothing [\#695](https://github.com/gisaia/ARLAS-wui-toolkit/issues/695)
+- Enhance the message error when backend services are down [\#679](https://github.com/gisaia/ARLAS-wui-toolkit/issues/679)
+- Persistence service is not a singleton in apps that lazy load toolkit module [\#670](https://github.com/gisaia/ARLAS-wui-toolkit/issues/670)
 
 ## [v24.2.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.2.1) (2023-11-22)
 
@@ -102,15 +123,15 @@
 
 ## [v24.2.0-beta-iam.5](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.2.0-beta-iam.5) (2023-09-04)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.2.0-beta-iam.4...v24.2.0-beta-iam.5)
-
-## [v24.2.0-beta-iam.4](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.2.0-beta-iam.4) (2023-08-28)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.2.0-beta-iam.3...v24.2.0-beta-iam.4)
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.2.0-beta-iam.3...v24.2.0-beta-iam.5)
 
 ## [v24.2.0-beta-iam.3](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.2.0-beta-iam.3) (2023-08-28)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.1.6...v24.2.0-beta-iam.3)
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.2.0-beta-iam.4...v24.2.0-beta-iam.3)
+
+## [v24.2.0-beta-iam.4](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.2.0-beta-iam.4) (2023-08-28)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.1.6...v24.2.0-beta-iam.4)
 
 ## [v24.1.6](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.1.6) (2023-08-09)
 
