@@ -38,6 +38,7 @@ export class BookmarkComponent {
   public columnsToDisplay = ['checked', 'name', 'date', 'count', 'actions'];
   public itemsCheck: Array<string> = new Array<string>();
   public disableCombine = true;
+  public showCombine = true;
 
   public resultsLength = 0;
   public pageSize = 10;
@@ -54,11 +55,12 @@ export class BookmarkComponent {
     private bookmarkService: ArlasBookmarkService,
     private dialog: MatDialog,
     private startupService: ArlasStartupService,
-    @Inject(MAT_DIALOG_DATA) public data: {isSelect: boolean;}
+    @Inject(MAT_DIALOG_DATA) public data: { isSelect: boolean; }
   ) {
-    if (!data.isSelect) {
+    if (!!data && !data.isSelect) {
       // Remove the 'checked' column
       this.columnsToDisplay = ['name', 'date', 'count', 'actions'];
+      this.showCombine = false;
     }
 
     this.currentCollections = Array.from(this.startupService.collectionsMap.keys()).sort().join(',');
