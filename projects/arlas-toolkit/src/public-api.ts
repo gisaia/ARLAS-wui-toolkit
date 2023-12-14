@@ -31,7 +31,8 @@ export {
 export { AnalyticsService } from './lib/services/analytics/analytics.service';
 export { AoiComponent } from './lib/components/aoi/aoi.component';
 export { BookmarkMenuComponent } from './lib/components/bookmark-menu/bookmark-menu.component';
-export { BookmarkAddDialogComponent, BookmarkComponent } from './lib/components/bookmark/bookmark.component';
+export { BookmarkAddDialogComponent } from './lib/components/bookmark/bookmark-add-dialog.component';
+export { BookmarkComponent } from './lib/components/bookmark/bookmark.component';
 export { BookMark, BookMarkType } from './lib/services/bookmark/model';
 export { BookmarkDataSource } from './lib/services/bookmark/bookmarkDataSource';
 export { BookmarkLocalDatabase } from './lib/services/bookmark/bookmarkLocalDatabase';

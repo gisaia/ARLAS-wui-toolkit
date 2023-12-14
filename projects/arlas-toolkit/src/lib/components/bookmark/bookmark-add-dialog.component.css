@@ -19,3 +19,7 @@
 .dark{
   color: darkgrey;
 }
+.add_bookmark .mat-form-field {
+  width: 100%;
+}
+
