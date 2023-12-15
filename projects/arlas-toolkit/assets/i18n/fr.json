@@ -269,7 +269,7 @@
 	"successful": "terminé",
 	"failed": "en erreur",
 	"dissmissed": "annulé",
-	"Bookmark already exists":"Un bookmark éxiste déjà avec ce nom.",
-	"Bookmark creation error":"Erreur durant la creation du bookmark."
+	"Bookmark already exists":"Un bookmark existe déjà avec ce nom.",
+	"Bookmark creation error":"Erreur durant la création du bookmark."
 	
 }
