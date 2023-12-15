@@ -260,6 +260,6 @@
 	"failed": "failed",
 	"dissmissed": "dissmissed",
 	"yes": "yes",
-	"Bookmark already exists":"Bookmark already exists with this name.",
+	"Bookmark already exists":"A bookmark already exists with this name.",
 	"Bookmark creation error":"Error during bookmark creation."
 }
