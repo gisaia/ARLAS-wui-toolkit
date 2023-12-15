@@ -268,5 +268,8 @@
 	"running": "en cours",
 	"successful": "terminé",
 	"failed": "en erreur",
-	"dissmissed": "annulé"
+	"dissmissed": "annulé",
+	"Bookmark already exists":"Un bookmark éxiste déjà avec ce nom.",
+	"Bookmark creation error":"Erreur durant la creation du bookmark."
+	
 }

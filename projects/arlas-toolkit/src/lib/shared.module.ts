@@ -65,7 +65,7 @@ import { AnalyticsBoardComponent } from './components/analytics/analytics-board/
 import { AnalyticsMenuComponent } from './components/analytics/analytics-menu/analytics-menu.component';
 import { AoiComponent } from './components/aoi/aoi.component';
 import { BookmarkMenuComponent } from './components/bookmark-menu/bookmark-menu.component';
-import { BookmarkAddDialogComponent, BookmarkComponent } from './components/bookmark/bookmark.component';
+import { BookmarkComponent } from './components/bookmark/bookmark.component';
 import { CalendarTimelineToolComponent } from './components/calendar-timeline/calendar-timeline.component';
 import { ActionModalComponent } from './components/config-manager/action-modal/action-modal.component';
 import { ActionModalModule } from './components/config-manager/action-modal/action-modal.module';
@@ -110,6 +110,7 @@ import { ArlasColorGeneratorLoader } from './tools/color-generator-loader';
 import { TopMenuComponent } from './components/top-menu/top-menu.component';
 import { LinksComponent } from './components/top-menu/links/links.component';
 import { LinkComponent } from './components/top-menu/links/link/link.component';
+import { BookmarkAddDialogComponent } from './components/bookmark/bookmark-add-dialog.component';
 
 export class CustomTranslateLoader implements TranslateLoader {
 

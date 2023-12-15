@@ -20,9 +20,10 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ArlasBookmarkService } from '../../services/bookmark/bookmark.service';
-import { BookmarkAddDialogComponent, BookmarkComponent } from '../bookmark/bookmark.component';
+import { BookmarkComponent } from '../bookmark/bookmark.component';
 import { ArlasStartupService } from '../../services/startup/startup.service';
 import { MatMenu } from '@angular/material/menu';
+import { BookmarkAddDialogComponent } from '../bookmark/bookmark-add-dialog.component';
 
 
 @Component({
@@ -63,12 +64,7 @@ export class BookmarkMenuComponent implements OnInit {
   }
 
   public openDialogAdd() {
-    const dialogRef = this.dialog.open(BookmarkAddDialogComponent, { data: { name: null } });
-    dialogRef.afterClosed().subscribe(bookmarkName => {
-      if (bookmarkName) {
-        this.bookmarkService.addBookmark(bookmarkName).subscribe(()=>{},(e)=>console.error(e));
-      }
-    });
+    this.dialog.open(BookmarkAddDialogComponent, { data: { name: null } });
   }
 
   public viewBookmark(id) {

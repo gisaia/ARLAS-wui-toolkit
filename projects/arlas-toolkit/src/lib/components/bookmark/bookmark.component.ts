@@ -25,7 +25,8 @@ import { BookmarkPersistenceDatabase } from '../../services/bookmark/bookmarkPer
 import { BookmarkDataSource } from '../../services/bookmark/bookmarkDataSource';
 import { ArlasStartupService } from '../../services/startup/startup.service';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { BookmarkAddDialogComponent } from './bookmark-add-dialog.component';
 
 @Component({
   selector: 'arlas-bookmark',
@@ -159,23 +160,4 @@ export class BookmarkComponent {
   }
 }
 
-@Component({
-  templateUrl: './bookmark-add-dialog.component.html',
-  styleUrls: ['./bookmark-add-dialog.component.css']
-})
-export class BookmarkAddDialogComponent {
-  public bookmarkName: string;
 
-  public constructor(
-    public dialogRef: MatDialogRef<BookmarkAddDialogComponent>) { }
-
-  public cancel(): void {
-    this.dialogRef.close();
-  }
-
-  public pressEvent(event: KeyboardEvent) {
-    if (event.keyCode === 13 && this.bookmarkName) {
-      this.dialogRef.close(this.bookmarkName);
-    }
-  }
-}

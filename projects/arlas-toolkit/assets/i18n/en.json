@@ -259,5 +259,7 @@
 	"successful": "successful",
 	"failed": "failed",
 	"dissmissed": "dissmissed",
-	"yes": "yes"
+	"yes": "yes",
+	"Bookmark already exists":"Bookmark already exists with this name.",
+	"Bookmark creation error":"Error during bookmark creation."
 }
