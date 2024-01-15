@@ -1,12 +1,12 @@
 {
     "$schema": "http://json-schema.org/draft-06/schema#",
-    "title": "Arlas WUI application Configuration",
+    "title": "ARLAS-wui application Configuration",
     "description": "The Configuration of an arlas web application",
     "type": "object",
     "$id": "arlasconfig.schema.json",
     "properties": {
         "arlas": {
-            "description": "Configuration of ARLAS Wui Project",
+            "description": "Configuration of ARLAS-wui Project",
             "type": "object",
             "properties": {
                 "web": {
@@ -175,7 +175,7 @@
                                         "description": "Title of the shortcut",
                                         "type": "string"
                                     },
-                                    "order":  {
+                                    "order": {
                                         "description": "order in the list",
                                         "type": "number"
                                     }
@@ -644,11 +644,22 @@
                         }
                     }
                 }
+                
             },
             "required": [
                 "web",
                 "server"
             ]
+        },
+        "resources": {
+            "description": "Declaration of resources related to this dashboard, such as previews and i18n files.",
+            "type": "object",
+            "properties": {
+                "previewId": {
+                    "description": "Identifier of the preview related to this dashboard",
+                    "type": "string"
+                }
+            }
         }
     },
     "required": [
