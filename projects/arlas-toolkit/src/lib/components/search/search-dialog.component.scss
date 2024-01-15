@@ -67,7 +67,7 @@ $search-width: 400px;
     .autocomplete {
         margin: 4px 2px;
         padding: 0;
-    
+
         li:last {
             padding-bottom: 0;
         }
@@ -75,21 +75,21 @@ $search-width: 400px;
         .search-warning {
             @include search-text;
         }
-    
+
         .search-option {
             @include search-text;
             display: flex;
             justify-content: space-between;
             cursor: pointer;
-    
+
             &:hover {
                 background-color: rgba(208, 217, 226, 0.548);
             }
-    
+
             span {
                 padding: 0 4px;
             }
-    
+
             .count {
                 color: #5a5555;
             }
@@ -97,7 +97,7 @@ $search-width: 400px;
     }
 }
 
-::ng-deep .mat-dialog-content {
+::ng-deep #arlas-search-dialog .mat-dialog-content {
     padding: 0;
     margin: -20px;
 }
