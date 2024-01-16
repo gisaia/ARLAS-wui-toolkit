@@ -70,8 +70,31 @@ import { DashboardError } from '../../tools/errors/dashboard-error';
 export class ArlasConfigService extends ConfigService {
   public errorsQueue = new Array<Error>();
   public appName = '';
+
   public constructor() {
     super();
+  }
+
+  /** Returns the preview identifier stored in the config.json */
+  public getPreviewId(): string | undefined {
+    return this.getValue('resources.previewId');
+  }
+
+
+  public parse(stringifiedConfig: string) {
+    return JSON.parse(stringifiedConfig);
+  }
+
+  public getPreview(config: any) {
+    return config?.resources?.previewId;
+  }
+
+  public updatePreview(config: any, previewId: string) {
+    if (!config.resources) {
+      config.resources = {};
+    }
+    config.resources.previewId = previewId;
+    return config;
   }
 }
 

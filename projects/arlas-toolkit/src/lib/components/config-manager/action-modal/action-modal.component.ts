@@ -20,8 +20,11 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { PersistenceService } from '../../../services/persistence/persistence.service';
-import { ConfigAction, ConfigActionEnum } from '../../../tools/utils';
+import { Config, ConfigAction, ConfigActionEnum } from '../../../tools/utils';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
+import { ArlasConfigService } from '../../../services/startup/startup.service';
+import { DataWithLinks, Exists } from 'arlas-persistence-api';
+import { Observable, catchError, map, of } from 'rxjs';
 
 @Component({
   selector: 'arlas-action-modal',
@@ -38,81 +41,60 @@ export class ActionModalComponent {
   public constructor(
     @Inject(MAT_DIALOG_DATA) data: ConfigAction,
     private dialogRef: MatDialogRef<ActionModalComponent>,
-    private persistenceService: PersistenceService
+    private persistenceService: PersistenceService,
+    private configurationService: ArlasConfigService
   ) {
     this.action = data;
   }
 
-  public duplicate(newName: string, configId: string) {
-    this.persistenceService.duplicate('config.json', configId, newName)
-      .subscribe({
-        next: () => {
-          this.duplicatePreview(configId, newName);
-          this.errorMessage = '';
-          this.dialogRef.close();
-        },
-        error: (error) => this.raiseError(error)
-      });
+  public duplicate(newName: string, config: Config) {
+    const arlasConfig = this.configurationService.parse(config.value);
+    if (!!arlasConfig) {
+      const previewId = this.configurationService.getPreview(arlasConfig);
+      if (previewId) {
+        this.duplicatePreviewThenConfig$(previewId, arlasConfig, config.name, newName).subscribe();
+      } else {
+        this.duplicateConfig$(config.id, newName).subscribe();
+      }
+    } else {
+      /** */ console.error('Error duplicating the config: the config is not valid');
+    }
   }
 
 
-  private duplicatePreview(configId: string, newConfigName: string): void {
-    this.persistenceService.get(configId).subscribe({
-      next: (currentConfig) => {
-        const previewName = currentConfig.doc_key.concat('_preview');
-        const newPreviewName = (!!newConfigName ? newConfigName : 'Copy of ' + currentConfig.doc_key).concat('_preview');
-        this.persistenceService.existByZoneKey('preview', previewName).subscribe(
-          exist => {
-            if (exist.exists) {
-              this.persistenceService.getByZoneKey('preview', previewName).subscribe({
-                next: (data) => {
-                  let previewReaders = [];
-                  let previewWriters = [];
-                  if (currentConfig.doc_readers) {
-                    previewReaders = currentConfig.doc_readers.map(reader => reader.replace('config.json', 'preview'));
-                  }
-                  if (currentConfig.doc_readers) {
-                    previewWriters = currentConfig.doc_writers.map(writer => writer.replace('config.json', 'preview'));
-                  }
-                  this.persistenceService.create(
-                    'preview',
-                    newPreviewName,
-                    data.doc_value,
-                    previewReaders,
-                    previewWriters
-                  ).subscribe({
-                    error: (error) => this.raiseError(error)
-                  });
-                }
-              });
-            }
-          });
-      },
-      error: (error) => this.raiseError(error)
+  private duplicateConfig$(configId: string, newConfigName: string) {
+    return this.persistenceService.duplicate('config.json', configId, newConfigName)
+      .pipe(
+        catchError(() => /** todo */ of()));
 
-    });
+  }
 
+  private duplicatePreviewThenConfig$(previewId: string, arlasConfig: any, oldConfigName: string, newConfigName: string) {
+    return this.duplicatePreview$(previewId, newConfigName)
+      .pipe(
+        map((p: DataWithLinks) => {
+          const newArlasConfig = this.configurationService.updatePreview(arlasConfig, p.id);
+          const stringifiedNewArlasConfig = JSON.stringify(newArlasConfig);
+          this.persistenceService.duplicateValue('config.json', stringifiedNewArlasConfig, oldConfigName, newArlasConfig);
+        })
+      ).pipe(
+        catchError(() => /** todo */ of()));
+
+  }
+
+  private duplicatePreview$(previewId: string, newConfigName: string): Observable<any> {
+    const newPreviewName = newConfigName.concat('_preview');
+    return this.persistenceService.get(previewId)
+      .pipe(map((p: DataWithLinks) => this.persistenceService.create('preview', newPreviewName, p.doc_value)))
+      .pipe(catchError(() => /** todo*/ of()));
   }
 
   public rename(newName: string, configId: string) {
     this.persistenceService.get(configId).subscribe(
       currentConfig => {
         const key = currentConfig.doc_key;
-        ['i18n', 'tour'].forEach(zone => ['fr', 'en'].forEach(lg => this.renameLinkedData(zone, key, newName, lg)));
+        // ['i18n', 'tour'].forEach(zone => ['fr', 'en'].forEach(lg => this.renameLinkedData(zone, key, newName, lg)));
         this.persistenceService.rename(configId, newName).subscribe({
-          next: () => {
-            this.errorMessage = '';
-            this.dialogRef.close();
-            let previewReaders = [];
-            let previewWriters = [];
-            if (currentConfig.doc_readers) {
-              previewReaders = currentConfig.doc_readers.map(reader => reader.replace('config.json', 'preview'));
-            }
-            if (currentConfig.doc_readers) {
-              previewWriters = currentConfig.doc_writers.map(writer => writer.replace('config.json', 'preview'));
-            }
-            this.persistenceService.updatePreview(newName.concat('_preview'), previewReaders, previewWriters);
-          },
           error: error => this.raiseError(error)
         });
       });
@@ -155,17 +137,6 @@ export class ActionModalComponent {
       default:
         this.errorMessage = marker('An error occurred, please try later');
     }
-  }
-
-  private renameLinkedData(zone: string, key: string, newName: string, lg: string) {
-    this.persistenceService.existByZoneKey(zone, key.concat('_').concat(lg)).subscribe(
-      exist => {
-        if (exist.exists) {
-          this.persistenceService.getByZoneKey(zone, key.concat('_').concat(lg))
-            .subscribe(i => this.persistenceService.rename(i.id, newName.concat('_').concat(lg)).subscribe(d => { }));
-        }
-      }
-    );
   }
 }
 
