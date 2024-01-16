@@ -4,8 +4,9 @@ import { Observable } from 'rxjs/internal/Observable';
 import { from } from 'rxjs/internal/observable/from';
 import { Configuration, PersistApi, DataResource, DataWithLinks, Exists } from 'arlas-persistence-api';
 import { ArlasSettingsService } from '../settings/arlas.settings.service';
-import { map, mergeMap } from 'rxjs/operators';
+import { catchError, map, mergeMap } from 'rxjs/operators';
 import { GET_OPTIONS } from '../../tools/utils';
+import { of } from 'rxjs';
 
 
 @Injectable({
@@ -38,23 +39,27 @@ export class PersistenceService {
   }
 
   public create(zone: string, name: string, value: string, readers?: string[], writers?: string[]): Observable<DataWithLinks> {
-    return from(this.persistenceApi.create(zone, name, value, readers, writers, false, this.options));
+    return from(this.persistenceApi.create(zone, name, value, readers, writers, false, this.options)).pipe(catchError(() => /** todo*/ of()));;
 
   }
   public get(id: string): Observable<DataWithLinks> {
     return from(this.persistenceApi.getById(id, false, this.options));
   }
 
-  public getByZoneKey(zone: string, key: string): Observable<DataWithLinks> {
-    return from(this.persistenceApi.getByKey(zone, key, false, this.options));
-  }
-
-  public exist(id: string): Observable<Exists> {
+  public exists(id: string): Observable<Exists> {
     return from(this.persistenceApi.existsById(id, false, this.options));
   }
-  public existByZoneKey(zone: string, key: string): Observable<Exists> {
-    return from(this.persistenceApi.existsByKey(zone, key, false, this.options));
-  }
+
+  // public getByZoneKey(zone: string, key: string): Observable<DataWithLinks> {
+  //   return from(this.persistenceApi.getByKey(zone, key, false, this.options));
+  // }
+
+  // public exist(id: string): Observable<Exists> {
+  //   return from(this.persistenceApi.existsById(id, false, this.options));
+  // }
+  // public existByZoneKey(zone: string, key: string): Observable<Exists> {
+  //   return from(this.persistenceApi.existsByKey(zone, key, false, this.options));
+  // }
 
   public list(zone: string, size: number, page: number, order: string): Observable<DataResource> {
     return from(this.persistenceApi.list(zone, size, page, order, false, this.options));
@@ -70,6 +75,10 @@ export class PersistenceService {
       map(data => this.create(zone, newName ? newName : 'Copy of ' + data.doc_key, data.doc_value)),
       mergeMap(a => a)
     );
+  }
+
+  public duplicateValue(zone: string, value: string, oldName: string, newName?: string): Observable<DataWithLinks> {
+    return this.create(zone, newName ? newName : 'Copy of ' + oldName, value);
   }
 
   public rename(id: string, newName: string): Observable<DataWithLinks> {
@@ -88,13 +97,13 @@ export class PersistenceService {
   }
 
   /** updates the preview's name, readers and writers */
-  public updatePreview(previewName: string, readers: string[], writers: string[]) {
-    this.existByZoneKey('preview', previewName).subscribe(
+  public updatePreview(previewId: string, readers: string[], writers: string[]) {
+    this.exists(previewId).subscribe(
       exist => {
         if (exist.exists) {
-          this.getByZoneKey('preview', previewName).subscribe({
+          this.get(previewId).subscribe({
             next: (data) => {
-              this.update(data.id, data.doc_value, new Date(data.last_update_date).getTime(), previewName,
+              this.update(data.id, data.doc_value, new Date(data.last_update_date).getTime(), data.doc_key,
                 readers, writers);
             }
           });
@@ -103,15 +112,13 @@ export class PersistenceService {
   }
 
   /** deletes the preview by its name */
-  public deletePreview(previewName: string) {
-    this.existByZoneKey('preview', previewName).subscribe(
+  public deletePreview(previewId: string) {
+    this.exists(previewId).subscribe(
       exist => {
         if (exist.exists) {
-          this.getByZoneKey('preview', previewName).subscribe({
-            next: (data) => {
-              this.delete(data.id);
-            }
-          });
+          this.delete(previewId).pipe(
+            catchError(() => /** todo */ of())
+          ).subscribe();
         }
       });
   }
