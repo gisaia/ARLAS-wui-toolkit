@@ -84,9 +84,6 @@ export class ConfigMenuComponent implements OnInit {
               const previewId = this.configService.getPreview(parsedConfig);
               this.persistenceService.deletePreview(previewId);
               this.persistenceService.delete(id).subscribe(() => this.actionExecutedEmitter.next(action));
-              // this.persistenceService.delete(id).subscribe(() => this.actionExecutedEmitter.next(action));
-              // this.persistenceService.deletePreview(data.doc_key.concat('_preview'));
-
             })
           )
             .subscribe();
