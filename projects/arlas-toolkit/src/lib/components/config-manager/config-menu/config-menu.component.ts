@@ -20,13 +20,14 @@
 import { Component, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Resource } from 'arlas-permissions-api';
-import { filter } from 'rxjs/operators';
+import { filter, map, tap } from 'rxjs/operators';
 import { PermissionService } from '../../../services/permission/permission.service';
 import { PersistenceService } from '../../../services/persistence/persistence.service';
 import { Subject } from 'rxjs';
 import { ConfigAction, ConfigActionEnum } from '../../../tools/utils';
 import { ActionModalComponent } from '../action-modal/action-modal.component';
-
+import { ArlasConfigService } from '../../../services/startup/startup.service';
+import { DataWithLinks } from 'arlas-persistence-api';
 @Component({
   selector: 'arlas-config-menu',
   templateUrl: './config-menu.component.html',
@@ -44,7 +45,8 @@ export class ConfigMenuComponent implements OnInit {
   public constructor(
     private dialog: MatDialog,
     private persistenceService: PersistenceService,
-    private permissionService: PermissionService
+    private permissionService: PermissionService,
+    private configService: ArlasConfigService
   ) {
 
   }
@@ -73,13 +75,21 @@ export class ConfigMenuComponent implements OnInit {
       case ConfigActionEnum.DELETE: {
         // Open a confirm modal to validate this choice. Available only if updatable is true for this object
         this.getDialogRef(action).subscribe(id => {
-          this.persistenceService.get(id).subscribe(
-            data => {
-              // const key = data.doc_key;
+          this.persistenceService.get(id).pipe(
+            map((p: DataWithLinks) => {
+              // TODO : DELETE I18N resources
+              // const key = p.doc_key;
               // ['i18n', 'tour'].forEach(zone => ['fr', 'en'].forEach(lg => this.deleteLinkedData(zone, key, lg)));
+              const parsedConfig = this.configService.parse(p.doc_value);
+              const previewId = this.configService.getPreview(parsedConfig);
+              this.persistenceService.deletePreview(previewId);
+              this.persistenceService.delete(id).subscribe(() => this.actionExecutedEmitter.next(action));
               // this.persistenceService.delete(id).subscribe(() => this.actionExecutedEmitter.next(action));
               // this.persistenceService.deletePreview(data.doc_key.concat('_preview'));
-            });
+
+            })
+          )
+            .subscribe();
         });
         break;
       }
