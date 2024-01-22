@@ -80,15 +80,8 @@ export class ShareConfigComponent implements OnInit {
         next: () => this.updateEmitter.emit([true, {}]),
         error: (err) => this.updateEmitter.emit([false, err])
       });
-    let previewReaders = [];
-    let previewWriters = [];
-    if (this.config.readers) {
-      previewReaders = this.config.readers.map(reader => reader.replace('config.json', 'preview'));
-    }
-    if (this.config.writers) {
-      previewWriters = this.config.writers.map(writer => writer.replace('config.json', 'preview'));
-    }
-    this.persistenceService.updatePreview(this.config.name.concat('_preview'), previewReaders, previewWriters);
+    const previewGroups = this.persistenceService.dashboardToPreviewGroups(this.config.readers, this.config.writers);
+    this.persistenceService.updatePreview(this.config.name.concat('_preview'), previewGroups.readers, previewGroups.writers);
   }
 
   public close() {
