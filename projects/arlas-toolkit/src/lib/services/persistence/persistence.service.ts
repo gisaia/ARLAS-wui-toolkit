@@ -97,18 +97,36 @@ export class PersistenceService {
   }
 
   /** updates the preview's name, readers and writers */
-  public updatePreview(previewId: string, readers: string[], writers: string[]) {
+  public updatePreview(previewId: string, readers: string[], writers: string[], newValue?: string) {
     this.exists(previewId).subscribe(
       exist => {
         if (exist.exists) {
           this.get(previewId).subscribe({
             next: (data) => {
-              this.update(data.id, data.doc_value, new Date(data.last_update_date).getTime(), data.doc_key,
+              this.update(data.id, newValue ? newValue : data.doc_value, new Date(data.last_update_date).getTime(), data.doc_key,
                 readers, writers);
             }
           });
         }
       });
+  }
+
+  public dashboardToPreviewGroups(dashboardReaders: string[], dashboardWiters: string[]): {
+    readers: string[];
+    writers: string[];
+  } {
+    let previewReaders = [];
+    let previewWriters = [];
+    if (dashboardReaders) {
+      previewReaders = dashboardReaders.map(reader => reader.replace('config.json', 'preview'));
+    }
+    if (dashboardWiters) {
+      previewWriters = dashboardWiters.map(writer => writer.replace('config.json', 'preview'));
+    }
+    return {
+      readers: previewReaders,
+      writers: previewWriters
+    };
   }
 
   /** deletes the preview by its name */
