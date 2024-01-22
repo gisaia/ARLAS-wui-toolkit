@@ -118,10 +118,14 @@ export class PersistenceService {
     let previewReaders = [];
     let previewWriters = [];
     if (dashboardReaders) {
-      previewReaders = dashboardReaders.map(reader => reader.replace('config.json', 'preview'));
+      // Seen with AB who says normally we dont need to do the replace anymore; NOT TESTED
+      previewReaders = dashboardReaders;
+      // previewReaders = dashboardReaders.map(reader => reader.replace('config.json', 'preview'));
     }
     if (dashboardWiters) {
-      previewWriters = dashboardWiters.map(writer => writer.replace('config.json', 'preview'));
+      // Seen with AB who says normally we dont need to do the replace anymore; NOT TESTED
+      previewWriters = dashboardWiters;
+      // previewWriters = dashboardWiters.map(writer => writer.replace('config.json', 'preview'));
     }
     return {
       readers: previewReaders,
