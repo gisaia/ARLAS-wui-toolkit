@@ -93,6 +93,7 @@ export class ActionModalComponent {
     this.persistenceService.get(configId).subscribe(
       currentConfig => {
         const key = currentConfig.doc_key;
+        // NO NEED TO RENAME IT
         // ['i18n', 'tour'].forEach(zone => ['fr', 'en'].forEach(lg => this.renameLinkedData(zone, key, newName, lg)));
         this.persistenceService.rename(configId, newName).subscribe({
           error: error => this.raiseError(error)
