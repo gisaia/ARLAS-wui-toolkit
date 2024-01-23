@@ -15,7 +15,7 @@ import { of } from 'rxjs';
 export class PersistenceService {
 
   private persistenceApi: PersistApi;
-  private options;
+  public options;
   public isAvailable = false;
   public constructor(
     @Inject(GET_OPTIONS) private getOptions,
@@ -34,62 +34,54 @@ export class PersistenceService {
     }
   }
 
-  public delete(id: string): Observable<DataWithLinks> {
-    return from(this.persistenceApi.deleteById(id, false, this.options));
+  public delete(id: string, options = this.options): Observable<DataWithLinks> {
+    return from(this.persistenceApi.deleteById(id, false, options));
   }
 
-  public create(zone: string, name: string, value: string, readers?: string[], writers?: string[]): Observable<DataWithLinks> {
-    return from(this.persistenceApi.create(zone, name, value, readers, writers, false, this.options)).pipe(catchError(() => /** todo*/ of()));;
+  public create(zone: string, name: string, value: string,
+    readers?: string[], writers?: string[], options = this.options): Observable<DataWithLinks> {
+    return from(this.persistenceApi.create(zone, name, value, readers, writers, false, options)).pipe(catchError(() => /** todo*/ of()));;
 
   }
-  public get(id: string): Observable<DataWithLinks> {
-    return from(this.persistenceApi.getById(id, false, this.options));
+  public get(id: string, options = this.options): Observable<DataWithLinks> {
+    return from(this.persistenceApi.getById(id, false, options));
   }
 
-  public exists(id: string): Observable<Exists> {
-    return from(this.persistenceApi.existsById(id, false, this.options));
+  public exists(id: string, options = this.options): Observable<Exists> {
+    return from(this.persistenceApi.existsById(id, false, options));
   }
 
-  // public getByZoneKey(zone: string, key: string): Observable<DataWithLinks> {
-  //   return from(this.persistenceApi.getByKey(zone, key, false, this.options));
-  // }
-
-  // public exist(id: string): Observable<Exists> {
-  //   return from(this.persistenceApi.existsById(id, false, this.options));
-  // }
-  // public existByZoneKey(zone: string, key: string): Observable<Exists> {
-  //   return from(this.persistenceApi.existsByKey(zone, key, false, this.options));
-  // }
-
-  public list(zone: string, size: number, page: number, order: string): Observable<DataResource> {
-    return from(this.persistenceApi.list(zone, size, page, order, false, this.options));
+  public list(zone: string, size: number, page: number, order: string, options = this.options): Observable<DataResource> {
+    return from(this.persistenceApi.list(zone, size, page, order, false, options));
 
   }
   public update(id: string, value: string, lastUpdate: number, name?: string,
-    readers?: string[], writers?: string[]): Observable<DataWithLinks> {
-    return from(this.persistenceApi.update(id, value, lastUpdate, name, readers, writers, false, this.options));
+    readers?: string[], writers?: string[], options = this.options): Observable<DataWithLinks> {
+    return from(this.persistenceApi.update(id, value, lastUpdate, name, readers, writers, false, this.getOptionsWithoutOrg(options)));
   }
 
-  public duplicate(zone: string, id: string, newName?: string): Observable<DataWithLinks> {
-    return this.get(id).pipe(
-      map(data => this.create(zone, newName ? newName : 'Copy of ' + data.doc_key, data.doc_value)),
+  public duplicate(zone: string, id: string, newName?: string, options = this.options): Observable<DataWithLinks> {
+    return this.get(id, this.getOptionsWithoutOrg(options)).pipe(
+      map(data => this.create(zone, newName ? newName : 'Copy of ' + data.doc_key, data.doc_value, [], [],
+        this.getOptionsSetOrg(options, data.doc_organization))),
       mergeMap(a => a)
     );
   }
 
-  public duplicateValue(zone: string, value: string, oldName: string, newName?: string): Observable<DataWithLinks> {
-    return this.create(zone, newName ? newName : 'Copy of ' + oldName, value);
+  public duplicateValue(zone: string, value: string, oldName: string, newName?: string, options = this.options): Observable<DataWithLinks> {
+    return this.create(zone, newName ? newName : 'Copy of ' + oldName, value, [], [], options);
   }
 
-  public rename(id: string, newName: string): Observable<DataWithLinks> {
-    return this.get(id).pipe(
-      map(data => this.update(id, data.doc_value, new Date(data.last_update_date).getTime(), newName, data.doc_readers, data.doc_writers)),
+  public rename(id: string, newName: string, options = this.options): Observable<DataWithLinks> {
+    return this.get(id, options).pipe(
+      map(data => this.update(id, data.doc_value, new Date(data.last_update_date).getTime(),
+        newName, data.doc_readers, data.doc_writers, options)),
       mergeMap(a => a)
     );
   }
 
-  public getGroupsByZone(zone: string) {
-    return from(this.persistenceApi.getGroupsByZone(zone, false, this.options));
+  public getGroupsByZone(zone: string, options = this.options) {
+    return from(this.persistenceApi.getGroupsByZone(zone, false, options));
   }
 
   public setOptions(options): void {
@@ -97,14 +89,14 @@ export class PersistenceService {
   }
 
   /** updates the preview's name, readers and writers */
-  public updatePreview(previewId: string, readers: string[], writers: string[], newValue?: string) {
-    this.exists(previewId).subscribe(
+  public updatePreview(previewId: string, readers: string[], writers: string[], newValue?: string, options = this.options) {
+    this.exists(previewId, options).subscribe(
       exist => {
         if (exist.exists) {
-          this.get(previewId).subscribe({
+          this.get(previewId, options).subscribe({
             next: (data) => {
               this.update(data.id, newValue ? newValue : data.doc_value, new Date(data.last_update_date).getTime(), data.doc_key,
-                readers, writers);
+                readers, writers, options);
             }
           });
         }
@@ -134,15 +126,35 @@ export class PersistenceService {
   }
 
   /** deletes the preview by its name */
-  public deletePreview(previewId: string) {
-    this.exists(previewId).subscribe(
+  public deletePreview(previewId: string, options = this.options) {
+    this.exists(previewId, options).subscribe(
       exist => {
         if (exist.exists) {
-          this.delete(previewId).pipe(
+          this.delete(previewId, options).pipe(
             catchError(() => /** todo */ of())
           ).subscribe();
         }
       });
+  }
+
+  private getOptionsWithoutOrg(options: any) {
+    const newOptions = Object.assign({}, options);
+    // No need to have arlas-org-filer headers to delete or get by id
+    if (!!newOptions && !!newOptions['headers']) {
+      if (!!newOptions['headers']['arlas-org-filter']) {
+        delete newOptions['headers']['arlas-org-filter'];
+      }
+    }
+    return newOptions;
+  }
+
+  private getOptionsSetOrg(options: any, org: string) {
+    const newOptions = Object.assign({}, options);
+    // No need to have arlas-org-filer headers to delete or get by id
+    if (!!newOptions && !!newOptions['headers']) {
+      newOptions['headers']['arlas-org-filter'] = org;;
+    }
+    return newOptions;
   }
 
 }
