@@ -53,7 +53,7 @@ export class ArlasBookmarkService {
           this.bookMarkMap = this.dataBase.storageObjectMap;
         });
       } else {
-        this.dataBase = new BookmarkLocalDatabase(this, this.arlasStartupService);
+        this.dataBase = new BookmarkLocalDatabase(this, this.collaborativesearchService ,this.arlasStartupService);
         this.dataBase.dataChange.subscribe(() => {
           this.bookMarkMap = this.dataBase.storageObjectMap;
         });
