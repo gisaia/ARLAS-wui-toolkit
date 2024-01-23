@@ -35,25 +35,23 @@ import { DataWithLinks } from 'arlas-persistence-api';
 })
 export class ConfigMenuComponent implements OnInit {
   @Input() public actions: Array<ConfigAction>;
+  @Input() public canCreateDashboard=false;
+
   @Input() public zone: string;
 
   @Output() public actionExecutedEmitter = new Subject();
 
   public ConfigAction = ConfigActionEnum;
-  public canCreateDashboard = false;
 
   public constructor(
     private dialog: MatDialog,
     private persistenceService: PersistenceService,
-    private permissionService: PermissionService,
     private configService: ArlasConfigService
   ) {
 
   }
   public ngOnInit() {
-    this.permissionService.get('persist/resource/').subscribe((resources: Resource[]) => {
-      this.canCreateDashboard = (resources.filter(r => r.verb === 'POST').length > 0);
-    });
+
   }
 
   public onActionClick(action: ConfigAction): void {
