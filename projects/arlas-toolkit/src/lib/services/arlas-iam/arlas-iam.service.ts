@@ -155,8 +155,8 @@ export class ArlasIamService extends ArlasAuthentificationService {
       const timeout = expires.getTime() - Date.now() - (60 * 1000);
       // todo: !! attention if the token expires in less than one minute !
       // refresh accessToken when timeout ended (passing the refreshToken)
-      // start the delay after 10 seconds
-      this.refreshTokenTimer$ = timer(10000, timeout).pipe(takeUntil(this.unsubscribe)).subscribe(() => {
+      // start the delay after 0 seconds
+      this.refreshTokenTimer$ = timer(0, timeout).pipe(takeUntil(this.unsubscribe)).subscribe(() => {
         const newestRefreshToken = this.getRefreshToken();
         this.refresh(newestRefreshToken.value).subscribe({
           next: (loginData: LoginData) => {
@@ -186,7 +186,6 @@ export class ArlasIamService extends ArlasAuthentificationService {
             this.user = loginData.user;
             this.setHeadersFromAccesstoken(loginData.accessToken);
             this.storeRefreshToken(loginData.refreshToken);
-            this.tokenRefreshedSource.next(loginData);
             this.startRefreshTokenTimer(loginData);
             return Promise.resolve();
           })
