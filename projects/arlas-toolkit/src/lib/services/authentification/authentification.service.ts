@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AuthConfig, OAuthErrorEvent, OAuthService, OAuthStorage, UserInfo } from 'angular-oauth2-oidc';
+import { AuthConfig, OAuthErrorEvent, OAuthEvent, OAuthService, OAuthStorage, UserInfo } from 'angular-oauth2-oidc';
 import { BehaviorSubject, Observable, ReplaySubject, combineLatest } from 'rxjs';
 import { from } from 'rxjs/internal/observable/from';
 import { filter } from 'rxjs/internal/operators/filter';
@@ -21,7 +21,7 @@ export class AuthentificationService extends ArlasAuthentificationService {
   private isDoneLoadingSubject = new ReplaySubject<boolean>();
   public isDoneLoading = this.isDoneLoadingSubject.asObservable();
 
-  public silentRefreshErrorSubject;
+  public silentRefreshErrorSubject: Observable<OAuthEvent>;
   /**
    * Publishes `true` if and only if (a) all the asynchronous initial
    * login calls have completed or errorred, and (b) the user ended up

@@ -138,3 +138,7 @@ export { ArlasIamApi } from './lib/services/startup/startup.service';
 export { ArlasAuthentificationService } from './lib/services/arlas-authentification/arlas-authentification.service';
 export { ProcessComponent } from './lib/components/process/process.component';
 export { ProcessService } from './lib/services/process/process.service';
+export { ArlasError, ActionType } from './lib/tools/errors/error';
+export { AuthorisationError } from './lib/tools/errors/authorisation-error';
+export { BackendError } from './lib/tools/errors/backend-error';
+export { DashboardError } from './lib/tools/errors/dashboard-error';

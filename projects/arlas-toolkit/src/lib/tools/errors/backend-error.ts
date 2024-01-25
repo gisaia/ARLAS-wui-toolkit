@@ -29,7 +29,7 @@ export class BackendError extends ArlasError {
       this.service = service;
     }
     this.hubUrl = hubUrl;
-    this.title = 'ARLAS ecountered an error';
+    this.title = 'ARLAS encountered an error';
     if (this.status === 404) {
       this.showAction = true;
       this.actionMessage = 'go to arlas hub';
