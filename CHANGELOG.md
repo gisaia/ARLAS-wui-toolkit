@@ -1,5 +1,13 @@
 # Change Log
 
+## [v24.3.5](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.3.5) (2024-01-25)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.3.4...v24.3.5)
+
+**New stuff:**
+
+- Add a new node in config.json schema to store resources [\#718](https://github.com/gisaia/ARLAS-wui-toolkit/issues/718)
+
 ## [v24.3.4](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.3.4) (2023-12-20)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.3.3...v24.3.4)

@@ -1,6 +1,6 @@
 {
   "name": "arlas-wui-toolkit",
-  "version": "24.3.4",
+  "version": "24.3.5",
   "description": "Tool Kit Library for ARLAS wui web App",
   "author": "gisaia",
   "license": "Apache-2.0",
@@ -63,8 +63,8 @@
     }
   },
   "overrides": {
-    "angular-oauth2-oidc-jwks":{
-      "jsrsasign":"^11.0.0"
+    "angular-oauth2-oidc-jwks": {
+      "jsrsasign": "^11.0.0"
     }
   }
 }
