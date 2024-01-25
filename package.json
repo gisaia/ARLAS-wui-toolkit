@@ -123,6 +123,9 @@
     "arlas-web-components": {
       "shpjs": "^4.0.4"
     },
+    "angular-oauth2-oidc-jwks":{
+      "jsrsasign":"^11.0.0"
+    },
     "protractor": {
       "xml2js": "~0.5.0"
     },
