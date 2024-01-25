@@ -61,5 +61,10 @@
     "./assets/i18n/fr.json": {
       "default": "./assets/i18n/fr.json"
     }
+  },
+  "overrides": {
+    "angular-oauth2-oidc-jwks":{
+      "jsrsasign":"^11.0.0"
+    }
   }
 }
