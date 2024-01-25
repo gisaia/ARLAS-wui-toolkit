@@ -253,7 +253,7 @@
 	"yes": "oui",
 	"access not authorized": "Veuillez vous connecter pour accéder à cette page.",
 	"acces forbidden": "Vous n'êtes pas autorisé(e) à accéder à cette page.",
-	"ARLAS ecountered an error": "ARLAS a rencontré une erreur",
+	"ARLAS encountered an error": "ARLAS a rencontré une erreur",
 	"The connection to ARLAS backend services is lost": "La connexion aux backends ARLAS a échoué.",
 	"The connection to ARLAS-server is lost": "La connexion à ARLAS-server a échoué.",
 	"The connection to ARLAS-persistence is lost": "La connexion à ARLAS-persistence a échoué.",

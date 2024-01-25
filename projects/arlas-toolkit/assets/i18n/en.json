@@ -242,7 +242,7 @@
 	"dashboard access forbidden": "You are not authorised to access this dashboard.",
 	"access not authorized": "Log in to access this page.",
 	"acces forbidden": "You are not authorised to access this page.",
-	"ARLAS ecountered an error": "ARLAS ecountered an error",
+	"ARLAS encountered an error": "ARLAS encountered an error",
 	"dashboard does not exist": "This dashboard was not found.",
 	"go to arlas hub": "Go to ARLAS-Hub.",
 	"The connection to ARLAS backend services is lost": "The connection to ARLAS backend services is lost.",
