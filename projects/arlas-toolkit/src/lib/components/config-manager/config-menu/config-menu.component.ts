@@ -76,7 +76,7 @@ export class ConfigMenuComponent implements OnInit {
         // No need to have arlas-org-filer headers to delete or get by id
         if(!!options && !!options['headers']){
           if(!!options['headers']['arlas-org-filter']){
-            delete options['headers']['arlas-org-filter'];
+            options['headers']['arlas-org-filter'] = action.config.org;
           }
         }
         this.getDialogRef(action).subscribe(id => {
