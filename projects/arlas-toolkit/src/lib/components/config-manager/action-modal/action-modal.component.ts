@@ -52,9 +52,9 @@ export class ActionModalComponent {
     if (!!arlasConfig) {
       const previewId = this.configurationService.getPreview(arlasConfig);
       if (previewId) {
-        this.duplicatePreviewThenConfig$(previewId, arlasConfig, config.name, newName).subscribe();
+        this.duplicatePreviewThenConfig$(previewId, arlasConfig, config.name, newName, config.org).subscribe();
       } else {
-        this.duplicateConfig$(config.id, newName).subscribe();
+        this.duplicateConfig$(config.id, newName, config.org).subscribe();
       }
     } else {
       /** */ console.error('Error duplicating the config: the config is not valid');
@@ -62,44 +62,44 @@ export class ActionModalComponent {
   }
 
 
-  private duplicateConfig$(configId: string, newConfigName: string) {
-    return this.persistenceService.duplicate('config.json', configId, newConfigName)
+  private duplicateConfig$(configId: string, newConfigName: string, org?: string) {
+    return this.persistenceService.duplicate('config.json', configId, newConfigName, this.getOptionsSetOrg(org))
       .pipe(
         catchError(() => /** todo */ of()));
 
   }
 
-  private duplicatePreviewThenConfig$(previewId: string, arlasConfig: any, oldConfigName: string, newConfigName: string) {
-    return this.duplicatePreview$(previewId, newConfigName)
+  private duplicatePreviewThenConfig$(previewId: string, arlasConfig: any, oldConfigName: string, newConfigName: string, org: string) {
+    return this.duplicatePreview$(previewId, newConfigName, org)
       .pipe(
         map((p: DataWithLinks) => {
           const newArlasConfig = this.configurationService.updatePreview(arlasConfig, p.id);
           const stringifiedNewArlasConfig = JSON.stringify(newArlasConfig);
           this.persistenceService.duplicateValue('config.json', stringifiedNewArlasConfig, oldConfigName, newArlasConfig,
-            this.getOptionsSetOrg(p.doc_organization, this.persistenceService.options));
+            this.getOptionsSetOrg(p.doc_organization));
         })
       ).pipe(
         catchError(() => /** todo */ of()));
 
   }
 
-  private duplicatePreview$(previewId: string, newConfigName: string): Observable<any> {
+  private duplicatePreview$(previewId: string, newConfigName: string, org?: string): Observable<any> {
     const newPreviewName = newConfigName.concat('_preview');
-    return this.persistenceService.get(previewId, this.getOptionsWithoutOrg())
+    return this.persistenceService.get(previewId, this.getOptionsSetOrg(org))
       .pipe(map((p: DataWithLinks) => {
         this.persistenceService.create('preview', newPreviewName, p.doc_value, [], [],
-          this.getOptionsSetOrg(p.doc_organization, this.persistenceService.options));
+          this.getOptionsSetOrg(p.doc_organization));
       }))
       .pipe(catchError(() => /** todo*/ of()));
   }
 
-  public rename(newName: string, configId: string) {
-    this.persistenceService.get(configId, this.getOptionsWithoutOrg()).subscribe(
+  public rename(newName: string, config: Config) {
+    this.persistenceService.get(config.id, this.getOptionsSetOrg(config.org)).subscribe(
       currentConfig => {
         const key = currentConfig.doc_key;
         // NO NEED TO RENAME IT
         // ['i18n', 'tour'].forEach(zone => ['fr', 'en'].forEach(lg => this.renameLinkedData(zone, key, newName, lg)));
-        this.persistenceService.rename(configId, newName, this.getOptionsWithoutOrg()).subscribe({
+        this.persistenceService.rename(config.id, newName, this.getOptionsSetOrg(config.org)).subscribe({
           error: error => this.raiseError(error)
         });
       });
@@ -144,18 +144,8 @@ export class ActionModalComponent {
     }
   }
 
-  private getOptionsWithoutOrg(): any {
+  private getOptionsSetOrg(org: string) {
     const options = Object.assign({}, this.persistenceService.options);
-    // No need to have arlas-org-filer headers to delete or get by id
-    if (!!options && !!options['headers']) {
-      if (!!options['headers']['arlas-org-filter']) {
-        delete options['headers']['arlas-org-filter'];
-      }
-    }
-    return options;
-  }
-
-  private getOptionsSetOrg(options: any, org: string) {
     const newOptions = Object.assign({}, options);
     // No need to have arlas-org-filer headers to delete or get by id
     if (!!newOptions && !!newOptions['headers']) {
