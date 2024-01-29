@@ -24,7 +24,7 @@ import { Config, ConfigAction, ConfigActionEnum } from '../../../tools/utils';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 import { ArlasConfigService } from '../../../services/startup/startup.service';
 import { DataWithLinks, Exists } from 'arlas-persistence-api';
-import { Observable, catchError, map, of } from 'rxjs';
+import { Observable, catchError, map, mergeMap, of } from 'rxjs';
 
 @Component({
   selector: 'arlas-action-modal',
@@ -48,13 +48,25 @@ export class ActionModalComponent {
   }
 
   public duplicate(newName: string, config: Config) {
+    console.log('test');
+    console.log(this.action);
+    console.log(config);
     const arlasConfig = this.configurationService.parse(config.value);
     if (!!arlasConfig) {
       const previewId = this.configurationService.getPreview(arlasConfig);
       if (previewId) {
-        this.duplicatePreviewThenConfig$(previewId, arlasConfig, config.name, newName, config.org).subscribe();
+        this.duplicatePreviewThenConfig$(previewId, arlasConfig, config.name, newName, config.org).subscribe({
+          next: () => {
+            this.dialogRef.close();
+          }
+        });
       } else {
-        this.duplicateConfig$(config.id, newName, config.org).subscribe();
+        console.log('pas did');
+        this.duplicateConfig$(config.id, newName, config.org).subscribe({
+          next: () => {
+            this.dialogRef.close();
+          }
+        });
       }
     } else {
       /** */ console.error('Error duplicating the config: the config is not valid');
@@ -63,6 +75,7 @@ export class ActionModalComponent {
 
 
   private duplicateConfig$(configId: string, newConfigName: string, org?: string) {
+    console.log(org);
     return this.persistenceService.duplicate('config.json', configId, newConfigName, this.getOptionsSetOrg(org))
       .pipe(
         catchError(() => /** todo */ of()));
@@ -75,7 +88,7 @@ export class ActionModalComponent {
         map((p: DataWithLinks) => {
           const newArlasConfig = this.configurationService.updatePreview(arlasConfig, p.id);
           const stringifiedNewArlasConfig = JSON.stringify(newArlasConfig);
-          this.persistenceService.duplicateValue('config.json', stringifiedNewArlasConfig, oldConfigName, newArlasConfig,
+          return this.persistenceService.duplicateValue('config.json', stringifiedNewArlasConfig, oldConfigName, newConfigName,
             this.getOptionsSetOrg(p.doc_organization));
         })
       ).pipe(
@@ -83,13 +96,13 @@ export class ActionModalComponent {
 
   }
 
-  private duplicatePreview$(previewId: string, newConfigName: string, org?: string): Observable<any> {
+  private duplicatePreview$(previewId: string, newConfigName: string, org?: string): Observable<DataWithLinks> {
     const newPreviewName = newConfigName.concat('_preview');
     return this.persistenceService.get(previewId, this.getOptionsSetOrg(org))
-      .pipe(map((p: DataWithLinks) => {
+      .pipe(mergeMap((p: DataWithLinks) =>
         this.persistenceService.create('preview', newPreviewName, p.doc_value, [], [],
-          this.getOptionsSetOrg(p.doc_organization));
-      }))
+          this.getOptionsSetOrg(p.doc_organization))
+      ))
       .pipe(catchError(() => /** todo*/ of()));
   }
 
@@ -100,7 +113,10 @@ export class ActionModalComponent {
         // NO NEED TO RENAME IT
         // ['i18n', 'tour'].forEach(zone => ['fr', 'en'].forEach(lg => this.renameLinkedData(zone, key, newName, lg)));
         this.persistenceService.rename(config.id, newName, this.getOptionsSetOrg(config.org)).subscribe({
-          error: error => this.raiseError(error)
+          error: error => this.raiseError(error),
+          next: () => {
+            this.dialogRef.close();
+          }
         });
       });
   }
@@ -149,7 +165,7 @@ export class ActionModalComponent {
     const newOptions = Object.assign({}, options);
     // No need to have arlas-org-filer headers to delete or get by id
     if (!!newOptions && !!newOptions['headers']) {
-      newOptions['headers']['arlas-org-filter'] = org;;
+      newOptions.headers['arlas-org-filter'] = org;
     }
     return newOptions;
   }
