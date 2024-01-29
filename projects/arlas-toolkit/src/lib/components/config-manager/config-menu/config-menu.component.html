@@ -22,7 +22,7 @@
       </button>
     </div>
     <div *ngIf="action.type === ConfigAction.DUPLICATE">
-      <button mat-menu-item [disabled]="!canCreateDashboard" (click)="onActionClick(action)">
+      <button mat-menu-item [disabled]="!canCreateDashboard || !action.enabled" (click)="onActionClick(action)">
         <mat-icon>filter_none</mat-icon>
         <span>{{'Duplicate' | translate}}</span>
       </button>

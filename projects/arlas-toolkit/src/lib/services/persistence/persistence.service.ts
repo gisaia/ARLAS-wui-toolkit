@@ -57,13 +57,13 @@ export class PersistenceService {
   }
   public update(id: string, value: string, lastUpdate: number, name?: string,
     readers?: string[], writers?: string[], options = this.options): Observable<DataWithLinks> {
-    return from(this.persistenceApi.update(id, value, lastUpdate, name, readers, writers, false, this.getOptionsWithoutOrg(options)));
+    return from(this.persistenceApi.update(id, value, lastUpdate, name, readers, writers, false, options));
   }
 
   public duplicate(zone: string, id: string, newName?: string, options = this.options): Observable<DataWithLinks> {
-    return this.get(id, this.getOptionsWithoutOrg(options)).pipe(
+    return this.get(id, options).pipe(
       map(data => this.create(zone, newName ? newName : 'Copy of ' + data.doc_key, data.doc_value, [], [],
-        this.getOptionsSetOrg(options, data.doc_organization))),
+        options)),
       mergeMap(a => a)
     );
   }
@@ -135,17 +135,6 @@ export class PersistenceService {
           ).subscribe();
         }
       });
-  }
-
-  private getOptionsWithoutOrg(options: any) {
-    const newOptions = Object.assign({}, options);
-    // No need to have arlas-org-filer headers to delete or get by id
-    if (!!newOptions && !!newOptions['headers']) {
-      if (!!newOptions['headers']['arlas-org-filter']) {
-        delete newOptions['headers']['arlas-org-filter'];
-      }
-    }
-    return newOptions;
   }
 
   private getOptionsSetOrg(options: any, org: string) {
