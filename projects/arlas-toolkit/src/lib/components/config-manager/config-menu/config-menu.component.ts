@@ -35,7 +35,7 @@ import { DataWithLinks } from 'arlas-persistence-api';
 })
 export class ConfigMenuComponent implements OnInit {
   @Input() public actions: Array<ConfigAction>;
-  @Input() public canCreateDashboard=false;
+  @Input() public canCreateDashboard = false;
 
   @Input() public zone: string;
 
@@ -62,7 +62,7 @@ export class ConfigMenuComponent implements OnInit {
         if (action.url && action.config && action.config.id && action.configIdParam) {
 
           let url = action.url.concat('/?' + action.configIdParam + '=').concat(action.config.id);
-          if (!!action.config.org && action.config.org!== 'no_organisation' ) {
+          if (!!action.config.org && action.config.org !== 'no_organisation') {
             url = url.concat('&org=' + action.config.org);
           }
           this.openUrl(url);
@@ -74,21 +74,23 @@ export class ConfigMenuComponent implements OnInit {
         // Open a confirm modal to validate this choice. Available only if updatable is true for this object
         const options = Object.assign({}, this.persistenceService.options);
         // No need to have arlas-org-filer headers to delete or get by id
-        if(!!options && !!options['headers']){
-          if(!!options['headers']['arlas-org-filter']){
+        if (!!options && !!options['headers']) {
+          if (!!options['headers']['arlas-org-filter']) {
             options['headers']['arlas-org-filter'] = action.config.org;
           }
         }
         this.getDialogRef(action).subscribe(id => {
-          this.persistenceService.get(id,options).pipe(
+          this.persistenceService.get(id, options).pipe(
             map((p: DataWithLinks) => {
               // TODO : DELETE I18N resources
               // const key = p.doc_key;
               // ['i18n', 'tour'].forEach(zone => ['fr', 'en'].forEach(lg => this.deleteLinkedData(zone, key, lg)));
               const parsedConfig = this.configService.parse(p.doc_value);
               const previewId = this.configService.getPreview(parsedConfig);
-              this.persistenceService.deletePreview(previewId,options);
-              this.persistenceService.delete(id,options).subscribe(() => this.actionExecutedEmitter.next(action));
+              if (previewId) {
+                this.persistenceService.deletePreview(previewId, options);
+              }
+              this.persistenceService.delete(id, options).subscribe(() => this.actionExecutedEmitter.next(action));
             })
           )
             .subscribe();
@@ -99,7 +101,7 @@ export class ConfigMenuComponent implements OnInit {
         // redirect to arlas wui-builer with config ID
         if (action.url && action.config && action.config.id) {
           let url = action.url.concat(action.config.id);
-          if (!!action.config.org && action.config.org!== 'no_organisation' ) {
+          if (!!action.config.org && action.config.org !== 'no_organisation') {
             url = url.concat('?org=' + action.config.org);
           }
           this.openUrl(url);
