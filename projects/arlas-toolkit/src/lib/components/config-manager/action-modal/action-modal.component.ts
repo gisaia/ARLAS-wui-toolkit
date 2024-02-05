@@ -24,7 +24,7 @@ import { Config, ConfigAction, ConfigActionEnum } from '../../../tools/utils';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 import { ArlasConfigService } from '../../../services/startup/startup.service';
 import { DataWithLinks, Exists } from 'arlas-persistence-api';
-import { Observable, catchError, finalize, map, mergeMap, of, take } from 'rxjs';
+import { Observable, catchError, combineLatest, concatAll, finalize, forkJoin, from, map, mergeAll, mergeMap, of, take, tap } from 'rxjs';
 import { ErrorService } from '../../../services/error/error.service';
 import { AuthorisationOnActionError } from '../../../tools/errors/authorisation-on-action-error';
 
@@ -57,9 +57,8 @@ export class ActionModalComponent {
       if (hasResources) {
 
       }
-      const previewId = this.configurationService.getPreview(arlasConfig);
-      if (previewId) {
-        this.duplicatePreviewThenConfig$(previewId, arlasConfig, newName, config.org).subscribe({
+      if (this.configurationService.hasResources(arlasConfig)) {
+        this.duplicateResourcesThenConfig$(arlasConfig, newName, config.org).subscribe({
           error: error => this.raiseError(error),
           next: () => {
             this.dialogRef.close(this.action);
@@ -89,41 +88,59 @@ export class ActionModalComponent {
         }));
   }
 
-  // private duplicateResourcesThenConfig$(arlasConfig: any, newConfigName: string, org: string) {
+  private duplicateResourcesThenConfig$(arlasConfig: any, newConfigName: string, org: string): Observable<DataWithLinks> {
+    return this.duplicateResources$(arlasConfig, newConfigName, org)
+      .pipe(
+        mergeMap((stringifiedNewArlasConfig: string) => {
+          console.log(stringifiedNewArlasConfig);
+          return this.persistenceService.create('config.json', newConfigName, stringifiedNewArlasConfig, [], [],
+            this.getOptionsSetOrg(org));
+        })
+      ).pipe(
+        catchError((err) => {
+          this.errorService.closeAll().afterAllClosed.pipe(take(1))
+            .subscribe(() => this.errorService.emitAuthorisationError(new AuthorisationOnActionError(err.status, 'duplicate_dashboard'), false));
+          return of();
+        })
+      );
+  }
 
 
-  //   return this.duplicatePreview$(previewId, newConfigName, org)
-  //     .pipe(
-  //       map((p: DataWithLinks) => {
-  //         const newArlasConfig = this.configurationService.updatePreview(arlasConfig, p.id);
-  //         const stringifiedNewArlasConfig = JSON.stringify(newArlasConfig);
-  //         return this.persistenceService.create('config.json', newConfigName, stringifiedNewArlasConfig, [], [],
-  //           this.getOptionsSetOrg(p.doc_organization));
-  //       })
-  //     ).pipe(
-  //       catchError((err) => {
-  //         this.errorService.closeAll().afterAllClosed.pipe(take(1))
-  //           .subscribe(() => this.errorService.emitAuthorisationError(new AuthorisationOnActionError(err.status, 'duplicate_dashboard'), false));
-  //         return of();
-  //       })
-  //     );
-  // }
+  public duplicateResources$(arlasConfig: any, newConfigName: string, org: string): Observable<string> {
+    const resources$: Observable<DataWithLinks>[] = [];
+    if (this.configurationService.hasPreview(arlasConfig)) {
+      const previewId = this.configurationService.getPreview(arlasConfig);
+      console.log(arlasConfig.resources.previewId);
+      resources$.push(
+        this.duplicatePreview$(previewId, newConfigName, org).pipe(
+          tap((d: DataWithLinks) => this.configurationService.updatePreview(arlasConfig, d.id))
+        )
+      );
+    }
+    if (this.configurationService.hasI18n(arlasConfig)) {
+      const i18ns = this.configurationService.getI18n(arlasConfig);
+      Object.keys(i18ns).forEach(lg => {
+        resources$.push(
+          this.duplicateI18n$(i18ns[lg], lg, newConfigName, org).pipe(
+            tap((d: DataWithLinks) => this.configurationService.updateI18n(arlasConfig, lg, d.id))
+          )
+        );
+      });
+    }
 
+    if (this.configurationService.hasTours(arlasConfig)) {
+      const tours = this.configurationService.getTours(arlasConfig);
+      Object.keys(tours).forEach(lg => {
+        resources$.push(
+          this.duplicateTour$(tours[lg], lg, newConfigName, org).pipe(
+            tap((d: DataWithLinks) => this.configurationService.updateTour(arlasConfig, lg, d.id))
+          )
+        );
+      });
+    }
 
-  // public duplicateResources$(arlasConfig: any, newConfigName: string, org: string) {
-  //   const resources$ = [];
-  //   if (this.configurationService.hasPreview(arlasConfig)) {
-  //     const previewId = this.configurationService.getPreview(arlasConfig);
-  //     resources$.push(this.duplicatePreview$(previewId, newConfigName, org));
-  //   }
-  //   if ()
-  //   const newPreviewName = newConfigName.concat('_preview');
-  //   return this.persistenceService.get(previewId, this.getOptionsSetOrg(org))
-  //     .pipe(mergeMap((p: DataWithLinks) =>
-  //       this.persistenceService.create('preview', newPreviewName, p.doc_value, [], [],
-  //         this.getOptionsSetOrg(p.doc_organization))
-  //     ));
-  // }
+    return forkJoin(resources$).pipe(map(p => JSON.stringify(arlasConfig)));
+  }
 
   private duplicatePreviewThenConfig$(previewId: string, arlasConfig: any, newConfigName: string, org: string) {
     return this.duplicatePreview$(previewId, newConfigName, org)
@@ -148,6 +165,24 @@ export class ActionModalComponent {
     return this.persistenceService.get(previewId, this.getOptionsSetOrg(org))
       .pipe(mergeMap((p: DataWithLinks) =>
         this.persistenceService.create('preview', newPreviewName, p.doc_value, [], [],
+          this.getOptionsSetOrg(p.doc_organization))
+      ));
+  }
+
+  private duplicateI18n$(i18nId: string, lg: string, newConfigName: string, org?: string): Observable<DataWithLinks> {
+    const newI18nName = newConfigName.concat('_i18n_' + lg);
+    return this.persistenceService.get(i18nId, this.getOptionsSetOrg(org))
+      .pipe(mergeMap((p: DataWithLinks) =>
+        this.persistenceService.create('i18n', newI18nName, p.doc_value, [], [],
+          this.getOptionsSetOrg(p.doc_organization))
+      ));
+  }
+
+  private duplicateTour$(i18nId: string, lg: string, newConfigName: string, org?: string): Observable<DataWithLinks> {
+    const newTourName = newConfigName.concat('_tour_' + lg);
+    return this.persistenceService.get(i18nId, this.getOptionsSetOrg(org))
+      .pipe(mergeMap((p: DataWithLinks) =>
+        this.persistenceService.create('tour', newTourName, p.doc_value, [], [],
           this.getOptionsSetOrg(p.doc_organization))
       ));
   }

@@ -99,9 +99,18 @@ export class ArlasConfigService extends ConfigService {
     return config?.resources?.i18nIds;
   }
 
+  public getTours(config: any) {
+    return config?.resources?.toursIds;
+  }
+
   public hasI18n(config: any) {
     const i18nIds = this.getI18n(config);
     return !!i18nIds && Object.entries(i18nIds).length > 0;
+  }
+
+  public hasTours(config: any) {
+    const toursIds = this.getTours(config);
+    return !!toursIds && Object.entries(toursIds).length > 0;
   }
 
   public hasResources(config: any) {
@@ -116,6 +125,16 @@ export class ArlasConfigService extends ConfigService {
       config.resources.i18nIds = {};
     }
     config.resources.i18nIds[lang] = i18nId;
+  }
+
+  public updateTour(config: any, lang: string, tourId: string) {
+    if (!config.resources) {
+      config.resources = {};
+    }
+    if (!config.resources.toursIds) {
+      config.resources.toursIds = {};
+    }
+    config.resources.toursIds[lang] = tourId;
   }
 
   public updatePreview(config: any, previewId: string) {
