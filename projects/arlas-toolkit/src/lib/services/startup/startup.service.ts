@@ -85,8 +85,37 @@ export class ArlasConfigService extends ConfigService {
     return JSON.parse(stringifiedConfig);
   }
 
+
+
   public getPreview(config: any) {
     return config?.resources?.previewId;
+  }
+
+  public hasPreview(config: any) {
+    return !!this.getPreview(config);
+  }
+
+  public getI18n(config: any) {
+    return config?.resources?.i18nIds;
+  }
+
+  public hasI18n(config: any) {
+    const i18nIds = this.getI18n(config);
+    return !!i18nIds && Object.entries(i18nIds).length > 0;
+  }
+
+  public hasResources(config: any) {
+    return this.hasI18n(config) || this.hasPreview(config);
+  }
+
+  public updateI18n(config: any, lang: string, i18nId: string) {
+    if (!config.resources) {
+      config.resources = {};
+    }
+    if (!config.resources.i18nIds) {
+      config.resources.i18nIds = {};
+    }
+    config.resources.i18nIds[lang] = i18nId;
   }
 
   public updatePreview(config: any, previewId: string) {

@@ -53,11 +53,25 @@ export class ActionModalComponent {
   public duplicate(newName: string, config: Config) {
     const arlasConfig = this.configurationService.parse(config.value);
     if (!!arlasConfig) {
+      const hasResources = this.configurationService.hasResources(arlasConfig);
+      if (hasResources) {
+
+      }
       const previewId = this.configurationService.getPreview(arlasConfig);
       if (previewId) {
-        this.duplicatePreviewThenConfig$(previewId, arlasConfig, newName, config.org).subscribe();
+        this.duplicatePreviewThenConfig$(previewId, arlasConfig, newName, config.org).subscribe({
+          error: error => this.raiseError(error),
+          next: () => {
+            this.dialogRef.close(this.action);
+          }
+        });
       } else {
-        this.duplicateConfig$(config.id, newName, config.org).subscribe();
+        this.duplicateConfig$(config.id, newName, config.org).subscribe({
+          error: error => this.raiseError(error),
+          next: () => {
+            this.dialogRef.close(this.action);
+          }
+        });
       }
     } else {
       console.error('Error duplicating the config: the config is not valid');
@@ -71,10 +85,45 @@ export class ActionModalComponent {
         catchError((err) => {
           this.errorService.closeAll().afterAllClosed.pipe(take(1))
             .subscribe(() => this.errorService.emitAuthorisationError(new AuthorisationOnActionError(err.status, 'duplicate_dashboard'), false));
-          return of();
+          return of(err);
         }));
-
   }
+
+  // private duplicateResourcesThenConfig$(arlasConfig: any, newConfigName: string, org: string) {
+
+
+  //   return this.duplicatePreview$(previewId, newConfigName, org)
+  //     .pipe(
+  //       map((p: DataWithLinks) => {
+  //         const newArlasConfig = this.configurationService.updatePreview(arlasConfig, p.id);
+  //         const stringifiedNewArlasConfig = JSON.stringify(newArlasConfig);
+  //         return this.persistenceService.create('config.json', newConfigName, stringifiedNewArlasConfig, [], [],
+  //           this.getOptionsSetOrg(p.doc_organization));
+  //       })
+  //     ).pipe(
+  //       catchError((err) => {
+  //         this.errorService.closeAll().afterAllClosed.pipe(take(1))
+  //           .subscribe(() => this.errorService.emitAuthorisationError(new AuthorisationOnActionError(err.status, 'duplicate_dashboard'), false));
+  //         return of();
+  //       })
+  //     );
+  // }
+
+
+  // public duplicateResources$(arlasConfig: any, newConfigName: string, org: string) {
+  //   const resources$ = [];
+  //   if (this.configurationService.hasPreview(arlasConfig)) {
+  //     const previewId = this.configurationService.getPreview(arlasConfig);
+  //     resources$.push(this.duplicatePreview$(previewId, newConfigName, org));
+  //   }
+  //   if ()
+  //   const newPreviewName = newConfigName.concat('_preview');
+  //   return this.persistenceService.get(previewId, this.getOptionsSetOrg(org))
+  //     .pipe(mergeMap((p: DataWithLinks) =>
+  //       this.persistenceService.create('preview', newPreviewName, p.doc_value, [], [],
+  //         this.getOptionsSetOrg(p.doc_organization))
+  //     ));
+  // }
 
   private duplicatePreviewThenConfig$(previewId: string, arlasConfig: any, newConfigName: string, org: string) {
     return this.duplicatePreview$(previewId, newConfigName, org)
@@ -89,7 +138,7 @@ export class ActionModalComponent {
         catchError((err) => {
           this.errorService.closeAll().afterAllClosed.pipe(take(1))
             .subscribe(() => this.errorService.emitAuthorisationError(new AuthorisationOnActionError(err.status, 'duplicate_dashboard'), false));
-          return of();
+          return of(err);
         })
       );
   }
@@ -104,34 +153,34 @@ export class ActionModalComponent {
   }
 
   public rename(newName: string, config: Config) {
-    this.persistenceService.get(config.id, this.getOptionsSetOrg(config.org)).subscribe(
-      currentConfig => {
-        const key = currentConfig.doc_key;
-        // NO NEED TO RENAME IT
-        // ['i18n', 'tour'].forEach(zone => ['fr', 'en'].forEach(lg => this.renameLinkedData(zone, key, newName, lg)));
-        this.persistenceService.rename(config.id, newName, this.getOptionsSetOrg(config.org)).subscribe({
-          error: error => this.raiseError(error),
-          next: () => {
-            this.dialogRef.close();
-          }
-        });
-      });
-  }
-
-  public create(name: string) {
-    this.persistenceService.create('config.json', name, '{}', [], [])
+    this.persistenceService.get(config.id, this.getOptionsSetOrg(config.org))
+      .pipe(
+        catchError((err) => {
+          this.errorService.closeAll().afterAllClosed.pipe(take(1))
+            .subscribe(() =>
+              this.errorService.emitAuthorisationError(new AuthorisationOnActionError(err.status, 'rename_dashboard'), false));
+          return of(err);
+        })
+      )
       .subscribe(
-        data => {
-          this.errorMessage = '';
-          this.dialogRef.close(data.id);
-        },
-        error => this.raiseError(error));
+        currentConfig => {
+          const key = currentConfig.doc_key;
+          // NO NEED TO RENAME IT
+          // ['i18n', 'tour'].forEach(zone => ['fr', 'en'].forEach(lg => this.renameLinkedData(zone, key, newName, lg)));
+          this.persistenceService.rename(config.id, newName, this.getOptionsSetOrg(config.org))
+            .subscribe({
+              error: error => this.raiseError(error),
+              next: () => {
+                this.dialogRef.close(this.action);
+              }
+            });
+        });
   }
 
   public closeShare(event: [boolean, any]) {
     // update share is successful, close dialog
     if (event[0]) {
-      this.dialogRef.close();
+      this.dialogRef.close(event[1]);
     }
   }
 
@@ -158,13 +207,7 @@ export class ActionModalComponent {
   }
 
   private getOptionsSetOrg(org: string) {
-    const options = Object.assign({}, this.persistenceService.options);
-    const newOptions = Object.assign({}, options);
-    // No need to have arlas-org-filer headers to delete or get by id
-    if (!!newOptions && !!newOptions['headers']) {
-      newOptions.headers['arlas-org-filter'] = org;
-    }
-    return newOptions;
+    this.persistenceService.getOptionsSetOrg(org);
   }
 }
 
