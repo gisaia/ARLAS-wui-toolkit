@@ -100,10 +100,22 @@ export class ShareConfigComponent implements OnInit {
       });
     const arlasConfig = this.configurationService.parse(this.config.value);
     if (!!arlasConfig) {
-      const previewId = this.configurationService.getPreview(arlasConfig);
-      if (previewId) {
-        const previewGroups = this.persistenceService.dashboardToPreviewGroups(Array.from(readers), Array.from(writers));
-        this.persistenceService.updatePreview(previewId, previewGroups.readers, previewGroups.writers, undefined, options);
+      const resourcesGroups = this.persistenceService.dashboardToResourcesGroups(Array.from(readers), Array.from(writers));
+      if (this.configurationService.hasPreview(arlasConfig)) {
+        const previewId = this.configurationService.getPreview(arlasConfig);
+        this.persistenceService.updateResource(previewId, resourcesGroups.readers, resourcesGroups.writers, undefined, options);
+      }
+      if (this.configurationService.hasI18n(arlasConfig)) {
+        const i18nIds = this.configurationService.getI18n(arlasConfig);
+        Object.keys(i18nIds).forEach(lg => {
+          this.persistenceService.updateResource(i18nIds[lg], resourcesGroups.readers, resourcesGroups.writers, undefined, options);
+        });
+      }
+      if (this.configurationService.hasTours(arlasConfig)) {
+        const toursIds = this.configurationService.getTours(arlasConfig);
+        Object.keys(toursIds).forEach(lg => {
+          this.persistenceService.updateResource(toursIds[lg], resourcesGroups.readers, resourcesGroups.writers, undefined, options);
+        });
       }
     }
   }

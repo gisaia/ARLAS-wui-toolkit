@@ -91,11 +91,9 @@ export class ActionModalComponent {
   private duplicateResourcesThenConfig$(arlasConfig: any, newConfigName: string, org: string): Observable<DataWithLinks> {
     return this.duplicateResources$(arlasConfig, newConfigName, org)
       .pipe(
-        mergeMap((stringifiedNewArlasConfig: string) => {
-          console.log(stringifiedNewArlasConfig);
-          return this.persistenceService.create('config.json', newConfigName, stringifiedNewArlasConfig, [], [],
-            this.getOptionsSetOrg(org));
-        })
+        mergeMap((stringifiedNewArlasConfig: string) =>
+          this.persistenceService.create('config.json', newConfigName, stringifiedNewArlasConfig, [], [],
+            this.getOptionsSetOrg(org)))
       ).pipe(
         catchError((err) => {
           this.errorService.closeAll().afterAllClosed.pipe(take(1))
@@ -110,7 +108,6 @@ export class ActionModalComponent {
     const resources$: Observable<DataWithLinks>[] = [];
     if (this.configurationService.hasPreview(arlasConfig)) {
       const previewId = this.configurationService.getPreview(arlasConfig);
-      console.log(arlasConfig.resources.previewId);
       resources$.push(
         this.duplicatePreview$(previewId, newConfigName, org).pipe(
           tap((d: DataWithLinks) => this.configurationService.updatePreview(arlasConfig, d.id))
@@ -142,24 +139,6 @@ export class ActionModalComponent {
     return forkJoin(resources$).pipe(map(p => JSON.stringify(arlasConfig)));
   }
 
-  private duplicatePreviewThenConfig$(previewId: string, arlasConfig: any, newConfigName: string, org: string) {
-    return this.duplicatePreview$(previewId, newConfigName, org)
-      .pipe(
-        map((p: DataWithLinks) => {
-          const newArlasConfig = this.configurationService.updatePreview(arlasConfig, p.id);
-          const stringifiedNewArlasConfig = JSON.stringify(newArlasConfig);
-          return this.persistenceService.create('config.json', newConfigName, stringifiedNewArlasConfig, [], [],
-            this.getOptionsSetOrg(p.doc_organization));
-        })
-      ).pipe(
-        catchError((err) => {
-          this.errorService.closeAll().afterAllClosed.pipe(take(1))
-            .subscribe(() => this.errorService.emitAuthorisationError(new AuthorisationOnActionError(err.status, 'duplicate_dashboard'), false));
-          return of(err);
-        })
-      );
-  }
-
   private duplicatePreview$(previewId: string, newConfigName: string, org?: string): Observable<DataWithLinks> {
     const newPreviewName = newConfigName.concat('_preview');
     return this.persistenceService.get(previewId, this.getOptionsSetOrg(org))
@@ -188,7 +167,8 @@ export class ActionModalComponent {
   }
 
   public rename(newName: string, config: Config) {
-    this.persistenceService.get(config.id, this.getOptionsSetOrg(config.org))
+    const options = this.getOptionsSetOrg(config.org);
+    this.persistenceService.get(config.id, options)
       .pipe(
         catchError((err) => {
           this.errorService.closeAll().afterAllClosed.pipe(take(1))
@@ -198,10 +178,26 @@ export class ActionModalComponent {
         })
       )
       .subscribe(
-        currentConfig => {
-          const key = currentConfig.doc_key;
-          // NO NEED TO RENAME IT
-          // ['i18n', 'tour'].forEach(zone => ['fr', 'en'].forEach(lg => this.renameLinkedData(zone, key, newName, lg)));
+        (currentConfig: DataWithLinks) => {
+          const arlasConfig = this.configurationService.parse(currentConfig.doc_value);
+          if (!!arlasConfig) {
+            if (this.configurationService.hasPreview(arlasConfig)) {
+              const previewId = this.configurationService.getPreview(arlasConfig);
+              this.persistenceService.renameResource(previewId, newName + '_preview', options);
+            }
+            if (this.configurationService.hasI18n(arlasConfig)) {
+              const i18nIds = this.configurationService.getI18n(arlasConfig);
+              Object.keys(i18nIds).forEach(lg => {
+                this.persistenceService.renameResource(i18nIds[lg], newName + '_i18n_' + lg, options);
+              });
+            }
+            if (this.configurationService.hasTours(arlasConfig)) {
+              const toursIds = this.configurationService.getTours(arlasConfig);
+              Object.keys(toursIds).forEach(lg => {
+                this.persistenceService.renameResource(toursIds[lg], newName + '_i18n_' + lg, options);
+              });
+            }
+          }
           this.persistenceService.rename(config.id, newName, this.getOptionsSetOrg(config.org))
             .subscribe({
               error: error => this.raiseError(error),
