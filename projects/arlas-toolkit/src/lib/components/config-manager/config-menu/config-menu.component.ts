@@ -20,14 +20,16 @@
 import { Component, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Resource } from 'arlas-permissions-api';
-import { filter, map, tap } from 'rxjs/operators';
+import { catchError, filter, map, take, tap } from 'rxjs/operators';
 import { PermissionService } from '../../../services/permission/permission.service';
 import { PersistenceService } from '../../../services/persistence/persistence.service';
-import { Subject } from 'rxjs';
+import { Subject, of } from 'rxjs';
 import { ConfigAction, ConfigActionEnum } from '../../../tools/utils';
 import { ActionModalComponent } from '../action-modal/action-modal.component';
 import { ArlasConfigService } from '../../../services/startup/startup.service';
 import { DataWithLinks } from 'arlas-persistence-api';
+import { AuthorisationOnActionError } from '../../../tools/errors/authorisation-on-action-error';
+import { ErrorService } from '../../../services/error/error.service';
 @Component({
   selector: 'arlas-config-menu',
   templateUrl: './config-menu.component.html',
@@ -46,7 +48,8 @@ export class ConfigMenuComponent implements OnInit {
   public constructor(
     private dialog: MatDialog,
     private persistenceService: PersistenceService,
-    private configService: ArlasConfigService
+    private configService: ArlasConfigService,
+    private errorService: ErrorService
   ) {
 
   }
@@ -72,15 +75,16 @@ export class ConfigMenuComponent implements OnInit {
       }
       case ConfigActionEnum.DELETE: {
         // Open a confirm modal to validate this choice. Available only if updatable is true for this object
-        const options = Object.assign({}, this.persistenceService.options);
-        // No need to have arlas-org-filer headers to delete or get by id
-        if (!!options && !!options['headers']) {
-          if (!!options['headers']['arlas-org-filter']) {
-            options['headers']['arlas-org-filter'] = action.config.org;
-          }
-        }
+        const options = this.persistenceService.getOptionsSetOrg(action.config.org);
         this.getDialogRef(action).subscribe(id => {
           this.persistenceService.get(id, options).pipe(
+            catchError((err) => {
+              this.errorService.closeAll().afterAllClosed.pipe(take(1))
+                .subscribe(() =>
+                  this.errorService.emitAuthorisationError(new AuthorisationOnActionError(err.status, 'delete_dashboard'), false));
+              return of(err);
+            })
+          ).pipe(
             map((p: DataWithLinks) => {
               // TODO : DELETE I18N resources
               // const key = p.doc_key;
@@ -90,7 +94,8 @@ export class ConfigMenuComponent implements OnInit {
               if (previewId) {
                 this.persistenceService.deletePreview(previewId, options);
               }
-              this.persistenceService.delete(id, options).subscribe(() => this.actionExecutedEmitter.next(action));
+              this.persistenceService.delete(id, options)
+                .subscribe(() => this.actionExecutedEmitter.next(action));
             })
           )
             .subscribe();
