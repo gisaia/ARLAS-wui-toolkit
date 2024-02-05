@@ -659,7 +659,7 @@
                     "type": "string"
                 },
                 "i18nIds": {
-                    "description": "Map of 'language'-'identifer'",
+                    "description": "Map of 'language'-'identifer_of_i18n'",
                     "type": "object",
                     "properties": {
                         "en": {
@@ -668,6 +668,20 @@
                         },
                         "fr": {
                             "description": "Identifier of the french i18n file",
+                            "type": "string"
+                        }
+                    }
+                },
+                "toursIds": {
+                    "description": "Map of 'language'-'identifer_of_tour'",
+                    "type": "object",
+                    "properties": {
+                        "en": {
+                            "description": "Identifier of the english tour file",
+                            "type": "string"
+                        },
+                        "fr": {
+                            "description": "Identifier of the french tour file",
                             "type": "string"
                         }
                     }
