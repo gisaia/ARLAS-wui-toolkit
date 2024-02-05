@@ -129,7 +129,7 @@ export class ConfigMenuComponent implements OnInit {
       disableClose: true,
       data: action
     });
-    return dialogRef.afterClosed().pipe(filter(result => result !== false));
+    return dialogRef.afterClosed().pipe(filter(result => !!result));
   }
 
   private openUrl(url: string) {
