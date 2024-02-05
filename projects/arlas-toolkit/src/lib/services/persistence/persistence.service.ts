@@ -38,7 +38,7 @@ export class PersistenceService {
 
   public create(zone: string, name: string, value: string,
     readers?: string[], writers?: string[], options = this.options): Observable<DataWithLinks> {
-    return from(this.persistenceApi.create(zone, name, value, readers, writers, false, options)).pipe(catchError(() => /** todo*/ of()));;
+    return from(this.persistenceApi.create(zone, name, value, readers, writers, false, options));
 
   }
   public get(id: string, options = this.options): Observable<DataWithLinks> {
@@ -55,6 +55,7 @@ export class PersistenceService {
   }
   public update(id: string, value: string, lastUpdate: number, name?: string,
     readers?: string[], writers?: string[], options = this.options): Observable<DataWithLinks> {
+    console.log(options.headers['arlas-org-filter']);
     return from(this.persistenceApi.update(id, value, lastUpdate, name, readers, writers, false, options));
   }
 
@@ -75,6 +76,7 @@ export class PersistenceService {
   }
 
   public getGroupsByZone(zone: string, options = this.options) {
+    console.log(this.options);
     return from(this.persistenceApi.getGroupsByZone(zone, false, options));
   }
 
@@ -119,14 +121,24 @@ export class PersistenceService {
     };
   }
 
-  /** deletes the preview by its name */
+  public getOptionsSetOrg(org: string) {
+    const newOptions = Object.assign({}, this.options);
+    if (newOptions.headers) {
+      newOptions.headers = Object.assign({}, newOptions.headers);
+    }
+    // No need to have arlas-org-filer headers to delete or get by id
+    if (!!newOptions && !!newOptions['headers']) {
+      newOptions.headers['arlas-org-filter'] = org;
+    }
+    return newOptions;
+  }
+
+  /** deletes the preview by its id */
   public deletePreview(previewId: string, options = this.options) {
     this.exists(previewId, options).subscribe(
       exist => {
         if (exist.exists) {
-          this.delete(previewId, options).pipe(
-            catchError(() => /** todo */ of())
-          ).subscribe();
+          this.delete(previewId, options).subscribe();
         }
       });
   }
