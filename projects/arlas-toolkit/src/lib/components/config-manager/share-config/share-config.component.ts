@@ -20,6 +20,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { PersistenceService } from '../../../services/persistence/persistence.service';
 import { Config } from '../../../tools/utils';
+import { ArlasConfigService } from '../../../services/startup/startup.service';
 
 export interface PersistenceGroup {
   name: string;
@@ -38,7 +39,7 @@ export class ShareConfigComponent implements OnInit {
   @Output() public updateEmitter: EventEmitter<[boolean, any]> = new EventEmitter();
   public groups: Array<PersistenceGroup>;
 
-  public constructor(private persistenceService: PersistenceService) {
+  public constructor(private persistenceService: PersistenceService, private configurationService: ArlasConfigService) {
 
   }
   public ngOnInit() {
@@ -80,8 +81,14 @@ export class ShareConfigComponent implements OnInit {
         next: () => this.updateEmitter.emit([true, {}]),
         error: (err) => this.updateEmitter.emit([false, err])
       });
-    const previewGroups = this.persistenceService.dashboardToPreviewGroups(this.config.readers, this.config.writers);
-    this.persistenceService.updatePreview(this.config.name.concat('_preview'), previewGroups.readers, previewGroups.writers);
+    const arlasConfig = this.configurationService.parse(this.config.value);
+    if (!!arlasConfig) {
+      const previewId = this.configurationService.getPreview(arlasConfig);
+      if (previewId) {
+        const previewGroups = this.persistenceService.dashboardToPreviewGroups(this.config.readers, this.config.writers);
+        this.persistenceService.updatePreview(previewId, previewGroups.readers, previewGroups.writers);
+      }
+    }
   }
 
   public close() {

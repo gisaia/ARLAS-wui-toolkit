@@ -163,6 +163,7 @@
 	"Validate": "Validate",
 	"Unauthorized to create a dashboard, you need to log in": "Unauthorized to create a dashboard, you need to log in",
 	"Missing permissions to create a dashboard": "Missing permissions to create a dashboard",
+	"access forbidden to duplicate_dashboard": "You are not allowed to duplicate a dashboard",
 	"A configuration with this name exists already, please choose another name": "A configuration with this name exists already, please choose another name",
 	"An error occurred, please try later": "An error occurred, please try later",
 	"to": "to",
