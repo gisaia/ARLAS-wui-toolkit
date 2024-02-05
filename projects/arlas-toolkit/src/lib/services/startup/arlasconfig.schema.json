@@ -667,7 +667,7 @@
                             "type": "string"
                         },
                         "fr": {
-                            "description": "Identifier of the english i18n file",
+                            "description": "Identifier of the french i18n file",
                             "type": "string"
                         }
                     }
