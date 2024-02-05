@@ -86,13 +86,22 @@ export class ConfigMenuComponent implements OnInit {
             })
           ).pipe(
             map((p: DataWithLinks) => {
-              // TODO : DELETE I18N resources
-              // const key = p.doc_key;
-              // ['i18n', 'tour'].forEach(zone => ['fr', 'en'].forEach(lg => this.deleteLinkedData(zone, key, lg)));
               const parsedConfig = this.configService.parse(p.doc_value);
-              const previewId = this.configService.getPreview(parsedConfig);
-              if (previewId) {
-                this.persistenceService.deletePreview(previewId, options);
+              if (this.configService.hasPreview(parsedConfig)) {
+                const previewId = this.configService.getPreview(parsedConfig);
+                this.persistenceService.deleteResource(previewId, options);
+              }
+              if (this.configService.hasI18n(parsedConfig)) {
+                const i18nIds = this.configService.getI18n(parsedConfig);
+                Object.keys(i18nIds).forEach(lg => {
+                  this.persistenceService.deleteResource(i18nIds[lg], options);
+                });
+              }
+              if (this.configService.hasTours(parsedConfig)) {
+                const toursIds = this.configService.getTours(parsedConfig);
+                Object.keys(toursIds).forEach(lg => {
+                  this.persistenceService.deleteResource(toursIds[lg], options);
+                });
               }
               this.persistenceService.delete(id, options)
                 .subscribe(() => this.actionExecutedEmitter.next(action));
