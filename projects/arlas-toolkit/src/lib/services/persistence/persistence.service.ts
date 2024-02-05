@@ -55,7 +55,6 @@ export class PersistenceService {
   }
   public update(id: string, value: string, lastUpdate: number, name?: string,
     readers?: string[], writers?: string[], options = this.options): Observable<DataWithLinks> {
-    console.log(options.headers['arlas-org-filter']);
     return from(this.persistenceApi.update(id, value, lastUpdate, name, readers, writers, false, options));
   }
 
@@ -76,7 +75,6 @@ export class PersistenceService {
   }
 
   public getGroupsByZone(zone: string, options = this.options) {
-    console.log(this.options);
     return from(this.persistenceApi.getGroupsByZone(zone, false, options));
   }
 
@@ -85,39 +83,50 @@ export class PersistenceService {
   }
 
   /** updates the preview's name, readers and writers */
-  public updatePreview(previewId: string, readers: string[], writers: string[], newValue?: string, options = this.options) {
-    this.exists(previewId, options).subscribe(
+  public updateResource(id: string, readers: string[], writers: string[], newValue?: string, options = this.options) {
+    this.exists(id, options).subscribe(
       exist => {
         if (exist.exists) {
-          this.get(previewId, options).subscribe({
+          this.get(id, options).subscribe({
             next: (data) => {
               this.update(data.id, newValue ? newValue : data.doc_value, new Date(data.last_update_date).getTime(), data.doc_key,
-                readers, writers, options);
+                readers, writers, options).subscribe();
             }
           });
         }
       });
   }
 
-  public dashboardToPreviewGroups(dashboardReaders: string[], dashboardWiters: string[]): {
+  public renameResource(id: string, newName: string, options = this.options) {
+    this.exists(id, options).subscribe(
+      exist => {
+        if (exist.exists) {
+          this.get(id, options).subscribe({
+            next: (data) => {
+              this.rename(data.id, newName, options).subscribe();
+            }
+          });
+        }
+      });
+  }
+
+  public dashboardToResourcesGroups(dashboardReaders: string[], dashboardWiters: string[]): {
     readers: string[];
     writers: string[];
   } {
-    let previewReaders = [];
-    let previewWriters = [];
+    let resourceReaders = [];
+    let resourceWriters = [];
     if (dashboardReaders) {
-      // Seen with AB who says normally we dont need to do the replace anymore; NOT TESTED
-      previewReaders = dashboardReaders;
-      // previewReaders = dashboardReaders.map(reader => reader.replace('config.json', 'preview'));
+      // Seen with AB who says normally we dont need to do the replace anymore
+      resourceReaders = dashboardReaders;
     }
     if (dashboardWiters) {
-      // Seen with AB who says normally we dont need to do the replace anymore; NOT TESTED
-      previewWriters = dashboardWiters;
-      // previewWriters = dashboardWiters.map(writer => writer.replace('config.json', 'preview'));
+      // Seen with AB who says normally we dont need to do the replace anymore
+      resourceWriters = dashboardWiters;
     }
     return {
-      readers: previewReaders,
-      writers: previewWriters
+      readers: resourceReaders,
+      writers: resourceWriters
     };
   }
 
@@ -134,7 +143,7 @@ export class PersistenceService {
   }
 
   /** deletes the preview by its id */
-  public deletePreview(previewId: string, options = this.options) {
+  public deleteResource(previewId: string, options = this.options) {
     this.exists(previewId, options).subscribe(
       exist => {
         if (exist.exists) {
