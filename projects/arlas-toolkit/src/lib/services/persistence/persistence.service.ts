@@ -1,5 +1,4 @@
 import { Injectable, Inject } from '@angular/core';
-
 import { Observable } from 'rxjs/internal/Observable';
 import { from } from 'rxjs/internal/observable/from';
 import { Configuration, PersistApi, DataResource, DataWithLinks, Exists } from 'arlas-persistence-api';
@@ -8,15 +7,14 @@ import { catchError, map, mergeMap } from 'rxjs/operators';
 import { GET_OPTIONS } from '../../tools/utils';
 import { of } from 'rxjs';
 
-
 @Injectable({
   providedIn: 'root'
 })
 export class PersistenceService {
-
   private persistenceApi: PersistApi;
   public options;
   public isAvailable = false;
+
   public constructor(
     @Inject(GET_OPTIONS) private getOptions,
     private settingsService: ArlasSettingsService
@@ -66,10 +64,6 @@ export class PersistenceService {
         options)),
       mergeMap(a => a)
     );
-  }
-
-  public duplicateValue(zone: string, value: string, oldName: string, newName?: string, options = this.options): Observable<DataWithLinks> {
-    return this.create(zone, newName ? newName : 'Copy of ' + oldName, value, [], [], options);
   }
 
   public rename(id: string, newName: string, options = this.options): Observable<DataWithLinks> {
@@ -136,16 +130,6 @@ export class PersistenceService {
         }
       });
   }
-
-  private getOptionsSetOrg(options: any, org: string) {
-    const newOptions = Object.assign({}, options);
-    // No need to have arlas-org-filer headers to delete or get by id
-    if (!!newOptions && !!newOptions['headers']) {
-      newOptions['headers']['arlas-org-filter'] = org;;
-    }
-    return newOptions;
-  }
-
 }
 
 export interface PersistenceSetting {
