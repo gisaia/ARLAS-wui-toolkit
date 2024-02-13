@@ -145,10 +145,10 @@ export class ArlasIamService extends ArlasAuthentificationService {
   }
 
   public startRefreshTokenTimer(loginData: LoginData): void {
-    const refreshToken = loginData.refreshToken;
+    const refreshToken = loginData.refresh_token;
     if (!!refreshToken) {
       // permit to obtain accessToken expiration date
-      const accessToken = loginData.accessToken;
+      const accessToken = loginData.access_token;
       const jwtToken = JSON.parse(atob(accessToken.split('.')[1]));
       const expires = new Date(jwtToken.exp * 1000);
       // set a timeout to refresh the accessToken one minute before it expires
@@ -162,8 +162,8 @@ export class ArlasIamService extends ArlasAuthentificationService {
           next: (loginData: LoginData) => {
             // store localy accessToken
             this.user = loginData.user;
-            this.setHeadersFromAccesstoken(loginData.accessToken);
-            this.storeRefreshToken(loginData.refreshToken);
+            this.setHeadersFromAccesstoken(loginData.access_token);
+            this.storeRefreshToken(loginData.refresh_token);
             this.tokenRefreshedSource.next(loginData);
           },
           error: (e) => {
@@ -184,8 +184,8 @@ export class ArlasIamService extends ArlasAuthentificationService {
         .then(
           (loginData: LoginData) => {
             this.user = loginData.user;
-            this.setHeadersFromAccesstoken(loginData.accessToken);
-            this.storeRefreshToken(loginData.refreshToken);
+            this.setHeadersFromAccesstoken(loginData.access_token);
+            this.storeRefreshToken(loginData.refresh_token);
             this.startRefreshTokenTimer(loginData);
             return Promise.resolve();
           })
