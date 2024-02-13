@@ -26,8 +26,8 @@ export class AuthGuardIamService {
       this.arlasIamService.setHeadersFromAccesstoken(accessToken);
       return this.arlasIamService.refresh(refreshToken.value).pipe(map(loginData => {
         if (!!loginData) {
-          this.arlasIamService.setHeadersFromAccesstoken(loginData.accessToken);
-          this.arlasIamService.storeRefreshToken(loginData.refreshToken);
+          this.arlasIamService.setHeadersFromAccesstoken(loginData.access_token);
+          this.arlasIamService.storeRefreshToken(loginData.refresh_token);
           return true;
         } else {
           return false;
