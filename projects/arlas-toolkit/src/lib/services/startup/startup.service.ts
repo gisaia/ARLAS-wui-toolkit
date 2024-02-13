@@ -40,8 +40,8 @@ import * as rootContributorConfSchema from 'arlas-web-contributors/jsonSchemas/r
 import { CollaborativesearchService, ConfigService, Contributor } from 'arlas-web-core';
 import { projType } from 'arlas-web-core/models/projections';
 import YAML from 'js-yaml';
-import { Subject } from 'rxjs';
-import { mergeMap } from 'rxjs/operators';
+import { Subject, defer, of, throwError, timer } from 'rxjs';
+import { catchError, delayWhen, map, mergeMap, retry, retryWhen, take, tap } from 'rxjs/operators';
 import { PersistenceService, PersistenceSetting } from '../persistence/persistence.service';
 import {
   CONFIG_ID_QUERY_PARAM, GET_OPTIONS, WidgetConfiguration, getFieldProperties,
@@ -627,12 +627,22 @@ export class ArlasStartupService {
       let configData;
       if (usePersistence) {
         if (!!configurationId) {
-          configDataPromise = this.persistenceService.get(configurationId).toPromise()
+          configDataPromise = defer(() => this.persistenceService.get(configurationId)).pipe(
+            catchError(err => {
+              this.errorService.closeAll();
+              return throwError(() => err);
+            }),
+            retry({ count: 1, delay: 2000 })
+          ).toPromise()
             .then((s: DataWithLinks) => {
-              const config = JSON.parse(s.doc_value);
-              this.configService.appName = s.doc_key;
-              configData = config;
-              return Promise.resolve(config);
+              if (s) {
+                const config = JSON.parse(s.doc_value);
+                this.configService.appName = s.doc_key;
+                configData = config;
+                return Promise.resolve(config);
+              }
+              return Promise.resolve(null);
+
             }).catch((err) => {
               if (!(err instanceof Response)) {
                 this.shouldRunApp = false;
