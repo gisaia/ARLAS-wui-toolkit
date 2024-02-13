@@ -55,9 +55,6 @@ export class ActionModalComponent {
     if (!!arlasConfig) {
       const hasResources = this.configurationService.hasResources(arlasConfig);
       if (hasResources) {
-
-      }
-      if (this.configurationService.hasResources(arlasConfig)) {
         this.duplicateResourcesThenConfig$(arlasConfig, newName, config.org).subscribe({
           error: error => this.raiseError(error),
           next: () => {
