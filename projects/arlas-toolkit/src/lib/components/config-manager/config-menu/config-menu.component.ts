@@ -37,7 +37,6 @@ import { ErrorService } from '../../../services/error/error.service';
 })
 export class ConfigMenuComponent implements OnInit {
   @Input() public actions: Array<ConfigAction>;
-  @Input() public canCreateDashboard = false;
 
   @Input() public zone: string;
 
@@ -151,14 +150,4 @@ export class ConfigMenuComponent implements OnInit {
     win.focus();
   }
 
-  // private deleteLinkedData(zone: string, key: string, lg: string): void {
-  //   this.persistenceService.existByZoneKey(zone, key.concat('_').concat(lg)).subscribe(
-  //     exist => {
-  //       if (exist.exists) {
-  //         this.persistenceService.getByZoneKey(zone, key.concat('_').concat(lg))
-  //           .subscribe(i => this.persistenceService.delete(i.id).subscribe(d => { }));
-  //       }
-  //     }
-  //   );
-  // }
 }
