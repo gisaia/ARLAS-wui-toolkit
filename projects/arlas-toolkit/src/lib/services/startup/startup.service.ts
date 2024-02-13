@@ -582,7 +582,7 @@ export class ArlasStartupService {
               if (!!loginData) {
                 const org = this.arlasIamService.getOrganisation();
                 const iamHeader = {
-                  Authorization: 'Bearer ' + loginData.accessToken,
+                  Authorization: 'Bearer ' + loginData.access_token,
                 };
                 // Set the org filter only if the organisation is defined
                 if (!!org) {
