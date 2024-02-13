@@ -60,38 +60,6 @@
 
 - Restore creating of dashboard in openid authmode [\#745](https://github.com/gisaia/ARLAS-wui-toolkit/issues/745)
 
-## [v24.3.8](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.3.8) (2024-03-11)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v25.0.0-beta.5...v24.3.8)
-
-## [v25.0.0-beta.5](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v25.0.0-beta.5) (2024-03-11)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.3.7...v25.0.0-beta.5)
-
-## [v24.3.7](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.3.7) (2024-03-01)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v25.0.0-beta.4...v24.3.7)
-
-## [v25.0.0-beta.4](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v25.0.0-beta.4) (2024-02-20)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.3.6...v25.0.0-beta.4)
-
-## [v24.3.6](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.3.6) (2024-02-16)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v25.0.0-beta.3...v24.3.6)
-
-## [v25.0.0-beta.3](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v25.0.0-beta.3) (2024-02-15)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v25.0.0-beta.2...v25.0.0-beta.3)
-
-## [v25.0.0-beta.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v25.0.0-beta.2) (2024-02-14)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v25.0.0-beta.1...v25.0.0-beta.2)
-
-## [v25.0.0-beta.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v25.0.0-beta.1) (2024-02-13)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.3.5...v25.0.0-beta.1)
-
 ## [v24.3.5](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.3.5) (2024-01-25)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.3.4...v24.3.5)
