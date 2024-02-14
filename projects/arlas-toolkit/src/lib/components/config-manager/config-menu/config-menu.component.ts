@@ -30,6 +30,7 @@ import { ArlasConfigService } from '../../../services/startup/startup.service';
 import { DataWithLinks } from 'arlas-persistence-api';
 import { AuthorisationOnActionError } from '../../../tools/errors/authorisation-on-action-error';
 import { ErrorService } from '../../../services/error/error.service';
+import { NO_ORGANISATION } from '../../../tools/consts';
 @Component({
   selector: 'arlas-config-menu',
   templateUrl: './config-menu.component.html',
@@ -64,7 +65,7 @@ export class ConfigMenuComponent implements OnInit {
         if (action.url && action.config && action.config.id && action.configIdParam) {
 
           let url = action.url.concat('/?' + action.configIdParam + '=').concat(action.config.id);
-          if (!!action.config.org && action.config.org !== 'no_organisation') {
+          if (!!action.config.org && action.config.org !== NO_ORGANISATION) {
             url = url.concat('&org=' + action.config.org);
           }
           this.openUrl(url);
@@ -114,7 +115,7 @@ export class ConfigMenuComponent implements OnInit {
         // redirect to arlas wui-builer with config ID
         if (action.url && action.config && action.config.id) {
           let url = action.url.concat(action.config.id);
-          if (!!action.config.org && action.config.org !== 'no_organisation') {
+          if (!!action.config.org && action.config.org !== NO_ORGANISATION) {
             url = url.concat('?org=' + action.config.org);
           }
           this.openUrl(url);
