@@ -59,8 +59,8 @@ export class LoginComponent implements OnInit {
       this.iamService.refresh(refreshToken.value).pipe(finalize(() => this.showPage = true)).subscribe({
         next: (loginData: LoginData) => {
           this.iamService.user = loginData.user;
-          this.iamService.setHeadersFromAccesstoken(loginData.accessToken);
-          this.iamService.storeRefreshToken(loginData.refreshToken);
+          this.iamService.setHeadersFromAccesstoken(loginData.access_token);
+          this.iamService.storeRefreshToken(loginData.refresh_token);
           this.iamService.notifyTokenRefresh(loginData);
           localStorage.removeItem('arlas-logout-event');
           if (!!this.iamService.reloadState) {
@@ -97,8 +97,8 @@ export class LoginComponent implements OnInit {
     this.iamService.login(this.loginForm.get('email').value, this.loginForm.get('password').value).subscribe({
       next: loginData => {
         this.iamService.user = loginData.user;
-        this.iamService.setHeadersFromAccesstoken(loginData.accessToken);
-        this.iamService.storeRefreshToken(loginData.refreshToken);
+        this.iamService.setHeadersFromAccesstoken(loginData.access_token);
+        this.iamService.storeRefreshToken(loginData.refresh_token);
         this.iamService.notifyTokenRefresh(loginData);
         this.iamService.startRefreshTokenTimer(loginData);
         localStorage.removeItem('arlas-logout-event');
