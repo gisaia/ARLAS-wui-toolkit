@@ -145,25 +145,25 @@ export class ArlasIamService extends ArlasAuthentificationService {
   }
 
   public startRefreshTokenTimer(loginData: LoginData): void {
-    const refreshToken = loginData.refreshToken;
+    const refreshToken = loginData.refresh_token;
     if (!!refreshToken) {
       // permit to obtain accessToken expiration date
-      const accessToken = loginData.accessToken;
+      const accessToken = loginData.access_token;
       const jwtToken = JSON.parse(atob(accessToken.split('.')[1]));
       const expires = new Date(jwtToken.exp * 1000);
       // set a timeout to refresh the accessToken one minute before it expires
       const timeout = expires.getTime() - Date.now() - (60 * 1000);
       // todo: !! attention if the token expires in less than one minute !
       // refresh accessToken when timeout ended (passing the refreshToken)
-      // start the delay after 10 seconds
-      this.refreshTokenTimer$ = timer(10000, timeout).pipe(takeUntil(this.unsubscribe)).subscribe(() => {
+      // start the delay after 0 seconds
+      this.refreshTokenTimer$ = timer(0, timeout).pipe(takeUntil(this.unsubscribe)).subscribe(() => {
         const newestRefreshToken = this.getRefreshToken();
         this.refresh(newestRefreshToken.value).subscribe({
           next: (loginData: LoginData) => {
             // store localy accessToken
             this.user = loginData.user;
-            this.setHeadersFromAccesstoken(loginData.accessToken);
-            this.storeRefreshToken(loginData.refreshToken);
+            this.setHeadersFromAccesstoken(loginData.access_token);
+            this.storeRefreshToken(loginData.refresh_token);
             this.tokenRefreshedSource.next(loginData);
           },
           error: (e) => {
@@ -184,9 +184,8 @@ export class ArlasIamService extends ArlasAuthentificationService {
         .then(
           (loginData: LoginData) => {
             this.user = loginData.user;
-            this.setHeadersFromAccesstoken(loginData.accessToken);
-            this.storeRefreshToken(loginData.refreshToken);
-            this.tokenRefreshedSource.next(loginData);
+            this.setHeadersFromAccesstoken(loginData.access_token);
+            this.storeRefreshToken(loginData.refresh_token);
             this.startRefreshTokenTimer(loginData);
             return Promise.resolve();
           })

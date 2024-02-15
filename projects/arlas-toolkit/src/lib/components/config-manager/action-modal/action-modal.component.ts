@@ -20,8 +20,13 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { PersistenceService } from '../../../services/persistence/persistence.service';
-import { ConfigAction, ConfigActionEnum } from '../../../tools/utils';
+import { Config, ConfigAction, ConfigActionEnum } from '../../../tools/utils';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
+import { ArlasConfigService } from '../../../services/startup/startup.service';
+import { DataWithLinks, Exists } from 'arlas-persistence-api';
+import { Observable, catchError, combineLatest, concatAll, finalize, forkJoin, from, map, mergeAll, mergeMap, of, take, tap } from 'rxjs';
+import { ErrorService } from '../../../services/error/error.service';
+import { AuthorisationOnActionError } from '../../../tools/errors/authorisation-on-action-error';
 
 @Component({
   selector: 'arlas-action-modal',
@@ -38,100 +43,172 @@ export class ActionModalComponent {
   public constructor(
     @Inject(MAT_DIALOG_DATA) data: ConfigAction,
     private dialogRef: MatDialogRef<ActionModalComponent>,
-    private persistenceService: PersistenceService
+    private persistenceService: PersistenceService,
+    private configurationService: ArlasConfigService,
+    private errorService: ErrorService
   ) {
     this.action = data;
   }
 
-  public duplicate(newName: string, configId: string) {
-    this.persistenceService.duplicate('config.json', configId, newName)
-      .subscribe({
-        next: () => {
-          this.duplicatePreview(configId, newName);
-          this.errorMessage = '';
-          this.dialogRef.close();
-        },
-        error: (error) => this.raiseError(error)
-      });
+  public duplicate(newName: string, config: Config) {
+    const arlasConfig = this.configurationService.parse(config.value);
+    if (!!arlasConfig) {
+      const hasResources = this.configurationService.hasResources(arlasConfig);
+      if (hasResources) {
+        this.duplicateResourcesThenConfig$(arlasConfig, newName, config.org).subscribe({
+          error: error => this.raiseError(error),
+          next: () => {
+            this.dialogRef.close(this.action);
+          }
+        });
+      } else {
+        this.duplicateConfig$(config.id, newName, config.org).subscribe({
+          error: error => this.raiseError(error),
+          next: () => {
+            this.dialogRef.close(this.action);
+          }
+        });
+      }
+    } else {
+      console.error('Error duplicating the config: the config is not valid');
+    }
   }
 
 
-  private duplicatePreview(configId: string, newConfigName: string): void {
-    this.persistenceService.get(configId).subscribe({
-      next: (currentConfig) => {
-        const previewName = currentConfig.doc_key.concat('_preview');
-        const newPreviewName = (!!newConfigName ? newConfigName : 'Copy of ' + currentConfig.doc_key).concat('_preview');
-        this.persistenceService.existByZoneKey('preview', previewName).subscribe(
-          exist => {
-            if (exist.exists) {
-              this.persistenceService.getByZoneKey('preview', previewName).subscribe({
-                next: (data) => {
-                  let previewReaders = [];
-                  let previewWriters = [];
-                  if (currentConfig.doc_readers) {
-                    previewReaders = currentConfig.doc_readers.map(reader => reader.replace('config.json', 'preview'));
-                  }
-                  if (currentConfig.doc_readers) {
-                    previewWriters = currentConfig.doc_writers.map(writer => writer.replace('config.json', 'preview'));
-                  }
-                  this.persistenceService.create(
-                    'preview',
-                    newPreviewName,
-                    data.doc_value,
-                    previewReaders,
-                    previewWriters
-                  ).subscribe({
-                    error: (error) => this.raiseError(error)
-                  });
-                }
+  private duplicateConfig$(configId: string, newConfigName: string, org?: string) {
+    return this.persistenceService.duplicate('config.json', configId, newConfigName, this.getOptionsSetOrg(org))
+      .pipe(
+        catchError((err) => {
+          this.errorService.closeAll().afterAllClosed.pipe(take(1))
+            .subscribe(() => this.errorService.emitAuthorisationError(new AuthorisationOnActionError(err.status, 'duplicate_dashboard'), false));
+          return of(err);
+        }));
+  }
+
+  private duplicateResourcesThenConfig$(arlasConfig: any, newConfigName: string, org: string): Observable<DataWithLinks> {
+    return this.duplicateResources$(arlasConfig, newConfigName, org)
+      .pipe(
+        mergeMap((stringifiedNewArlasConfig: string) =>
+          this.persistenceService.create('config.json', newConfigName, stringifiedNewArlasConfig, [], [],
+            this.getOptionsSetOrg(org)))
+      ).pipe(
+        catchError((err) => {
+          this.errorService.closeAll().afterAllClosed.pipe(take(1))
+            .subscribe(() => this.errorService.emitAuthorisationError(new AuthorisationOnActionError(err.status, 'duplicate_dashboard'), false));
+          return of();
+        })
+      );
+  }
+
+
+  public duplicateResources$(arlasConfig: any, newConfigName: string, org: string): Observable<string> {
+    const resources$: Observable<DataWithLinks>[] = [];
+    if (this.configurationService.hasPreview(arlasConfig)) {
+      const previewId = this.configurationService.getPreview(arlasConfig);
+      resources$.push(
+        this.duplicatePreview$(previewId, newConfigName, org).pipe(
+          tap((d: DataWithLinks) => this.configurationService.updatePreview(arlasConfig, d.id))
+        )
+      );
+    }
+    if (this.configurationService.hasI18n(arlasConfig)) {
+      const i18ns = this.configurationService.getI18n(arlasConfig);
+      Object.keys(i18ns).forEach(lg => {
+        resources$.push(
+          this.duplicateI18n$(i18ns[lg], lg, newConfigName, org).pipe(
+            tap((d: DataWithLinks) => this.configurationService.updateI18n(arlasConfig, lg, d.id))
+          )
+        );
+      });
+    }
+
+    if (this.configurationService.hasTours(arlasConfig)) {
+      const tours = this.configurationService.getTours(arlasConfig);
+      Object.keys(tours).forEach(lg => {
+        resources$.push(
+          this.duplicateTour$(tours[lg], lg, newConfigName, org).pipe(
+            tap((d: DataWithLinks) => this.configurationService.updateTour(arlasConfig, lg, d.id))
+          )
+        );
+      });
+    }
+
+    return forkJoin(resources$).pipe(map(p => JSON.stringify(arlasConfig)));
+  }
+
+  private duplicatePreview$(previewId: string, newConfigName: string, org?: string): Observable<DataWithLinks> {
+    const newPreviewName = newConfigName.concat('_preview');
+    return this.persistenceService.get(previewId, this.getOptionsSetOrg(org))
+      .pipe(mergeMap((p: DataWithLinks) =>
+        this.persistenceService.create('preview', newPreviewName, p.doc_value, [], [],
+          this.getOptionsSetOrg(p.doc_organization))
+      ));
+  }
+
+  private duplicateI18n$(i18nId: string, lg: string, newConfigName: string, org?: string): Observable<DataWithLinks> {
+    const newI18nName = newConfigName.concat('_i18n_' + lg);
+    return this.persistenceService.get(i18nId, this.getOptionsSetOrg(org))
+      .pipe(mergeMap((p: DataWithLinks) =>
+        this.persistenceService.create('i18n', newI18nName, p.doc_value, [], [],
+          this.getOptionsSetOrg(p.doc_organization))
+      ));
+  }
+
+  private duplicateTour$(i18nId: string, lg: string, newConfigName: string, org?: string): Observable<DataWithLinks> {
+    const newTourName = newConfigName.concat('_tour_' + lg);
+    return this.persistenceService.get(i18nId, this.getOptionsSetOrg(org))
+      .pipe(mergeMap((p: DataWithLinks) =>
+        this.persistenceService.create('tour', newTourName, p.doc_value, [], [],
+          this.getOptionsSetOrg(p.doc_organization))
+      ));
+  }
+
+  public rename(newName: string, config: Config) {
+    const options = this.getOptionsSetOrg(config.org);
+    this.persistenceService.get(config.id, options)
+      .pipe(
+        catchError((err) => {
+          this.errorService.closeAll().afterAllClosed.pipe(take(1))
+            .subscribe(() =>
+              this.errorService.emitAuthorisationError(new AuthorisationOnActionError(err.status, 'rename_dashboard'), false));
+          return of(err);
+        })
+      )
+      .subscribe(
+        (currentConfig: DataWithLinks) => {
+          const arlasConfig = this.configurationService.parse(currentConfig.doc_value);
+          if (!!arlasConfig) {
+            if (this.configurationService.hasPreview(arlasConfig)) {
+              const previewId = this.configurationService.getPreview(arlasConfig);
+              this.persistenceService.renameResource(previewId, newName + '_preview', options);
+            }
+            if (this.configurationService.hasI18n(arlasConfig)) {
+              const i18nIds = this.configurationService.getI18n(arlasConfig);
+              Object.keys(i18nIds).forEach(lg => {
+                this.persistenceService.renameResource(i18nIds[lg], newName + '_i18n_' + lg, options);
               });
             }
-          });
-      },
-      error: (error) => this.raiseError(error)
-
-    });
-
-  }
-
-  public rename(newName: string, configId: string) {
-    this.persistenceService.get(configId).subscribe(
-      currentConfig => {
-        const key = currentConfig.doc_key;
-        ['i18n', 'tour'].forEach(zone => ['fr', 'en'].forEach(lg => this.renameLinkedData(zone, key, newName, lg)));
-        this.persistenceService.rename(configId, newName).subscribe({
-          next: () => {
-            this.errorMessage = '';
-            this.dialogRef.close();
-            let previewReaders = [];
-            let previewWriters = [];
-            if (currentConfig.doc_readers) {
-              previewReaders = currentConfig.doc_readers.map(reader => reader.replace('config.json', 'preview'));
+            if (this.configurationService.hasTours(arlasConfig)) {
+              const toursIds = this.configurationService.getTours(arlasConfig);
+              Object.keys(toursIds).forEach(lg => {
+                this.persistenceService.renameResource(toursIds[lg], newName + '_i18n_' + lg, options);
+              });
             }
-            if (currentConfig.doc_readers) {
-              previewWriters = currentConfig.doc_writers.map(writer => writer.replace('config.json', 'preview'));
-            }
-            this.persistenceService.updatePreview(newName.concat('_preview'), previewReaders, previewWriters);
-          },
-          error: error => this.raiseError(error)
+          }
+          this.persistenceService.rename(config.id, newName, this.getOptionsSetOrg(config.org))
+            .subscribe({
+              error: error => this.raiseError(error),
+              next: () => {
+                this.dialogRef.close(this.action);
+              }
+            });
         });
-      });
-  }
-
-  public create(name: string) {
-    this.persistenceService.create('config.json', name, '{}', [], [])
-      .subscribe(
-        data => {
-          this.errorMessage = '';
-          this.dialogRef.close(data.id);
-        },
-        error => this.raiseError(error));
   }
 
   public closeShare(event: [boolean, any]) {
     // update share is successful, close dialog
     if (event[0]) {
-      this.dialogRef.close();
+      this.dialogRef.close(event[1]);
     }
   }
 
@@ -157,15 +234,8 @@ export class ActionModalComponent {
     }
   }
 
-  private renameLinkedData(zone: string, key: string, newName: string, lg: string) {
-    this.persistenceService.existByZoneKey(zone, key.concat('_').concat(lg)).subscribe(
-      exist => {
-        if (exist.exists) {
-          this.persistenceService.getByZoneKey(zone, key.concat('_').concat(lg))
-            .subscribe(i => this.persistenceService.rename(i.id, newName.concat('_').concat(lg)).subscribe(d => { }));
-        }
-      }
-    );
+  private getOptionsSetOrg(org: string) {
+    this.persistenceService.getOptionsSetOrg(org);
   }
 }
 
