@@ -17,14 +17,15 @@
  * under the License.
  */
 
-import { Injectable } from '@angular/core';
-import { ArlasCollaborativesearchService } from '../startup/startup.service';
-import { projType } from 'arlas-web-core';
-import { ComputationRequest, ComputationResponse } from 'arlas-api';
-import { LngLatBounds, Map, LngLat } from 'mapbox-gl';
+import {Injectable} from '@angular/core';
+import {ArlasCollaborativesearchService} from '../startup/startup.service';
+import {projType} from 'arlas-web-core';
+import {ComputationRequest, ComputationResponse} from 'arlas-api';
+import {Map} from 'mapbox-gl';
+import {Map as MapMaplibre} from 'maplibre-gl';
 import bbox from '@turf/bbox';
-import { BBox } from '@turf/helpers';
-import { MapService } from '../../tools/utils';
+import {BBox} from '@turf/helpers';
+import {MapService} from '../../tools/utils';
 
 
 /**
@@ -33,7 +34,7 @@ import { MapService } from '../../tools/utils';
 @Injectable()
 export class ArlasMapService implements MapService {
 
-  public map: Map;
+  public map: Map | MapMaplibre;
 
   public constructor(private collaborativeSearchService: ArlasCollaborativesearchService) {
   }
@@ -45,7 +46,7 @@ export class ArlasMapService implements MapService {
    * @param paddingPercentage a percentage of the extent's height and width
    * that is added as a padding to bbox of data (between 0 and 1). It allows to have some context around data
    */
-  public zoomToData(collection: string, geoPointField: string, map: Map, paddingPercentage?: number) {
+  public zoomToData(collection: string, geoPointField: string, map: Map | MapMaplibre, paddingPercentage?: number) {
     const computationRequest: ComputationRequest = {
       metric: ComputationRequest.MetricEnum.GEOBBOX,
       field: geoPointField
@@ -67,7 +68,7 @@ export class ArlasMapService implements MapService {
    *
    * @param map mapbox map instance
    */
-  public setMap(map: Map) {
+  public setMap(map: Map | MapMaplibre) {
     this.map = map;
   }
   /**
@@ -76,7 +77,7 @@ export class ArlasMapService implements MapService {
    * @param paddingPercentage a percentage of the extent's height and width
    * that is added as a padding to bbox of data (between 0 and 1). It allows to have some context around data
    */
-  private toMapboxBounds(geometry: any, paddingPercentage?: number): LngLatBounds {
+  private toMapboxBounds(geometry: any, paddingPercentage?: number): [number, number, number, number]  {
     const boundingBox: BBox = bbox(geometry);
     let west = boundingBox[0];
     let south = boundingBox[1];
@@ -98,10 +99,7 @@ export class ArlasMapService implements MapService {
       east = east + paddingPercentage * width;
       north = Math.min(90, north + paddingPercentage * height);
     }
-    const mapboxBounds = new LngLatBounds(
-      new LngLat(west, south),
-      new LngLat(east, north)
-    );
-    return mapboxBounds;
+
+    return [west, south, east, north];
   }
 }

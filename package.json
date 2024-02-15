@@ -50,6 +50,7 @@
     "fetch-intercept": "^2.3.1",
     "hopscotch": "0.3.1",
     "js-yaml": "^3.14.0",
+    "maplibre-gl": "^3.4.0",
     "ngx-device-detector": "4.0.1",
     "ngx-markdown": "14.0.1",
     "ngx-spinner": "^14.0.0",
