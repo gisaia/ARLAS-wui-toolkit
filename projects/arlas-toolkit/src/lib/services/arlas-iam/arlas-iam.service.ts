@@ -156,7 +156,7 @@ export class ArlasIamService extends ArlasAuthentificationService {
       // todo: !! attention if the token expires in less than one minute !
       // refresh accessToken when timeout ended (passing the refreshToken)
       // start the delay after 0 seconds
-      this.refreshTokenTimer$ = timer(0, timeout).pipe(takeUntil(this.unsubscribe)).subscribe(() => {
+      this.refreshTokenTimer$ = timer(timeout, timeout).pipe(takeUntil(this.unsubscribe)).subscribe(() => {
         const newestRefreshToken = this.getRefreshToken();
         this.refresh(newestRefreshToken.value).subscribe({
           next: (loginData: LoginData) => {
