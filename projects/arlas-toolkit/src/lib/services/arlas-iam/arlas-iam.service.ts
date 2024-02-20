@@ -144,8 +144,14 @@ export class ArlasIamService extends ArlasAuthentificationService {
     this.currentOrganisation = null;
   }
 
+  /** This method should be called right after being logged in
+   * THUS; there is no need to refresh the token at 0; we can wait for the moment the token is about to expire to **start** the timer.
+   * By doing this we avoid refreshing the token twice in a row.
+   * Also starting the refresh at 0 causes some incoherence in localstorage when we activate 'redirect_uri' parameter in settings.yaml
+   */
   public startRefreshTokenTimer(loginData: LoginData): void {
     const refreshToken = loginData.refresh_token;
+    this.tokenRefreshedSource.next(loginData);
     if (!!refreshToken) {
       // permit to obtain accessToken expiration date
       const accessToken = loginData.access_token;
@@ -155,8 +161,9 @@ export class ArlasIamService extends ArlasAuthentificationService {
       const timeout = expires.getTime() - Date.now() - (60 * 1000);
       // todo: !! attention if the token expires in less than one minute !
       // refresh accessToken when timeout ended (passing the refreshToken)
-      // start the delay after 0 seconds
-      this.refreshTokenTimer$ = timer(0, timeout).pipe(takeUntil(this.unsubscribe)).subscribe(() => {
+      // start the timer at 'timeout' which is the duration where the token is about to expire
+      // repeat each 'timeout'
+      this.refreshTokenTimer$ = timer(timeout, timeout).pipe(takeUntil(this.unsubscribe)).subscribe(() => {
         const newestRefreshToken = this.getRefreshToken();
         this.refresh(newestRefreshToken.value).subscribe({
           next: (loginData: LoginData) => {
