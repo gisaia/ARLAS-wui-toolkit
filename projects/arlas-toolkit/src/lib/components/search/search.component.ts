@@ -24,7 +24,7 @@ import { Aggregation, AggregationResponse, Filter } from 'arlas-api';
 import { ChipsSearchContributor } from 'arlas-web-contributors';
 import { projType, Collaboration } from 'arlas-web-core';
 import { ArlasCollaborativesearchService } from '../../services/startup/startup.service';
-import { Observable, Subject, from } from 'rxjs';
+import {Observable, Subject, from, delay} from 'rxjs';
 import { filter, startWith, debounceTime, map, mergeMap, mergeWith } from 'rxjs/operators';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 
@@ -74,6 +74,7 @@ export class SearchComponent implements OnInit {
 
     // Retrieve value from the url and future collaborations
     this.collaborativeService.collaborationBus.pipe(
+      delay(0),
       filter(e => this.searchContributor.isMyOwnCollaboration(e) || e.id === 'url' || e.id === 'all')
     ).subscribe(
       e => {

@@ -29,6 +29,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { HistogramUtils, HistogramParams } from 'arlas-d3';
 import { ChartType, DataType, ShortenNumberPipe } from 'arlas-web-components';
 import { numberToShortString } from '../filter-shortcut.utils';
+import {delay} from "rxjs";
 const moment = (_moment as any).default ? (_moment as any).default : _moment;
 
 @Component({
@@ -103,7 +104,9 @@ export class ShortcutFiltersHandlerComponent implements OnInit {
     this.checkCollaboration(collaboration);
 
     // Check if collaboration occurs during the lifetime of the shortcut
-    this.collaborativeSearchService.collaborationBus.subscribe(collaborationBus => {
+    this.collaborativeSearchService.collaborationBus
+      .pipe(delay(0))
+      .subscribe(collaborationBus => {
       const collaboration = this.collaborativeSearchService.getCollaboration(this.contributorId);
       this.checkCollaboration(collaboration);
     });
