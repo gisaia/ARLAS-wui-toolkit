@@ -332,12 +332,14 @@ export class FiltersComponent implements OnInit, OnChanges {
       this.cdr.detectChanges();
 
       const widths = this.countAll.map(
-        c => document.getElementById(`arlas-count-${c.collection}`).getBoundingClientRect().width + this.spacing);
-      const clearAllWidth = this.collaborations.size > 0 ?
+        c => !!document.getElementById(`arlas-count-${c.collection}`) ?
+          document.getElementById(`arlas-count-${c.collection}`).getBoundingClientRect().width + this.spacing : 0);
+      const clearAllWidth = this.collaborations.size > 0 && !!document.getElementById('clear-all') ?
         document.getElementById('clear-all').getBoundingClientRect().width + this.spacing : 0;
-      const timelineChipWidth = this.collaborations.has('timeline') ?
+      const timelineChipWidth = this.collaborations.has('timeline') && !!document.getElementById('filter-chip-timeline') ?
         document.getElementById('filter-chip-timeline').getBoundingClientRect().width + this.spacing : 0;
-      const extraCollectionsWidth = document.getElementById('extra-collections').getBoundingClientRect().width + this.spacing;
+      const extraCollectionsWidth = !!document.getElementById('extra-collections') ?
+        document.getElementById('extra-collections').getBoundingClientRect().width + this.spacing : 0;
 
       let breakoffIndex = -1;
       let cumulativeWidth = 0;
