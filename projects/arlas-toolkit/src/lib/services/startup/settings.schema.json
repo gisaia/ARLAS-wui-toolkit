@@ -119,6 +119,7 @@
     },
     "persistence": {
       "description": "Configuration of ARLAS-persistence server",
+      "type": "object",
       "properties": {
         "url": {
           "type": "string",
@@ -131,6 +132,7 @@
     },
     "permission": {
       "description": "Configuration of ARLAS-permission server",
+      "type": "object",
       "properties": {
         "url": {
           "type": "string",

@@ -213,7 +213,7 @@ export class ArlasStartupService {
 
   public validateSettings(settings) {
     return new Promise<any>((resolve, reject) => {
-      const ajvObj = new Ajv();
+      const ajvObj = new Ajv({allowUnionTypes:true});
       ajvKeywords(ajvObj, 'uniqueItemProperties');
       const validateConfig = ajvObj
         .addMetaSchema(draftSchema.default)
@@ -233,7 +233,7 @@ export class ArlasStartupService {
 
   public validateConfiguration(data) {
     return new Promise<any>((resolve, reject) => {
-      const ajvObj = new Ajv();
+      const ajvObj = new Ajv({allowUnionTypes:true});
       ajvKeywords(ajvObj, 'uniqueItemProperties');
       const validateConfig = ajvObj
         .addMetaSchema(draftSchema.default)
