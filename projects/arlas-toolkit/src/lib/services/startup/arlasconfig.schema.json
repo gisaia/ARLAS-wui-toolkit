@@ -157,8 +157,7 @@
                                         }
                                     }
                                 ]
-                            },
-                            "additionalProperties": false
+                            }
                         },
                         "filters_shortcuts": {
                             "description": "List of shortcut widgets to filter data",
@@ -368,6 +367,7 @@
                             "type": "object",
                             "patternProperties": {
                                 "^(share)$": {
+                                    "type": "object",
                                     "patternProperties": {
                                         "^(geojson)$": {
                                             "description": "Configuration of arlas share component",
@@ -644,7 +644,6 @@
                         }
                     }
                 }
-                
             },
             "required": [
                 "web",
