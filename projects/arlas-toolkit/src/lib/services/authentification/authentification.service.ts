@@ -230,6 +230,9 @@ export class AuthentificationService extends ArlasAuthentificationService {
         disableAtHashCheck: authConfigValue['disable_at_hash_check'] !== undefined ? authConfigValue['disable_at_hash_check'] : false,
         requireHttps: authConfigValue['require_https'] !== undefined ? authConfigValue['require_https'] : true
       };
+      if (authConfigValue['post_logout_redirect_uri'] !== undefined && authConfigValue['post_logout_redirect_uri'] !== NOT_CONFIGURED) {
+        authServiceConfig.postLogoutRedirectUri = authConfigValue['post_logout_redirect_uri'];
+      }
       if (authConfigValue['dummy_client_secret'] !== undefined && authConfigValue['dummy_client_secret'] !== NOT_CONFIGURED) {
         authServiceConfig.dummyClientSecret = authConfigValue['dummy_client_secret'];
       }

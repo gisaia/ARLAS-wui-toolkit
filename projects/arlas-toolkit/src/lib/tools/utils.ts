@@ -121,6 +121,7 @@ export interface AuthentSetting {
   jwks_endpoint?: string;
   login_url?: string;
   logout_url?: string;
+  post_logout_redirect_uri?: string;
   storage?: string;
   customQueryParams?: Object;
   threshold?: number;
