@@ -82,7 +82,7 @@ export class PersistenceService {
     this.options = options;
   }
 
-  /** updates the preview's name, readers and writers */
+  /** updates the resource's name, readers and writers */
   public updateResource(id: string, readers: string[], writers: string[], newValue?: string, options = this.options) {
     this.exists(id, options).subscribe(
       exist => {
@@ -142,7 +142,7 @@ export class PersistenceService {
     return newOptions;
   }
 
-  /** deletes the preview by its id */
+  /** deletes the resource by its id */
   public deleteResource(previewId: string, options = this.options) {
     this.exists(previewId, options).subscribe(
       exist => {
