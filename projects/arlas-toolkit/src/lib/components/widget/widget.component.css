@@ -2,6 +2,10 @@
   position: relative;
 }
 
+.donut-container {
+  position: relative;
+}
+
 .export-csv-button {
   background-color: transparent;
   border: none;
