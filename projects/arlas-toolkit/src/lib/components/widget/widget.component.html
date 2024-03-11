@@ -28,7 +28,7 @@
 </div>
 
 <!-- TODO: Passer l'export dans web components ? -->
-<div *ngIf="componentType==='powerbars'">
+<div class="powerbars-widget" *ngIf="componentType==='powerbars'">
   <button *ngIf="showExportCsv" id="export-csv" matTooltip="{{'Export' | translate }}" class="export-csv-button" [class.export-csv-button-powerbars]="graphParam?.displayFilter" (click)="exportCsv(contributor,true,componentType)">
     <mat-icon class="analytics-board-panel-icon export-csv">get_app</mat-icon>
   </button>
