@@ -157,7 +157,7 @@ export class TagDialogComponent implements OnInit {
     };
 
     from(this.collaborativeSearchService.getExploreApi().aggregatePost(this.server.collection.name, aggreationRequest))
-      .subscribe((response: any) => {
+      .subscribe((response: AggregationResponse) => {
         if (response.elements) {
           response.elements.forEach(elem => {
             this.existingTags.push(elem.key_as_string);
