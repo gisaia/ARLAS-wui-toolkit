@@ -96,15 +96,6 @@
     "jsonpath": false
   },
   "overrides": {
-    "arlas-web-contributors": {
-      "arlas-web-core": {
-        "arlas-api": {
-          "portable-fetch": {
-            "node-fetch": "3.3.0"
-          }
-        }
-      }
-    },
     "arlas-permissions-api": {
       "portable-fetch": {
         "node-fetch": "3.3.0"
