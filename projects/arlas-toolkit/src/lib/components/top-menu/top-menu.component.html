@@ -37,7 +37,7 @@
       <mat-icon>person</mat-icon>
       <span>{{ 'Your profile' | translate }}</span>
     </button>
-    <button mat-menu-item (click)="changePassword()">
+    <button mat-menu-item *ngIf="authentMode !== 'iam'" (click)="changePassword()">
       <mat-icon>password</mat-icon>
       <span>{{ 'Change my password' | translate }}</span>
     </button>
