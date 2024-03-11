@@ -100,6 +100,17 @@ export class ActionModalComponent {
       );
   }
 
+  public create(name: string) {
+    this.persistenceService.create('config.json', name, '{}', [], [])
+      .subscribe({
+        next: (data) => {
+          this.errorMessage = '';
+          this.dialogRef.close(data.id);
+        },
+        error: (e) => this.raiseError(e)
+      });
+  }
+
 
   public duplicateResources$(arlasConfig: any, newConfigName: string, org: string): Observable<string> {
     const resources$: Observable<DataWithLinks>[] = [];
