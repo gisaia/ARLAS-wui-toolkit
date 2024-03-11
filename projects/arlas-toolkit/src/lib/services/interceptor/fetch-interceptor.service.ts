@@ -55,7 +55,7 @@ export class FetchInterceptorService {
           return response;
         },
         responseError: (error) =>
-        // Handle an fetch error
+        // Handle a fetch error
         // eslint-disable-next-line brace-style
         {
           console.log(error);
