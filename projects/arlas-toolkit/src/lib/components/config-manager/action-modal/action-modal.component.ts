@@ -235,7 +235,7 @@ export class ActionModalComponent {
   }
 
   private getOptionsSetOrg(org: string) {
-    this.persistenceService.getOptionsSetOrg(org);
+    return this.persistenceService.getOptionsSetOrg(org);
   }
 }
 
