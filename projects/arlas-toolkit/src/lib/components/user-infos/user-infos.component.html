@@ -12,7 +12,7 @@
         <i class="info">{{ 'Email' | translate }}</i>
         <div>{{ email }}</div>
     </div>
-    <div class="user_info">
+    <div class="user_info" *ngIf="authentMode === 'iam' ">
         <i class="info">{{ 'Organisations' | translate }}</i>
         <div class="organisations">
             <div *ngFor="let o of organisations"> {{organisations.length > 1 ? '-' : ''}} {{ o }}</div>
