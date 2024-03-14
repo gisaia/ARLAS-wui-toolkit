@@ -14,3 +14,9 @@ then
     echo "A i18n key in src/assets/i18n/en.json has no value, please fix it."
     exit 1
 fi
+if grep '""' src/assets/i18n/es.json
+then
+    # code if found
+    echo "A i18n key in src/assets/i18n/es.json has no value, please fix it."
+    exit 1
+fi

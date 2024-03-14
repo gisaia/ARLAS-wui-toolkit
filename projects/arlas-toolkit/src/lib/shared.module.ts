@@ -57,6 +57,7 @@ import {
 } from 'arlas-web-components';
 import en from 'arlas-web-components/assets/i18n/en.json';
 import fr from 'arlas-web-components/assets/i18n/fr.json';
+import es from 'arlas-web-components/assets/i18n/es.json';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { Observable } from 'rxjs';
 import { CalendarTimelineTooltipOverlayComponent } from
@@ -127,6 +128,8 @@ export class CustomTranslateLoader implements TranslateLoader {
             merged = { ...fr, ...res };
           } else if (lang === 'en') {
             merged = { ...en, ...res };
+          } else if (lang === 'es') {
+            merged = { ...es, ...res };
           }
           observer.next(merged);
           observer.complete();
