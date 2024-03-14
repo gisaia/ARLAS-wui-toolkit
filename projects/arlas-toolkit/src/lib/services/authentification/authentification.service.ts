@@ -9,6 +9,36 @@ import { AuthentSetting, CONFIG_ID_QUERY_PARAM, NOT_CONFIGURED } from '../../too
 import { ArlasAuthentificationService } from '../arlas-authentification/arlas-authentification.service';
 
 
+export class CustomMemoryStorage implements OAuthStorage {
+  private storage;
+  private data = new Map<string, string>();
+  public constructor(storage) {
+    this.storage = storage;
+  }
+  private needsExternalStorage(key: string) {
+    // Those two keys must be in external storage because a bug in the lib, but it's not sensible data
+    return key === 'nonce' || key === 'PKCE_verifier';
+  }
+  public getItem(key: string) {
+    if (this.needsExternalStorage(key)) {
+      return this.storage.getItem(key);
+    }
+    return this.data.get(key);
+  }
+  public removeItem(key: string) {
+    if (this.needsExternalStorage(key)) {
+      return this.storage.removeItem(key);
+    }
+    this.data.delete(key);
+  }
+  public setItem(key: string, data: string) {
+    if (this.needsExternalStorage(key)) {
+      return this.storage.setItem(key, data);
+    }
+    this.data.set(key, data);
+  }
+}
+
 
 @Injectable({
   providedIn: 'root'
@@ -49,7 +79,8 @@ export class AuthentificationService extends ArlasAuthentificationService {
   public initAuthService(): Promise<void> {
     if (this.authConfigValue) {
       if (this.authConfigValue.use_authent) {
-        const storage = this.authConfigValue['storage'] === 'localstorage' ? localStorage : sessionStorage;
+        const storage = this.authConfigValue['storage'] === 'localstorage' ? localStorage :
+          this.authConfigValue['storage'] === 'sessionstorage' ? sessionStorage : new CustomMemoryStorage(sessionStorage);
         if (this.authConfigValue.use_discovery || this.authConfigValue['jwks_endpoint'] === undefined) {
           this.authConfig = this.getAuthConfig(this.authConfigValue);
           this.setupAuthService(storage);

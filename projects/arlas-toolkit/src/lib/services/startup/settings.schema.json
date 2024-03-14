@@ -102,10 +102,11 @@
           "type": "boolean"
         },
         "storage": {
-          "description": "Defines where authentication information is stocked. `localstorage` by default",
+          "description": "Defines where authentication information is stocked. `memorystorage` by default",
           "enum": [
             "localstorage",
-            "sessionstorage"
+            "sessionstorage",
+            "memorystorage"
           ]
         },
         "disable_at_hash_check": {
