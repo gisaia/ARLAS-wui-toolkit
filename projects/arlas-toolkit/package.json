@@ -60,6 +60,9 @@
     },
     "./assets/i18n/fr.json": {
       "default": "./assets/i18n/fr.json"
+    },
+    "./assets/i18n/es.json": {
+      "default": "./assets/i18n/es.json"
     }
   },
   "overrides": {

@@ -7,6 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import en from 'arlas-web-components/assets/i18n/en.json';
 import fr from 'arlas-web-components/assets/i18n/fr.json';
+import es from 'arlas-web-components/assets/i18n/es.json';
 import { Observable } from 'rxjs/internal/Observable';
 import { LoginComponent } from './components/login/login.component';
 import { MatIconModule } from '@angular/material/icon';
@@ -36,6 +37,8 @@ export class CustomTranslateLoader implements TranslateLoader {
             merged = { ...fr, ...res };
           } else if (lang === 'en') {
             merged = { ...en, ...res };
+          } else if (lang === 'es') {
+            merged = { ...es, ...res };
           }
           observer.next(merged);
           observer.complete();
