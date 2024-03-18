@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
-import { RefreshToken } from 'arlas-iam-api';
 import { Observable } from 'rxjs/internal/Observable';
 import { of } from 'rxjs/internal/observable/of';
 import { map } from 'rxjs/internal/operators/map';
@@ -20,28 +19,19 @@ export class AuthGuardIamService {
   ) { }
 
   public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-    const refreshToken: RefreshToken = this.arlasIamService.getRefreshToken();
-    if (!!refreshToken) {
-      const accessToken = this.arlasIamService.getAccessToken();
-      this.arlasIamService.setHeadersFromAccesstoken(accessToken);
-      return this.arlasIamService.refresh(refreshToken.value).pipe(map(loginData => {
-        if (!!loginData) {
-          this.arlasIamService.setHeadersFromAccesstoken(loginData.access_token);
-          this.arlasIamService.storeRefreshToken(loginData.refresh_token);
-          return true;
-        } else {
-          return false;
-        }
-      }), catchError(() => {
-        this.arlasIamService.logoutWithoutRedirection();
-        this.router.navigate(['/login']);
-        return of(false);
-      }));
-    } else {
+    return this.arlasIamService.refresh().pipe(map(loginData => {
+      if (!!loginData) {
+        this.arlasIamService.setHeadersFromAccesstoken(loginData.access_token);
+        return true;
+      } else {
+        return false;
+      }
+    }), catchError(() => {
       this.arlasIamService.logoutWithoutRedirection();
       this.router.navigate(['/login']);
-      return of(true);
-    }
+      return of(false);
+    }));
+
   }
 
 
