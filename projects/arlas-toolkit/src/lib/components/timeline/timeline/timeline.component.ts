@@ -268,6 +268,9 @@ export class TimelineComponent implements OnInit {
           this.timelineHistogramComponent.resizeHistogram();
         } else if (c.operation === OperationEnum.add) {
           this.timelineIsFiltered = true;
+          this.detailedTimelineContributor.updateData = true;
+          this.detailedTimelineContributor.fetchData();
+          this.hideShowDetailedTimeline();
         }
       });
 
@@ -313,13 +316,13 @@ export class TimelineComponent implements OnInit {
 
   private hideShowDetailedTimeline() {
     let timelineRange = this.timelineContributor.range;
-    if (!!this.timelineContributor && this.timelineContributor.chartData) {
+    if (!!this.timelineContributor && this.timelineContributor.chartData?.length > 1) {
       const d = this.timelineContributor.chartData;
       const l = d.length;
       timelineRange = (+d[l - 1].key) - (+d[0].key);
     }
     let detailedTimelineRange = this.detailedTimelineContributor.range;
-    if (!!this.detailedTimelineContributor && this.detailedTimelineContributor.chartData) {
+    if (!!this.detailedTimelineContributor && this.detailedTimelineContributor.chartData?.length > 1) {
       const d = this.detailedTimelineContributor.chartData;
       const l = d.length;
       detailedTimelineRange = (+d[l - 1].key) - (+d[0].key);
