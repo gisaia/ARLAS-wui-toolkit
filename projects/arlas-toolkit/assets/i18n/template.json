@@ -161,6 +161,8 @@
 	"Unknown user": "Unknown user",
 	"User already verified": "User already verified",
 	"Validate": "Validate",
+	"Bookmark already exists": "Bookmark already exists",
+	"Bookmark creation error": "Bookmark creation error",
 	"Unauthorized to create a dashboard, you need to log in": "Unauthorized to create a dashboard, you need to log in",
 	"Missing permissions to create a dashboard": "Missing permissions to create a dashboard",
 	"A configuration with this name exists already, please choose another name": "A configuration with this name exists already, please choose another name",

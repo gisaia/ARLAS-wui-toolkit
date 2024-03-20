@@ -14,7 +14,7 @@
     "build-release": "ng build arlas-wui-toolkit --configuration production",
     "e2e": "ng e2e",
     "i18n:init": "ngx-translate-extract --input ./projects/arlas-toolkit/src --output ./projects/arlas-toolkit/assets/i18n/template.json --key-as-default-value --replace --format json",
-    "i18n:extract": "ngx-translate-extract --input ./projects/arlas-toolkit/src --output ./projects/arlas-toolkit/assets/i18n/{en,fr}.json --format json"
+    "i18n:extract": "ngx-translate-extract --input ./projects/arlas-toolkit/src --output ./projects/arlas-toolkit/assets/i18n/{en,fr,es}.json --format json"
   },
   "repository": {
     "type": "git",
@@ -43,7 +43,7 @@
     "arlas-permissions-api": "~24.0.4",
     "arlas-persistence-api": "~24.0.4",
     "arlas-tagger-api": "~24.1.0",
-    "arlas-web-components": "~24.3.4",
+    "arlas-web-components": "~24.3.5",
     "arlas-web-contributors": "~24.3.2",
     "cli-color": "^1.2.0",
     "core-js": "~3.26.1",
