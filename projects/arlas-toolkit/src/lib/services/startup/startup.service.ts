@@ -45,7 +45,7 @@ import { mergeMap } from 'rxjs/operators';
 import { PersistenceService, PersistenceSetting } from '../persistence/persistence.service';
 import {
   CONFIG_ID_QUERY_PARAM, GET_OPTIONS, WidgetConfiguration, getFieldProperties,
-  AuthentSetting, NOT_CONFIGURED, getParamValue
+  AuthentSetting, NOT_CONFIGURED, getParamValue, GeocodingSetting
 } from '../../tools/utils';
 import { ArlasIamService, IamHeader } from '../arlas-iam/arlas-iam.service';
 import { AuthentificationService, } from '../authentification/authentification.service';
@@ -876,6 +876,7 @@ export interface ArlasSettings {
   authentication?: AuthentSetting;
   persistence?: PersistenceSetting;
   permission?: PermissionSetting;
+  geocoding?: GeocodingSetting;
   arlas_wui_url?: string;
   arlas_builder_url?: string;
   arlas_hub_url?: string;
