@@ -128,6 +128,11 @@ export interface AuthentSetting {
   url?: string;
 }
 
+export interface GeocodingSetting {
+  find_place_url?: string;
+  find_place_zoom_to?: number;
+}
+
 export interface DeniedAccessData {
   error: ArlasError;
   forceAction?: boolean;
