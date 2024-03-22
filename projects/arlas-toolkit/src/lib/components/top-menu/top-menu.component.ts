@@ -78,6 +78,7 @@ export class TopMenuComponent implements OnInit {
         if (isConnected) {
           this.name = claims.nickname;
           this.avatar = claims.picture;
+          this.initials = this.getInitials(this.name);
         } else {
           this.name = '';
           this.avatar = '';
@@ -150,7 +151,7 @@ export class TopMenuComponent implements OnInit {
   }
 
   public getInitials(name) {
-    if (name && name !== '') {
+    if (!!name && name !== '') {
       return name[0];
     } else {
       return '';
