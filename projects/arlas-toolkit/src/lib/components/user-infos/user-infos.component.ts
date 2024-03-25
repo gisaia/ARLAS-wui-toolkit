@@ -35,11 +35,11 @@ export class UserInfosComponent implements OnInit {
     if (!!authSettings) {
       if (authSettings.auth_mode === 'iam') {
         const userInfos = this.arlasIamService.user;
-        if (userInfos.firstName && userInfos.lastName) {
-          this.name = userInfos.firstName + ' ' + userInfos.lastName;
+        if (userInfos.first_name && userInfos.last_name) {
+          this.name = userInfos.first_name + ' ' + userInfos.last_name;
         }
         this.email = userInfos.email;
-        this.organisations = userInfos.organisations.map(o => o.displayName);
+        this.organisations = userInfos.organisations.map(o => o.display_name);
         this.avatar = '';
       } else {
         this.authentService.loadUserInfo().subscribe(user => {
