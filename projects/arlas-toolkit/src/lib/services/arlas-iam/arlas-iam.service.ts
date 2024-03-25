@@ -278,11 +278,11 @@ export class ArlasIamService extends ArlasAuthentificationService {
   }
 
   public change(oldPassword: string, newPassword: string): Observable<UserData> {
-    return from(this.arlasIamApi.updateUser(this.user.id, { oldPassword, newPassword }, this.options));
+    return from(this.arlasIamApi.updateUser({ old_password: oldPassword, new_password: newPassword }, this.user.id, this.options));
   }
 
   public createPermission(oid: string, permissionDef: PermissionDef): Observable<PermissionData> {
-    return from(this.arlasIamApi.addPermission(oid, permissionDef, this.options));
+    return from(this.arlasIamApi.addPermission(permissionDef, oid, this.options));
   }
 
 }
