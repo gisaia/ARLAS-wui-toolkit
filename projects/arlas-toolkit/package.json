@@ -1,10 +1,6 @@
 {
   "name": "arlas-wui-toolkit",
-<<<<<<< HEAD
-  "version": "24.3.14",
-=======
-  "version": "25.0.0-beta.6",
->>>>>>> 56c0d1d3 (Release prod version 25.0.0-beta.6)
+  "version": "25.0.0-beta.7",
   "description": "Tool Kit Library for ARLAS wui web App",
   "author": "gisaia",
   "license": "Apache-2.0",
