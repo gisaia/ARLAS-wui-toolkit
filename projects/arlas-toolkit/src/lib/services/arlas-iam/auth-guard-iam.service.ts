@@ -3,7 +3,7 @@ import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/ro
 import { Observable } from 'rxjs/internal/Observable';
 import { of } from 'rxjs/internal/observable/of';
 import { map } from 'rxjs/internal/operators/map';
-import { catchError } from 'rxjs/operators';
+import { catchError, mergeMap } from 'rxjs/operators';
 import { ArlasSettingsService } from '../settings/arlas.settings.service';
 import { ArlasIamService } from './arlas-iam.service';
 
@@ -26,11 +26,11 @@ export class AuthGuardIamService {
       } else {
         return false;
       }
-    }), catchError(() => {
-      this.arlasIamService.logoutWithoutRedirection();
+    }),
+    catchError(() => this.arlasIamService.logoutWithoutRedirection$().pipe(mergeMap(() => {
       this.router.navigate(['/login']);
       return of(false);
-    }));
+    }))));
 
   }
 

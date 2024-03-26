@@ -11,6 +11,7 @@ import { AuthentSetting, NOT_CONFIGURED } from '../../tools/utils';
 import { ArlasAuthentificationService } from '../arlas-authentification/arlas-authentification.service';
 import { ArlasIamApi } from '../startup/startup.service';
 import { ArlasSettingsService } from '../settings/arlas.settings.service';
+import { finalize, tap } from 'rxjs';
 
 
 export interface IamHeader {
@@ -218,20 +219,26 @@ export class ArlasIamService extends ArlasAuthentificationService {
     this.clearOrganisation();
   }
 
-  public logoutWithoutRedirection() {
-    this.user = undefined;
-    this.clearStore();
-    this.stopRefreshTokenTimer();
-    this.notifyTokenRefresh(null);
-    localStorage.setItem('arlas-logout-event', 'logout' + Date.now());
+  public logoutWithoutRedirection$() {
+    return from(this.arlasIamApi.logout(this.options)).pipe(
+      tap(() => {
+        this.user = undefined;
+        this.clearStore();
+        this.stopRefreshTokenTimer();
+        this.notifyTokenRefresh(null);
+        localStorage.setItem('arlas-logout-event', 'logout' + Date.now());
+      })
+    );
 
   }
 
   public logout(redirectPageAfterLogout: string[] = ['/login']): void {
-    this.logoutWithoutRedirection();
-    this.router.navigate(redirectPageAfterLogout).then(() => {
-      window.location.reload();
-    });
+    this.logoutWithoutRedirection$().pipe(
+      finalize(() => this.router.navigate(redirectPageAfterLogout).then(() => {
+        window.location.reload();
+      }))
+    ).subscribe();
+
   }
 
   public refresh(): Observable<LoginData> {

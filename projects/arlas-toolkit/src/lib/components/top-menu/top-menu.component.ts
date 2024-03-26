@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { ArlasSettingsService } from '../../services/settings/arlas.settings.service';
 import { ChangePasswordComponent } from '../change-password/change-password.component';
 import { FetchInterceptorService } from '../../services/interceptor/fetch-interceptor.service';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'arlas-top-menu',
@@ -110,8 +111,11 @@ export class TopMenuComponent implements OnInit {
         if (this.authentMode === 'openid') {
           this.authentService.logout();
         } else if (this.authentMode === 'iam') {
-          this.arlasIamService.logoutWithoutRedirection();
-          this.fetchInterceptor.interceptLogout();
+          this.arlasIamService.logoutWithoutRedirection$().pipe(
+            finalize(() => this.fetchInterceptor.interceptLogout())
+          )
+            .subscribe();
+
         }
       }
     });
@@ -138,8 +142,8 @@ export class TopMenuComponent implements OnInit {
     }
   }
 
-  public changePassword(){
-    this.dialog.open(ChangePasswordComponent, {panelClass: 'change-dialog'});
+  public changePassword() {
+    this.dialog.open(ChangePasswordComponent, { panelClass: 'change-dialog' });
   }
 
   public displayAbout() {
