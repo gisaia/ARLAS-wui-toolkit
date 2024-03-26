@@ -68,8 +68,10 @@ export class LoginComponent implements OnInit {
         }
       },
       error: () => {
-        this.iamService.logoutWithoutRedirection();
-        this.errorService.closeAll();
+        this.iamService.logoutWithoutRedirection$().pipe(
+          finalize(() => this.errorService.closeAll())
+        ).subscribe();
+
       }
     });
 
@@ -101,11 +103,15 @@ export class LoginComponent implements OnInit {
         this.isLoading = false;
       },
       error: () => {
-        this.iamService.logoutWithoutRedirection();
-        this.loginForm.setErrors({
-          wrong: true
-        });
-        this.isLoading = false;
+        this.iamService.logoutWithoutRedirection$().pipe(
+          finalize(() => {
+            this.loginForm.setErrors({
+              wrong: true
+            });
+            this.isLoading = false;
+          })
+        ).subscribe();
+
       }
     }
 
