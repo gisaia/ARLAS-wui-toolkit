@@ -17,6 +17,8 @@
  * under the License.
  */
 
+import { from } from 'rxjs';
+
 export { TopMenuComponent } from './lib/components/top-menu/top-menu.component';
 export { AboutComponent, AboutDialogComponent } from './lib/components/top-menu/about/about.component';
 export { ShortcutFiltersHandlerComponent } from './lib/components/filter-shortcut/filters-handler/filters-handler.component';
@@ -142,3 +144,4 @@ export { ArlasError, ActionType } from './lib/tools/errors/error';
 export { AuthorisationError } from './lib/tools/errors/authorisation-error';
 export { BackendError } from './lib/tools/errors/backend-error';
 export { DashboardError } from './lib/tools/errors/dashboard-error';
+export { NO_ORGANISATION } from './lib/tools/consts';

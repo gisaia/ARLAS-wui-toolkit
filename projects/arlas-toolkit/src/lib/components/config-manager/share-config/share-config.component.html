@@ -12,7 +12,7 @@
   <ng-container matColumnDef="writer">
     <mat-header-cell *matHeaderCellDef>{{ 'writing' | translate }} </mat-header-cell>
     <mat-cell *matCellDef="let group">
-      <mat-checkbox color="primary"  [checked]="group.writer" (change)="changeWriter($event, group)"></mat-checkbox>
+      <mat-checkbox *ngIf="group.label !== 'public'" color="primary"  [checked]="group.writer" (change)="changeWriter($event, group)"></mat-checkbox>
     </mat-cell>
   </ng-container>
   <mat-header-row class="group-row" *matHeaderRowDef="['group', 'reader', 'writer']"></mat-header-row>

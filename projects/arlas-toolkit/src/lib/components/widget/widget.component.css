@@ -1,3 +1,11 @@
+.powerbars-widget {
+  position: relative;
+}
+
+.donut-container {
+  position: relative;
+}
+
 .export-csv-button {
   background-color: transparent;
   border: none;
@@ -9,7 +17,7 @@
 }
 
 .export-csv-button-powerbars {
-  top: 74px;
+  top: 15px;
   right: 6px;
 }
 

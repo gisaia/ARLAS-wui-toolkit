@@ -23,10 +23,10 @@ import { ArlasBookmarkService } from '../../services/bookmark/bookmark.service';
 import { BookMark } from '../../services/bookmark/model';
 import { BookmarkPersistenceDatabase } from '../../services/bookmark/bookmarkPersistenceDatabase';
 import { BookmarkDataSource } from '../../services/bookmark/bookmarkDataSource';
-import { ArlasStartupService } from '../../services/startup/startup.service';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { BookmarkAddDialogComponent } from './bookmark-add-dialog.component';
+import { ArlasCollaborativesearchService } from '../../services/startup/startup.service';
 
 @Component({
   selector: 'arlas-bookmark',
@@ -55,7 +55,7 @@ export class BookmarkComponent {
   public constructor(
     private bookmarkService: ArlasBookmarkService,
     private dialog: MatDialog,
-    private startupService: ArlasStartupService,
+    private arlasCollaborativesearchService: ArlasCollaborativesearchService,
     @Inject(MAT_DIALOG_DATA) public data: { isSelect: boolean; }
   ) {
     if (!!data && !data.isSelect) {
@@ -64,7 +64,7 @@ export class BookmarkComponent {
       this.showCombine = false;
     }
 
-    this.currentCollections = Array.from(this.startupService.collectionsMap.keys()).sort().join(',');
+    this.currentCollections = Array.from(this.arlasCollaborativesearchService.collections).sort().join(',');
     // Init component with data from persistence server, if defined and server is reachable
     if (this.bookmarkService.dataBase instanceof BookmarkPersistenceDatabase) {
       this.isPersistenceActive = true;

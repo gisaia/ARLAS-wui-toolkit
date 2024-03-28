@@ -18,12 +18,12 @@ export class ErrorService {
 
   }
 
-  public emitAuthorisationError(error: AuthorisationError) {
+  public emitAuthorisationError(error: AuthorisationError, forceAction = true) {
     if (!this.dialog.openDialogs || this.dialog.openDialogs.length === 0) {
       this.dialog.open(DeniedAccessDialogComponent, {
         disableClose: true, data: {
           error,
-          forceAction: true
+          forceAction
         }
       });
     }
@@ -64,5 +64,6 @@ export class ErrorService {
 
   public closeAll() {
     this.dialog.closeAll();
+    return this.dialog;
   }
 }

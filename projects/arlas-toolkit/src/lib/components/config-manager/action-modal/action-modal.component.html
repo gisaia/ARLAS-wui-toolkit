@@ -21,7 +21,7 @@
         <span style="color: red; display: block;">{{errorMessage | translate}}</span>
     </div>
     <div mat-dialog-actions>
-        <button mat-raised-button class="modal_button" color="primary" (click)="duplicate(value, action.config.id)">{{ 'Duplicate' | translate}}</button>
+        <button mat-raised-button class="modal_button" color="primary" (click)="duplicate(value, action.config)">{{ 'Duplicate' | translate}}</button>
         <button mat-raised-button class="modal_button" [mat-dialog-close]="false">{{ 'Cancel' | translate}}</button>
     </div>
 </div>
@@ -39,7 +39,7 @@
         <span style="color: red; display: block;">{{errorMessage | translate}}</span>
     </div>
     <div mat-dialog-actions>
-        <button mat-raised-button class="modal_button" color="primary" (click)="rename(value, action.config.id)">{{ 'Rename' | translate}}</button>
+        <button mat-raised-button class="modal_button" color="primary" (click)="rename(value, action.config)">{{ 'Rename' | translate}}</button>
         <button mat-raised-button class="modal_button" [mat-dialog-close]="false">{{ 'Cancel' | translate}}</button>
     </div>
 </div>

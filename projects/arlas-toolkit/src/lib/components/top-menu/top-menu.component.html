@@ -25,8 +25,8 @@
   <!-- User info and login -->
   <button mat-icon-button matTooltip="{{'My account' | translate}}" *ngIf="connected && isAuthentActivated"
     [matMenuTriggerFor]="actionMenu" class="action-menu-button">
-    <img *ngIf="authentMode !== 'iam'; else iamAvatar" src="{{avatar}}" class="user_avatar">
-    <ng-template #iamAvatar>
+    <img *ngIf="authentMode !== 'iam' && !!avatar; else withoutAvatar" src="{{avatar}}" class="user_avatar">
+    <ng-template #withoutAvatar>
       <div class="avatar">
         {{initials | uppercase}}
       </div>
@@ -37,7 +37,7 @@
       <mat-icon>person</mat-icon>
       <span>{{ 'Your profile' | translate }}</span>
     </button>
-    <button mat-menu-item (click)="changePassword()">
+    <button mat-menu-item *ngIf="authentMode !== 'iam'" (click)="changePassword()">
       <mat-icon>password</mat-icon>
       <span>{{ 'Change my password' | translate }}</span>
     </button>
