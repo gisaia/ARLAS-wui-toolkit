@@ -36,9 +36,9 @@ export class PersistenceService {
     return from(this.persistenceApi.deleteById(id, false, options));
   }
 
-  public create(zone: string, name: string, value: string,
+  public create(zone: string, name: string, body: string,
     readers?: string[], writers?: string[], options = this.options): Observable<DataWithLinks> {
-    return from(this.persistenceApi.create(zone, name, value, readers, writers, false, options));
+    return from(this.persistenceApi.create(body, zone, name, readers, writers, false, options));
 
   }
   public get(id: string, options = this.options): Observable<DataWithLinks> {
@@ -53,9 +53,9 @@ export class PersistenceService {
     return from(this.persistenceApi.list(zone, size, page, order, false, options));
 
   }
-  public update(id: string, value: string, lastUpdate: number, name?: string,
+  public update(id: string, body: string, lastUpdate: number, name?: string,
     readers?: string[], writers?: string[], options = this.options): Observable<DataWithLinks> {
-    return from(this.persistenceApi.update(id, value, lastUpdate, name, readers, writers, false, options));
+    return from(this.persistenceApi.update(body, id, lastUpdate, name, readers, writers, false, options));
   }
 
   public duplicate(zone: string, id: string, newName?: string, options = this.options): Observable<DataWithLinks> {

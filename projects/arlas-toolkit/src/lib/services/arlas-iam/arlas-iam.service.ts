@@ -273,11 +273,11 @@ export class ArlasIamService extends ArlasAuthentificationService {
   }
 
   public verify(userId: string, token: string, password: string): Observable<UserData> {
-    return from(this.arlasIamApi.verifyUser(userId, token, password, this.options));
+    return from(this.arlasIamApi.verifyUser(password, userId, token, this.options));
   }
 
   public reset(userId: string, token: string, password: string): Observable<UserData> {
-    return from(this.arlasIamApi.resetUserPassword(userId, token, password, this.options));
+    return from(this.arlasIamApi.resetUserPassword(password, userId, token, this.options));
   }
 
   public forgot(email: string): Observable<string> {
