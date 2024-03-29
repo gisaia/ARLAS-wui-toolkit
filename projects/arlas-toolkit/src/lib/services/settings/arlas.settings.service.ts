@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ArlasSettings, LinkSettings, ProcessSettings } from '../startup/startup.service';
 import { PersistenceSetting } from '../persistence/persistence.service';
 import { PermissionSetting } from '../permission/permission.service';
-import { AuthentSetting } from '../../tools/utils';
+import {AuthentSetting, GeocodingSetting} from '../../tools/utils';
 
 @Injectable({
   providedIn: 'root'
@@ -26,6 +26,10 @@ export class ArlasSettingsService {
 
   public getPermissionSettings(): PermissionSetting {
     return !!this.settings && !!this.settings.permission ? this.settings.permission : undefined;
+  }
+
+  public getGeocodingSettings(): GeocodingSetting {
+    return !!this.settings && !!this.settings.geocoding ? this.settings.geocoding : undefined;
   }
 
   public getArlasWuiUrl(): string {
