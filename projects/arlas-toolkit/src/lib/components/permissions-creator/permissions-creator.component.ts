@@ -100,7 +100,7 @@ export class PermissionsCreatorComponent implements OnInit, OnDestroy {
       // logout ?
     }
     const currentOrg = currentUser.organisations.find(o => o.name === orgName);
-    if (!!currentOrg && currentOrg.is_owner) {
+    if (!!currentOrg && currentOrg.isOwner) {
       return true;
     }
     return false;
