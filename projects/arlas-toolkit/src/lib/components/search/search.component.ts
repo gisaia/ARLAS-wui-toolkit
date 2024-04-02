@@ -17,14 +17,14 @@
  * under the License.
  */
 
-import { Component, Input, Inject, OnInit } from '@angular/core';
+import { Component, Input, Inject, OnInit, OnDestroy } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { Aggregation, AggregationResponse, Filter } from 'arlas-api';
 import { ChipsSearchContributor } from 'arlas-web-contributors';
 import { projType, Collaboration } from 'arlas-web-core';
 import { ArlasCollaborativesearchService } from '../../services/startup/startup.service';
-import { Observable, Subject, from } from 'rxjs';
+import { Observable, Subject, Subscription, from } from 'rxjs';
 import { filter, startWith, debounceTime, map, mergeMap, mergeWith } from 'rxjs/operators';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 
@@ -33,7 +33,7 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss']
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent implements OnInit, OnDestroy {
   /**
    * @Input : Angular
    * @description Search contributor
@@ -53,27 +53,31 @@ export class SearchComponent implements OnInit {
   @Input() public dialogPositionLeft: number;
 
   /**
+   * @Input : Angular
    * @description Value of the search filter
    */
-  public searchValue: string;
+  @Input() public searchValue: string;
 
   /**
    * @description Placeholder value as retrieved from the search contributor
    */
   public searchPlaceholder: string;
 
+  public retrieveSearchValueSub: Subscription;
+
   public constructor(
     private collaborativeService: ArlasCollaborativesearchService,
     public translate: TranslateService,
     private dialog: MatDialog,
-  ) {}
-
-  public ngOnInit(): void {
+  ) {
     this.searchPlaceholder = this.translate.instant(this.searchContributor ? this.searchContributor.getName() : 'Search...');
     this.searchValue = this.searchPlaceholder;
+  }
 
+
+  public ngOnInit(): void {
     // Retrieve value from the url and future collaborations
-    this.collaborativeService.collaborationBus.pipe(
+    this.retrieveSearchValueSub = this.collaborativeService.collaborationBus.pipe(
       filter(e => this.searchContributor.isMyOwnCollaboration(e) || e.id === 'url' || e.id === 'all')
     ).subscribe(
       e => {
@@ -100,6 +104,10 @@ export class SearchComponent implements OnInit {
     );
   }
 
+  public ngOnDestroy(): void {
+    this.retrieveSearchValueSub.unsubscribe();
+  }
+
   public search(value: string) {
     if (value.trim() !== '' && this.searchContributor) {
       const filter: Filter = {
@@ -118,7 +126,7 @@ export class SearchComponent implements OnInit {
   }
 
   public openDialog() {
-    const dialogRef = this.dialog.open(SearchDialogComponent,{
+    const dialogRef = this.dialog.open(SearchDialogComponent, {
       id: 'arlas-search-dialog',
       position: {
         top: this.dialogPositionTop + 'px',
@@ -186,7 +194,7 @@ export class SearchDialogComponent {
 
   public constructor(
     public dialogRef: MatDialogRef<SearchDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: {'searchContributor': ChipsSearchContributor; 'value': string;},
+    @Inject(MAT_DIALOG_DATA) public data: { 'searchContributor': ChipsSearchContributor; 'value': string; },
     private collaborativeService: ArlasCollaborativesearchService,
     public translate: TranslateService
   ) {
