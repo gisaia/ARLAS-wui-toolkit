@@ -96,6 +96,9 @@
     "jsonpath": false
   },
   "overrides": {
+    "@angular-devkit/build-angular": {
+      "webpack-dev-middleware": "~5.3.4"
+    },
     "arlas-web-contributors": {
       "arlas-web-core": {
         "arlas-api": {
