@@ -1,6 +1,34 @@
 # Change Log
 
-## [v24.3.10-beta.4](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.3.10-beta.4) (2024-03-20)
+## [v24.3.10](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.3.10) (2024-04-02)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v25.0.0-beta.10...v24.3.10)
+
+## [v25.0.0-beta.10](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v25.0.0-beta.10) (2024-04-02)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v25.0.0-beta.9...v25.0.0-beta.10)
+
+## [v25.0.0-beta.9](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v25.0.0-beta.9) (2024-04-02)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v25.0.0-beta.8...v25.0.0-beta.9)
+
+## [v25.0.0-beta.8](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v25.0.0-beta.8) (2024-03-29)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v25.0.0-beta.7...v25.0.0-beta.8)
+
+## [v25.0.0-beta.7](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v25.0.0-beta.7) (2024-03-26)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v25.0.0-beta.6...v25.0.0-beta.7)
+
+## [v25.0.0-beta.6](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v25.0.0-beta.6) (2024-03-25)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.3.10-beta.4...v25.0.0-beta.6)
+
+**New stuff:**
+
+- \[IAM\] Remove information from local/session storage [\#744](https://github.com/gisaia/ARLAS-wui-toolkit/issues/744)
+
+## [v24.3.10-beta.4](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.3.10-beta.4) (2024-03-21)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.3.9...v24.3.10-beta.4)
 
