@@ -27,6 +27,7 @@ import {
 
 import { CONFIG_ID_QUERY_PARAM } from './tools/utils';
 import { take } from 'rxjs/operators';
+import { ArlasWalkthroughService } from './services/walkthrough/walkthrough.service';
 @Component({
   selector: 'arlas-tool-root',
   templateUrl: './toolkit.component.html',
@@ -43,7 +44,8 @@ export class ToolkitComponent implements AfterViewInit, OnInit {
   public constructor(private configService: ArlasConfigService,
     private arlasStartupService: ArlasStartupService,
     private collaborativeService: ArlasCollaborativesearchService,
-    private activatedRoute: ActivatedRoute, private router: Router, private location: Location) {
+    private activatedRoute: ActivatedRoute, private router: Router, private location: Location,
+    private walkthroughService: ArlasWalkthroughService) {
 
     // update url when filter are setted
     const queryParams: Params = Object.assign({}, this.activatedRoute.snapshot.queryParams);
@@ -126,6 +128,7 @@ export class ToolkitComponent implements AfterViewInit, OnInit {
         }
       });
     }
+    this.walkthroughService.load();
   }
 
   public openAnalytics(event) {

@@ -40,7 +40,6 @@ export class ArlasWalkthroughService {
 
   ) {
     this.hopscotch = hopscotch;
-    this.load();
   }
 
   public load(): void {
