@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { Component, Input, Inject, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, Inject, OnInit, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { Aggregation, AggregationResponse, Filter } from 'arlas-api';
@@ -33,7 +33,7 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss']
 })
-export class SearchComponent implements OnInit, OnDestroy {
+export class SearchComponent implements OnInit, OnDestroy, OnChanges {
   /**
    * @Input : Angular
    * @description Search contributor
@@ -104,6 +104,13 @@ export class SearchComponent implements OnInit, OnDestroy {
     );
   }
 
+  public ngOnChanges(changes: SimpleChanges): void {
+    // If an empty value is passed, use the placeholder instead
+    if (!!changes['searchValue'] && !changes['searchValue'].currentValue) {
+      this.searchValue = this.searchPlaceholder;
+    }
+  }
+
   public ngOnDestroy(): void {
     this.retrieveSearchValueSub.unsubscribe();
   }
@@ -152,7 +159,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   public clearSearch() {
-    this.searchValue = this.translate.instant(this.searchContributor?.getName());
+    this.searchValue = this.searchPlaceholder;
     this.collaborativeService.removeFilter(this.searchContributor.identifier);
   }
 }

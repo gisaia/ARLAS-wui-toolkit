@@ -31,10 +31,10 @@ $search-height: 30px;
   box-sizing: border-box;
 
   .search {
-    margin: 0 4px;
+    margin-right: 4px;
     color: grey;
   }
-  
+
   .search-text {
     color: black;
     font-size: 14px;
@@ -47,14 +47,14 @@ $search-height: 30px;
     margin-bottom: 2px;
     box-sizing: border-box;
   }
-  
+
   .search-text-empty {
     color: grey;
   }
-  
+
   .close {
     margin-bottom: 2px;
-  
+
     .icon {
       font-size: 16px;
     }
