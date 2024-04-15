@@ -275,6 +275,6 @@
 	"successful": "terminé",
 	"failed": "en erreur",
 	"dissmissed": "annulé",
-	"You are about to create a new permission on data, based on the current filters applied to": "Vous êtes sur le point de créer une nouvelle permission sur les données, basée sur les filtres actuels appliqués à"
-
+	"You are about to create a new permission on data, based on the current filters applied to": "Vous êtes sur le point de créer une nouvelle permission sur les données, basée sur les filtres actuels appliqués à",
+	"processing error occured": "Une erreur s'est produite au niveau du service de {{processingName}}"
 }
