@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ArlasSettings, LinkSettings, ProcessSettings } from '../startup/startup.service';
+import { ArlasSettings, LinkSettings, ProcessSettings, ResultlistSettings } from '../startup/startup.service';
 import { PersistenceSetting } from '../persistence/persistence.service';
 import { PermissionSetting } from '../permission/permission.service';
 import {AuthentSetting, GeocodingSetting} from '../../tools/utils';
@@ -58,6 +58,14 @@ export class ArlasSettingsService {
 
   public getHistogramMaxBucket(): number {
     return !!this.settings && !!this.settings.histogram && !!this.settings.histogram.max_buckets ? this.settings.histogram.max_buckets : 200;
+  }
+
+  public isResultListExportEnabled(): boolean {
+    return !!this.settings && !!this.settings.resultlist && !!this.settings.resultlist.enable_export;
+  }
+
+  public getResultlistSettings(): ResultlistSettings {
+    return this.isResultListExportEnabled() ? this.settings.resultlist : undefined;
   }
 
   public getHistogramNbBucketAtExport(): number {

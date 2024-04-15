@@ -962,6 +962,7 @@ export interface ArlasSettings {
   tab_name?: string;
   dashboards_shortcut?: boolean;
   histogram?: HistogramSettings;
+  resultlist?: ResultlistSettings;
   process?: ProcessSettings;
   geocoding?: GeocodingSetting;
 }
@@ -977,6 +978,11 @@ export interface LinkSettings {
 export interface HistogramSettings {
   max_buckets: number;
   export_nb_buckets: number;
+}
+
+export interface ResultlistSettings {
+  enable_export: boolean;
+  export_size: number;
 }
 
 export interface ProcessSettings {
