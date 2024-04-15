@@ -31,6 +31,7 @@ export class ProcessComponent implements OnInit, OnDestroy {
 
   public isProcessing = false;
   public isProcessStarted = false;
+  public hasError = false;
 
   public ids: string[] = []; // List of product id to process
   public collection = ''; // Name of the collection of products
@@ -84,6 +85,7 @@ export class ProcessComponent implements OnInit, OnDestroy {
   public submit() {
     this.isProcessing = true;
     this.isProcessStarted = true;
+    this.hasError = false;
     const payload = this.formGroup.value;
     if( !this.useCrop){
       Object.keys(this.formInputs).forEach(inputKey => {
@@ -102,6 +104,7 @@ export class ProcessComponent implements OnInit, OnDestroy {
       },
       error: (err) => {
         this.isProcessing = false;
+        this.hasError = true;
         console.error(err);
       }
     });
@@ -122,6 +125,7 @@ export class ProcessComponent implements OnInit, OnDestroy {
       },
       error: (err) => {
         this.unsubscribeStatus.next(true);
+        this.hasError = true;
         this.isProcessing = false;
       }
     });

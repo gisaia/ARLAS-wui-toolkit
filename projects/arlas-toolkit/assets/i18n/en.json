@@ -265,5 +265,6 @@
 	"successful": "successful",
 	"failed": "failed",
 	"dissmissed": "dissmissed",
-	"yes": "yes"
+	"yes": "yes",
+	"processing error occured": "An error occured in {{processingName}} service"
 }
