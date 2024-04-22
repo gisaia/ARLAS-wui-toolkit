@@ -9,7 +9,7 @@
       <div class="arlas-timeline--legend-chip"
         [style.backgroundColor]="collectionLegend.active ? collectionLegend.color : '#dadada'"></div>
       <div class="arlas-timeline--legend-collection" [style.color]="collectionLegend.active ? '#444' : '#bbb'">
-        {{ collectionLegend.display_name }}</div>
+        {{ collectionLegend.display_name | translate }}</div>
     </div>
   </div>
   <div *ngIf="detailedTimelineComponent" class="show-detailedtimeline-{{showDetailedTimeline.valueOf()}}"
