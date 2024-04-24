@@ -12,8 +12,7 @@
         {{ collectionLegend.display_name | translate }}</div>
     </div>
   </div>
-  <div *ngIf="detailedTimelineComponent" class="show-detailedtimeline-{{showDetailedTimeline.valueOf()}}"
-    (mouseleave)="hideHistogramTooltip()">
+  <div *ngIf="detailedTimelineComponent" class="show-detailedtimeline-{{'' + showDetailedTimeline}}" (mouseleave)="hideHistogramTooltip()">
     <arlas-histogram #detailedtimeline [data]="detailedTimelineData" [mainChartId]="mainCollection"
       [intervalSelection]="detailedTimelineIntervalSelection" (dataPlottedEvent)="afterDetailedDataPlotted($event)"
       (valuesListChangedEvent)="onDetailedIntervalBrushed($event)" [id]="detailedTimelineComponent?.input?.id"

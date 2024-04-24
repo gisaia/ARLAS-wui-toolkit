@@ -17,17 +17,18 @@
  * under the License.
  */
 
-import { Component, Input, OnInit, ViewChild, ChangeDetectorRef, ElementRef, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, ChangeDetectorRef, ElementRef, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { HistogramContributor, DetailedHistogramContributor } from 'arlas-web-contributors';
 import { OperationEnum } from 'arlas-web-core';
 import { ArlasCollaborativesearchService, ArlasStartupService } from '../../../services/startup/startup.service';
 import { SelectedOutputValues } from 'arlas-web-contributors/models/models';
 import { ChartType, DataType, Position, HistogramTooltip } from 'arlas-d3';
 import { ArlasColorService, HistogramComponent } from 'arlas-web-components';
-import { filter } from 'rxjs/operators';
+import { filter, takeUntil } from 'rxjs/operators';
 import { CollectionLegend, TimelineConfiguration } from './timeline.utils';
 import { ArlasOverlayService } from '../../../services/overlays/overlay.service';
 import { ArlasOverlayRef, CollectionUnit, getCollectionUnit } from '../../../tools/utils';
+import { Subject } from 'rxjs';
 
 
 /**
@@ -42,7 +43,7 @@ import { ArlasOverlayRef, CollectionUnit, getCollectionUnit } from '../../../too
   templateUrl: './timeline.component.html',
   styleUrls: ['./timeline.component.scss']
 })
-export class TimelineComponent implements OnInit {
+export class TimelineComponent implements OnInit, OnDestroy {
 
   /**
    * @Input : Angular
@@ -97,7 +98,9 @@ export class TimelineComponent implements OnInit {
   private timelineIsFiltered = false;
   public timelineOverlayRef: ArlasOverlayRef;
   public timelineLegend: CollectionLegend[] = [];
-  public mainCollection;
+  public mainCollection: string;
+
+  private _onDestroy$ = new Subject<boolean>();
 
   public constructor(private arlasCollaborativesearchService: ArlasCollaborativesearchService, private cdr: ChangeDetectorRef,
     private arlasStartupService: ArlasStartupService, private arlasOverlayService: ArlasOverlayService,
@@ -109,13 +112,12 @@ export class TimelineComponent implements OnInit {
       this.timelineContributor = <HistogramContributor>this.arlasStartupService.contributorRegistry
         .get(this.timelineComponent.contributorId);
       this.timelineContributor.updateData = true;
-      const mainCollection = this.timelineContributor.collection;
-      this.mainCollection = mainCollection;
+      this.mainCollection = this.timelineContributor.collection;
       this.resetHistogramsInputs(this.timelineComponent.input);
       this.timelineLegend.push({
-        collection: mainCollection,
-        display_name: getCollectionUnit(this.units, mainCollection),
-        color: this.arlasColorService.getColor(mainCollection),
+        collection: this.mainCollection,
+        display_name: getCollectionUnit(this.units, this.mainCollection),
+        color: this.arlasColorService.getColor(this.mainCollection),
         active: true,
         main: true
       });
@@ -126,35 +128,46 @@ export class TimelineComponent implements OnInit {
             display_name: getCollectionUnit(this.units, ac.collectionName),
             color: this.arlasColorService.getColor(ac.collectionName),
             active: true,
-            main: (ac.collectionName === mainCollection)
+            main: (ac.collectionName === this.mainCollection)
           });
         });
       }
-      this.timelineContributor.chartDataEvent.subscribe(chartData => {
-        this.timelineData = chartData.filter(cd => {
-          const collectionLegend = this.timelineLegend.find(t => t.collection === cd.chartId);
-          return !!collectionLegend && collectionLegend.active;
+      this.timelineContributor.chartDataEvent
+        .pipe(takeUntil(this._onDestroy$))
+        .subscribe(chartData => {
+          this.timelineData = chartData.filter(cd => {
+            const collectionLegend = this.timelineLegend.find(t => t.collection === cd.chartId);
+            return !!collectionLegend && collectionLegend.active;
+          });
         });
-      });
       if (this.detailedTimelineComponent) {
         this.detailedTimelineComponent.input.chartHeight = 76;
         this.resetHistogramsInputs(this.detailedTimelineComponent.input);
         this.detailedTimelineContributor = <DetailedHistogramContributor>this.arlasStartupService.contributorRegistry
           .get(this.detailedTimelineComponent.contributorId);
         this.detailedTimelineContributor.updateData = false;
-        this.timelineContributor.endCollaborationEvent.subscribe(() => {
-          this.timelineContributor.setSelection(this.timelineData,
-            this.arlasCollaborativesearchService.collaborations.get(this.timelineContributor.identifier));
-        });
-        this.detailedTimelineContributor.chartDataEvent.subscribe(chartData => {
-          this.detailedTimelineData = chartData.filter(cd => {
-            const collectionLegend = this.timelineLegend.find(t => t.collection === cd.chartId);
-            return !!collectionLegend && collectionLegend.active;
+        this.timelineContributor.endCollaborationEvent
+          .pipe(takeUntil(this._onDestroy$))
+          .subscribe(() => {
+            this.timelineContributor.setSelection(this.timelineData,
+              this.arlasCollaborativesearchService.collaborations.get(this.timelineContributor.identifier));
           });
-        });
+        this.detailedTimelineContributor.chartDataEvent
+          .pipe(takeUntil(this._onDestroy$))
+          .subscribe(chartData => {
+            this.detailedTimelineData = chartData.filter(cd => {
+              const collectionLegend = this.timelineLegend.find(t => t.collection === cd.chartId);
+              return !!collectionLegend && collectionLegend.active;
+            });
+          });
         this.showDetailedTimelineOnCollaborationEnd();
       }
     }
+  }
+
+  public ngOnDestroy(): void {
+    this._onDestroy$.next(true);
+    this._onDestroy$.complete();
   }
 
   /**
@@ -258,8 +271,11 @@ export class TimelineComponent implements OnInit {
   }
 
   private showDetailedTimelineOnCollaborationEnd(): void {
-    this.arlasCollaborativesearchService.collaborationBus.pipe(filter(c => ((this.timelineComponent
-      && c.id === this.timelineComponent.contributorId) || c.all)))
+    this.arlasCollaborativesearchService.collaborationBus
+      .pipe(
+        takeUntil(this._onDestroy$),
+        filter(c => (((this.timelineComponent && c.id === this.timelineComponent.contributorId) || c.all)
+          && !!this.timelineHistogramComponent)))
       .subscribe(c => {
         if (c.operation === OperationEnum.remove) {
           this.timelineIsFiltered = false;
@@ -267,26 +283,32 @@ export class TimelineComponent implements OnInit {
           this.timelineHistogramComponent.histogram.histogramParams.chartHeight = this.timelineComponent.input.chartHeight;
           this.timelineHistogramComponent.resizeHistogram();
         } else if (c.operation === OperationEnum.add) {
-          this.timelineIsFiltered = true;
+          this.timelineIsFiltered = this.arlasCollaborativesearchService.
+            collaborations.has(this.timelineComponent.contributorId);
+          if (this.timelineIsFiltered) {
+            this.detailedTimelineContributor.updateData = true;
+            this.detailedTimelineContributor.fetchData(c).subscribe(() => this.hideShowDetailedTimeline());
+          }
         }
       });
 
-    this.arlasCollaborativesearchService.ongoingSubscribe.subscribe(nb => {
-      if (this.arlasCollaborativesearchService.totalSubscribe === 0 && this.timelineIsFiltered) {
-        if (!!this.detailedTimelineContributor && !!this.detailedTimelineData) {
-          if (this.detailedTimelineData.length === 0) {
-            this.hideDetailedTimeline();
-            this.timelineHistogramComponent.histogram.histogramParams.chartHeight = this.timelineComponent.input.chartHeight;
-            this.timelineHistogramComponent.resizeHistogram();
+    this.timelineContributor.chartDataEvent
+      .pipe(takeUntil(this._onDestroy$))
+      .subscribe(() => {
+        if (this.timelineIsFiltered) {
+          if (!!this.detailedTimelineContributor && !!this.detailedTimelineData) {
+            if (this.detailedTimelineData.length === 0) {
+              this.hideDetailedTimeline();
+              this.timelineHistogramComponent.histogram.histogramParams.chartHeight = this.timelineComponent.input.chartHeight;
+              this.timelineHistogramComponent.resizeHistogram();
+            } else {
+              this.hideShowDetailedTimeline();
+            }
           } else {
             this.hideShowDetailedTimeline();
           }
-        } else {
-          this.hideShowDetailedTimeline();
-
         }
-      }
-    });
+      });
   }
 
   public toggleTimeline() {
@@ -313,43 +335,46 @@ export class TimelineComponent implements OnInit {
 
   private hideShowDetailedTimeline() {
     let timelineRange = this.timelineContributor.range;
-    if (!!this.timelineContributor && this.timelineContributor.chartData) {
+    if (!!this.timelineContributor && this.timelineContributor.chartData?.length > 1) {
       const d = this.timelineContributor.chartData;
       const l = d.length;
       timelineRange = (+d[l - 1].key) - (+d[0].key);
     }
     let detailedTimelineRange = this.detailedTimelineContributor.range;
-    if (!!this.detailedTimelineContributor && this.detailedTimelineContributor.chartData) {
+    if (!!this.detailedTimelineContributor && this.detailedTimelineContributor.chartData?.length > 1) {
       const d = this.detailedTimelineContributor.chartData;
       const l = d.length;
       detailedTimelineRange = (+d[l - 1].key) - (+d[0].key);
     }
 
-    if (timelineRange !== undefined && detailedTimelineRange !== undefined) {
-      const intervalSelection = (+this.timelineContributor.intervalSelection.endvalue -
-        +this.timelineContributor.intervalSelection.startvalue);
-      const intervalSelectionCondition = intervalSelection <= 0.2 * timelineRange;
-      this.showDetailedTimeline = (detailedTimelineRange <= 0.2 * timelineRange) && intervalSelectionCondition;
-      this.detailedTimelineContributor.updateData = this.showDetailedTimeline;
-      this.timelineHistogramComponent.histogram.histogramParams.chartHeight = (this.showDetailedTimeline) ?
-        45 : this.timelineComponent.input.chartHeight;
-      this.timelineHistogramComponent.histogram.histogramParams.yTicks = (this.showDetailedTimeline) ?
-        1 : this.timelineComponent.input.yTicks;
-      this.timelineHistogramComponent.histogram.histogramParams.yLabels = (this.showDetailedTimeline) ?
-        1 : this.timelineComponent.input.yLabels;
-      this.timelineHistogramComponent.histogram.histogramParams.showHorizontalLines = (this.showDetailedTimeline) ?
-        false : this.timelineComponent.input.showHorizontalLines;
-      this.timelineHistogramComponent.resizeHistogram();
-      if (this.applicationFirstLoad && this.detailedTimelineContributor.currentSelectedInterval) {
-        // Sets current selection of detailed timeline
-        const select = this.detailedTimelineContributor.currentSelectedInterval;
-        this.detailedTimelineIntervalSelection = { startvalue: select.startvalue, endvalue: select.endvalue };
-        this.applicationFirstLoad = false;
+    // In case of the timeline is hidden
+    if (!!this.timelineHistogramComponent) {
+      if (timelineRange !== undefined && detailedTimelineRange !== undefined) {
+        const intervalSelection = (+this.timelineContributor.intervalSelection.endvalue -
+          +this.timelineContributor.intervalSelection.startvalue);
+        const intervalSelectionCondition = intervalSelection <= 0.2 * timelineRange;
+        this.showDetailedTimeline = (detailedTimelineRange <= 0.2 * timelineRange) && intervalSelectionCondition;
+        this.detailedTimelineContributor.updateData = this.showDetailedTimeline;
+        this.timelineHistogramComponent.histogram.histogramParams.chartHeight = (this.showDetailedTimeline) ?
+          45 : this.timelineComponent.input.chartHeight;
+        this.timelineHistogramComponent.histogram.histogramParams.yTicks = (this.showDetailedTimeline) ?
+          1 : this.timelineComponent.input.yTicks;
+        this.timelineHistogramComponent.histogram.histogramParams.yLabels = (this.showDetailedTimeline) ?
+          1 : this.timelineComponent.input.yLabels;
+        this.timelineHistogramComponent.histogram.histogramParams.showHorizontalLines = (this.showDetailedTimeline) ?
+          false : this.timelineComponent.input.showHorizontalLines;
+        this.timelineHistogramComponent.resizeHistogram();
+        if (this.applicationFirstLoad && this.detailedTimelineContributor.currentSelectedInterval) {
+          // Sets current selection of detailed timeline
+          const select = this.detailedTimelineContributor.currentSelectedInterval;
+          this.detailedTimelineIntervalSelection = { startvalue: select.startvalue, endvalue: select.endvalue };
+          this.applicationFirstLoad = false;
+        }
+      } else {
+        this.hideDetailedTimeline();
+        this.timelineHistogramComponent.histogram.histogramParams.chartHeight = this.timelineComponent.input.chartHeight;
+        this.timelineHistogramComponent.resizeHistogram();
       }
-    } else {
-      this.hideDetailedTimeline();
-      this.timelineHistogramComponent.histogram.histogramParams.chartHeight = this.timelineComponent.input.chartHeight;
-      this.timelineHistogramComponent.resizeHistogram();
     }
   }
 
