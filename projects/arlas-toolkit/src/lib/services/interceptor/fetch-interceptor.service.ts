@@ -48,7 +48,14 @@ export class FetchInterceptorService {
             } else {
               // Propose to reconnect or stay disconnected
               if (!this.dialog.openDialogs || !this.dialog.openDialogs.length) {
-                this.dialog.open(ReconnectDialogComponent, { disableClose: true, data: { code } });
+                this.dialog.open(
+                  ReconnectDialogComponent,
+                  {
+                    disableClose: true,
+                    data: { code },
+                    backdropClass: 'reconnect-dialog',
+                    panelClass: 'reconnect-dialog-panel'
+                  });
               }
             }
           }
