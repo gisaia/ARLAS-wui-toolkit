@@ -51,6 +51,8 @@ import { ArlasToolkitSharedModule } from './shared.module';
 import { ToolkitRoutingModule } from './toolkit-routing.module';
 import { GET_OPTIONS } from './tools/utils';
 import { PaginatorI18n } from './tools/paginatori18n';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { JwtInterceptor } from './tools/jwt.interceptor';
 
 
 
@@ -216,7 +218,12 @@ export const MY_CUSTOM_FORMATS = {
     },
     ShortenNumberPipe,
     AuthGuardIamService,
-    ArlasIamService
+    ArlasIamService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: JwtInterceptor,
+      deps: [AuthentificationService, ArlasIamService, ArlasSettingsService]
+    }
 
   ],
   bootstrap: [ToolkitComponent]
