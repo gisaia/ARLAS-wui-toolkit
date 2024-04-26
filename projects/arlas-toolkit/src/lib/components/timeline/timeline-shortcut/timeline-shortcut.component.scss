@@ -2,9 +2,8 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  background-color: transparent;
-  padding: 0 0 5px 5px;
-  overflow: visible;
+  overflow: hidden;
+  width: fit-content;
 }
 
 .arlas-time--tools {
@@ -19,8 +18,9 @@
   background-color: white;
   width: 24px;
   height: 24px;
-  margin-left: 4px;
+  margin-left: 5px;
   cursor: pointer;
+  border: 1px solid #a1a1a1;
 }
 
 .shortcut-button {
@@ -50,28 +50,30 @@
 
 .shortcut-remove-filter{
   height: 20px;
+
+  &-icon {
+    color: white;
+    width: 20px;
+    height: 20px;
+    font-size: 15px;
+    cursor: pointer;
+    padding: 2px 2px;
+  }
 }
 
-.shortcut-remove-filter-icon {
-  color: white;
-  width: 20px;
-  height: 20px;
-  font-size: 15px;
-  cursor: pointer;
-  padding: 2px 2px;
-}
 .time-zone{
   height: 20px;
   display: inline-block;
   padding-left: 4px;
-}
-.time-zone-icon {
-  color: white;
-  width: 20px;
-  height: 20px;
-  font-size: 15px;
-  cursor: pointer;
-  padding: 2px 0px;
+
+  &-icon {
+    color: white;
+    width: 20px;
+    height: 20px;
+    font-size: 15px;
+    cursor: pointer;
+    padding: 2px 0px;
+  }
 }
 
 
@@ -81,29 +83,27 @@
   padding-left: 5px;
 }
 
-.arlas-time-shortcuts__list--container {
-  float: left;
-  display: inline-flex;
-  padding-left: 5px;
-  font-size: 0.8em;
-  background-color: white;
-}
-
 .arlas-time-shortcuts__list {
   list-style-type: none;
-  margin-bottom: 0;
-  /* Align in width the time shortcuts and the time picker */
-  padding-right: 13px;
   padding-left: 0;
+  margin: 5px;
+
+  &--container {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    background-color: white;
+    border: 1px solid #a1a1a1;
+  }
 }
 
 .arlas-time-shortcut {
   color: rgb(48, 136, 177);
   cursor: pointer;
-}
 
-.arlas-time-shortcut:hover {
-  text-decoration: underline;
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
 .arlas-datepicker-container {
