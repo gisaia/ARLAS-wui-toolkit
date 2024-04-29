@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { APP_INITIALIZER, forwardRef, InjectionToken, NgModule } from '@angular/core';
+import { APP_INITIALIZER, forwardRef, NgModule } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { BrowserModule } from '@angular/platform-browser';
@@ -51,9 +51,6 @@ import { ArlasToolkitSharedModule } from './shared.module';
 import { ToolkitRoutingModule } from './toolkit-routing.module';
 import { GET_OPTIONS } from './tools/utils';
 import { PaginatorI18n } from './tools/paginatori18n';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { JwtInterceptor } from './tools/jwt.interceptor';
-
 
 
 export function startupServiceFactory(startupService: ArlasStartupService) {
@@ -218,13 +215,7 @@ export const MY_CUSTOM_FORMATS = {
     },
     ShortenNumberPipe,
     AuthGuardIamService,
-    ArlasIamService,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: JwtInterceptor,
-      deps: [AuthentificationService, ArlasIamService, ArlasSettingsService]
-    }
-
+    ArlasIamService
   ],
   bootstrap: [ToolkitComponent]
 })
