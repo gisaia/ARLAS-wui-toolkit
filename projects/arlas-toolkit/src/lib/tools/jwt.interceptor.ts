@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
+import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { PROTECTED_IMAGE_HEADER } from 'arlas-web-components';
 import { AuthentificationService } from '../services/authentification/authentification.service';
-import { ArlasIamService } from '../services/arlas-iam/arlas-iam.service';
+import { ARLAS_ORG_FILTER, ArlasIamService } from '../services/arlas-iam/arlas-iam.service';
 import { ArlasSettingsService } from '../services/settings/arlas.settings.service';
 
 @Injectable()
@@ -43,11 +43,16 @@ export class JwtInterceptor implements HttpInterceptor {
     } else if (authentMode === 'iam') {
       const token = this.iamService.getAccessToken();
       if (!!token) {
-        request = request.clone({
-          setHeaders: {
-            Authorization: `Bearer ${token}`,
-          }
+        const headers = new HttpHeaders({
+          'Authorization': `Bearer ${token}`
         });
+
+        const org = this.iamService.getOrganisation();
+        if (org !== null && org !== undefined) {
+          headers.append(ARLAS_ORG_FILTER, org);
+        }
+
+        request = request.clone({headers});
       }
     }
     return next.handle(request);

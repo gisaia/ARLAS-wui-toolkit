@@ -129,7 +129,7 @@ export { ArlasExportCsvService } from './lib/services/export-csv/export-csv.serv
 export { ArlasTagService } from './lib/services/tag/tag.service';
 export { TaggerResponse } from './lib/services/tag/model';
 export { LoginModule } from './lib/login.module';
-export { ArlasIamService } from './lib/services/arlas-iam/arlas-iam.service';
+export { ArlasIamService, ARLAS_ORG_FILTER } from './lib/services/arlas-iam/arlas-iam.service';
 export { AuthGuardIamService } from './lib/services/arlas-iam/auth-guard-iam.service';
 export { LoginComponent } from './lib/components/login/login.component';
 export { RegisterComponent } from './lib/components/register/register.component';
