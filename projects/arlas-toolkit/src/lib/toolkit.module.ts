@@ -25,7 +25,7 @@ import { OwlDateTimeIntl, OWL_DATE_TIME_LOCALE } from '@danielmoncada/angular-da
 import { TranslateService } from '@ngx-translate/core';
 import { OAuthModule, ValidationHandler } from 'angular-oauth2-oidc';
 import { JwksValidationHandler } from 'angular-oauth2-oidc-jwks';
-import { ColorGeneratorLoader, ColorGeneratorModule, ShortenNumberPipe } from 'arlas-web-components';
+import { ShortenNumberPipe } from 'arlas-web-components';
 import { ToolkitComponent } from './toolkit.component';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { ArlasTranslateIntl } from './components/timeline/date-picker/ArlasTranslateIntl';
@@ -51,6 +51,8 @@ import { ArlasToolkitSharedModule } from './shared.module';
 import { ToolkitRoutingModule } from './toolkit-routing.module';
 import { GET_OPTIONS } from './tools/utils';
 import { PaginatorI18n } from './tools/paginatori18n';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { JwtInterceptor } from './tools/jwt.interceptor';
 
 
 
@@ -216,7 +218,12 @@ export const MY_CUSTOM_FORMATS = {
     },
     ShortenNumberPipe,
     AuthGuardIamService,
-    ArlasIamService
+    ArlasIamService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: JwtInterceptor,
+      deps: [AuthentificationService, ArlasIamService, ArlasSettingsService]
+    }
 
   ],
   bootstrap: [ToolkitComponent]

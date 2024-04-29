@@ -13,10 +13,12 @@ import { ArlasIamApi } from '../startup/startup.service';
 import { ArlasSettingsService } from '../settings/arlas.settings.service';
 import { finalize, tap } from 'rxjs';
 
+export const ARLAS_ORG_FILTER = 'arlas-org-filter';
+
 
 export interface IamHeader {
   Authorization: string;
-  'arlas-org-filter': string;
+  [ARLAS_ORG_FILTER]: string;
 }
 @Injectable({
   providedIn: 'root'
@@ -70,7 +72,7 @@ export class ArlasIamService extends ArlasAuthentificationService {
     };
     const organisation = this.getOrganisation();
     if (organisation) {
-      headers['arlas-org-filter'] = organisation;
+      headers[ARLAS_ORG_FILTER] = organisation;
     }
     this.setOptions({ headers });
   }
@@ -81,7 +83,7 @@ export class ArlasIamService extends ArlasAuthentificationService {
     this.storeOrganisation(org);
     const headers = {
       Authorization: 'Bearer ' + accessToken,
-      'arlas-org-filter': org
+      [ARLAS_ORG_FILTER]: org
     };
     this.setOptions({ headers });
   }
