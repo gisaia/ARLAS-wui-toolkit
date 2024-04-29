@@ -265,7 +265,7 @@ export class ArlasIamService extends ArlasAuthentificationService {
     } else {
       options.credentials = 'include';
     }
-    return from(this.arlasIamApi.login({ email, password }, options)).pipe(map(ar => ar.data));
+    return from(this.arlasIamApi.login({ email, password }, options));
   }
 
   public signUp(email: string): Observable<UserData> {
