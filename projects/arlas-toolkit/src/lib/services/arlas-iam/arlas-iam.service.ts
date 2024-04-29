@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { ArlasMessage, LoginData, PermissionData, PermissionDef, UserData } from 'arlas-iam-api';
+import { LoginData, PermissionData, PermissionDef, UserData } from 'arlas-iam-api';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { Observable } from 'rxjs/internal/Observable';
 import { Subject } from 'rxjs/internal/Subject';
@@ -11,7 +11,7 @@ import { AuthentSetting, NOT_CONFIGURED } from '../../tools/utils';
 import { ArlasAuthentificationService } from '../arlas-authentification/arlas-authentification.service';
 import { ArlasIamApi } from '../startup/startup.service';
 import { ArlasSettingsService } from '../settings/arlas.settings.service';
-import { finalize, map, tap } from 'rxjs';
+import { finalize, tap } from 'rxjs';
 
 
 export interface IamHeader {
@@ -252,7 +252,7 @@ export class ArlasIamService extends ArlasAuthentificationService {
     } else {
       options.credentials = 'include';
     }
-    return from(this.arlasIamApi.refresh(options)).pipe(map(ar => ar.data));
+    return from(this.arlasIamApi.refresh(options));
   }
 
   public login(email: string, password: string) {
@@ -265,32 +265,31 @@ export class ArlasIamService extends ArlasAuthentificationService {
     } else {
       options.credentials = 'include';
     }
-    return from(this.arlasIamApi.login({ email, password }, options)).pipe(map(ar => ar.data));
+    return from(this.arlasIamApi.login({ email, password }, options));
   }
 
   public signUp(email: string): Observable<UserData> {
-    return from(this.arlasIamApi.createUser({ email }, this.options)).pipe(map(ar => ar.data));;
+    return from(this.arlasIamApi.createUser({ email }, this.options));
   }
 
   public verify(userId: string, token: string, password: string): Observable<UserData> {
-    return from(this.arlasIamApi.verifyUser(password, userId, token, this.options)).pipe(map(ar => ar.data));;
+    return from(this.arlasIamApi.verifyUser(password, userId, token, this.options));
   }
 
   public reset(userId: string, token: string, password: string): Observable<UserData> {
-    return from(this.arlasIamApi.resetUserPassword(password, userId, token, this.options)).pipe(map(ar => ar.data));;
+    return from(this.arlasIamApi.resetUserPassword(password, userId, token, this.options));
   }
 
-  public forgot(email: string): Observable<ArlasMessage> {
-    return from(this.arlasIamApi.askPasswordReset(email, this.options)).pipe(map(ar => ar.data));
+  public forgot(email: string): Observable<string> {
+    return from(this.arlasIamApi.askPasswordReset(email, this.options));
   }
 
   public change(oldPassword: string, newPassword: string): Observable<UserData> {
-    return from(this.arlasIamApi.updateUser({ oldPassword: oldPassword, newPassword: newPassword },
-      this.user.id, this.options)).pipe(map(ar => ar.data));
+    return from(this.arlasIamApi.updateUser({ oldPassword: oldPassword, newPassword: newPassword }, this.user.id, this.options));
   }
 
   public createPermission(oid: string, permissionDef: PermissionDef): Observable<PermissionData> {
-    return from(this.arlasIamApi.addPermission(permissionDef, oid, this.options)).pipe(map(ar => ar.data));
+    return from(this.arlasIamApi.addPermission(permissionDef, oid, this.options));
   }
 
 }
