@@ -124,9 +124,10 @@ $count-chip-height: 30px;
 
 .zoom {
   background-color: white;
-  width: 15px;
-  height: 15px;
+  height: 24px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
 
   mat-icon{
     font-size: 15px;
