@@ -17,6 +17,7 @@
  * under the License.
  */
 
+import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 import { ArlasError } from './error';
 
 
@@ -29,16 +30,16 @@ export class BackendError extends ArlasError {
       this.service = service;
     }
     this.hubUrl = hubUrl;
-    this.title = 'ARLAS encountered an error';
+    this.title = marker('ARLAS encountered an error');
     if (this.status === 404) {
       this.showAction = true;
-      this.actionMessage = 'go to arlas hub';
+      this.actionMessage = marker('go to arlas hub');
       this.actionType = 'link';
       this.message = message;
     } else if (this.status === 400) {
       this.message = message;
       this.showAction = true;
-      this.actionMessage = 'go to arlas hub';
+      this.actionMessage = marker('go to arlas hub');
       this.actionType = 'link';
     } else if (this.status === 502) {
       this.message = 'The connection to ' + this.service + ' is lost';

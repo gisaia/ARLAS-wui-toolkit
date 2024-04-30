@@ -27,6 +27,7 @@ import { ArlasCollaborativesearchService } from '../../services/startup/startup.
 import { Observable, Subject, Subscription, from } from 'rxjs';
 import { filter, startWith, debounceTime, map, mergeMap, mergeWith } from 'rxjs/operators';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 
 @Component({
   selector: 'arlas-search',
@@ -70,7 +71,7 @@ export class SearchComponent implements OnInit, OnDestroy, OnChanges {
     public translate: TranslateService,
     private dialog: MatDialog,
   ) {
-    this.searchPlaceholder = this.translate.instant(this.searchContributor ? this.searchContributor.getName() : 'Search...');
+    this.searchPlaceholder = this.translate.instant(this.searchContributor ? this.searchContributor.getName() : marker('Search...'));
     this.searchValue = this.searchPlaceholder;
   }
 
