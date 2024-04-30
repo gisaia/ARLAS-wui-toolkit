@@ -43,7 +43,7 @@ export class VerifyComponent implements OnInit {
   public onSubmit(formDirective: FormGroupDirective): void {
     this.validated = false;
     this.iamService.verify(this.userId, this.token, this.validateForm.get('password').value).subscribe({
-      next: () => {
+      next: (e) => {
         formDirective.resetForm();
         this.validateForm.reset();
         this.validated = true;
@@ -53,16 +53,21 @@ export class VerifyComponent implements OnInit {
         }
       },
       error: err => {
-        if( err.statusText === 'Not Found'){
-          this.validateForm.setErrors({
-            unknowUser: true
-          });
-        }
-        if (err.statusText === 'Bad Request'){
-          this.validateForm.setErrors({
-            alreadyVerified: true
-          });
-        }
+        err.json().then(e => {
+          if (e.message === 'User already verified.'){
+            this.validateForm.setErrors({
+              unknownUser: true
+            });
+          } else if (e.message === 'User not found.'){
+            this.validateForm.setErrors({
+              alreadyVerified: true
+            });
+          } else {
+            this.validateForm.setErrors({
+              serviceError: true
+            });
+          }
+        });
       }
     });
   }
