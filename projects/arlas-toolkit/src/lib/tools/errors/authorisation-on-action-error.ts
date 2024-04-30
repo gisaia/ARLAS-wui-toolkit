@@ -17,6 +17,7 @@
  * under the License.
  */
 
+import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 import { AuthorisationError } from './authorisation-error';
 
 export class AuthorisationOnActionError extends AuthorisationError {
@@ -27,10 +28,10 @@ export class AuthorisationOnActionError extends AuthorisationError {
     if (this.status === 403) {
       this.message = 'access forbidden to ' + action;
     } else if (this.status === 401) {
-      this.message = 'access not authorized anymore';
+      this.message = marker('access not authorized anymore');
     } else {
       // could never happen because this error should be thrown only for the statuses 401 & 403
-      this.message = 'Unknown error';
+      this.message = marker('Unknown error');
     }
   }
 }

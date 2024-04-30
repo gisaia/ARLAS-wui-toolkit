@@ -17,25 +17,26 @@
  * under the License.
  */
 
+import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 import { ArlasError } from './error';
 
 
 export class AuthorisationError extends ArlasError {
   public constructor(status: number) {
     super(status);
-    this.title = 'Could not access the service';
+    this.title = marker('Could not access the service');
     if (this.status === 403) {
       this.showAction = false;
       this.actionMessage = '';
-      this.message = 'acces forbidden';
+      this.message = marker('acces forbidden');
     } else if (this.status === 401) {
-      this.message = 'access not authorized';
+      this.message = marker('access not authorized');
       this.actionType = 'button';
       this.showAction = true;
       this.actionMessage = 'login';
     } else {
       // could never happen because this error should be thrown only for the statuses 401 & 403
-      this.message = 'Unknown error';
+      this.message = marker('Unknown error');
       this.showAction = false;
     }
   }
