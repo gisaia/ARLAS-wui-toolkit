@@ -160,6 +160,7 @@
 	"Your account is now active.": "Su cuenta ya está activa.",
 	"Unknown user": "Usuario desconocido",
 	"User already verified": "Usuario ya verificado",
+	"An error occured": "Se ha producido un error",
 	"Validate": "Confirmar",
 	"Bookmark already exists": "Ya existe un marcador con este nombre.",
 	"Bookmark creation error": "Error durante la creación del marcador.",

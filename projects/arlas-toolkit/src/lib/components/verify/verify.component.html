@@ -25,11 +25,14 @@
           <div class="validate" *ngIf="validated">
             {{'Your account is now active.' | translate}}
           </div>
-          <div class="error" *ngIf="validateForm.getError('unknowUser')">
+          <div class="error" *ngIf="validateForm.getError('unknownUser')">
             {{ 'Unknown user' | translate}}
           </div>
           <div class="error" *ngIf="validateForm.getError('alreadyVerified')">
             {{ 'User already verified' | translate}}
+          </div>
+          <div class="error" *ngIf="validateForm.getError('serviceError')">
+            {{ 'An error occured' | translate}}
           </div>
           <div class="buttons">
             <button type="submit" class="validate-button" [disabled]="this.validateForm.invalid" mat-flat-button
