@@ -3,7 +3,6 @@ import { TestBed } from '@angular/core/testing';
 import { AnalyticsService } from './analytics.service';
 import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from '../startup/startup.service';
 import { ArlasConfigurationUpdaterService } from '../configuration-updater/configurationUpdater.service';
-import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
 describe('AnalyticsService', () => {

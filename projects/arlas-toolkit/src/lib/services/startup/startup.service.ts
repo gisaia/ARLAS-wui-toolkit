@@ -40,8 +40,8 @@ import * as rootContributorConfSchema from 'arlas-web-contributors/jsonSchemas/r
 import { CollaborativesearchService, ConfigService, Contributor } from 'arlas-web-core';
 import { projType } from 'arlas-web-core/models/projections';
 import YAML from 'js-yaml';
-import { Subject, defer, of, throwError, timer } from 'rxjs';
-import { catchError, delayWhen, map, mergeMap, retry, retryWhen, take, tap } from 'rxjs/operators';
+import { Subject, defer, throwError } from 'rxjs';
+import { catchError, mergeMap, retry } from 'rxjs/operators';
 import { PersistenceService, PersistenceSetting } from '../persistence/persistence.service';
 import {
   CONFIG_ID_QUERY_PARAM, GET_OPTIONS, WidgetConfiguration, getFieldProperties,
@@ -80,12 +80,9 @@ export class ArlasConfigService extends ConfigService {
     return this.getValue('resources.previewId');
   }
 
-
   public parse(stringifiedConfig: string) {
     return JSON.parse(stringifiedConfig);
   }
-
-
 
   public getPreview(config: any) {
     return config?.resources?.previewId;
@@ -280,7 +277,6 @@ export class ArlasStartupService {
   public errorStartUp() {
     this.errorStartUpServiceBus.subscribe(e => console.error(e));
   }
-
 
   public validateSettings(settings) {
     return new Promise<any>((resolve, reject) => {
@@ -957,15 +953,17 @@ export interface ArlasSettings {
   authentication?: AuthentSetting;
   persistence?: PersistenceSetting;
   permission?: PermissionSetting;
-  geocoding?: GeocodingSetting;
   arlas_wui_url?: string;
   arlas_builder_url?: string;
   arlas_hub_url?: string;
   arlas_iam_wui_url?: string;
   links?: LinkSettings[];
   ticketing_key?: string;
+  tab_name?: string;
+  dashboards_shortcut?: boolean;
   histogram?: HistogramSettings;
   process?: ProcessSettings;
+  geocoding?: GeocodingSetting;
 }
 
 export interface LinkSettings {

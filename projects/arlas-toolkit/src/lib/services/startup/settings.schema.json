@@ -72,7 +72,6 @@
           "description": "Redirecting the user to this URL after logout.",
           "type": "string"
         },
-        
         "show_debug_information": {
           "description": "Defines whether additional debug information should  be shown at the console",
           "type": "boolean"
@@ -150,12 +149,148 @@
       ]
     },
     "arlas_wui_url": {
-      "description": "Url of arlas wui app",
+      "description": "Url of ARLAS wui app",
       "type": "string"
     },
     "arlas_builder_url": {
-      "description": "Url of arlas builder app",
+      "description": "Url of ARLAS builder app",
       "type": "string"
+    },
+    "arlas_hub_url": {
+      "description": "Url of ARLAS Hub app",
+      "type": "string"
+    },
+    "arlas_iam_wui_url": {
+      "description": "Url of ARLAS IAM app",
+      "type": "string"
+    },
+    "links": {
+      "description": "Links to other applications",
+      "type": "array",
+      "items": {
+        "description": "Link",
+        "type": "object",
+        "properties": {
+          "name": {
+            "description": "Name of the application",
+            "type": "string"
+          },
+          "url": {
+            "description": "URL of the application",
+            "type": "string"
+          },
+          "icon": {
+            "description": "Icon to use to represent the application",
+            "type": "string"
+          },
+          "tooltip": {
+            "description": "Tooltip to display on hover of the icon",
+            "type": "string"
+          },
+          "check_url": {
+            "description": "URL to check if the user has access to the application",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "url",
+          "icon",
+          "check_url"
+        ]
+      }
+    },
+    "ticketing_key": {
+      "description": "Key for Zendesk ticketing",
+      "type": "string"
+    },
+    "tab_name": {
+      "description": "Name of the browser tab",
+      "type": "string"
+    },
+    "dashboards_shortcut": {
+      "description": "Whether to display a quick access list to other dashboards. Should be true only in dev mode.",
+      "type": "boolean"
+    },
+    "histogram": {
+      "description": "Configuration for histograms",
+      "type": "object",
+      "properties": {
+        "max_buckets": {
+          "description": "Maximum number of buckets for an histogram",
+          "type": "number"
+        },
+        "export_nb_buckets": {
+          "description": "Maximum number of buckets that can be exported",
+          "type": "number"
+        }
+      },
+      "required": [
+        "max_buckets",
+        "export_nb_buckets"
+      ]
+    },
+    "process": {
+      "description": "Configuration of a process for the result list",
+      "type": "object",
+      "properties": {
+        "url": {
+          "description": "URL to the process",
+          "type": "string"
+        },
+        "max_items": {
+          "description": "Number of maximum items the process can be applied to",
+          "type": "number"
+        },
+        "settings": {
+          "description": "Settings of the process",
+          "type": "object",
+          "properties": {
+            "url": {
+              "description": "URL of the description of the process according to OGC Processes standards",
+              "type": "string"
+            }
+          },
+          "required": [
+            "url"
+          ]
+        },
+        "status": {
+          "description": "Status of the process",
+          "type": "object",
+          "properties": {
+            "url": {
+              "description": "URL to query to get information about the process status",
+              "type": "string"
+            }
+          },
+          "required": [
+            "url"
+          ]
+        }
+      },
+      "required": [
+        "settings",
+        "status"
+      ]
+    },
+    "geocoding": {
+      "description": "Configuration of the geocoding for ARLAS",
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "description": "Whether the geocoding is enabled",
+          "type": "boolean"
+        },
+        "find_place_url": {
+          "description": "URL of the geocoding service",
+          "type": "string"
+        },
+        "find_place_zoom_to": {
+          "description": "Maximum zoom that can be used to zoom on the features returned by the geocoding service",
+          "type": "number"
+        }
+      }
     }
   }
 }
