@@ -9,11 +9,10 @@
       <div class="arlas-timeline--legend-chip"
         [style.backgroundColor]="collectionLegend.active ? collectionLegend.color : '#dadada'"></div>
       <div class="arlas-timeline--legend-collection" [style.color]="collectionLegend.active ? '#444' : '#bbb'">
-        {{ collectionLegend.display_name }}</div>
+        {{ collectionLegend.display_name | translate }}</div>
     </div>
   </div>
-  <div *ngIf="detailedTimelineComponent" class="show-detailedtimeline-{{showDetailedTimeline.valueOf()}}"
-    (mouseleave)="hideHistogramTooltip()">
+  <div *ngIf="detailedTimelineComponent" class="show-detailedtimeline-{{'' + showDetailedTimeline}}" (mouseleave)="hideHistogramTooltip()">
     <arlas-histogram #detailedtimeline [data]="detailedTimelineData" [mainChartId]="mainCollection"
       [intervalSelection]="detailedTimelineIntervalSelection" (dataPlottedEvent)="afterDetailedDataPlotted($event)"
       (valuesListChangedEvent)="onDetailedIntervalBrushed($event)" [id]="detailedTimelineComponent?.input?.id"

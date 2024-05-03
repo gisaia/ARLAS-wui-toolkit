@@ -217,8 +217,11 @@ export class ArlasCollaborativesearchService extends CollaborativesearchService 
   public getFilters(collection: string): Array<Filter> {
     const filters: Filter[] = [];
     Array.from(this.collaborations.values()).forEach(c => {
-      filters.push(...c.filters.get(collection));
+      if (!!c.filters.get(collection)) {
+        filters.push(...c.filters.get(collection));
+      }
     });
+
     return filters;
   }
 }
