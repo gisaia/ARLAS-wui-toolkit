@@ -65,7 +65,7 @@ export class ArlasSettingsService {
   }
 
   public getResultlistSettings(): ResultlistSettings {
-    return this.isResultListExportEnabled() ? this.settings.resultlist : undefined;
+    return !!this.settings && !!this.settings.resultlist ? this.settings.resultlist : undefined;
   }
 
   public getHistogramNbBucketAtExport(): number {

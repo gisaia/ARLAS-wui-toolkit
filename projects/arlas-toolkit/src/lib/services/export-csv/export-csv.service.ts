@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { ArlasCollaborativesearchService, ArlasConfigService } from '../startup/startup.service';
 import { Observable } from 'rxjs';
 import { Contributor, Collaboration, projType } from 'arlas-web-core';
-import { TreeContributor, HistogramContributor } from 'arlas-web-contributors';
-import { AggregationResponse, Aggregation, ComputationRequest, ComputationResponse } from 'arlas-api';
+import { TreeContributor, HistogramContributor, ResultListContributor } from 'arlas-web-contributors';
+import { AggregationResponse, Aggregation, ComputationRequest, ComputationResponse, Hits, Filter } from 'arlas-api';
 import { getAggregationPrecision } from 'arlas-web-contributors/utils/histoswimUtils';
 import { map, mergeMap } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
 import { ArlasSettingsService } from '../settings/arlas.settings.service';
-
+import { getFieldValue } from 'arlas-web-contributors/utils/utils';
+import { ExportedColumn } from 'arlas-web-contributors/models/models';
 @Injectable({
   providedIn: 'root'
 })
@@ -58,14 +59,14 @@ export class ArlasExportCsvService {
         break;
       }
       case 'histogram': {
-        aggResponse = this.fetchHistogramData(contributor);
+        aggResponse = this.fetchHistogramData$(contributor);
         break;
       }
     }
     return aggResponse;
   }
 
-  public fetchHistogramData(contributor): Observable<AggregationResponse> {
+  public fetchHistogramData$(contributor): Observable<AggregationResponse> {
     const collaborations = new Map<string, Collaboration>();
     this.collaborativesearchService.collaborations.forEach((k, v) => {
       collaborations.set(v, k);
@@ -100,6 +101,56 @@ export class ArlasExportCsvService {
         mergeMap(a => a)
       );
     return agg;
+  }
+  /**
+   * Fetches the resulist data by taking into account the current sort/geosort, columns and details of the resultlist.
+   * The number of elements fetched is configured at the applicative level with `resultlist.export_size` in settings.yaml .
+   * @param contributor Resultlist contributor
+   * @param filter an optional filter to add to the collaboration filters if needed
+   * @returns an Observable (rxjs) of arlas Hits.
+   */
+  public fetchResultlistData$(contributor: ResultListContributor, filter?: Filter): Observable<Hits> {
+    const size = this.settingsService.getResultlistSettings()?.export_size;
+    return contributor.fetch$(size, contributor.getAllFields().map(af => af.field), filter);
+  }
+
+  /**
+   * Exports hits as CSV file.
+   * The columns of the CSV are retrieved from `contributor.getAllFields()` method.
+   * @param contributor Resultlist contributor
+   * @param hits arlas Hits to be exported as CSV
+   */
+  public exportResultlist(contributor: ResultListContributor, hits: Hits): void {
+    const hitsList = hits.hits;
+    const csvData = new Array<Array<string>>();
+    const fields = contributor.getAllFields();
+    csvData.push(fields.map(h => h.displayName));
+    if (hitsList !== undefined && hitsList.length > 0) {
+      for (let i = 0; i < hitsList.length; i++) {
+        const currentLine = new Array<string>();
+        const data = hitsList[i].data;
+        fields.forEach(f => {
+          const value = getFieldValue(f.field, data);
+          currentLine.push(value !== undefined ? value : '-');
+        });
+        csvData.push(currentLine);
+      }
+    }
+    const CSV = csvData.map(l => l.join(';')).join('\n');
+    const contentType = 'text/csv';
+    const csvFile = new Blob([CSV], { type: contentType });
+    const a = document.createElement('a');
+    a.download = contributor.getName()
+      .concat('_')
+      .concat(contributor.collection)
+      .concat('_')
+      .concat(new Date().getTime().toString())
+      .concat('.csv');
+    a.href = window.URL.createObjectURL(csvFile);
+    a.dataset.downloadurl = [contentType, a.download, a.href].join(':');
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
   }
 
   private populateCSV(csvData: Array<Array<string>>, currentLine: Array<string>,
