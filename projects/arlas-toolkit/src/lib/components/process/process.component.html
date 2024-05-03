@@ -1,6 +1,6 @@
 <div mat-dialog-title>
-  {{process.title| translate}}
-  <div class="sub-title">{{process.description}}</div>
+  {{process.title | translate}}
+  <div class="sub-title">{{process.description | translate}}</div>
 </div>
 <div mat-dialog-content>
   <mat-stepper [linear]="true">
@@ -17,36 +17,36 @@
 
               <!-- String case -->
               <mat-form-field *ngSwitchCase="'string'" class="field" appearance="outline"
-                matTooltip="{{inputs[fieldIndex].description}}" [matTooltipShowDelay]="tooltipDelay"
+                matTooltip="{{inputs[fieldIndex].description | translate}}" [matTooltipShowDelay]="tooltipDelay"
                 [matTooltipPosition]="'before'">
                 <mat-label>{{inputs[fieldIndex].title! | translate}}</mat-label>
                 <input matInput type="text" class="data-cy-{{field}}" [formControlName]="field"
                   required="{{!!inputs[fieldIndex].schema.required}}">
-                <mat-hint [align]="'end'">{{inputs[fieldIndex].description}}</mat-hint>
+                <mat-hint [align]="'end'">{{inputs[fieldIndex].description | translate}}</mat-hint>
               </mat-form-field>
               <!-- Integer case -->
               <mat-form-field *ngSwitchCase="'number'" class="field" appearance="outline"
-                matTooltip="{{inputs[fieldIndex].description}}" [matTooltipShowDelay]="tooltipDelay"
+                matTooltip="{{inputs[fieldIndex].description | translate }}" [matTooltipShowDelay]="tooltipDelay"
                 [matTooltipPosition]="'before'">
                 <mat-label>{{inputs[fieldIndex].title! | translate}}</mat-label>
                 <input matInput type="number" class="data-cy-{{field}}" [formControlName]="field"
                   required="{{!!inputs[fieldIndex].schema.required}}">
-                <mat-hint [align]="'end'">{{inputs[fieldIndex].description}}</mat-hint>
+                <mat-hint [align]="'end'">{{inputs[fieldIndex].description | translate}}</mat-hint>
               </mat-form-field>
               <!-- Enum case -->
               <mat-form-field *ngSwitchCase="'enum'" class="field" appearance="outline"
-                matTooltip="{{inputs[fieldIndex].description}}" [matTooltipShowDelay]="tooltipDelay"
+                matTooltip="{{inputs[fieldIndex].description | translate}}" [matTooltipShowDelay]="tooltipDelay"
                 [matTooltipPosition]="'before'">
                 <mat-label>{{inputs[fieldIndex].title! | translate}}</mat-label>
                 <mat-select [formControlName]="field" class="data-cy-{{field}}"
                   required="{{!!inputs[fieldIndex].schema.required}}">
                   <mat-option *ngFor="let opt of inputs[fieldIndex].schema.enum" [value]="opt">{{opt}}</mat-option>
                 </mat-select>
-                <mat-hint [align]="'end'">{{inputs[fieldIndex].description}}</mat-hint>
+                <mat-hint [align]="'end'">{{inputs[fieldIndex].description | translate}}</mat-hint>
               </mat-form-field>
               <!-- Object Enum case -->
               <mat-form-field *ngSwitchCase="'object_enum'" class="field" appearance="outline"
-                matTooltip="{{inputs[fieldIndex].description}}" [matTooltipShowDelay]="tooltipDelay"
+                matTooltip="{{inputs[fieldIndex].description | translate}}" [matTooltipShowDelay]="tooltipDelay"
                 [matTooltipPosition]="'before'">
                 <mat-label>{{inputs[fieldIndex].title! | translate}}</mat-label>
                 <mat-select [formControlName]="field" class="data-cy-{{field}}"
@@ -54,10 +54,10 @@
                   <mat-option *ngFor="let opt of inputs[fieldIndex].schema.enum"
                     [value]="opt.value">{{opt.label}}</mat-option>
                 </mat-select>
-                <mat-hint [align]="'end'">{{inputs[fieldIndex].description}}</mat-hint>
+                <mat-hint [align]="'end'">{{inputs[fieldIndex].description | translate}}</mat-hint>
               </mat-form-field>
               <!-- Boolean case -->
-              <div class="field" *ngSwitchCase="'boolean'" matTooltip="{{inputs[fieldIndex].description}}"
+              <div class="field" *ngSwitchCase="'boolean'" matTooltip="{{inputs[fieldIndex].description | translate}}"
                 [matTooltipShowDelay]="tooltipDelay" [matTooltipPosition]="'before'">
                 <mat-slide-toggle class="data-cy-{{field}}" [formControlName]="field">{{inputs[fieldIndex].title! |
                   translate}}</mat-slide-toggle>
@@ -66,7 +66,7 @@
               <!-- Array case -->
               <ng-container *ngSwitchCase="'array'" [ngSwitch]="inputs[fieldIndex].schema.items.type">
                 <mat-form-field *ngSwitchCase="'enum'" class="field" appearance="outline"
-                  matTooltip="{{inputs[fieldIndex].description}}" [matTooltipShowDelay]="tooltipDelay"
+                  matTooltip="{{inputs[fieldIndex].description | translate}}" [matTooltipShowDelay]="tooltipDelay"
                   [matTooltipPosition]="'before'">
                   <mat-label>{{inputs[fieldIndex].title! | translate}}</mat-label>
                   <mat-select [formControlName]="field" class="data-cy-{{field}}" multiple
@@ -74,16 +74,14 @@
                     <mat-option *ngFor="let opt of inputs[fieldIndex].schema.items.enum"
                       [value]="opt">{{opt}}</mat-option>
                   </mat-select>
-                  <mat-hint [align]="'end'">{{inputs[fieldIndex].description}}</mat-hint>
+                  <mat-hint [align]="'end'">{{inputs[fieldIndex].description | translate}}</mat-hint>
                 </mat-form-field>
               </ng-container>
 
             </ng-container>
           </ng-container>
           <mat-checkbox [checked]="useCrop && wktAoi !== ''" [disabled]="wktAoi === ''"
-            (change)="toggleCrop($event)">{{'Crop using the
-            geographical filter'
-            | translate}}</mat-checkbox>
+            (change)="toggleCrop($event)">{{'Crop using the geographical filter' | translate}}</mat-checkbox>
         </div>
         <div class="buttons">
           <button mat-flat-button mat-dialog-close>{{'Cancel' | translate}}</button>
@@ -105,8 +103,9 @@
             </div>
           </ng-container>
           <div class="params">
-            <span class="label">{{'Crop using the geographical filter'| translate}}</span>: <span class="value">{{
-              useCrop ? 'yes' : 'no' | translate}}</span>
+            <span class="label">{{'Crop using the geographical filter'| translate}}</span>: 
+            <span class="value" *ngIf="useCrop">{{ 'yes' | translate}}</span>
+            <span class="value" *ngIf="!useCrop">{{ 'no' | translate}}</span>
           </div>
         </div>
         <div class="buttons" *ngIf="!isProcessing && !isProcessStarted">
@@ -135,7 +134,7 @@
       <div>{{'Downloading' | translate}}...</div>
       <div class="status status-{{statusResult?.status}}">{{statusResult?.status | translate}}</div>
     </div>
-    <div class="detail" *ngIf="isProcessStarted && !isProcessing">
+    <div class="detail" *ngIf="!isProcessing && !hasError">
       <div>
         <div class="prop">
           <div class="label">{{'Started' | translate}}:</div>
@@ -147,6 +146,9 @@
         </div>
       </div>
       <div class="status status-{{statusResult?.status}}">{{statusResult?.status | translate}}</div>
+    </div>
+    <div class="error" *ngIf="hasError">
+      {{'processing error occured' | translate:{ processingName: (process.title | translate)} }}
     </div>
     <div class="close">
       <button mat-dialog-close="true" mat-button>{{'Close dialog' | translate}}</button>

@@ -91,7 +91,7 @@ $labelColor: #757575;
       @include status();
     }
   }
-  .detail {
+  .detail, .error {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -110,6 +110,10 @@ $labelColor: #757575;
     .status {
       @include status();
     }
+  }
+
+  .error {
+    color: $errorColor;
   }
 
   .close {

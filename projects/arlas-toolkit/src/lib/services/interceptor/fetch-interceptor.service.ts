@@ -62,8 +62,12 @@ export class FetchInterceptorService {
           return response;
         },
         responseError: (error) =>
-          // Handle an fetch error
-          Promise.reject(error)
+        // Handle a fetch error
+        // eslint-disable-next-line brace-style
+        {
+          console.log(error);
+          return Promise.reject(error);
+        }
 
       });
     }

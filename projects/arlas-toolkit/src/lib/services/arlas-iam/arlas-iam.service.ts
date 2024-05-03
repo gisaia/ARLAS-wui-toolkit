@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { LoginData, PermissionData, PermissionDef, RefreshToken, UserData } from 'arlas-iam-api';
+import { LoginData, PermissionData, PermissionDef, UserData } from 'arlas-iam-api';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { Observable } from 'rxjs/internal/Observable';
 import { Subject } from 'rxjs/internal/Subject';
@@ -11,11 +11,14 @@ import { AuthentSetting, NOT_CONFIGURED } from '../../tools/utils';
 import { ArlasAuthentificationService } from '../arlas-authentification/arlas-authentification.service';
 import { ArlasIamApi } from '../startup/startup.service';
 import { ArlasSettingsService } from '../settings/arlas.settings.service';
+import { finalize, tap } from 'rxjs';
+
+export const ARLAS_ORG_FILTER = 'arlas-org-filter';
 
 
 export interface IamHeader {
   Authorization: string;
-  'arlas-org-filter': string;
+  [ARLAS_ORG_FILTER]: string;
 }
 @Injectable({
   providedIn: 'root'
@@ -32,6 +35,7 @@ export class ArlasIamService extends ArlasAuthentificationService {
   public tokenRefreshed$ = this.tokenRefreshedSource.asObservable();
   public user: UserData;
   public reloadState: string;
+  public storage = new Map();
 
   public constructor(
     private router: Router,
@@ -68,7 +72,7 @@ export class ArlasIamService extends ArlasAuthentificationService {
     };
     const organisation = this.getOrganisation();
     if (organisation) {
-      headers['arlas-org-filter'] = organisation;
+      headers[ARLAS_ORG_FILTER] = organisation;
     }
     this.setOptions({ headers });
   }
@@ -79,37 +83,17 @@ export class ArlasIamService extends ArlasAuthentificationService {
     this.storeOrganisation(org);
     const headers = {
       Authorization: 'Bearer ' + accessToken,
-      'arlas-org-filter': org
+      [ARLAS_ORG_FILTER]: org
     };
     this.setOptions({ headers });
   }
 
   public storeAccessToken(accessToken: string): void {
-    localStorage.setItem('accessToken', accessToken);
+    this.storage.set('accessToken', accessToken);
   }
 
   public getAccessToken(): string {
-    return localStorage.getItem('accessToken');
-  }
-
-  public storeRefreshToken(refreshToken: RefreshToken): void {
-    localStorage.setItem('refreshToken', JSON.stringify(refreshToken));
-  }
-
-  public getRefreshToken(): RefreshToken {
-    const stringifiedRefreshToken = localStorage.getItem('refreshToken');
-    if (!!stringifiedRefreshToken) {
-      // parse json object from base64 encoded jwt token
-      // NOTE SB: It's on purpose that the parse is done 2 times
-      // I haven't found a better way to deal with an invalid token
-      try {
-        JSON.parse(stringifiedRefreshToken);
-      } catch (e) {
-        return undefined;
-      }
-      return JSON.parse(stringifiedRefreshToken);
-    }
-    return undefined;
+    return this.storage.get('accessToken');
   }
 
   /** Gets organisation from localstorage.
@@ -136,70 +120,61 @@ export class ArlasIamService extends ArlasAuthentificationService {
   }
 
   private clearTokens() {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
+    this.storage.delete('accessToken');
   }
 
   private clearOrganisation() {
     this.currentOrganisation = null;
   }
 
+  /** This method should be called right after being logged in
+   * THUS; there is no need to refresh the token at 0; we can wait for the moment the token is about to expire to **start** the timer.
+   * By doing this we avoid refreshing the token twice in a row.
+   * Also starting the refresh at 0 causes some incoherence in localstorage when we activate 'redirect_uri' parameter in settings.yaml
+   */
   public startRefreshTokenTimer(loginData: LoginData): void {
-    const refreshToken = loginData.refreshToken;
-    if (!!refreshToken) {
-      // permit to obtain accessToken expiration date
-      const accessToken = loginData.accessToken;
-      const jwtToken = JSON.parse(atob(accessToken.split('.')[1]));
-      const expires = new Date(jwtToken.exp * 1000);
-      // set a timeout to refresh the accessToken one minute before it expires
-      const timeout = expires.getTime() - Date.now() - (60 * 1000);
-      // todo: !! attention if the token expires in less than one minute !
-      // refresh accessToken when timeout ended (passing the refreshToken)
-      // start the delay after 10 seconds
-      this.refreshTokenTimer$ = timer(10000, timeout).pipe(takeUntil(this.unsubscribe)).subscribe(() => {
-        const newestRefreshToken = this.getRefreshToken();
-        this.refresh(newestRefreshToken.value).subscribe({
-          next: (loginData: LoginData) => {
-            // store localy accessToken
-            this.user = loginData.user;
-            this.setHeadersFromAccesstoken(loginData.accessToken);
-            this.storeRefreshToken(loginData.refreshToken);
-            this.tokenRefreshedSource.next(loginData);
-          },
-          error: (e) => {
-            this.logout();
-          }
-        });
+    this.tokenRefreshedSource.next(loginData);
+    // permit to obtain accessToken expiration date
+    const accessToken = loginData.access_token;
+    const jwtToken = JSON.parse(atob(accessToken.split('.')[1]));
+    const expires = new Date(jwtToken.exp * 1000);
+    // set a timeout to refresh the accessToken one minute before it expires
+    const timeout = expires.getTime() - Date.now() - (60 * 1000);
+    // todo: !! attention if the token expires in less than one minute !
+    // refresh accessToken when timeout ended (passing the refreshToken)
+    // start the timer at 'timeout' which is the duration where the token is about to expire
+    // repeat each 'timeout'
+    this.refreshTokenTimer$ = timer(timeout, timeout).pipe(takeUntil(this.unsubscribe)).subscribe(() => {
+      this.refresh().subscribe({
+        next: (loginData: LoginData) => {
+          // store localy accessToken
+          this.user = loginData.user;
+          this.setHeadersFromAccesstoken(loginData.access_token);
+          this.tokenRefreshedSource.next(loginData);
+        },
+        error: (e) => {
+          this.logout();
+        }
       });
-    }
-
+    });
   }
 
   public initAuthService() {
-    const refreshToken: RefreshToken = this.getRefreshToken();
-    if (!!refreshToken) {
-      const accessToken = this.getAccessToken();
-      this.setHeadersFromAccesstoken(accessToken);
-      return this.refresh(refreshToken.value).toPromise()
-        .then(
-          (loginData: LoginData) => {
-            this.user = loginData.user;
-            this.setHeadersFromAccesstoken(loginData.accessToken);
-            this.storeRefreshToken(loginData.refreshToken);
-            this.tokenRefreshedSource.next(loginData);
-            this.startRefreshTokenTimer(loginData);
-            return Promise.resolve();
-          })
-        .catch((err) => {
-          this.checkForceConnect();
-          console.error(err);
+    return this.refresh().toPromise()
+      .then(
+        (loginData: LoginData) => {
+          this.user = loginData.user;
+          this.setHeadersFromAccesstoken(loginData.access_token);
+          this.startRefreshTokenTimer(loginData);
           return Promise.resolve();
-        });
-    } else {
-      this.checkForceConnect();
-      return Promise.resolve();
-    }
+        })
+      .catch((err) => {
+        this.checkForceConnect();
+        console.error(err);
+        return Promise.resolve();
+      });
   }
+
 
   private checkForceConnect() {
     const authSettings = this.settings.getAuthentSettings();
@@ -246,28 +221,53 @@ export class ArlasIamService extends ArlasAuthentificationService {
     this.clearOrganisation();
   }
 
-  public logoutWithoutRedirection() {
-    this.user = undefined;
-    this.clearStore();
-    this.stopRefreshTokenTimer();
-    this.notifyTokenRefresh(null);
-    localStorage.setItem('arlas-logout-event', 'logout' + Date.now());
+  public logoutWithoutRedirection$() {
+    return from(this.arlasIamApi.logout(this.options)).pipe(
+      tap(() => {
+        this.user = undefined;
+        this.clearStore();
+        this.stopRefreshTokenTimer();
+        this.notifyTokenRefresh(null);
+        localStorage.setItem('arlas-logout-event', 'logout' + Date.now());
+      })
+    );
 
   }
 
   public logout(redirectPageAfterLogout: string[] = ['/login']): void {
-    this.logoutWithoutRedirection();
-    this.router.navigate(redirectPageAfterLogout).then(() => {
-      window.location.reload();
-    });
+    this.logoutWithoutRedirection$().pipe(
+      finalize(() => this.router.navigate(redirectPageAfterLogout).then(() => {
+        window.location.reload();
+      }))
+    ).subscribe();
+
   }
 
-  public refresh(refreshToken): Observable<LoginData> {
-    return from(this.arlasIamApi.refresh(refreshToken, this.options));
+  public refresh(): Observable<LoginData> {
+    // No need access token to refresh so we remove the access token in header if present
+    let options = this.options;
+    if (!!options && options.headers && options.headers.Authorization) {
+      delete options.headers.Authorization;
+    }
+    if (!options) {
+      options = { credentials: 'include' };
+    } else {
+      options.credentials = 'include';
+    }
+    return from(this.arlasIamApi.refresh(options));
   }
 
   public login(email: string, password: string) {
-    return from(this.arlasIamApi.login({ email, password }, this.options));
+    let options = this.options;
+    if (!!options && options.headers && options.headers.Authorization) {
+      delete options.headers.Authorization;
+    }
+    if (!options) {
+      options = { credentials: 'include' };
+    } else {
+      options.credentials = 'include';
+    }
+    return from(this.arlasIamApi.login({ email, password }, options));
   }
 
   public signUp(email: string): Observable<UserData> {
@@ -275,11 +275,11 @@ export class ArlasIamService extends ArlasAuthentificationService {
   }
 
   public verify(userId: string, token: string, password: string): Observable<UserData> {
-    return from(this.arlasIamApi.verifyUser(userId, token, password, this.options));
+    return from(this.arlasIamApi.verifyUser(password, userId, token, this.options));
   }
 
   public reset(userId: string, token: string, password: string): Observable<UserData> {
-    return from(this.arlasIamApi.resetUserPassword(userId, token, password, this.options));
+    return from(this.arlasIamApi.resetUserPassword(password, userId, token, this.options));
   }
 
   public forgot(email: string): Observable<string> {
@@ -287,11 +287,11 @@ export class ArlasIamService extends ArlasAuthentificationService {
   }
 
   public change(oldPassword: string, newPassword: string): Observable<UserData> {
-    return from(this.arlasIamApi.updateUser(this.user.id, { oldPassword, newPassword }, this.options));
+    return from(this.arlasIamApi.updateUser({ oldPassword: oldPassword, newPassword: newPassword }, this.user.id, this.options));
   }
 
   public createPermission(oid: string, permissionDef: PermissionDef): Observable<PermissionData> {
-    return from(this.arlasIamApi.addPermission(oid, permissionDef, this.options));
+    return from(this.arlasIamApi.addPermission(permissionDef, oid, this.options));
   }
 
 }

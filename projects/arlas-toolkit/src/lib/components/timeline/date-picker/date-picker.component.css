@@ -1,84 +1,13 @@
-.arlas-time-shortcuts--container {
-}
-
-.arlas-date-picker-input{
+.arlas-date-picker-input-from,
+.arlas-date-picker-input-to {
+    width: 135px;
     background-color: #FF4081;
     border: none;
     color: white;
-    font-size: 0.9em;
-    padding-left: 5px;
-    padding-top: 8px;
     cursor: pointer;
-    
-
-
 }
 
 input:focus {
     outline: 0px;
-  }
-
-.shortcut-button {
-  background-color: #FF4081;
-  float: right;
-  display: flex;
-  height: 30px;
-  justify-content: center;
-  align-items: center;
-  border-top-left-radius: 2px;
-  border-top-right-radius: 2px;
-  padding: 0 3px 0 3px;
 }
 
-.shortcut-button__icon {
-  color: white;
-  width: 18px;
-  height: 18px;
-  font-size: 18px;
-  background-color: #FF4081;
-
-}
-
-.cursor {
-  cursor: pointer;
-}
-
-.shortcut-remove-filter {
-  color: white;
-  width: 15px;
-  height: 15px;
-  font-size: 15px;
-  font-weight: bold;
-  margin-left: 5px;
-  cursor: pointer;
-}
-
-.shortcut-button__label {
-  font-size: 1em;
-  color: white;
-  padding-left: 5px;
-  padding-top: 2px;
-  background-color: #FF4081;
-
-}
-
-.arlas-time-shortcuts__list {
-  list-style-type: none;
-  margin-bottom: 0;
-  padding-right: 20px;
-  padding-left: 0;
-}
-
-.arlas-time-shortcut {
-  color: rgb(48, 136, 177);
-  cursor: pointer;
-}
-
-.arlas-time-shortcut:hover {
-  text-decoration: underline;
-}
-
-.arlas-date-picker-input-to,
-.arlas-date-picker-input-from {
-  width: 135px;
-}

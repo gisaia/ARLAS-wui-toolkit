@@ -20,13 +20,17 @@
 import { Component, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Resource } from 'arlas-permissions-api';
-import { filter } from 'rxjs/operators';
+import { catchError, filter, map, take, tap } from 'rxjs/operators';
 import { PermissionService } from '../../../services/permission/permission.service';
 import { PersistenceService } from '../../../services/persistence/persistence.service';
-import { Subject } from 'rxjs';
+import { Subject, of } from 'rxjs';
 import { ConfigAction, ConfigActionEnum } from '../../../tools/utils';
 import { ActionModalComponent } from '../action-modal/action-modal.component';
-
+import { ArlasConfigService } from '../../../services/startup/startup.service';
+import { DataWithLinks } from 'arlas-persistence-api';
+import { AuthorisationOnActionError } from '../../../tools/errors/authorisation-on-action-error';
+import { ErrorService } from '../../../services/error/error.service';
+import { NO_ORGANISATION } from '../../../tools/consts';
 @Component({
   selector: 'arlas-config-menu',
   templateUrl: './config-menu.component.html',
@@ -34,24 +38,23 @@ import { ActionModalComponent } from '../action-modal/action-modal.component';
 })
 export class ConfigMenuComponent implements OnInit {
   @Input() public actions: Array<ConfigAction>;
+
   @Input() public zone: string;
 
   @Output() public actionExecutedEmitter = new Subject();
 
   public ConfigAction = ConfigActionEnum;
-  public canCreateDashboard = false;
 
   public constructor(
     private dialog: MatDialog,
     private persistenceService: PersistenceService,
-    private permissionService: PermissionService
+    private configService: ArlasConfigService,
+    private errorService: ErrorService
   ) {
 
   }
   public ngOnInit() {
-    this.permissionService.get('persist/resource/').subscribe((resources: Resource[]) => {
-      this.canCreateDashboard = (resources.filter(r => r.verb === 'POST').length > 0);
-    });
+
   }
 
   public onActionClick(action: ConfigAction): void {
@@ -62,7 +65,7 @@ export class ConfigMenuComponent implements OnInit {
         if (action.url && action.config && action.config.id && action.configIdParam) {
 
           let url = action.url.concat('/?' + action.configIdParam + '=').concat(action.config.id);
-          if (!!action.config.org) {
+          if (!!action.config.org && action.config.org !== NO_ORGANISATION) {
             url = url.concat('&org=' + action.config.org);
           }
           this.openUrl(url);
@@ -72,14 +75,39 @@ export class ConfigMenuComponent implements OnInit {
       }
       case ConfigActionEnum.DELETE: {
         // Open a confirm modal to validate this choice. Available only if updatable is true for this object
+        const options = this.persistenceService.getOptionsSetOrg(action.config.org);
         this.getDialogRef(action).subscribe(id => {
-          this.persistenceService.get(id).subscribe(
-            data => {
-              const key = data.doc_key;
-              ['i18n', 'tour'].forEach(zone => ['fr', 'en'].forEach(lg => this.deleteLinkedData(zone, key, lg)));
-              this.persistenceService.delete(id).subscribe(() => this.actionExecutedEmitter.next(action));
-              this.persistenceService.deletePreview(data.doc_key.concat('_preview'));
-            });
+          this.persistenceService.get(id, options).pipe(
+            catchError((err) => {
+              this.errorService.closeAll().afterAllClosed.pipe(take(1))
+                .subscribe(() =>
+                  this.errorService.emitAuthorisationError(new AuthorisationOnActionError(err.status, 'delete_dashboard'), false));
+              return of(err);
+            })
+          ).pipe(
+            map((p: DataWithLinks) => {
+              const parsedConfig = this.configService.parse(p.doc_value);
+              if (this.configService.hasPreview(parsedConfig)) {
+                const previewId = this.configService.getPreview(parsedConfig);
+                this.persistenceService.deleteResource(previewId, options);
+              }
+              if (this.configService.hasI18n(parsedConfig)) {
+                const i18nIds = this.configService.getI18n(parsedConfig);
+                Object.keys(i18nIds).forEach(lg => {
+                  this.persistenceService.deleteResource(i18nIds[lg], options);
+                });
+              }
+              if (this.configService.hasTours(parsedConfig)) {
+                const toursIds = this.configService.getTours(parsedConfig);
+                Object.keys(toursIds).forEach(lg => {
+                  this.persistenceService.deleteResource(toursIds[lg], options);
+                });
+              }
+              this.persistenceService.delete(id, options)
+                .subscribe(() => this.actionExecutedEmitter.next(action));
+            })
+          )
+            .subscribe();
         });
         break;
       }
@@ -87,7 +115,7 @@ export class ConfigMenuComponent implements OnInit {
         // redirect to arlas wui-builer with config ID
         if (action.url && action.config && action.config.id) {
           let url = action.url.concat(action.config.id);
-          if (!!action.config.org) {
+          if (!!action.config.org && action.config.org !== NO_ORGANISATION) {
             url = url.concat('?org=' + action.config.org);
           }
           this.openUrl(url);
@@ -115,7 +143,7 @@ export class ConfigMenuComponent implements OnInit {
       disableClose: true,
       data: action
     });
-    return dialogRef.afterClosed().pipe(filter(result => result !== false));
+    return dialogRef.afterClosed().pipe(filter(result => !!result));
   }
 
   private openUrl(url: string) {
@@ -123,14 +151,4 @@ export class ConfigMenuComponent implements OnInit {
     win.focus();
   }
 
-  private deleteLinkedData(zone: string, key: string, lg: string): void {
-    this.persistenceService.existByZoneKey(zone, key.concat('_').concat(lg)).subscribe(
-      exist => {
-        if (exist.exists) {
-          this.persistenceService.getByZoneKey(zone, key.concat('_').concat(lg))
-            .subscribe(i => this.persistenceService.delete(i.id).subscribe(d => { }));
-        }
-      }
-    );
-  }
 }

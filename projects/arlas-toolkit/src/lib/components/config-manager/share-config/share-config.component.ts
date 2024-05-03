@@ -20,6 +20,10 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { PersistenceService } from '../../../services/persistence/persistence.service';
 import { Config } from '../../../tools/utils';
+import { ArlasConfigService } from '../../../services/startup/startup.service';
+import { catchError, of, take } from 'rxjs';
+import { AuthorisationOnActionError } from '../../../tools/errors/authorisation-on-action-error';
+import { ErrorService } from '../../../services/error/error.service';
 
 export interface PersistenceGroup {
   name: string;
@@ -38,11 +42,14 @@ export class ShareConfigComponent implements OnInit {
   @Output() public updateEmitter: EventEmitter<[boolean, any]> = new EventEmitter();
   public groups: Array<PersistenceGroup>;
 
-  public constructor(private persistenceService: PersistenceService) {
+  public constructor(private persistenceService: PersistenceService,
+    private configurationService: ArlasConfigService, private errorService: ErrorService
+  ) {
 
   }
   public ngOnInit() {
-    this.persistenceService.getGroupsByZone(this.config.zone).subscribe((s: any) => {
+    const options = this.getOptionsSetOrg(this.config.org);
+    this.persistenceService.getGroupsByZone(this.config.zone, options).pipe(take(1)).subscribe((s: any) => {
       this.groups = new Array();
       s.forEach(g => {
         const paths = g.split('/');
@@ -72,23 +79,49 @@ export class ShareConfigComponent implements OnInit {
         writers.delete(g.name);
       }
     });
-    this.config.readers = Array.from(readers);
-    this.config.writers = Array.from(writers);
+    const options = this.getOptionsSetOrg(this.config.org);
     this.persistenceService
-      .update(this.config.id, this.config.value, this.config.lastUpdate, this.config.name, this.config.readers, this.config.writers)
+      .update(this.config.id, this.config.value, this.config.lastUpdate,
+        this.config.name, Array.from(readers), Array.from(writers), options)
+      .pipe(
+        catchError((err) => {
+          this.errorService.closeAll().afterAllClosed.pipe(take(1))
+            .subscribe(() =>
+              this.errorService.emitAuthorisationError(new AuthorisationOnActionError(err.status, 'share_dashboard'), false));
+          return of(err);
+        })
+      )
       .subscribe({
-        next: () => this.updateEmitter.emit([true, {}]),
-        error: (err) => this.updateEmitter.emit([false, err])
+        next: () => {
+          this.config.readers = Array.from(readers);
+          this.config.writers = Array.from(writers);
+          this.updateEmitter.emit([true, this.config]);
+        }
       });
-    let previewReaders = [];
-    let previewWriters = [];
-    if (this.config.readers) {
-      previewReaders = this.config.readers.map(reader => reader.replace('config.json', 'preview'));
+    const arlasConfig = this.configurationService.parse(this.config.value);
+    if (!!arlasConfig) {
+      const resourcesGroups = this.persistenceService.dashboardToResourcesGroups(Array.from(readers), Array.from(writers));
+      if (this.configurationService.hasPreview(arlasConfig)) {
+        const previewId = this.configurationService.getPreview(arlasConfig);
+        this.persistenceService.updateResource(previewId, resourcesGroups.readers, resourcesGroups.writers, undefined, options);
+      }
+      if (this.configurationService.hasI18n(arlasConfig)) {
+        const i18nIds = this.configurationService.getI18n(arlasConfig);
+        Object.keys(i18nIds).forEach(lg => {
+          this.persistenceService.updateResource(i18nIds[lg], resourcesGroups.readers, resourcesGroups.writers, undefined, options);
+        });
+      }
+      if (this.configurationService.hasTours(arlasConfig)) {
+        const toursIds = this.configurationService.getTours(arlasConfig);
+        Object.keys(toursIds).forEach(lg => {
+          this.persistenceService.updateResource(toursIds[lg], resourcesGroups.readers, resourcesGroups.writers, undefined, options);
+        });
+      }
     }
-    if (this.config.writers) {
-      previewWriters = this.config.writers.map(writer => writer.replace('config.json', 'preview'));
-    }
-    this.persistenceService.updatePreview(this.config.name.concat('_preview'), previewReaders, previewWriters);
+  }
+
+  private getOptionsSetOrg(org: string) {
+    return this.persistenceService.getOptionsSetOrg(org);
   }
 
   public close() {

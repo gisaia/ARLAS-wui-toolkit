@@ -40,8 +40,8 @@ import * as rootContributorConfSchema from 'arlas-web-contributors/jsonSchemas/r
 import { CollaborativesearchService, ConfigService, Contributor } from 'arlas-web-core';
 import { projType } from 'arlas-web-core/models/projections';
 import YAML from 'js-yaml';
-import { Subject } from 'rxjs';
-import { mergeMap } from 'rxjs/operators';
+import { Subject, defer, throwError } from 'rxjs';
+import { catchError, mergeMap, retry } from 'rxjs/operators';
 import { PersistenceService, PersistenceSetting } from '../persistence/persistence.service';
 import {
   CONFIG_ID_QUERY_PARAM, GET_OPTIONS, WidgetConfiguration, getFieldProperties,
@@ -70,8 +70,76 @@ import { DashboardError } from '../../tools/errors/dashboard-error';
 export class ArlasConfigService extends ConfigService {
   public errorsQueue = new Array<Error>();
   public appName = '';
+
   public constructor() {
     super();
+  }
+
+  /** Returns the preview identifier stored in the config.json */
+  public getPreviewId(): string | undefined {
+    return this.getValue('resources.previewId');
+  }
+
+  public parse(stringifiedConfig: string) {
+    return JSON.parse(stringifiedConfig);
+  }
+
+  public getPreview(config: any) {
+    return config?.resources?.previewId;
+  }
+
+  public hasPreview(config: any) {
+    return !!this.getPreview(config);
+  }
+
+  public getI18n(config: any) {
+    return config?.resources?.i18nIds;
+  }
+
+  public getTours(config: any) {
+    return config?.resources?.toursIds;
+  }
+
+  public hasI18n(config: any) {
+    const i18nIds = this.getI18n(config);
+    return !!i18nIds && Object.entries(i18nIds).length > 0;
+  }
+
+  public hasTours(config: any) {
+    const toursIds = this.getTours(config);
+    return !!toursIds && Object.entries(toursIds).length > 0;
+  }
+
+  public hasResources(config: any) {
+    return this.hasI18n(config) || this.hasPreview(config);
+  }
+
+  public updateI18n(config: any, lang: string, i18nId: string) {
+    if (!config.resources) {
+      config.resources = {};
+    }
+    if (!config.resources.i18nIds) {
+      config.resources.i18nIds = {};
+    }
+    config.resources.i18nIds[lang] = i18nId;
+  }
+
+  public updateTour(config: any, lang: string, tourId: string) {
+    if (!config.resources) {
+      config.resources = {};
+    }
+    if (!config.resources.toursIds) {
+      config.resources.toursIds = {};
+    }
+    config.resources.toursIds[lang] = tourId;
+  }
+
+  public updatePreview(config: any, previewId: string) {
+    if (!config.resources) {
+      config.resources = {};
+    }
+    config.resources.previewId = previewId;
+    return config;
   }
 }
 
@@ -212,7 +280,6 @@ export class ArlasStartupService {
   public errorStartUp() {
     this.errorStartUpServiceBus.subscribe(e => console.error(e));
   }
-
 
   public validateSettings(settings) {
     return new Promise<any>((resolve, reject) => {
@@ -514,7 +581,7 @@ export class ArlasStartupService {
               if (!!loginData) {
                 const org = this.arlasIamService.getOrganisation();
                 const iamHeader = {
-                  Authorization: 'Bearer ' + loginData.accessToken,
+                  Authorization: 'Bearer ' + loginData.access_token,
                 };
                 // Set the org filter only if the organisation is defined
                 if (!!org) {
@@ -559,12 +626,22 @@ export class ArlasStartupService {
       let configData;
       if (usePersistence) {
         if (!!configurationId) {
-          configDataPromise = this.persistenceService.get(configurationId).toPromise()
+          configDataPromise = defer(() => this.persistenceService.get(configurationId)).pipe(
+            catchError(err => {
+              this.errorService.closeAll();
+              return throwError(() => err);
+            }),
+            retry({ count: 1, delay: 2000 })
+          ).toPromise()
             .then((s: DataWithLinks) => {
-              const config = JSON.parse(s.doc_value);
-              this.configService.appName = s.doc_key;
-              configData = config;
-              return Promise.resolve(config);
+              if (s) {
+                const config = JSON.parse(s.doc_value);
+                this.configService.appName = s.doc_key;
+                configData = config;
+                return Promise.resolve(config);
+              }
+              return Promise.resolve(null);
+
             }).catch((err) => {
               if (!(err instanceof Response)) {
                 this.shouldRunApp = false;
@@ -879,15 +956,18 @@ export interface ArlasSettings {
   authentication?: AuthentSetting;
   persistence?: PersistenceSetting;
   permission?: PermissionSetting;
-  geocoding?: GeocodingSetting;
   arlas_wui_url?: string;
   arlas_builder_url?: string;
   arlas_hub_url?: string;
   arlas_iam_wui_url?: string;
   links?: LinkSettings[];
   ticketing_key?: string;
+  tab_name?: string;
+  dashboards_shortcut?: boolean;
   histogram?: HistogramSettings;
+  resultlist?: ResultlistSettings;
   process?: ProcessSettings;
+  geocoding?: GeocodingSetting;
 }
 
 export interface LinkSettings {
@@ -901,6 +981,11 @@ export interface LinkSettings {
 export interface HistogramSettings {
   max_buckets: number;
   export_nb_buckets: number;
+}
+
+export interface ResultlistSettings {
+  enable_export: boolean;
+  export_size: number;
 }
 
 export interface ProcessSettings {

@@ -17,6 +17,8 @@
  * under the License.
  */
 
+import { from } from 'rxjs';
+
 export { TopMenuComponent } from './lib/components/top-menu/top-menu.component';
 export { AboutComponent, AboutDialogComponent } from './lib/components/top-menu/about/about.component';
 export { ShortcutFiltersHandlerComponent } from './lib/components/filter-shortcut/filters-handler/filters-handler.component';
@@ -116,9 +118,10 @@ export { PaginatorI18n } from './lib/tools/paginatori18n';
 export {
   ArlasOverlayRef, ArlasStorageObject, WidgetConfiguration,
   ArlasStorageType, CollectionCount, CollectionUnit, Config, ConfigAction, ConfigActionEnum,
-  CONFIG_ID_QUERY_PARAM, DONUT_TOOLTIP_DATA, getFieldProperties, getKeyForColor, hashCode,
+  CONFIG_ID_QUERY_PARAM, DONUT_TOOLTIP_DATA, getFieldProperties, getKeyForColor, hashCode, getParamValue,
   HISTOGRAM_TOOLTIP_DATA, intToRGB, MapService, sortOnDate, SpinnerOptions, AuthentSetting, NOT_CONFIGURED, GET_OPTIONS
 } from './lib/tools/utils';
+export { JwtInterceptor } from './lib/tools/jwt.interceptor';
 export { FetchInterceptorService } from './lib/services/interceptor/fetch-interceptor.service';
 export { ArlasOverlayService, HistogramTooltipConfig, DonutTooltipConfig } from './lib/services/overlays/overlay.service';
 export { PermissionService, PermissionSetting } from './lib/services/permission/permission.service';
@@ -126,7 +129,7 @@ export { ArlasExportCsvService } from './lib/services/export-csv/export-csv.serv
 export { ArlasTagService } from './lib/services/tag/tag.service';
 export { TaggerResponse } from './lib/services/tag/model';
 export { LoginModule } from './lib/login.module';
-export { ArlasIamService } from './lib/services/arlas-iam/arlas-iam.service';
+export { ArlasIamService, ARLAS_ORG_FILTER } from './lib/services/arlas-iam/arlas-iam.service';
 export { AuthGuardIamService } from './lib/services/arlas-iam/auth-guard-iam.service';
 export { LoginComponent } from './lib/components/login/login.component';
 export { RegisterComponent } from './lib/components/register/register.component';
@@ -142,3 +145,4 @@ export { ArlasError, ActionType } from './lib/tools/errors/error';
 export { AuthorisationError } from './lib/tools/errors/authorisation-error';
 export { BackendError } from './lib/tools/errors/backend-error';
 export { DashboardError } from './lib/tools/errors/dashboard-error';
+export { NO_ORGANISATION } from './lib/tools/consts';

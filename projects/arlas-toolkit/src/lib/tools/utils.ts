@@ -129,6 +129,7 @@ export interface AuthentSetting {
 }
 
 export interface GeocodingSetting {
+  enabled?: boolean;
   find_place_url?: string;
   find_place_zoom_to?: number;
 }

@@ -11,6 +11,9 @@ import { ArlasSettingsService } from '../../services/settings/arlas.settings.ser
 })
 export class UserInfosComponent implements OnInit {
 
+  private isAuthentActivated: boolean;
+  public authentMode;
+
   public organisations: Array<string>;
   public name: string;
   public email: string;
@@ -24,6 +27,11 @@ export class UserInfosComponent implements OnInit {
 
   public ngOnInit() {
     const authSettings = this.settingsService.getAuthentSettings();
+    this.authentMode = !!authSettings ? authSettings.auth_mode : undefined;
+    this.isAuthentActivated = !!authSettings && !!authSettings.use_authent;
+    if (this.isAuthentActivated && !this.authentMode) {
+      this.authentMode = 'openid';
+    }
     if (!!authSettings) {
       if (authSettings.auth_mode === 'iam') {
         const userInfos = this.arlasIamService.user;
@@ -33,7 +41,6 @@ export class UserInfosComponent implements OnInit {
         this.email = userInfos.email;
         this.organisations = userInfos.organisations.map(o => o.displayName);
         this.avatar = '';
-
       } else {
         this.authentService.loadUserInfo().subscribe(user => {
           const data = user.info;

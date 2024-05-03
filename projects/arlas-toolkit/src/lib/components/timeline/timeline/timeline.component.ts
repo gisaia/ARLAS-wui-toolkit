@@ -346,7 +346,6 @@ export class TimelineComponent implements OnInit, OnDestroy {
       const l = d.length;
       detailedTimelineRange = (+d[l - 1].key) - (+d[0].key);
     }
-
     // In case of the timeline is hidden
     if (!!this.timelineHistogramComponent) {
       if (timelineRange !== undefined && detailedTimelineRange !== undefined) {

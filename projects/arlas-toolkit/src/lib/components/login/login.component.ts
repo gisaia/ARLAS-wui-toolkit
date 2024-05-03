@@ -20,7 +20,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { LoginData, RefreshToken } from 'arlas-iam-api';
+import { LoginData } from 'arlas-iam-api';
 import { ArlasIamService } from '../../services/arlas-iam/arlas-iam.service';
 import { ArlasSettingsService } from '../../services/settings/arlas.settings.service';
 import { finalize } from 'rxjs';
@@ -50,41 +50,30 @@ export class LoginComponent implements OnInit {
   public ngOnInit(): void {
     this.errorService.closeAll();
     const authSettings = this.settingsService.getAuthentSettings();
-    const refreshToken: RefreshToken = this.iamService.getRefreshToken();
-    if (!!refreshToken) {
-      this.showPage = false;
-      /** set latest stored headers info. */
-      const accessToken = this.iamService.getAccessToken();
-      this.iamService.setHeadersFromAccesstoken(accessToken);
-      this.iamService.refresh(refreshToken.value).pipe(finalize(() => this.showPage = true)).subscribe({
-        next: (loginData: LoginData) => {
-          this.iamService.user = loginData.user;
-          this.iamService.setHeadersFromAccesstoken(loginData.accessToken);
-          this.iamService.storeRefreshToken(loginData.refreshToken);
-          this.iamService.notifyTokenRefresh(loginData);
-          localStorage.removeItem('arlas-logout-event');
-          if (!!this.iamService.reloadState) {
-            this.iamService.consumeReloadState();
+    this.showPage = false;
+    this.iamService.refresh().pipe(finalize(() => this.showPage = true)).subscribe({
+      next: (loginData: LoginData) => {
+        this.iamService.user = loginData.user;
+        this.iamService.setHeadersFromAccesstoken(loginData.access_token);
+        this.iamService.notifyTokenRefresh(loginData);
+        localStorage.removeItem('arlas-logout-event');
+        if (!!this.iamService.reloadState) {
+          this.iamService.consumeReloadState();
+        } else {
+          if (!!authSettings && authSettings.redirect_uri && authSettings.redirect_uri !== NOT_CONFIGURED) {
+            window.open(authSettings.redirect_uri, '_self');
           } else {
-            if (!!authSettings && authSettings.redirect_uri && authSettings.redirect_uri !== NOT_CONFIGURED) {
-              window.open(authSettings.redirect_uri, '_self');
-            } else {
-              this.router.navigate(['/']);
-            }
+            this.router.navigate(['/']);
           }
-        },
-        error: () => {
-          this.iamService.logoutWithoutRedirection();
-          this.errorService.closeAll();
         }
-      });
-    } else {
-      if (!!authSettings && authSettings.login_url && authSettings.login_url !== NOT_CONFIGURED && !this.iamService.reloadState) {
-        window.open(authSettings.login_url, '_self');
-      } else {
-        this.showPage = true;
+      },
+      error: () => {
+        this.iamService.logoutWithoutRedirection$().pipe(
+          finalize(() => this.errorService.closeAll())
+        ).subscribe();
+
       }
-    }
+    });
 
     this.loginForm = this.formBuilder.group({
       email: ['', Validators.required],
@@ -97,8 +86,7 @@ export class LoginComponent implements OnInit {
     this.iamService.login(this.loginForm.get('email').value, this.loginForm.get('password').value).subscribe({
       next: loginData => {
         this.iamService.user = loginData.user;
-        this.iamService.setHeadersFromAccesstoken(loginData.accessToken);
-        this.iamService.storeRefreshToken(loginData.refreshToken);
+        this.iamService.setHeadersFromAccesstoken(loginData.access_token);
         this.iamService.notifyTokenRefresh(loginData);
         this.iamService.startRefreshTokenTimer(loginData);
         localStorage.removeItem('arlas-logout-event');
@@ -115,11 +103,15 @@ export class LoginComponent implements OnInit {
         this.isLoading = false;
       },
       error: () => {
-        this.iamService.logoutWithoutRedirection();
-        this.loginForm.setErrors({
-          wrong: true
-        });
-        this.isLoading = false;
+        this.iamService.logoutWithoutRedirection$().pipe(
+          finalize(() => {
+            this.loginForm.setErrors({
+              wrong: true
+            });
+            this.isLoading = false;
+          })
+        ).subscribe();
+
       }
     }
 

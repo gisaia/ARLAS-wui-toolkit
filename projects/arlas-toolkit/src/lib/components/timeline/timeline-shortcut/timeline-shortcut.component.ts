@@ -16,7 +16,7 @@ import { filter } from 'rxjs/operators';
 @Component({
   selector: 'arlas-timeline-shortcut',
   templateUrl: './timeline-shortcut.component.html',
-  styleUrls: ['./timeline-shortcut.component.css']
+  styleUrls: ['./timeline-shortcut.component.scss']
 })
 export class TimelineShortcutComponent implements OnInit {
   /**

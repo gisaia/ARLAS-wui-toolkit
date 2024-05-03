@@ -17,15 +17,16 @@
  * under the License.
  */
 
+import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 import { ArlasError } from './error';
 
 export class SettingsError extends ArlasError {
   public constructor() {
     super(0);
-    this.title = 'ARLAS Front-end Settings error';
+    this.title = marker('ARLAS Front-end Settings error');
     this.showAction = false;
     this.actionMessage = '';
-    this.message = 'Please check if the settings.yaml file is provided and has a valid syntax';
+    this.message = marker('Please check if the settings.yaml file is provided and has a valid syntax');
   }
 
   public executeAction() {
