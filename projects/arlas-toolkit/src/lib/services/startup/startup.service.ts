@@ -976,6 +976,7 @@ export interface LinkSettings {
   icon: string;
   tooltip?: string;
   check_url: string;
+  check_url_response_type?: string;
 }
 
 export interface HistogramSettings {

@@ -190,6 +190,10 @@
           "check_url": {
             "description": "URL to check if the user has access to the application",
             "type": "string"
+          },
+          "check_url_response_type": {
+            "description": "Response type to specify for the check_url if it is different from 'json'",
+            "type": "string"
           }
         },
         "required": [

@@ -24,7 +24,11 @@ export class LinkComponent implements OnInit {
   ) { }
 
   public ngOnInit(): void {
-    this.http.get(this.link.check_url, this.getOptions())
+    const options = this.getOptions();
+    if (this.link.check_url_response_type) {
+      options.responseType = this.link.check_url_response_type;
+    }
+    this.http.get(this.link.check_url, options)
       .pipe(finalize(() => this.onCheck$.emit()))
       .subscribe({
         next: () => {
