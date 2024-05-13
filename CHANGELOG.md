@@ -1,8 +1,33 @@
 # Change Log
 
+## [v25.0.0-rc.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v25.0.0-rc.2) (2024-05-13)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v25.0.0-rc.1...v25.0.0-rc.2)
+
+**New stuff:**
+
+- Add spanish translation [\#747](https://github.com/gisaia/ARLAS-wui-toolkit/issues/747)
+
+**Fixed bugs:**
+
+- Display change password action for iam [\#783](https://github.com/gisaia/ARLAS-wui-toolkit/issues/783)
+
+## [v25.0.0-rc.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v25.0.0-rc.1) (2024-05-03)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v25.0.0-rc.0...v25.0.0-rc.1)
+
 ## [v25.0.0-rc.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v25.0.0-rc.0) (2024-05-03)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v25.0.0-beta.17...v25.0.0-rc.0)
+
+**New stuff:**
+
+- Manage previews using their ids instead of doc\_key [\#723](https://github.com/gisaia/ARLAS-wui-toolkit/issues/723)
+
+**Fixed bugs:**
+
+- Use user name initials in case the avatar is absent from the claims [\#748](https://github.com/gisaia/ARLAS-wui-toolkit/issues/748)
+- Bookmarks store all collections [\#657](https://github.com/gisaia/ARLAS-wui-toolkit/issues/657)
 
 ## [v25.0.0-beta.17](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v25.0.0-beta.17) (2024-05-02)
 
@@ -283,15 +308,15 @@
 
 ## [v24.2.0-beta-iam.5](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.2.0-beta-iam.5) (2023-09-04)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.2.0-beta-iam.3...v24.2.0-beta-iam.5)
-
-## [v24.2.0-beta-iam.3](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.2.0-beta-iam.3) (2023-08-28)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.2.0-beta-iam.4...v24.2.0-beta-iam.3)
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.2.0-beta-iam.4...v24.2.0-beta-iam.5)
 
 ## [v24.2.0-beta-iam.4](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.2.0-beta-iam.4) (2023-08-28)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.1.6...v24.2.0-beta-iam.4)
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.2.0-beta-iam.3...v24.2.0-beta-iam.4)
+
+## [v24.2.0-beta-iam.3](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.2.0-beta-iam.3) (2023-08-28)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.1.6...v24.2.0-beta-iam.3)
 
 ## [v24.1.6](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.1.6) (2023-08-09)
 
