@@ -103,6 +103,7 @@ export class LoginComponent implements OnInit {
         this.isLoading = false;
       },
       error: () => {
+        this.errorService.closeAll();
         this.iamService.logoutWithoutRedirection$().pipe(
           finalize(() => {
             this.loginForm.setErrors({
