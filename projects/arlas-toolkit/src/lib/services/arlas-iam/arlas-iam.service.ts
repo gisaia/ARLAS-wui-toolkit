@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { LoginData, PermissionData, PermissionDef, UserData } from 'arlas-iam-api';
+import { ArlasMessage, LoginData, PermissionData, PermissionDef, UserData } from 'arlas-iam-api';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { Observable } from 'rxjs/internal/Observable';
 import { Subject } from 'rxjs/internal/Subject';
@@ -282,7 +282,7 @@ export class ArlasIamService extends ArlasAuthentificationService {
     return from(this.arlasIamApi.resetUserPassword(password, userId, token, this.options));
   }
 
-  public forgot(email: string): Observable<string> {
+  public forgot(email: string): Observable<ArlasMessage> {
     return from(this.arlasIamApi.askPasswordReset(email, this.options));
   }
 
