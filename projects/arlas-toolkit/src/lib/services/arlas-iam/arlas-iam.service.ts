@@ -184,7 +184,7 @@ export class ArlasIamService extends ArlasAuthentificationService {
   }
 
   private needsRedirection(path: string): boolean {
-    return !path.startsWith('/verify') && !path.startsWith('/reset') && !path.startsWith('/register') && !path.startsWith('/password_forgot');
+    return !path.includes('/verify') && !path.includes('/reset') && !path.includes('/register') && !path.includes('/password_forgot');
   }
 
   private forceConnect(authSettings: AuthentSetting) {
