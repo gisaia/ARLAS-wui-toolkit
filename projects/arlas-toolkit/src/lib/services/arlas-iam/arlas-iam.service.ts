@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ArlasMessage, LoginData, PermissionData, PermissionDef, UserData } from 'arlas-iam-api';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { Observable } from 'rxjs/internal/Observable';
@@ -39,6 +39,7 @@ export class ArlasIamService extends ArlasAuthentificationService {
 
   public constructor(
     private router: Router,
+    private activatedRoute: ActivatedRoute,
     private settings: ArlasSettingsService
   ) {
     super();
@@ -178,11 +179,20 @@ export class ArlasIamService extends ArlasAuthentificationService {
 
   private checkForceConnect() {
     const authSettings = this.settings.getAuthentSettings();
-    if (!!authSettings) {
-      if (authSettings.force_connect) {
+    if (!!authSettings && authSettings.force_connect) {
+      if (this.activatedRoute.snapshot.firstChild.url.length > 0) {
+        if (this.needsRedirection(this.activatedRoute.snapshot.firstChild.url[0].path)) {
+          this.forceConnect(authSettings);
+        }
+      } else {
         this.forceConnect(authSettings);
       }
     }
+  }
+
+  private needsRedirection(path: string): boolean {
+    console.log(path);
+    return !path.startsWith('verify') && !path.startsWith('reset') && !path.startsWith('register') && !path.startsWith('password_forgot');
   }
 
   private forceConnect(authSettings: AuthentSetting) {
