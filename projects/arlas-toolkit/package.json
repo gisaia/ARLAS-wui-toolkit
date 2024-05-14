@@ -36,7 +36,7 @@
     "ajv-keywords": "5.1.0",
     "angular-oauth2-oidc": "~14.0.1",
     "angular-oauth2-oidc-jwks": "~14.0.1",
-    "arlas-iam-api": "25.0.0-rc.2",
+    "arlas-iam-api": "25.0.0-rc.3",
     "arlas-permissions-api": "25.0.0-rc.2",
     "arlas-persistence-api": "25.0.0-rc.2",
     "arlas-tagger-api": "25.0.0-beta.2",
