@@ -178,11 +178,13 @@ export class ArlasIamService extends ArlasAuthentificationService {
 
   private checkForceConnect() {
     const authSettings = this.settings.getAuthentSettings();
-    if (!!authSettings) {
-      if (authSettings.force_connect) {
-        this.forceConnect(authSettings);
-      }
+    if (!!authSettings && authSettings.force_connect && this.needsRedirection(window.location.pathname)) {
+      this.forceConnect(authSettings);
     }
+  }
+
+  private needsRedirection(path: string): boolean {
+    return !path.startsWith('/verify') && !path.startsWith('/reset') && !path.startsWith('/register') && !path.startsWith('/password_forgot');
   }
 
   private forceConnect(authSettings: AuthentSetting) {

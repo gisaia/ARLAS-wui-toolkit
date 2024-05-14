@@ -56,11 +56,11 @@ export class VerifyComponent implements OnInit {
         err.json().then(e => {
           if (e.message === 'User already verified.'){
             this.validateForm.setErrors({
-              unknownUser: true
+              alreadyVerified: true
             });
           } else if (e.message === 'User not found.'){
             this.validateForm.setErrors({
-              alreadyVerified: true
+              unknownUser: true
             });
           } else {
             this.validateForm.setErrors({
