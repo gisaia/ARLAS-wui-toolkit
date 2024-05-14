@@ -1,5 +1,9 @@
 # Change Log
 
+## [v25.0.0-rc.5](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v25.0.0-rc.5) (2024-05-14)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v25.0.0-rc.4...v25.0.0-rc.5)
+
 ## [v25.0.0-rc.4](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v25.0.0-rc.4) (2024-05-14)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v25.0.0-rc.3...v25.0.0-rc.4)
