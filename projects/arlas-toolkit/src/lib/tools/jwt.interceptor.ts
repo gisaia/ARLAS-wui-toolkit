@@ -48,6 +48,7 @@ export class JwtInterceptor implements HttpInterceptor {
         });
         const org = this.iamService.getOrganisation();
         if (org !== null && org !== undefined) {
+          console.log(org);
           headers = new HttpHeaders({
             'Authorization': `Bearer ${token}`,
             ARLAS_ORG_FILTER: org
