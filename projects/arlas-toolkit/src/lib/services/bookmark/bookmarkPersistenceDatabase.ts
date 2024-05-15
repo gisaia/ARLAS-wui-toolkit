@@ -52,7 +52,7 @@ export class BookmarkPersistenceDatabase extends ArlasPersistenceDatabase<BookMa
     return initBookmark;
   }
 
-  public createBookmark(name: string, prettyFilter: string, url: string,
+  public createBookmark(name: string, prettyFilter: string, url: string, collections: Set<string>,
     type: BookMarkType, color: string, id?: string, date?: Date, views?: number): BookMark {
     let uid = '';
     let bookmarkDate: Date;
@@ -83,7 +83,7 @@ export class BookmarkPersistenceDatabase extends ArlasPersistenceDatabase<BookMa
       color: color,
       count: new Observable<0>(),
       views: bookmarkViews,
-      collections: Array.from(this.startupService.collectionsMap.keys()).sort().join(',')
+      collections: Array.from(collections).sort().join(',')
     };
     this.bookmarkService.setBookMarkCount(bookMark);
     return bookMark;

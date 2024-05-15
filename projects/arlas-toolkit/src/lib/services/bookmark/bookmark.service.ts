@@ -77,8 +77,9 @@ export class ArlasBookmarkService {
     if (selectedItem) {
       const url = this.getUrlFomSetIds(selectedItem);
       const dataModel = this.collaborativesearchService.dataModelBuilder(decodeURI(url), true);
+      const collections = this.collaborativesearchService.getCollectionsFromFilters(dataModel);
       const color = '#' + getKeyForColor(dataModel);
-      const bookmarkFromItem = this.dataBase.createBookmark(newBookMarkName, newBookMarkName, url, BookMarkType.enumIds, color);
+      const bookmarkFromItem = this.dataBase.createBookmark(newBookMarkName, newBookMarkName, url, collections, BookMarkType.enumIds, color);
       return this.dataBase.add(bookmarkFromItem);
     } else {
       let filter = '';
@@ -87,6 +88,7 @@ export class ArlasBookmarkService {
       });
       const url = this.collaborativesearchService.urlBuilder().split('filter=')[1];
       const dataModel = this.collaborativesearchService.dataModelBuilder(decodeURI(url), true);
+      const collections = this.collaborativesearchService.getCollectionsFromFilters(dataModel);
       const color = '#' + getKeyForColor(dataModel);
       let type: BookMarkType;
       if (!this.isTemporalFilter(dataModel)) {
@@ -94,7 +96,7 @@ export class ArlasBookmarkService {
       } else {
         type = BookMarkType.filterWithTime;
       }
-      const bookmarkFromFilter = this.dataBase.createBookmark(newBookMarkName, filter.substring(1, filter.length), url, type, color);
+      const bookmarkFromFilter = this.dataBase.createBookmark(newBookMarkName, filter.substring(1, filter.length), url, collections, type, color);
       return this.dataBase.add(bookmarkFromFilter);
     }
   }
@@ -105,6 +107,7 @@ export class ArlasBookmarkService {
       return this.addBookmark(newBookMarkName, this.combineBookmarkFromIds(selectedBookmark));
     } else {
       const dataModel = this.combineBookmarkFromFilter(selectedBookmark);
+      const collections = this.collaborativesearchService.getCollectionsFromFilters(dataModel);
       const color = '#' + getKeyForColor(dataModel);
       /** map to object (using fromEntries) so that the stringify works properly */
       Array.from(Object.keys(dataModel)).forEach(identifier => {
@@ -122,7 +125,7 @@ export class ArlasBookmarkService {
       Object.keys(dataModel).forEach(v => {
         filter = filter + '-' + this.collaborativesearchService.registry.get(v).getFilterDisplayName();
       });
-      const bookmark = this.dataBase.createBookmark(newBookMarkName, filter.substring(1, filter.length), url, type, color);
+      const bookmark = this.dataBase.createBookmark(newBookMarkName, filter.substring(1, filter.length), url, collections, type, color);
       return this.dataBase.add(bookmark);
     }
   }

@@ -50,7 +50,7 @@ export class BookmarkLocalDatabase extends ArlasLocalDatabase<BookMark> {
     return initBookmark;
   }
 
-  public createBookmark(name: string, prettyFilter: string, url: string,
+  public createBookmark(name: string, prettyFilter: string, url: string, collections: Set<string>,
     type: BookMarkType, color: string, id?: string, date?: Date, views?: number): BookMark {
     let uid = '';
     let bookmarkDate: Date;
@@ -81,7 +81,7 @@ export class BookmarkLocalDatabase extends ArlasLocalDatabase<BookMark> {
       color: color,
       count: new Observable<0>(),
       views: bookmarkViews,
-      collections: Array.from(this.arlasCollaborativesearchService.collections).sort().join(',')
+      collections: Array.from(collections).sort().join(',')
     };
     this.bookmarkService.setBookMarkCount(bookMark);
     return bookMark;
