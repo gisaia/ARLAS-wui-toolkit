@@ -159,6 +159,7 @@
 	"Logout": "Déconnexion",
 	"User informations": "Informations utilisateur",
 	"Organisations": "Organisations",
+	"Verify your email": "Vérifiez votre adresse e-mail",
 	"Your account is now active.": "Votre compte est maintenant actif.",
 	"Unknown user": "Utilisateur inconnu",
 	"User already verified": "Utilisateur déjà vérifié",
@@ -279,7 +280,5 @@
 	"successful": "terminé",
 	"failed": "en erreur",
 	"dissmissed": "annulé",
-	"You are about to create a new permission on data, based on the current filters applied to": "Vous êtes sur le point de créer une nouvelle permission sur les données, basée sur les filtres actuels appliqués à",
-	"Verify your email": "Vérifiez votre adresse e-mail"
-
+	"You are about to create a new permission on data, based on the current filters applied to": "Vous êtes sur le point de créer une nouvelle permission sur les données, basée sur les filtres actuels appliqués à"
 }
