@@ -11,6 +11,7 @@ export class ForgotComponent implements OnInit {
 
   public forgotForm: FormGroup;
   public validated = false;
+  public displayForm = true;
 
   public constructor(
     private formBuilder: FormBuilder,
@@ -30,10 +31,12 @@ export class ForgotComponent implements OnInit {
         this.validated = true;
         formDirective.resetForm();
         this.forgotForm.reset();
+        this.displayForm  = false;
       },
       error: err => {
         // API respond with error (but the resquest is OK)
         this.validated = true;
+        this.displayForm  = false;
       }
     });
   }

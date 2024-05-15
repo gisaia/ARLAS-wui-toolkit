@@ -15,6 +15,7 @@ export class VerifyComponent implements OnInit {
 
   public validateForm: FormGroup;
   public validated = false;
+  public displayForm = true;
 
   public userId = null;
   public token = null;
@@ -48,11 +49,13 @@ export class VerifyComponent implements OnInit {
         this.validateForm.reset();
         this.validated = true;
         const authSettings = this.settingsService.getAuthentSettings();
+        this.displayForm  = false;
         if (!!authSettings && authSettings.login_url && authSettings.login_url !== NOT_CONFIGURED) {
           window.open(authSettings.login_url, '_self');
         }
       },
       error: err => {
+        this.displayForm  = false;
         err.json().then(e => {
           if (e.message === 'User already verified.'){
             this.validateForm.setErrors({

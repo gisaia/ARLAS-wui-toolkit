@@ -2,11 +2,11 @@
   <div class="validate-form text-center" style="align-items: center;">
     <div>
       <div class="title">
-        <h2>ARLAS</h2>
+        <h2>ARLAS - {{'Verify your email' | translate}}</h2>
       </div>
       <div>
         <form [formGroup]="validateForm" (ngSubmit)="onSubmit(formDirective)" #formDirective="ngForm">
-          <div class="form-content">
+          <div class="form-content" *ngIf="displayForm">
             <mat-form-field appearance="outline">
               <mat-label>{{'Password' | translate}}</mat-label>
               <input matInput type="password" formControlName="password">
@@ -34,7 +34,7 @@
           <div class="error" *ngIf="validateForm.getError('serviceError')">
             {{ 'An error occured' | translate}}
           </div>
-          <div class="buttons">
+          <div class="buttons" *ngIf="displayForm">
             <button type="submit" class="validate-button" [disabled]="this.validateForm.invalid" mat-flat-button
               color="primary">{{ 'Validate' | translate}}</button>
 

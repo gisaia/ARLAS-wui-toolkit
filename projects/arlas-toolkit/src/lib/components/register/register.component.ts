@@ -11,6 +11,7 @@ export class RegisterComponent implements OnInit {
 
   public signUpForm: FormGroup;
   public validated = false;
+  public displayForm = true;
 
   public constructor(
     private formBuilder: FormBuilder,
@@ -29,9 +30,11 @@ export class RegisterComponent implements OnInit {
       next: () => {
         formDirective.resetForm();
         this.signUpForm.reset();
+        this.displayForm = false;
         this.validated = true;
       },
       error: err => {
+        this.displayForm = false;
         this.signUpForm.setErrors({
           alreadyExist: true
         });

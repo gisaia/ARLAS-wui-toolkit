@@ -6,7 +6,7 @@
       </div>
       <div>
         <form [formGroup]="forgotForm" (ngSubmit)="onSubmit(formDirective)" #formDirective="ngForm">
-          <div class="form-content">
+          <div class="form-content" *ngIf="displayForm">
             <mat-form-field appearance="outline">
               <mat-label>{{'Email' | translate}}</mat-label>
               <input matInput type="email" formControlName="email">
@@ -22,7 +22,7 @@
           <div class="validate" *ngIf="validated">
             {{'If you have an account, you will receive an email shortly' | translate}}
           </div>
-          <div class="buttons">
+          <div class="buttons" *ngIf="displayForm">
             <button type="submit" class="sign-up-button" [disabled]="this.forgotForm.invalid" mat-flat-button
               color="primary">{{ 'Send password reset email' | translate}}</button>
 
