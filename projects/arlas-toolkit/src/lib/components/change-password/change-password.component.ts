@@ -12,6 +12,7 @@ export class ChangePasswordComponent implements OnInit {
 
   public changeForm: FormGroup;
   public validated = false;
+  public displayForm = true;
 
   public constructor(
     private formBuilder: FormBuilder,
@@ -34,6 +35,7 @@ export class ChangePasswordComponent implements OnInit {
       next: () => {
         this.validated = true;
         this.changeForm.reset();
+        this.displayForm = false;
       },
       error: err => {
         this.changeForm.setErrors({

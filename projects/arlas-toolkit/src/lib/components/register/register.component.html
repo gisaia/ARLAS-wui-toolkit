@@ -11,7 +11,7 @@
           {{'Just enter your email' | translate}}
         </div>
         <form [formGroup]="signUpForm" (ngSubmit)="onSubmit(formDirective)" #formDirective="ngForm">
-          <div class="form-content">
+          <div class="form-content" *ngIf="displayForm">
             <mat-form-field appearance="outline">
               <mat-label>{{'Email' | translate}}</mat-label>
               <input matInput type="email" formControlName="email">
@@ -32,7 +32,7 @@
           <div class="validate" *ngIf="validated">
             {{'Registration validated, you will receive an email to validate your account' | translate}}
           </div>
-          <div class="buttons">
+          <div class="buttons" *ngIf="displayForm">
             <button type="submit" class="sign-up-button" [disabled]="this.signUpForm.invalid" mat-flat-button
               color="primary">{{ 'Sign up' | translate}}</button>
 
