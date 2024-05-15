@@ -46,8 +46,6 @@ export class BookmarkMenuComponent implements OnInit {
 
   @ViewChild('menu') public matMenu: MatMenu;
 
-  public currentCollections = '';
-
   public constructor(
     public dialog: MatDialog,
     private bookmarkService: ArlasBookmarkService,
@@ -56,7 +54,6 @@ export class BookmarkMenuComponent implements OnInit {
 
   public ngOnInit(): void {
     this.icon = this.icon ? this.icon : 'view_list';
-    this.currentCollections = Array.from(this.startupService.collectionsMap.keys()).sort().join(',');
   }
 
   public openDatasetListDialog() {

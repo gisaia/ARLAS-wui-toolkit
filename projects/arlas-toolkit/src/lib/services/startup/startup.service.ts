@@ -214,6 +214,18 @@ export class ArlasCollaborativesearchService extends CollaborativesearchService 
     return dataModel;
   }
 
+  public getCollectionsFromFilters(dataModel): Set<string> {
+    const collections = new Set<string>();
+    Object.keys(dataModel).forEach(k => {
+      const collab = dataModel[k];
+      if (collab && collab.filters) {
+        const filters = collab.filters as Map<string, any>;
+        Array.from(filters.keys()).forEach(c => collections.add(c));
+      }
+    });
+    return collections;
+  }
+
   public getFilters(collection: string): Array<Filter> {
     const filters: Filter[] = [];
     Array.from(this.collaborations.values()).forEach(c => {

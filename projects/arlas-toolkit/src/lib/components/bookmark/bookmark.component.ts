@@ -46,7 +46,7 @@ export class BookmarkComponent {
   public pageNumber = 1;
 
   public isPersistenceActive = false;
-  public currentCollections = '';
+  public currentCollectionsSet = new Set<string>();
 
   @Output() public actions: Subject<{ action: string; id: string; geometry?: any; }> = new Subject<any>();
 
@@ -64,7 +64,7 @@ export class BookmarkComponent {
       this.showCombine = false;
     }
 
-    this.currentCollections = Array.from(this.arlasCollaborativesearchService.collections).sort().join(',');
+    this.currentCollectionsSet = new Set(this.arlasCollaborativesearchService.collections);
     // Init component with data from persistence server, if defined and server is reachable
     if (this.bookmarkService.dataBase instanceof BookmarkPersistenceDatabase) {
       this.isPersistenceActive = true;
@@ -73,29 +73,29 @@ export class BookmarkComponent {
       (this.bookmarkService.dataBase as BookmarkPersistenceDatabase).dataChange
         .subscribe((data: { total: number; items: BookMark[]; }) => {
           this.resultsLength = data.total;
-          this.bookmarks = data.items.filter(bk => {
-            if (bk.collections) {
-              const sortedCollections = bk.collections.split(',').sort().join(',');
-              return sortedCollections === this.currentCollections;
-            } else {
-              return false;
-            }
-          });
+          this.bookmarks = this.getDisplayableBookmarks(data.items);
         });
     } else {
       (this.bookmarkService.dataBase).dataChange
         .subscribe((data: BookMark[]) => {
           this.resultsLength = data.length;
-          this.bookmarks = data.filter(bk => {
-            if (bk.collections) {
-              const sortedCollections = bk.collections.split(',').sort().join(',');
-              return sortedCollections === this.currentCollections;
-            } else {
-              return false;
-            }
-          });
+          this.bookmarks = this.getDisplayableBookmarks(data);
         });
     }
+  }
+
+  public getDisplayableBookmarks(items: BookMark[]) {
+    return items.filter(bk => {
+      let allBookmarksCollectionsPresent = true;
+      if (bk.collections) {
+        const bookmarCollections = bk.collections.split(',');
+        const absent = bookmarCollections.find(bc => !this.currentCollectionsSet.has(bc));
+        allBookmarksCollectionsPresent = !absent;
+        return allBookmarksCollectionsPresent;
+      } else {
+        return false;
+      }
+    });
   }
 
   public getBookmarksList() {
