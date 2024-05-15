@@ -1,5 +1,13 @@
 # Change Log
 
+## [v25.0.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v25.0.0) (2024-05-15)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v25.0.0-rc.7...v25.0.0)
+
+**Fixed bugs:**
+
+- Bookmarks disappear when we change collections of a dashboard [\#719](https://github.com/gisaia/ARLAS-wui-toolkit/issues/719)
+
 ## [v25.0.0-rc.7](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v25.0.0-rc.7) (2024-05-14)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v25.0.0-rc.6...v25.0.0-rc.7)
