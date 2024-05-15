@@ -55,7 +55,6 @@ export class VerifyComponent implements OnInit {
         }
       },
       error: err => {
-        this.displayForm  = false;
         err.json().then(e => {
           if (e.message === 'User already verified.'){
             this.validateForm.setErrors({

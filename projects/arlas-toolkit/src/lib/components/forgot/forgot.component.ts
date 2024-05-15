@@ -36,7 +36,6 @@ export class ForgotComponent implements OnInit {
       error: err => {
         // API respond with error (but the resquest is OK)
         this.validated = true;
-        this.displayForm  = false;
       }
     });
   }

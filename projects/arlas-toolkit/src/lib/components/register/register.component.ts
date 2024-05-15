@@ -34,7 +34,6 @@ export class RegisterComponent implements OnInit {
         this.validated = true;
       },
       error: err => {
-        this.displayForm = false;
         this.signUpForm.setErrors({
           alreadyExist: true
         });
