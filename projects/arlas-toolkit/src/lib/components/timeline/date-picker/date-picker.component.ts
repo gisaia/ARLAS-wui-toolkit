@@ -76,6 +76,14 @@ export class DatePickerComponent implements OnInit, OnChanges {
       this.timelineContributor = <HistogramContributor>
         this.arlasStartupService.contributorRegistry.get(this.timelineComponent.contributorId);
       this.timelineContributor.updateData = true;
+
+      // Sometimes the Inputs are received before the OnInit hook and thus don't trigger onChanges
+      if (this.startSelectedDate) {
+        this.startSelectedMoment = this.convertDateToMoment(this.startSelectedDate);
+      }
+      if (this.endSelectedDate) {
+        this.endSelectedMoment = this.convertDateToMoment(this.endSelectedDate);
+      }
     }
   }
 
