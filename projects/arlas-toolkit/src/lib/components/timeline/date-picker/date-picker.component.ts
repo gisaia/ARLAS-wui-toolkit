@@ -34,7 +34,7 @@ const moment = (_moment as any).default ? (_moment as any).default : _moment;
 @Component({
   selector: 'arlas-tool-date-picker',
   templateUrl: './date-picker.component.html',
-  styleUrls: ['./date-picker.component.css'],
+  styleUrls: ['./date-picker.component.scss'],
   providers: [
     { provide: DateTimeAdapter, useClass: MomentDateTimeAdapter, deps: [OWL_DATE_TIME_LOCALE] }
   ]
