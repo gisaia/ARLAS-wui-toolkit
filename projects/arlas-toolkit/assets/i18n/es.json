@@ -128,6 +128,8 @@
 	"Types": "Tipos",
 	"are excluded": "están excluidos",
 	"Download": "Descargar",
+	"Downloading Geojson file": "Descargando - Geojson",
+	"Downloading Shapefile": "Descargando - Shapefile",
 	"Download Geojson": "Descargar - Geojson",
 	"Click to download the chosen layer as a Geojson file": "Haga clic para descargar la capa seleccionada en formato Geojson",
 	"Download Shapefile": "Descargar - Shapefile",
