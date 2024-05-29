@@ -1,4 +1,4 @@
-<div class="container" [class.hide]="hide" [class.container-long_text]="!shortenValues" (click)="$event.stopPropagation()">
-    <div class="label" [class.label-no_wrap]="!shortenValues">{{ label | translate }}</div>
+<div class="container" [class.hide]="hide" [class.container--long-text]="!shortenValues" (click)="$event.stopPropagation()">
+    <div class="label" [class.label--no-wrap]="!shortenValues">{{ label | translate }}</div>
     <mat-icon class="clear" (click)="clear($event)">clear</mat-icon>
 </div>

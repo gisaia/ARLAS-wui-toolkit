@@ -15,7 +15,7 @@
         border: 1px solid #fff;
     }
 
-    &-long_text {
+    &--long-text {
         max-width: unset;
     }
 
@@ -27,7 +27,7 @@
         text-overflow: ellipsis;
         width: 90%;
 
-        &-no_wrap {
+        &--no-wrap {
             overflow: unset;
         }
     }
