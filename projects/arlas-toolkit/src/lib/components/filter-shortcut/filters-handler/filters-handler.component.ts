@@ -17,7 +17,7 @@
  * under the License.
  */
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ArlasCollaborativesearchService } from '../../../services/startup/startup.service';
 import { Filter, Expression } from 'arlas-api';
 import * as _moment from 'moment';
@@ -27,14 +27,15 @@ import { HistogramContributor } from 'arlas-web-contributors';
 import { Collaboration } from 'arlas-web-core';
 import { TranslateService } from '@ngx-translate/core';
 import { HistogramUtils, HistogramParams } from 'arlas-d3';
-import { ChartType, DataType, ShortenNumberPipe } from 'arlas-web-components';
+import { ChartType, DataType } from 'arlas-web-components';
 import { numberToShortString } from '../filter-shortcut.utils';
+import { Subject, takeUntil } from 'rxjs';
 const moment = (_moment as any).default ? (_moment as any).default : _moment;
 
 @Component({
   selector: 'arlas-shortcut-filters-handler',
   templateUrl: './filters-handler.component.html',
-  styleUrls: ['./filters-handler.component.css'],
+  styleUrls: ['./filters-handler.component.scss'],
   animations: [
     trigger('fadeInOut', [
       state('void', style({ opacity: 0 })), // Initial state when element is not present
@@ -46,7 +47,7 @@ const moment = (_moment as any).default ? (_moment as any).default : _moment;
     { provide: DateTimeAdapter, useClass: MomentDateTimeAdapter, deps: [OWL_DATE_TIME_LOCALE] }
   ]
 })
-export class ShortcutFiltersHandlerComponent implements OnInit {
+export class ShortcutFiltersHandlerComponent implements OnInit, OnDestroy {
   /**
    * @Input : Angular
    * @description The contributor Id of the shortcut
@@ -89,13 +90,13 @@ export class ShortcutFiltersHandlerComponent implements OnInit {
   public moreClicked = false;
 
   public labels: string[];
+  public rawLabels: string[];
   public firstLabel: string | undefined;
 
-  public constructor(private collaborativeSearchService: ArlasCollaborativesearchService,
-    private translate: TranslateService,
-    private shortenNumberPipe: ShortenNumberPipe) {
+  private _onDestroy$ = new Subject<boolean>();
 
-  }
+  public constructor(private collaborativeSearchService: ArlasCollaborativesearchService,
+    private translate: TranslateService) { }
 
   public ngOnInit(): void {
     // Check if collaboration already occured (useful when moving the shortcut from a list to another)
@@ -103,12 +104,19 @@ export class ShortcutFiltersHandlerComponent implements OnInit {
     this.checkCollaboration(collaboration);
 
     // Check if collaboration occurs during the lifetime of the shortcut
-    this.collaborativeSearchService.collaborationBus.subscribe(collaborationBus => {
-      const collaboration = this.collaborativeSearchService.getCollaboration(this.contributorId);
-      this.checkCollaboration(collaboration);
-    });
+    this.collaborativeSearchService.collaborationBus
+      .pipe(takeUntil(this._onDestroy$))
+      .subscribe(collaborationBus => {
+        const collaboration = this.collaborativeSearchService.getCollaboration(this.contributorId);
+        this.checkCollaboration(collaboration);
+      });
 
     this.setHistogramParams();
+  }
+
+  public ngOnDestroy() {
+    this._onDestroy$.next(true);
+    this._onDestroy$.complete();
   }
 
   public showFilters(clickEvent: Event) {
@@ -116,34 +124,37 @@ export class ShortcutFiltersHandlerComponent implements OnInit {
     this.moreClicked = !this.moreClicked;
   }
 
-  public clearFilter(label: string) {
-    if (this.widgetType === 'powerbars') {
-      this.labels = this.labels.map(l => l.replace('≠', '')).filter(l => l !== label);
-      if (this.labels.length > 0) {
-        this.firstLabel = this.labels[0];
+  public clearFilter(label: string, idx: number) {
+    this.labels = this.labels.map(l => l.replace('≠', '')).filter(l => l !== label);
+    this.rawLabels.splice(idx, 1);
+
+    if (this.labels.length > 0) {
+      this.firstLabel = this.labels[0];
+      if (this.widgetType === 'powerbars') {
         this.showMore = !this.displayFilterFirstValue || this.labels.length > 1;
         /** hide list when there is one label left */
-        if (this.moreClicked && this.labels.length <= 1) {
+        if (this.displayFilterFirstValue && this.labels.length <= 1) {
           this.moreClicked = false;
         }
-        const collaboration = this.collaborativeSearchService.getCollaboration(this.contributorId);
-        if (collaboration) {
-          const filters: Filter[] = collaboration.filters.values().next().value;
-          if (filters && filters.length > 0) {
-            const filterF: Expression[] = filters[0].f[0];
-            if (filterF && filterF.length > 0) {
-              const expression = filterF[0];
-              expression.value = this.labels.map(l => l.replace('≠', '')).join(',');
-              this.collaborativeSearchService.setFilter(this.contributorId, collaboration);
-            }
+      } else {
+        this.showMore = !this.displayFilterFirstValue;
+      }
+
+      const collaboration = this.collaborativeSearchService.getCollaboration(this.contributorId);
+      if (collaboration) {
+        const filters: Filter[] = collaboration.filters.values().next().value;
+        if (filters && filters.length > 0) {
+          const filterF: Expression[] = filters[0].f[0];
+          if (filterF && filterF.length > 0) {
+            const expression = filterF[0];
+            expression.value = this.rawLabels.join(',');
+            this.collaborativeSearchService.setFilter(this.contributorId, collaboration);
           }
         }
-      } else {
-        this.firstLabel = undefined;
-        this.labels = [];
-        this.collaborativeSearchService.removeFilter(this.contributorId);
       }
     } else {
+      this.firstLabel = undefined;
+      this.labels = [];
       this.collaborativeSearchService.removeFilter(this.contributorId);
     }
   }
@@ -151,6 +162,7 @@ export class ShortcutFiltersHandlerComponent implements OnInit {
   private checkCollaboration(collaboration: Collaboration): void {
     this.firstLabel = undefined;
     this.labels = [];
+
     if (collaboration) {
       const filters: Filter[] = collaboration.filters.values().next().value;
       if (filters && filters.length > 0) {
@@ -167,6 +179,8 @@ export class ShortcutFiltersHandlerComponent implements OnInit {
   }
 
   private setLabels(widgetType: string, expression: Expression) {
+    this.rawLabels = expression.value.split(',');
+
     if (widgetType === 'powerbars') {
       this.labels = expression.value.split(',');
       if (expression.op === Expression.OpEnum.Ne) {
@@ -177,27 +191,23 @@ export class ShortcutFiltersHandlerComponent implements OnInit {
         this.showMore = !this.displayFilterFirstValue || this.labels.length > 1;
       }
     } else {
-      const startEnd = expression.value.replace('[', '').replace(']', '').split('<');
-
-      if (this.histogramDatatype === 'time') {
-        // Truncate the hours since this is a shortcut
-        const start = HistogramUtils.toString(new Date(+startEnd[0]), this.histogramParams).slice(0, -6);
-        const end = HistogramUtils.toString(new Date(+startEnd[1]), this.histogramParams).slice(0, -6);
-
-        this.firstLabel = `${start} - ${end}`;
-      } else {
-        // If the number is small, truncate it to only have the first two digits
-        const start = numberToShortString(+startEnd[0]);
-        const end = numberToShortString(+startEnd[1]);
-
-        this.firstLabel = `${start} ${this.translate.instant('to')} ${end}`;
-        if (this.histogramUnit) {
-          this.firstLabel += ' ' + this.histogramUnit;
-        }
-      }
+      expression.value.split(',')
+        .map(interval => interval.replace('[', '').replace(']', ''))
+        .forEach(interval => {
+          const startEnd = interval.split('<');
+          if (startEnd.length !== 2) {
+            // Should never happen since ARLAS builds the intervals properly
+            console.error('Interval is badly constructed: ' + startEnd);
+          } else {
+            this.labels.push(this.histogramSelectionToLabel(startEnd));
+          }
+        });
 
       this.showMore = !this.displayFilterFirstValue;
-      this.labels = [this.firstLabel];
+    }
+
+    if (this.labels && this.labels.length > 0) {
+      this.firstLabel = this.labels[0];
     }
   }
 
@@ -209,6 +219,28 @@ export class ShortcutFiltersHandlerComponent implements OnInit {
     this.histogramParams.useUtc = contributor.useUtc;
     this.histogramParams.dataType = this.histogramDatatype === 'time' ? DataType.time : DataType.numeric;
     this.histogramParams.valuesDateFormat = this.ticksDateFormat;
+  }
+
+  private histogramSelectionToLabel(startEnd: Array<string>) {
+    let label: string;
+    if (this.histogramDatatype === 'time') {
+      // Truncate the hours since this is a shortcut
+      const start = HistogramUtils.toString(new Date(+startEnd[0]), this.histogramParams).slice(0, -6);
+      const end = HistogramUtils.toString(new Date(+startEnd[1]), this.histogramParams).slice(0, -6);
+
+      label = `${start} - ${end}`;
+    } else {
+      // If the number is small, truncate it to only have the first two digits
+      const start = numberToShortString(+startEnd[0]);
+      const end = numberToShortString(+startEnd[1]);
+
+      label = `${start} ${this.translate.instant('to')} ${end}`;
+      if (this.histogramUnit) {
+        label += ' ' + this.histogramUnit;
+      }
+    }
+
+    return label;
   }
 
 }

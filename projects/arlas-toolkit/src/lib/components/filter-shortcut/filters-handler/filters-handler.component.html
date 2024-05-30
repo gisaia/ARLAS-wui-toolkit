@@ -4,17 +4,17 @@
         [hide]="moreClicked"
         [label]="firstLabel"
         [shortenValues]="!histogramDatatype"
-        (clearEmitter)="clearFilter($event)"></arlas-filter-shortcut-chip>
-    <div class="more" [@fadeInOut] [class.expanded_more]="moreClicked" *ngIf="showMore" (click)="showFilters($event)">
+        (clearEmitter)="clearFilter($event, 0)"></arlas-filter-shortcut-chip>
+    <div class="more" [@fadeInOut] [class.more--expanded]="moreClicked" *ngIf="showMore" (click)="showFilters($event)">
         <span [@fadeInOut] *ngIf="!moreClicked">{{displayFilterFirstValue ? +(labels?.length - 1) : labels?.length}}</span>
         <mat-icon [@fadeInOut] class="collapse" *ngIf="moreClicked">expand_less</mat-icon>
     </div>
     <div class="list" [@fadeInOut] *ngIf="moreClicked">
-        <div *ngFor="let label of labels" class="filter">
-            <arlas-filter-shortcut-chip 
+        <div *ngFor="let label of labels; let idx = idx" class="filter">
+            <arlas-filter-shortcut-chip
                 [label]="label"
                 [shortenValues]="!histogramDatatype"
-                (clearEmitter)="clearFilter($event)"
+                (clearEmitter)="clearFilter($event, idx)"
                 ></arlas-filter-shortcut-chip>
         </div>
     </div>

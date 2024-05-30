@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FilterShortcutConfiguration } from './filter-shortcut.utils';
 import { ArlasCollaborativesearchService } from '../../services/startup/startup.service';
 import { OperationEnum, Contributor } from 'arlas-web-core';

@@ -19,7 +19,6 @@
 
 import { WidgetConfiguration } from '../../tools/utils';
 import { numberToShortValue } from 'arlas-web-components';
-import { Contributor } from 'arlas-web-core';
 
 export interface FilterShortcutConfiguration {
   uuid: string;

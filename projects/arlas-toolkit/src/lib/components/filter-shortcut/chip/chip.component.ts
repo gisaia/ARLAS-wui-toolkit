@@ -16,15 +16,15 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'arlas-filter-shortcut-chip',
   templateUrl: './chip.component.html',
-  styleUrls: ['./chip.component.css']
+  styleUrls: ['./chip.component.scss']
 })
 export class FilterShortcutChipComponent {
-  @Input() public label;
+  @Input() public label: string;
   @Input() public hide = false;
   @Input() public shortenValues = true;
   @Output() public clearEmitter: EventEmitter<string> = new EventEmitter();
