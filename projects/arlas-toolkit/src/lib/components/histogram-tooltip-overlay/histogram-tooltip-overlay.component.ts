@@ -21,6 +21,7 @@
 import { Component, Inject } from '@angular/core';
 import { ArlasOverlayRef, HISTOGRAM_TOOLTIP_DATA } from '../../tools/utils';
 import { HistogramTooltip } from 'arlas-web-components';
+import moment from 'moment';
 
 @Component({
   selector: 'arlas-histogram-tooltip-overlay',
@@ -28,7 +29,43 @@ import { HistogramTooltip } from 'arlas-web-components';
   styleUrls: ['./histogram-tooltip-overlay.component.css']
 })
 export class HistogramTooltipOverlayComponent {
+  public interval: {
+    start: Date | number;
+    end: Date | number;
+  };
 
-  public constructor(public overlayRef: ArlasOverlayRef, @Inject(HISTOGRAM_TOOLTIP_DATA) public tooltip: HistogramTooltip) {}
+  public constructor(public overlayRef: ArlasOverlayRef, @Inject(HISTOGRAM_TOOLTIP_DATA) public tooltip: HistogramTooltip) {
+    this.calculateDate();
+  }
+
+
+  public calculateDate(){
+    if(this.tooltip.dataType === 'time'){
+      const start =  new Date(this.tooltip.xValue);
+      const end = moment(start, 'DD MMMM YYYY', true).add(this.tooltip.xRange.value, 'd').toDate();
+      this.interval = {
+        start,
+        end,
+      };
+    } else if(this.tooltip.dataType === 'numeric'){
+      const start =  this.transformStringToNumber(this.tooltip.xValue as (string | number));
+      let end = start;
+      if(this.tooltip.xRange.value){
+        end +=  this.transformStringToNumber(this.tooltip.xRange.value as (string | number));
+      }
+      this.interval = {
+        start,
+        end
+      };
+    }
+  }
+
+  public transformStringToNumber (value: string | number) {
+    if((typeof value === 'number')) {
+      return value;
+    }
+    value = value.replace(/\s/g, '');
+    return Number(value);
+  }
 
 }

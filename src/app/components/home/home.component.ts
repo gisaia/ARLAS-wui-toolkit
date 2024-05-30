@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FilterShortcutConfiguration } from '../../../../projects/arlas-toolkit/src/lib/components/filter-shortcut/filter-shortcut.utils';
 import { TimelineConfiguration } from '../../../../projects/arlas-toolkit/src/lib/components/timeline/timeline/timeline.utils';
 import {
@@ -10,7 +10,7 @@ import {
 } from '../../../../projects/arlas-toolkit/src/lib/services/startup/startup.service';
 import { AuthentSetting, CollectionUnit, SpinnerOptions } from '../../../../projects/arlas-toolkit/src/lib/tools/utils';
 import { ChipsSearchContributor } from 'arlas-web-contributors';
-import { AnalyticsService } from '../../../../projects/arlas-toolkit/src/public-api';
+import { AnalyticsService, ArlasOverlayService } from '../../../../projects/arlas-toolkit/src/public-api';
 import packageJson from '../../../../package.json';
 import { fromEvent } from 'rxjs';
 import { DEFAULT_SPINNER_OPTIONS } from '../../../../projects/arlas-toolkit/src/lib/components/progress-spinner/progress-spinner.component';
@@ -44,12 +44,15 @@ export class HomeComponent implements OnInit {
   public windowWidth = window.innerWidth;
   public spinnerOptions: SpinnerOptions = DEFAULT_SPINNER_OPTIONS;
 
+  @ViewChild('tooltip') t
+
   public constructor(
     private arlasStartupService: ArlasStartupService,
     private arlasConfigService: ArlasConfigService,
     private arlasIamService: ArlasIamService,
     private arlasAuthentService: ArlasAuthentificationService,
-    private analyticsService: AnalyticsService
+    private analyticsService: AnalyticsService,
+    private arlasOverlayService: ArlasOverlayService
   ) {
 
   }
@@ -82,6 +85,59 @@ export class HomeComponent implements OnInit {
         // AUTH 0
       }
     }
+
+    /**
+     * to test tooltip
+     */
+    const noTime = {
+       'xValue': '3 600',
+       'xRange': {
+         'value': 600,
+         'unit': 'interval (600)'
+       },
+       'dataType': 'numeric',
+       'y': [
+         {
+           'value': '109 588',
+           'chartId': 'demo_flickr',
+           'color': '#e2c922'
+         }
+       ],
+       'shown': true,
+       'xPosition': 107.0312385559082,
+       'yPosition': 72.58331298828125,
+       'chartWidth': 445,
+       'title': 'Height',
+       'xLabel': 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
+       'yLabel': 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
+       'xUnit': 'voiture',
+       'yUnit': 'velo'
+     };
+    const time = {
+      'xValue': '25 December 2016',
+      'xRange': {
+        'value': 60,
+        'unit': 'days (~ 2 months)'
+      },
+      'dataType': 'time',
+      'y': [
+        {
+          'value': '7 538',
+          'chartId': 'demo_algoe',
+          'color': '#c12e45'
+        }
+      ],
+      'shown': true,
+      'xPosition': 849.0138549804688,
+      'yPosition': 80.01388549804688,
+      'chartWidth': 2101,
+      'title': 'Timeline',
+      'xLabel': 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
+      'yLabel': 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
+      'xUnit': 'voiture',
+      'yUnit': 'velo'
+    };
+    this.arlasOverlayService.openHistogramTooltip({ data: time }, this.t, 0, 0, false);
 
     fromEvent(window, 'resize')
       .subscribe((event: Event) => {
