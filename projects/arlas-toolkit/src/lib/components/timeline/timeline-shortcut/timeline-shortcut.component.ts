@@ -47,7 +47,13 @@ export class TimelineShortcutComponent implements OnInit {
    * @Output : Angular
    * @description Emits when the value of isDisplayHistogram changes
    */
-  @Output() public isDisplayHistogramChange: EventEmitter<boolean> = new EventEmitter();
+  @Output() public isDisplayHistogramChange = new EventEmitter();
+
+  /**
+   * @Output : Angular
+   * @description Emits when the timeline collaboration is removed
+   */
+  @Output() public removeCollaboration = new EventEmitter<void>();
 
   public timelineContributor: HistogramContributor;
   public timeShortcuts: Array<StringifiedTimeShortcut>;
@@ -121,7 +127,7 @@ export class TimelineShortcutComponent implements OnInit {
   public removeTimelineCollaboration(): void {
     this.showRemoveIcon = false;
     this.isShortcutSelected = false;
-    this.arlasCollaborativesearchService.removeFilter(this.timelineComponent.contributorId);
+    this.removeCollaboration.next();
   }
 
   /**

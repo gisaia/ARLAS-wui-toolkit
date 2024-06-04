@@ -1,6 +1,7 @@
 <arlas-timeline-shortcut class="arlas-timeline--timeshortcuts" [activeDatePicker]="activeDatePicker"
     [timelineComponent]="timelineComponent" [dateFormat]="timelineComponent?.dateFormat"
-    [isDisplayHistogram]="isDisplayHistogram" (isDisplayHistogramChange)="toggleTimeline()"></arlas-timeline-shortcut>
+    [isDisplayHistogram]="isDisplayHistogram" (isDisplayHistogramChange)="toggleTimeline()"
+    (removeCollaboration)="onRemoveCollaboration()"></arlas-timeline-shortcut>
 
 <div class="arlas-timeline--container" *ngIf="isDisplayHistogram" #arlasTimeline>
   <div class="arlas-timeline--legend" *ngIf="!!timelineLegend && timelineLegend.length > 1">
