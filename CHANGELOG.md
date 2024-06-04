@@ -1,20 +1,16 @@
 # Change Log
 
+## [v25.0.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v25.0.1) (2024-06-04)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v25.0.0...v25.0.1)
+
 ## [v25.0.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v25.0.0) (2024-05-15)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v25.0.0-rc.7...v25.0.0)
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v25.0.0-rc.5...v25.0.0)
 
 **Fixed bugs:**
 
 - Bookmarks disappear when we change collections of a dashboard [\#719](https://github.com/gisaia/ARLAS-wui-toolkit/issues/719)
-
-## [v25.0.0-rc.7](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v25.0.0-rc.7) (2024-05-14)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v25.0.0-rc.6...v25.0.0-rc.7)
-
-## [v25.0.0-rc.6](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v25.0.0-rc.6) (2024-05-14)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v25.0.0-rc.5...v25.0.0-rc.6)
 
 ## [v25.0.0-rc.5](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v25.0.0-rc.5) (2024-05-14)
 
@@ -43,6 +39,7 @@
 **Fixed bugs:**
 
 - Display change password action for iam [\#783](https://github.com/gisaia/ARLAS-wui-toolkit/issues/783)
+- Login error prompts the error modal to appear [\#777](https://github.com/gisaia/ARLAS-wui-toolkit/issues/777)
 
 ## [v25.0.0-rc.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v25.0.0-rc.1) (2024-05-03)
 
