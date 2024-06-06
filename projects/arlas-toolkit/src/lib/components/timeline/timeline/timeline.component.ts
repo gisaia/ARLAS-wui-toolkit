@@ -24,7 +24,7 @@ import { ArlasCollaborativesearchService, ArlasStartupService } from '../../../s
 import { SelectedOutputValues } from 'arlas-web-contributors/models/models';
 import { ChartType, DataType, Position, HistogramTooltip } from 'arlas-d3';
 import { ArlasColorService, HistogramComponent } from 'arlas-web-components';
-import { filter, takeUntil } from 'rxjs/operators';
+import { filter, take, takeUntil } from 'rxjs/operators';
 import { CollectionLegend, TimelineConfiguration } from './timeline.utils';
 import { ArlasOverlayService } from '../../../services/overlays/overlay.service';
 import { ArlasOverlayRef, CollectionUnit, getCollectionUnit } from '../../../tools/utils';
@@ -132,6 +132,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
           });
         });
       }
+
       this.timelineContributor.chartDataEvent
         .pipe(takeUntil(this._onDestroy$))
         .subscribe(chartData => {
@@ -139,27 +140,19 @@ export class TimelineComponent implements OnInit, OnDestroy {
             const collectionLegend = this.timelineLegend.find(t => t.collection === cd.chartId);
             return !!collectionLegend && collectionLegend.active;
           });
+
+          // Set timeline contributor's data to reflect selection of legend
+          this.timelineContributor.setSelection(this.timelineData,
+            this.arlasCollaborativesearchService.collaborations.get(this.timelineContributor.identifier));
         });
+
       if (this.detailedTimelineComponent) {
         this.detailedTimelineComponent.input.chartHeight = 76;
         this.resetHistogramsInputs(this.detailedTimelineComponent.input);
         this.detailedTimelineContributor = <DetailedHistogramContributor>this.arlasStartupService.contributorRegistry
           .get(this.detailedTimelineComponent.contributorId);
         this.detailedTimelineContributor.updateData = false;
-        this.timelineContributor.endCollaborationEvent
-          .pipe(takeUntil(this._onDestroy$))
-          .subscribe(() => {
-            this.timelineContributor.setSelection(this.timelineData,
-              this.arlasCollaborativesearchService.collaborations.get(this.timelineContributor.identifier));
-          });
-        this.detailedTimelineContributor.chartDataEvent
-          .pipe(takeUntil(this._onDestroy$))
-          .subscribe(chartData => {
-            this.detailedTimelineData = chartData.filter(cd => {
-              const collectionLegend = this.timelineLegend.find(t => t.collection === cd.chartId);
-              return !!collectionLegend && collectionLegend.active;
-            });
-          });
+
         this.showDetailedTimelineOnCollaborationEnd();
       }
     }
@@ -186,6 +179,10 @@ export class TimelineComponent implements OnInit, OnDestroy {
    * @param selections List containing only the current selection of detailed timeline
    */
   public onTimelineIntervalBrushed(selections: SelectedOutputValues[]): void {
+    // Once we bruch the main timeline, we want the detailed one to be able to pick up collaborations again
+    if (!!this.detailedTimelineContributor) {
+      this.detailedTimelineContributor.updateData = true;
+    }
     this.timelineContributor.valueChanged(selections, this.timelineContributor.getAllCollections());
   }
 
@@ -270,45 +267,45 @@ export class TimelineComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * At the end of the collaboration of the Timeline Contributor, hides the timeline if the collaboration removed the filter.
+   * If it added one, then asks the Detailed Timeline Contributor to update its data, to then check if the detailed timeline should display.
+   */
   private showDetailedTimelineOnCollaborationEnd(): void {
-    this.arlasCollaborativesearchService.collaborationBus
-      .pipe(
-        takeUntil(this._onDestroy$),
-        filter(c => (((this.timelineComponent && c.id === this.timelineComponent.contributorId) || c.all)
-          && !!this.timelineHistogramComponent)))
+    this.detailedTimelineContributor.chartDataEvent
+      .pipe(takeUntil(this._onDestroy$))
+      .subscribe(chartData => {
+        this.detailedTimelineData = chartData.filter(cd => {
+          const collectionLegend = this.timelineLegend.find(t => t.collection === cd.chartId);
+          return !!collectionLegend && collectionLegend.active;
+        });
+        this.hideShowDetailedTimeline();
+      });
+
+    this.timelineContributor.endCollaborationEvent
+      .pipe(takeUntil(this._onDestroy$))
       .subscribe(c => {
         if (c.operation === OperationEnum.remove) {
           this.timelineIsFiltered = false;
           this.hideDetailedTimeline();
-          this.timelineHistogramComponent.histogram.histogramParams.chartHeight = this.timelineComponent.input.chartHeight;
-          this.timelineHistogramComponent.resizeHistogram();
         } else if (c.operation === OperationEnum.add) {
           this.timelineIsFiltered = this.arlasCollaborativesearchService.
             collaborations.has(this.timelineComponent.contributorId);
           if (this.timelineIsFiltered) {
             this.detailedTimelineContributor.updateData = true;
-            this.detailedTimelineContributor.fetchData(c).subscribe(() => this.hideShowDetailedTimeline());
+            this.detailedTimelineContributor.updateFromCollaboration(c);
           }
         }
       });
+  }
 
-    this.timelineContributor.chartDataEvent
-      .pipe(takeUntil(this._onDestroy$))
-      .subscribe(() => {
-        if (this.timelineIsFiltered) {
-          if (!!this.detailedTimelineContributor && !!this.detailedTimelineData) {
-            if (this.detailedTimelineData.length === 0) {
-              this.hideDetailedTimeline();
-              this.timelineHistogramComponent.histogram.histogramParams.chartHeight = this.timelineComponent.input.chartHeight;
-              this.timelineHistogramComponent.resizeHistogram();
-            } else {
-              this.hideShowDetailedTimeline();
-            }
-          } else {
-            this.hideShowDetailedTimeline();
-          }
-        }
-      });
+  /**
+   * On the event sent by the timeline-tools, remove the timeline collaboration and hide the detailed timeline
+   */
+  protected onRemoveCollaboration() {
+    this.arlasCollaborativesearchService.removeFilter(this.timelineComponent.contributorId);
+    this.timelineIsFiltered = false;
+    this.hideDetailedTimeline();
   }
 
   public toggleTimeline() {
@@ -346,7 +343,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
       const l = d.length;
       detailedTimelineRange = (+d[l - 1].key) - (+d[0].key);
     }
-    // In case of the timeline is hidden
+    // In case if the timeline is hidden
     if (!!this.timelineHistogramComponent) {
       if (timelineRange !== undefined && detailedTimelineRange !== undefined) {
         const intervalSelection = (+this.timelineContributor.intervalSelection.endvalue -
@@ -369,10 +366,11 @@ export class TimelineComponent implements OnInit, OnDestroy {
           this.detailedTimelineIntervalSelection = { startvalue: select.startvalue, endvalue: select.endvalue };
           this.applicationFirstLoad = false;
         }
+        if (this.showDetailedTimeline && !!this.detailedTimelineHistogramComponent) {
+          this.detailedTimelineHistogramComponent.resizeHistogram();
+        }
       } else {
         this.hideDetailedTimeline();
-        this.timelineHistogramComponent.histogram.histogramParams.chartHeight = this.timelineComponent.input.chartHeight;
-        this.timelineHistogramComponent.resizeHistogram();
       }
     }
   }
@@ -395,6 +393,10 @@ export class TimelineComponent implements OnInit, OnDestroy {
     this.showDetailedTimeline = false;
     if (!!this.detailedTimelineContributor) {
       this.detailedTimelineContributor.updateData = false;
+    }
+    if (!!this.timelineHistogramComponent) {
+      this.timelineHistogramComponent.histogram.histogramParams.chartHeight = this.timelineComponent.input.chartHeight;
+      this.timelineHistogramComponent.resizeHistogram();
     }
   }
 }
