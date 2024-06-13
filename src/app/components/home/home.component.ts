@@ -44,7 +44,7 @@ export class HomeComponent implements OnInit {
   public windowWidth = window.innerWidth;
   public spinnerOptions: SpinnerOptions = DEFAULT_SPINNER_OPTIONS;
 
-  @ViewChild('tooltip') t
+  @ViewChild('tooltip') tooltip
 
   public constructor(
     private arlasStartupService: ArlasStartupService,
@@ -137,7 +137,7 @@ export class HomeComponent implements OnInit {
       'xUnit': 'voiture',
       'yUnit': 'velo'
     };
-    this.arlasOverlayService.openHistogramTooltip({ data: time }, this.t, 0, 0, false);
+    this.arlasOverlayService.openHistogramTooltip({ data: noTime }, this.tooltip, 0, 0, false);
 
     fromEvent(window, 'resize')
       .subscribe((event: Event) => {

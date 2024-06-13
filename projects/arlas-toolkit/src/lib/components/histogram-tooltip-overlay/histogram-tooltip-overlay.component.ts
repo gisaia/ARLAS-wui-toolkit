@@ -26,12 +26,12 @@ import moment from 'moment';
 @Component({
   selector: 'arlas-histogram-tooltip-overlay',
   templateUrl: './histogram-tooltip-overlay.component.html',
-  styleUrls: ['./histogram-tooltip-overlay.component.css']
+  styleUrls: ['./histogram-tooltip-overlay.component.scss']
 })
 export class HistogramTooltipOverlayComponent {
   public interval: {
-    start: Date | number;
-    end: Date | number;
+    start: Date | number | string;
+    end?: Date | number;
   };
 
   public constructor(public overlayRef: ArlasOverlayRef, @Inject(HISTOGRAM_TOOLTIP_DATA) public tooltip: HistogramTooltip) {
@@ -41,11 +41,9 @@ export class HistogramTooltipOverlayComponent {
 
   public calculateDate(){
     if(this.tooltip.dataType === 'time'){
-      const start =  new Date(this.tooltip.xValue);
-      const end = moment(start, 'DD MMMM YYYY', true).add(this.tooltip.xRange.value, 'd').toDate();
+      const start =  this.tooltip.xValue;
       this.interval = {
-        start,
-        end,
+        start
       };
     } else if(this.tooltip.dataType === 'numeric'){
       const start =  this.transformStringToNumber(this.tooltip.xValue as (string | number));
