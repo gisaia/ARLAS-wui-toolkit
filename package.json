@@ -95,6 +95,7 @@
     "jsonpath": false
   },
   "overrides": {
+    "braces":"3.0.3",
     "arlas-web-components": {
       "shpjs": "^4.0.4"
     },
