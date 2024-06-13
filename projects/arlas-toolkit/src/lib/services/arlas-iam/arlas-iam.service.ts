@@ -137,10 +137,12 @@ export class ArlasIamService extends ArlasAuthentificationService {
     // permit to obtain accessToken expiration date
     const accessToken = loginData.access_token;
     const jwtToken = JSON.parse(atob(accessToken.split('.')[1]));
-    const expires = new Date(jwtToken.exp * 1000);
-    // set a timeout to refresh the accessToken one minute before it expires
-    const timeout = expires.getTime() - Date.now() - (60 * 1000);
-    // todo: !! attention if the token expires in less than one minute !
+    const exp = jwtToken.exp;
+    const iat = jwtToken.iat;
+    const threshold = (exp-iat)/2;
+    const expires = new Date(exp * 1000);
+    // set a timeout to refresh the accessToken at de half life of the accessToken
+    const timeout = expires.getTime() - Date.now() - (threshold * 1000);
     // refresh accessToken when timeout ended (passing the refreshToken)
     // start the timer at 'timeout' which is the duration where the token is about to expire
     // repeat each 'timeout'
