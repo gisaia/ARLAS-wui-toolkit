@@ -31,6 +31,8 @@ import { ArlasCollaborativesearchService, ArlasStartupService } from '../startup
 import { BookmarkLocalDatabase } from './bookmarkLocalDatabase';
 import { BookmarkPersistenceDatabase } from './bookmarkPersistenceDatabase';
 import { BookMark, BookMarkType } from './model';
+import { ArlasSettingsService } from '../settings/arlas.settings.service';
+import { ArlasIamService } from '../arlas-iam/arlas-iam.service';
 
 /** Constants used to fill up our data base. */
 @Injectable()
@@ -44,16 +46,30 @@ export class ArlasBookmarkService {
     private activatedRoute: ActivatedRoute, public snackBar: MatSnackBar,
     public arlasStartupService: ArlasStartupService,
     private authentService: AuthentificationService,
+    private arlasIamService: ArlasIamService,
     private persistenceService: PersistenceService,
+    private settingsService: ArlasSettingsService,
     private router: Router) {
     if (this.arlasStartupService.shouldRunApp && !this.arlasStartupService.emptyMode) {
-      if (this.persistenceService.isAvailable && this.authentService.hasValidAccessToken() && this.authentService.hasValidIdToken()) {
+      const settings = this.settingsService.getSettings();
+      const useAuthent = !!settings && !!settings.authentication && !!settings.authentication.use_authent;
+      // The default behavior is openid, so if there is no auth_mode specified, it is openid
+      const useAuthentOpenID = useAuthent && settings.authentication.auth_mode !== 'iam';
+      const useAuthentIam = useAuthent && settings.authentication.auth_mode === 'iam';
+      let userConnected = false;
+      if(useAuthentOpenID){
+        userConnected = this.authentService.hasValidAccessToken() && this.authentService.hasValidIdToken();
+      }
+      if(useAuthentIam){
+        userConnected = !!this.arlasIamService.isAuthenticated();
+      }
+      if (this.persistenceService.isAvailable && userConnected ) {
         this.dataBase = new BookmarkPersistenceDatabase(this, this.persistenceService, this.arlasStartupService);
         this.dataBase.dataChange.subscribe(() => {
           this.bookMarkMap = this.dataBase.storageObjectMap;
         });
       } else {
-        this.dataBase = new BookmarkLocalDatabase(this, this.collaborativesearchService ,this.arlasStartupService);
+        this.dataBase = new BookmarkLocalDatabase(this, this.collaborativesearchService, this.arlasStartupService);
         this.dataBase.dataChange.subscribe(() => {
           this.bookMarkMap = this.dataBase.storageObjectMap;
         });

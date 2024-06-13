@@ -279,7 +279,6 @@ export class ArlasStartupService {
     private permissionService: PermissionService,
     private errorService: ErrorService, private fetchInterceptorService: FetchInterceptorService,
     private arlasIamService: ArlasIamService,
-    private arlasAuthService: ArlasAuthentificationService,
     private processService: ProcessService
   ) {
     this.configurationUpdaterService = new ArlasConfigurationUpdaterService;

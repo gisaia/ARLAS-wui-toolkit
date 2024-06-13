@@ -195,6 +195,10 @@ export class ArlasIamService extends ArlasAuthentificationService {
     }
   }
 
+  public isAuthenticated(){
+    return !!this.user;
+  }
+
   public areSettingsValid(authentSetting: AuthentSetting): [boolean, string] {
     let valid = true;
     const missingInfo = [];
@@ -241,8 +245,7 @@ export class ArlasIamService extends ArlasAuthentificationService {
       finalize(() => this.router.navigate(redirectPageAfterLogout).then(() => {
         window.location.reload();
       }))
-    ).subscribe();
-
+    ).subscribe(() => this.user = undefined);
   }
 
   public refresh(): Observable<LoginData> {
