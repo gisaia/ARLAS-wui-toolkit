@@ -7,6 +7,7 @@ authentication:
   force_connect: false
   threshold: 5000
   url: http://localhost:9997/arlas_iam_server
+  sign_up_enabled: true
 links:
   - name: Explorer
     icon: landscape

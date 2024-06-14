@@ -38,6 +38,7 @@ export class LoginComponent implements OnInit {
   public loginForm: FormGroup;
   public isLoading = false;
   public showPage = false;
+  public displayNoAccount = false;
 
   public constructor(
     private formBuilder: FormBuilder,
@@ -45,11 +46,13 @@ export class LoginComponent implements OnInit {
     private settingsService: ArlasSettingsService,
     private errorService: ErrorService,
     private router: Router
-  ) { }
+  ) {}
+
 
   public ngOnInit(): void {
     this.errorService.closeAll();
     const authSettings = this.settingsService.getAuthentSettings();
+    this.displayNoAccount = authSettings.sign_up_enabled;
     this.showPage = false;
     this.iamService.refresh().pipe(finalize(() => this.showPage = true)).subscribe({
       next: (loginData: LoginData) => {
