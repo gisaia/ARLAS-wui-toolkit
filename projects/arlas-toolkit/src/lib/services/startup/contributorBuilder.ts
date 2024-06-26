@@ -130,7 +130,6 @@ export class ContributorBuilder {
         }
       }
     });
-
     return collections;
   }
 }

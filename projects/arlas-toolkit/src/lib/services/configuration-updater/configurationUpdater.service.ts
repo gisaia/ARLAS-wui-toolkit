@@ -43,7 +43,7 @@ export class ArlasConfigurationUpdaterService {
         }
         /** check if aggregation model has a non-available field (in bucket aggregation AND metrics) */
         if (contributor.aggregationmodels) {
-          if (contributor.collection && availableFieldsPerCollection.has(contributor.collection) ) {
+          if (contributor.collection && availableFieldsPerCollection.has(contributor.collection)) {
             const availableFields = availableFieldsPerCollection.get(contributor.collection);
             contributor.aggregationmodels.forEach((am: Aggregation) => {
               if (!availableFields.has(am.field)) {
@@ -100,7 +100,7 @@ export class ArlasConfigurationUpdaterService {
         }
 
         /** chipssearch contributor */
-        if (contributor.type = 'chipssearch' && contributor.search_field) {
+        if (contributor.type === 'chipssearch' && contributor.search_field) {
           if (contributor.collection && availableFieldsPerCollection.has(contributor.collection)) {
             const availableFields = availableFieldsPerCollection.get(contributor.collection);
             if (!availableFields.has(contributor.search_field)) {
@@ -112,7 +112,7 @@ export class ArlasConfigurationUpdaterService {
         }
 
         /** resultlist contributor */
-        if (contributor.type = 'resultlist' && contributor.fieldsConfiguration) {
+        if (contributor.type === 'resultlist' && contributor.fieldsConfiguration) {
           if (contributor.collection && availableFieldsPerCollection.has(contributor.collection)) {
             const availableFields = availableFieldsPerCollection.get(contributor.collection);
             if (contributor.fieldsConfiguration.idFieldName
@@ -221,8 +221,13 @@ export class ArlasConfigurationUpdaterService {
       const mapComponentConfig = data.arlas.web.components.mapgl;
       if (mapComponentConfig && mapComponentConfig.input) {
         /** idFieldName is no longer used !! */
-        const layerSources = data.arlas.web.contributors.filter(contributor => contributor.type === 'map')
-          .map(l => l.layers_sources).reduce((l1, l2) => new Array(...l1, ...l2));
+        let layerSources = [];
+        const layerSourcesList = data.arlas.web.contributors.filter(contributor => contributor.type === 'map')
+          .map(l => l.layers_sources);
+        if (layerSourcesList && layerSourcesList.length > 0) {
+          /** reduce cannot be applied on an empty list. */
+          layerSources = layerSourcesList.reduce((l1, l2) => new Array(...l1, ...l2));
+        }
         /** remove layers from visualisation sets if their correponding source is removed from the contributor */
         if (layerSources) {
           const layers = new Set(layerSources.map(ls => ls.id));
@@ -343,11 +348,13 @@ export class ArlasConfigurationUpdaterService {
    */
   public updateHistogramContributors(data, availableFieldsPerCollection: Map<string, Set<string>>): any {
     if (data && data.arlas && data.arlas.web && data.arlas.web.contributors) {
-      data.arlas.web.contributors.filter(contributor => contributor.type === 'histogram').forEach(contributor => {
+      data.arlas.web.contributors.filter(contributor => contributor.type === 'histogram' ||
+        contributor.type === 'detailedhistogram'
+      ).forEach(contributor => {
         if (contributor.additionalCollections) {
-          contributor.additionalCollections = contributor.additionalCollections.filter(ac =>{
-            const availableFields = availableFieldsPerCollection.get(contributor.collection);
-            const hasCollection = availableFieldsPerCollection.has(contributor.collection);
+          contributor.additionalCollections = contributor.additionalCollections.filter(ac => {
+            const availableFields = availableFieldsPerCollection.get(ac.collectionName);
+            const hasCollection = availableFieldsPerCollection.has(ac.collectionName);
             const hasField = hasCollection && availableFields.has(ac.field);
             return hasField;
           });

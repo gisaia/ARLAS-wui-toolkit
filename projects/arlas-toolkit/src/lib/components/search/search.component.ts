@@ -79,10 +79,10 @@ export class SearchComponent implements OnInit, OnDestroy, OnChanges {
   public ngOnInit(): void {
     // Retrieve value from the url and future collaborations
     this.retrieveSearchValueSub = this.collaborativeService.collaborationBus.pipe(
-      filter(e => this.searchContributor.isMyOwnCollaboration(e) || e.id === 'url' || e.id === 'all')
+      filter(e => this.searchContributor?.isMyOwnCollaboration(e) || e.id === 'url' || e.id === 'all')
     ).subscribe(
       e => {
-        const collaboration = this.collaborativeService.getCollaboration(this.searchContributor.identifier);
+        const collaboration = this.collaborativeService.getCollaboration(this.searchContributor?.identifier);
         if (collaboration) {
           collaboration.filters.forEach((f, collection) => {
             let initSearchValue = '';
@@ -129,7 +129,7 @@ export class SearchComponent implements OnInit, OnDestroy, OnChanges {
         enabled: true
       };
 
-      this.collaborativeService.setFilter(this.searchContributor.identifier, collaboration);
+      this.collaborativeService.setFilter(this.searchContributor?.identifier, collaboration);
     }
   }
 
@@ -161,7 +161,7 @@ export class SearchComponent implements OnInit, OnDestroy, OnChanges {
 
   public clearSearch() {
     this.searchValue = this.searchPlaceholder;
-    this.collaborativeService.removeFilter(this.searchContributor.identifier);
+    this.collaborativeService.removeFilter(this.searchContributor?.identifier);
   }
 }
 
