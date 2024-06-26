@@ -41,7 +41,7 @@
     "angular-oauth2-oidc-jwks": "~14.0.1",
     "arlas-iam-api": "25.0.0",
     "arlas-permissions-api": "25.0.0",
-    "arlas-persistence-api": "25.0.0",
+    "arlas-persistence-api": "file:arlas-persistence-api-25.0.1-SNAPSHOT.tgz",
     "arlas-tagger-api": "25.0.0-beta.2",
     "arlas-web-components": "~25.0.2",
     "arlas-web-contributors": "~25.0.2",
