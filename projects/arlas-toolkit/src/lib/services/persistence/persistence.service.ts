@@ -67,8 +67,8 @@ export class PersistenceService {
     return from(this.persistenceApi.existsById(id, false, options));
   }
 
-  public list(zone: string, size: number, page: number, order: string, options = this.options): Observable<DataResource> {
-    return from(this.persistenceApi.list(zone, size, page, order, false, options));
+  public list(zone: string, size: number, page: number, order: string, key = undefined, options = this.options): Observable<DataResource> {
+    return from(this.persistenceApi.list(zone, size, page, order, false, key, options));
 
   }
   public update(id: string, body: string, lastUpdate: number, name?: string,

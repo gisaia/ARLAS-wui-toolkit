@@ -70,31 +70,32 @@ export class ArlasPersistenceDatabase<T extends ArlasStorageObject> {
   }
 
   public remove(id: string): Observable<void> {
-    return this.persistenceService.delete(id).pipe(catchError(e => of(e)),mergeMap(result => {
+    return this.persistenceService.delete(id).pipe(catchError(e => of(e)), mergeMap(result => {
       this.storageObjectMap.delete(id);
       return this.list(this.page.size, this.page.number, 'desc');
     }));
   }
 
-  public list(size: number, page: number, order: string): Observable<void> {
-    return this.persistenceService.list(this.storageKey, size, page, order).pipe(catchError(e => of(e)),map((dataResource: DataResource) => {
-      const copiedData = [];
-      let total = 0;
-      if (dataResource.count > 0) {
-        Array.from(dataResource.data).forEach((obj: DataWithLinks) => {
-          const newObj: T = this.init(JSON.parse(obj.doc_value) as T, this.additionalObject);
-          copiedData.push(newObj);
-          this.storageObjectMap.set(newObj.id, newObj);
-        });
-        total = dataResource.total;
-      }
-      this.dataChange.next({ total: total, items: copiedData as T[] });
-    }));
+  public list(size: number, page: number, order: string, key = undefined): Observable<void> {
+    return this.persistenceService.list(this.storageKey, size, page, order, key)
+      .pipe(catchError(e => of(e)), map((dataResource: DataResource) => {
+        const copiedData = [];
+        let total = 0;
+        if (dataResource.count > 0) {
+          Array.from(dataResource.data).forEach((obj: DataWithLinks) => {
+            const newObj: T = this.init(JSON.parse(obj.doc_value) as T, this.additionalObject);
+            copiedData.push(newObj);
+            this.storageObjectMap.set(newObj.id, newObj);
+          });
+          total = dataResource.total;
+        }
+        this.dataChange.next({ total: total, items: copiedData as T[] });
+      }));
   }
 
   public update(id: string, storageObject: T): Observable<void> {
     return this.persistenceService.update(id, JSON.stringify(storageObject), Date.now())
-      .pipe(catchError(e => of(e)),mergeMap((result =>
+      .pipe(catchError(e => of(e)), mergeMap((result =>
         this.list(this.page.size, this.page.number, 'desc')
       )));
   }
