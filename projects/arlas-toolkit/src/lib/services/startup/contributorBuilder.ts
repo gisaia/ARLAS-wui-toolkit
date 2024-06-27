@@ -113,4 +113,24 @@ export class ContributorBuilder {
     contributor.updateData = false;
     return contributor;
   }
+
+  /** Returns all the collections that are configured in each type of contributor. */
+  public static getCollections(contributorsConfig: any[]): Set<string> {
+    const collections = new Set<string>();
+    contributorsConfig.forEach(contributor => {
+      if (contributor.collection) {
+        collections.add(contributor.collection);
+      }
+      /** For histograms, multi-collection is possible. We need to check the 'additionalCollections' attribute.*/
+      if (contributor.type === 'histogram') {
+        if (contributor.additionalCollections && Array.isArray(contributor.additionalCollections)) {
+          contributor.additionalCollections.forEach(ac => {
+            collections.add(ac.collectionName);
+          });
+        }
+      }
+    });
+    return collections;
+  }
 }
+

@@ -294,7 +294,7 @@ export class ArlasStartupService {
 
   public validateSettings(settings) {
     return new Promise<any>((resolve, reject) => {
-      const ajvObj = new Ajv({allowUnionTypes:true});
+      const ajvObj = new Ajv({ allowUnionTypes: true });
       ajvKeywords(ajvObj, 'uniqueItemProperties');
       const validateConfig = ajvObj
         .addMetaSchema(draftSchema.default)
@@ -314,7 +314,7 @@ export class ArlasStartupService {
 
   public validateConfiguration(data) {
     return new Promise<any>((resolve, reject) => {
-      const ajvObj = new Ajv({allowUnionTypes:true});
+      const ajvObj = new Ajv({ allowUnionTypes: true });
       ajvKeywords(ajvObj, 'uniqueItemProperties');
       const validateConfig = ajvObj
         .addMetaSchema(draftSchema.default)
@@ -401,7 +401,7 @@ export class ArlasStartupService {
    * @param availableFields list of fields that are available for exploration
    * @returns the updated configuration object
    */
-  public updateConfiguration(data, availableFields: Set<string>): any {
+  public updateConfiguration(data, availableFields: Map<string, Set<string>>): any {
     if (!this.emptyMode) {
       const contributorsToRemove: Set<string> = this.configurationUpdaterService.getContributorsToRemove(data, availableFields);
       let updatedConfig = this.configurationUpdaterService.removeContributors(data, contributorsToRemove);
@@ -422,11 +422,10 @@ export class ArlasStartupService {
   public applyFGA(data) {
     if (!this.emptyMode) {
       const defaultCollection = this.configService.getValue('arlas.server.collection.name');
-      const collectionNames: Set<string> = new Set(this.configService.getValue('arlas.web.contributors')
-        .map(c => (c.collection as string)));
+      const collectionNames: Set<string> = ContributorBuilder.getCollections(this.configService.getValue('arlas.web.contributors'));
       collectionNames.add(defaultCollection);
       return this.listAvailableFields(collectionNames)
-        .then((availableFields: Set<string>) => this.updateConfiguration(data[0], availableFields))
+        .then((availableFieldsPerCollection: Map<string, Set<string>>) => this.updateConfiguration(data[0], availableFieldsPerCollection))
         .then((d) => {
           this.configService.setConfig(d);
           return d;
@@ -751,17 +750,18 @@ export class ArlasStartupService {
     }
   }
   /**
-  * Lists the fields of `collectionName` that are available for exploration with `arlasExploreApi`
-  * @param collectionName collection name
-  * @returns available fields
+  * Lists the fields for each collection in `collectionNames` list; that are available for exploration with `arlasExploreApi`
+  * @param collectionNames collection names
+  * @returns available fields per collection
   */
-  public listAvailableFields(collectionNames: Set<string>): Promise<Set<string>> {
-    const availableFields = new Set<string>();
+  public listAvailableFields(collectionNames: Set<string>): Promise<Map<string, Set<string>>> {
+    const availableFieldsPerCollection = new Map<string, Set<string>>();
     const hiddenAvailableFields = [];
     return this.collaborativesearchService.list().toPromise().then(
       (collectionDescriptions: Array<CollectionReferenceDescription>) => {
         collectionDescriptions.filter((cd: CollectionReferenceDescription) => collectionNames.has(cd.collection_name))
           .forEach((cd: CollectionReferenceDescription) => {
+            const availableFields = new Set<string>();
             getFieldProperties(cd.properties).map(p => {
               if (p.type === 'GEO_POINT') {
                 hiddenAvailableFields.push(p.label + '.lon');
@@ -774,8 +774,9 @@ export class ArlasStartupService {
             availableFields.add(cd.params.geometry_path);
             availableFields.add(cd.params.centroid_path);
             hiddenAvailableFields.forEach(f => availableFields.add(f));
+            availableFieldsPerCollection.set(cd.collection_name, availableFields);
           });
-        return availableFields;
+        return availableFieldsPerCollection;
       });
   }
 
