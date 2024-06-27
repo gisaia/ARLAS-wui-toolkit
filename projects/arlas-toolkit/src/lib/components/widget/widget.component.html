@@ -79,3 +79,7 @@
 
   </arlas-metric>
 </div>
+
+<div *ngIf="componentType === 'metricstable'">
+  <arlas-metrics-table [multiBarTable]="contributor.data"></arlas-metrics-table>
+</div>

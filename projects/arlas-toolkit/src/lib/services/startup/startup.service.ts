@@ -28,10 +28,14 @@ import * as draftSchema from 'ajv/lib/refs/json-schema-draft-06.json';
 import { CollectionReferenceDescription, CollectionReferenceParameters, CollectionsApi, Configuration, ExploreApi } from 'arlas-api';
 import { Configuration as IamConfiguration, DefaultApi } from 'arlas-iam-api';
 import { DataWithLinks } from 'arlas-persistence-api';
-import { DonutComponent, HistogramComponent, MapglComponent, MetricComponent, PowerbarsComponent } from 'arlas-web-components';
+import {
+  DonutComponent, HistogramComponent, MapglComponent, MetricComponent,
+  MetricsTableComponent, PowerbarsComponent
+} from 'arlas-web-components';
 import {
   ChipsSearchContributor, ComputeContributor, DetailedHistogramContributor, HistogramContributor,
   MapContributor,
+  MetricsTableContributor,
   ResultListContributor,
   SwimLaneContributor, TreeContributor
 } from 'arlas-web-contributors';
@@ -59,7 +63,6 @@ import { ContributorBuilder } from './contributorBuilder';
 import * as arlasSettingsSchema from './settings.schema.json';
 import { FilterShortcutConfiguration } from '../../components/filter-shortcut/filter-shortcut.utils';
 import { AnalyticGroupConfiguration } from '../../components/analytics/analytics.utils';
-import { ArlasAuthentificationService } from '../arlas-authentification/arlas-authentification.service';
 import { Filter } from 'arlas-api';
 import { ProcessService } from '../process/process.service';
 import { DashboardError } from '../../tools/errors/dashboard-error';
@@ -200,9 +203,10 @@ export class ArlasCollaborativesearchService extends CollaborativesearchService 
         collab.filters.forEach((filters: any[], collection: string) => {
           const exp = filters[0].f[0][0];
           const op = exp.op;
-          if (op !== contributor.getFilterOperator()) {
-            if (contributor.allowOperatorChange) {
-              contributor.setFilterOperator(op, true);
+          const treecontributor = contributor as TreeContributor;
+          if (op !== treecontributor.getFilterOperator()) {
+            if (treecontributor.allowOperatorChange) {
+              treecontributor.setFilterOperator(op, true);
             } else {
               delete dataModel['' + key];
               this.collaborations.delete(key);
@@ -294,7 +298,7 @@ export class ArlasStartupService {
 
   public validateSettings(settings) {
     return new Promise<any>((resolve, reject) => {
-      const ajvObj = new Ajv({allowUnionTypes:true});
+      const ajvObj = new Ajv({ allowUnionTypes: true });
       ajvKeywords(ajvObj, 'uniqueItemProperties');
       const validateConfig = ajvObj
         .addMetaSchema(draftSchema.default)
@@ -314,7 +318,7 @@ export class ArlasStartupService {
 
   public validateConfiguration(data) {
     return new Promise<any>((resolve, reject) => {
-      const ajvObj = new Ajv({allowUnionTypes:true});
+      const ajvObj = new Ajv({ allowUnionTypes: true });
       ajvKeywords(ajvObj, 'uniqueItemProperties');
       const validateConfig = ajvObj
         .addMetaSchema(draftSchema.default)
@@ -328,12 +332,14 @@ export class ArlasStartupService {
         .addSchema(ChipsSearchContributor.getJsonSchema())
         .addSchema(AnalyticsContributor.getJsonSchema())
         .addSchema(ComputeContributor.getJsonSchema())
+        .addSchema(MetricsTableContributor.getJsonSchema())
         .addSchema((<any>HistogramComponent.getHistogramJsonSchema()).default)
         .addSchema((<any>HistogramComponent.getSwimlaneJsonSchema()).default)
         .addSchema((<any>PowerbarsComponent.getPowerbarsJsonSchema()).default)
         .addSchema((<any>MapglComponent.getMapglJsonSchema()).default)
         .addSchema((<any>DonutComponent.getDonutJsonSchema()).default)
         .addSchema((<any>MetricComponent.getMetricJsonSchema()).default)
+        .addSchema((<any>MetricsTableComponent.getJsonSchema()).default)
         .compile((<any>arlasConfSchema).default);
       if (validateConfig(data) === false) {
         const errorMessagesList = new Array<string>();
@@ -401,7 +407,7 @@ export class ArlasStartupService {
    * @param availableFields list of fields that are available for exploration
    * @returns the updated configuration object
    */
-  public updateConfiguration(data, availableFields: Set<string>): any {
+  public updateConfiguration(data, availableFields: Map<string, Set<string>>): any {
     if (!this.emptyMode) {
       const contributorsToRemove: Set<string> = this.configurationUpdaterService.getContributorsToRemove(data, availableFields);
       let updatedConfig = this.configurationUpdaterService.removeContributors(data, contributorsToRemove);
@@ -422,11 +428,10 @@ export class ArlasStartupService {
   public applyFGA(data) {
     if (!this.emptyMode) {
       const defaultCollection = this.configService.getValue('arlas.server.collection.name');
-      const collectionNames: Set<string> = new Set(this.configService.getValue('arlas.web.contributors')
-        .map(c => (c.collection as string)));
+      const collectionNames: Set<string> = ContributorBuilder.getCollections(this.configService.getValue('arlas.web.contributors'));
       collectionNames.add(defaultCollection);
       return this.listAvailableFields(collectionNames)
-        .then((availableFields: Set<string>) => this.updateConfiguration(data[0], availableFields))
+        .then((availableFieldsPerCollection: Map<string, Set<string>>) => this.updateConfiguration(data[0], availableFieldsPerCollection))
         .then((d) => {
           this.configService.setConfig(d);
           return d;
@@ -751,17 +756,18 @@ export class ArlasStartupService {
     }
   }
   /**
-  * Lists the fields of `collectionName` that are available for exploration with `arlasExploreApi`
-  * @param collectionName collection name
-  * @returns available fields
+  * Lists the fields for each collection in `collectionNames` list; that are available for exploration with `arlasExploreApi`
+  * @param collectionNames collection names
+  * @returns available fields per collection
   */
-  public listAvailableFields(collectionNames: Set<string>): Promise<Set<string>> {
-    const availableFields = new Set<string>();
+  public listAvailableFields(collectionNames: Set<string>): Promise<Map<string, Set<string>>> {
+    const availableFieldsPerCollection = new Map<string, Set<string>>();
     const hiddenAvailableFields = [];
     return this.collaborativesearchService.list().toPromise().then(
       (collectionDescriptions: Array<CollectionReferenceDescription>) => {
         collectionDescriptions.filter((cd: CollectionReferenceDescription) => collectionNames.has(cd.collection_name))
           .forEach((cd: CollectionReferenceDescription) => {
+            const availableFields = new Set<string>();
             getFieldProperties(cd.properties).map(p => {
               if (p.type === 'GEO_POINT') {
                 hiddenAvailableFields.push(p.label + '.lon');
@@ -774,8 +780,9 @@ export class ArlasStartupService {
             availableFields.add(cd.params.geometry_path);
             availableFields.add(cd.params.centroid_path);
             hiddenAvailableFields.forEach(f => availableFields.add(f));
+            availableFieldsPerCollection.set(cd.collection_name, availableFields);
           });
-        return availableFields;
+        return availableFieldsPerCollection;
       });
   }
 

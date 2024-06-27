@@ -34,7 +34,8 @@
                                                     "resultlist",
                                                     "swimlane",
                                                     "tree",
-                                                    "metric"
+                                                    "metric",
+                                                    "metricstable"
                                                 ]
                                             }
                                         }
@@ -155,6 +156,19 @@
                                         "then": {
                                             "$ref": "computeContributorConf.schema.json#"
                                         }
+                                    },
+                                    {
+                                        "if": {
+                                            "type": "object",
+                                            "properties": {
+                                                "type": {
+                                                    "const": "metricstable"
+                                                }
+                                            }
+                                        },
+                                        "then": {
+                                            "$ref": "metricsTableContributorConf.schema.json#"
+                                        }
                                     }
                                 ]
                             }
@@ -224,7 +238,8 @@
                                                         "swimlane",
                                                         "resultlist",
                                                         "donut",
-                                                        "metric"
+                                                        "metric",
+                                                        "metricstable"
                                                     ]
                                                 },
                                                 "title": {
@@ -339,6 +354,23 @@
                                                             "allOf": [
                                                                 {
                                                                     "$ref": "metric.schema.json#"
+                                                                }
+                                                            ]
+                                                        }
+                                                    }
+                                                },
+                                                {
+                                                    "properties": {
+                                                        "componentType": {
+                                                            "enum": [
+                                                                "metricstable"
+                                                            ]
+                                                        },
+                                                        "input": {
+                                                            "description": "Input of metrics table component.",
+                                                            "allOf": [
+                                                                {
+                                                                    "$ref": "metrics-table.schema.json#"
                                                                 }
                                                             ]
                                                         }

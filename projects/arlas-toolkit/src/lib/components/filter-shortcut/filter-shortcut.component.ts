@@ -82,7 +82,7 @@ export class FilterShortcutComponent implements OnInit {
     if (this.isOpen) {
       this.activateContributor();
     }
-    this.inputs = Object.assign({}, this.shortcut.component.input);
+    this.inputs = Object.assign({}, this.shortcut?.component?.input);
     this.setHistogramInput();
     this.setPowerbarsInput();
   }
@@ -96,8 +96,10 @@ export class FilterShortcutComponent implements OnInit {
   }
 
   private activateContributor(): Contributor {
-    const contributor: Contributor = this.collaborativeSearchService.registry.get(this.shortcut.component.contributorId);
-    contributor.updateData = true;
+    const contributor: Contributor = this.collaborativeSearchService.registry.get(this.shortcut?.component?.contributorId);
+    if (contributor) {
+      contributor.updateData = true;
+    }
     return contributor;
   }
 

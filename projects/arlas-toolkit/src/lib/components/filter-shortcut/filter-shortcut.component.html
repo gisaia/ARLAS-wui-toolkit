@@ -1,4 +1,4 @@
-<ng-container *ngIf="shortcut">
+<ng-container *ngIf="shortcut && shortcut.component">
     <div class="container" id="{{'shortcut-' +  shortcut.uuid}}">
         <section #title class="title" [class.open_title]="isOpen" (click)="toggle()"
             [style.min-width.px]="shortcutWidth / 2">
