@@ -148,6 +148,7 @@ export class WidgetComponent implements OnInit {
   public ngOnInit() {
     this.contributorType = this.getContirbutorType();
     this.contributor = this.arlasStartupService.contributorRegistry.get(this.contributorId);
+    console.log(this.contributor);
     if (this.componentType === 'swimlane') {
       this.swimlanes = this.contributor.getConfigValue('swimlanes');
       if (this.swimlanes) {

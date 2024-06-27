@@ -130,18 +130,12 @@ export class ArlasConfigurationUpdaterService {
           contributorsToRemove.add(contributor.identifier);
         }
       });
-<<<<<<< HEAD
       /** remove shortcuts contributors */
       data.arlas.web.contributors.filter(contributor => contributor.linkedContributorId).forEach(contributor => {
         if (contributorsToRemove.has(contributor.linkedContributorId)) {
           contributorsToRemove.add(contributor.identifier);
         }
       });
-=======
-
-      /** remove metrics table contributors */
-
->>>>>>> f25072e (Integrate MetricsTable component)
     }
     return contributorsToRemove;
   }
