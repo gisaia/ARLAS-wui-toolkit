@@ -255,6 +255,7 @@ export class AuthentificationService extends ArlasAuthentificationService {
           authConfigValue['silent_refresh_redirect_uri'] : url + 'silent-refresh.html',
         timeoutFactor: authConfigValue['timeout_factor'] !== undefined ? authConfigValue['timeout_factor'] : 0.75,
         sessionChecksEnabled: authConfigValue['session_checks_enabled'] !== undefined ? authConfigValue['session_checks_enabled'] : true,
+        sessionCheckIntervall: authConfigValue['session_checks_intervall'] !== undefined ? authConfigValue['session_checks_intervall'] : 3000,
         showDebugInformation: authConfigValue['show_debug_information'] !== undefined ? authConfigValue['show_debug_information'] : false,
         silentRefreshTimeout: authConfigValue['silent_refresh_timeout'] !== undefined ? authConfigValue['silent_refresh_timeout'] : 5000,
         clearHashAfterLogin: authConfigValue['clear_hash_after_login'] !== undefined ? authConfigValue['clear_hash_after_login'] : false,
