@@ -111,6 +111,7 @@ export interface AuthentSetting {
   silent_refresh_timeout?: number;
   timeout_factor?: number;
   session_checks_enabled?: boolean;
+  session_checks_intervall?: number;
   show_debug_information?: boolean;
   clear_hash_after_login?: boolean;
   disable_at_hash_check?: boolean;

@@ -72,7 +72,7 @@
           "description": "Redirecting the user to this URL after logout.",
           "type": "string"
         },
-        
+
         "show_debug_information": {
           "description": "Defines whether additional debug information should  be shown at the console",
           "type": "boolean"
@@ -96,6 +96,10 @@
         "session_checks_enabled": {
           "description": "If true, the lib will try to check whether the user is still logged in on a regular basis as described",
           "type": "boolean"
+        },
+        "session_checks_intervall": {
+          "description": "Interval in msec for checking the session",
+          "type": "number"
         },
         "clear_hash_after_login": {
           "description": "Defines whether to clear the hash fragment after logging in.",
