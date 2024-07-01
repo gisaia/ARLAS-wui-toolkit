@@ -1,5 +1,103 @@
 # Change Log
 
+## [v23.3.18](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v23.3.18) (2024-07-01)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v25.0.3...v23.3.18)
+
+**Fixed bugs:**
+
+- FGA fields to be hidden should be listed by collection [\#803](https://github.com/gisaia/ARLAS-wui-toolkit/issues/803)
+
+## [v25.0.3](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v25.0.3) (2024-06-18)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v25.0.2...v25.0.3)
+
+## [v25.0.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v25.0.2) (2024-06-06)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v25.0.1...v25.0.2)
+
+## [v25.0.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v25.0.1) (2024-06-04)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v25.0.0...v25.0.1)
+
+## [v25.0.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v25.0.0) (2024-05-15)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v25.0.0-rc.5...v25.0.0)
+
+**Fixed bugs:**
+
+- Bookmarks disappear when we change collections of a dashboard [\#719](https://github.com/gisaia/ARLAS-wui-toolkit/issues/719)
+
+## [v25.0.0-rc.5](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v25.0.0-rc.5) (2024-05-14)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v25.0.0-rc.4...v25.0.0-rc.5)
+
+## [v25.0.0-rc.4](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v25.0.0-rc.4) (2024-05-14)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v25.0.0-rc.3...v25.0.0-rc.4)
+
+## [v25.0.0-rc.3](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v25.0.0-rc.3) (2024-05-14)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v25.0.0-beta.18...v25.0.0-rc.3)
+
+## [v25.0.0-beta.18](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v25.0.0-beta.18) (2024-05-14)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v25.0.0-rc.2...v25.0.0-beta.18)
+
+## [v25.0.0-rc.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v25.0.0-rc.2) (2024-05-13)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v25.0.0-rc.1...v25.0.0-rc.2)
+
+**New stuff:**
+
+- Add spanish translation [\#747](https://github.com/gisaia/ARLAS-wui-toolkit/issues/747)
+
+**Fixed bugs:**
+
+- Display change password action for iam [\#783](https://github.com/gisaia/ARLAS-wui-toolkit/issues/783)
+- Login error prompts the error modal to appear [\#777](https://github.com/gisaia/ARLAS-wui-toolkit/issues/777)
+
+## [v25.0.0-rc.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v25.0.0-rc.1) (2024-05-03)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v25.0.0-rc.0...v25.0.0-rc.1)
+
+## [v25.0.0-rc.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v25.0.0-rc.0) (2024-05-03)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v25.0.0-beta.17...v25.0.0-rc.0)
+
+**New stuff:**
+
+- Manage previews using their ids instead of doc\_key [\#723](https://github.com/gisaia/ARLAS-wui-toolkit/issues/723)
+
+**Fixed bugs:**
+
+- Use user name initials in case the avatar is absent from the claims [\#748](https://github.com/gisaia/ARLAS-wui-toolkit/issues/748)
+- Bookmarks store all collections [\#657](https://github.com/gisaia/ARLAS-wui-toolkit/issues/657)
+
+## [v25.0.0-beta.17](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v25.0.0-beta.17) (2024-05-02)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v25.0.0-beta.16...v25.0.0-beta.17)
+
+## [v25.0.0-beta.16](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v25.0.0-beta.16) (2024-04-30)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v25.0.0-beta.15...v25.0.0-beta.16)
+
+## [v25.0.0-beta.15](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v25.0.0-beta.15) (2024-04-29)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v25.0.0-beta.14...v25.0.0-beta.15)
+
+## [v25.0.0-beta.14](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v25.0.0-beta.14) (2024-04-29)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v25.0.0-beta.13...v25.0.0-beta.14)
+
+## [v25.0.0-beta.13](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v25.0.0-beta.13) (2024-04-29)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v25.0.0-beta.12...v25.0.0-beta.13)
+
+## [v25.0.0-beta.12](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v25.0.0-beta.12) (2024-04-26)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.3.17...v25.0.0-beta.12)
+
 ## [v24.3.17](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.3.17) (2024-04-25)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.3.16...v24.3.17)
