@@ -10,7 +10,7 @@
   z-index: 20000;
   min-width: 100px;
   box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14),
-    0 1px 10px 0 rgba(0, 0, 0, 0.12);
+  0 1px 10px 0 rgba(0, 0, 0, 0.12);
   display: grid;
   grid-template-columns: minmax(60px, auto) 1fr;
   grid-template-rows: repeat(3, minmax(10px, auto));
@@ -41,9 +41,11 @@
   grid-column: 2;
   grid-row: 3;
 }
+
 .tooltip__label {
   text-align: justify;
 }
+
 .header {
   text-align: center;
   padding: 0 5px;
@@ -55,6 +57,11 @@
   color: #999;
 }
 
+.interval-value {
+  font-size: 14px;
+  line-height: 14px;
+}
+
 .axis-label {
   display: inline-block;
 }
@@ -63,7 +70,7 @@
   text-align: end;
   display: flex;
   justify-content: end;
-  gap:4px;
+  gap: 4px;
 }
 
 .label {
