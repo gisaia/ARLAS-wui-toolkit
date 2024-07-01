@@ -10,7 +10,9 @@ import {
 } from '../../../../projects/arlas-toolkit/src/lib/services/arlas-authentification/arlas-authentification.service';
 import { ArlasIamService } from '../../../../projects/arlas-toolkit/src/lib/services/arlas-iam/arlas-iam.service';
 import {
-  ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService
+  ArlasCollaborativesearchService,
+  ArlasConfigService,
+  ArlasStartupService
 } from '../../../../projects/arlas-toolkit/src/lib/services/startup/startup.service';
 import { AuthentSetting, CollectionUnit, SpinnerOptions } from '../../../../projects/arlas-toolkit/src/lib/tools/utils';
 import { ChipsSearchContributor } from 'arlas-web-contributors';
@@ -94,30 +96,29 @@ export class HomeComponent implements OnInit {
      * to test tooltip
      */
     const noTime = {
-      'xValue': '3 600',
-      'xStartDate': '3 600',
-      'xEndDate': '4 200',
-      'xRange': {
-        'value': 600,
-        'unit': 'interval (600)'
+      "xValue": "2.2",
+      "xStartDate": "2.2",
+      "xEndDate": "2.4",
+      "xRange": {
+        "value": 0.2
       },
-      'dataType': 'numeric',
-      'y': [
+      "dataType": "numeric",
+      "y": [
         {
-          'value': '109 588',
-          'chartId': 'demo_flickr',
-          'color': '#e2c922'
+          "value": "1",
+          "chartId": "demo_sea_phys_bcg",
+          "color": "#19e3ff"
         }
       ],
-      'shown': true,
-      'xPosition': 107.0312385559082,
-      'yPosition': 72.58331298828125,
-      'chartWidth': 445,
-      'title': 'Height',
-      'xLabel': 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
-      'yLabel': 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
-      'xUnit': 'voiture',
-      'yUnit': 'velo'
+      "shown": true,
+      "xPosition": 64,
+      "yPosition": 30,
+      "chartWidth": 217,
+      "title": "sqxqsxsq",
+      "xLabel": "",
+      "yLabel": "qxqsxqs",
+      "xUnit": "",
+      "yUnit": "Marine observations"
     };
     const time = {
       'xValue': '25 December 2016',
