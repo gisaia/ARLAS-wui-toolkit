@@ -1,6 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FilterShortcutConfiguration } from '../../../../projects/arlas-toolkit/src/lib/components/filter-shortcut/filter-shortcut.utils';
-import { TimelineConfiguration } from '../../../../projects/arlas-toolkit/src/lib/components/timeline/timeline/timeline.utils';
+import {
+  FilterShortcutConfiguration
+} from '../../../../projects/arlas-toolkit/src/lib/components/filter-shortcut/filter-shortcut.utils';
+import {
+  TimelineConfiguration
+} from '../../../../projects/arlas-toolkit/src/lib/components/timeline/timeline/timeline.utils';
 import {
   ArlasAuthentificationService
 } from '../../../../projects/arlas-toolkit/src/lib/services/arlas-authentification/arlas-authentification.service';
@@ -80,7 +84,7 @@ export class HomeComponent implements OnInit {
     if (!!authConfig && authConfig.use_authent) {
       if (authConfig.auth_mode === 'iam') {
         // IAM
-        this.arlasIamService.tokenRefreshed$.subscribe({ next: (data) => this.connected = !!data && !!data.user });
+        this.arlasIamService.tokenRefreshed$.subscribe({next: (data) => this.connected = !!data && !!data.user});
       } else {
         // AUTH 0
       }
@@ -90,31 +94,35 @@ export class HomeComponent implements OnInit {
      * to test tooltip
      */
     const noTime = {
-       'xValue': '3 600',
-       'xRange': {
-         'value': 600,
-         'unit': 'interval (600)'
-       },
-       'dataType': 'numeric',
-       'y': [
-         {
-           'value': '109 588',
-           'chartId': 'demo_flickr',
-           'color': '#e2c922'
-         }
-       ],
-       'shown': true,
-       'xPosition': 107.0312385559082,
-       'yPosition': 72.58331298828125,
-       'chartWidth': 445,
-       'title': 'Height',
-       'xLabel': 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
-       'yLabel': 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
-       'xUnit': 'voiture',
-       'yUnit': 'velo'
-     };
+      'xValue': '3 600',
+      'xStartDate': '3 600',
+      'xEndDate': '4 200',
+      'xRange': {
+        'value': 600,
+        'unit': 'interval (600)'
+      },
+      'dataType': 'numeric',
+      'y': [
+        {
+          'value': '109 588',
+          'chartId': 'demo_flickr',
+          'color': '#e2c922'
+        }
+      ],
+      'shown': true,
+      'xPosition': 107.0312385559082,
+      'yPosition': 72.58331298828125,
+      'chartWidth': 445,
+      'title': 'Height',
+      'xLabel': 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
+      'yLabel': 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
+      'xUnit': 'voiture',
+      'yUnit': 'velo'
+    };
     const time = {
       'xValue': '25 December 2016',
+      'xStartDate': '25 December 2016',
+      'xEndDate': '25 February 2016',
       'xRange': {
         'value': 60,
         'unit': 'days (~ 2 months)'
@@ -137,7 +145,7 @@ export class HomeComponent implements OnInit {
       'xUnit': 'voiture',
       'yUnit': 'velo'
     };
-    this.arlasOverlayService.openHistogramTooltip({ data: noTime }, this.tooltip, 0, 0, false);
+    this.arlasOverlayService.openHistogramTooltip({data: noTime}, this.tooltip, 0, 0, false);
 
     fromEvent(window, 'resize')
       .subscribe((event: Event) => {
@@ -154,6 +162,7 @@ export class HomeComponent implements OnInit {
       this.lastShortcutOpen = idx;
     }
   }
+
   private getContributorConfig(contributorIdentifier: string) {
     return this.arlasStartupService.emptyMode ? undefined : this.arlasConfigService.getValue('arlas.web.contributors').find(
       contrib => (contrib.identifier === contributorIdentifier)

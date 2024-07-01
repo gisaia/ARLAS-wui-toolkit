@@ -1,4 +1,3 @@
-
 /*
  * Licensed to Gisaïa under one or more contributor
  * license agreements. See the NOTICE.txt file distributed with
@@ -39,27 +38,33 @@ export class HistogramTooltipOverlayComponent {
   }
 
 
-  public calculateDate(){
-    if(this.tooltip.dataType === 'time'){
-      const start =  this.tooltip.xValue;
+  public calculateDate() {
+    if (this.tooltip.dataType === 'time') {
+      const start = this.tooltip.xStartDate;
+      let end;
+      if (this.tooltip.xEndDate) {
+        end = this.tooltip.xEndDate;
+      }
       this.interval = {
-        start
+        start,
+        end
       };
-    } else if(this.tooltip.dataType === 'numeric'){
-      const start =  this.transformStringToNumber(this.tooltip.xValue as (string | number));
-      let end = start;
-      if(this.tooltip.xRange.value){
-        end +=  this.transformStringToNumber(this.tooltip.xRange.value as (string | number));
+    } else if (this.tooltip.dataType === 'numeric') {
+      const start = this.transformStringToNumber(this.tooltip.xStartDate as (string | number));
+      let end;
+      if (this.tooltip.xEndDate) {
+        end = this.transformStringToNumber(this.tooltip.xEndDate as (string | number));
       }
       this.interval = {
         start,
         end
       };
     }
+
   }
 
-  public transformStringToNumber (value: string | number) {
-    if((typeof value === 'number')) {
+  public transformStringToNumber(value: string | number) {
+    if ((typeof value === 'number')) {
       return value;
     }
     value = value.replace(/\s/g, '');
