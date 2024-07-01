@@ -1,59 +1,71 @@
 <div class="tooltip">
-  <div class="tooltip__header header"><div class="header-title">{{tooltip.title | translate}}</div></div>
-   <div class="tooltip__xLabel label">
-     {{tooltip.xLabel | translate}} <span class="axis-label">({{'x-axis' | translate}})</span>
-   </div>
-   <div class="tooltip__xValue value-label">
-     <ng-container  *ngTemplateOutlet="intervalTemplate; context: {value: interval.start, isTime: tooltip.dataType === 'time' }"></ng-container>
+  <div class="tooltip__header header">
+    <div class="header-title">{{ tooltip.title | translate }}</div>
+  </div>
+  <div class="tooltip__xLabel label">
+    {{ tooltip.xLabel | translate }} <span class="axis-label">({{ 'x-axis' | translate }})</span>
+  </div>
+  <div class="tooltip__xValue value-label">
+    <ng-container
+      *ngTemplateOutlet="intervalTemplate; context: {value: interval.start, isTime: tooltip.dataType === 'time' }"></ng-container>
     <!-- keep this because we ll need this later -->
-     <!-- <span class="interval-text" *ngIf="interval.end">{{ 'to' | translate }}</span>
-     <ng-container *ngTemplateOutlet="intervalTemplate; context: {value: interval.end, isTime: tooltip.dataType === 'time' }"></ng-container>-->
-     <ng-container *ngTemplateOutlet="intervalTextTemplate;
+    <span class="interval-text"
+          *ngIf="interval.end !== null && interval.end !== undefined && interval.start !== null && interval.start !== undefined">{{ 'to' | translate }}</span>
+    <ng-container
+      *ngTemplateOutlet="intervalTemplate; context: {value: interval.end, isTime: tooltip.dataType === 'time' }"></ng-container>
+    <ng-container *ngTemplateOutlet="intervalTextTemplate;
       context: {unit:tooltip.xUnit, interval:tooltip.xRange.unit, intervalValue:tooltip.xRange.value, value: tooltip.xRange.value, isTime: tooltip.dataType === 'time'  }"></ng-container>
   </div>
-   <div class="tooltip__yLabel label">
-     {{tooltip.yLabel | translate}} <span class="axis-label">({{'y-axis' | translate}})</span>
+  <div class="tooltip__yLabel label">
+    {{ tooltip.yLabel | translate }} <span class="axis-label">({{ 'y-axis' | translate }})</span>
   </div>
-   <div class="tooltip__yValue value-label">
-     <table class="values">
-       <tr *ngFor="let y of tooltip.y">
-         <td>
-           <div class="chip" [style.backgroundColor]="y.color"></div>
-         </td>
-         <td class="count">
-           <div>{{y.value}}</div>
-         </td>
-         <td  *ngIf="tooltip?.dataType === 'time'">
-           <div class="value-unit">{{((tooltip.yUnit && tooltip.yUnit .length > 0)?  tooltip.yUnit : y.chartId) | translate}}</div>
-         </td>
-         <td  *ngIf="tooltip?.dataType !== 'time' && tooltip.yUnit !== undefined && tooltip.yUnit !== ''">
-           <div class="value-unit">{{tooltip.yUnit | translate}}</div>
-         </td>
-       </tr>
-     </table>
+  <div class="tooltip__yValue value-label">
+    <table class="values">
+      <tr *ngFor="let y of tooltip.y">
+        <td>
+          <div class="chip" [style.backgroundColor]="y.color"></div>
+        </td>
+        <td class="count">
+          <div>{{ y.value }}</div>
+        </td>
+        <td *ngIf="tooltip?.dataType === 'time'">
+          <div
+            class="value-unit">{{ ((tooltip.yUnit && tooltip.yUnit.length > 0) ? tooltip.yUnit : y.chartId) | translate }}
+          </div>
+        </td>
+        <td *ngIf="tooltip?.dataType !== 'time' && tooltip.yUnit !== undefined && tooltip.yUnit !== ''">
+          <div class="value-unit">{{ tooltip.yUnit | translate }}</div>
+        </td>
+      </tr>
+    </table>
   </div>
 </div>
 
-<!-- template for x unit -->
+<!-- template for x and y values -->
 <ng-template #intervalTemplate let-value="value" let-isTime="isTime">
-  <ng-container *ngIf="isTime else notTemporal">
-    {{value| date:"dd/MM/YYYY"}}
+  <ng-container *ngIf="value !== undefined && value !== null">
+      <span class="interval-text">
+      <ng-container *ngIf="isTime else notTemporal">
+    {{ value| date:"dd/MM/YYYY" }}
   </ng-container>
    <ng-template #notTemporal>
-     {{value}}
+     {{ value }}
    </ng-template>
+  </span>
+  </ng-container>
 </ng-template>
 
-
-<ng-template #intervalTextTemplate let-interval="interval"  let-intervalValue="intervalValue" let-unit="unit" let-value="value" let-isTypeTime="isTime">
-  <span class="interval-text" *ngIf="isTypeTime">{{value}}</span>
-  <span class="interval-text" *ngIf="!isTypeTime && unit">{{unit | translate}}</span>
+<!-- display the text after the interval -->
+<ng-template #intervalTextTemplate let-interval="interval" let-intervalValue="intervalValue" let-unit="unit"
+             let-value="value" let-isTypeTime="isTime">
+  <span class="interval-text" *ngIf="isTypeTime">{{ value }}</span>
+  <span class="interval-text" *ngIf="!isTypeTime && unit">{{ unit | translate }}</span>
   <span class="interval-text" *ngIf="interval">
     <ng-container *ngIf="isTypeTime; else notTemporal">
-       {{interval| translate}}
+       {{ interval| translate }}
     </ng-container>
     <ng-template #notTemporal>
-       ({{'interval' | translate}} : {{intervalValue}})
+       ({{ 'interval' | translate }} : {{ intervalValue }})
     </ng-template>
   </span>
 </ng-template>
