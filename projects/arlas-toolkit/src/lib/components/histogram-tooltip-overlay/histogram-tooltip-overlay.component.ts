@@ -39,10 +39,10 @@ export class HistogramTooltipOverlayComponent {
   }
 
   public calculateDate() {
-    const start = this.tooltip.xStartDate;
+    const start = this.tooltip.xStartValue;
     let end;
-    if (this.tooltip.xEndDate) {
-      end = this.tooltip.xEndDate;
+    if (this.tooltip.xEndValue !== null && this.tooltip.xEndValue !== undefined) {
+      end = this.tooltip.xEndValue;
     }
     this.interval = {
       start,

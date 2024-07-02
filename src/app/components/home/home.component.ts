@@ -97,8 +97,8 @@ export class HomeComponent implements OnInit {
      */
     const noTime = {
       "xValue": "2.2",
-      "xStartDate": "2.2",
-      "xEndDate": "2.4",
+      "xStartValue": "2.2",
+      "xEndValue": "2.4",
       "xRange": {
         "value": 0.2
       },
@@ -122,8 +122,8 @@ export class HomeComponent implements OnInit {
     };
     const time = {
       'xValue': '25 December 2016',
-      'xStartDate': '25 December 2016',
-      'xEndDate': '25 February 2016',
+      'xStartValue': '25 December 2016',
+      'xEndValue': '25 February 2016',
       'xRange': {
         'value': 60,
         'unit': 'days (~ 2 months)'
