@@ -1,4 +1,3 @@
-
 /*
  * Licensed to Gisaïa under one or more contributor
  * license agreements. See the NOTICE.txt file distributed with
@@ -25,10 +24,32 @@ import { HistogramTooltip } from 'arlas-web-components';
 @Component({
   selector: 'arlas-histogram-tooltip-overlay',
   templateUrl: './histogram-tooltip-overlay.component.html',
-  styleUrls: ['./histogram-tooltip-overlay.component.css']
+  styleUrls: ['./histogram-tooltip-overlay.component.scss']
 })
 export class HistogramTooltipOverlayComponent {
+  public interval: {
+    start: Date | number | string;
+    end?: Date | number;
+  };
 
-  public constructor(public overlayRef: ArlasOverlayRef, @Inject(HISTOGRAM_TOOLTIP_DATA) public tooltip: HistogramTooltip) {}
+  public displayText = true;
 
+  public constructor(public overlayRef: ArlasOverlayRef, @Inject(HISTOGRAM_TOOLTIP_DATA) public tooltip: HistogramTooltip) {
+    this.calculateDate();
+  }
+
+  public calculateDate() {
+    const start = this.tooltip.xStartValue;
+    let end;
+    if (this.tooltip.xEndValue !== null && this.tooltip.xEndValue !== undefined) {
+      end = this.tooltip.xEndValue;
+    }
+    this.interval = {
+      start,
+      end
+    };
+
+    this.displayText = this.interval.end !== null && this.interval.end !== undefined &&
+      this.interval.start !== null && this.interval.start !== undefined;
+  }
 }
