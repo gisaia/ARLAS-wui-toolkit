@@ -37,7 +37,7 @@ export class HistogramTooltipOverlayComponent {
   public constructor(public overlayRef: ArlasOverlayRef, @Inject(HISTOGRAM_TOOLTIP_DATA) public tooltip: HistogramTooltip) {
     this.calculateDate();
   }
-  
+
   public calculateDate() {
     const start = this.tooltip.xStartDate;
     let end;
