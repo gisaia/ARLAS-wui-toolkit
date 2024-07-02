@@ -214,6 +214,17 @@ export class ArlasCollaborativesearchService extends CollaborativesearchService 
           }
         });
       }
+      if (contributor && contributor instanceof MetricsTableContributor && changeOperator) {
+        collab.filters.forEach((filters: any[], collection: string) => {
+          const exp = filters[0].f[0][0];
+          const op = exp.op;
+          const metrictablecontributor = contributor as MetricsTableContributor;
+          if (op !== metrictablecontributor.getFilterOperator()) {
+            metrictablecontributor.setFilterOperator(op, true);
+
+          }
+        });
+      }
     });
     return dataModel;
   }

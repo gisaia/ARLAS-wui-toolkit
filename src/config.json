@@ -181,6 +181,14 @@
             {
               "collectionName": "demo_sea_phys_bcg",
               "field": "timestamp"
+            },
+            {
+              "collectionName": "demo_ais_course",
+              "field": "track.timestamps.center"
+            },
+            {
+              "collectionName": "demo_ais_flow",
+              "field": "track.timestamps.center"
             }
           ]
         },
@@ -296,6 +304,14 @@
             {
               "collectionName": "demo_sea_phys_bcg",
               "field": "timestamp"
+            },
+            {
+              "collectionName": "demo_ais_course",
+              "field": "track.timestamps.center"
+            },
+            {
+              "collectionName": "demo_ais_flow",
+              "field": "track.timestamps.center"
             }
           ]
         },
@@ -813,7 +829,14 @@
                 "diameter": 170,
                 "containerWidth": 223,
                 "multiselectable": true,
-                "opacity": 0.4
+                "opacity": 0.4,
+                "filterOperator": {
+                  "value": "Eq",
+                  "display": true
+                },
+                "useColorService": true,
+                "applyColorTo": "row"
+
               },
               "contributorId": "metricstable-1",
               "usage": "analytics"

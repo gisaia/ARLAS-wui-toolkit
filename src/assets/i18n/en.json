@@ -187,6 +187,8 @@
 	"years": "years",
 	"year": "year",
 	"You are about to create a new permission on data, based on the current filters applied to": "You are about to create a new permission on data, based on the current filters applied to ",
-	"Add permission description": "Add a description to the permission:"
+	"Add permission description": "Add a description to the permission:",
+	"course.distance.gps.travelled_m": "Distance"
+
 
 }

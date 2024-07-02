@@ -28,7 +28,7 @@ import { ArlasExportCsvService } from '../../services/export-csv/export-csv.serv
 import { SpinnerOptions, ArlasOverlayRef } from '../../tools/utils';
 import { ARLASDonutTooltip } from 'arlas-d3';
 import { ArlasOverlayService } from '../../services/overlays/overlay.service';
-import { ComputeConfig, TreeContributor } from 'arlas-web-contributors';
+import { ComputeConfig, MetricsTableContributor, TreeContributor } from 'arlas-web-contributors';
 import { Expression } from 'arlas-api';
 
 /**
@@ -162,9 +162,15 @@ export class WidgetComponent implements OnInit {
     this.setComponentInput(this.graphParam);
     /** Init filter operator (include/exclude) of powerbars */
     if (this.contributor instanceof TreeContributor) {
-      this.setPowerbarsFilterOperator((this.contributor as TreeContributor).getFilterOperator());
+      this.setFilterOperator((this.contributor as TreeContributor).getFilterOperator());
       this.contributor.operatorChangedEvent.subscribe(op => {
-        this.setPowerbarsFilterOperator(op);
+        this.setFilterOperator(op);
+      });
+    }
+    if (this.contributor instanceof MetricsTableContributor) {
+      this.setFilterOperator((this.contributor as MetricsTableContributor).getFilterOperator());
+      this.contributor.operatorChanged$.subscribe(op => {
+        this.setFilterOperator(op);
       });
     }
   }
@@ -226,6 +232,16 @@ export class WidgetComponent implements OnInit {
     (this.contributor as TreeContributor).selectedNodesListChanged((this.contributor as TreeContributor).selectedNodesPathsList);
   }
 
+  public changeMetricsTableOperator(op: 'Neq' | 'Eq'): void {
+    if (op === 'Neq') {
+      (this.contributor as MetricsTableContributor).setFilterOperator(Expression.OpEnum.Ne, /** emit */ true);
+    } else {
+      (this.contributor as MetricsTableContributor).setFilterOperator(Expression.OpEnum.Eq, /** emit */ true);
+    }
+    (this.contributor as MetricsTableContributor)
+      .onRowSelect(new Set((this.contributor as MetricsTableContributor).selectedTerms));
+  }
+
 
   private getContirbutorType() {
     const contributor = this.arlasStartupService.contributorRegistry.get(this.contributorId);
@@ -266,7 +282,7 @@ export class WidgetComponent implements OnInit {
     }
   }
 
-  private setPowerbarsFilterOperator(filterOperatorEnum: Expression.OpEnum) {
+  private setFilterOperator(filterOperatorEnum: Expression.OpEnum) {
     if (filterOperatorEnum === Expression.OpEnum.Ne) {
       if (!!this.graphParam.filterOperator) {
         this.graphParam.filterOperator.value = 'Neq';

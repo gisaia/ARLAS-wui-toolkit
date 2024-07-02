@@ -274,5 +274,6 @@
 	"successful": "completado",
 	"failed": "fallido",
 	"dissmissed": "cancelado",
-	"You are about to create a new permission on data, based on the current filters applied to": "Está a punto de crear un nuevo permiso sobre los datos, basado en los filtros actuales aplicados a"
+	"You are about to create a new permission on data, based on the current filters applied to": "Está a punto de crear un nuevo permiso sobre los datos, basado en los filtros actuales aplicados a",
+	"course.distance.gps.travelled_m": "Distancia"
 }
