@@ -126,6 +126,43 @@
           "autocomplete_size": 10
         },
         {
+          "type": "metricstable",
+          "identifier": "metricstable-1",
+          "name": "Metrics table",
+          "nbterms": 3,
+          "sort": {
+            "collection": "demo_ais_flow",
+            "order": "asc",
+            "on": "metric",
+            "metric": {
+              "metric": "sum",
+              "field": "course.distance.gps.travelled_m"
+            }
+          },
+          "configuration": {
+            "demo_ais_flow": {
+              "termfield": "course.arrival.address.country",
+              "metrics": [
+                {
+                  "metric": "count"
+                },
+                {
+                  "metric": "sum",
+                  "field": "course.distance.gps.travelled_m"
+                }
+              ]
+            },
+            "demo_ais_course": {
+              "termfield": "arrival.address.country",
+              "metrics": [
+                {
+                  "metric": "count"
+                }
+              ]
+            }
+          }
+        },
+        {
           "type": "histogram",
           "identifier": "timeline",
           "collection": "demo_algoe",
@@ -144,6 +181,14 @@
             {
               "collectionName": "demo_sea_phys_bcg",
               "field": "timestamp"
+            },
+            {
+              "collectionName": "demo_ais_course",
+              "field": "track.timestamps.center"
+            },
+            {
+              "collectionName": "demo_ais_flow",
+              "field": "track.timestamps.center"
             }
           ]
         },
@@ -259,6 +304,14 @@
             {
               "collectionName": "demo_sea_phys_bcg",
               "field": "timestamp"
+            },
+            {
+              "collectionName": "demo_ais_course",
+              "field": "track.timestamps.center"
+            },
+            {
+              "collectionName": "demo_ais_flow",
+              "field": "track.timestamps.center"
             }
           ]
         },
@@ -369,7 +422,6 @@
             }
           ],
           "linked_contributor_id": "demo_algoe-valeurfonc-numeric-bucket-Count--50"
-
         },
         {
           "identifier": "d0fc0203-e56c-4c36-a330-dda760344196",
@@ -769,7 +821,7 @@
           "icon": "business",
           "components": [
             {
-              "componentType": "donut",
+              "componentType": "metricstable",
               "showExportCsv": "",
               "input": {
                 "id": "demo_algoe-libtypbien-10-",
@@ -777,10 +829,16 @@
                 "diameter": 170,
                 "containerWidth": 223,
                 "multiselectable": true,
-                "opacity": 0.4
+                "opacity": 0.4,
+                "filterOperator": {
+                  "value": "Eq",
+                  "display": true
+                },
+                "useColorService": true,
+                "applyColorTo": "row"
+
               },
-              "contributorId": "demo_algoe-libtypbien-10-",
-              "uuid": "9479877b-e362-4764-93cc-6c24cb20b18c",
+              "contributorId": "metricstable-1",
               "usage": "analytics"
             },
             {

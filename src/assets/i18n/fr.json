@@ -197,5 +197,8 @@
 	"days (~ 5 years)": "jours (~ 5 ans)",
 	"days (~ 10 years)": "jours (~ 10 ans)",
 	"You are about to create a new permission on data, based on the current filters applied to": "Vous êtes sur le point de créer une nouvelle permission sur les données, basée sur les filtres actuels appliqués à",
-	"Add permission description": "Ajouter une description pour spécifer la permission :"
+	"Add permission description": "Ajouter une description pour spécifer la permission :",
+	"course.distance.gps.travelled_m": "Distance"
+
+
 }
