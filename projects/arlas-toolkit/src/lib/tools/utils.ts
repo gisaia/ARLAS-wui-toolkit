@@ -126,6 +126,7 @@ export interface AuthentSetting {
   customQueryParams?: Object;
   threshold?: number;
   url?: string;
+  sign_up_enabled?: boolean;
 }
 
 export interface GeocodingSetting {

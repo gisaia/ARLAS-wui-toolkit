@@ -37,7 +37,7 @@
               color="primary">{{ 'Login' | translate}}</button>
 
           </div>
-          <div class="no-account">
+          <div *ngIf="displayNoAccount" class="no-account">
             {{'No Account?' | translate}}
             <button mat-button type="button" [routerLink]="'/register'">{{ 'Sign up' | translate}}</button>
           </div>
