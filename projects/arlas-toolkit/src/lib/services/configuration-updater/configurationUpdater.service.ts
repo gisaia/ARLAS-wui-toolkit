@@ -203,7 +203,6 @@ export class ArlasConfigurationUpdaterService {
    */
   public addCollectionIfMissing(data) {
     if (data && data.arlas && data.arlas.web && data.arlas.web.contributors) {
-      console.log(data.arlas.web.contributors.length);
       data.arlas.web.contributors.forEach(contributor => {
         if (!contributor.collection) {
           contributor.collection = data.arlas.server.collection.name;
