@@ -154,6 +154,6 @@ export class PersistenceService {
 }
 
 export interface PersistenceSetting {
-  use_local_config: any;
+  use_local_config?: boolean;
   url: string;
 }

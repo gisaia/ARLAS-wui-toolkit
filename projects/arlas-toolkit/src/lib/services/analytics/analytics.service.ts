@@ -412,9 +412,14 @@ export class AnalyticsService {
         const tabsWithGroups = this._groupsByTab.map(v => v.name);
         this._tabs = this._tabs.filter(tab => tabsWithGroups.includes(tab.name));
       }
-    } else {
+    }
+
+    // If there are no tabs in the config, there are either really no tabs,
+    // or the config has no tabs declared, but groups that should be in their designated tabs
+    /** Retro-compatibility code */
+    if (this._tabs.length === 0 && !!this._groups) {
       const tabsSet = new Set<string>();
-      this._groups?.forEach(group => {
+      this._groups.forEach(group => {
         if (!tabsSet.has(group.tab)) {
           tabsSet.add(group.tab);
           this._tabs.push({
@@ -426,6 +431,8 @@ export class AnalyticsService {
         }
       });
     }
+    /** End of retro-compatibility code */
+
     if (!this._groupsDisplayStatusMap) {
       this._groupsDisplayStatusMap = new Map<string, boolean>();
     }

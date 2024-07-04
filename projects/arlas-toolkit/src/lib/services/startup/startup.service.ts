@@ -403,8 +403,9 @@ export class ArlasStartupService {
    */
   public updateConfiguration(data, availableFields: Map<string, Set<string>>): any {
     if (!this.emptyMode) {
+      let updatedConfig = this.configurationUpdaterService.addCollectionIfMissing(data);
       const contributorsToRemove: Set<string> = this.configurationUpdaterService.getContributorsToRemove(data, availableFields);
-      let updatedConfig = this.configurationUpdaterService.removeContributors(data, contributorsToRemove);
+      updatedConfig = this.configurationUpdaterService.removeContributors(data, contributorsToRemove);
       updatedConfig = this.configurationUpdaterService.updateContributors(updatedConfig, availableFields);
       updatedConfig = this.configurationUpdaterService.updateMapComponent(updatedConfig, availableFields);
       updatedConfig = this.configurationUpdaterService.removeWidgets(updatedConfig, contributorsToRemove);

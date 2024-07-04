@@ -197,6 +197,22 @@ export class ArlasConfigurationUpdaterService {
   }
 
   /**
+   * Add the default collection as the contributor's collection if not present
+   * @param data configuration object
+   * @returns configuration object
+   */
+  public addCollectionIfMissing(data) {
+    if (data && data.arlas && data.arlas.web && data.arlas.web.contributors) {
+      data.arlas.web.contributors.forEach(contributor => {
+        if (!contributor.collection) {
+          contributor.collection = data.arlas.server.collection.name;
+        }
+      });
+    }
+    return data;
+  }
+
+  /**
    * Removes the properties -from all contributors- including fields that are not available for exploration
    * @param data configuration object
    * @param availableFieldsPerCollection List of available fields for exploration
