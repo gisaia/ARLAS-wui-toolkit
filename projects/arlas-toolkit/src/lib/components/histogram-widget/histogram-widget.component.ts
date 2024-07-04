@@ -314,6 +314,7 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy {
       this.showDetailedHistogram = (detailedHistogramRange <= 0.2 * histogramRange);
       this.resizeMainHistogram();
       if (this.showDetailedHistogram) {
+        this.histogramComponent.histogram.histogramParams.topOffsetRemoveInterval = 0;
         if (!this.detailedContributor) {
           this.initDetailedContributor();
         }
@@ -349,6 +350,7 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy {
 
   private hideDetailedHistogram() {
     this.showDetailedHistogram = false;
+    this.histogramComponent.histogram.histogramParams.topOffsetRemoveInterval = this.componentInputs.topOffsetRemoveInterval;
     if (!!this.detailedContributor) {
       this.detailedContributor.updateData = false;
     }
