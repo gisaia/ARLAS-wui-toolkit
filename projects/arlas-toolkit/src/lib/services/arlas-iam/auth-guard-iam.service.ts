@@ -15,24 +15,26 @@ export class AuthGuardIamService {
   public constructor(
     private router: Router,
     private arlasIamService: ArlasIamService,
-    private settingsService: ArlasSettingsService
   ) { }
 
   public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-    return this.arlasIamService.refresh().pipe(map(loginData => {
-      if (!!loginData) {
-        this.arlasIamService.setHeadersFromAccesstoken(loginData.access_token);
-        return true;
-      } else {
-        return false;
-      }
-    }),
-    catchError(() => this.arlasIamService.logoutWithoutRedirection$().pipe(mergeMap(() => {
-      this.router.navigate(['/login']);
-      return of(false);
-    }))));
-
+    if (!!this.arlasIamService.user) {
+      // If arlasIamService has a user no need to try to refresh
+      // Usefull to not call refresh too many times in app navigation
+      return of(true);
+    } else {
+      return this.arlasIamService.refresh().pipe(map(loginData => {
+        if (!!loginData) {
+          this.arlasIamService.setHeadersFromAccesstoken(loginData.access_token);
+          return true;
+        } else {
+          return false;
+        }
+      }),
+      catchError(() => this.arlasIamService.logoutWithoutRedirection$().pipe(mergeMap(() => {
+        this.router.navigate(['/login']);
+        return of(false);
+      }))));
+    }
   }
-
-
 }
