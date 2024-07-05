@@ -18,6 +18,13 @@
  */
 
 import { Component, OnInit, Input } from '@angular/core';
+import { SpinnerOptions } from '../../tools/utils';
+
+export const DEFAULT_SPINNER_OPTIONS: SpinnerOptions = {
+  color: 'primary',
+  diameter: 100,
+  strokeWidth: 5
+};
 
 @Component({
   selector: 'arlas-tool-progress-spinner',
@@ -26,10 +33,9 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class ProgressSpinnerComponent implements OnInit {
 
-  @Input() public color = 'primary';
-  @Input() public diameter = 100;
-  @Input() public strokeWidth = 5;
-  @Input() public displayProgressSpinner: boolean;
+  @Input() public color = DEFAULT_SPINNER_OPTIONS.color;
+  @Input() public diameter = DEFAULT_SPINNER_OPTIONS.diameter;
+  @Input() public strokeWidth = DEFAULT_SPINNER_OPTIONS.strokeWidth;
 
   public constructor() { }
 

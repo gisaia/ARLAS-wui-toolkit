@@ -81,7 +81,8 @@
       [showStripes]="timelineComponent?.input?.showStripes" [chartXLabel]="timelineComponent?.input?.chartXLabel"
       [shortYLabels]="timelineComponent?.input?.shortYLabels" [xUnit]="timelineComponent?.input?.xUnit"
       [yUnit]="timelineComponent?.input?.yUnit" [useUtc]="timelineContributor?.useUtc"
-      (tooltipEvent)="emitTooltip($event,arlasTimeline)"></arlas-histogram>
+      (tooltipEvent)="emitTooltip($event,arlasTimeline)"
+      (dataPlottedEvent)="afterMainDataPlotted($event)"></arlas-histogram>
   </div>
   <div *ngIf="timelineData.length === 0" class="timeline-empty">
     <mat-icon class="icon">event_busy</mat-icon>
@@ -89,7 +90,8 @@
   </div>
   <arlas-tool-progress-spinner *ngIf="showSpinner" [strokeWidth]="strokeWidthSpinner"
     [color]="colorSpinner" [diameter]="diameterSpinner"
-    [hidden]="!(timelineComponent?.contributorId | contributorUpdating:arlasCollaborativesearchService.totalSubscribe)
-      && !(detailedTimelineComponent?.contributorId | contributorUpdating:arlasCollaborativesearchService.totalSubscribe)">
+    [hidden]="!((timelineComponent?.contributorId | contributorUpdating:arlasCollaborativesearchService.totalSubscribe)
+      || (detailedTimelineComponent?.contributorId | contributorUpdating:arlasCollaborativesearchService.totalSubscribe)
+      || isMainIntervalBrushed || isDetailedIntervalBrushed)">
   </arlas-tool-progress-spinner>
 </div>

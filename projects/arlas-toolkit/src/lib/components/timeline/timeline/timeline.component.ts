@@ -117,7 +117,8 @@ export class TimelineComponent implements OnInit, OnDestroy {
   public detailedTimelineIntervalSelection: SelectedOutputValues;
   public timelineData = [];
   public detailedTimelineData = [];
-  private isDetailedIntervalBrushed = false;
+  protected isDetailedIntervalBrushed = false;
+  protected isMainIntervalBrushed = false;
   private applicationFirstLoad = false;
   private timelineIsFiltered = false;
   public timelineOverlayRef: ArlasOverlayRef;
@@ -203,6 +204,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
    * @param selections List containing only the current selection of detailed timeline
    */
   public onTimelineIntervalBrushed(selections: SelectedOutputValues[]): void {
+    this.isMainIntervalBrushed = true;
     // Once we bruch the main timeline, we want the detailed one to be able to pick up collaborations again
     if (!!this.detailedTimelineContributor) {
       this.detailedTimelineContributor.updateData = true;
@@ -236,7 +238,11 @@ export class TimelineComponent implements OnInit, OnDestroy {
       }
     }
     this.isDetailedIntervalBrushed = false;
-    this.cdr.detectChanges();
+    // this.cdr.detectChanges();
+  }
+
+  public afterMainDataPlotted(e: string) {
+    this.isMainIntervalBrushed = false;
   }
 
   public showHistogramTooltip(tooltip: HistogramTooltip, e: ElementRef, xOffset: number, yOffset: number, right: boolean) {

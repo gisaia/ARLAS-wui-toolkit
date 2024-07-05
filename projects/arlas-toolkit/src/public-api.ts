@@ -71,7 +71,7 @@ export { DeniedAccessDialogComponent } from './lib/components/denied-access-dial
 export { LanguageSwitcherComponent } from './lib/components/language-switcher/language-switcher.component';
 export { LinkComponent } from './lib/components/top-menu/links/link/link.component';
 export { LinksComponent } from './lib/components/top-menu/links/links.component';
-export { ProgressSpinnerComponent } from './lib/components/progress-spinner/progress-spinner.component';
+export { ProgressSpinnerComponent, DEFAULT_SPINNER_OPTIONS } from './lib/components/progress-spinner/progress-spinner.component';
 export { ReconnectDialogComponent } from './lib/components/reconnect-dialog/reconnect-dialog.component';
 export { SearchComponent, SearchDialogComponent } from './lib/components/search/search.component';
 export { ArlasSearchField } from './lib/components/share/model/ArlasSearchField';

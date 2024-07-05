@@ -21,6 +21,8 @@ import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, 
 import { FilterShortcutConfiguration } from './filter-shortcut.utils';
 import { ArlasCollaborativesearchService } from '../../services/startup/startup.service';
 import { OperationEnum, Contributor } from 'arlas-web-core';
+import { SpinnerOptions } from '../../tools/utils';
+import { DEFAULT_SPINNER_OPTIONS } from '../progress-spinner/progress-spinner.component';
 
 
 @Component({
@@ -62,6 +64,16 @@ export class FilterShortcutComponent implements OnInit {
   @Input() public isOpen = false;
 
   /**
+   * @Input : Angular
+   * @description Spinner options when data is loading
+   */
+  @Input() public spinnerOptions: SpinnerOptions = {
+    color: DEFAULT_SPINNER_OPTIONS.color,
+    diameter: DEFAULT_SPINNER_OPTIONS.diameter / 2,
+    strokeWidth: DEFAULT_SPINNER_OPTIONS.strokeWidth
+  };
+
+  /**
    * @Output : Angular
    * @description Event emitted when the shortcut is opened or closed
    */
@@ -76,7 +88,7 @@ export class FilterShortcutComponent implements OnInit {
   public constructor(
     private collaborativeSearchService: ArlasCollaborativesearchService,
     public cdr: ChangeDetectorRef,
-  ) {}
+  ) { }
 
   public ngOnInit(): void {
     if (this.isOpen) {
