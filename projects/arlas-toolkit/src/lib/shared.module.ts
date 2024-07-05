@@ -112,6 +112,7 @@ import { TopMenuComponent } from './components/top-menu/top-menu.component';
 import { LinksComponent } from './components/top-menu/links/links.component';
 import { LinkComponent } from './components/top-menu/links/link/link.component';
 import { BookmarkAddDialogComponent } from './components/bookmark/bookmark-add-dialog.component';
+import { ContributorUpdatingPipe } from './pipes/contributor-updating.pipe';
 
 export class CustomTranslateLoader implements TranslateLoader {
 
@@ -299,7 +300,8 @@ export class CustomTranslateLoader implements TranslateLoader {
     TopMenuComponent,
     AboutComponent,
     AboutDialogComponent,
-    ProcessComponent
+    ProcessComponent,
+    ContributorUpdatingPipe
   ],
   providers: [
     ArlasOverlayService

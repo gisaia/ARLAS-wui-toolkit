@@ -79,6 +79,30 @@ export class TimelineComponent implements OnInit, OnDestroy {
   @Input() public isDisplayHistogram = true;
 
   /**
+   * @Input : Angular
+   * @description Whether or not the spinner is displayed when loading data
+   */
+  @Input() public showSpinner = false;
+
+  /**
+   * @Input : Angular
+   * @description Color palette of the spinner when loading data
+   */
+  @Input() public colorSpinner = 'primary';
+
+  /**
+   * @Input : Angular
+   * @description Diameter of the spinner when loading data
+   */
+  @Input() public diameterSpinner = 100;
+
+  /**
+   * @Input : Angular
+   * @description Stroke of the spinner when loading data
+   */
+  @Input() public strokeWidthSpinner = 5;
+
+  /**
    * @Output : Angular
    * @description Emits when the value of isDisplayHistogram changes
    */
@@ -102,7 +126,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
 
   private _onDestroy$ = new Subject<boolean>();
 
-  public constructor(private arlasCollaborativesearchService: ArlasCollaborativesearchService, private cdr: ChangeDetectorRef,
+  public constructor(protected arlasCollaborativesearchService: ArlasCollaborativesearchService, private cdr: ChangeDetectorRef,
     private arlasStartupService: ArlasStartupService, private arlasOverlayService: ArlasOverlayService,
     private arlasColorService: ArlasColorService) {
   }
