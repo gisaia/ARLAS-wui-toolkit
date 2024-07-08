@@ -50,8 +50,7 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy {
   public showSpinner = false;
   private histogramIsFiltered = false;
   private applicationFirstLoad = false;
-  protected isDetailedIntervalBrushed = false;
-  protected isMainIntervalBrushed = false;
+  private isDetailedIntervalBrushed = false;
 
   public tooltipEvent: Subject<HistogramTooltip> = new Subject<HistogramTooltip>();
 
@@ -173,7 +172,6 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy {
    * Hide the detailed histogram if the selection range is greater than 20% of the histogram range
    */
   public onMainIntervalBrushed(event) {
-    this.isMainIntervalBrushed = true;
     const histogramRange = this.contributor.range;
     const selection = event[event.length - 1];
     if (histogramRange && !!selection) {
@@ -213,11 +211,6 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy {
       this.isDetailedIntervalBrushed = false;
       this.cdr.detectChanges();
     }
-  }
-
-  public afterMainDataPlotted(e: string) {
-    this.isMainIntervalBrushed = false;
-    this.cdr.detectChanges();
   }
 
   public showHistogramTooltip(tooltip: HistogramTooltip, e: ElementRef, xOffset: number, yOffset: number) {

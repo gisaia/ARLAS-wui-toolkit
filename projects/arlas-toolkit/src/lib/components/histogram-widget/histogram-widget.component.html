@@ -1,8 +1,7 @@
 <div [class.detail-status]="showDetailedHistogram">
   <arlas-tool-progress-spinner [strokeWidth]="spinnerOptions?.strokeWidth" [color]="spinnerOptions?.color"
     [diameter]="spinnerOptions?.diameter"
-    [hidden]="!(showSpinner || isMainIntervalBrushed || isDetailedIntervalBrushed
-      || (!!detailedContributor && (detailedContributor.identifier | contributorUpdating:arlasCollaborativesearchService.totalSubscribe))
+    [hidden]="!(showSpinner || (!!detailedContributor && (detailedContributor.identifier | contributorUpdating:arlasCollaborativesearchService.totalSubscribe))
       || (contributor.identifier | contributorUpdating:arlasCollaborativesearchService.totalSubscribe))"></arlas-tool-progress-spinner>
   <div (mouseleave)="hideHistogramTooltip()" #detailed class="detailed-histogram" [class.displayed-detail]="showDetailedHistogram" *ngIf="showDetailedHistogram">
     <button *ngIf="showExportCsv" id="export-csv" matTooltip="{{'Export' | translate }}" class="export-csv-button"
@@ -44,7 +43,7 @@
     </button>
     <arlas-histogram class="histogram-container" #histogram [intervalListSelection]="contributor?.intervalListSelection"
       [intervalSelection]="contributor?.intervalSelection" [data]="contributor?.chartData"
-      (valuesListChangedEvent)="onMainIntervalBrushed($event)" (dataPlottedEvent)="afterMainDataPlotted($event)"
+      (valuesListChangedEvent)="onMainIntervalBrushed($event)"
       [id]="componentInputs?.id" [dataType]="componentInputs?.dataType" [dataUnit]="componentInputs?.dataUnit"
       [valuesDateFormat]="componentInputs?.valuesDateFormat"
       [isHistogramSelectable]="componentInputs?.isHistogramSelectable"
