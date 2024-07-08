@@ -1,5 +1,5 @@
 <mat-menu #menu="matMenu">
-  <mat-button mat-menu-item (click)="openDialogAdd()">
+  <mat-button mat-menu-item (click)="openDialogAdd()" [disabled]="bookmarkService.count>bookmarkService.maxSize">
     <mat-icon>bookmark_add</mat-icon>
     <span>{{ "Add a dataset" | translate }}</span>
   </mat-button>

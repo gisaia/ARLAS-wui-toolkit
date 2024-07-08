@@ -48,9 +48,7 @@ export class BookmarkMenuComponent implements OnInit {
 
   public constructor(
     public dialog: MatDialog,
-    private bookmarkService: ArlasBookmarkService,
-    private startupService: ArlasStartupService
-  ) { }
+    public bookmarkService: ArlasBookmarkService  ) { }
 
   public ngOnInit(): void {
     this.icon = this.icon ? this.icon : 'view_list';
