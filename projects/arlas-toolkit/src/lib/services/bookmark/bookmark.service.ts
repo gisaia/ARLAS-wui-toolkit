@@ -40,6 +40,9 @@ export class ArlasBookmarkService {
   public dataBase: BookmarkLocalDatabase | BookmarkPersistenceDatabase;
   public bookMarkMap: Map<string, BookMark> = new Map<string, BookMark>();
   public selectorById;
+  public count = 0;
+  public maxSize = 1000;
+  public pageNumber = 1;
   public onAction = new Subject<{ action: string; id: string; }>();
 
   public constructor(private collaborativesearchService: ArlasCollaborativesearchService,
@@ -65,6 +68,11 @@ export class ArlasBookmarkService {
       }
       if (this.persistenceService.isAvailable && userConnected ) {
         this.dataBase = new BookmarkPersistenceDatabase(this, this.persistenceService, this.arlasStartupService);
+        this.listBookmarks(this.maxSize, this.pageNumber ).subscribe({
+          error(err) {
+            console.error(err);
+          }
+        });
         this.dataBase.dataChange.subscribe(() => {
           this.bookMarkMap = this.dataBase.storageObjectMap;
         });
@@ -75,6 +83,7 @@ export class ArlasBookmarkService {
         });
       }
       this.selectorById = this.arlasStartupService.selectorById;
+
     }
   }
 

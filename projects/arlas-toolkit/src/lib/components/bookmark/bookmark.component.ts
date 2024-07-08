@@ -23,7 +23,6 @@ import { ArlasBookmarkService } from '../../services/bookmark/bookmark.service';
 import { BookMark } from '../../services/bookmark/model';
 import { BookmarkPersistenceDatabase } from '../../services/bookmark/bookmarkPersistenceDatabase';
 import { BookmarkDataSource } from '../../services/bookmark/bookmarkDataSource';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { BookmarkAddDialogComponent } from './bookmark-add-dialog.component';
 import { ArlasCollaborativesearchService } from '../../services/startup/startup.service';
@@ -41,16 +40,11 @@ export class BookmarkComponent {
   public disableCombine = true;
   public showCombine = true;
 
-  public resultsLength = 0;
-  public pageSize = 10;
-  public pageNumber = 1;
 
   public isPersistenceActive = false;
   public currentCollectionsSet = new Set<string>();
 
   @Output() public actions: Subject<{ action: string; id: string; geometry?: any; }> = new Subject<any>();
-
-  @ViewChild(MatPaginator, { static: false }) public paginator: MatPaginator;
 
   public constructor(
     private bookmarkService: ArlasBookmarkService,
@@ -68,17 +62,17 @@ export class BookmarkComponent {
     // Init component with data from persistence server, if defined and server is reachable
     if (this.bookmarkService.dataBase instanceof BookmarkPersistenceDatabase) {
       this.isPersistenceActive = true;
-      this.bookmarkService.setPage(this.pageSize, this.pageNumber);
+      this.bookmarkService.setPage(this.bookmarkService.maxSize, this.bookmarkService.pageNumber);
       this.getBookmarksList();
       (this.bookmarkService.dataBase as BookmarkPersistenceDatabase).dataChange
         .subscribe((data: { total: number; items: BookMark[]; }) => {
-          this.resultsLength = data.total;
+          this.bookmarkService.count = data.total;
           this.bookmarks = this.getDisplayableBookmarks(data.items);
         });
     } else {
       (this.bookmarkService.dataBase).dataChange
         .subscribe((data: BookMark[]) => {
-          this.resultsLength = data.length;
+          this.bookmarkService.count = data.length;
           this.bookmarks = this.getDisplayableBookmarks(data);
         });
     }
@@ -100,20 +94,13 @@ export class BookmarkComponent {
 
   public getBookmarksList() {
     // The subscribe is needed to consume the response to the request and create a dataChange
-    this.bookmarkService.listBookmarks(this.pageSize, this.pageNumber).subscribe({
+    this.bookmarkService.listBookmarks(this.bookmarkService.maxSize, this.bookmarkService.pageNumber).subscribe({
       error(err) {
         console.error(err);
       }
     });
   }
 
-  public pageChange(pageEvent: PageEvent) {
-    // MatPaginator pageIndex starts at 0 but ARLAS requests start at 1
-    this.pageNumber = pageEvent.pageIndex + 1;
-    this.pageSize = pageEvent.pageSize;
-    this.bookmarkService.setPage(this.pageSize, this.pageNumber);
-    this.getBookmarksList();
-  }
 
   public selectBookmark(event, id) {
     if (event.checked) {
