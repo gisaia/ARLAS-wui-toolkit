@@ -169,6 +169,7 @@
 	"Validate": "Validate",
 	"Bookmark already exists": "A bookmark already exists with this name.",
 	"Bookmark creation error": "Error during bookmark creation.",
+	"Bookmark succefully created.":"Bookmark succefully created.",
 	"Unauthorized to create a dashboard, you need to log in": "Unauthorized to create a dashboard, you need to log in",
 	"Missing permissions to create a dashboard": "Missing permissions to create a dashboard",
 	"A configuration with this name exists already, please choose another name": "A dashboard with this name exists already, please choose another name",
