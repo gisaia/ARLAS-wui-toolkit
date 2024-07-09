@@ -93,7 +93,7 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
   public collapsedHeaderHeight = 32;
   private tabChangeSubscription: Subscription;
   public constructor(
-    private collaborativeService: ArlasCollaborativesearchService,
+    protected collaborativeService: ArlasCollaborativesearchService,
     public analyticsService: AnalyticsService,
   ) { }
 
@@ -150,10 +150,6 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
   public removeFilter(groupId: string, event: any) {
     this.analyticsService.removeFilter(groupId);
     event.stopPropagation();
-  }
-
-  public getContributorStatus(id: string) {
-    return this.collaborativeService.registry.get(id).isDataUpdating;
   }
 
   public openPanel(group: AnalyticGroupConfiguration) {

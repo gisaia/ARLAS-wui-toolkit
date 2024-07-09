@@ -30,6 +30,7 @@ import { OperationEnum } from 'arlas-web-core';
 import { SpinnerOptions, ArlasOverlayRef } from '../../tools/utils';
 import { ArlasOverlayService } from '../../services/overlays/overlay.service';
 import { isShortcutID } from '../filter-shortcut/filter-shortcut.utils';
+import { DEFAULT_SPINNER_OPTIONS } from '../progress-spinner/progress-spinner.component';
 
 
 /**
@@ -78,7 +79,7 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy {
    * @Input : Angular
    * @description Spinner options
    */
-  @Input() public spinnerOptions: SpinnerOptions;
+  @Input() public spinnerOptions: SpinnerOptions = DEFAULT_SPINNER_OPTIONS;
 
   /**
    * @Input : Angular
@@ -105,7 +106,7 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy {
   @ViewChild('detailedhistogram', { static: false }) public detailedHistogramComponent: HistogramComponent;
 
   public constructor(
-    private arlasCollaborativesearchService: ArlasCollaborativesearchService,
+    protected arlasCollaborativesearchService: ArlasCollaborativesearchService,
     private arlasConfigurationService: ArlasConfigService,
     private cdr: ChangeDetectorRef,
     public translate: TranslateService,
@@ -186,7 +187,7 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy {
   }
 
   /** reposition interval of the main histogram after the detail histogram finishes plotting */
-  public afterDetailedDataPlotted(e) {
+  public afterDetailedDataPlotted(e: string) {
     if (this.detailedContributor) {
       if (this.isDetailedIntervalBrushed) {  // If detailed histogram is replotted after moving its own brush.
         // Reset current selection of detailed histogram after it is plotted

@@ -17,29 +17,22 @@
  * under the License.
  */
 
-import { Component, OnInit, Input } from '@angular/core';
-import { SpinnerOptions } from '../../tools/utils';
+import { Pipe, PipeTransform } from '@angular/core';
+import { ArlasCollaborativesearchService } from '../services/startup/startup.service';
 
-export const DEFAULT_SPINNER_OPTIONS: SpinnerOptions = {
-  color: 'primary',
-  diameter: 100,
-  strokeWidth: 5
-};
-
-@Component({
-  selector: 'arlas-tool-progress-spinner',
-  templateUrl: './progress-spinner.component.html',
-  styleUrls: ['./progress-spinner.component.css']
+/**
+ * Checks whether the given contributor is currently updating its data.
+ * To check whenever a collaboration happens whether the contributor is updating,
+ * use the CollaborativeSearchService's totalSubscribe.
+ */
+@Pipe({
+  name: 'contributorUpdating'
 })
-export class ProgressSpinnerComponent implements OnInit {
+export class ContributorUpdatingPipe implements PipeTransform {
 
-  @Input() public color = DEFAULT_SPINNER_OPTIONS.color;
-  @Input() public diameter = DEFAULT_SPINNER_OPTIONS.diameter;
-  @Input() public strokeWidth = DEFAULT_SPINNER_OPTIONS.strokeWidth;
+  public constructor(private collaborativeService: ArlasCollaborativesearchService) {}
 
-  public constructor() { }
-
-  public ngOnInit(): void {
+  public transform(contributorId: string, onGoingSubs: number): boolean {
+    return this.collaborativeService.registry.get(contributorId)?.isDataUpdating === true;
   }
-
 }

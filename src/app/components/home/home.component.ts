@@ -8,11 +8,12 @@ import { ArlasIamService } from '../../../../projects/arlas-toolkit/src/lib/serv
 import {
   ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService
 } from '../../../../projects/arlas-toolkit/src/lib/services/startup/startup.service';
-import { AuthentSetting, CollectionUnit } from '../../../../projects/arlas-toolkit/src/lib/tools/utils';
+import { AuthentSetting, CollectionUnit, SpinnerOptions } from '../../../../projects/arlas-toolkit/src/lib/tools/utils';
 import { ChipsSearchContributor } from 'arlas-web-contributors';
 import { AnalyticsService } from '../../../../projects/arlas-toolkit/src/public-api';
 import packageJson from '../../../../package.json';
 import { fromEvent } from 'rxjs';
+import { DEFAULT_SPINNER_OPTIONS } from '../../../../projects/arlas-toolkit/src/lib/components/progress-spinner/progress-spinner.component';
 
 
 @Component({
@@ -41,12 +42,12 @@ export class HomeComponent implements OnInit {
   public connected = false;
 
   public windowWidth = window.innerWidth;
+  public spinnerOptions: SpinnerOptions = DEFAULT_SPINNER_OPTIONS;
 
   public constructor(
     private arlasStartupService: ArlasStartupService,
     private arlasConfigService: ArlasConfigService,
     private arlasIamService: ArlasIamService,
-    private collaborativeService: ArlasCollaborativesearchService,
     private arlasAuthentService: ArlasAuthentificationService,
     private analyticsService: AnalyticsService
   ) {
