@@ -1,5 +1,29 @@
 # Change Log
 
+## [v25.1.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v25.1.0) (2024-07-09)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.3.18...v25.1.0)
+
+**New stuff:**
+
+- Disable add bookmark button while waiting for server answer [\#728](https://github.com/gisaia/ARLAS-wui-toolkit/issues/728)
+
+**Fixed bugs:**
+
+- Retrocompatibility with stored bookmarks with collection attribute bug [\#802](https://github.com/gisaia/ARLAS-wui-toolkit/issues/802)
+
+## [v24.3.18](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.3.18) (2024-07-01)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v23.3.18...v24.3.18)
+
+## [v23.3.18](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v23.3.18) (2024-07-01)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v25.0.3...v23.3.18)
+
+**Fixed bugs:**
+
+- FGA fields to be hidden should be listed by collection [\#803](https://github.com/gisaia/ARLAS-wui-toolkit/issues/803)
+
 ## [v25.0.3](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v25.0.3) (2024-06-18)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v25.0.2...v25.0.3)
