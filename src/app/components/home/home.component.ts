@@ -1,16 +1,22 @@
-import { Component, OnInit } from '@angular/core';
-import { FilterShortcutConfiguration } from '../../../../projects/arlas-toolkit/src/lib/components/filter-shortcut/filter-shortcut.utils';
-import { TimelineConfiguration } from '../../../../projects/arlas-toolkit/src/lib/components/timeline/timeline/timeline.utils';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import {
+  FilterShortcutConfiguration
+} from '../../../../projects/arlas-toolkit/src/lib/components/filter-shortcut/filter-shortcut.utils';
+import {
+  TimelineConfiguration
+} from '../../../../projects/arlas-toolkit/src/lib/components/timeline/timeline/timeline.utils';
 import {
   ArlasAuthentificationService
 } from '../../../../projects/arlas-toolkit/src/lib/services/arlas-authentification/arlas-authentification.service';
 import { ArlasIamService } from '../../../../projects/arlas-toolkit/src/lib/services/arlas-iam/arlas-iam.service';
 import {
-  ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService
+  ArlasCollaborativesearchService,
+  ArlasConfigService,
+  ArlasStartupService
 } from '../../../../projects/arlas-toolkit/src/lib/services/startup/startup.service';
 import { AuthentSetting, CollectionUnit, SpinnerOptions } from '../../../../projects/arlas-toolkit/src/lib/tools/utils';
 import { ChipsSearchContributor } from 'arlas-web-contributors';
-import { AnalyticsService } from '../../../../projects/arlas-toolkit/src/public-api';
+import { AnalyticsService, ArlasOverlayService } from '../../../../projects/arlas-toolkit/src/public-api';
 import packageJson from '../../../../package.json';
 import { fromEvent } from 'rxjs';
 import { DEFAULT_SPINNER_OPTIONS } from '../../../../projects/arlas-toolkit/src/lib/components/progress-spinner/progress-spinner.component';
@@ -44,12 +50,15 @@ export class HomeComponent implements OnInit {
   public windowWidth = window.innerWidth;
   public spinnerOptions: SpinnerOptions = DEFAULT_SPINNER_OPTIONS;
 
+  @ViewChild('tooltip') tooltip
+
   public constructor(
     private arlasStartupService: ArlasStartupService,
     private arlasConfigService: ArlasConfigService,
     private arlasIamService: ArlasIamService,
     private arlasAuthentService: ArlasAuthentificationService,
-    private analyticsService: AnalyticsService
+    private analyticsService: AnalyticsService,
+    private arlasOverlayService: ArlasOverlayService
   ) {
 
   }
@@ -77,11 +86,67 @@ export class HomeComponent implements OnInit {
     if (!!authConfig && authConfig.use_authent) {
       if (authConfig.auth_mode === 'iam') {
         // IAM
-        this.arlasIamService.tokenRefreshed$.subscribe({ next: (data) => this.connected = !!data && !!data.user });
+        this.arlasIamService.tokenRefreshed$.subscribe({next: (data) => this.connected = !!data && !!data.user});
       } else {
         // AUTH 0
       }
     }
+
+    /**
+     * to test tooltip
+     */
+    const noTime = {
+      "xValue": "2.2",
+      "xStartValue": "2.2",
+      "xEndValue": "2.4",
+      "xRange": {
+        "value": 0.2
+      },
+      "dataType": "numeric",
+      "y": [
+        {
+          "value": "1",
+          "chartId": "demo_sea_phys_bcg",
+          "color": "#19e3ff"
+        }
+      ],
+      "shown": true,
+      "xPosition": 64,
+      "yPosition": 30,
+      "chartWidth": 217,
+      "title": "sqxqsxsq",
+      "xLabel": "",
+      "yLabel": "qxqsxqs",
+      "xUnit": "",
+      "yUnit": "Marine observations"
+    };
+    const time = {
+      'xValue': '25 December 2016',
+      'xStartValue': '25 December 2016',
+      'xEndValue': '25 February 2016',
+      'xRange': {
+        'value': 60,
+        'unit': 'days (~ 2 months)'
+      },
+      'dataType': 'time',
+      'y': [
+        {
+          'value': '7 538',
+          'chartId': 'demo_algoe',
+          'color': '#c12e45'
+        }
+      ],
+      'shown': true,
+      'xPosition': 849.0138549804688,
+      'yPosition': 80.01388549804688,
+      'chartWidth': 2101,
+      'title': 'Timeline',
+      'xLabel': 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
+      'yLabel': 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
+      'xUnit': 'voiture',
+      'yUnit': 'velo'
+    };
+    this.arlasOverlayService.openHistogramTooltip({data: noTime}, this.tooltip, 0, 0, false);
 
     fromEvent(window, 'resize')
       .subscribe((event: Event) => {
@@ -98,6 +163,7 @@ export class HomeComponent implements OnInit {
       this.lastShortcutOpen = idx;
     }
   }
+
   private getContributorConfig(contributorIdentifier: string) {
     return this.arlasStartupService.emptyMode ? undefined : this.arlasConfigService.getValue('arlas.web.contributors').find(
       contrib => (contrib.identifier === contributorIdentifier)
