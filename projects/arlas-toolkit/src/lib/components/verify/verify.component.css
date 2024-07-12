@@ -96,3 +96,10 @@
 .error {
   background-color: rgb(244, 67, 54);
 }
+
+.form-text-detail {
+  font-size: 12px;
+  color: #606770;
+  padding: 10px 0;
+  display: inline-block;
+}
