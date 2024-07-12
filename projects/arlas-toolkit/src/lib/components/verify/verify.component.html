@@ -8,7 +8,7 @@
 
         <form [formGroup]="validateForm" (ngSubmit)="onSubmit(formDirective)" #formDirective="ngForm">
           <div class="form-content" *ngIf="displayForm">
-            <span class="form-text-detail">{{'Validate your email and set your password:' | translate}}</span>
+            <span class="form-text-detail">{{'To validate your email, please set your password:' | translate}}</span>
             <mat-form-field appearance="outline">
               <mat-label>{{'Password' | translate}}</mat-label>
               <input matInput type="password" formControlName="password">
