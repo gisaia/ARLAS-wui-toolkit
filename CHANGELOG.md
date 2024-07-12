@@ -1,11 +1,16 @@
 # Change Log
 
+## [v25.1.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v25.1.1) (2024-07-12)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v25.1.0...v25.1.1)
+
 ## [v25.1.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v25.1.0) (2024-07-09)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.3.18...v25.1.0)
 
 **New stuff:**
 
+- Update layout of X and Y labels in histogram tooltip  [\#781](https://github.com/gisaia/ARLAS-wui-toolkit/issues/781)
 - Disable add bookmark button while waiting for server answer [\#728](https://github.com/gisaia/ARLAS-wui-toolkit/issues/728)
 
 **Fixed bugs:**
