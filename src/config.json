@@ -133,8 +133,12 @@
           "sort": {
             "collection": "demo_ais_flow",
             "termfield": "course.arrival.address.country",
-            "order": "desc",
-            "on": "count"
+            "order": "asc",
+            "on": "metric",
+            "metric": {
+              "metric": "sum",
+              "field": "course.distance.gps.travelled_m"
+            }
           },
           "configuration": {
             "demo_ais_flowcourse.arrival.address.country": {
@@ -143,6 +147,10 @@
               "metrics": [
                 {
                   "metric": "count"
+                },
+                {
+                  "metric": "sum",
+                  "field": "course.distance.gps.travelled_m"
                 }
               ]
             },
