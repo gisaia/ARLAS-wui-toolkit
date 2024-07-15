@@ -1,0 +1,50 @@
+{
+  "id": "d-w",
+  "version": "0.0.0",
+  "title": "Download",
+  "description": "Télécharger un ou plusieurs produits",
+  "inputs": {
+    "target_format": {
+      "title": "Format",
+      "description": "Format des produits téléchargés",
+      "schema": {
+        "type": "string",
+        "enum": [
+          "Geotiff",
+          "JPEG2000"
+        ],
+        "required": true
+      }
+    },
+    "target_projection": {
+      "title": "Système de coordonées",
+      "description": "Système de coordonées des produits téléchargés",
+      "schema": {
+        "type": "object",
+        "enum": [
+          {
+            "label": "WGS 84",
+            "value": "epsg:4326",
+            "bbox": [-180.0, -90.0,
+              180.0, 90.0]
+          },
+          {
+            "label": "Hu Tzu Shan 1950",
+            "value": "epsg:4236",
+            "bbox": [119.2, 21.87,
+              122.06,25.34]
+          },
+          {
+            "label": "ESRI:102011",
+            "value": "epsg:1984",
+            "bbox": [-25.0, -35.0,
+              55.0,39.0]
+          }
+        ]
+      }
+    }
+  },
+  "additionalParameters": {
+    "parameters": []
+  }
+}

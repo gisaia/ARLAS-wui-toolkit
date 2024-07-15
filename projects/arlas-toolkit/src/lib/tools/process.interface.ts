@@ -32,12 +32,17 @@ export interface ProcessInputs {
   [key: string]: ProcessInput;
 }
 
+export interface Projection {
+  [key: string]: ProcessInput;
+}
+
+
 export interface ProcessInput {
   title: string;
   description: string;
   schema: {
     type: string;
-    enum?: string[];
+    enum?: string[] | Projection[];
     format?: string;
     items?: {
       type: string;

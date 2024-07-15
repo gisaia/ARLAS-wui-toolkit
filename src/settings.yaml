@@ -8,6 +8,11 @@ authentication:
   threshold: 5000
   url: http://localhost:9997/arlas_iam_server
   sign_up_enabled: true
+process:
+  settings:
+    url: http://localhost:33773/assets/processes/download.json
+  status:
+    url: ''
 links:
   - name: Explorer
     icon: landscape

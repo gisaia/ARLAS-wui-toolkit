@@ -19,10 +19,10 @@
 
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { Process, ProcessOutput } from '../../tools/process.interface';
 import { ArlasSettingsService } from '../settings/arlas.settings.service';
-import { Expression, Search, Filter } from 'arlas-api';
+import { Expression, Filter, Search } from 'arlas-api';
 import { projType } from 'arlas-web-core';
 import { ArlasCollaborativesearchService } from '../startup/startup.service';
 
@@ -108,14 +108,15 @@ export class ProcessService {
   public getItemsDetail(
     idFieldName,
     itemsId: string[],
-    additionalParams: any[],
+    fields: any[],
     collection: string
-  ): Observable<Map<string, boolean>> {
+  ): Observable<Map<string, any>> {
+    // properties.main_asset_format its the field to pass to get the object value
     const search: Search = {
       page: { size: itemsId.length },
       form: { pretty: false, flat: true },
       projection: {
-        includes: additionalParams.map(p => p.value.field).join(',')
+        includes: fields.map(field => field).join(',')
       }
     };
     const expression: Expression = {
@@ -137,17 +138,14 @@ export class ProcessService {
         true
       );
     return searchResult.pipe(map((data: any) => {
-
       const matchingAdditionalParams = new Map<string, boolean>();
       if (!!data && !!data?.hits && data.hits.length > 0) {
         const regexReplacePoint = /\./gi;
         data.hits.forEach(i => {
           const itemMetadata = i.data;
-          additionalParams.forEach(f => {
+          fields.forEach(f => {
             const flattenField = f.value.field.replace(regexReplacePoint, '_');
-            if (f.value.value === itemMetadata[flattenField]) {
-              matchingAdditionalParams.set(f.name, true);
-            }
+            matchingAdditionalParams.set(f.name, itemMetadata[flattenField]);
           });
         });
       }
