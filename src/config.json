@@ -132,28 +132,23 @@
           "nbterms": 3,
           "sort": {
             "collection": "demo_ais_flow",
-            "order": "asc",
-            "on": "metric",
-            "metric": {
-              "metric": "sum",
-              "field": "course.distance.gps.travelled_m"
-            }
+            "termfield": "course.arrival.address.country",
+            "order": "desc",
+            "on": "count"
           },
           "configuration": {
-            "demo_ais_flow": {
+            "demo_ais_flowcourse.arrival.address.country": {
               "termfield": "course.arrival.address.country",
+              "collection": "demo_ais_flow",
               "metrics": [
                 {
                   "metric": "count"
-                },
-                {
-                  "metric": "sum",
-                  "field": "course.distance.gps.travelled_m"
                 }
               ]
             },
-            "demo_ais_course": {
+            "demo_ais_coursearrival.address.country": {
               "termfield": "arrival.address.country",
+              "collection": "demo_ais_course",
               "metrics": [
                 {
                   "metric": "count"
@@ -835,11 +830,14 @@
                   "display": true
                 },
                 "useColorService": true,
-                "applyColorTo": "row"
+                "applyColorTo": "row",
+                "headerDisplayMode": "full",
+                "normaliseBy": "column"
 
               },
               "contributorId": "metricstable-1",
-              "usage": "analytics"
+              "uuid": "85fc2576-10cd-4a90-9691-d26b60d9b770",
+              "usage": "both"
             },
             {
               "showExportCsv": true,
@@ -1180,19 +1178,24 @@
       ],
       "filters_shortcuts": [
         {
+          "uuid": "85fc2576-10cd-4a90-9691-d26b60d9b770",
+          "title": "Table metrics",
+          "order": 1
+        },
+        {
           "uuid": "85fc2576-10cd-4a90-9691-d26b60d9b774",
           "title": "Type de bien",
-          "order": 1
+          "order": 2
         },
         {
           "uuid": "d0fc0203-e56c-4c36-a330-dda760344196",
           "title": "Valeur moyenne à travers le temps",
-          "order": 2
+          "order": 3
         },
         {
           "uuid": "40cf9f83-aea3-47f2-a6aa-0d9f9e2375c0",
           "title": "Distribution de la valeur",
-          "order": 3
+          "order": 4
         }
       ],
       "colorGenerator": {

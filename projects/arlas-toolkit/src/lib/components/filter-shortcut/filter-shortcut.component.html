@@ -17,7 +17,7 @@
         </section>
         <div *ngIf="isOpen" class="separator"></div>
         <section *ngIf="isOpen" class="content" [style.width.px]="titleWidth > shortcutWidth + 10 ? titleWidth - 10 : shortcutWidth">
-            <arlas-tool-widget
+            <arlas-tool-widget style="width:100%"
                 id="{{'shortcut-widget-' +  shortcut.uuid}}"
                 [componentType]="shortcut.component.componentType"
                 [contributorId]="shortcut.component?.contributorId"
