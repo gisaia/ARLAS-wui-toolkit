@@ -10,16 +10,23 @@ import {
 } from '../../../../projects/arlas-toolkit/src/lib/services/arlas-authentification/arlas-authentification.service';
 import { ArlasIamService } from '../../../../projects/arlas-toolkit/src/lib/services/arlas-iam/arlas-iam.service';
 import {
-  ArlasCollaborativesearchService,
   ArlasConfigService,
   ArlasStartupService
 } from '../../../../projects/arlas-toolkit/src/lib/services/startup/startup.service';
 import { AuthentSetting, CollectionUnit, SpinnerOptions } from '../../../../projects/arlas-toolkit/src/lib/tools/utils';
 import { ChipsSearchContributor } from 'arlas-web-contributors';
-import { AnalyticsService, ArlasOverlayService } from '../../../../projects/arlas-toolkit/src/public-api';
+import {
+  AiasDownloadComponent,
+  AnalyticsService,
+  ArlasOverlayService,
+  ProcessService
+} from '../../../../projects/arlas-toolkit/src/public-api';
 import packageJson from '../../../../package.json';
 import { fromEvent } from 'rxjs';
-import { DEFAULT_SPINNER_OPTIONS } from '../../../../projects/arlas-toolkit/src/lib/components/progress-spinner/progress-spinner.component';
+import {
+  DEFAULT_SPINNER_OPTIONS
+} from '../../../../projects/arlas-toolkit/src/lib/components/progress-spinner/progress-spinner.component';
+import { MatDialog } from "@angular/material/dialog";
 
 
 @Component({
@@ -56,15 +63,18 @@ export class HomeComponent implements OnInit {
     private arlasStartupService: ArlasStartupService,
     private arlasConfigService: ArlasConfigService,
     private arlasIamService: ArlasIamService,
+    private processService: ProcessService,
     private arlasAuthentService: ArlasAuthentificationService,
     private analyticsService: AnalyticsService,
-    private arlasOverlayService: ArlasOverlayService
+    private arlasOverlayService: ArlasOverlayService,
+    private dialog: MatDialog
   ) {
 
   }
 
   public ngOnInit(): void {
-
+    this.processService.setOptions({});
+    this.processService.load().subscribe();
     this.analyticsService.initializeGroups(this.arlasStartupService.analytics);
     this.shortcuts = this.arlasStartupService.filtersShortcuts;
     this.languages = ['en', 'fr', 'it', 'es', 'de', 'us', 'cn'];
@@ -168,5 +178,14 @@ export class HomeComponent implements OnInit {
     return this.arlasStartupService.emptyMode ? undefined : this.arlasConfigService.getValue('arlas.web.contributors').find(
       contrib => (contrib.identifier === contributorIdentifier)
     );
+  }
+
+  openProcess() {
+   const downloadDialogRef = this.dialog.open(AiasDownloadComponent, { minWidth: '520px', maxWidth: '60vw' });
+    downloadDialogRef.componentInstance.nbProducts = 2;
+    downloadDialogRef.componentInstance.itemDetail = new Map();
+    downloadDialogRef.componentInstance.wktAoi = null;
+    downloadDialogRef.componentInstance.ids = ['1', '2'];
+    downloadDialogRef.componentInstance.collection = 'totot';
   }
 }

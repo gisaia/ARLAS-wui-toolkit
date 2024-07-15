@@ -1,0 +1,126 @@
+<div mat-dialog-title>
+  {{process.title | translate}}
+  <div class="sub-title">{{process.description | translate}}</div>
+</div>
+<div mat-dialog-content>
+  <mat-stepper [linear]="true">
+    <mat-step [stepControl]="formGroup" [editable]="!isProcessStarted" label="{{'Parameters' | translate}}"
+      state="params">
+      <div class="step">
+        <div [formGroup]="formGroup!" class="form">
+          <section class="example-section">
+            <mat-checkbox class="example-margin" [formControlName]="'row_archive'">{{'Download the entire archive' | translate}}</mat-checkbox>
+            <div class="warning-text">
+              <mat-icon>warning</mat-icon>
+              <span>{{'Without cutting if Boolean AOI is true' | translate}}</span>
+            </div>
+          </section>
+
+          <section *ngIf="displayAoiForms"  class="example-section">
+            <mat-checkbox class="example-margin" [formControlName]="'crop_wkt'">{{'Download picture and metadata' | translate}}</mat-checkbox>
+          </section>
+
+          <!-- Enum case -->
+          <mat-form-field *ngIf="displayProjectionFrom" class="field" appearance="outline"
+                          matTooltip="{{'Coordinate system for downloaded products' | translate}}" [matTooltipShowDelay]="tooltipDelay"
+                          [matTooltipPosition]="'before'">
+            <mat-label>{{'Coordinate system' | translate}}</mat-label>
+            <mat-select [formControlName]="'target_projection'" class="data-cy-target_projection">
+              <mat-option *ngFor="let opt of inputs.get('target_projection')?.schema.enum" [value]="opt.value">{{opt?.label | translate}}</mat-option>
+            </mat-select>
+            <mat-hint [align]="'end'">{{'Coordinate system for downloaded products' | translate}}</mat-hint>
+          </mat-form-field>
+
+          <mat-form-field *ngIf="displayFormatFrom" class="field" appearance="outline"
+                          matTooltip="{{'Format of downloaded products' | translate}}" [matTooltipShowDelay]="tooltipDelay"
+                          [matTooltipPosition]="'before'" >
+            <mat-label>{{'Format' | translate}}</mat-label>
+            <mat-select [formControlName]="'target_format'" class="data-cy-target_format" >
+              <mat-option *ngFor="let opt of inputs.get('target_format')?.schema.enum" [value]="opt">{{opt  | translate}}</mat-option>
+            </mat-select>
+            <mat-hint [align]="'end'">{{'Format of downloaded products' | translate}}</mat-hint>
+          </mat-form-field>
+        </div>
+        <div class="buttons">
+          <button mat-flat-button mat-dialog-close>{{'Cancel' | translate}}</button>
+          <button [color]="'primary'" matStepperNext mat-flat-button [disabled]="!formGroup.valid">
+            {{'Next' | translate}}</button>
+        </div>
+      </div>
+    </mat-step>
+    <mat-step label="{{'Summary' | translate}}" class="step" state="summary">
+      <div class="step">
+        <div class="summary">
+          <div class="infos">{{'You are about to launch process for' | translate}} {{nbProducts}} {{'product(s)' |
+            translate}} <br />{{'with the following parameters' | translate }}
+            : </div>
+          <ng-container *ngFor="let param of controlsName;let fieldIndex=index">
+            <div *ngIf="!!formGroup.get(param).value && inputs[fieldIndex]?.schema.type !== 'AOI'" class="params">
+              <span class="label">{{inputs[fieldIndex]?.title}}</span>: <span
+                class="value">{{formGroup.get(param).value}}</span>
+            </div>
+          </ng-container>
+
+          <div class="params">
+            <span class="label">{{'Coordinate system for downloaded products'| translate}}</span>:
+            <span class="value" *ngIf="formGroup.get('target_projection').value">{{ formGroup.get('target_projection').value }}</span>
+          </div>
+
+          <div class="params">
+            <span class="label">{{'Format of downloaded products'| translate}}</span>:
+            <span class="value" *ngIf="formGroup.get('target_format').value">{{ formGroup.get('target_format').value }}</span>
+          </div>
+
+          <div class="params">
+            <span class="label">{{'Crop using the geographical filter'| translate}}</span>:
+            <span class="value" *ngIf="formGroup.get('crop_wkt').value">{{ 'yes' | translate}}</span>
+            <span class="value" *ngIf="!formGroup.get('crop_wkt').value">{{ 'no' | translate}}</span>
+          </div>
+        </div>
+        <div class="buttons" *ngIf="!isProcessing && !isProcessStarted">
+          <button mat-flat-button mat-button matStepperPrevious>{{'Previous' | translate}}</button>
+          <button [color]="'primary'" [disabled]="isProcessing" matStepperNext mat-flat-button
+            [disabled]="!formGroup.valid" (click)="submit()">
+            {{'Run' | translate}}</button>
+        </div>
+      </div>
+    </mat-step>
+
+    <!-- Icon overrides. -->
+    <ng-template matStepperIcon="params">
+      <mat-icon>settings</mat-icon>
+    </ng-template>
+    <ng-template matStepperIcon="summary">
+      <mat-icon>summarize</mat-icon>
+    </ng-template>
+    <ng-template matStepperIcon="edit">
+      <mat-icon>check</mat-icon>
+    </ng-template>
+  </mat-stepper>
+  <div *ngIf="isProcessStarted" class="process-result">
+    <mat-progress-bar *ngIf="isProcessing" [mode]="'indeterminate'"></mat-progress-bar>
+    <div *ngIf="isProcessing && !!statusResult?.status" class="processing">
+      <div>{{'Downloading' | translate}}...</div>
+      <div class="status status-{{statusResult?.status}}">{{statusResult?.status | translate}}</div>
+    </div>
+    <div class="detail" *ngIf="!isProcessing && !hasError">
+      <div>
+        <div class="prop">
+          <div class="label">{{'Started' | translate}}:</div>
+          <div class="value">{{statusResult.started ? (statusResult.started * 1000 | date:'medium') : '--'}}</div>
+        </div>
+        <div class="prop">
+          <div class="label">{{'Finished' | translate}}:</div>
+          <div class="value">{{statusResult.finished ? (statusResult.finished * 1000 | date:'medium') : '--'}}</div>
+        </div>
+      </div>
+      <div class="status status-{{statusResult?.status}}">{{statusResult?.status | translate}}</div>
+    </div>
+    <div class="error" *ngIf="hasError">
+      {{'processing error occured' | translate:{ processingName: (process.title | translate)} }}
+    </div>
+    <div class="close">
+      <button mat-dialog-close="true" mat-button>{{'Close dialog' | translate}}</button>
+    </div>
+  </div>
+</div>

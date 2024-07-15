@@ -1,8 +1,10 @@
-<div #tooltip></div>
+
+
 <arlas-top-menu [wuiName]="'ARLAS Toolkit'" [version]="version">
   <div left-menu class="left-menu">
     <div>ARLAS Toolkit</div>
     <arlas-search [searchContributor]="searchContributor" [dialogPositionTop]="10" [dialogPositionLeft]="50"></arlas-search>
+    <button (click)="openProcess()">process</button>
   </div>
   <div middle-menu class="shortcut-list">
     <ng-container *ngFor="let shortcut of shortcuts; let idx=index" >
@@ -28,3 +30,5 @@
 
 <arlas-analytics-board class="arlas-board" [showSpinner]="true" [showIndicators]="true"></arlas-analytics-board>
 <arlas-tool-root></arlas-tool-root>
+
+<div #tooltip></div>

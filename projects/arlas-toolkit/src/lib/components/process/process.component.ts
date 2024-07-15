@@ -3,11 +3,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ProcessService } from '../../services/process/process.service';
-import { ProcessInput, Process, ProcessInputs, ProcessOutput, ProcessStatus } from '../../tools/process.interface';
+import { Process, ProcessInput, ProcessInputs, ProcessOutput, ProcessStatus } from '../../tools/process.interface';
 import { Observable, Subject, Subscription, takeUntil, timer } from 'rxjs';
-import { filter } from 'rxjs/operators';
 import { MatCheckboxChange } from '@angular/material/checkbox';
-
 
 
 @Component({
