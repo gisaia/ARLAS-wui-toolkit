@@ -101,7 +101,6 @@ import {
 import { HistogramWidgetComponent } from './components/histogram-widget/histogram-widget.component';
 import { DeniedAccessDialogComponent } from './components/denied-access-dialog/denied-access-dialog.component';
 import { LanguageSwitcherComponent } from './components/language-switcher/language-switcher.component';
-import { ProcessComponent } from './components/process/process.component';
 import { ProgressSpinnerComponent } from './components/progress-spinner/progress-spinner.component';
 import { ReconnectDialogComponent } from './components/reconnect-dialog/reconnect-dialog.component';
 import { SearchComponent, SearchDialogComponent } from './components/search/search.component';
@@ -129,7 +128,7 @@ import { LinksComponent } from './components/top-menu/links/links.component';
 import { LinkComponent } from './components/top-menu/links/link/link.component';
 import { BookmarkAddDialogComponent } from './components/bookmark/bookmark-add-dialog.component';
 import { ContributorUpdatingPipe } from './pipes/contributor-updating.pipe';
-import { AiasDownloadComponent } from "./components/aias-download/aias-download.component";
+import { AiasDownloadComponent } from './components/aias-download/aias-download.component';
 
 export class CustomTranslateLoader implements TranslateLoader {
 
@@ -317,7 +316,6 @@ export class CustomTranslateLoader implements TranslateLoader {
     TopMenuComponent,
     AboutComponent,
     AboutDialogComponent,
-    ProcessComponent,
     AiasDownloadComponent,
     ContributorUpdatingPipe
   ],

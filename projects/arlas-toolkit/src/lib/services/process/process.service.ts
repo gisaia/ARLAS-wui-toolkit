@@ -20,7 +20,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { Process, ProcessOutput } from '../../tools/process.interface';
+import { ProcessInputs, ProcessOutput } from '../../tools/process.interface';
 import { ArlasSettingsService } from '../settings/arlas.settings.service';
 import { Expression, Filter, Search } from 'arlas-api';
 import { projType } from 'arlas-web-core';
@@ -30,7 +30,7 @@ import { ArlasCollaborativesearchService } from '../startup/startup.service';
   providedIn: 'root'
 })
 export class ProcessService {
-  private processDescription: Process = {};
+  private processInputs: ProcessInputs = {};
   private options;
 
   public constructor(
@@ -73,20 +73,20 @@ export class ProcessService {
     return this.http.get(this.arlasSettingsService.getProcessSettings()?.check_url, this.options);
   }
 
-  public getProcessDescription(): Process {
-    return this.processDescription;
+  public getProcessinputs(): ProcessInputs {
+    return this.processInputs;
   }
 
-  public setProcessDescription(process: Process): void {
-    this.processDescription = process;
+  public setProcessInputs(process: ProcessInputs): void {
+    this.processInputs = process;
   }
 
-  public load(): Observable<Process> {
+  public load(): Observable<ProcessInputs> {
     return this.http.get(this.arlasSettingsService.getProcessSettings()?.settings.url, Object.assign(this.options, { responseType: 'text' }))
       .pipe(
         map(c => {
-          const process: Process = JSON.parse(c as any);
-          this.setProcessDescription(process);
+          const process: ProcessInputs = JSON.parse(c as any);
+          this.setProcessInputs(process);
           return process;
         })
       );

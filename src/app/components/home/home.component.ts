@@ -205,11 +205,22 @@ export class HomeComponent implements OnInit {
   }
 
   openProcess() {
-   const downloadDialogRef = this.dialog.open(AiasDownloadComponent, { minWidth: '520px', maxWidth: '60vw' });
-    downloadDialogRef.componentInstance.nbProducts = 2;
-    downloadDialogRef.componentInstance.itemDetail = new Map();
-    downloadDialogRef.componentInstance.wktAoi = null;
-    downloadDialogRef.componentInstance.ids = ['1', '2'];
-    downloadDialogRef.componentInstance.collection = 'totot';
+    const wkt2 = 'POLYGON ((120.525513 23.397724, 120.481567 22.912863, 121.096802 23.104997, 120.855103 23.317036, 120.525513 23.397724))';
+    //located in africa near chad and niger
+    const wkt = 'POLYGON((10 10, 20 10, 20 20, 10 20, 10 10),(13 13, 17 13, 17 17, 13 17, 13 13))';
+    const item = new Map().set('target_format', 'Geotiff')
+   const downloadDialogRef = this.dialog.open(
+     AiasDownloadComponent,
+     {
+       minWidth: '520px',
+       maxWidth: '60vw' ,
+       data: {
+         nbProducts: 1,
+         itemDetail: item,
+         wktAoi: wkt2,
+         ids: ['1'],
+         collection: 'totot',
+       }
+     });
   }
 }

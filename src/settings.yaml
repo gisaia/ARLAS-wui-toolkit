@@ -10,7 +10,7 @@ authentication:
   sign_up_enabled: true
 process:
   settings:
-    url: http://localhost:33773/assets/processes/download.json
+    url: http://localhost:40745/assets/processes/download.json
   status:
     url: ''
 links:
