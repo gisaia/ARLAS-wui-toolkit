@@ -137,7 +137,6 @@ export { ForgotComponent } from './lib/components/forgot/forgot.component';
 export { ResetComponent } from './lib/components/reset/reset.component';
 export { ArlasIamApi } from './lib/services/startup/startup.service';
 export { ArlasAuthentificationService } from './lib/services/arlas-authentification/arlas-authentification.service';
-export { ProcessComponent } from './lib/components/process/process.component';
 export { AiasDownloadComponent } from './lib/components/aias-download/aias-download.component';
 export { ProcessService } from './lib/services/process/process.service';
 export { ArlasError, ActionType } from './lib/tools/errors/error';

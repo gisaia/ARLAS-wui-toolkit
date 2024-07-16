@@ -1,23 +1,26 @@
 <div mat-dialog-title>
-  {{process.title | translate}}
-  <div class="sub-title">{{process.description | translate}}</div>
+  {{ 'Download' | translate}}
+  <div class="sub-title">{{ 'Download one or more products' | translate}}</div>
 </div>
 <div mat-dialog-content>
   <mat-stepper [linear]="true">
     <mat-step [stepControl]="formGroup" [editable]="!isProcessStarted" label="{{'Parameters' | translate}}"
       state="params">
       <div class="step">
-        <div [formGroup]="formGroup!" class="form">
-          <section class="example-section">
-            <mat-checkbox class="example-margin" [formControlName]="'row_archive'">{{'Download the entire archive' | translate}}</mat-checkbox>
+        <form [formGroup]="formGroup" class="form">
+          <section class="field">
+            <div>
+              <span class="checkbox-hint">{{'Uncheck to download image only' | translate}}</span>
+            </div>
+            <mat-checkbox [formControlName]="'row_archive'">{{'Download the entire archive' | translate}}</mat-checkbox>
             <div class="warning-text">
               <mat-icon>warning</mat-icon>
               <span>{{'Without cutting if Boolean AOI is true' | translate}}</span>
             </div>
           </section>
 
-          <section *ngIf="displayAoiForms"  class="example-section">
-            <mat-checkbox class="example-margin" [formControlName]="'crop_wkt'">{{'Download picture and metadata' | translate}}</mat-checkbox>
+          <section *ngIf="displayAoiForms"  class="field">
+            <mat-checkbox [formControlName]="'crop_wkt'">{{'Crop using the geographical filter'| translate}}</mat-checkbox>
           </section>
 
           <!-- Enum case -->
@@ -26,7 +29,7 @@
                           [matTooltipPosition]="'before'">
             <mat-label>{{'Coordinate system' | translate}}</mat-label>
             <mat-select [formControlName]="'target_projection'" class="data-cy-target_projection">
-              <mat-option *ngFor="let opt of inputs.get('target_projection')?.schema.enum" [value]="opt.value">{{opt?.label | translate}}</mat-option>
+              <mat-option *ngFor="let opt of projections" [value]="opt?.value">{{opt?.label}}</mat-option>
             </mat-select>
             <mat-hint [align]="'end'">{{'Coordinate system for downloaded products' | translate}}</mat-hint>
           </mat-form-field>
@@ -36,11 +39,11 @@
                           [matTooltipPosition]="'before'" >
             <mat-label>{{'Format' | translate}}</mat-label>
             <mat-select [formControlName]="'target_format'" class="data-cy-target_format" >
-              <mat-option *ngFor="let opt of inputs.get('target_format')?.schema.enum" [value]="opt">{{opt  | translate}}</mat-option>
+              <mat-option *ngFor="let opt of pictureFormats" [value]="opt.value">{{opt.label}}</mat-option>
             </mat-select>
             <mat-hint [align]="'end'">{{'Format of downloaded products' | translate}}</mat-hint>
           </mat-form-field>
-        </div>
+        </form>
         <div class="buttons">
           <button mat-flat-button mat-dialog-close>{{'Cancel' | translate}}</button>
           <button [color]="'primary'" matStepperNext mat-flat-button [disabled]="!formGroup.valid">
@@ -51,37 +54,32 @@
     <mat-step label="{{'Summary' | translate}}" class="step" state="summary">
       <div class="step">
         <div class="summary">
-          <div class="infos">{{'You are about to launch process for' | translate}} {{nbProducts}} {{'product(s)' |
-            translate}} <br />{{'with the following parameters' | translate }}
-            : </div>
-          <ng-container *ngFor="let param of controlsName;let fieldIndex=index">
-            <div *ngIf="!!formGroup.get(param).value && inputs[fieldIndex]?.schema.type !== 'AOI'" class="params">
-              <span class="label">{{inputs[fieldIndex]?.title}}</span>: <span
-                class="value">{{formGroup.get(param).value}}</span>
+          <div class="infos">
+            <span>{{'You are about to download' | translate}} {{data.nbProducts}} {{'product(s)' |
+            translate}}</span>
+            <span class="infos-subtitle">{{'Summary of parameters' | translate }} :</span>
             </div>
-          </ng-container>
 
-          <div class="params">
-            <span class="label">{{'Coordinate system for downloaded products'| translate}}</span>:
-            <span class="value" *ngIf="formGroup.get('target_projection').value">{{ formGroup.get('target_projection').value }}</span>
+          <div class="params" *ngIf="formGroup.get('target_projection').value">
+            <span class="label">{{'Coordinate system for downloaded products'| translate}} :</span>
+            <span class="value">{{ formGroup.get('target_projection').value  | translate}}</span>
+          </div>
+
+          <div class="params" *ngIf="formGroup.get('target_format').value">
+            <span class="label">{{'Format of products to download'| translate}} :</span>
+            <span class="value" >{{ formGroup.get('target_format').value  | translate}}</span>
           </div>
 
           <div class="params">
-            <span class="label">{{'Format of downloaded products'| translate}}</span>:
-            <span class="value" *ngIf="formGroup.get('target_format').value">{{ formGroup.get('target_format').value }}</span>
-          </div>
-
-          <div class="params">
-            <span class="label">{{'Crop using the geographical filter'| translate}}</span>:
+            <span class="label">{{'Crop using the geographical filter'| translate}} :</span>
             <span class="value" *ngIf="formGroup.get('crop_wkt').value">{{ 'yes' | translate}}</span>
             <span class="value" *ngIf="!formGroup.get('crop_wkt').value">{{ 'no' | translate}}</span>
           </div>
         </div>
         <div class="buttons" *ngIf="!isProcessing && !isProcessStarted">
           <button mat-flat-button mat-button matStepperPrevious>{{'Previous' | translate}}</button>
-          <button [color]="'primary'" [disabled]="isProcessing" matStepperNext mat-flat-button
-            [disabled]="!formGroup.valid" (click)="submit()">
-            {{'Run' | translate}}</button>
+          <button [color]="'primary'" [disabled]="isProcessing || !formGroup.valid " matStepperNext mat-flat-button (click)="submit()">
+            {{'Download' | translate}}</button>
         </div>
       </div>
     </mat-step>
@@ -117,7 +115,7 @@
       <div class="status status-{{statusResult?.status}}">{{statusResult?.status | translate}}</div>
     </div>
     <div class="error" *ngIf="hasError">
-      {{'processing error occured' | translate:{ processingName: (process.title | translate)} }}
+      {{'processing error occured' | translate:{ processingName: ('Download'|  translate)} }}
     </div>
     <div class="close">
       <button mat-dialog-close="true" mat-button>{{'Close dialog' | translate}}</button>

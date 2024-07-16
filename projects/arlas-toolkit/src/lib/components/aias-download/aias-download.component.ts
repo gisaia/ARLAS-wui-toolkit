@@ -1,20 +1,16 @@
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ProcessService } from '../../services/process/process.service';
-import {
-  Process,
-  ProcessInput,
-  ProcessInputs,
-  ProcessOutput,
-  ProcessStatus,
-  Projection
-} from '../../tools/process.interface';
+import { ProcessInputs, ProcessOutput, ProcessProjection, ProcessStatus } from '../../tools/process.interface';
 import { Observable, Subject, Subscription, takeUntil, timer } from 'rxjs';
 import booleanContains from '@turf/boolean-contains';
-import { Geometry } from "@turf/helpers";
-
+import { AiasDownloadDialogData } from '../../tools/aias-download.interface';
+import { marker } from '@biesbjerg/ngx-translate-extract-marker';
+import { TranslateService } from '@ngx-translate/core';
+import { parse } from 'wellknown';
+import { bboxPolygon } from '@turf/bbox-polygon';
 
 @Component({
   selector: 'arlas-aias-download',
@@ -29,16 +25,17 @@ export class AiasDownloadComponent implements OnInit, OnDestroy {
   public formGroup: FormGroup = new FormGroup({
     row_archive: new FormControl<boolean>(true),
     crop_wkt: new FormControl<boolean | string>(false),
-    target_projection: new FormControl<string>('native'),
-    target_format: new FormControl<string>('native', Validators.required),
+    target_projection: new FormControl<string>(marker('native')),
+    target_format: new FormControl<string>('native', Validators.required)
   });
-  public controlsName: string[] = [];
-  public inputs:   Map<string, ProcessInput> = new Map<string, ProcessInput>();
-  public process: Process = {};
-  public formInputs: ProcessInputs = {};
-  public nbProducts = 0;
-  public itemDetail = new Map<string, any>();
-  public wktAoi = '';
+
+  public pictureFormats= [
+    {value: 'native' ,label:  'native'},
+    {value: 'Geotiff' ,label:  'Geotiff'},
+    {value: 'JPEG2000' ,label:  'JPEG2000'},
+  ];
+  public projections: ProcessProjection[] = [];
+
 
   public isProcessing = false;
   public isProcessStarted = false;
@@ -47,10 +44,6 @@ export class AiasDownloadComponent implements OnInit, OnDestroy {
   public displayAoiForms = false;
   public displayFormatFrom = false;
   public displayProjectionFrom = false;
-  public hasJpegFormat = false;
-
-  public ids: string[] = []; // List of product id to process
-  public collection = ''; // Name of the collection of products
 
   public tooltipDelay = 2000;
 
@@ -59,38 +52,23 @@ export class AiasDownloadComponent implements OnInit, OnDestroy {
   public unsubscribeStatus = new Subject<boolean>();
   public statusResult: ProcessOutput = null;
 
+  private _onDestroy$ = new Subject();
 
   public constructor(
     private processService: ProcessService,
-    private dialog: MatDialogRef<AiasDownloadComponent>
-  ) { }
+    @Inject(MAT_DIALOG_DATA) protected data: AiasDownloadDialogData,
+    private translate: TranslateService
+  ) {
+    this.pictureFormats[0].label = this.translate.instant('native');
+  }
 
   public ngOnInit(): void {
-    if(this.nbProducts === 1){
-      this.process = this.processService.getProcessDescription();
-      this.formInputs = this.process.inputs;
-      Object.keys(this.formInputs).forEach(inputKey => {
-        if (this.itemDetail.has(inputKey) && this.itemDetail.get(inputKey)) {
-          if(inputKey === 'target_format') {
-            (<string[]>this.formInputs[inputKey].schema.enum).unshift('native');
-            if(this.itemDetail.get(inputKey) === 'JPEG2000'){
-              this.hasJpegFormat = true;
-            } else if(this.itemDetail.get(inputKey) === 'Geotiff') {
-              this.formInputs[inputKey].schema.enum =  (<string[]>this.formInputs[inputKey].schema.enum).filter(v => v !== 'geotiff');
-            }
-          }
-
-          if(inputKey === 'target_projection') {
-            this.formInputs[inputKey].schema.enum = (<Projection[]>this.formInputs[inputKey].schema.enum).filter(projection => {
-              booleanContains(projection.bbox as unknown as Geometry, this.itemDetail.get(inputKey));
-            });
-            (<Projection[]>this.formInputs[inputKey].schema.enum).unshift({label:'native', value: 'native'} as unknown  as Projection);
-          }
-        }
-        this.inputs.set(inputKey, this.formInputs[inputKey]);
-      });
+    if(this.data.nbProducts === 1){
+      const processConfigFileInput= this.processService.getProcessinputs();
+      this._initPictureFormatList();
+      this._initProjectionList(processConfigFileInput);
     }
-    this.hasAoi = this.wktAoi !== undefined && this.wktAoi !== null;
+    this.hasAoi = this.data.wktAoi !== undefined && this.data.wktAoi !== null;
     this._listenFormsChanges();
   }
 
@@ -98,46 +76,92 @@ export class AiasDownloadComponent implements OnInit, OnDestroy {
     if (!!this.statusSub) {
       this.statusSub.unsubscribe();
     }
+    this._onDestroy$.next(true);
+    this._onDestroy$.complete();
   }
 
-  private _listenFormsChanges(){
-    this.formGroup.valueChanges.subscribe(s => console.error(s))
+  private _initPictureFormatList(): void{
+    const inputKey = 'target_format';
+    if (this.data.itemDetail && this.data.itemDetail.has(inputKey) && this.data.itemDetail.get(inputKey)) {
+      if (this.data.itemDetail.get(inputKey) === 'JPEG2000') {
+        this.pictureFormats = [{value:'JPEG2000', label: 'JPEG2000'}];
+        this.formGroup.get('target_format').setValue('JPEG2000');
+      } else if (this.data.itemDetail.get(inputKey) === 'Geotiff') {
+        this.pictureFormats = this.pictureFormats.filter(format => format.value !== 'Geotiff');
+      }
+    }
+  }
+
+  private _initProjectionList(projection: ProcessInputs): void {
+    const inputKey = 'target_projection';
+    if (projection[inputKey]) {
+      this.projections = (<ProcessProjection[]>projection[inputKey].schema.enum).filter(projection => {
+        const geoJson = this._parseWkt(this.data.wktAoi);
+        if(!projection.bbox || !geoJson) {
+          return false;
+        }
+
+        const feature1 = bboxPolygon(projection.bbox);
+        return booleanContains(feature1, geoJson);
+      });
+    }
+    const native: ProcessProjection = {bbox: undefined, label: this.translate.instant('native'), value:  'native'};
+    this.projections.unshift(native);
+  }
+
+  private _parseWkt(wkt){
+    if(!wkt) {
+      return '';
+    }
+    return parse(wkt);
+  }
+
+  private _listenFormsChanges(): void{
     this.formGroup.get('row_archive')
       .valueChanges
+      .pipe(takeUntil(this._onDestroy$))
       .subscribe(checked => {
         this.displayAoiForms = !checked && this.hasAoi;
-        this.displayFormatFrom = !checked && !this.hasJpegFormat &&  this.hasOneItemToDownload();
+        this.displayFormatFrom = !checked &&  this.hasOneItemToDownload();
         this.displayProjectionFrom = !checked &&  this.hasOneItemToDownload();
         this.formGroup.get('crop_wkt').setValue(false);
-    });
+        if(checked){
+          this.formGroup.get('target_format').setValue('native');
+          this.formGroup.get('target_projection').setValue('native');
+        }
+      });
 
     this.formGroup.get('crop_wkt')
       .valueChanges
+      .pipe(takeUntil(this._onDestroy$))
       .subscribe(checked => {
-         this.displayFormatFrom = !this.downloadAllElements() &&
-          !checked && !this.hasJpegFormat &&  this.hasOneItemToDownload();
+        this.displayFormatFrom = !this.downloadAllElements() &&  this.hasOneItemToDownload();
         this.displayProjectionFrom =  !this.downloadAllElements() && !checked &&  this.hasOneItemToDownload();
+        if(checked){
+          this.formGroup.get('target_projection').setValue('native');
+        }
       });
   }
 
-  public hasOneItemToDownload():boolean{
-    return this.nbProducts === 1;
+  public hasOneItemToDownload(): boolean{
+    return this.data.nbProducts === 1;
   }
 
-  public downloadAllElements():boolean {
+  public downloadAllElements(): boolean {
     return this.formGroup.get('row_archive').value;
   }
 
-  public submit() {
+  public submit(): void {
     this.isProcessing = true;
     this.isProcessStarted = true;
     this.hasError = false;
     const payload = this.formGroup.value;
     payload['crop_wkt'] = '';
     if(this.formGroup.get('crop_wkt') && this.hasAoi){
-      payload['crop_wkt'] = this.wktAoi;
+      payload['crop_wkt'] = this.data.wktAoi;
     }
-    this.processService.process(this.ids, payload, this.collection).subscribe({
+
+    this.processService.process(this.data.ids, payload, this.data.collection).subscribe({
       next: (result) => {
         this.statusResult = result;
         this.executionObservable = timer(0, 5000);
