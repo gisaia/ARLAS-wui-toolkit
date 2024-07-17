@@ -1,7 +1,7 @@
 {
   "target_projection": {
     "schema": {
-      "type": "object",
+      "type": "array",
       "enum": [
         {
           "label": "WGS 84",

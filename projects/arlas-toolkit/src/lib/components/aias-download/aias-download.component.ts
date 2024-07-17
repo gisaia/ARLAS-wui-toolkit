@@ -4,11 +4,10 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ProcessService } from '../../services/process/process.service';
 import { ProcessInputs, ProcessOutput, ProcessProjection, ProcessStatus } from '../../tools/process.interface';
-import { Observable, Subject, Subscription, takeUntil, timer } from 'rxjs';
+import { Subject, Subscription, takeUntil, timer } from 'rxjs';
 import booleanContains from '@turf/boolean-contains';
 import { AiasDownloadDialogData } from '../../tools/aias-download.interface';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
-import { TranslateService } from '@ngx-translate/core';
 import { parse } from 'wellknown';
 import { bboxPolygon } from '@turf/bbox-polygon';
 
@@ -30,15 +29,15 @@ export class AiasDownloadComponent implements OnInit, OnDestroy {
   });
 
   public pictureFormats= [
-    {value: 'native' ,label:  'native'},
-    {value: 'Geotiff' ,label:  'Geotiff'},
-    {value: 'JPEG2000' ,label:  'JPEG2000'},
+    'native',
+    'Geotiff',
+    'JPEG2000'
   ];
   public projections: ProcessProjection[] = [];
 
 
   public isProcessing = false;
-  public isProcessStarted = false;
+  public processStarted = false;
   public hasError = false;
   public hasAoi = false;
   public displayAoiForms = false;
@@ -47,7 +46,6 @@ export class AiasDownloadComponent implements OnInit, OnDestroy {
 
   public tooltipDelay = 2000;
 
-  public executionObservable!: Observable<number>;
   public statusSub!: Subscription;
   public unsubscribeStatus = new Subject<boolean>();
   public statusResult: ProcessOutput = null;
@@ -56,10 +54,8 @@ export class AiasDownloadComponent implements OnInit, OnDestroy {
 
   public constructor(
     private processService: ProcessService,
-    @Inject(MAT_DIALOG_DATA) protected data: AiasDownloadDialogData,
-    private translate: TranslateService
+    @Inject(MAT_DIALOG_DATA) protected data: AiasDownloadDialogData
   ) {
-    this.pictureFormats[0].label = this.translate.instant('native');
   }
 
   public ngOnInit(): void {
@@ -84,10 +80,10 @@ export class AiasDownloadComponent implements OnInit, OnDestroy {
     const inputKey = 'target_format';
     if (this.data.itemDetail && this.data.itemDetail.has(inputKey) && this.data.itemDetail.get(inputKey)) {
       if (this.data.itemDetail.get(inputKey) === 'JPEG2000') {
-        this.pictureFormats = [{value:'JPEG2000', label: 'JPEG2000'}];
+        this.pictureFormats = ['JPEG2000'];
         this.formGroup.get('target_format').setValue('JPEG2000');
       } else if (this.data.itemDetail.get(inputKey) === 'Geotiff') {
-        this.pictureFormats = this.pictureFormats.filter(format => format.value !== 'Geotiff');
+        this.pictureFormats = this.pictureFormats.filter(format => format !== 'Geotiff');
       }
     }
   }
@@ -100,12 +96,11 @@ export class AiasDownloadComponent implements OnInit, OnDestroy {
         if(!projection.bbox || !geoJson) {
           return false;
         }
-
         const feature1 = bboxPolygon(projection.bbox);
         return booleanContains(feature1, geoJson);
       });
     }
-    const native: ProcessProjection = {bbox: undefined, label: this.translate.instant('native'), value:  'native'};
+    const native: ProcessProjection = {bbox: undefined, label: 'native', value:  'native'};
     this.projections.unshift(native);
   }
 
@@ -153,7 +148,7 @@ export class AiasDownloadComponent implements OnInit, OnDestroy {
 
   public submit(): void {
     this.isProcessing = true;
-    this.isProcessStarted = true;
+    this.processStarted = true;
     this.hasError = false;
     const payload = this.formGroup.value;
     payload['crop_wkt'] = '';
@@ -164,8 +159,8 @@ export class AiasDownloadComponent implements OnInit, OnDestroy {
     this.processService.process(this.data.ids, payload, this.data.collection).subscribe({
       next: (result) => {
         this.statusResult = result;
-        this.executionObservable = timer(0, 5000);
-        this.statusSub = this.executionObservable.pipe(takeUntil(this.unsubscribeStatus)).subscribe(() => {
+        const executionObservable = timer(0, 5000);
+        this.statusSub = executionObservable.pipe(takeUntil(this.unsubscribeStatus)).subscribe(() => {
           this.getStatus(result.jobID);
         });
       },

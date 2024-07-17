@@ -217,7 +217,7 @@ export class HomeComponent implements OnInit {
        data: {
          nbProducts: 1,
          itemDetail: item,
-         wktAoi: wkt2,
+         wktAoi: wkt,
          ids: ['1'],
          collection: 'totot',
        }
