@@ -29,7 +29,7 @@ export class AiasDownloadComponent implements OnInit, OnDestroy {
   });
 
   public pictureFormats= [
-    'native',
+    marker('native'),
     'Geotiff',
     'JPEG2000'
   ];
@@ -100,7 +100,7 @@ export class AiasDownloadComponent implements OnInit, OnDestroy {
         return booleanContains(feature1, geoJson);
       });
     }
-    const native: ProcessProjection = {bbox: undefined, label: 'native', value:  'native'};
+    const native: ProcessProjection = {bbox: undefined, label: 'native', value: marker('native')};
     this.projections.unshift(native);
   }
 
