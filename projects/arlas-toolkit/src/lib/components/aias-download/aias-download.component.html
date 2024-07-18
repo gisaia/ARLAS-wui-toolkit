@@ -109,11 +109,11 @@
     <div class="detail" *ngIf="!isProcessing && !hasError">
       <div>
         <div class="prop">
-          <div class="label">{{ 'Started' | translate }}:</div>
+          <div class="label">{{ 'Start date' | translate }}:</div>
           <div class="value">{{ statusResult.started ? (statusResult.started * 1000 | date:'medium') : '--' }}</div>
         </div>
         <div class="prop">
-          <div class="label">{{ 'Finished' | translate }}:</div>
+          <div class="label">{{ 'End date' | translate }}:</div>
           <div class="value">{{ statusResult.finished ? (statusResult.finished * 1000 | date:'medium') : '--' }}</div>
         </div>
       </div>
