@@ -129,32 +129,32 @@
           "type": "metricstable",
           "identifier": "metricstable-1",
           "name": "Metrics table",
-          "nbterms": 3,
+          "numberOfBuckets": 3,
           "sort": {
             "collection": "demo_ais_flow",
             "termfield": "course.arrival.address.country",
-            "order": "asc",
+            "order": "desc",
             "on": "metric",
             "metric": {
               "metric": "sum",
               "field": "course.distance.gps.travelled_m"
             }
           },
-          "configuration": {
-            "demo_ais_flowcourse.arrival.address.country": {
+          "configuration": [
+            {
               "termfield": "course.arrival.address.country",
               "collection": "demo_ais_flow",
               "metrics": [
                 {
-                  "metric": "count"
-                },
-                {
                   "metric": "sum",
                   "field": "course.distance.gps.travelled_m"
+                },
+                {
+                  "metric": "count"
                 }
               ]
             },
-            "demo_ais_coursearrival.address.country": {
+            {
               "termfield": "arrival.address.country",
               "collection": "demo_ais_course",
               "metrics": [
@@ -162,8 +162,19 @@
                   "metric": "count"
                 }
               ]
+            },
+        
+            {
+              "termfield": "course.arrival.address.country",
+              "collection": "demo_ais_flow",
+              "metrics": [
+                
+                {
+                  "metric": "count"
+                }
+              ]
             }
-          }
+          ]
         },
         {
           "type": "histogram",
