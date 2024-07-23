@@ -5,10 +5,10 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ProcessService } from '../../services/process/process.service';
 import { ProcessInputs, ProcessOutput, ProcessProjection, ProcessStatus } from '../../tools/process.interface';
 import { Subject, Subscription, takeUntil, timer } from 'rxjs';
-import booleanContains from '@turf/boolean-contains';
 import { AiasDownloadDialogData } from '../../tools/aias-download.interface';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 import bboxPolygon from '@turf/bbox-polygon';
+import booleanIntersects from "@turf/boolean-intersects";
 
 @Component({
   selector: 'arlas-aias-download',
@@ -96,7 +96,7 @@ export class AiasDownloadComponent implements OnInit, OnDestroy {
           return false;
         }
         const feature1 = bboxPolygon(projection.bbox);
-        return booleanContains(feature1, geoJson);
+        return booleanIntersects(feature1, geoJson);
       });
     }
     const native: ProcessProjection = {bbox: undefined, label: 'native', value: marker('native')};
