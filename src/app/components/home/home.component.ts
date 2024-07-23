@@ -209,7 +209,6 @@ export class HomeComponent implements OnInit {
     //located in africa near chad and niger
     const wkt = 'POLYGON((10 10, 20 10, 20 20, 10 20, 10 10),(13 13, 17 13, 17 17, 13 17, 13 13))';
      this.getItemsDetail().subscribe(item => {
-       console.log(item)
       const downloadDialogRef = this.dialog.open(
         AiasDownloadComponent,
         {
@@ -232,13 +231,36 @@ export class HomeComponent implements OnInit {
 
   ): Observable<Map<string, any>> {
     // properties.main_asset_format its the field to pass to get the object value
-    const fields = ['proj__epsg', 'main_asset_format', 'geometry'];
+    const fields = ['properties.proj__epsg', 'properties.main_asset_format', 'geometry'];
     const data = {
       "hits" : [{
         data : {
-          'properties.proj__epsg': 32629,
-          'properties.main_asset_format': 'GEOTIFF',
-           geometry: {type: 'Polygon', coordinates: Array(1)}
+          'properties_proj__epsg': 32629,
+          'properties_main_asset_format': 'GEOTIFF',
+           geometry: {type: 'Polygon', coordinates: [
+               [
+                 [
+                   -11.681309,
+                   26.992433
+                 ],
+                 [
+                   -11.068157,
+                   26.871479
+                 ],
+                 [
+                   -11.200577,
+                   26.342324
+                 ],
+                 [
+                   -11.810599,
+                   26.463114
+                 ],
+                 [
+                   -11.681309,
+                   26.992433
+                 ]
+               ]
+             ]}
         }
       }
       ]
@@ -246,11 +268,8 @@ export class HomeComponent implements OnInit {
     const searchResult =  of(data);
     return searchResult.pipe(map((data: any) => {
       const matchingAdditionalParams = new Map<string, any>();
-      console.log(!!data && !!data?.hits && data.hits.length > 0)
       if (!!data && !!data?.hits && data.hits.length > 0) {
         const regexReplacePoint = /\./gi;
-        console.log(data)
-
         data.hits.forEach(i => {
           const itemMetadata = i.data;
           fields.forEach(f => {

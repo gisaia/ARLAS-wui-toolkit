@@ -1,6 +1,6 @@
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ProcessService } from '../../services/process/process.service';
 import { ProcessInputs, ProcessOutput, ProcessProjection, ProcessStatus } from '../../tools/process.interface';
@@ -8,7 +8,6 @@ import { Subject, Subscription, takeUntil, timer } from 'rxjs';
 import booleanContains from '@turf/boolean-contains';
 import { AiasDownloadDialogData } from '../../tools/aias-download.interface';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
-import { parse } from 'wellknown';
 import bboxPolygon from '@turf/bbox-polygon';
 
 @Component({
@@ -22,10 +21,10 @@ import bboxPolygon from '@turf/bbox-polygon';
 export class AiasDownloadComponent implements OnInit, OnDestroy {
 
   public formGroup: FormGroup = new FormGroup({
-    row_archive: new FormControl<boolean>(true),
+    raw_archive: new FormControl<boolean>(true),
     crop_wkt: new FormControl<boolean | string>(false),
     target_projection: new FormControl<string>(marker('native')),
-    target_format: new FormControl<string>('native', Validators.required)
+    target_format: new FormControl<string>('native')
   });
 
   public pictureFormats= [
@@ -78,18 +77,18 @@ export class AiasDownloadComponent implements OnInit, OnDestroy {
 
   private _initPictureFormatList(): void{
     const inputKey = 'properties.main_asset_format';
-    if (this.data.itemDetail && this.data.itemDetail.has(inputKey) && this.data.itemDetail.get(inputKey)) {
+    if (this.data.itemDetail && this.data.itemDetail.has(inputKey)) {
       if (this.data.itemDetail.get(inputKey) === 'JPEG2000') {
         this.pictureFormats = ['JPEG2000'];
         this.formGroup.get('target_format').setValue('JPEG2000');
-      } else if (this.data.itemDetail.get(inputKey) === 'Geotiff') {
+      } else if (this.data.itemDetail.get(inputKey).toLowerCase() === 'geotiff') {
         this.pictureFormats = this.pictureFormats.filter(format => format !== 'Geotiff');
       }
     }
   }
 
   private _initProjectionList(projection: ProcessInputs): void {
-    const inputKey = 'properties.proj__epsg';
+    const inputKey = 'target_projection';
     if (projection[inputKey]) {
       this.projections = (<ProcessProjection[]>projection[inputKey].schema.enum).filter(projection => {
         const geoJson = this.data.itemDetail.get('geometry');
@@ -104,15 +103,8 @@ export class AiasDownloadComponent implements OnInit, OnDestroy {
     this.projections.unshift(native);
   }
 
-  private _parseWkt(wkt){
-    if(!wkt) {
-      return '';
-    }
-    return parse(wkt);
-  }
-
   private _listenFormsChanges(): void{
-    this.formGroup.get('row_archive')
+    this.formGroup.get('raw_archive')
       .valueChanges
       .pipe(takeUntil(this._onDestroy$))
       .subscribe(checked => {
@@ -143,7 +135,7 @@ export class AiasDownloadComponent implements OnInit, OnDestroy {
   }
 
   public downloadAllElements(): boolean {
-    return this.formGroup.get('row_archive').value;
+    return this.formGroup.get('raw_archive').value;
   }
 
   public submit(): void {
