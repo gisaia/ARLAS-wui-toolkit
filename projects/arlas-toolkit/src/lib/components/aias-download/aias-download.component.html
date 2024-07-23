@@ -1,6 +1,8 @@
 <div mat-dialog-title>
   {{ 'Download' | translate }}
-  <div class="sub-title">{{ 'Download one or more products' | translate }}</div>
+  <div class="sub-title"
+    [translate]="(data.nbProducts >= 2) ? 'Download more products' : 'Download one product'" [translateParams]="{value: data.nbProducts}">
+  </div>
 </div>
 <div mat-dialog-content>
   <mat-stepper [linear]="true">
@@ -12,7 +14,7 @@
             <div>
               <span class="checkbox-hint">{{ 'Uncheck to download the image only' | translate }}</span>
             </div>
-            <mat-checkbox [formControlName]="'row_archive'">{{ 'Download the entire archive' | translate }}
+            <mat-checkbox [formControlName]="'raw_archive'">{{ 'Download the entire archive' | translate }}
             </mat-checkbox>
             <div class="warning-text">
               <mat-icon>warning</mat-icon>
@@ -58,10 +60,10 @@
       <div class="step">
         <div class="summary">
           <div class="infos">
-            <span>{{ 'You are about to download' | translate }} {{ data.nbProducts }} {{
-                'product(s)' |
-                  translate
-              }}</span>
+            <span
+              [translate]="(data.nbProducts >= 2) ? 'You are about to download more products' : 'You are about to download one product'"
+              [translateParams]="{value: data.nbProducts}"
+            ></span>
             <span class="infos-subtitle">{{ 'Summary of parameters' | translate }} :</span>
           </div>
           <div class="params" *ngIf="formGroup.get('target_projection').value">
@@ -73,7 +75,7 @@
             <span class="label">{{ 'Format of the products to download'| translate }} :</span>
             <span class="value">{{ formGroup.get('target_format').value  | translate }}</span>
           </div>
-          <div class="params">
+          <div class="params" *ngIf="formGroup.get('crop_wkt').value">
             <span class="label">{{ 'Crop using the geographical filter'| translate }} :</span>
             <span class="value" *ngIf="formGroup.get('crop_wkt').value">{{ 'yes' | translate }}</span>
             <span class="value" *ngIf="!formGroup.get('crop_wkt').value">{{ 'no' | translate }}</span>
