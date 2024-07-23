@@ -108,10 +108,10 @@ export class ProcessService {
   public getItemsDetail(
     idFieldName,
     itemsId: string[],
-    fields: any[],
     collection: string
   ): Observable<Map<string, any>> {
     // properties.main_asset_format its the field to pass to get the object value
+    const fields = ['properties.proj__epsg', 'properties.main_asset_format', 'geometry'];
     const search: Search = {
       page: { size: itemsId.length },
       form: { pretty: false, flat: true },
@@ -138,14 +138,14 @@ export class ProcessService {
         true
       );
     return searchResult.pipe(map((data: any) => {
-      const matchingAdditionalParams = new Map<string, boolean>();
+      const matchingAdditionalParams = new Map<string, any>();
       if (!!data && !!data?.hits && data.hits.length > 0) {
         const regexReplacePoint = /\./gi;
         data.hits.forEach(i => {
           const itemMetadata = i.data;
           fields.forEach(f => {
-            const flattenField = f.value.field.replace(regexReplacePoint, '_');
-            matchingAdditionalParams.set(f.name, itemMetadata[flattenField]);
+            const flattenField = f.replace(regexReplacePoint, '_');
+            matchingAdditionalParams.set(f, itemMetadata[flattenField]);
           });
         });
       }

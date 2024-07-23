@@ -46,7 +46,7 @@ import {
   ProcessService
 } from '../../../../projects/arlas-toolkit/src/public-api';
 import packageJson from '../../../../package.json';
-import { fromEvent } from 'rxjs';
+import { fromEvent, map, Observable, of } from 'rxjs';
 import {
   DEFAULT_SPINNER_OPTIONS
 } from '../../../../projects/arlas-toolkit/src/lib/components/progress-spinner/progress-spinner.component';
@@ -208,19 +208,61 @@ export class HomeComponent implements OnInit {
     const wkt2 = 'POLYGON ((120.525513 23.397724, 120.481567 22.912863, 121.096802 23.104997, 120.855103 23.317036, 120.525513 23.397724))';
     //located in africa near chad and niger
     const wkt = 'POLYGON((10 10, 20 10, 20 20, 10 20, 10 10),(13 13, 17 13, 17 17, 13 17, 13 13))';
-    const item = new Map().set('target_format', 'Geotiff')
-   const downloadDialogRef = this.dialog.open(
-     AiasDownloadComponent,
-     {
-       minWidth: '520px',
-       maxWidth: '60vw' ,
-       data: {
-         nbProducts: 1,
-         itemDetail: item,
-         wktAoi: wkt,
-         ids: ['1'],
-         collection: 'totot',
-       }
-     });
+     this.getItemsDetail().subscribe(item => {
+       console.log(item)
+      const downloadDialogRef = this.dialog.open(
+        AiasDownloadComponent,
+        {
+          minWidth: '520px',
+          maxWidth: '60vw' ,
+          data: {
+            nbProducts: 1,
+            itemDetail: item,
+            wktAoi: wkt,
+            ids: ['1'],
+            collection: 'totot',
+          }
+        });
+    });
+
+
   }
+
+  public getItemsDetail(
+
+  ): Observable<Map<string, any>> {
+    // properties.main_asset_format its the field to pass to get the object value
+    const fields = ['proj__epsg', 'main_asset_format', 'geometry'];
+    const data = {
+      "hits" : [{
+        data : {
+          'properties.proj__epsg': 32629,
+          'properties.main_asset_format': 'GEOTIFF',
+           geometry: {type: 'Polygon', coordinates: Array(1)}
+        }
+      }
+      ]
+    };
+    const searchResult =  of(data);
+    return searchResult.pipe(map((data: any) => {
+      const matchingAdditionalParams = new Map<string, any>();
+      console.log(!!data && !!data?.hits && data.hits.length > 0)
+      if (!!data && !!data?.hits && data.hits.length > 0) {
+        const regexReplacePoint = /\./gi;
+        console.log(data)
+
+        data.hits.forEach(i => {
+          const itemMetadata = i.data;
+          fields.forEach(f => {
+            const flattenField = f.replace(regexReplacePoint, '_');
+            matchingAdditionalParams.set(f, itemMetadata[flattenField]);
+          });
+        });
+      }
+      return matchingAdditionalParams;
+    }));
+  }
+
 }
+
+

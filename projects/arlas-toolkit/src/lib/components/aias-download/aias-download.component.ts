@@ -9,7 +9,7 @@ import booleanContains from '@turf/boolean-contains';
 import { AiasDownloadDialogData } from '../../tools/aias-download.interface';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 import { parse } from 'wellknown';
-import { bboxPolygon } from '@turf/bbox-polygon';
+import bboxPolygon from '@turf/bbox-polygon';
 
 @Component({
   selector: 'arlas-aias-download',
@@ -77,7 +77,7 @@ export class AiasDownloadComponent implements OnInit, OnDestroy {
   }
 
   private _initPictureFormatList(): void{
-    const inputKey = 'target_format';
+    const inputKey = 'properties.main_asset_format';
     if (this.data.itemDetail && this.data.itemDetail.has(inputKey) && this.data.itemDetail.get(inputKey)) {
       if (this.data.itemDetail.get(inputKey) === 'JPEG2000') {
         this.pictureFormats = ['JPEG2000'];
@@ -89,10 +89,10 @@ export class AiasDownloadComponent implements OnInit, OnDestroy {
   }
 
   private _initProjectionList(projection: ProcessInputs): void {
-    const inputKey = 'target_projection';
+    const inputKey = 'properties.proj__epsg';
     if (projection[inputKey]) {
       this.projections = (<ProcessProjection[]>projection[inputKey].schema.enum).filter(projection => {
-        const geoJson = this._parseWkt(this.data.wktAoi);
+        const geoJson = this.data.itemDetail.get('geometry');
         if(!projection.bbox || !geoJson) {
           return false;
         }
