@@ -8,7 +8,7 @@ import { Subject, Subscription, takeUntil, timer } from 'rxjs';
 import { AiasDownloadDialogData } from '../../tools/aias-download.interface';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 import bboxPolygon from '@turf/bbox-polygon';
-import booleanIntersects from "@turf/boolean-intersects";
+import booleanIntersects from '@turf/boolean-intersects';
 
 @Component({
   selector: 'arlas-aias-download',
