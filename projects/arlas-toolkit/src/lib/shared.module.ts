@@ -50,6 +50,7 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from '@danielmoncada/angul
 import { OwlMomentDateTimeModule } from '@danielmoncada/angular-datetime-picker-moment-adapter';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import {
+  BaseCollectionService,
   CalendarTimelineModule,
   ColorGeneratorLoader, ColorGeneratorModule, DonutModule, FormatNumberModule,
   HistogramModule, MapglLegendModule, MetricModule, MetricsTableComponent, MetricsTableModule, PowerbarsModule, ResultsModule
@@ -121,6 +122,7 @@ import { LinksComponent } from './components/top-menu/links/links.component';
 import { LinkComponent } from './components/top-menu/links/link/link.component';
 import { BookmarkAddDialogComponent } from './components/bookmark/bookmark-add-dialog.component';
 import { ContributorUpdatingPipe } from './pipes/contributor-updating.pipe';
+import { CollectionServiceImplementation } from './tools/collection-service-implementation.service';
 import { AiasDownloadComponent } from './components/aias-download/aias-download.component';
 
 export class CustomTranslateLoader implements TranslateLoader {
@@ -314,6 +316,7 @@ export class CustomTranslateLoader implements TranslateLoader {
     ContributorUpdatingPipe
   ],
   providers: [
+    {provide: BaseCollectionService, useClass: CollectionServiceImplementation },
     ArlasOverlayService
   ],
   entryComponents: [
