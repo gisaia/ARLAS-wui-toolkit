@@ -70,13 +70,11 @@ export class SearchComponent implements OnInit, OnDestroy, OnChanges {
     private collaborativeService: ArlasCollaborativesearchService,
     public translate: TranslateService,
     private dialog: MatDialog,
-  ) {
-    this.searchPlaceholder = this.translate.instant(this.searchContributor ? this.searchContributor.getName() : marker('Search...'));
-    this.searchValue = this.searchPlaceholder;
-  }
-
+  ) { }
 
   public ngOnInit(): void {
+    this.searchPlaceholder = this.translate.instant(this.searchContributor ? this.searchContributor.getName() : marker('Search...'));
+    this.searchValue = this.searchPlaceholder;
     // Retrieve value from the url and future collaborations
     this.retrieveSearchValueSub = this.collaborativeService.collaborationBus.pipe(
       filter(e => this.searchContributor?.isMyOwnCollaboration(e) || e.id === 'url' || e.id === 'all')
