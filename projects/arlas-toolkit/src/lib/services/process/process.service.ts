@@ -31,7 +31,7 @@ import { ArlasCollaborativesearchService } from '../startup/startup.service';
 })
 export class ProcessService {
   private processInputs: ProcessInputs = {};
-  private options;
+  private options: any = {};
 
   public constructor(
     private http: HttpClient,
@@ -114,7 +114,7 @@ export class ProcessService {
     const fields = ['properties.proj__epsg', 'properties.main_asset_format', 'geometry'];
     const search: Search = {
       page: { size: itemsId.length },
-      form: { pretty: false, flat: true },
+      form: { pretty: false, flat: false },
       projection: {
         includes: fields.map(field => field).join(',')
       }
@@ -135,7 +135,7 @@ export class ProcessService {
         collection,
         undefined,
         filterExpression,
-        true
+        false
       );
     return searchResult.pipe(map((data: any) => {
       const matchingAdditionalParams = new Map<string, any>();
@@ -144,12 +144,16 @@ export class ProcessService {
         data.hits.forEach(i => {
           const itemMetadata = i.data;
           fields.forEach(f => {
-            const flattenField = f.replace(regexReplacePoint, '_');
-            matchingAdditionalParams.set(f, itemMetadata[flattenField]);
+            matchingAdditionalParams.set(f, this.resolve(f,itemMetadata));
           });
         });
       }
       return matchingAdditionalParams;
     }));
+  }
+
+  private resolve(path, obj = self, separator = '.') {
+    const properties = Array.isArray(path) ? path : path.split(separator);
+    return properties.reduce((prev, curr) => prev?.[curr], obj);
   }
 }

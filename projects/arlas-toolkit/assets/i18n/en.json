@@ -33,7 +33,7 @@
     "Format of the products to download": "Format of the products to download",
     "Download the entire archive": "Download the entire archive",
     "Uncheck to download the image only": "Uncheck to download the image only",
-    "Without cropping if no AOI is defined": "Without cropping if no AOI is defined",
+    "No crop on AOI will be taken into account": "No crop on AOI will be taken into account",
     "Filter on AOI": "Filter on AOI",
     "Coordinate system for the downloaded products": "Coordinate system for the downloaded products",
     "Coordinate system": "Coordinate system",

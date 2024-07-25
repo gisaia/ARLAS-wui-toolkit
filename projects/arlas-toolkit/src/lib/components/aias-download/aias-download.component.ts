@@ -30,7 +30,7 @@ export class AiasDownloadComponent implements OnInit, OnDestroy {
   public pictureFormats= [
     marker('native'),
     'Geotiff',
-    'JPEG2000'
+    'Jpeg2000'
   ];
   public projections: ProcessProjection[] = [];
 
@@ -63,7 +63,7 @@ export class AiasDownloadComponent implements OnInit, OnDestroy {
       this._initPictureFormatList();
       this._initProjectionList(processConfigFileInput);
     }
-    this.hasAoi = this.data.wktAoi !== undefined && this.data.wktAoi !== null;
+    this.hasAoi = this.data.wktAoi !== undefined && this.data.wktAoi !== null && this.data.wktAoi !== '';
     this._listenFormsChanges();
   }
 

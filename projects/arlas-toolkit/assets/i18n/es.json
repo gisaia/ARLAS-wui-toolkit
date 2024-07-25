@@ -33,7 +33,7 @@
   "Format of the products to download": "Formato de los productos para descargar",
   "Download the entire archive": "Descargar el archivo completo",
   "Uncheck to download the image only": "Desmarcar para descargar sólo la imagen",
-  "Without cropping if no AOI is defined": "Sin recorte si no se define ningún AOI",
+  "No crop on AOI will be taken into account": "No se tendrá en cuenta ningún cultivo en AOI",
   "Coordinate system for the downloaded products": "Sistema de coordenadas para los productos descargados",
   "Filter on AOI": "Filtro en AOI",
   "Coordinate system": "Sistema de coordenadas",
