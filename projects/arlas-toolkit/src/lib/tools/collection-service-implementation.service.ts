@@ -40,11 +40,9 @@ export class CollectionServiceImplementation extends BaseCollectionService {
           map(displayName => {
             this.displayName.set(collectionUnit.collection, displayName);
           }),
-          catchError(err => {
-            return EMPTY;
-          })
+          catchError(err => EMPTY)
         ).subscribe();
-    })
+    });
   }
 
 
@@ -60,12 +58,12 @@ export class CollectionServiceImplementation extends BaseCollectionService {
   }
 
   public getDisplayNameFromDescribe(collectionName: string): Observable<string> {
-      return this.collaborativeService.describe(collectionName)
-        .pipe(map((result: CollectionReferenceDescription) => {
-          if (result.params?.display_names) {
-            return result.params?.display_names?.collection
-          }
-          return collectionName;
-        }));
+    return this.collaborativeService.describe(collectionName)
+      .pipe(map((result: CollectionReferenceDescription) => {
+        if (result.params?.display_names) {
+          return result.params?.display_names?.collection;
+        }
+        return collectionName;
+      }));
   }
 }
