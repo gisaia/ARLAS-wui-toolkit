@@ -6,7 +6,7 @@ import { ArlasCollaborativesearchService, ArlasConfigService } from '../services
 import { CollectionReferenceDescription } from 'arlas-api';
 
 @Injectable()
-export class CollectionServiceImplementation extends BaseCollectionService {
+export class ArlasCollectionService extends BaseCollectionService {
   private appUnits: Map<string, CollectionUnit> = new Map();
   private displayName: Map<string, string> = new Map();
   public constructor(private collaborativeService: ArlasCollaborativesearchService, private configService: ArlasConfigService) {
