@@ -124,6 +124,7 @@ import { BookmarkAddDialogComponent } from './components/bookmark/bookmark-add-d
 import { ContributorUpdatingPipe } from './pipes/contributor-updating.pipe';
 import { CollectionServiceImplementation } from './tools/collection-service-implementation.service';
 import { AiasDownloadComponent } from './components/aias-download/aias-download.component';
+import { ArlasCollectionService } from './tools/collection-service-implementation.service';
 
 export class CustomTranslateLoader implements TranslateLoader {
 
@@ -316,7 +317,7 @@ export class CustomTranslateLoader implements TranslateLoader {
     ContributorUpdatingPipe
   ],
   providers: [
-    {provide: BaseCollectionService, useClass: CollectionServiceImplementation },
+    {provide: BaseCollectionService, useClass: ArlasCollectionService },
     ArlasOverlayService
   ],
   entryComponents: [

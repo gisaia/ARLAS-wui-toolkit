@@ -41,7 +41,7 @@ export { Aoi } from './lib/services/aoi/model';
 export { AoiDatabase } from './lib/services/aoi/aoiDatabase';
 export { ArlasLocalDatabase } from './lib/tools/arlasLocalDatabase';
 export { ArlasPersistenceDatabase } from './lib/tools/arlasPersistenceDatabase';
-export { CollectionServiceImplementation } from './lib/tools/collection-service-implementation.service';
+export { ArlasCollectionService } from './lib/tools/collection-service-implementation.service';
 export { ConfigMenuComponent } from './lib/components/config-manager/config-menu/config-menu.component';
 export { ConfigMenuModule } from './lib/components/config-manager/config-menu/config-menu.module';
 export { ConfirmModalComponent } from './lib/components/confirm-modal/confirm-modal.component';
