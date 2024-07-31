@@ -207,7 +207,7 @@ export class HomeComponent implements OnInit {
   public openProcess() {
     const wkt = 'POLYGON((10 10, 20 10, 20 20, 10 20, 10 10),(13 13, 17 13, 17 17, 13 17, 13 13))';
     // can be used to mock your data
-    const item = {};
+    const item = null;
     const downloadDialogRef = this.dialog.open(
       AiasDownloadComponent,
       {
