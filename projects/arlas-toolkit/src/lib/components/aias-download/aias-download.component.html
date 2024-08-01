@@ -11,15 +11,17 @@
       <div class="step">
         <form [formGroup]="formGroup" class="form">
           <section class="field">
-            <div>
-              <span class="checkbox-hint">{{ 'Uncheck to download the image only' | translate }}</span>
-            </div>
-            <mat-checkbox [formControlName]="'raw_archive'">{{ 'Download the entire archive' | translate }}
-            </mat-checkbox>
-            <div class="warning-text">
-              <mat-icon>warning</mat-icon>
-              <span>{{ 'No crop on AOI will be taken into account' | translate }}</span>
-            </div>
+            <mat-form-field class="field" appearance="outline">
+              <mat-label>{{ 'Download type' | translate }}</mat-label>
+              <mat-select [formControlName]="'raw_archive'" class="data-cy-target_format">
+                <mat-option [value]="true">{{ ((data.nbProducts >= 2) ? 'Download archives' : 'Download archive') | translate }}</mat-option>
+                <mat-option [value]="false">{{ ((data.nbProducts >= 2) ? 'Download images' : 'Download image') | translate }}</mat-option>
+              </mat-select>
+              <mat-hint *ngIf="formGroup.get('raw_archive').value" class="warning-text">
+                <mat-icon>warning</mat-icon>
+                <span>{{ 'No cutting possible' | translate }}</span>
+              </mat-hint>
+            </mat-form-field>
           </section>
           <section *ngIf="displayAoiForms" class="field">
             <mat-checkbox [formControlName]="'crop_wkt'">{{ 'Crop using the geographical filter'| translate }}
@@ -66,6 +68,12 @@
             ></span>
             <span class="infos-subtitle">{{ 'Summary of parameters' | translate }} :</span>
           </div>
+
+          <div class="params">
+            <span class="label">{{ 'Download type'| translate }} :</span>
+            <span class="value">{{ (formGroup.get('raw_archive').value) ? 'Archive' : 'Image' | translate }}</span>
+          </div>
+
           <div class="params" *ngIf="formGroup.get('target_projection').value">
             <span class="label">{{ 'Coordinate system for the downloaded products'| translate }} :</span>
             <span class="value">{{ formGroup.get('target_projection').value  | translate }}</span>
