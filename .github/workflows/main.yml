@@ -30,6 +30,8 @@ jobs:
         run: npm audit --audit-level=high
       - name: Lint
         run: npm run lint
+      - name: License check
+        run: npm run license-check
       - name: Build
         run: npm run build-release
       - name: Documentation
