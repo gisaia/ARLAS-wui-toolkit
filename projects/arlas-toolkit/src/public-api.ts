@@ -17,8 +17,6 @@
  * under the License.
  */
 
-import { from } from 'rxjs';
-
 export { TopMenuComponent } from './lib/components/top-menu/top-menu.component';
 export { AboutComponent, AboutDialogComponent } from './lib/components/top-menu/about/about.component';
 export { ShortcutFiltersHandlerComponent } from './lib/components/filter-shortcut/filters-handler/filters-handler.component';
@@ -139,7 +137,7 @@ export { ForgotComponent } from './lib/components/forgot/forgot.component';
 export { ResetComponent } from './lib/components/reset/reset.component';
 export { ArlasIamApi } from './lib/services/startup/startup.service';
 export { ArlasAuthentificationService } from './lib/services/arlas-authentification/arlas-authentification.service';
-export { ProcessComponent } from './lib/components/process/process.component';
+export { AiasDownloadComponent } from './lib/components/aias-download/aias-download.component';
 export { ProcessService } from './lib/services/process/process.service';
 export { ArlasError, ActionType } from './lib/tools/errors/error';
 export { AuthorisationError } from './lib/tools/errors/authorisation-error';
