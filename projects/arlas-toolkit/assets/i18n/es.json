@@ -33,7 +33,7 @@
   "Download more products": "Descargar {{value}} productos",
   "Format of the products to download": "Formato de los productos para descargar",
   "Download the entire archive": "Descargar el archivo completo",
-  "No cutting possible": "No es posible cortar",
+  "No cropping possible": "No es posible recortar",
   "Coordinate system for the downloaded products": "Sistema de coordenadas para los productos descargados",
   "Filter on AOI": "Filtro en AOI",
   "Coordinate system": "Sistema de coordenadas",
