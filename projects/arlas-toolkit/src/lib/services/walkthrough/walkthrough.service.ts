@@ -15,9 +15,9 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
+ */
+/*
  * Hopscotch is used under Apache License 2.0 : https://github.com/linkedin/hopscotch/blob/master/LICENSE
- *
  */
 
 import { Injectable } from '@angular/core';

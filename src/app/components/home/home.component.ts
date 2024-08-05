@@ -1,7 +1,30 @@
+/*
+ * Licensed to Gisaïa under one or more contributor
+ * license agreements. See the NOTICE.txt file distributed with
+ * this work for additional information regarding copyright
+ * ownership. Gisaïa licenses this file to you under
+ * the Apache License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChipsSearchContributor } from 'arlas-web-contributors';
+import { fromEvent } from 'rxjs';
+import packageJson from '../../../../package.json';
 import {
   FilterShortcutConfiguration
 } from '../../../../projects/arlas-toolkit/src/lib/components/filter-shortcut/filter-shortcut.utils';
+import { DEFAULT_SPINNER_OPTIONS } from '../../../../projects/arlas-toolkit/src/lib/components/progress-spinner/progress-spinner.component';
 import {
   TimelineConfiguration
 } from '../../../../projects/arlas-toolkit/src/lib/components/timeline/timeline/timeline.utils';
@@ -10,16 +33,11 @@ import {
 } from '../../../../projects/arlas-toolkit/src/lib/services/arlas-authentification/arlas-authentification.service';
 import { ArlasIamService } from '../../../../projects/arlas-toolkit/src/lib/services/arlas-iam/arlas-iam.service';
 import {
-  ArlasCollaborativesearchService,
   ArlasConfigService,
   ArlasStartupService
 } from '../../../../projects/arlas-toolkit/src/lib/services/startup/startup.service';
 import { AuthentSetting, CollectionUnit, SpinnerOptions } from '../../../../projects/arlas-toolkit/src/lib/tools/utils';
-import { ChipsSearchContributor } from 'arlas-web-contributors';
 import { AnalyticsService, ArlasOverlayService } from '../../../../projects/arlas-toolkit/src/public-api';
-import packageJson from '../../../../package.json';
-import { fromEvent } from 'rxjs';
-import { DEFAULT_SPINNER_OPTIONS } from '../../../../projects/arlas-toolkit/src/lib/components/progress-spinner/progress-spinner.component';
 
 
 @Component({
@@ -50,7 +68,7 @@ export class HomeComponent implements OnInit {
   public windowWidth = window.innerWidth;
   public spinnerOptions: SpinnerOptions = DEFAULT_SPINNER_OPTIONS;
 
-  @ViewChild('tooltip') tooltip
+  @ViewChild('tooltip') public tooltip;
 
   public constructor(
     private arlasStartupService: ArlasStartupService,
@@ -96,29 +114,29 @@ export class HomeComponent implements OnInit {
      * to test tooltip
      */
     const noTime = {
-      "xValue": "2.2",
-      "xStartValue": "2.2",
-      "xEndValue": "2.4",
-      "xRange": {
-        "value": 0.2
+      'xValue': '2.2',
+      'xStartValue': '2.2',
+      'xEndValue': '2.4',
+      'xRange': {
+        'value': 0.2
       },
-      "dataType": "numeric",
-      "y": [
+      'dataType': 'numeric',
+      'y': [
         {
-          "value": "1",
-          "chartId": "demo_sea_phys_bcg",
-          "color": "#19e3ff"
+          'value': '1',
+          'chartId': 'demo_sea_phys_bcg',
+          'color': '#19e3ff'
         }
       ],
-      "shown": true,
-      "xPosition": 64,
-      "yPosition": 30,
-      "chartWidth": 217,
-      "title": "sqxqsxsq",
-      "xLabel": "",
-      "yLabel": "qxqsxqs",
-      "xUnit": "",
-      "yUnit": "Marine observations"
+      'shown': true,
+      'xPosition': 64,
+      'yPosition': 30,
+      'chartWidth': 217,
+      'title': 'sqxqsxsq',
+      'xLabel': '',
+      'yLabel': 'qxqsxqs',
+      'xUnit': '',
+      'yUnit': 'Marine observations'
     };
     const time = {
       'xValue': '25 December 2016',

@@ -1,12 +1,32 @@
-import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { DeniedAccessData } from '../../tools/utils';
-import { ArlasError } from '../../tools/errors/error';
-import { Subscription } from 'rxjs';
-import { AuthentificationService } from '../../services/authentification/authentification.service';
-import { ArlasIamService } from '../../services/arlas-iam/arlas-iam.service';
-import { ArlasSettingsService } from '../../services/settings/arlas.settings.service';
+/*
+ * Licensed to Gisaïa under one or more contributor
+ * license agreements. See the NOTICE.txt file distributed with
+ * this work for additional information regarding copyright
+ * ownership. Gisaïa licenses this file to you under
+ * the Apache License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { ArlasIamService } from '../../services/arlas-iam/arlas-iam.service';
+import { AuthentificationService } from '../../services/authentification/authentification.service';
+import { ArlasSettingsService } from '../../services/settings/arlas.settings.service';
+import { ArlasError } from '../../tools/errors/error';
+import { DeniedAccessData } from '../../tools/utils';
+
 @Component({
   selector: 'arlas-denied-access-dialog',
   templateUrl: './denied-access-dialog.component.html',
@@ -15,7 +35,7 @@ import { Router } from '@angular/router';
 export class DeniedAccessDialogComponent implements OnInit, OnDestroy {
 
   private isAuthentActivated: boolean;
-  private authentMode;
+  private authentMode: 'openid' | 'iam';
 
   public forceAction = false;
   public arlasError: ArlasError;

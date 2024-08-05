@@ -1,15 +1,34 @@
+/*
+ * Licensed to Gisaïa under one or more contributor
+ * license agreements. See the NOTICE.txt file distributed with
+ * this work for additional information regarding copyright
+ * ownership. Gisaïa licenses this file to you under
+ * the Apache License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
 import { Injectable } from '@angular/core';
-import { ArlasCollaborativesearchService, ArlasConfigService } from '../startup/startup.service';
-import { Observable } from 'rxjs';
-import { Contributor, Collaboration, projType } from 'arlas-web-core';
-import { TreeContributor, HistogramContributor, ResultListContributor } from 'arlas-web-contributors';
-import { AggregationResponse, Aggregation, ComputationRequest, ComputationResponse, Hits, Filter } from 'arlas-api';
-import { getAggregationPrecision } from 'arlas-web-contributors/utils/histoswimUtils';
-import { map, mergeMap } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
-import { ArlasSettingsService } from '../settings/arlas.settings.service';
+import { Aggregation, AggregationResponse, ComputationRequest, ComputationResponse, Filter, Hits } from 'arlas-api';
+import { HistogramContributor, ResultListContributor, TreeContributor } from 'arlas-web-contributors';
+import { getAggregationPrecision } from 'arlas-web-contributors/utils/histoswimUtils';
 import { getFieldValue } from 'arlas-web-contributors/utils/utils';
-import { ExportedColumn } from 'arlas-web-contributors/models/models';
+import { Collaboration, Contributor, projType } from 'arlas-web-core';
+import { Observable } from 'rxjs';
+import { map, mergeMap } from 'rxjs/operators';
+import { ArlasSettingsService } from '../settings/arlas.settings.service';
+import { ArlasCollaborativesearchService, ArlasConfigService } from '../startup/startup.service';
+
 @Injectable({
   providedIn: 'root'
 })
