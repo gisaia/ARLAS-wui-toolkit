@@ -1,11 +1,11 @@
 <mat-action-list class="analytics-menu">
     <button mat-list-item *ngFor="let tab of analyticsService.tabs; let tabIdx = index" (click)="selectTab(tabIdx)">
         <mat-icon *ngIf="tab.icon" [matTooltip]="tab.name | translate" matTooltipPosition="right"
-            class="tab-icon" [class.selectedTab]="tabIdx === analyticsService.activeTab">
+            class="tab-icon" [class.tab--selected]="tabIdx === analyticsService.activeTab">
             {{ tab.icon }}
         </mat-icon>
         <div *ngIf="!tab.icon" [matTooltip]="tab.name | translate"  matTooltipPosition="right"
-            [class.selectedTab]="tabIdx === analyticsService.activeTab">
+            [class.tab--selected]="tabIdx === analyticsService.activeTab">
             {{ tab.name[0] }}
         </div>
 

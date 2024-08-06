@@ -18,11 +18,10 @@
  */
 
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { ArlasBookmarkService } from '../../services/bookmark/bookmark.service';
 import { BookmarkComponent } from '../bookmark/bookmark.component';
-import { ArlasStartupService } from '../../services/startup/startup.service';
-import { MatLegacyMenu as MatMenu } from '@angular/material/legacy-menu';
+import { MatMenu } from '@angular/material/menu';
 import { BookmarkAddDialogComponent } from '../bookmark/bookmark-add-dialog.component';
 
 
@@ -55,14 +54,15 @@ export class BookmarkMenuComponent implements OnInit {
   }
 
   public openDatasetListDialog() {
-    this.dialog.open(BookmarkComponent, { width: '60vw' , maxWidth: '800px', data: {isSelect: this.isSelectMultipleBookmarks} });
+    this.dialog.open(BookmarkComponent, { width: '60vw' , maxWidth: '800px',
+      data: {isSelect: this.isSelectMultipleBookmarks}, panelClass: 'bookmark-manager' });
   }
 
   public openDialogAdd() {
     this.dialog.open(BookmarkAddDialogComponent, { data: { name: null } });
   }
 
-  public viewBookmark(id) {
+  public viewBookmark(id: string) {
     this.bookmarkService.viewBookMark(id);
   }
 

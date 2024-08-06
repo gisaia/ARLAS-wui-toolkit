@@ -20,12 +20,8 @@
 .share-radio-group {
   display: inline-flex;
   flex-direction: column;
-  padding: 10px;
   flex: 1;
-}
-
-.share-radio-button {
-  margin: 5px;
+  margin-left: 60px;
 }
 
 .share-url {
@@ -71,6 +67,10 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+
+  &__options {
+    padding-top: 15px;
+  }
 }
 
 .share-feature-button {
@@ -105,10 +105,6 @@
   flex-direction: column;
 }
 
-.share-order-field .mat-select-content {
-  font-size: 13px;
-}
-
 .share-stepper {
-  width: 45vw;
+  width: 100%;
 }

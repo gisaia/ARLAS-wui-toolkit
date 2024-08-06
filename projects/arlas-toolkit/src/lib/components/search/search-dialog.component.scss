@@ -97,12 +97,12 @@ $search-width: 400px;
     }
 }
 
-::ng-deep #arlas-search-dialog .mat-dialog-content {
+::ng-deep #arlas-search-dialog .mat-mdc-dialog-content {
     padding: 0;
     margin: -20px;
 }
 
-::ng-deep.mat-dialog-container {
+::ng-deep.mat-mdc-dialog-container {
     border: 1px solid #a1a1a1;
     border-radius: 8px !important;
     box-shadow: none;

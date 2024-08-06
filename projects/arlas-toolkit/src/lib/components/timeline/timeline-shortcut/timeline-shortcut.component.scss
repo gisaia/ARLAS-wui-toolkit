@@ -28,6 +28,15 @@
 .arlas-time--tools {
   display: flex;
   align-items: center;
+
+  ::ng-deep.mat-mdc-chip-action-label {
+    width: fit-content;
+    display: flex;
+    align-items: center;
+  }
+  ::ng-deep.mdc-evolution-chip__action--primary {
+    overflow-y: hidden;
+  }
 }
 
 .arlas-timeline-toggle {

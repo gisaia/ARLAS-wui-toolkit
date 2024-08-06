@@ -17,7 +17,7 @@
  * under the License.
  */
 import { Inject, Injectable, OnDestroy } from '@angular/core';
-import { MatLegacySnackBar as MatSnackBar, MatLegacySnackBarConfig as MatSnackBarConfig } from '@angular/material/legacy-snack-bar';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { Filter } from 'arlas-api';
 import { Configuration, FetchAPI, StatusApi, TagRefRequest, WriteApi } from 'arlas-tagger-api';
 import { from, interval, Observable, Subject, Subscription } from 'rxjs';

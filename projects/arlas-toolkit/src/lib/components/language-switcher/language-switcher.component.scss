@@ -24,7 +24,7 @@
 .flag-icon{
   width: 24px;
   height: 24px;
-  position: absolute;
+  display: block;
 }
 
 .flag-de{
@@ -74,11 +74,29 @@
   background-size: contain;
 }
 
-::ng-deep .switcher-option .mat-option-text{
-  width: 24px;
-  height: 24px;
+.language-picker {
+  width: unset;
+
+  ::ng-deep.mat-mdc-select-value {
+    width: unset;
+    margin-right: 5px;
+  }
+
+  &__trigger {
+    width: 24px;
+    height: 24px;
+    display: block;
+  }
 }
 
-::ng-deep .mat-select-trigger{
-  height: 24px;
+// TODO: remove overlap between checkbox and flag
+.cdk-overlay-pane:has(.language-picker) {
+  width: auto !important;
+
+  ::ng-deep.mat-pseudo-checkbox {
+    margin-left: 0;
+  }
+  .mat-pseudo-checkbox {
+    margin-left: 0;
+  }
 }

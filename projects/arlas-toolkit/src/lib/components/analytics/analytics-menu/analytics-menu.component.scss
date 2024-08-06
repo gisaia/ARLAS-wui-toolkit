@@ -21,16 +21,22 @@
     width: 48px;
     padding-top: 0;
 
-    ::ng-deep.mat-list-item-content {
-        padding: 0 !important;
-        justify-content: center;
+    .mdc-list-item {
+        padding-left: 0;
+        padding-right: 0;
+
+        ::ng-deep &__content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
     }
 
     .tab-icon {
         color: grey;
     }
 
-    .selectedTab {
+    .tab--selected {
         color: black;
     }
 

@@ -21,7 +21,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ArlasCollaborativesearchService } from '../../services/startup/startup.service';
 import { ArlasIamService } from '../../services/arlas-iam/arlas-iam.service';
 import { Filter } from 'arlas-api';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { PermissionsCreatorDialogComponent } from './permissions-creator-dialog/permissions-creator-dialog.component';
 import { PermissionDialogData } from './_interfaces';
 import { Subscription } from 'rxjs';

@@ -18,7 +18,7 @@
  */
 import { Component, Input, OnInit, ViewEncapsulation, Inject } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatLegacyDialog as MatDialog, MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Aggregation } from 'arlas-api';
 import { projType } from 'arlas-web-core';
 import { ArlasSearchField } from './model/ArlasSearchField';
@@ -30,11 +30,14 @@ import * as FileSaver from 'file-saver';
 import { TranslateService } from '@ngx-translate/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ARLAS_VSET } from 'arlas-web-components';
+import { SelectionModel } from '@angular/cdk/collections';
+import { MatListOption } from '@angular/material/list';
 
 
 export interface ShareLayerSourceConfig extends LayerSourceConfig {
   visualisationName: string;
 }
+
 /**
  * This component allows to build a _geoaggregate and/or _geosearch requests through a guiding stepper and download the request result
  * as a json file after clicking on a "Download" button
@@ -55,7 +58,7 @@ export class ShareComponent {
   ) { }
 
   public openDialog(visibilityStatus?: Map<string, boolean>) {
-    this.dialog.open(ShareDialogComponent, { data: visibilityStatus });
+    this.dialog.open(ShareDialogComponent, { data: visibilityStatus, minWidth: '60vw' });
   }
 }
 
@@ -63,7 +66,7 @@ export class ShareComponent {
 @Component({
   selector: 'arlas-share-dialog',
   templateUrl: './share-dialog.component.html',
-  styleUrls: ['./share-dialog.component.css'],
+  styleUrls: ['./share-dialog.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class ShareDialogComponent implements OnInit {
@@ -311,10 +314,10 @@ export class ShareDialogComponent implements OnInit {
   }
 
 
-  public onSelectionChange(selectedOptionsList) {
+  public onSelectionChange(selectedOptionsList: SelectionModel<MatListOption>) {
     this.selectedFields = new Array<ArlasSearchField>();
-    selectedOptionsList.forEach(option => {
-      const field = option._text.nativeElement.innerText.split('-');
+    selectedOptionsList.selected.forEach(option => {
+      const field = option.getLabel().split('-');
       this.selectedFields.push(new ArlasSearchField(field[0].trim(), field[1].trim()));
     });
   }

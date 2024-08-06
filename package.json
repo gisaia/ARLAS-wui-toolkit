@@ -91,7 +91,7 @@
     "patch-package": "^6.4.7",
     "protractor": "~7.0.0",
     "ts-node": "~10.4.0",
-    "typescript": "~4.8.2"
+    "typescript": "4.8.2"
   },
   "browser": {
     "jsonpath": false
@@ -109,7 +109,6 @@
     },
     "@angular-devkit/build-angular": {
       "webpack-dev-middleware": "~5.3.4"
-    },
-    "@babel/traverse": "~7.23.2"
+    }
   }
 }

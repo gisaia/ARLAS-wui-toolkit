@@ -9,8 +9,10 @@
     <mat-header-cell *matHeaderCellDef>{{ 'Actions' | translate }} </mat-header-cell>
     <mat-cell *matCellDef="let bookmark">
       <mat-icon class="bookmark-icons-action bookmark-icons-action-view" (click)="viewBookmark(bookmark.id)">
-        remove_red_eye</mat-icon>
-      <mat-icon class="bookmark-icons-action bookmark-icons-action-delete" (click)="removeBookmark(bookmark.id)">delete
+        remove_red_eye
+      </mat-icon>
+      <mat-icon class="bookmark-icons-action bookmark-icons-action-delete" (click)="removeBookmark(bookmark.id)">
+        delete
       </mat-icon>
     </mat-cell>
   </ng-container>
@@ -33,8 +35,6 @@
   <mat-header-row *matHeaderRowDef="columnsToDisplay; sticky: true"></mat-header-row>
   <mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></mat-row>
 </mat-table>
-
-
 
 <div class="bookmark-actions" *ngIf="showCombine">
   <button class="bookmark-action-button" mat-raised-button [disabled]="disableCombine"(click)="viewCombine()">{{ 'View Combine' | translate }}</button>

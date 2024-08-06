@@ -18,7 +18,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { MatLegacySnackBar as MatSnackBar, MatLegacySnackBarConfig as MatSnackBarConfig } from '@angular/material/legacy-snack-bar';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Expression, Filter } from 'arlas-api';
 import { Collaboration, projType, fromEntries } from 'arlas-web-core';

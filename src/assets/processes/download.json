@@ -1,0 +1,43 @@
+{
+  "id": "d-w",
+  "version": "0.0.0",
+  "title": "Download",
+  "description": "Télécharger un ou plusieurs produits",
+  "inputs": {
+    "target_format": {
+      "title": "Format",
+      "description": "Format des produits téléchargés",
+      "schema": {
+        "type": "string",
+        "enum": [
+          "Geotiff",
+          "JPEG2000"
+        ],
+        "required": true
+      }
+    },
+    "target_projection": {
+      "title": "Système de coordonées",
+      "description": "Système de coordonées des produits téléchargés",
+      "schema": {
+        "type": "object",
+        "enum": [
+          {
+            "label": "WGS 84",
+            "value": "epsg:4326"
+          }
+        ]
+      }
+    },
+    "crop_wkt": {
+      "title": "WKT",
+      "description": "",
+      "schema": {
+        "type": "AOI"
+      }
+    }
+  },
+  "additionalParameters": {
+    "parameters": []
+  }
+}

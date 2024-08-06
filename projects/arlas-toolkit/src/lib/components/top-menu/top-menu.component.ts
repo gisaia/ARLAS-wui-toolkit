@@ -23,7 +23,7 @@ import { ArlasIamService } from '../../services/arlas-iam/arlas-iam.service';
 import { AboutComponent } from './about/about.component';
 import { TranslateService } from '@ngx-translate/core';
 import { UserInfosComponent } from '../user-infos/user-infos.component';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ArlasSettingsService } from '../../services/settings/arlas.settings.service';
 import { ChangePasswordComponent } from '../change-password/change-password.component';

@@ -19,7 +19,7 @@
 
 import { Component, OnInit, Inject } from '@angular/core';
 import { AuthentificationService } from '../../services/authentification/authentification.service';
-import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 @Component({
   selector: 'arlas-tool-reconnect-dialog',
   templateUrl: './reconnect-dialog.component.html',

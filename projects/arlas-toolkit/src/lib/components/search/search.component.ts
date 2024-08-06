@@ -26,7 +26,7 @@ import { projType, Collaboration } from 'arlas-web-core';
 import { ArlasCollaborativesearchService } from '../../services/startup/startup.service';
 import { Observable, Subject, Subscription, from } from 'rxjs';
 import { filter, startWith, debounceTime, map, mergeMap, mergeWith } from 'rxjs/operators';
-import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialog as MatDialog, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 
 @Component({

@@ -22,7 +22,7 @@ import { ArlasExtendService } from '../../services/extend/extend.service';
 import { Subject } from 'rxjs';
 import { Extend } from '../../services/extend/model';
 import { ArlasDataSource } from '../../tools/arlasDataSource';
-import { LegacyPageEvent as PageEvent } from '@angular/material/legacy-paginator';
+import { PageEvent } from '@angular/material/paginator';
 import { ExtendPersistenceDatabase } from '../../services/extend/extendPersistenceDatabase';
 import { ExtendLocalDatabase } from '../../services/extend/extendLocalDatabase';
 
@@ -74,7 +74,7 @@ export class ExtendComponent {
     this.getExtendsList();
   }
 
-  public selectExtend(event, id) {
+  public selectExtend(event: { checked: boolean; }, id: string) {
     if (event.checked) {
       this.itemsCheck.push(id);
     } else {
@@ -93,7 +93,7 @@ export class ExtendComponent {
 
   public removeExtend(id: string) {
     this.extendService.removeExtend(id).subscribe(()=>{
-      this.selectExtend({ event: { checked: false } }, id);
+      this.selectExtend({ checked: false }, id);
       this.actions.next({ action: 'remove', id: id });
     },(e)=> console.error(e));
   }

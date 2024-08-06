@@ -19,13 +19,13 @@
 
 import { Component } from '@angular/core';
 import { ArlasBookmarkService } from '../../services/bookmark/bookmark.service';
-import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 import { FormControl, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 @Component({
   templateUrl: './bookmark-add-dialog.component.html',
-  styleUrls: ['./bookmark-add-dialog.component.css']
+  styleUrls: ['./bookmark-add-dialog.component.scss']
 })
 export class BookmarkAddDialogComponent {
   public bookmarkName = new FormControl('', [Validators.required]);
