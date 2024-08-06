@@ -17,15 +17,15 @@
  * under the License.
  */
 
-import { Component, OnInit, Input, ViewChild, OnDestroy } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { ArlasBookmarkService } from '../../services/bookmark/bookmark.service';
-import { BookmarkComponent } from '../bookmark/bookmark.component';
-import { MatMenu } from '@angular/material/menu';
-import { BookmarkAddDialogComponent } from '../bookmark/bookmark-add-dialog.component';
-import { ArlasCollaborativesearchService } from '../../services/startup/startup.service';
-import { Subject, takeUntil } from 'rxjs';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatLegacyMenu as MatMenu } from '@angular/material/legacy-menu';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
+import { Subject, takeUntil } from 'rxjs';
+import { ArlasBookmarkService } from '../../services/bookmark/bookmark.service';
+import { ArlasCollaborativesearchService } from '../../services/startup/startup.service';
+import { BookmarkAddDialogComponent } from '../bookmark/bookmark-add-dialog.component';
+import { BookmarkComponent } from '../bookmark/bookmark.component';
 
 @Component({
   selector: 'arlas-bookmark-menu',

@@ -19,10 +19,10 @@
 
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatLegacyCheckboxModule as MatCheckboxModule } from '@angular/material/legacy-checkbox';
 import { MatIconModule } from '@angular/material/icon';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatTableModule } from '@angular/material/table';
+import { MatLegacyPaginatorModule as MatPaginatorModule } from '@angular/material/legacy-paginator';
+import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
 import { TranslateFakeLoader, TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
 import {

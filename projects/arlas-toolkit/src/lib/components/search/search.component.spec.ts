@@ -20,9 +20,9 @@
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatLegacyAutocompleteModule as MatAutocompleteModule } from '@angular/material/legacy-autocomplete';
 import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
+import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateFakeLoader, TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';

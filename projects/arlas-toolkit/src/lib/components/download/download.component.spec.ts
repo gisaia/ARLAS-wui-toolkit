@@ -21,9 +21,9 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { DownloadComponent } from './download.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { MatSelectModule } from '@angular/material/select';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
+import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 
 describe('DownloadComponent', () => {
   let component: DownloadComponent;

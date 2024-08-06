@@ -17,19 +17,19 @@
  * under the License.
  */
 
-import { Component, Input, Inject, OnInit, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Inject, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
-import { TranslateService } from '@ngx-translate/core';
-import { SearchContributor } from 'arlas-web-contributors';
-import { ArlasCollaborativesearchService, ArlasConfigService } from '../../services/startup/startup.service';
-import { Observable, Subject, Subscription, concat, from, of, zip } from 'rxjs';
-import { filter, startWith, debounceTime, map, mergeMap, mergeWith, reduce } from 'rxjs/operators';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { marker } from '@biesbjerg/ngx-translate-extract-marker';
-import { AggregationResponse } from 'arlas-api';
+import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialog as MatDialog, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { OperationEnum } from 'arlas-web-core';
+import { marker } from '@biesbjerg/ngx-translate-extract-marker';
+import { TranslateService } from '@ngx-translate/core';
+import { AggregationResponse } from 'arlas-api';
 import { ArlasColorService } from 'arlas-web-components';
+import { OperationEnum } from 'arlas-web-core';
+import { Observable, of, Subject, Subscription, zip } from 'rxjs';
+import { debounceTime, filter, map, mergeMap, mergeWith, startWith } from 'rxjs/operators';
+import { ArlasCollaborativesearchService, ArlasConfigService } from '../../services/startup/startup.service';
+import { SearchContributor } from 'arlas-web-contributors';
 
 @Component({
   selector: 'arlas-search',

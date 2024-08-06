@@ -18,7 +18,7 @@
  */
 
 import { Component, Input, OnInit, Output } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { Resource } from 'arlas-permissions-api';
 import { catchError, filter, map, take, tap } from 'rxjs/operators';
 import { PermissionService } from '../../../services/permission/permission.service';

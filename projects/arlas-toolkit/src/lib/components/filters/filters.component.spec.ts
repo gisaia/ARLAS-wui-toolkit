@@ -31,10 +31,10 @@ import { TranslateService, TranslateModule, TranslateLoader, TranslateFakeLoader
 import { ArlasWalkthroughService } from '../../services/walkthrough/walkthrough.service';
 import { FormatNumberModule } from 'arlas-web-components';
 import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
-import { MatChipsModule } from '@angular/material/chips';
+import { MatLegacyChipsModule as MatChipsModule } from '@angular/material/legacy-chips';
 import { MatIconModule } from '@angular/material/icon';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatMenuModule } from '@angular/material/menu';
+import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip';
+import { MatLegacyMenuModule as MatMenuModule } from '@angular/material/legacy-menu';
 
 describe('FiltersChipsComponent', () => {
   let component: FiltersComponent;

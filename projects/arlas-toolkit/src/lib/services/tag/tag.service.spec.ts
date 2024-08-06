@@ -25,7 +25,7 @@ import { AuthentificationService } from '../authentification/authentification.se
 import { DateTimeProvider, OAuthLogger, OAuthModule, OAuthService, UrlHelperService } from 'angular-oauth2-oidc';
 import { ArlasSettingsService } from '../settings/arlas.settings.service';
 import { ArlasCollaborativesearchService } from '../startup/startup.service';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/legacy-snack-bar';
 
 describe('ArlasTagService', () => {
   beforeEach(() => {
