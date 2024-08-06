@@ -21,8 +21,8 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
-import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import en from 'arlas-web-components/assets/i18n/en.json';
 import fr from 'arlas-web-components/assets/i18n/fr.json';
@@ -30,16 +30,16 @@ import es from 'arlas-web-components/assets/i18n/es.json';
 import { Observable } from 'rxjs/internal/Observable';
 import { LoginComponent } from './components/login/login.component';
 import { MatIconModule } from '@angular/material/icon';
-import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
+import { MatButtonModule } from '@angular/material/button';
 import { RegisterComponent } from './components/register/register.component';
 import { RouterModule } from '@angular/router';
 import { VerifyComponent } from './components/verify/verify.component';
 import { ResetComponent } from './components/reset/reset.component';
 import { ForgotComponent } from './components/forgot/forgot.component';
-import { MatLegacyCheckboxModule as MatCheckboxModule } from '@angular/material/legacy-checkbox';
-import { MatLegacyProgressSpinnerModule as MatProgressSpinnerModule } from '@angular/material/legacy-progress-spinner';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
-import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 
 export class CustomTranslateLoader implements TranslateLoader {
 

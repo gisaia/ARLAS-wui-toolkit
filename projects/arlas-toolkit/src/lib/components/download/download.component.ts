@@ -18,7 +18,7 @@
  */
 import { Component, Inject, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatLegacyDialog as MatDialog, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AuthentificationService } from '../../services/authentification/authentification.service';
 import { CollectionReferenceDescription } from 'arlas-api';
 import { projType } from 'arlas-web-core';
@@ -26,7 +26,8 @@ import { ArlasCollaborativesearchService, ArlasConfigService } from '../../servi
 import { ArlasSearchField } from '../share/model/ArlasSearchField';
 import { DeviceDetectorService, OS } from 'ngx-device-detector';
 import { orderAlphabeticallyArlasSearchFields } from '../../tools/utils';
-import { MatLegacySelectionList as MatSelectionList } from '@angular/material/legacy-list';
+import { MatLegacySelectionList as MatSelectionList, MatLegacyListOption as MatListOption } from '@angular/material/legacy-list';
+import { SelectionModel } from '@angular/cdk/collections';
 
 export const ARLAS_HITS_EXPORTER_VERSION = 2.2;
 
@@ -54,7 +55,7 @@ export class DownloadComponent {
 @Component({
   selector: 'arlas-download-dialog',
   templateUrl: './download-dialog.component.html',
-  styleUrls: ['./download-dialog.component.css'],
+  styleUrls: ['./download-dialog.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class DownloadDialogComponent implements OnInit {
@@ -113,11 +114,11 @@ export class DownloadDialogComponent implements OnInit {
     this.setCollectionField(this.selectedCollection);
   }
 
-  public onSelectionChange(selectedOptionsList) {
+  public onSelectionChange(selectedOptionsList: SelectionModel<MatListOption>) {
     this.selectedFields = new Array<ArlasSearchField>();
     this.selectedFieldString = '';
-    selectedOptionsList.forEach((option, index) => {
-      const field = option._element.nativeElement.textContent.split('-');
+    selectedOptionsList.selected.forEach((option, index) => {
+      const field = option.getLabel().split('-');
       this.selectedFields.push(new ArlasSearchField(field[0].trim(), field[1].trim()));
       this.selectedFieldString += (index !== 0 ? ',' : '') + field[0].trim();
     });

@@ -69,6 +69,10 @@
   gap: 10px;
 }
 
-.process {
-  height: fit-content;
+::ng-deep.extra-counts {
+  top: 78px !important;
+}
+
+::ng-deep.mdc-dialog__surface {
+  padding: 24px;
 }

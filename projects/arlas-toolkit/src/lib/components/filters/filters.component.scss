@@ -42,17 +42,6 @@ $count-chip-height: 30px;
 .chips--container {
   display: flex;
   align-items: center;
-
-  div.mat-chip-list-wrapper {
-    margin: 0 !important;
-    align-items: flex-start;
-    flex-wrap: nowrap;
-  }
-}
-
-::ng-deep.mat-chip-list-wrapper {
-  margin: 0 !important;
-  align-items: flex-start;
 }
 
 .collection-chip,
@@ -78,6 +67,10 @@ $count-chip-height: 30px;
   padding: 0 2px;
 }
 
+.timeline-chip {
+  width: 24px;
+}
+
 .timeline-chip,
 .clear-chip {
   cursor: pointer;
@@ -97,10 +90,11 @@ $count-chip-height: 30px;
 
   .icon_close{
     font-size: 12px;
-    width: 12px !important;
-    height: 12px !important;
-    float: right;
-    margin-top: -6px;
+    width: 12px;
+    height: 12px;
+    position: absolute;
+    top: 0;
+    right: 0;
   }
 
   &:focus {
@@ -115,6 +109,7 @@ $count-chip-height: 30px;
   display: flex;
   align-items: center;
   height: 28px;
+  width: 28px;
 }
 
 .count-container {

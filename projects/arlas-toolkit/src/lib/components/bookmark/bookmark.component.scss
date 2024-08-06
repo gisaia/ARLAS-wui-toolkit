@@ -47,16 +47,12 @@ mat-row:hover {
   color: #FF0000;
 }
 
-::ng-deep .mat-checkbox-layout{
-  margin-bottom: 0;
-}
-
-.mat-header-cell {
+.mat-mdc-header-cell {
   display:flex;
   justify-content:center;
 }
 
-.mat-cell{
+.mat-mdc-cell{
   display:flex;
   justify-content:center;
 }

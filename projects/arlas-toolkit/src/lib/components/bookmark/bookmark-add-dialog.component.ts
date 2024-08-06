@@ -25,7 +25,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ArlasBookmarkService } from '../../services/bookmark/bookmark.service';
 @Component({
   templateUrl: './bookmark-add-dialog.component.html',
-  styleUrls: ['./bookmark-add-dialog.component.css']
+  styleUrls: ['./bookmark-add-dialog.component.scss']
 })
 export class BookmarkAddDialogComponent {
   public bookmarkName = new FormControl('', [Validators.required]);

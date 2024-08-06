@@ -86,7 +86,8 @@ export class BookmarkMenuComponent implements OnInit, OnDestroy {
   }
 
   public openDatasetListDialog() {
-    this.dialog.open(BookmarkComponent, { width: '60vw' , maxWidth: '800px', data: {isSelect: this.isSelectMultipleBookmarks} });
+    this.dialog.open(BookmarkComponent, { width: '60vw' , maxWidth: '800px',
+      data: {isSelect: this.isSelectMultipleBookmarks}, panelClass: 'bookmark-manager' });
   }
 
   public openDialogAdd() {
@@ -95,7 +96,7 @@ export class BookmarkMenuComponent implements OnInit, OnDestroy {
     }
   }
 
-  public viewBookmark(id) {
+  public viewBookmark(id: string) {
     this.bookmarkService.viewBookMark(id);
   }
 

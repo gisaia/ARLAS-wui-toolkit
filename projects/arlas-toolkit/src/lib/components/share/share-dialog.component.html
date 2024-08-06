@@ -36,20 +36,20 @@
         </div>
         <div class="share-feature-block">
           <div style="max-height: 40vh;overflow:auto;flex:3">
-            <mat-selection-list role="listbox" formControlName="availableFields" #selectedList (selectionChange)=onSelectionChange(selectedList.selectedOptions.selected)>
+            <mat-selection-list role="listbox" formControlName="availableFields" #selectedList (selectionChange)="onSelectionChange(selectedList.selectedOptions)">
               <mat-list-option [value]="field.label" *ngFor="let field of allFields">
                 <p matLine title="{{ field.label }} - {{field.type}}">
-                    {{ field.label }} - <span class="share-description">{{field.type}}</span>
+                  {{ field.label }} - <span class="share-description">{{field.type}}</span>
                 </p>
               </mat-list-option>
             </mat-selection-list>
           </div>
           <div class="share-feature-button">
-            <button mat-raised-button class="mat-accent fill text-sm share-button" matTooltip="{{'Select All' | translate}}" [matTooltipPosition]="'above'" (click)="selectedList.selectAll();onSelectionChange(selectedList.selectedOptions.selected)">
+            <button mat-raised-button class="mat-accent fill text-sm share-button" matTooltip="{{'Select All' | translate}}" [matTooltipPosition]="'above'" (click)="selectedList.selectAll();onSelectionChange(selectedList.selectedOptions)">
               &gt;&gt;
             </button>
             <br /><br />
-            <button mat-raised-button class="mat-primary fill text-sm share-button" matTooltip="{{'Remove All' | translate}}" (click)="selectedList.deselectAll();onSelectionChange(selectedList.selectedOptions.selected)">
+            <button mat-raised-button class="mat-primary fill text-sm share-button" matTooltip="{{'Remove All' | translate}}" (click)="selectedList.deselectAll();onSelectionChange(selectedList.selectedOptions)">
               &lt;&lt;
             </button>
           </div>
@@ -66,7 +66,7 @@
           </div>
         </div>
 
-        <div class="share-feature-block">
+        <div class="share-feature-block share-feature-block__options">
           <mat-form-field class="share-form-field">
             <mat-select placeholder="{{'Order by' | translate}}" formControlName="orderField" [(value)]="selectedOrderField" panelClass="share-order-field">
               <mat-option [value]="">{{'None' | translate}}</mat-option>

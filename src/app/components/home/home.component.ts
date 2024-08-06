@@ -17,7 +17,6 @@
  * under the License.
  */
 
-
 import {
   FilterShortcutConfiguration
 } from '../../../../projects/arlas-toolkit/src/lib/components/filter-shortcut/filter-shortcut.utils';
@@ -29,15 +28,15 @@ import {
 } from '../../../../projects/arlas-toolkit/src/lib/services/arlas-authentification/arlas-authentification.service';
 import { ArlasIamService } from '../../../../projects/arlas-toolkit/src/lib/services/arlas-iam/arlas-iam.service';
 import {
+  ArlasCollaborativesearchService,
   ArlasConfigService,
   ArlasStartupService
 } from '../../../../projects/arlas-toolkit/src/lib/services/startup/startup.service';
-import { AuthentSetting, CollectionUnit, SpinnerOptions } from '../../../../projects/arlas-toolkit/src/lib/tools/utils';
+import { AuthentSetting, SpinnerOptions } from '../../../../projects/arlas-toolkit/src/lib/tools/utils';
 import { SearchContributor } from 'arlas-web-contributors';
 import {
   AiasDownloadComponent,
   AnalyticsService,
-  ArlasOverlayService,
   ProcessService
 } from '../../../../projects/arlas-toolkit/src/public-api';
 import packageJson from '../../../../package.json';
@@ -52,7 +51,7 @@ import { AiasEnrichComponent } from '../../../../projects/arlas-toolkit/src/lib/
 @Component({
   selector: 'arlas-tool-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
 
@@ -86,6 +85,7 @@ export class HomeComponent implements OnInit {
     'Other'
   ];
   public selectedItemFormat = this.itemFormats[0];
+  public collections: Array<string>;
 
   @ViewChild('tooltip') public tooltip;
 
@@ -96,7 +96,7 @@ export class HomeComponent implements OnInit {
     private processService: ProcessService,
     private arlasAuthentService: ArlasAuthentificationService,
     private analyticsService: AnalyticsService,
-    private arlasOverlayService: ArlasOverlayService,
+    private collaborativeService: ArlasCollaborativesearchService,
     private dialog: MatDialog
   ) {
   }
@@ -121,6 +121,7 @@ export class HomeComponent implements OnInit {
     this.shortcuts?.forEach((_, idx) => {
       this.isShortcutOpen.push(idx % 2 === 0);
     });
+    this.collections = [...new Set(Array.from(this.collaborativeService.registry.values()).map(c => c.collection))];
 
     const authConfig: AuthentSetting = this.arlasAuthentService.authConfigValue;
     if (!!authConfig && authConfig.use_authent) {
@@ -192,6 +193,7 @@ export class HomeComponent implements OnInit {
       .subscribe((event: Event) => {
         this.windowWidth = window.innerWidth;
       });
+    // this.openProcess();
   }
 
   public logout() {
