@@ -191,6 +191,8 @@
 	"A configuration with this name exists already, please choose another name": "A configuration with this name exists already, please choose another name",
 	"An error occurred, please try later": "An error occurred, please try later",
 	"Loading data of": "Loading data of",
+	"Create the permission": "Create the permission",
+	"Creating": "Creating",
 	"Search...": "Search...",
 	"Datepicker.upSecondLabel": "Datepicker.upSecondLabel",
 	"Datepicker.downSecondLabel": "Datepicker.downSecondLabel",

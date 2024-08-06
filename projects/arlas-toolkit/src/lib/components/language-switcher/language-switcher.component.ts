@@ -26,7 +26,7 @@ import { getParamValue } from '../../tools/utils';
 @Component({
   selector: 'arlas-language-switcher',
   templateUrl: './language-switcher.component.html',
-  styleUrls: ['./language-switcher.component.css']
+  styleUrls: ['./language-switcher.component.scss']
 })
 export class LanguageSwitcherComponent implements OnInit {
   /**
@@ -53,7 +53,7 @@ export class LanguageSwitcherComponent implements OnInit {
    * @param lang Language name
    */
   public setLanguage(lang: string) {
-    let newLg;
+    let newLg: string;
     if (window.location.search) {
       if (window.location.search.indexOf('lg') !== -1) {
         newLg = window.location.search.replace(/lg=(\w+)/, 'lg=' + lang);

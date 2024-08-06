@@ -25,7 +25,7 @@
     <form [formGroup]="paramFormGroup">
       <ng-template matStepLabel>{{'Parameters' | translate}}</ng-template>
 
-      <mat-form-field >
+      <mat-form-field>
         <mat-label>{{ "Collection" | translate}}</mat-label>
         <mat-select (selectionChange)="collectionChange($event)" [(value)]="selectedCollection" >
           <mat-option *ngFor="let option of collections" [value]="option" >
@@ -48,7 +48,7 @@
       <div class="download-feature-block">
         <div style="max-height: 40vh;overflow:auto;flex:3">
           <mat-selection-list role="listbox" formControlName="availableFields" #selectedList
-            (selectionChange)=onSelectionChange(selectedList.selectedOptions.selected)>
+            (selectionChange)="onSelectionChange(selectedList.selectedOptions)">
             <mat-list-option *ngFor="let field of allFields">
               <p matLine title="{{ field.label }} - {{field.type}}">
                 {{ field.label }} - <span class="download-description">{{field.type}}</span>
@@ -59,13 +59,13 @@
         <div class="download-feature-button">
           <button mat-raised-button class="mat-accent fill text-sm download-button"
             matTooltip="{{'Select All' | translate}}" matTooltipPosition="above"
-            (click)="selectedList.selectAll();onSelectionChange(selectedList.selectedOptions.selected)">
+            (click)="selectedList.selectAll();onSelectionChange(selectedList.selectedOptions)">
             &gt;&gt;
           </button>
           <br /><br />
           <button mat-raised-button class="mat-primary fill text-sm download-button"
             matTooltip="{{'Remove All' | translate}}"
-            (click)="selectedList.deselectAll();onSelectionChange(selectedList.selectedOptions.selected)">
+            (click)="selectedList.deselectAll();onSelectionChange(selectedList.selectedOptions)">
             &lt;&lt;
           </button>
         </div>

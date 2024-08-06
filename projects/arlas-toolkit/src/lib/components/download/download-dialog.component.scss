@@ -110,16 +110,16 @@
   flex-direction: column;
 }
 
-.download-order-field .mat-select-content {
-  font-size: 13px;
-}
-
 .download-stepper {
-  width: 45vw;
+  width: 100%;
+
+  .mat-horizontal-content-container {
+    padding: 12px 24px 24px 24px;
+  }
 }
 
 .download-box {
-  height: 208px;
+  height: 240px;
   font-family: monospace;
   font-size: 16px;
   background-color: lightgray;

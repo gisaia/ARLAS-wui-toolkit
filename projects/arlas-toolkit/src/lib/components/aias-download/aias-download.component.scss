@@ -182,15 +182,6 @@ $default-spacing: 10px;
   }
 }
 
-::ng-deep .mat-form-field-wrapper {
-  margin: 0.3em !important;
-  padding-bottom: 1.1em !important;
-}
-
 ::ng-deep .mat-horizontal-content-container {
-  padding: 0 24px !important;
-}
-
-::ng-deep .mat-dialog-content {
-  max-height: none !important;
+  padding: 12px 24px 0 !important;
 }

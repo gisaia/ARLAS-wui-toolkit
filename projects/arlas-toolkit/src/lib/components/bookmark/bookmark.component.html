@@ -42,8 +42,6 @@
   <mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></mat-row>
 </mat-table>
 
-
-
 <div class="bookmark-actions" *ngIf="showCombine">
   <button class="bookmark-action-button" mat-raised-button [disabled]="disableCombine"(click)="viewCombine()">{{ 'View Combine' | translate }}</button>
   <button class="bookmark-action-button" mat-raised-button [disabled]="disableCombine" (click)="combine()">{{ 'Combine' | translate }}</button>

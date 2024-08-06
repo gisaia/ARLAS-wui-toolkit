@@ -42,16 +42,12 @@
   color: #FF0000;
 }
 
-::ng-deep .mat-checkbox-layout{
-  margin-bottom: 0;
-}
-
-.mat-header-cell {
+.mat-mdc-header-cell {
   display:flex;
   justify-content:center;
 }
 
-.mat-cell{
+.mat-mdc-cell{
   display:flex;
   justify-content:center;
 }
@@ -71,4 +67,8 @@
 
 .bookmark-action-button{
   margin: 0 5px;
+}
+
+::ng-deep.mdc-dialog__surface {
+  padding: 24px;
 }

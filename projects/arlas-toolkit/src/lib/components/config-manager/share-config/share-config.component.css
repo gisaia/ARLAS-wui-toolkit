@@ -37,12 +37,12 @@
 .group-table-items .mat-column-checked{
   flex:0 0 50px;
 }
-.mat-header-cell {
+.mat-mdc-header-cell {
   display:flex;
   justify-content:center;
 }
 
-.mat-cell{
+.mat-mdc-cell{
   display:flex;
   justify-content:center;
 }
