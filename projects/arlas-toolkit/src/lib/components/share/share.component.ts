@@ -18,7 +18,7 @@
  */
 import { Component, Inject, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog, MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
 import { Aggregation } from 'arlas-api';
 import { projType } from 'arlas-web-core';
 import { ArlasSearchField } from './model/ArlasSearchField';

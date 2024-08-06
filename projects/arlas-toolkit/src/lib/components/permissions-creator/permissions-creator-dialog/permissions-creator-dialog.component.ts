@@ -18,7 +18,7 @@
  */
 
 import { Component, Inject, OnDestroy } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
 import { PermissionDialogData } from '../_interfaces';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ArlasIamService } from '../../../services/arlas-iam/arlas-iam.service';
