@@ -20,11 +20,11 @@
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { ProcessService } from '../../services/process/process.service';
 import { ProcessInput, Process, ProcessInputs, ProcessOutput, ProcessStatus } from '../../tools/process.interface';
 import { Observable, Subject, Subscription, takeUntil, timer } from 'rxjs';
-import { MatCheckboxChange } from '@angular/material/checkbox';
+import { MatLegacyCheckboxChange as MatCheckboxChange } from '@angular/material/legacy-checkbox';
 
 
 

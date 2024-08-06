@@ -14,10 +14,10 @@ import { TranslateModule, TranslateService, TranslateLoader, TranslateFakeLoader
 import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
 import { ProgressSpinnerComponent } from '../progress-spinner/progress-spinner.component';
 import { ArlasOverlayService } from '../../services/overlays/overlay.service';
-import { MatSelectModule } from '@angular/material/select';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
+import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip';
 import { MatIconModule } from '@angular/material/icon';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatLegacyProgressSpinnerModule as MatProgressSpinnerModule } from '@angular/material/legacy-progress-spinner';
 
 describe('HistogramWidgetComponent', () => {
   let component: HistogramWidgetComponent;

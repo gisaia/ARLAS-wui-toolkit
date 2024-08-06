@@ -18,11 +18,11 @@
  */
 
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { ArlasBookmarkService } from '../../services/bookmark/bookmark.service';
 import { BookmarkComponent } from '../bookmark/bookmark.component';
 import { ArlasStartupService } from '../../services/startup/startup.service';
-import { MatMenu } from '@angular/material/menu';
+import { MatLegacyMenu as MatMenu } from '@angular/material/legacy-menu';
 import { BookmarkAddDialogComponent } from '../bookmark/bookmark-add-dialog.component';
 
 

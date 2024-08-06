@@ -18,7 +18,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { DeniedAccessDialogComponent } from '../../components/denied-access-dialog/denied-access-dialog.component';
 import { ArlasSettingsService } from '../../services/settings/arlas.settings.service';
 import { AuthorisationError } from '../../tools/errors/authorisation-error';

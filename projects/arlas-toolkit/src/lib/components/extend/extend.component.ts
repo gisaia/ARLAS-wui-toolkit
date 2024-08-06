@@ -22,7 +22,7 @@ import { ArlasExtendService } from '../../services/extend/extend.service';
 import { Subject } from 'rxjs';
 import { Extend } from '../../services/extend/model';
 import { ArlasDataSource } from '../../tools/arlasDataSource';
-import { PageEvent } from '@angular/material/paginator';
+import { LegacyPageEvent as PageEvent } from '@angular/material/legacy-paginator';
 import { ExtendPersistenceDatabase } from '../../services/extend/extendPersistenceDatabase';
 import { ExtendLocalDatabase } from '../../services/extend/extendLocalDatabase';
 

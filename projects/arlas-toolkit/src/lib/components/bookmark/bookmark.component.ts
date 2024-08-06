@@ -23,7 +23,7 @@ import { ArlasBookmarkService } from '../../services/bookmark/bookmark.service';
 import { BookMark } from '../../services/bookmark/model';
 import { BookmarkPersistenceDatabase } from '../../services/bookmark/bookmarkPersistenceDatabase';
 import { BookmarkDataSource } from '../../services/bookmark/bookmarkDataSource';
-import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { BookmarkAddDialogComponent } from './bookmark-add-dialog.component';
 import { ArlasCollaborativesearchService } from '../../services/startup/startup.service';
 
