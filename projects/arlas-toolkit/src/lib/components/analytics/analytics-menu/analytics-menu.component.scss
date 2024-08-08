@@ -19,7 +19,7 @@
 
 .analytics-menu {
     width: 48px;
-    padding-top: 0;
+    padding: 0;
 
     .mdc-list-item {
         padding-left: 0;
@@ -34,6 +34,7 @@
 
     .tab-icon {
         color: grey;
+        --mdc-list-list-item-one-line-container-height: 48px;
     }
 
     .tab--selected {

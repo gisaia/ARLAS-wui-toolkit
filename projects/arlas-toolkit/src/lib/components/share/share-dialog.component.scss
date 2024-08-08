@@ -21,7 +21,6 @@
   display: inline-flex;
   flex-direction: column;
   flex: 1;
-  margin-left: 60px;
 }
 
 .share-url {
@@ -31,6 +30,7 @@
 
 .export-button {
   font-weight: 200;
+  font-size: 14px;
   margin: 0 10px;
   width: 200px
 }
@@ -38,10 +38,6 @@
 .share-description {
   font-size: 15px;
   font-weight: 300;
-}
-
-.share-stepper-button:focus {
-  outline: none;
 }
 
 .share-form-field {
@@ -107,4 +103,21 @@
 
 .share-stepper {
   width: 100%;
+
+  .mat-horizontal-stepper-header-container {
+    padding-bottom: 10px;
+  }
+
+  &-button:focus {
+    outline: none;
+  }
+
+  .share-stepper__divider {
+    margin: 15px 0;
+  }
+
+  // Avoid wrapping of values in dropdown
+  &__precision {
+    width: 260px;
+  }
 }

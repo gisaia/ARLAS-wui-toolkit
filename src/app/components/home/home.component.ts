@@ -17,9 +17,17 @@
  * under the License.
  */
 
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { SearchContributor } from 'arlas-web-contributors';
+import { fromEvent } from 'rxjs';
+import packageJson from '../../../../package.json';
 import {
   FilterShortcutConfiguration
 } from '../../../../projects/arlas-toolkit/src/lib/components/filter-shortcut/filter-shortcut.utils';
+import {
+  DEFAULT_SPINNER_OPTIONS
+} from '../../../../projects/arlas-toolkit/src/lib/components/progress-spinner/progress-spinner.component';
 import {
   TimelineConfiguration
 } from '../../../../projects/arlas-toolkit/src/lib/components/timeline/timeline/timeline.utils';
@@ -27,26 +35,22 @@ import {
   ArlasAuthentificationService
 } from '../../../../projects/arlas-toolkit/src/lib/services/arlas-authentification/arlas-authentification.service';
 import { ArlasIamService } from '../../../../projects/arlas-toolkit/src/lib/services/arlas-iam/arlas-iam.service';
+import { AiasEnrichComponent } from '../../../../projects/arlas-toolkit/src/lib/components/aias/aias-enrich/aias-enrich.component';
 import {
   ArlasCollaborativesearchService,
   ArlasConfigService,
   ArlasStartupService
 } from '../../../../projects/arlas-toolkit/src/lib/services/startup/startup.service';
-import { AuthentSetting, SpinnerOptions } from '../../../../projects/arlas-toolkit/src/lib/tools/utils';
-import { SearchContributor } from 'arlas-web-contributors';
+import {
+  AuthentSetting,
+  ConfigAction,
+  SpinnerOptions
+} from '../../../../projects/arlas-toolkit/src/lib/tools/utils';
 import {
   AiasDownloadComponent,
   AnalyticsService,
   ProcessService
 } from '../../../../projects/arlas-toolkit/src/public-api';
-import packageJson from '../../../../package.json';
-import { fromEvent } from 'rxjs';
-import {
-  DEFAULT_SPINNER_OPTIONS
-} from '../../../../projects/arlas-toolkit/src/lib/components/progress-spinner/progress-spinner.component';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { AiasEnrichComponent } from '../../../../projects/arlas-toolkit/src/lib/components/aias/aias-enrich/aias-enrich.component';
 
 @Component({
   selector: 'arlas-tool-home',
@@ -86,6 +90,8 @@ export class HomeComponent implements OnInit {
   ];
   public selectedItemFormat = this.itemFormats[0];
   public collections: Array<string>;
+
+  public actions = new Array<ConfigAction>();
 
   @ViewChild('tooltip') public tooltip;
 
@@ -193,7 +199,6 @@ export class HomeComponent implements OnInit {
       .subscribe((event: Event) => {
         this.windowWidth = window.innerWidth;
       });
-    // this.openProcess();
   }
 
   public logout() {
