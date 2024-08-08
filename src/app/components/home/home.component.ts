@@ -38,7 +38,8 @@ import {
   ArlasConfigService,
   ArlasStartupService
 } from '../../../../projects/arlas-toolkit/src/lib/services/startup/startup.service';
-import { AuthentSetting, CollectionUnit, SpinnerOptions } from '../../../../projects/arlas-toolkit/src/lib/tools/utils';
+import { AuthentSetting, CollectionUnit, Config, ConfigAction,
+  ConfigActionEnum, SpinnerOptions } from '../../../../projects/arlas-toolkit/src/lib/tools/utils';
 import {
   AnalyticsService, ArlasOverlayService,
   DownloadComponent, ErrorService, ProcessComponent, ProcessService, ShareComponent, TagComponent
@@ -74,6 +75,8 @@ export class HomeComponent implements OnInit {
 
   public collections: Array<string>;
   private downloadDialogRef: MatDialogRef<ProcessComponent>;
+
+  public actions = new Array<ConfigAction>();
 
   @ViewChild('tooltip') public tooltip;
   @ViewChild('share', { static: false }) private shareComponent: ShareComponent;
@@ -186,6 +189,7 @@ export class HomeComponent implements OnInit {
         this.windowWidth = window.innerWidth;
       });
     // this.openProcess();
+    this.setupActions();
   }
 
   public logout() {
@@ -237,5 +241,53 @@ export class HomeComponent implements OnInit {
     return this.arlasStartupService.emptyMode ? undefined : this.arlasConfigService.getValue('arlas.web.contributors').find(
       contrib => (contrib.identifier === contributorIdentifier)
     );
+  }
+
+  private setupActions() {
+    const config: Config = {
+      id: 'h<qpifokmlx',
+      name: 'Test',
+      value: '',
+      readers: [],
+      writers: [],
+      lastUpdate: +(new Date()),
+      zone: 'test',
+      org: this.arlasIamService.getOrganisation()
+    };
+    this.actions.push({
+      config,
+      configIdParam: 'config_id',
+      type: ConfigActionEnum.VIEW,
+      enabled: Math.random() < 0.5
+    });
+    this.actions.push({
+      config,
+      type: ConfigActionEnum.EDIT,
+      enabled: Math.random() < 0.5
+    });
+    this.actions.push({
+      config,
+      type: ConfigActionEnum.RENAME,
+      name: config.name,
+      enabled: Math.random() < 0.5
+    });
+    this.actions.push({
+      config,
+      type: ConfigActionEnum.DUPLICATE,
+      name: config.name,
+      enabled: Math.random() < 0.5
+
+    });
+    this.actions.push({
+      config,
+      type: ConfigActionEnum.SHARE,
+      enabled: Math.random() < 0.5
+
+    });
+    this.actions.push({
+      config,
+      type: ConfigActionEnum.DELETE,
+      enabled: Math.random() < 0.5
+    });
   }
 }
