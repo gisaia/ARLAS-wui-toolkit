@@ -15,6 +15,7 @@
   <div right-menu>
     <arlas-permissions-creator></arlas-permissions-creator>
     <arlas-language-switcher [availablesLanguages]="['en', 'fr']" [currentLanguage]="'en'"></arlas-language-switcher>
+    <arlas-config-menu [actions]="actions"></arlas-config-menu>
     <button mat-icon-button [matMenuTriggerFor]="actionMenu">
       <mat-icon>more_vert</mat-icon>
     </button>

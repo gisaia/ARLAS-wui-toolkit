@@ -25,8 +25,8 @@ import { TranslateService } from '@ngx-translate/core';
 import Ajv from 'ajv';
 import ajvKeywords from 'ajv-keywords';
 import * as draftSchema from 'ajv/lib/refs/json-schema-draft-06.json';
-import { CollectionReferenceDescription, CollectionReferenceParameters, CollectionsApi, Configuration, ExploreApi } from 'arlas-api';
-import { Configuration as IamConfiguration, DefaultApi } from 'arlas-iam-api';
+import { CollectionReferenceDescription, CollectionReferenceParameters, CollectionsApi, Configuration, ExploreApi, Filter } from 'arlas-api';
+import { DefaultApi, Configuration as IamConfiguration } from 'arlas-iam-api';
 import { DataWithLinks } from 'arlas-persistence-api';
 import {
   DonutComponent, HistogramComponent, MapglComponent, MetricComponent,
@@ -47,10 +47,16 @@ import { projType } from 'arlas-web-core/models/projections';
 import YAML from 'js-yaml';
 import { Subject, defer, throwError } from 'rxjs';
 import { catchError, mergeMap, retry } from 'rxjs/operators';
-import { PersistenceService, PersistenceSetting } from '../persistence/persistence.service';
+import { AnalyticGroupConfiguration } from '../../components/analytics/analytics.utils';
+import { FilterShortcutConfiguration } from '../../components/filter-shortcut/filter-shortcut.utils';
+import { DashboardError } from '../../tools/errors/dashboard-error';
 import {
-  CONFIG_ID_QUERY_PARAM, GET_OPTIONS, WidgetConfiguration, getFieldProperties,
-  AuthentSetting, NOT_CONFIGURED, getParamValue, GeocodingSetting
+  AuthentSetting,
+  CONFIG_ID_QUERY_PARAM, GET_OPTIONS,
+  GeocodingSetting,
+  NOT_CONFIGURED,
+  WidgetConfiguration, getFieldProperties,
+  getParamValue
 } from '../../tools/utils';
 import { ArlasIamService, IamHeader } from '../arlas-iam/arlas-iam.service';
 import { AuthentificationService, } from '../authentification/authentification.service';
@@ -58,15 +64,12 @@ import { ArlasConfigurationUpdaterService } from '../configuration-updater/confi
 import { ErrorService } from '../error/error.service';
 import { FetchInterceptorService } from '../interceptor/fetch-interceptor.service';
 import { PermissionService, PermissionSetting } from '../permission/permission.service';
+import { PersistenceService, PersistenceSetting } from '../persistence/persistence.service';
+import { ProcessService } from '../process/process.service';
 import { ArlasSettingsService } from '../settings/arlas.settings.service';
 import * as arlasConfSchema from './arlasconfig.schema.json';
 import { ContributorBuilder } from './contributorBuilder';
 import * as arlasSettingsSchema from './settings.schema.json';
-import { FilterShortcutConfiguration } from '../../components/filter-shortcut/filter-shortcut.utils';
-import { AnalyticGroupConfiguration } from '../../components/analytics/analytics.utils';
-import { Filter } from 'arlas-api';
-import { ProcessService } from '../process/process.service';
-import { DashboardError } from '../../tools/errors/dashboard-error';
 
 @Injectable({
   providedIn: 'root'

@@ -189,10 +189,11 @@
   },
   "schematics": {
     "@schematics/angular:component": {
-      "prefix": "arlas-tool"
+      "prefix": "arlas",
+      "style": "scss"
     },
     "@schematics/angular:directive": {
-      "prefix": "arlas-tool"
+      "prefix": "arlas"
     },
     "@angular-eslint/schematics:application": {
       "setParserOptionsProject": true

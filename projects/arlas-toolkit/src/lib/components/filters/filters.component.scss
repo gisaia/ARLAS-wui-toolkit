@@ -52,6 +52,7 @@ $count-chip-height: 30px;
   padding: 0 $sm-spacing;
   @include border-important();
   height: $count-chip-height;
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   font-size: $sm-font-size;
@@ -68,12 +69,16 @@ $count-chip-height: 30px;
 }
 
 .timeline-chip {
-  width: 24px;
+  width: 34px;
 }
 
 .timeline-chip,
 .clear-chip {
   cursor: pointer;
+
+  .mdc-evolution-chip__text-label {
+    display: flex;
+  }
 }
 
 .timeline-chip,
@@ -229,8 +234,8 @@ $count-chip-height: 30px;
 
 .extra-open {
   .title {
-    height: calc($count-chip-height + $sm-spacing);
-    padding-bottom: calc($default-spacing + $xs-border);
+    height: 34px;
+    padding-bottom: calc($default-spacing + $sm-spacing);
     border-bottom: unset;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;

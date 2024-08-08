@@ -15,10 +15,8 @@
           {{'Make sure you have' | translate}} <strong>docker</strong> {{'installed before continuing' | translate}}.
         </p>
       </div>
-      <div>
-        <mat-divider style="margin-top:15px;"></mat-divider>
-        <button mat-button matStepperNext class="download-stepper-button">{{ 'Next' | translate}}</button>
-      </div>
+      <mat-divider class="download__divider"></mat-divider>
+      <button mat-button matStepperNext class="download-stepper-button">{{ 'Next' | translate}}</button>
     </form>
   </mat-step>
   <mat-step [stepControl]="paramFormGroup">
@@ -27,7 +25,8 @@
 
       <mat-form-field>
         <mat-label>{{ "Collection" | translate}}</mat-label>
-        <mat-select (selectionChange)="collectionChange($event)" [(value)]="selectedCollection" >
+        <mat-select (selectionChange)="collectionChange($event)" [(value)]="selectedCollection">
+          <!-- TODO: use CollectionService made by MA -->
           <mat-option *ngFor="let option of collections" [value]="option" >
               {{ option | getCollectionDisplayName | translate }}
             </mat-option>
@@ -36,12 +35,12 @@
 
 
       <div class="download-feature-block">
-        <div style="flex:3" class="download-title-list">
+        <div class="download-title-list">
           <mat-label>{{'Available fields' | translate}}</mat-label>
         </div>
         <div style="flex:1;padding:0 7px;">
         </div>
-        <div style="flex:3" class="download-title-list">
+        <div class="download-title-list">
           <mat-label>{{'Selected fields' | translate}}</mat-label>
         </div>
       </div>
@@ -81,11 +80,9 @@
           </mat-list>
         </div>
       </div>
-      <div>
-        <mat-divider style="margin-top:15px;"></mat-divider>
-        <button mat-button matStepperPrevious class="download-stepper-button">{{ 'Back' | translate}}</button>
-        <button mat-button matStepperNext class="download-stepper-button">{{ 'Next' | translate}}</button>
-      </div>
+      <mat-divider class="download__divider"></mat-divider>
+      <button mat-button matStepperPrevious class="download-stepper-button">{{ 'Back' | translate}}</button>
+      <button mat-button matStepperNext class="download-stepper-button">{{ 'Next' | translate}}</button>
     </form>
   </mat-step>
   <mat-step>
@@ -109,10 +106,10 @@
         --format={{this.exportedTypeCommand}} \
         {{authTypeCommand}}
       </textarea>
-      <textarea [hidden]="osselection.value !== 'Windows'" class="download-box" #downloadCommandWindows>docker run -it --mount dst=/output,src="%cd%",type=bind --rm gisaia/arlas-hits-exporter:{{arlasHitsExporterVersion}} --search_url="{{serverUrl}}/explore/{{selectedCollection}}/_search?size=9999&sort={{this.collectionRef?.params.id_path}}&{{filterUrl}}" --include={{selectedFieldString}} --format={{this.exportedTypeCommand}} {{authTypeCommand}}
+      <textarea [hidden]="osselection.value !== 'Windows'" class="download-box" #downloadCommandWindows>docker run -it --mount dst=/output,src="%cd%",type=bind --rm gisaia/arlas-hits-exporter:{{arlasHitsExporterVersion}} --search_url="{{serverUrl}}/explore/{{selectedCollection}}/_search?size=9999&sort={{collectionRef?.params.id_path}}&{{filterUrl}}" --include={{selectedFieldString}} --format={{exportedTypeCommand}} {{authTypeCommand}}
       </textarea>
     </div>
-    <mat-divider></mat-divider>
+    <mat-divider class="download__divider"></mat-divider>
     <div class="download-stepper-actions">
       <button mat-button matStepperPrevious class="download-stepper-button">{{ 'Back' | translate}}</button>
       <button mat-raised-button color="accent" class="download-stepper-button"
