@@ -17,45 +17,65 @@
  * under the License.
  */
 
-.bookmark-table-items{
+.bookmark-table-items {
   max-height: 60vh;
   overflow-y: auto;
+
+  ::ng-deep.mat-cell:first-of-type {
+    padding-left: 0;
+  }
+
+  ::ng-deep.mat-cell:last-of-type {
+    padding-right: 0;
+  }
+
+  .mat-column-name,
+  .mat-column-date,
+  .mat-column-count {
+    flex: 2;
+  }
+
+  .mat-column-checked,
+  .mat-column-actions {
+    flex: 1;
+  }
+
+  .mat-column-checked {
+    padding: 0;
+  }
+
+  .mat-column-name {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
 }
 
-.bookmark-table-items .mat-column-checked{
-  flex:0 0 50px;
-}
-
-.mat-column-checked{
-  overflow: visible;
-}
-
-.bookmark-icons-action{
+.bookmark-icons-action {
   cursor: pointer;
+
+  &-view:hover{
+    color: #2196f3;
+  }
+
+  &-delete:hover{
+    color: #FF0000;
+  }
 }
 
-.bookmark-icons-action-view:hover{
-  color: #2196f3;
-}
-
-.bookmark-icons-action-delete:hover{
-  color: #FF0000;
+.mat-mdc-header-cell,
+.mat-mdc-cell {
+  display: flex;
+  justify-content: center;
+  padding: 0 8px;
 }
 
 .mat-mdc-header-cell {
-  display:flex;
-  justify-content:center;
+  color: #0000008a;
 }
 
-.mat-mdc-cell{
-  display:flex;
-  justify-content:center;
-}
-
-.mat-column-name{
-  display:flex;
-  justify-content:flex-start;
-  align-items: center;
+.mat-mdc-cell {
+  font-size: 14px;
 }
 
 .bookmark-actions{

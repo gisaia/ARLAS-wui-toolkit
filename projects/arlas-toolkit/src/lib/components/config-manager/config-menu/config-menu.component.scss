@@ -16,3 +16,11 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
+.action-menu {
+    ::ng-deep.mat-mdc-menu-item {
+        --mdc-typography-body1-letter-spacing: 0;
+        --mdc-theme-text-primary-on-background: #000000de;
+        --mdc-list-list-item-label-text-color: #000000de;
+    }
+}
