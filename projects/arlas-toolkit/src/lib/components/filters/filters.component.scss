@@ -42,17 +42,6 @@ $count-chip-height: 30px;
 .chips--container {
   display: flex;
   align-items: center;
-
-  div.mat-chip-list-wrapper {
-    margin: 0 !important;
-    align-items: flex-start;
-    flex-wrap: nowrap;
-  }
-}
-
-::ng-deep.mat-chip-list-wrapper {
-  margin: 0 !important;
-  align-items: flex-start;
 }
 
 .collection-chip,
@@ -63,6 +52,7 @@ $count-chip-height: 30px;
   padding: 0 $sm-spacing;
   @include border-important();
   height: $count-chip-height;
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   font-size: $sm-font-size;
@@ -78,9 +68,17 @@ $count-chip-height: 30px;
   padding: 0 2px;
 }
 
+.timeline-chip {
+  width: 34px;
+}
+
 .timeline-chip,
 .clear-chip {
   cursor: pointer;
+
+  .mdc-evolution-chip__text-label {
+    display: flex;
+  }
 }
 
 .timeline-chip,
@@ -97,10 +95,11 @@ $count-chip-height: 30px;
 
   .icon_close{
     font-size: 12px;
-    width: 12px !important;
-    height: 12px !important;
-    float: right;
-    margin-top: -6px;
+    width: 12px;
+    height: 12px;
+    position: absolute;
+    top: 0;
+    right: 0;
   }
 
   &:focus {
@@ -115,6 +114,7 @@ $count-chip-height: 30px;
   display: flex;
   align-items: center;
   height: 28px;
+  width: 28px;
 }
 
 .count-container {
@@ -234,8 +234,8 @@ $count-chip-height: 30px;
 
 .extra-open {
   .title {
-    height: calc($count-chip-height + $sm-spacing);
-    padding-bottom: calc($default-spacing + $xs-border);
+    height: 34px;
+    padding-bottom: calc($default-spacing + $sm-spacing);
     border-bottom: unset;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;

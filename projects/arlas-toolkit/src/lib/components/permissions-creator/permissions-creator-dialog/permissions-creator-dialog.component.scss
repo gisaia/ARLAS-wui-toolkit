@@ -34,6 +34,7 @@ $error-color: #ce3d38;
 
 .content {
     font-size: $sm-font-size;
+    padding-top: 24px;
 
     .announcement {
         margin-bottom: $default-margin;
@@ -108,14 +109,11 @@ $error-color: #ce3d38;
     justify-content: flex-end;
 
     .create-action {
-        display: flex;
-
-        ::ng-deep .mat-button-wrapper {
+        ::ng-deep.mdc-button__label {
             display: flex;
-            align-items: center;
 
-            .label {
-                margin-right: $sm-margin;
+            mat-spinner {
+                margin-left: 5px;
             }
         }
     }

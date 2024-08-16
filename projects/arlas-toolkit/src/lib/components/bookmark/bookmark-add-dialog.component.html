@@ -1,12 +1,14 @@
 
-<div mat-dialog-content class="add_bookmark">
-  <h1 class="modal_title" mat-dialog-title>{{ 'Dataset name' | translate }} </h1>
-  <mat-form-field>
-    <input matInput tabindex="1"  [formControl]="bookmarkName" class="bookmark-search-input" (keypress)="pressEvent($event)">
-    <mat-error *ngIf="bookmarkName.invalid">{{errorMessage}}</mat-error>
+<div mat-dialog-content class="bookmark__add">
+  <h1 class="bookmark__add--title" mat-dialog-title>
+    {{ 'Dataset name' | translate }}
+  </h1>
+  <mat-form-field class="bookmark__add--input">
+    <input matInput tabindex="1" [formControl]="bookmarkName" (keypress)="pressEvent($event)">
+    <mat-error *ngIf="bookmarkName.invalid">{{errorMessage | translate}}</mat-error>
   </mat-form-field>
 </div>
-<div mat-dialog-actions>
+<div mat-dialog-actions class="bookmark__add--actions">
   <button mat-raised-button [disabled]="disableSubmit" class="modal_button" color="accent" (click)="submit()"  tabindex="2">{{ 'OK' | translate }}</button>
   <button mat-raised-button class="modal_button" (click)="cancel()" tabindex="-1">{{ 'Cancel' | translate }}</button>
 </div>

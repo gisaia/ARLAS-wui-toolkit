@@ -18,6 +18,7 @@
  */
 
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ChipsSearchContributor } from 'arlas-web-contributors';
 import { fromEvent } from 'rxjs';
 import packageJson from '../../../../package.json';
@@ -33,17 +34,21 @@ import {
 } from '../../../../projects/arlas-toolkit/src/lib/services/arlas-authentification/arlas-authentification.service';
 import { ArlasIamService } from '../../../../projects/arlas-toolkit/src/lib/services/arlas-iam/arlas-iam.service';
 import {
+  ArlasCollaborativesearchService,
   ArlasConfigService,
   ArlasStartupService
 } from '../../../../projects/arlas-toolkit/src/lib/services/startup/startup.service';
-import { AuthentSetting, CollectionUnit, SpinnerOptions } from '../../../../projects/arlas-toolkit/src/lib/tools/utils';
-import { AnalyticsService, ArlasOverlayService } from '../../../../projects/arlas-toolkit/src/public-api';
-
+import { AuthentSetting, CollectionUnit, Config, ConfigAction,
+  ConfigActionEnum, SpinnerOptions } from '../../../../projects/arlas-toolkit/src/lib/tools/utils';
+import {
+  AnalyticsService, ArlasOverlayService,
+  DownloadComponent, ErrorService, ProcessComponent, ProcessService, ShareComponent, TagComponent
+} from '../../../../projects/arlas-toolkit/src/public-api';
 
 @Component({
   selector: 'arlas-tool-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
 
@@ -68,7 +73,15 @@ export class HomeComponent implements OnInit {
   public windowWidth = window.innerWidth;
   public spinnerOptions: SpinnerOptions = DEFAULT_SPINNER_OPTIONS;
 
+  public collections: Array<string>;
+  private downloadDialogRef: MatDialogRef<ProcessComponent>;
+
+  public actions = new Array<ConfigAction>();
+
   @ViewChild('tooltip') public tooltip;
+  @ViewChild('share', { static: false }) private shareComponent: ShareComponent;
+  @ViewChild('download', { static: false }) private downloadComponent: DownloadComponent;
+  @ViewChild('tag', { static: false }) private tagComponent: TagComponent;
 
   public constructor(
     private arlasStartupService: ArlasStartupService,
@@ -76,7 +89,11 @@ export class HomeComponent implements OnInit {
     private arlasIamService: ArlasIamService,
     private arlasAuthentService: ArlasAuthentificationService,
     private analyticsService: AnalyticsService,
-    private arlasOverlayService: ArlasOverlayService
+    private arlasOverlayService: ArlasOverlayService,
+    private collaborativeService: ArlasCollaborativesearchService,
+    private errorService: ErrorService,
+    private dialog: MatDialog,
+    private processService: ProcessService
   ) {
 
   }
@@ -99,6 +116,7 @@ export class HomeComponent implements OnInit {
     this.shortcuts?.forEach((_, idx) => {
       this.isShortcutOpen.push(idx % 2 === 0);
     });
+    this.collections = [...new Set(Array.from(this.collaborativeService.registry.values()).map(c => c.collection))];
 
     const authConfig: AuthentSetting = this.arlasAuthentService.authConfigValue;
     if (!!authConfig && authConfig.use_authent) {
@@ -170,6 +188,8 @@ export class HomeComponent implements OnInit {
       .subscribe((event: Event) => {
         this.windowWidth = window.innerWidth;
       });
+    // this.openProcess();
+    this.setupActions();
   }
 
   public logout() {
@@ -182,9 +202,92 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  public displayShare() {
+    const layersVisibilityStatus = new Map<string, boolean>();
+    layersVisibilityStatus.set('Test:arlas_vset:arlas_id:Latest images:1636380757419', true);
+    layersVisibilityStatus.set('Test:arlas_vset:arlas_id:Images:1636380768019', false);
+    this.shareComponent.openDialog(layersVisibilityStatus);
+  }
+
+  public displayDownload() {
+    this.downloadComponent.openDialog();
+  }
+
+  public displayTag() {
+    this.tagComponent.openDialog();
+  }
+
+  public displayTagManagement() {
+    this.tagComponent.openManagement();
+  }
+
+  public openProcess() {
+    this.processService.setOptions({});
+    this.processService.load().subscribe({
+      next: () => {
+        const matchingAdditionalParams = new Map<string, boolean>();
+        matchingAdditionalParams.set('satellite', true);
+        this.downloadDialogRef = this.dialog.open(ProcessComponent, { minWidth: '520px', maxWidth: '60vw' });
+        this.downloadDialogRef.componentInstance.nbProducts = 5;
+        this.downloadDialogRef.componentInstance.matchingAdditionalParams = matchingAdditionalParams;
+        this.downloadDialogRef.componentInstance.wktAoi = 'POLYGON ((-64.8 32.3, -65.5 18.3, -80.3 25.2, -64.8 32.3))';
+        this.downloadDialogRef.componentInstance.ids = ['id1', 'id2'];
+        this.downloadDialogRef.componentInstance.collection = 'demo_eo';
+      }
+    });
+  }
+
   private getContributorConfig(contributorIdentifier: string) {
     return this.arlasStartupService.emptyMode ? undefined : this.arlasConfigService.getValue('arlas.web.contributors').find(
       contrib => (contrib.identifier === contributorIdentifier)
     );
+  }
+
+  private setupActions() {
+    const config: Config = {
+      id: 'h<qpifokmlx',
+      name: 'Test',
+      value: '',
+      readers: [],
+      writers: [],
+      lastUpdate: +(new Date()),
+      zone: 'test',
+      org: this.arlasIamService.getOrganisation()
+    };
+    this.actions.push({
+      config,
+      configIdParam: 'config_id',
+      type: ConfigActionEnum.VIEW,
+      enabled: Math.random() < 0.5
+    });
+    this.actions.push({
+      config,
+      type: ConfigActionEnum.EDIT,
+      enabled: Math.random() < 0.5
+    });
+    this.actions.push({
+      config,
+      type: ConfigActionEnum.RENAME,
+      name: config.name,
+      enabled: Math.random() < 0.5
+    });
+    this.actions.push({
+      config,
+      type: ConfigActionEnum.DUPLICATE,
+      name: config.name,
+      enabled: Math.random() < 0.5
+
+    });
+    this.actions.push({
+      config,
+      type: ConfigActionEnum.SHARE,
+      enabled: Math.random() < 0.5
+
+    });
+    this.actions.push({
+      config,
+      type: ConfigActionEnum.DELETE,
+      enabled: Math.random() < 0.5
+    });
   }
 }

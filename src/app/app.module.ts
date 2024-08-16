@@ -28,6 +28,9 @@ import { HomeComponent } from './components/home/home.component';
 import { LoginModule } from '../../projects/arlas-toolkit/src/lib/login.module';
 import { RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
+import { ArlasTaggerModule } from '../../projects/arlas-toolkit/src/lib/tagger.module';
+import { ConfigMenuModule } from '../../projects/arlas-toolkit/src/lib/components/config-manager/config-menu/config-menu.module';
 
 @NgModule({
   imports: [
@@ -38,7 +41,10 @@ import { MatButtonModule } from '@angular/material/button';
     MatIconModule,
     MatButtonModule,
     LoginModule,
-    RouterModule
+    RouterModule,
+    MatMenuModule,
+    ArlasTaggerModule,
+    ConfigMenuModule
   ],
   exports: [AppComponent],
   declarations: [AppComponent, HomeComponent, ContactComponent],

@@ -25,6 +25,7 @@ import { ArlasIamService } from '../../../services/arlas-iam/arlas-iam.service';
 import { PermissionData, PermissionDef } from 'arlas-iam-api';
 import { Subscription, finalize } from 'rxjs';
 import { ArlasSettingsService } from '../../../services/settings/arlas.settings.service';
+import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 
 @Component({
   templateUrl: './permissions-creator-dialog.component.html',
@@ -34,8 +35,8 @@ export class PermissionsCreatorDialogComponent implements OnDestroy {
 
   public createPermissionForm: FormGroup;
 
-  public CREATE_TEXT = 'Create the permission';
-  public CLOSE_TEXT = 'Close';
+  public CREATE_TEXT: string = marker('Create the permission');
+  public CLOSE_TEXT = marker('Close');
 
   public descriptionInputDisabled = false;
   public descriptionInputHidden = false;
@@ -61,7 +62,7 @@ export class PermissionsCreatorDialogComponent implements OnDestroy {
   }
 
   public createPermission() {
-    this.CREATE_TEXT = 'Creating';
+    this.CREATE_TEXT = marker('Creating');
     this.showSpinner = true;
     this.creationButtonDisabled = true;
     this.descriptionInputDisabled = false;

@@ -61,7 +61,7 @@
         align-self: center;
       }
 
-      .mat-card-title{
+      .mat-mdc-card-title{
         font-size: 15px;
         margin-bottom: 5px;
       }
@@ -115,7 +115,7 @@
 .analytics-board-compact{
   width: 35px;
 
-  .mat-card{
+  .mat-mdc-card{
     padding: 5px 5px 0 5px !important;
     border-radius: 0px;
   }
@@ -139,10 +139,6 @@
       color: white;
     }
   }
-}
-
-::ng-deep .mat-tab-label-active{
-  opacity: 1 !important;
 }
 
 .cdk-drag-preview {
