@@ -80,6 +80,17 @@ export class ErrorService {
     }
   }
 
+  public emitFrontendError(status: number, message: string) {
+    if (!this.dialog.openDialogs || this.dialog.openDialogs.length === 0) {
+      this.dialog.open(DeniedAccessDialogComponent, {
+        disableClose: true, data: {
+          error: new BackendError(status, message, this.settingsService.getArlasHubUrl()),
+          forceAction: false
+        }
+      });
+    }
+  }
+
   public closeAll() {
     this.dialog.closeAll();
     return this.dialog;
