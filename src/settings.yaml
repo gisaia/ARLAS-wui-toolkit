@@ -2,11 +2,11 @@
 ############   AUTHENTICATION SETTINGS   ###############
 ########################################################
 authentication:
-  use_authent: false
-  auth_mode: 'openid'
-  force_connect: false
+  use_authent: true
+  auth_mode: 'iam'
+  force_connect: true
   threshold: 5000
-  url: http://localhost:9997/arlas_iam_server
+  url: http://localhost:80/arlas_iam_server
   sign_up_enabled: true
 process:
   - name: download

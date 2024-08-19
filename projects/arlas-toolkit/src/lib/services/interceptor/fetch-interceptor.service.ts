@@ -18,15 +18,16 @@
  */
 
 import { Injectable } from '@angular/core';
-import fetchIntercept from 'fetch-intercept';
-import { ReconnectDialogComponent } from '../../components/reconnect-dialog/reconnect-dialog.component';
-import { ArlasSettingsService } from '../settings/arlas.settings.service';
-import { DeniedAccessDialogComponent } from '../../components/denied-access-dialog/denied-access-dialog.component';
-import { DeniedAccessData } from '../../tools/utils';
-import { AuthorisationError } from '../../tools/errors/authorisation-error';
-import { ErrorService } from '../../services/error/error.service';
-import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { marker } from '@colsen1991/ngx-translate-extract-marker';
+import fetchIntercept from 'fetch-intercept';
+import { DeniedAccessDialogComponent } from '../../components/denied-access-dialog/denied-access-dialog.component';
+import { ReconnectDialogComponent } from '../../components/reconnect-dialog/reconnect-dialog.component';
+import { ErrorService } from '../../services/error/error.service';
+import { AuthorisationError } from '../../tools/errors/authorisation-error';
+import { DeniedAccessData } from '../../tools/utils';
+import { ArlasSettingsService } from '../settings/arlas.settings.service';
 
 @Injectable({
   providedIn: 'root'
@@ -84,6 +85,19 @@ export class FetchInterceptorService {
                   });
               }
             }
+          } else if (code >= 400) {
+            let message: string = marker('An error occured.');
+            switch (code) {
+              case 400: {
+                message = marker('An error occured when requesting data.');
+                break;
+              };
+              case 404: {
+                message = marker('The requested data does not exist.');
+                break;
+              };
+            }
+            this.errorService.emitBackendError(code, message, 'ARLAS-server');
           }
           return response;
         },

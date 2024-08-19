@@ -361,10 +361,10 @@
                   "value": "Eq",
                   "display": true
                 },
-                "useColorService": true,
+                "useColorService": false,
                 "useColorFromData": false,
                 "unit": "",
-                "chartWidth": 217
+                "chartWidth": 445
               },
               "contributorId": "courses-object.mmsi-10-Count-desc-count",
               "uuid": "b63abbdd-764d-4994-81a8-b9396efe9d73",
