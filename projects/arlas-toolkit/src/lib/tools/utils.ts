@@ -140,6 +140,12 @@ export interface DeniedAccessData {
   forceAction?: boolean;
 }
 
+export enum ZoomToDataStrategy{
+  NONE = 'none',
+  CENTROID = 'centroid',
+  GEOMETRY = 'geometry'
+}
+
 /**
  * This interface lists the possible methods to apply on a Map object of a given cartographic client
  */

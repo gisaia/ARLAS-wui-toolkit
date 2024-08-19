@@ -160,6 +160,12 @@ export class FiltersComponent implements OnInit, OnChanges {
   @Input() public spacing = 5;
 
   /**
+   * @Input : Angular
+   * @description Whether the zoom to data icon is displayed or not
+   */
+  @Input() public showZoomToData = true;
+
+  /**
    * @Output : Angular
    * @description This output emit app name on click on the title of the filter
    * @deprecated There is no display of the title in this component

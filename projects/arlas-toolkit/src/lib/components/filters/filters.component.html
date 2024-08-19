@@ -3,7 +3,7 @@
     <mat-basic-chip class="collection-chip" id="arlas-count-{{c.collection}}" [style.borderColor]="c.color"
       *ngIf="!c.ignored">
       <div class="count-container">
-        <div *ngIf="c.hasCentroidPath" class="zoom" (click)="zoomToData(c.collection)"
+        <div *ngIf="showZoomToData" class="zoom" (click)="zoomToData(c.collection)"
           matTooltip="{{ 'Zoom to data' | translate }}" matTooltipPosition="below">
           <mat-icon>filter_center_focus</mat-icon>
         </div>
