@@ -18,14 +18,15 @@
  */
 
 import { Injectable } from '@angular/core';
-import fetchIntercept from 'fetch-intercept';
-import { ReconnectDialogComponent } from '../../components/reconnect-dialog/reconnect-dialog.component';
-import { ArlasSettingsService } from '../settings/arlas.settings.service';
-import { DeniedAccessDialogComponent } from '../../components/denied-access-dialog/denied-access-dialog.component';
-import { DeniedAccessData } from '../../tools/utils';
-import { AuthorisationError } from '../../tools/errors/authorisation-error';
-import { ErrorService } from '../../services/error/error.service';
 import { MatDialog } from '@angular/material/dialog';
+import fetchIntercept from 'fetch-intercept';
+import { DeniedAccessDialogComponent } from '../../components/denied-access-dialog/denied-access-dialog.component';
+import { ReconnectDialogComponent } from '../../components/reconnect-dialog/reconnect-dialog.component';
+import { ErrorService } from '../../services/error/error.service';
+import { AuthorisationError } from '../../tools/errors/authorisation-error';
+import { DeniedAccessData } from '../../tools/utils';
+import { ArlasSettingsService } from '../settings/arlas.settings.service';
+import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 
 @Injectable({
   providedIn: 'root'
@@ -47,7 +48,7 @@ export class FetchInterceptorService {
     const settings = this.arlasSettings.settings;
     const useAuthent = !!settings && !!settings.authentication && !!settings.authentication.use_authent;
     if (useAuthent) {
-      const unregister = fetchIntercept.register({
+      fetchIntercept.register({
         request: (url, config) =>
           // Modify the url or config here
           [url, config]
@@ -63,7 +64,6 @@ export class FetchInterceptorService {
             }
             if (settings.authentication.auth_mode === 'iam') {
               this.errorService.emitAuthorisationError(new AuthorisationError(code));
-
             } else {
               // Propose to reconnect or stay disconnected
               if (!this.dialog.openDialogs || !this.dialog.openDialogs.length) {
@@ -77,17 +77,27 @@ export class FetchInterceptorService {
                   });
               }
             }
+          } else if (code >= 400 && code < 500) {
+            let message: string = marker('An error occured.');
+            switch (code) {
+              case 400: {
+                message = marker('An error occured when requesting data.');
+                break;
+              };
+              case 404: {
+                message = marker('The requested data does not exist.');
+                break;
+              };
+            }
+            this.errorService.emitFrontendError(code, message);
           }
           return response;
         },
-        responseError: (error) =>
         // Handle a fetch error
-        // eslint-disable-next-line brace-style
-        {
+        responseError: (error) => {
           console.log(error);
           return Promise.reject(error);
         }
-
       });
     }
   }
