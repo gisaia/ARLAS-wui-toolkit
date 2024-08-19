@@ -18,17 +18,17 @@
  */
 
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { AuthentificationService } from '../../services/authentification/authentification.service';
-import { ArlasIamService } from '../../services/arlas-iam/arlas-iam.service';
-import { AboutComponent } from './about/about.component';
-import { TranslateService } from '@ngx-translate/core';
-import { UserInfosComponent } from '../user-infos/user-infos.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { finalize } from 'rxjs';
+import { ArlasIamService } from '../../services/arlas-iam/arlas-iam.service';
+import { AuthentificationService } from '../../services/authentification/authentification.service';
+import { FetchInterceptorService } from '../../services/interceptor/fetch-interceptor.service';
 import { ArlasSettingsService } from '../../services/settings/arlas.settings.service';
 import { ChangePasswordComponent } from '../change-password/change-password.component';
-import { FetchInterceptorService } from '../../services/interceptor/fetch-interceptor.service';
-import { finalize } from 'rxjs';
+import { UserInfosComponent } from '../user-infos/user-infos.component';
+import { AboutComponent } from './about/about.component';
 
 @Component({
   selector: 'arlas-top-menu',
@@ -39,7 +39,7 @@ export class TopMenuComponent implements OnInit {
 
   public connected: boolean;
   public isAuthentActivated: boolean;
-  public authentMode;
+  public authentMode: 'openid' | 'iam';
 
   public name: string;
   public avatar: string;
@@ -132,9 +132,7 @@ export class TopMenuComponent implements OnInit {
         } else if (this.authentMode === 'iam') {
           this.arlasIamService.logoutWithoutRedirection$().pipe(
             finalize(() => this.fetchInterceptor.interceptLogout())
-          )
-            .subscribe();
-
+          ).subscribe();
         }
       }
     });
