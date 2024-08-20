@@ -93,6 +93,7 @@ export interface CollectionCount {
   collection: string;
   color: string;
   hasCentroidPath: boolean;
+  hasGeometryPath: boolean;
   ignored: boolean;
   unit?: string;
 }
