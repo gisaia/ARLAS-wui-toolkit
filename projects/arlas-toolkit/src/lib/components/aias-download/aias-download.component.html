@@ -45,7 +45,7 @@
                           [matTooltipPosition]="'before'">
             <mat-label>{{ 'Format' | translate }}</mat-label>
             <mat-select [formControlName]="'target_format'" class="data-cy-target_format">
-              <mat-option *ngFor="let opt of pictureFormats" [value]="opt">{{ opt | translate  | titlecase }}</mat-option>
+              <mat-option *ngFor="let opt of pictureFormats" [value]="opt">{{ opt | translate }}</mat-option>
             </mat-select>
             <mat-hint [align]="'end'">{{ 'Format of downloaded products' | translate }}</mat-hint>
           </mat-form-field>
@@ -81,7 +81,7 @@
 
           <div class="params" *ngIf="formGroup.get('target_format').value">
             <span class="label">{{ 'Format of the products to download' | translate }} :</span>
-            <span class="value">{{ formGroup.get('target_format').value | translate | titlecase }}</span>
+            <span class="value">{{ formGroup.get('target_format').value | translate }}</span>
           </div>
           <div class="params" *ngIf="formGroup.get('crop_wkt').value">
             <span class="label">{{ 'Crop using the geographical filter'| translate }} :</span>

@@ -1,3 +1,22 @@
+/*
+ * Licensed to Gisaïa under one or more contributor
+ * license agreements. See the NOTICE.txt file distributed with
+ * this work for additional information regarding copyright
+ * ownership. Gisaïa licenses this file to you under
+ * the Apache License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
@@ -29,8 +48,8 @@ export class AiasDownloadComponent implements OnInit, OnDestroy {
 
   public pictureFormats= [
     marker('native'),
-    'GEOTIFF',
-    'JPEG2000'
+    'Geotiff',
+    'Jpeg2000'
   ];
   public projections: ProcessProjection[] = [];
 
@@ -81,10 +100,10 @@ export class AiasDownloadComponent implements OnInit, OnDestroy {
       this.data.itemDetail.get(inputKey) !== undefined && this.data.itemDetail.get(inputKey) !== null;
     if (keyIsValid) {
       if (this.data.itemDetail.get(inputKey).toUpperCase() === 'JPEG2000') {
-        this.pictureFormats = ['JPEG2000'];
-        this.formGroup.get('target_format').setValue('JPEG2000');
+        this.pictureFormats = ['Jpeg2000'];
+        this.formGroup.get('target_format').setValue('Jpeg2000');
       } else if (this.data.itemDetail.get(inputKey).toUpperCase() === 'GEOTIFF') {
-        this.pictureFormats = this.pictureFormats.filter(format => format !== 'GEOTIFF');
+        this.pictureFormats = this.pictureFormats.filter(format => format.toUpperCase() !== 'GEOTIFF');
       }
     }
   }
