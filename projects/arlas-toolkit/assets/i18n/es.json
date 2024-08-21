@@ -106,7 +106,7 @@
 	"See details": "Mostrar detalles",
 	"Create permission from filters": "Crear un permiso con los filtros actuales",
 	"Crop using the geographical filter": "Recortar el producto usando el filtro geográfico",
-	"You are about to download uno producto": "Está a punto de descargar uno producto",
+	"You are about to download one product": "Está a punto de descargar uno producto",
 	"You are about to download more products": "Está a punto de descargar {{value}} productos",
   "Download type": "Tipo de descarga",
   "Download archive": "Descargar archivo",
