@@ -18,7 +18,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { MapSettingsService, GeometrySelectModel, OperationSelectModel } from 'arlas-web-components';
+import { MapSettingsService, GeometrySelectModel, OperationSelectModel, GeoQueryOperator } from 'arlas-web-components';
 import { ArlasStartupService, ArlasConfigService } from '../startup/startup.service';
 import { MapContributor } from 'arlas-web-contributors';
 import { Expression } from 'arlas-api';
@@ -65,19 +65,19 @@ export class ArlasMapSettings implements MapSettingsService {
     if (mapContributor) {
       return [
         {
-          operation: Expression.OpEnum.Within.toString(),
+          operation: GeoQueryOperator.WITHIN,
           selected: Expression.OpEnum.Within === mapContributor.geoQueryOperation
         },
         {
-          operation: Expression.OpEnum.Notwithin.toString(),
+          operation: GeoQueryOperator.NOT_WITHIN,
           selected: Expression.OpEnum.Notwithin === mapContributor.geoQueryOperation
         },
         {
-          operation: Expression.OpEnum.Intersects.toString(),
+          operation: GeoQueryOperator.INTERSECTS,
           selected: Expression.OpEnum.Intersects === mapContributor.geoQueryOperation
         },
         {
-          operation: Expression.OpEnum.Notintersects.toString(),
+          operation: GeoQueryOperator.NOT_INTERSECTS,
           selected: Expression.OpEnum.Notintersects === mapContributor.geoQueryOperation
         }
       ];
