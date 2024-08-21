@@ -23,6 +23,30 @@ $errorColor: #d43f3a;
 $successColor: #5cb85c;
 $progressColor: #337ab7;
 $labelColor: #757575;
+$sm-margin: 5px;
+$default-spacing: 10px;
+
+:host {
+  font-size: 14px;
+}
+
+.checkbox-hint{
+  font-size: 10px;
+  font-style: italic;
+}
+
+.warning-text{
+  display: flex;
+  align-items: center;
+  font-size: 10px;
+  gap: $default-spacing;
+  color: $warnColor;
+  & mat-icon {
+    font-size: 15px;
+    width: 15px;
+    height: 15px;
+  }
+}
 
 @mixin status() {
   padding: 10px 15px;
@@ -63,7 +87,7 @@ $labelColor: #757575;
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    gap: 0 10px;
+    gap: 10px 10px;
     justify-content: space-between;
     align-items: baseline;
     border-bottom: 1px solid rgba(0, 0, 0, 0.15);
@@ -78,13 +102,30 @@ $labelColor: #757575;
     padding-bottom: 20px;
 
     .infos {
+      display: flex;
+      flex-direction: column;
       padding-bottom: 15px;
+      &-subtitle{
+        margin-top: $default-spacing;
+        font-weight: bold;
+      }
     }
 
     .params {
+      gap: $sm-margin;
+      background: whitesmoke;
+      padding: $default-spacing;
+      border-radius: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: $default-spacing;
+      .label{
+        color:$labelColor;
+      }
+
       .value {
         font-weight: 400;
-        color: rgba(0, 0, 0, 0.55);
       }
     }
   }

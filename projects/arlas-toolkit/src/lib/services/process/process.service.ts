@@ -19,10 +19,10 @@
 
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, map } from 'rxjs';
-import { Process, ProcessOutput } from '../../tools/process.interface';
+import { map, Observable } from 'rxjs';
+import { ProcessInputs, ProcessOutput } from '../../tools/process.interface';
 import { ArlasSettingsService } from '../settings/arlas.settings.service';
-import { Expression, Search, Filter } from 'arlas-api';
+import { Expression, Filter, Search } from 'arlas-api';
 import { projType } from 'arlas-web-core';
 import { ArlasCollaborativesearchService } from '../startup/startup.service';
 
@@ -30,8 +30,8 @@ import { ArlasCollaborativesearchService } from '../startup/startup.service';
   providedIn: 'root'
 })
 export class ProcessService {
-  private processDescription: Process = {};
-  private options;
+  private processInputs: ProcessInputs = {};
+  private options: any = {};
 
   public constructor(
     private http: HttpClient,
@@ -73,20 +73,20 @@ export class ProcessService {
     return this.http.get(this.arlasSettingsService.getProcessSettings()?.check_url, this.options);
   }
 
-  public getProcessDescription(): Process {
-    return this.processDescription;
+  public getProcessInputs(): ProcessInputs {
+    return this.processInputs;
   }
 
-  public setProcessDescription(process: Process): void {
-    this.processDescription = process;
+  public setProcessInputs(process: ProcessInputs): void {
+    this.processInputs = process;
   }
 
-  public load(): Observable<Process> {
+  public load(): Observable<ProcessInputs> {
     return this.http.get(this.arlasSettingsService.getProcessSettings()?.settings.url, Object.assign(this.options, { responseType: 'text' }))
       .pipe(
         map(c => {
-          const process: Process = JSON.parse(c as any);
-          this.setProcessDescription(process);
+          const process: ProcessInputs = JSON.parse(c as any);
+          this.setProcessInputs(process);
           return process;
         })
       );
@@ -108,14 +108,15 @@ export class ProcessService {
   public getItemsDetail(
     idFieldName,
     itemsId: string[],
-    additionalParams: any[],
     collection: string
-  ): Observable<Map<string, boolean>> {
+  ): Observable<Map<string, any>> {
+    // properties.main_asset_format its the field to pass to get the object value
+    const fields = ['properties.proj__epsg', 'properties.main_asset_format', 'geometry'];
     const search: Search = {
       page: { size: itemsId.length },
-      form: { pretty: false, flat: true },
+      form: { pretty: false, flat: false },
       projection: {
-        includes: additionalParams.map(p => p.value.field).join(',')
+        includes: fields.map(field => field).join(',')
       }
     };
     const expression: Expression = {
@@ -134,24 +135,25 @@ export class ProcessService {
         collection,
         undefined,
         filterExpression,
-        true
+        false
       );
     return searchResult.pipe(map((data: any) => {
-
-      const matchingAdditionalParams = new Map<string, boolean>();
+      const matchingAdditionalParams = new Map<string, any>();
       if (!!data && !!data?.hits && data.hits.length > 0) {
         const regexReplacePoint = /\./gi;
         data.hits.forEach(i => {
           const itemMetadata = i.data;
-          additionalParams.forEach(f => {
-            const flattenField = f.value.field.replace(regexReplacePoint, '_');
-            if (f.value.value === itemMetadata[flattenField]) {
-              matchingAdditionalParams.set(f.name, true);
-            }
+          fields.forEach(f => {
+            matchingAdditionalParams.set(f, this.resolve(f,itemMetadata));
           });
         });
       }
       return matchingAdditionalParams;
     }));
+  }
+
+  private resolve(path, obj = self, separator = '.') {
+    const properties = Array.isArray(path) ? path : path.split(separator);
+    return properties.reduce((prev, curr) => prev?.[curr], obj);
   }
 }

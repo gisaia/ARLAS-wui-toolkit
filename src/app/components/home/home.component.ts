@@ -38,6 +38,19 @@ import {
 } from '../../../../projects/arlas-toolkit/src/lib/services/startup/startup.service';
 import { AuthentSetting, CollectionUnit, SpinnerOptions } from '../../../../projects/arlas-toolkit/src/lib/tools/utils';
 import { AnalyticsService, ArlasOverlayService } from '../../../../projects/arlas-toolkit/src/public-api';
+import { ChipsSearchContributor } from 'arlas-web-contributors';
+import {
+  AiasDownloadComponent,
+  AnalyticsService,
+  ArlasOverlayService,
+  ProcessService
+} from '../../../../projects/arlas-toolkit/src/public-api';
+import packageJson from '../../../../package.json';
+import { fromEvent } from 'rxjs';
+import {
+  DEFAULT_SPINNER_OPTIONS
+} from '../../../../projects/arlas-toolkit/src/lib/components/progress-spinner/progress-spinner.component';
+import { MatDialog } from "@angular/material/dialog";
 
 
 @Component({
@@ -74,15 +87,18 @@ export class HomeComponent implements OnInit {
     private arlasStartupService: ArlasStartupService,
     private arlasConfigService: ArlasConfigService,
     private arlasIamService: ArlasIamService,
+    private processService: ProcessService,
     private arlasAuthentService: ArlasAuthentificationService,
     private analyticsService: AnalyticsService,
-    private arlasOverlayService: ArlasOverlayService
+    private arlasOverlayService: ArlasOverlayService,
+    private dialog: MatDialog
   ) {
 
   }
 
   public ngOnInit(): void {
-
+    this.processService.setOptions({});
+    this.processService.load().subscribe();
     this.analyticsService.initializeGroups(this.arlasStartupService.analytics);
     this.shortcuts = this.arlasStartupService.filtersShortcuts;
     this.languages = ['en', 'fr', 'it', 'es', 'de', 'us', 'cn'];
@@ -187,4 +203,26 @@ export class HomeComponent implements OnInit {
       contrib => (contrib.identifier === contributorIdentifier)
     );
   }
+
+  public openProcess() {
+    const wkt = 'POLYGON((10 10, 20 10, 20 20, 10 20, 10 10),(13 13, 17 13, 17 17, 13 17, 13 13))';
+    // can be used to mock your data
+    const item = null;
+    const downloadDialogRef = this.dialog.open(
+      AiasDownloadComponent,
+      {
+        minWidth: '520px',
+        maxWidth: '60vw' ,
+        data: {
+          nbProducts: 1,
+          itemDetail: item,
+          wktAoi: wkt,
+          ids: ['1'],
+          collection: 'totot'
+        }
+      });
+  }
+
 }
+
+

@@ -46,23 +46,29 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import {
-  OwlDateTimeModule, OwlNativeDateTimeModule
-} from '@danielmoncada/angular-datetime-picker';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from '@danielmoncada/angular-datetime-picker';
 import { OwlMomentDateTimeModule } from '@danielmoncada/angular-datetime-picker-moment-adapter';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import {
   CalendarTimelineModule,
-  ColorGeneratorLoader, ColorGeneratorModule, DonutModule, FormatNumberModule,
-  HistogramModule, MapglLegendModule, MetricModule, PowerbarsModule, ResultsModule
+  ColorGeneratorLoader,
+  ColorGeneratorModule,
+  DonutModule,
+  FormatNumberModule,
+  HistogramModule,
+  MapglLegendModule,
+  MetricModule,
+  PowerbarsModule,
+  ResultsModule
 } from 'arlas-web-components';
 import en from 'arlas-web-components/assets/i18n/en.json';
 import fr from 'arlas-web-components/assets/i18n/fr.json';
 import es from 'arlas-web-components/assets/i18n/es.json';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { Observable } from 'rxjs';
-import { CalendarTimelineTooltipOverlayComponent } from
-  './components/calendar-timeline-tooltip-overlay/calendar-timeline-tooltip-overlay.component';
+import {
+  CalendarTimelineTooltipOverlayComponent
+} from './components/calendar-timeline-tooltip-overlay/calendar-timeline-tooltip-overlay.component';
 import { AnalyticsBoardComponent } from './components/analytics/analytics-board/analytics-board.component';
 import { AnalyticsMenuComponent } from './components/analytics/analytics-menu/analytics-menu.component';
 import { AoiComponent } from './components/aoi/aoi.component';
@@ -78,16 +84,23 @@ import { DownloadComponent, DownloadDialogComponent } from './components/downloa
 import { ExtendComponent } from './components/extend/extend.component';
 import { FilterShortcutChipComponent } from './components/filter-shortcut/chip/chip.component';
 import { FilterShortcutComponent } from './components/filter-shortcut/filter-shortcut.component';
-import { ShortcutFiltersHandlerComponent } from './components/filter-shortcut/filters-handler/filters-handler.component';
 import {
-  ConcatCollectionPipe, FiltersComponent, GetCollaborationIconPipe, GetColorFilterPipe,
-  GetContributorLabelPipe, GetGlobalColorFilterPipe
+  ShortcutFiltersHandlerComponent
+} from './components/filter-shortcut/filters-handler/filters-handler.component';
+import {
+  ConcatCollectionPipe,
+  FiltersComponent,
+  GetCollaborationIconPipe,
+  GetColorFilterPipe,
+  GetContributorLabelPipe,
+  GetGlobalColorFilterPipe
 } from './components/filters/filters.component';
-import { HistogramTooltipOverlayComponent } from './components/histogram-tooltip-overlay/histogram-tooltip-overlay.component';
+import {
+  HistogramTooltipOverlayComponent
+} from './components/histogram-tooltip-overlay/histogram-tooltip-overlay.component';
 import { HistogramWidgetComponent } from './components/histogram-widget/histogram-widget.component';
 import { DeniedAccessDialogComponent } from './components/denied-access-dialog/denied-access-dialog.component';
 import { LanguageSwitcherComponent } from './components/language-switcher/language-switcher.component';
-import { ProcessComponent } from './components/process/process.component';
 import { ProgressSpinnerComponent } from './components/progress-spinner/progress-spinner.component';
 import { ReconnectDialogComponent } from './components/reconnect-dialog/reconnect-dialog.component';
 import { SearchComponent, SearchDialogComponent } from './components/search/search.component';
@@ -106,14 +119,16 @@ import { AboutComponent, AboutDialogComponent } from './components/top-menu/abou
 import { MatMenuModule } from '@angular/material/menu';
 import { ArlasCollaborativesearchService, ArlasConfigService } from './services/startup/startup.service';
 import { PermissionsCreatorComponent } from './components/permissions-creator/permissions-creator.component';
-import { PermissionsCreatorDialogComponent } from
-  './components/permissions-creator/permissions-creator-dialog/permissions-creator-dialog.component';
+import {
+  PermissionsCreatorDialogComponent
+} from './components/permissions-creator/permissions-creator-dialog/permissions-creator-dialog.component';
 import { ArlasColorGeneratorLoader } from './tools/color-generator-loader';
 import { TopMenuComponent } from './components/top-menu/top-menu.component';
 import { LinksComponent } from './components/top-menu/links/links.component';
 import { LinkComponent } from './components/top-menu/links/link/link.component';
 import { BookmarkAddDialogComponent } from './components/bookmark/bookmark-add-dialog.component';
 import { ContributorUpdatingPipe } from './pipes/contributor-updating.pipe';
+import { AiasDownloadComponent } from './components/aias-download/aias-download.component';
 
 export class CustomTranslateLoader implements TranslateLoader {
 
@@ -301,7 +316,7 @@ export class CustomTranslateLoader implements TranslateLoader {
     TopMenuComponent,
     AboutComponent,
     AboutDialogComponent,
-    ProcessComponent,
+    AiasDownloadComponent,
     ContributorUpdatingPipe
   ],
   providers: [

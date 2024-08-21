@@ -1,0 +1,139 @@
+<div mat-dialog-title>
+  {{ 'Download' | translate }}
+  <div class="sub-title"
+    [translate]="(data.nbProducts >= 2) ? 'Download more products' : 'Download one product'" [translateParams]="{value: data.nbProducts}">
+  </div>
+</div>
+<div mat-dialog-content>
+  <mat-stepper [linear]="true">
+    <mat-step [stepControl]="formGroup" [editable]="!processStarted" label="{{'Parameters' | translate}}"
+              state="params">
+      <div class="step">
+        <form [formGroup]="formGroup" class="form">
+          <section class="field">
+            <mat-form-field class="field" appearance="outline">
+              <mat-label>{{ 'Download type' | translate }}</mat-label>
+              <mat-select [formControlName]="'raw_archive'" class="data-cy-target_format">
+                <mat-option [value]="true">{{ (data.nbProducts >= 2) ? ('Download archives' | translate)  : ('Download archive' | translate)  }}</mat-option>
+                <mat-option [value]="false">{{ (data.nbProducts >= 2) ? ('Download images' | translate) : ('Download image' | translate)  }}</mat-option>
+              </mat-select>
+              <mat-hint *ngIf="formGroup.get('raw_archive').value" class="warning-text">
+                <mat-icon>warning</mat-icon>
+                <span>{{ 'No cropping possible' | translate }}</span>
+              </mat-hint>
+            </mat-form-field>
+          </section>
+          <section *ngIf="displayAoiForms" class="field">
+            <mat-checkbox [formControlName]="'crop_wkt'">{{ 'Crop using the geographical filter' | translate }}
+            </mat-checkbox>
+          </section>
+          <mat-form-field *ngIf="displayProjectionFrom" class="field" appearance="outline"
+                          matTooltip="{{'Coordinate system for the downloaded products' | translate}}"
+                          [matTooltipShowDelay]="tooltipDelay"
+                          [matTooltipPosition]="'before'">
+            <mat-label>{{ 'Coordinate system' | translate }}</mat-label>
+            <mat-select [formControlName]="'target_projection'" class="data-cy-target_projection">
+              <mat-option *ngFor="let opt of projections" [value]="opt?.value">{{ opt?.label  | translate }}
+              </mat-option>
+            </mat-select>
+            <mat-hint [align]="'end'">{{ 'Coordinate system for the downloaded products' | translate }}</mat-hint>
+          </mat-form-field>
+
+          <mat-form-field *ngIf="displayFormatFrom" class="field" appearance="outline"
+                          matTooltip="{{'Format of downloaded products' | translate}}"
+                          [matTooltipShowDelay]="tooltipDelay"
+                          [matTooltipPosition]="'before'">
+            <mat-label>{{ 'Format' | translate }}</mat-label>
+            <mat-select [formControlName]="'target_format'" class="data-cy-target_format">
+              <mat-option *ngFor="let opt of pictureFormats" [value]="opt">{{ opt | translate }}</mat-option>
+            </mat-select>
+            <mat-hint [align]="'end'">{{ 'Format of downloaded products' | translate }}</mat-hint>
+          </mat-form-field>
+        </form>
+        <div class="buttons">
+          <button mat-flat-button mat-dialog-close>{{ 'Cancel' | translate }}</button>
+          <button [color]="'primary'" matStepperNext mat-flat-button [disabled]="!formGroup.valid">
+            {{ 'Next' | translate }}
+          </button>
+        </div>
+      </div>
+    </mat-step>
+    <mat-step label="{{'Summary' | translate}}" class="step" state="summary">
+      <div class="step">
+        <div class="summary">
+          <div class="infos">
+            <span
+              [translate]="(data.nbProducts >= 2) ? 'You are about to download more products' : 'You are about to download one product'"
+              [translateParams]="{value: data.nbProducts}"
+            ></span>
+            <span class="infos-subtitle">{{ 'Summary of parameters' | translate }} :</span>
+          </div>
+
+          <div class="params">
+            <span class="label">{{ 'Download type' | translate }} :</span>
+            <span class="value">{{ (formGroup.get('raw_archive').value) ? ('Archive' | translate) : ('Image' | translate) }}</span>
+          </div>
+
+          <div class="params" *ngIf="formGroup.get('target_projection').value">
+            <span class="label">{{ 'Coordinate system for the downloaded products' | translate }} :</span>
+            <span class="value">{{ formGroup.get('target_projection').value | translate }}</span>
+          </div>
+
+          <div class="params" *ngIf="formGroup.get('target_format').value">
+            <span class="label">{{ 'Format of the products to download' | translate }} :</span>
+            <span class="value">{{ formGroup.get('target_format').value | translate }}</span>
+          </div>
+          <div class="params" *ngIf="formGroup.get('crop_wkt').value">
+            <span class="label">{{ 'Crop using the geographical filter'| translate }} :</span>
+            <span class="value" *ngIf="formGroup.get('crop_wkt').value">{{ 'yes' | translate }}</span>
+            <span class="value" *ngIf="!formGroup.get('crop_wkt').value">{{ 'no' | translate }}</span>
+          </div>
+        </div>
+        <div class="buttons" *ngIf="!isProcessing && !processStarted">
+          <button mat-flat-button mat-button matStepperPrevious>{{ 'Previous' | translate }}</button>
+          <button [color]="'primary'" [disabled]="isProcessing || !formGroup.valid " matStepperNext mat-flat-button
+                  (click)="submit()">
+            {{ 'Download' | translate }}
+          </button>
+        </div>
+      </div>
+    </mat-step>
+
+    <!-- Icon overrides. -->
+    <ng-template matStepperIcon="params">
+      <mat-icon>settings</mat-icon>
+    </ng-template>
+    <ng-template matStepperIcon="summary">
+      <mat-icon>summarize</mat-icon>
+    </ng-template>
+    <ng-template matStepperIcon="edit">
+      <mat-icon>check</mat-icon>
+    </ng-template>
+  </mat-stepper>
+  <div *ngIf="processStarted" class="process-result">
+    <mat-progress-bar *ngIf="isProcessing" [mode]="'indeterminate'"></mat-progress-bar>
+    <div *ngIf="isProcessing && !!statusResult?.status" class="processing">
+      <div>{{ 'Downloading' | translate }}...</div>
+      <div class="status status-{{statusResult?.status}}">{{ statusResult?.status | translate }}</div>
+    </div>
+    <div class="detail" *ngIf="!isProcessing && !hasError">
+      <div>
+        <div class="prop">
+          <div class="label">{{ 'Start date' | translate }}:</div>
+          <div class="value">{{ statusResult.started ? (statusResult.started * 1000 | date:'medium') : '--' }}</div>
+        </div>
+        <div class="prop">
+          <div class="label">{{ 'End date' | translate }}:</div>
+          <div class="value">{{ statusResult.finished ? (statusResult.finished * 1000 | date:'medium') : '--' }}</div>
+        </div>
+      </div>
+      <div class="status status-{{statusResult?.status}}">{{ statusResult?.status | translate }}</div>
+    </div>
+    <div class="error" *ngIf="hasError">
+      {{ 'processing error occured' | translate:{processingName: ('Download' | translate)} }}
+    </div>
+    <div class="close">
+      <button mat-dialog-close="true" mat-button>{{ 'Close dialog' | translate }}</button>
+    </div>
+  </div>
+</div>

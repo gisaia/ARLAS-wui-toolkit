@@ -27,17 +27,23 @@ export interface Process {
     parameters: any[];
   };
 }
+import { BBox } from 'geojson';
 
 export interface ProcessInputs {
   [key: string]: ProcessInput;
 }
 
+export interface ProcessProjection {
+  label: string;
+  value: string;
+  bbox: BBox;
+}
+
+
 export interface ProcessInput {
-  title: string;
-  description: string;
   schema: {
     type: string;
-    enum?: string[];
+    enum?: string[] | ProcessProjection[];
     format?: string;
     items?: {
       type: string;
