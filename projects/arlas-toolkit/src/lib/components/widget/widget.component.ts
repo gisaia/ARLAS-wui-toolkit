@@ -30,6 +30,7 @@ import { ARLASDonutTooltip } from 'arlas-d3';
 import { ArlasOverlayService } from '../../services/overlays/overlay.service';
 import { ComputeConfig, MetricsTableContributor, TreeContributor } from 'arlas-web-contributors';
 import { Expression } from 'arlas-api';
+import { DEFAULT_SPINNER_OPTIONS } from '../progress-spinner/progress-spinner.component';
 
 /**
  * A Widget wraps a component from ARLAS-web-components and bind it to its contributor. The component has thus input data to plot.
@@ -79,7 +80,7 @@ export class WidgetComponent implements OnInit {
    * @Input : Angular
    * @description Spinner options
    */
-  @Input() public spinnerOptions: SpinnerOptions;
+  @Input() public spinnerOptions: SpinnerOptions = DEFAULT_SPINNER_OPTIONS;
 
   /**
    * @Input : Angular

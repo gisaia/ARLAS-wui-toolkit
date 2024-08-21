@@ -20,7 +20,7 @@
 import { Component, Input, Inject, OnInit, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
-import { Aggregation, AggregationResponse, Filter } from 'arlas-api';
+import { Aggregation, AggregationResponse, Filter, Expression } from 'arlas-api';
 import { ChipsSearchContributor } from 'arlas-web-contributors';
 import { projType, Collaboration } from 'arlas-web-core';
 import { ArlasCollaborativesearchService } from '../../services/startup/startup.service';
@@ -70,13 +70,11 @@ export class SearchComponent implements OnInit, OnDestroy, OnChanges {
     private collaborativeService: ArlasCollaborativesearchService,
     public translate: TranslateService,
     private dialog: MatDialog,
-  ) {
-    this.searchPlaceholder = this.translate.instant(this.searchContributor ? this.searchContributor.getName() : marker('Search...'));
-    this.searchValue = this.searchPlaceholder;
-  }
-
+  ) { }
 
   public ngOnInit(): void {
+    this.searchPlaceholder = this.translate.instant(this.searchContributor ? this.searchContributor.getName() : marker('Search...'));
+    this.searchValue = this.searchPlaceholder;
     // Retrieve value from the url and future collaborations
     this.retrieveSearchValueSub = this.collaborativeService.collaborationBus.pipe(
       filter(e => this.searchContributor?.isMyOwnCollaboration(e) || e.id === 'url' || e.id === 'all')
@@ -260,8 +258,13 @@ export class SearchDialogComponent {
         include: search + '.*',
         size: (this.searchContributor.autocomplete_size).toString()
       };
+      // Add filter to improve aggregation performances
       const filterAgg: Filter = {
-        q: [[this.searchContributor.autocomplete_field + ':' + search + '*']]
+        f: [[{
+          field: this.searchContributor.autocomplete_field,
+          op: Expression.OpEnum.Like,
+          value: search
+        }]]
       };
 
       this.searching = true;

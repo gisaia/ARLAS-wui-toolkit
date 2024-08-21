@@ -17,8 +17,6 @@
  * under the License.
  */
 
-import { from } from 'rxjs';
-
 export { TopMenuComponent } from './lib/components/top-menu/top-menu.component';
 export { AboutComponent, AboutDialogComponent } from './lib/components/top-menu/about/about.component';
 export { ShortcutFiltersHandlerComponent } from './lib/components/filter-shortcut/filters-handler/filters-handler.component';
@@ -71,7 +69,7 @@ export { DeniedAccessDialogComponent } from './lib/components/denied-access-dial
 export { LanguageSwitcherComponent } from './lib/components/language-switcher/language-switcher.component';
 export { LinkComponent } from './lib/components/top-menu/links/link/link.component';
 export { LinksComponent } from './lib/components/top-menu/links/links.component';
-export { ProgressSpinnerComponent } from './lib/components/progress-spinner/progress-spinner.component';
+export { ProgressSpinnerComponent, DEFAULT_SPINNER_OPTIONS } from './lib/components/progress-spinner/progress-spinner.component';
 export { ReconnectDialogComponent } from './lib/components/reconnect-dialog/reconnect-dialog.component';
 export { SearchComponent, SearchDialogComponent } from './lib/components/search/search.component';
 export { ArlasSearchField } from './lib/components/share/model/ArlasSearchField';
@@ -119,7 +117,7 @@ export {
   ArlasOverlayRef, ArlasStorageObject, WidgetConfiguration,
   ArlasStorageType, CollectionCount, CollectionUnit, Config, ConfigAction, ConfigActionEnum,
   CONFIG_ID_QUERY_PARAM, DONUT_TOOLTIP_DATA, getFieldProperties, getKeyForColor, hashCode, getParamValue,
-  HISTOGRAM_TOOLTIP_DATA, intToRGB, MapService, sortOnDate, SpinnerOptions, AuthentSetting, NOT_CONFIGURED, GET_OPTIONS
+  HISTOGRAM_TOOLTIP_DATA, intToRGB, MapService, sortOnDate, SpinnerOptions, AuthentSetting, NOT_CONFIGURED, GET_OPTIONS, ZoomToDataStrategy
 } from './lib/tools/utils';
 export { JwtInterceptor } from './lib/tools/jwt.interceptor';
 export { FetchInterceptorService } from './lib/services/interceptor/fetch-interceptor.service';
@@ -139,7 +137,7 @@ export { ForgotComponent } from './lib/components/forgot/forgot.component';
 export { ResetComponent } from './lib/components/reset/reset.component';
 export { ArlasIamApi } from './lib/services/startup/startup.service';
 export { ArlasAuthentificationService } from './lib/services/arlas-authentification/arlas-authentification.service';
-export { ProcessComponent } from './lib/components/process/process.component';
+export { AiasDownloadComponent } from './lib/components/aias-download/aias-download.component';
 export { ProcessService } from './lib/services/process/process.service';
 export { ArlasError, ActionType } from './lib/tools/errors/error';
 export { AuthorisationError } from './lib/tools/errors/authorisation-error';

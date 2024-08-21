@@ -93,6 +93,7 @@ export interface CollectionCount {
   collection: string;
   color: string;
   hasCentroidPath: boolean;
+  hasGeometryPath: boolean;
   ignored: boolean;
   unit?: string;
 }
@@ -126,6 +127,7 @@ export interface AuthentSetting {
   customQueryParams?: Object;
   threshold?: number;
   url?: string;
+  sign_up_enabled?: boolean;
 }
 
 export interface GeocodingSetting {
@@ -137,6 +139,12 @@ export interface GeocodingSetting {
 export interface DeniedAccessData {
   error: ArlasError;
   forceAction?: boolean;
+}
+
+export enum ZoomToDataStrategy{
+  NONE = 'none',
+  CENTROID = 'centroid',
+  GEOMETRY = 'geometry'
 }
 
 /**

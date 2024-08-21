@@ -24,7 +24,7 @@ import { Subject } from 'rxjs';
 import { Contributor, Collaboration } from 'arlas-web-core';
 import { CollectionReferenceParameters } from 'arlas-api';
 import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from '../../services/startup/startup.service';
-import { CollectionUnit, CollectionCount } from '../../tools/utils';
+import { CollectionUnit, CollectionCount, ZoomToDataStrategy } from '../../tools/utils';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { isShortcutID } from '../filter-shortcut/filter-shortcut.utils';
 import { ArlasColorService } from 'arlas-web-components';
@@ -160,6 +160,18 @@ export class FiltersComponent implements OnInit, OnChanges {
   @Input() public spacing = 5;
 
   /**
+   * @Input : Angular
+   * @description Whether the zoom to data icon is displayed or not
+   */
+  @Input() public showZoomToData = true;
+
+  /**
+   * @Input : Angular
+   * @description Type of zoom to data
+   */
+  @Input() public zoomToStrategy: ZoomToDataStrategy;
+
+  /**
    * @Output : Angular
    * @description This output emit app name on click on the title of the filter
    * @deprecated There is no display of the title in this component
@@ -188,6 +200,8 @@ export class FiltersComponent implements OnInit, OnChanges {
   public NUMBER_FORMAT_CHAR = 'NUMBER_FORMAT_CHAR';
   public collaborationsMap: Map<string, Collaboration>;
   public isExtraOpen = false;
+
+  public ZoomToDataStrategy = ZoomToDataStrategy;
 
   /**
    * @description Whether to exceptionally display the extra collections for space computations
@@ -283,6 +297,8 @@ export class FiltersComponent implements OnInit, OnChanges {
               color: this.arlasColorService.getColor(c.collection) + ' !important',
               hasCentroidPath: !!this.collectionToDescription.get(c.collection) &&
                 !!this.collectionToDescription.get(c.collection).centroid_path,
+              hasGeometryPath: !!this.collectionToDescription.get(c.collection) &&
+                !!this.collectionToDescription.get(c.collection).geometry_path,
               unit: !!unit ? unit.unit : c.collection,
               ignored: !!unit ? unit.ignored : false
             });

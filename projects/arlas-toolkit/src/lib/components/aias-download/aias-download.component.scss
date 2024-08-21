@@ -1,9 +1,52 @@
+/*
+ * Licensed to Gisaïa under one or more contributor
+ * license agreements. See the NOTICE.txt file distributed with
+ * this work for additional information regarding copyright
+ * ownership. Gisaïa licenses this file to you under
+ * the Apache License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
 $warnColor: #f0ad4e;
 $infoColor: #0c5460;
 $errorColor: #d43f3a;
 $successColor: #5cb85c;
 $progressColor: #337ab7;
 $labelColor: #757575;
+$sm-margin: 5px;
+$default-spacing: 10px;
+
+:host {
+  font-size: 14px;
+}
+
+.checkbox-hint{
+  font-size: 10px;
+  font-style: italic;
+}
+
+.warning-text{
+  display: flex;
+  align-items: center;
+  font-size: 10px;
+  gap: $default-spacing;
+  color: $warnColor;
+  & mat-icon {
+    font-size: 15px;
+    width: 15px;
+    height: 15px;
+  }
+}
 
 @mixin status() {
   padding: 10px 15px;
@@ -44,7 +87,7 @@ $labelColor: #757575;
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    gap: 0 10px;
+    gap: 10px 10px;
     justify-content: space-between;
     align-items: baseline;
     border-bottom: 1px solid rgba(0, 0, 0, 0.15);
@@ -59,13 +102,30 @@ $labelColor: #757575;
     padding-bottom: 20px;
 
     .infos {
+      display: flex;
+      flex-direction: column;
       padding-bottom: 15px;
+      &-subtitle{
+        margin-top: $default-spacing;
+        font-weight: bold;
+      }
     }
 
     .params {
+      gap: $sm-margin;
+      background: whitesmoke;
+      padding: $default-spacing;
+      border-radius: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: $default-spacing;
+      .label{
+        color:$labelColor;
+      }
+
       .value {
         font-weight: 400;
-        color: rgba(0, 0, 0, 0.55);
       }
     }
   }

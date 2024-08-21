@@ -62,7 +62,7 @@
     [tableWidth]="graphParam.tableWidth" [globalActionsList]="graphParam.globalActionsList" [nLastLines]="graphParam.nLastLines"
     [detailedGridHeight]="graphParam.detailedGridHeight" [nbGridColumns]="graphParam.nbGridColumns" [indeterminatedItems]="this.indeterminatedItems"
     [highlightItems]="contributor?.highlightItems" [defautMode]="graphParam.defautMode" [displayFilters]="graphParam.displayFilters"
-    [isBodyHidden]="graphParam.isBodyHidden" [isGeoSortEnabled]="graphParam?.isGeoSortEnabled"
+    [isBodyHidden]="graphParam.isBodyHidden" [isGeoSortEnabled]="graphParam?.isGeoSortActived"
     [useColorService]="graphParam?.useColorService" [cellBackgroundStyle]="graphParam?.cellBackgroundStyle" [keysToColors]="graphParam?.keysToColors"
     [colorsSaturationWeight]="graphParam?.colorsSaturationWeight" (geoSortEvent)="emitEvent(contributorId, 'geoSortEvent', $event)"
     (geoAutoSortEvent)="emitEvent(contributorId, 'geoAutoSortEvent', $event)" (selectedItemsEvent)="emitEvent(contributorId, 'selectedItemsEvent', $event)"

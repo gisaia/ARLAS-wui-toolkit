@@ -21,9 +21,8 @@
                 id="{{'shortcut-widget-' +  shortcut.uuid}}"
                 [componentType]="shortcut.component.componentType"
                 [contributorId]="shortcut.component?.contributorId"
-                [componentParams]="inputs"
-                [groupLength]="1"
-                [noDetail]="true"
+                [componentParams]="inputs" [groupLength]="1"
+                [noDetail]="true" [spinnerOptions]="spinnerOptions"
             ></arlas-tool-widget>
         </section>
     </div>

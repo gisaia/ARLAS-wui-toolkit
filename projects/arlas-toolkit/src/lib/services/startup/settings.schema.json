@@ -115,7 +115,13 @@
         "dummy_client_secret": {
           "description": "dummy string for tests. DO NOT USE IT in production environment.",
           "type": "string"
+        },        
+        "sign_up_enabled": {
+          "description": "Display or not the sign up button in arlas iam login page.",
+          "type": "boolean"
         }
+
+        
       },
       "required": [
         "use_authent",

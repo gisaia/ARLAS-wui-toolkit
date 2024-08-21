@@ -19,9 +19,10 @@
 
 import { Component } from '@angular/core';
 import { ArlasBookmarkService } from '../../services/bookmark/bookmark.service';
-import {  MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 import { FormControl, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
+import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 @Component({
   templateUrl: './bookmark-add-dialog.component.html',
   styleUrls: ['./bookmark-add-dialog.component.css']
@@ -29,6 +30,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class BookmarkAddDialogComponent {
   public bookmarkName = new FormControl('', [Validators.required]);
   public errorMessage = '';
+  public disableSubmit = false;
   public constructor(
     private bookmarkService: ArlasBookmarkService,
     private translateService: TranslateService,
@@ -40,9 +42,13 @@ export class BookmarkAddDialogComponent {
 
   public submit(): void {
     this.bookmarkName.setErrors({ 'incorrect': false });
+    this.disableSubmit = true;
     if (this.bookmarkName.value) {
       this.bookmarkService.addBookmark(this.bookmarkName.value).subscribe({
-        next: () => this.dialogRef.close(),
+        next: () => {
+          this.dialogRef.close();
+          this.bookmarkService.openSnackBar(marker('Bookmark succefully created.'));
+        },
         error: e => {
           this.bookmarkName.setErrors({ 'incorrect': true });
           if (e.message === 'Required parameter id was null or undefined when calling update.') {
@@ -50,7 +56,8 @@ export class BookmarkAddDialogComponent {
           } else {
             this.errorMessage = this.translateService.instant('Bookmark creation error');
           }
-        }
+        },
+        complete: () => this.disableSubmit = false
       });
     }
   }

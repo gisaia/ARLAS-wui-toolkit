@@ -1,3 +1,22 @@
+/*
+ * Licensed to Gisaïa under one or more contributor
+ * license agreements. See the NOTICE.txt file distributed with
+ * this work for additional information regarding copyright
+ * ownership. Gisaïa licenses this file to you under
+ * the Apache License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
 import { Injectable } from '@angular/core';
 import fetchIntercept from 'fetch-intercept';
 import { ReconnectDialogComponent } from '../../components/reconnect-dialog/reconnect-dialog.component';
@@ -7,6 +26,7 @@ import { DeniedAccessData } from '../../tools/utils';
 import { AuthorisationError } from '../../tools/errors/authorisation-error';
 import { ErrorService } from '../../services/error/error.service';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -16,19 +36,23 @@ export class FetchInterceptorService {
   public constructor(
     private arlasSettings: ArlasSettingsService,
     private dialog: MatDialog,
-    private errorService: ErrorService) {
-
-  }
+    private errorService: ErrorService,
+    private router: Router) { }
 
   public interceptLogout() {
-    this.errorService.emitAuthorisationError(new AuthorisationError(401));
+    const settings = this.arlasSettings.settings;
+    if (settings.authentication.auth_mode === 'iam') {
+      this.router.navigate(['login']);
+    } else {
+      this.errorService.emitAuthorisationError(new AuthorisationError(401));
+    }
   }
 
   public applyInterceptor() {
     const settings = this.arlasSettings.settings;
     const useAuthent = !!settings && !!settings.authentication && !!settings.authentication.use_authent;
     if (useAuthent) {
-      const unregister = fetchIntercept.register({
+      fetchIntercept.register({
         request: (url, config) =>
           // Modify the url or config here
           [url, config]
@@ -43,8 +67,10 @@ export class FetchInterceptorService {
               code = 403;
             }
             if (settings.authentication.auth_mode === 'iam') {
-              this.errorService.emitAuthorisationError(new AuthorisationError(code));
-
+              // If not currently logging in, display error
+              if (this.router.url !== '/login') {
+                this.errorService.emitAuthorisationError(new AuthorisationError(code));
+              }
             } else {
               // Propose to reconnect or stay disconnected
               if (!this.dialog.openDialogs || !this.dialog.openDialogs.length) {
@@ -61,14 +87,11 @@ export class FetchInterceptorService {
           }
           return response;
         },
-        responseError: (error) =>
         // Handle a fetch error
-        // eslint-disable-next-line brace-style
-        {
+        responseError: (error) =>  {
           console.log(error);
           return Promise.reject(error);
         }
-
       });
     }
   }

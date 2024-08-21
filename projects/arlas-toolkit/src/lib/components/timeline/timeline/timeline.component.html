@@ -87,4 +87,9 @@
     <mat-icon class="icon">event_busy</mat-icon>
     {{ 'No data available.' | translate }}
   </div>
+  <arlas-tool-progress-spinner *ngIf="showSpinner" [strokeWidth]="strokeWidthSpinner"
+    [color]="colorSpinner" [diameter]="diameterSpinner"
+    [hidden]="!((timelineComponent?.contributorId | contributorUpdating:arlasCollaborativesearchService.totalSubscribe)
+      || (showDetailedTimeline && detailedTimelineComponent?.contributorId | contributorUpdating:arlasCollaborativesearchService.totalSubscribe))">
+  </arlas-tool-progress-spinner>
 </div>

@@ -14,7 +14,8 @@
     "build-release": "ng build arlas-wui-toolkit --configuration production",
     "e2e": "ng e2e",
     "i18n:init": "ngx-translate-extract --input ./projects/arlas-toolkit/src --output ./projects/arlas-toolkit/assets/i18n/template.json --key-as-default-value --replace --format json",
-    "i18n:extract": "ngx-translate-extract --input ./projects/arlas-toolkit/src --output ./projects/arlas-toolkit/assets/i18n/{en,fr,es}.json --format json"
+    "i18n:extract": "ngx-translate-extract --input ./projects/arlas-toolkit/src --output ./projects/arlas-toolkit/assets/i18n/{en,fr,es}.json --format json",
+    "license-check": "license-check-and-add check -f license-check-and-add.json"
   },
   "repository": {
     "type": "git",
@@ -35,6 +36,9 @@
     "@danielmoncada/angular-datetime-picker-moment-adapter": "~2.2.0",
     "@ngx-translate/core": "^14.0.0",
     "@ngx-translate/http-loader": "^7.0.0",
+    "@turf/bbox-polygon": "^7.0.0",
+    "@turf/boolean-intersects": "^7.0.0",
+    "@turf/clean-coords": "^7.0.0",
     "ajv": "8.8.2",
     "ajv-keywords": "5.1.0",
     "angular-oauth2-oidc": "~14.0.1",
@@ -56,6 +60,7 @@
     "rxjs": "~7.4.0",
     "tinycolor2": "1.4.2",
     "url": "0.11.0",
+    "wellknown": "^0.5.0",
     "zone.js": "^0.11.4"
   },
   "devDependencies": {
@@ -84,6 +89,7 @@
     "karma-coverage-istanbul-reporter": "~3.0.3",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "~1.7.0",
+    "license-check-and-add": "^4.0.5",
     "ng-packagr": "^14.2.2",
     "node": "^16.3.0",
     "patch-package": "^6.4.7",

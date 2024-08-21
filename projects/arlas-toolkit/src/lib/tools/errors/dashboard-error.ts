@@ -23,7 +23,7 @@ import { ArlasError } from './error';
 
 export class DashboardError extends ArlasError {
 
-  private hubUrl;
+  private hubUrl: string;
 
   public constructor(status: number, hubUrl: string) {
     super(status);
