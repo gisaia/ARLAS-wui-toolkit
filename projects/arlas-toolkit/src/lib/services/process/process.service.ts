@@ -73,7 +73,7 @@ export class ProcessService {
     return this.http.get(this.arlasSettingsService.getProcessSettings()?.check_url, this.options);
   }
 
-  public getProcessinputs(): ProcessInputs {
+  public getProcessInputs(): ProcessInputs {
     return this.processInputs;
   }
 

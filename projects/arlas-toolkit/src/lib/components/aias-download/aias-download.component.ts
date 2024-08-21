@@ -29,8 +29,8 @@ export class AiasDownloadComponent implements OnInit, OnDestroy {
 
   public pictureFormats= [
     marker('native'),
-    'Geotiff',
-    'Jpeg2000'
+    'GEOTIFF',
+    'JPEG2000'
   ];
   public projections: ProcessProjection[] = [];
 
@@ -59,7 +59,7 @@ export class AiasDownloadComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     if(this.data.nbProducts === 1){
-      const processConfigFileInput= this.processService.getProcessinputs();
+      const processConfigFileInput= this.processService.getProcessInputs();
       this._initPictureFormatList();
       this._initProjectionList(processConfigFileInput);
     }
@@ -77,12 +77,14 @@ export class AiasDownloadComponent implements OnInit, OnDestroy {
 
   private _initPictureFormatList(): void{
     const inputKey = 'properties.main_asset_format';
-    if (this.data.itemDetail && this.data.itemDetail.has(inputKey)) {
-      if (this.data.itemDetail.get(inputKey) === 'JPEG2000') {
+    const keyIsValid = this.data.itemDetail && this.data.itemDetail.has(inputKey) &&
+      this.data.itemDetail.get(inputKey) !== undefined && this.data.itemDetail.get(inputKey) !== null;
+    if (keyIsValid) {
+      if (this.data.itemDetail.get(inputKey).toUpperCase() === 'JPEG2000') {
         this.pictureFormats = ['JPEG2000'];
         this.formGroup.get('target_format').setValue('JPEG2000');
-      } else if (this.data.itemDetail.get(inputKey).toLowerCase() === 'geotiff') {
-        this.pictureFormats = this.pictureFormats.filter(format => format !== 'Geotiff');
+      } else if (this.data.itemDetail.get(inputKey).toUpperCase() === 'GEOTIFF') {
+        this.pictureFormats = this.pictureFormats.filter(format => format !== 'GEOTIFF');
       }
     }
   }
