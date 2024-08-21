@@ -3,8 +3,10 @@
     <mat-basic-chip class="collection-chip" id="arlas-count-{{c.collection}}" [style.borderColor]="c.color"
       *ngIf="!c.ignored">
       <div class="count-container">
-        <div *ngIf="c.hasCentroidPath" class="zoom" (click)="zoomToData(c.collection)"
-          matTooltip="{{ 'Zoom to data' | translate }}" matTooltipPosition="below">
+        <div *ngIf="showZoomToData &&
+              (((zoomToStrategy === ZoomToDataStrategy.CENTROID || !zoomToStrategy)  && c.hasCentroidPath)
+              || (zoomToStrategy === ZoomToDataStrategy.GEOMETRY && c.hasGeometryPath))" class="zoom"
+          (click)="zoomToData(c.collection)" matTooltip="{{ 'Zoom to data' | translate }}" matTooltipPosition="below">
           <mat-icon>filter_center_focus</mat-icon>
         </div>
 
@@ -25,8 +27,7 @@
             [matTooltip]="contributorId | getContributorLabel:contributors | translate">
             <mat-icon class="icon">{{contributorId | getCollaborationIcon :contributorsIcons }}
             </mat-icon>
-            <mat-icon (click)="removeCollaboration(contributorId)"
-              class="icon_close mat-icon material-icons">
+            <mat-icon (click)="removeCollaboration(contributorId)" class="icon_close mat-icon material-icons">
               clear</mat-icon>
           </mat-basic-chip>
         </ng-container>
@@ -34,7 +35,8 @@
     </mat-basic-chip>
   </ng-container>
 
-  <div *ngIf="showExtraCollections || (extraCountAll && extraCountAll.length > 0)" class="extra" [class.extra-open]="isExtraOpen" id="extra-collections">
+  <div *ngIf="showExtraCollections || (extraCountAll && extraCountAll.length > 0)" class="extra"
+    [class.extra-open]="isExtraOpen" id="extra-collections">
     <section class="title" (click)="toggleExtraCounts()">
       <div class="text">{{ 'See more' | translate }}</div>
       <div class="info">
@@ -50,8 +52,11 @@
         <mat-basic-chip class="collection-chip" id="arlas-count-{{c.collection}}" [style.borderColor]="c.color"
           *ngIf="!c.ignored">
           <div class="count-container">
-            <div *ngIf="c.hasCentroidPath" class="zoom" (click)="zoomToData(c.collection)"
-              matTooltip="{{ 'Zoom to data' | translate }}" matTooltipPosition="left">
+            <div *ngIf="showZoomToData &&
+              (((zoomToStrategy === ZoomToDataStrategy.CENTROID || !zoomToStrategy)  && c.hasCentroidPath)
+              || (zoomToStrategy === ZoomToDataStrategy.GEOMETRY && c.hasGeometryPath))" class="zoom"
+              (click)="zoomToData(c.collection)" matTooltip="{{ 'Zoom to data' | translate }}"
+              matTooltipPosition="left">
               <mat-icon>filter_center_focus</mat-icon>
             </div>
 
@@ -72,8 +77,7 @@
                 [matTooltip]="contributorId | getContributorLabel:contributors | translate">
                 <mat-icon class="icon">{{contributorId | getCollaborationIcon :contributorsIcons }}
                 </mat-icon>
-                <mat-icon (click)="removeCollaboration(contributorId)"
-                  class="icon_close mat-icon material-icons">
+                <mat-icon (click)="removeCollaboration(contributorId)" class="icon_close mat-icon material-icons">
                   clear</mat-icon>
               </mat-basic-chip>
             </ng-container>
@@ -86,7 +90,7 @@
   <ng-container *ngFor="let contributorId of collaborations; let index = index">
     <ng-container *ngIf="contributorId === 'timeline'">
       <mat-basic-chip class="timeline-chip" [@fadeInOut] id="filter-chip-{{contributorId}}"
-      [style.color]="contributorId | getGlobalColorFilter:'color':colorFilter:backgroundColorFilter:collaborationsMap "
+        [style.color]="contributorId | getGlobalColorFilter:'color':colorFilter:backgroundColorFilter:collaborationsMap "
         (click)="changeCollaborationState(contributorId)"
         [matTooltip]="contributorId | getContributorLabel:contributors | translate">
         <mat-icon class="icon">{{contributorId | getCollaborationIcon :contributorsIcons }}</mat-icon>

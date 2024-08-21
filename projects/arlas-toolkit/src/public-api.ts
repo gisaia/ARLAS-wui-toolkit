@@ -17,8 +17,6 @@
  * under the License.
  */
 
-import { from } from 'rxjs';
-
 export { TopMenuComponent } from './lib/components/top-menu/top-menu.component';
 export { AboutComponent, AboutDialogComponent } from './lib/components/top-menu/about/about.component';
 export { ShortcutFiltersHandlerComponent } from './lib/components/filter-shortcut/filters-handler/filters-handler.component';
@@ -119,7 +117,7 @@ export {
   ArlasOverlayRef, ArlasStorageObject, WidgetConfiguration,
   ArlasStorageType, CollectionCount, CollectionUnit, Config, ConfigAction, ConfigActionEnum,
   CONFIG_ID_QUERY_PARAM, DONUT_TOOLTIP_DATA, getFieldProperties, getKeyForColor, hashCode, getParamValue,
-  HISTOGRAM_TOOLTIP_DATA, intToRGB, MapService, sortOnDate, SpinnerOptions, AuthentSetting, NOT_CONFIGURED, GET_OPTIONS
+  HISTOGRAM_TOOLTIP_DATA, intToRGB, MapService, sortOnDate, SpinnerOptions, AuthentSetting, NOT_CONFIGURED, GET_OPTIONS, ZoomToDataStrategy
 } from './lib/tools/utils';
 export { JwtInterceptor } from './lib/tools/jwt.interceptor';
 export { FetchInterceptorService } from './lib/services/interceptor/fetch-interceptor.service';
