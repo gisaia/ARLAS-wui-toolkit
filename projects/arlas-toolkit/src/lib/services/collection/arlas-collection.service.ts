@@ -1,15 +1,37 @@
-import { CollectionUnit } from './utils';
+/*
+ * Licensed to Gisaïa under one or more contributor
+ * license agreements. See the NOTICE.txt file distributed with
+ * this work for additional information regarding copyright
+ * ownership. Gisaïa licenses this file to you under
+ * the Apache License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
+import { CollectionUnit } from '../../tools/utils';
 import { catchError, EMPTY, first, map, Observable } from 'rxjs';
 import { BaseCollectionService } from 'arlas-web-components';
 import { Injectable } from '@angular/core';
-import { ArlasCollaborativesearchService, ArlasConfigService } from '../services/startup/startup.service';
+import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from '../startup/startup.service';
 import { CollectionReferenceDescription } from 'arlas-api';
 
 @Injectable()
 export class ArlasCollectionService extends BaseCollectionService {
   private appUnits: Map<string, CollectionUnit> = new Map();
   private displayName: Map<string, string> = new Map();
-  public constructor(private collaborativeService: ArlasCollaborativesearchService, private configService: ArlasConfigService) {
+  public constructor(private collaborativeService: ArlasCollaborativesearchService,
+                     private configService: ArlasConfigService,
+                     private arlasStartupeService: ArlasStartupService
+  ) {
     super();
     this._initUnits();
     this._initDisplayNames();
@@ -33,16 +55,23 @@ export class ArlasCollectionService extends BaseCollectionService {
   }
 
   protected _initDisplayNames(){
-    this.appUnits.forEach(collectionUnit => {
-      this.getDisplayNameFromDescribe(collectionUnit.collection)
-        .pipe(
-          first(),
-          map(displayName => {
-            this.displayName.set(collectionUnit.collection, displayName);
-          }),
-          catchError(err => EMPTY)
-        ).subscribe();
-    });
+    if(this.arlasStartupeService.shouldRunApp){
+     for(let key of this.arlasStartupeService.collectionsMap.keys()) {
+      const c = this.arlasStartupeService.collectionsMap.get(key);
+       this.displayName.set(key, c.display_names.collection);
+     }
+    } else {
+      this.appUnits.forEach(collectionUnit => {
+        this.getDisplayNameFromDescribe(collectionUnit.collection)
+          .pipe(
+            first(),
+            map(displayName => {
+              this.displayName.set(collectionUnit.collection, displayName);
+            }),
+            catchError(err => EMPTY)
+          ).subscribe();
+      });
+    }
   }
 
 
