@@ -26,7 +26,8 @@ import {
   ComputeContributor,
   TreeContributor,
   ChipsSearchContributor,
-  MapContributor
+  MapContributor,
+  MetricsTableContributor
 } from 'arlas-web-contributors';
 import { ArlasConfigService, ArlasCollaborativesearchService } from './startup.service';
 import { ArlasSettingsService } from '../settings/arlas.settings.service';
@@ -108,6 +109,9 @@ export class ContributorBuilder {
           collection,
           groupIdToValues
         );
+        break;
+      case 'metricstable':
+        contributor = new MetricsTableContributor(identifier, collaborativesearchService, configService);
         break;
     }
     contributor.updateData = false;

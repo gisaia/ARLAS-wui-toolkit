@@ -130,7 +130,7 @@ export class ShortcutFiltersHandlerComponent implements OnInit, OnDestroy {
 
     if (this.labels.length > 0) {
       this.firstLabel = this.labels[0];
-      if (this.widgetType === 'powerbars') {
+      if (this.widgetType === 'powerbars' || this.widgetType === 'metricstable') {
         this.showMore = !this.displayFilterFirstValue || this.labels.length > 1;
         /** hide list when there is one label left */
         if (this.displayFilterFirstValue && this.labels.length <= 1) {
@@ -181,7 +181,7 @@ export class ShortcutFiltersHandlerComponent implements OnInit, OnDestroy {
   private setLabels(widgetType: string, expression: Expression) {
     this.rawLabels = expression.value.split(',');
 
-    if (widgetType === 'powerbars') {
+    if (widgetType === 'powerbars' || this.widgetType === 'metricstable') {
       this.labels = expression.value.split(',');
       if (expression.op === Expression.OpEnum.Ne) {
         this.labels = this.labels.map(l => '≠' + l);

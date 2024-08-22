@@ -28,10 +28,14 @@ import * as draftSchema from 'ajv/lib/refs/json-schema-draft-06.json';
 import { CollectionReferenceDescription, CollectionReferenceParameters, CollectionsApi, Configuration, ExploreApi } from 'arlas-api';
 import { Configuration as IamConfiguration, DefaultApi } from 'arlas-iam-api';
 import { DataWithLinks } from 'arlas-persistence-api';
-import { DonutComponent, HistogramComponent, MapglComponent, MetricComponent, PowerbarsComponent } from 'arlas-web-components';
+import {
+  DonutComponent, HistogramComponent, MapglComponent, MetricComponent,
+  MetricsTableComponent, PowerbarsComponent
+} from 'arlas-web-components';
 import {
   ChipsSearchContributor, ComputeContributor, DetailedHistogramContributor, HistogramContributor,
   MapContributor,
+  MetricsTableContributor,
   ResultListContributor,
   SwimLaneContributor, TreeContributor
 } from 'arlas-web-contributors';
@@ -59,7 +63,6 @@ import { ContributorBuilder } from './contributorBuilder';
 import * as arlasSettingsSchema from './settings.schema.json';
 import { FilterShortcutConfiguration } from '../../components/filter-shortcut/filter-shortcut.utils';
 import { AnalyticGroupConfiguration } from '../../components/analytics/analytics.utils';
-import { ArlasAuthentificationService } from '../arlas-authentification/arlas-authentification.service';
 import { Filter } from 'arlas-api';
 import { ProcessService } from '../process/process.service';
 import { DashboardError } from '../../tools/errors/dashboard-error';
@@ -200,13 +203,25 @@ export class ArlasCollaborativesearchService extends CollaborativesearchService 
         collab.filters.forEach((filters: any[], collection: string) => {
           const exp = filters[0].f[0][0];
           const op = exp.op;
-          if (op !== contributor.getFilterOperator()) {
-            if (contributor.allowOperatorChange) {
-              contributor.setFilterOperator(op, true);
+          const treecontributor = contributor as TreeContributor;
+          if (op !== treecontributor.getFilterOperator()) {
+            if (treecontributor.allowOperatorChange) {
+              treecontributor.setFilterOperator(op, true);
             } else {
               delete dataModel['' + key];
               this.collaborations.delete(key);
             }
+          }
+        });
+      }
+      if (contributor && contributor instanceof MetricsTableContributor && changeOperator) {
+        collab.filters.forEach((filters: any[], collection: string) => {
+          const exp = filters[0].f[0][0];
+          const op = exp.op;
+          const metrictablecontributor = contributor as MetricsTableContributor;
+          if (op !== metrictablecontributor.getFilterOperator()) {
+            metrictablecontributor.setFilterOperator(op, true);
+
           }
         });
       }
@@ -328,12 +343,14 @@ export class ArlasStartupService {
         .addSchema(ChipsSearchContributor.getJsonSchema())
         .addSchema(AnalyticsContributor.getJsonSchema())
         .addSchema(ComputeContributor.getJsonSchema())
+        .addSchema(MetricsTableContributor.getJsonSchema())
         .addSchema((<any>HistogramComponent.getHistogramJsonSchema()).default)
         .addSchema((<any>HistogramComponent.getSwimlaneJsonSchema()).default)
         .addSchema((<any>PowerbarsComponent.getPowerbarsJsonSchema()).default)
         .addSchema((<any>MapglComponent.getMapglJsonSchema()).default)
         .addSchema((<any>DonutComponent.getDonutJsonSchema()).default)
         .addSchema((<any>MetricComponent.getMetricJsonSchema()).default)
+        .addSchema((<any>MetricsTableComponent.getJsonSchema()).default)
         .compile((<any>arlasConfSchema).default);
       if (validateConfig(data) === false) {
         const errorMessagesList = new Array<string>();

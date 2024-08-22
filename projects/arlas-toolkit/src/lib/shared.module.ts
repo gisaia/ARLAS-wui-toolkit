@@ -51,15 +51,8 @@ import { OwlMomentDateTimeModule } from '@danielmoncada/angular-datetime-picker-
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import {
   CalendarTimelineModule,
-  ColorGeneratorLoader,
-  ColorGeneratorModule,
-  DonutModule,
-  FormatNumberModule,
-  HistogramModule,
-  MapglLegendModule,
-  MetricModule,
-  PowerbarsModule,
-  ResultsModule
+  ColorGeneratorLoader, ColorGeneratorModule, DonutModule, FormatNumberModule,
+  HistogramModule, MapglLegendModule, MetricModule, MetricsTableComponent, MetricsTableModule, PowerbarsModule, ResultsModule
 } from 'arlas-web-components';
 import en from 'arlas-web-components/assets/i18n/en.json';
 import fr from 'arlas-web-components/assets/i18n/fr.json';
@@ -188,6 +181,7 @@ export class CustomTranslateLoader implements TranslateLoader {
     MatProgressBarModule,
     MatProgressSpinnerModule,
     MatSelectModule,
+    MetricsTableModule,
     MatSnackBarModule,
     MatStepperModule,
     MatTableModule,
