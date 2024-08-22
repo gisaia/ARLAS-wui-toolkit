@@ -18,11 +18,9 @@
  */
 
 import { CollectionUnit } from '../../tools/utils';
-import { catchError, EMPTY, first, map, Observable } from 'rxjs';
 import { BaseCollectionService } from 'arlas-web-components';
 import { Injectable } from '@angular/core';
 import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from '../startup/startup.service';
-import { CollectionReferenceDescription } from 'arlas-api';
 
 @Injectable()
 export class ArlasCollectionService extends BaseCollectionService {
@@ -56,25 +54,13 @@ export class ArlasCollectionService extends BaseCollectionService {
 
   protected _initDisplayNames(){
     if(this.arlasStartupeService.shouldRunApp){
-     for(let key of this.arlasStartupeService.collectionsMap.keys()) {
-      const c = this.arlasStartupeService.collectionsMap.get(key);
-       this.displayName.set(key, c.display_names.collection);
-     }
-    } else {
-      this.appUnits.forEach(collectionUnit => {
-        this.getDisplayNameFromDescribe(collectionUnit.collection)
-          .pipe(
-            first(),
-            map(displayName => {
-              this.displayName.set(collectionUnit.collection, displayName);
-            }),
-            catchError(err => EMPTY)
-          ).subscribe();
-      });
+      for(const key of this.arlasStartupeService.collectionsMap.keys()) {
+        const c = this.arlasStartupeService.collectionsMap.get(key);
+        this.displayName.set(key, c?.display_names?.collection ?? key);
+      }
     }
   }
-
-
+  
   public getUnit(collectionName: string): string | null {
     if (this.appUnits.has(collectionName)) {
       return this.appUnits.get(collectionName).unit;
@@ -88,15 +74,5 @@ export class ArlasCollectionService extends BaseCollectionService {
 
   public getDisplayName(collectionName: string): string | undefined {
     return this.displayName.get(collectionName) || collectionName;
-  }
-
-  public getDisplayNameFromDescribe(collectionName: string): Observable<string> {
-    return this.collaborativeService.describe(collectionName)
-      .pipe(map((result: CollectionReferenceDescription) => {
-        if (result.params?.display_names) {
-          return result.params?.display_names?.collection;
-        }
-        return collectionName;
-      }));
   }
 }
