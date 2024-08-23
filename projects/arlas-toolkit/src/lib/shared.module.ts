@@ -217,13 +217,13 @@ export class CustomTranslateLoader implements TranslateLoader {
     NgxSpinnerModule,
     MapglLegendModule,
     CollectionModule.forRoot({loader:{
-        deps:[
-          ArlasCollaborativesearchService,
+      deps:[
+        ArlasCollaborativesearchService,
         ArlasConfigService,
         ArlasStartupService
-    ],
-    provide: BaseCollectionService,
-    useClass: ArlasCollectionService
+      ],
+      provide: BaseCollectionService,
+      useClass: ArlasCollectionService
     }
     }),
     ColorGeneratorModule.forRoot({

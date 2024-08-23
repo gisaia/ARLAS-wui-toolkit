@@ -60,7 +60,7 @@ export class ArlasCollectionService extends BaseCollectionService {
       }
     }
   }
-  
+
   public getUnit(collectionName: string): string | null {
     if (this.appUnits.has(collectionName)) {
       return this.appUnits.get(collectionName).unit;
