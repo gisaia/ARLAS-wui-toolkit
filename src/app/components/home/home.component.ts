@@ -18,13 +18,9 @@
  */
 
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ChipsSearchContributor } from 'arlas-web-contributors';
-import { fromEvent } from 'rxjs';
-import packageJson from '../../../../package.json';
 import {
   FilterShortcutConfiguration
 } from '../../../../projects/arlas-toolkit/src/lib/components/filter-shortcut/filter-shortcut.utils';
-import { DEFAULT_SPINNER_OPTIONS } from '../../../../projects/arlas-toolkit/src/lib/components/progress-spinner/progress-spinner.component';
 import {
   TimelineConfiguration
 } from '../../../../projects/arlas-toolkit/src/lib/components/timeline/timeline/timeline.utils';
@@ -37,7 +33,6 @@ import {
   ArlasStartupService
 } from '../../../../projects/arlas-toolkit/src/lib/services/startup/startup.service';
 import { AuthentSetting, CollectionUnit, SpinnerOptions } from '../../../../projects/arlas-toolkit/src/lib/tools/utils';
-import { AnalyticsService, ArlasOverlayService } from '../../../../projects/arlas-toolkit/src/public-api';
 import { ChipsSearchContributor } from 'arlas-web-contributors';
 import {
   AiasDownloadComponent,
