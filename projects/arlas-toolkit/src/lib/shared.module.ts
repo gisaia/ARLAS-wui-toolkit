@@ -50,9 +50,19 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from '@danielmoncada/angul
 import { OwlMomentDateTimeModule } from '@danielmoncada/angular-datetime-picker-moment-adapter';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import {
+  BaseCollectionService,
   CalendarTimelineModule,
-  ColorGeneratorLoader, ColorGeneratorModule, DonutModule, FormatNumberModule,
-  HistogramModule, MapglLegendModule, MetricModule, MetricsTableComponent, MetricsTableModule, PowerbarsModule, ResultsModule
+  CollectionModule,
+  ColorGeneratorLoader,
+  ColorGeneratorModule,
+  DonutModule,
+  FormatNumberModule,
+  HistogramModule,
+  MapglLegendModule,
+  MetricModule,
+  MetricsTableModule,
+  PowerbarsModule,
+  ResultsModule
 } from 'arlas-web-components';
 import en from 'arlas-web-components/assets/i18n/en.json';
 import fr from 'arlas-web-components/assets/i18n/fr.json';
@@ -110,7 +120,11 @@ import { ArlasWalkthroughModule } from './services/walkthrough/walkthrough.modul
 import { MarkdownModule } from 'ngx-markdown';
 import { AboutComponent, AboutDialogComponent } from './components/top-menu/about/about.component';
 import { MatMenuModule } from '@angular/material/menu';
-import { ArlasCollaborativesearchService, ArlasConfigService } from './services/startup/startup.service';
+import {
+  ArlasCollaborativesearchService,
+  ArlasConfigService,
+  ArlasStartupService
+} from './services/startup/startup.service';
 import { PermissionsCreatorComponent } from './components/permissions-creator/permissions-creator.component';
 import {
   PermissionsCreatorDialogComponent
@@ -122,6 +136,7 @@ import { LinkComponent } from './components/top-menu/links/link/link.component';
 import { BookmarkAddDialogComponent } from './components/bookmark/bookmark-add-dialog.component';
 import { ContributorUpdatingPipe } from './pipes/contributor-updating.pipe';
 import { AiasDownloadComponent } from './components/aias-download/aias-download.component';
+import { ArlasCollectionService } from './services/collection/arlas-collection.service';
 
 export class CustomTranslateLoader implements TranslateLoader {
 
@@ -201,6 +216,16 @@ export class CustomTranslateLoader implements TranslateLoader {
     FormatNumberModule,
     NgxSpinnerModule,
     MapglLegendModule,
+    CollectionModule.forRoot({loader:{
+      deps:[
+        ArlasCollaborativesearchService,
+        ArlasConfigService,
+        ArlasStartupService
+      ],
+      provide: BaseCollectionService,
+      useClass: ArlasCollectionService
+    }
+    }),
     ColorGeneratorModule.forRoot({
       loader: {
         provide: ColorGeneratorLoader,
