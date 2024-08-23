@@ -18,39 +18,32 @@
  */
 
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ChipsSearchContributor } from 'arlas-web-contributors';
 import { fromEvent } from 'rxjs';
 import packageJson from '../../../../package.json';
+import { AiasDownloadComponent } from '../../../../projects/arlas-toolkit/src/lib/components/aias-download/aias-download.component';
 import {
   FilterShortcutConfiguration
 } from '../../../../projects/arlas-toolkit/src/lib/components/filter-shortcut/filter-shortcut.utils';
-import { DEFAULT_SPINNER_OPTIONS } from '../../../../projects/arlas-toolkit/src/lib/components/progress-spinner/progress-spinner.component';
+import {
+  DEFAULT_SPINNER_OPTIONS
+} from '../../../../projects/arlas-toolkit/src/lib/components/progress-spinner/progress-spinner.component';
 import {
   TimelineConfiguration
 } from '../../../../projects/arlas-toolkit/src/lib/components/timeline/timeline/timeline.utils';
+import { AnalyticsService } from '../../../../projects/arlas-toolkit/src/lib/services/analytics/analytics.service';
 import {
   ArlasAuthentificationService
 } from '../../../../projects/arlas-toolkit/src/lib/services/arlas-authentification/arlas-authentification.service';
 import { ArlasIamService } from '../../../../projects/arlas-toolkit/src/lib/services/arlas-iam/arlas-iam.service';
+import { ArlasOverlayService } from '../../../../projects/arlas-toolkit/src/lib/services/overlays/overlay.service';
+import { ProcessService } from '../../../../projects/arlas-toolkit/src/lib/services/process/process.service';
 import {
   ArlasConfigService,
   ArlasStartupService
 } from '../../../../projects/arlas-toolkit/src/lib/services/startup/startup.service';
 import { AuthentSetting, CollectionUnit, SpinnerOptions } from '../../../../projects/arlas-toolkit/src/lib/tools/utils';
-import { AnalyticsService, ArlasOverlayService } from '../../../../projects/arlas-toolkit/src/public-api';
-import { ChipsSearchContributor } from 'arlas-web-contributors';
-import {
-  AiasDownloadComponent,
-  AnalyticsService,
-  ArlasOverlayService,
-  ProcessService
-} from '../../../../projects/arlas-toolkit/src/public-api';
-import packageJson from '../../../../package.json';
-import { fromEvent } from 'rxjs';
-import {
-  DEFAULT_SPINNER_OPTIONS
-} from '../../../../projects/arlas-toolkit/src/lib/components/progress-spinner/progress-spinner.component';
-import { MatDialog } from "@angular/material/dialog";
 
 
 @Component({
