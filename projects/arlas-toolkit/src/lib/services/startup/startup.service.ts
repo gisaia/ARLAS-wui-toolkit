@@ -37,6 +37,7 @@ import {
   MapContributor,
   MetricsTableContributor,
   ResultListContributor,
+  SearchContributor,
   SwimLaneContributor, TreeContributor
 } from 'arlas-web-contributors';
 import { AnalyticsContributor } from 'arlas-web-contributors/contributors/AnalyticsContributor';
@@ -341,6 +342,7 @@ export class ArlasStartupService {
         .addSchema(MapContributor.getJsonSchema())
         .addSchema(TreeContributor.getJsonSchema())
         .addSchema(ChipsSearchContributor.getJsonSchema())
+        .addSchema(SearchContributor.getJsonSchema())
         .addSchema(AnalyticsContributor.getJsonSchema())
         .addSchema(ComputeContributor.getJsonSchema())
         .addSchema(MetricsTableContributor.getJsonSchema())
