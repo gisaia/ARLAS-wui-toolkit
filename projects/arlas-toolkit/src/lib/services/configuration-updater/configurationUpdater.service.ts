@@ -100,7 +100,7 @@ export class ArlasConfigurationUpdaterService {
         }
 
         /** chipssearch contributor */
-        if (contributor.type === 'chipssearch' && contributor.search_field) {
+        if ((contributor.type === 'chipssearch' || contributor.type === 'search') && contributor.search_field) {
           if (contributor.collection && availableFieldsPerCollection.has(contributor.collection)) {
             const availableFields = availableFieldsPerCollection.get(contributor.collection);
             if (!availableFields.has(contributor.search_field)) {
@@ -454,19 +454,20 @@ export class ArlasConfigurationUpdaterService {
   }
 
   /**
-   * Removes the properties -from ChipsearchContributor- that define fields not available for exploration
+   * Removes the properties -from SearchContributor- that define fields not available for exploration
    * @param data configuration object
    * @param availableFieldsPerCollection List of available fields for exploration for each collection.
    * @returns configuration object
    */
   public updateChipSearchContributors(data, availableFieldsPerCollection: Map<string, Set<string>>): any {
     if (data && data.arlas && data.arlas.web && data.arlas.web.contributors) {
-      data.arlas.web.contributors.filter(contributor => contributor.type === 'chipssearch').forEach(contributor => {
-        const availableFields = availableFieldsPerCollection.get(contributor.collection);
-        if (contributor.autocomplete_field && !availableFields.has(contributor.autocomplete_field)) {
-          delete contributor.autocomplete_field;
-        }
-      });
+      data.arlas.web.contributors
+        .filter(contributor => contributor.type === 'chipssearch' || contributor.type === 'search').forEach(contributor => {
+          const availableFields = availableFieldsPerCollection.get(contributor.collection);
+          if (contributor.autocomplete_field && !availableFields.has(contributor.autocomplete_field)) {
+            delete contributor.autocomplete_field;
+          }
+        });
     }
     return data;
   }

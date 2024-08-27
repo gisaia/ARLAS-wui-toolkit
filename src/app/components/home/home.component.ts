@@ -17,34 +17,36 @@
  * under the License.
  */
 
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { ChipsSearchContributor } from 'arlas-web-contributors';
-import { fromEvent } from 'rxjs';
-import packageJson from '../../../../package.json';
-import { AiasDownloadComponent } from '../../../../projects/arlas-toolkit/src/lib/components/aias-download/aias-download.component';
+
 import {
   FilterShortcutConfiguration
 } from '../../../../projects/arlas-toolkit/src/lib/components/filter-shortcut/filter-shortcut.utils';
 import {
-  DEFAULT_SPINNER_OPTIONS
-} from '../../../../projects/arlas-toolkit/src/lib/components/progress-spinner/progress-spinner.component';
-import {
   TimelineConfiguration
 } from '../../../../projects/arlas-toolkit/src/lib/components/timeline/timeline/timeline.utils';
-import { AnalyticsService } from '../../../../projects/arlas-toolkit/src/lib/services/analytics/analytics.service';
 import {
   ArlasAuthentificationService
 } from '../../../../projects/arlas-toolkit/src/lib/services/arlas-authentification/arlas-authentification.service';
 import { ArlasIamService } from '../../../../projects/arlas-toolkit/src/lib/services/arlas-iam/arlas-iam.service';
-import { ArlasOverlayService } from '../../../../projects/arlas-toolkit/src/lib/services/overlays/overlay.service';
-import { ProcessService } from '../../../../projects/arlas-toolkit/src/lib/services/process/process.service';
 import {
   ArlasConfigService,
   ArlasStartupService
 } from '../../../../projects/arlas-toolkit/src/lib/services/startup/startup.service';
 import { AuthentSetting, CollectionUnit, SpinnerOptions } from '../../../../projects/arlas-toolkit/src/lib/tools/utils';
-
+import { SearchContributor } from 'arlas-web-contributors';
+import {
+  AiasDownloadComponent,
+  AnalyticsService,
+  ArlasOverlayService,
+  ProcessService
+} from '../../../../projects/arlas-toolkit/src/public-api';
+import packageJson from '../../../../package.json';
+import { fromEvent } from 'rxjs';
+import {
+  DEFAULT_SPINNER_OPTIONS
+} from '../../../../projects/arlas-toolkit/src/lib/components/progress-spinner/progress-spinner.component';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'arlas-tool-home',
@@ -65,8 +67,7 @@ export class HomeComponent implements OnInit {
 
   public version: string;
 
-  public searchContributor: ChipsSearchContributor;
-  public CHIPSSEARCH_ID = 'chipssearch';
+  public searchContributors: SearchContributor[];
 
   public units: Array<CollectionUnit> = new Array();
   public connected = false;
@@ -98,9 +99,10 @@ export class HomeComponent implements OnInit {
     this.timelineComponentConfig = this.arlasConfigService.getValue('arlas.web.components.timeline');
     this.detailedTimelineComponentConfig = this.arlasConfigService.getValue('arlas.web.components.detailedTimeline');
 
-    const chipssearchContributorConfig = this.getContributorConfig(this.CHIPSSEARCH_ID);
-    if (chipssearchContributorConfig !== undefined) {
-      this.searchContributor = this.arlasStartupService.contributorRegistry.get(this.CHIPSSEARCH_ID) as ChipsSearchContributor;
+    const chipssearchContributorConfigs = this.getSearchContributorConfig();
+    if (chipssearchContributorConfigs !== undefined && chipssearchContributorConfigs.length > 0) {
+      this.searchContributors = chipssearchContributorConfigs
+        .map(c => this.arlasStartupService.contributorRegistry.get(c.identifier) as SearchContributor);
     }
 
     this.version = packageJson.version;
@@ -113,7 +115,7 @@ export class HomeComponent implements OnInit {
     if (!!authConfig && authConfig.use_authent) {
       if (authConfig.auth_mode === 'iam') {
         // IAM
-        this.arlasIamService.tokenRefreshed$.subscribe({next: (data) => this.connected = !!data && !!data.user});
+        this.arlasIamService.tokenRefreshed$.subscribe({ next: (data) => this.connected = !!data && !!data.user });
       } else {
         // AUTH 0
       }
@@ -173,7 +175,7 @@ export class HomeComponent implements OnInit {
       'xUnit': 'voiture',
       'yUnit': 'velo'
     };
-    this.arlasOverlayService.openHistogramTooltip({data: noTime}, this.tooltip, 0, 0, false);
+    this.arlasOverlayService.openHistogramTooltip({ data: noTime }, this.tooltip, 0, 0, false);
 
     fromEvent(window, 'resize')
       .subscribe((event: Event) => {
@@ -191,9 +193,9 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  private getContributorConfig(contributorIdentifier: string) {
-    return this.arlasStartupService.emptyMode ? undefined : this.arlasConfigService.getValue('arlas.web.contributors').find(
-      contrib => (contrib.identifier === contributorIdentifier)
+  private getSearchContributorConfig() {
+    return this.arlasStartupService.emptyMode ? undefined : this.arlasConfigService.getValue('arlas.web.contributors').filter(
+      contrib => (contrib.type === 'search' || contrib.type === 'chipssearch')
     );
   }
 
@@ -205,7 +207,7 @@ export class HomeComponent implements OnInit {
       AiasDownloadComponent,
       {
         minWidth: '520px',
-        maxWidth: '60vw' ,
+        maxWidth: '60vw',
         data: {
           nbProducts: 1,
           itemDetail: item,

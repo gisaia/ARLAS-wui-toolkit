@@ -25,6 +25,20 @@ $search-width: 400px;
     padding: 6px 4px;
 }
 
+.flex-span {
+    display: flex
+}
+
+.scale-down {
+    transform: scale(0.5);
+}
+
+.chip-collection {
+    transform: scale(0.5);
+    position: relative;
+    top: 6px;
+}
+
 .search-dialog {
     // Search width + padding width
     width: calc($search-width + 8px);
@@ -33,6 +47,16 @@ $search-width: 400px;
     padding: 0 4px;
 
     .arlas-search-container {
+        ::ng-deep .mat-icon-button {
+            width: 24px;
+            height: 24px;
+            line-height: 22px;
+        }
+
+        .mat-icon-button ::ng-deep .mat-button-focus-overlay {
+            display: none;
+        }
+
         min-width: 150px;
         display: flex;
         align-items: center;
@@ -46,11 +70,16 @@ $search-width: 400px;
             color: grey;
         }
 
+        .settings {
+            color: grey;
+        }
+
         .full-width-input {
             border: 0;
             width: 100%;
             font-size: 14px;
-            margin-bottom: 2px;
+            margin-bottom: -2px;
+            margin-left: 4px;
 
             &:focus {
                 outline: none;
@@ -89,9 +118,10 @@ $search-width: 400px;
             span {
                 padding: 0 4px;
             }
-
             .count {
                 color: #5a5555;
+                position: relative;
+                top: 10px;
             }
         }
     }
@@ -106,4 +136,35 @@ $search-width: 400px;
     border: 1px solid #a1a1a1;
     border-radius: 8px !important;
     box-shadow: none;
+}
+
+::ng-deep .settings-list .mat-menu-content {
+    display: flex;
+    flex-direction: column;
+    margin: 5px;
+    padding: 2px;
+    font-size: smaller;
+}
+
+
+
+::ng-deep .settings-list .mat-checkbox .mat-checkbox-frame {
+    transform: scale(0.8);
+    border-width: 2px;
+    border-style: solid;
+    border-radius: 3px;
+}
+
+::ng-deep .settings-list .mat-checkbox-checked .mat-checkbox-background {
+    transform: scale(0.8);
+    background-color: transparent;
+}
+
+::ng-deep .settings-list .mat-checkbox-inner-container {
+    margin-right: 0px;
+
+}
+
+::ng-deep .settings-list mat-checkbox .mat-checkbox-checkmark-path {
+    stroke: grey !important;
 }

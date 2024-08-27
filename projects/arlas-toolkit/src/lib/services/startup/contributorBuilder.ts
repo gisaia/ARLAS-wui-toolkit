@@ -25,7 +25,7 @@ import {
   SwimLaneContributor,
   ComputeContributor,
   TreeContributor,
-  ChipsSearchContributor,
+  SearchContributor,
   MapContributor,
   MetricsTableContributor
 } from 'arlas-web-contributors';
@@ -85,8 +85,9 @@ export class ContributorBuilder {
           titletree, collection
         );
         break;
+      case 'search':
       case 'chipssearch':
-        contributor = new ChipsSearchContributor(identifier,
+        contributor = new SearchContributor(identifier,
           collaborativesearchService,
           configService, collection
         );
