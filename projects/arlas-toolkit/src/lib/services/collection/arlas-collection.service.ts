@@ -61,18 +61,18 @@ export class ArlasCollectionService extends BaseCollectionService {
     }
   }
 
-  public getUnit(collectionName: string): string | null {
+  public getUnit(collectionName: string): string {
     if (this.appUnits.has(collectionName)) {
       return this.appUnits.get(collectionName).unit;
     }
-    return null;
+    return collectionName;
   };
 
   public getAllUnits(): CollectionUnit[] {
     return [...this.appUnits.values()];
   };
 
-  public getDisplayName(collectionName: string): string | undefined {
+  public getDisplayName(collectionName: string): string {
     return this.displayName.get(collectionName) || collectionName;
   }
 }
