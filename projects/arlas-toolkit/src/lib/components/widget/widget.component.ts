@@ -23,7 +23,7 @@ import { Contributor, CollaborationEvent, OperationEnum } from 'arlas-web-core';
 import { ChartType, HistogramComponent, CellBackgroundStyleEnum, DataType } from 'arlas-web-components';
 import { SwimlaneRepresentation, SwimlaneMode, Position } from 'arlas-d3';
 import { TranslateService } from '@ngx-translate/core';
-import { Subject } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { ArlasExportCsvService } from '../../services/export-csv/export-csv.service';
 import { SpinnerOptions, ArlasOverlayRef } from '../../tools/utils';
 import { ARLASDonutTooltip } from 'arlas-d3';
@@ -111,6 +111,8 @@ export class WidgetComponent implements OnInit {
 
   @ViewChild('histogram', { static: false }) public histogramComponent: HistogramComponent;
 
+  private _onDestroy$ = new Subject<boolean>();
+
   public constructor(private arlasStartupService: ArlasStartupService,
     private cdr: ChangeDetectorRef,
     private arlasCollaborativesearchService: ArlasCollaborativesearchService,
@@ -149,7 +151,6 @@ export class WidgetComponent implements OnInit {
   public ngOnInit() {
     this.contributorType = this.getContirbutorType();
     this.contributor = this.arlasStartupService.contributorRegistry.get(this.contributorId);
-    console.log(this.contributor);
     if (this.componentType === 'swimlane') {
       this.swimlanes = this.contributor.getConfigValue('swimlanes');
       if (this.swimlanes) {
@@ -164,15 +165,19 @@ export class WidgetComponent implements OnInit {
     /** Init filter operator (include/exclude) of powerbars */
     if (this.contributor instanceof TreeContributor) {
       this.setFilterOperator((this.contributor as TreeContributor).getFilterOperator());
-      this.contributor.operatorChangedEvent.subscribe(op => {
-        this.setFilterOperator(op);
-      });
+      this.contributor.operatorChangedEvent
+        .pipe(takeUntil(this._onDestroy$))
+        .subscribe(op => {
+          this.setFilterOperator(op);
+        });
     }
     if (this.contributor instanceof MetricsTableContributor) {
       this.setFilterOperator((this.contributor as MetricsTableContributor).getFilterOperator());
-      this.contributor.operatorChanged$.subscribe(op => {
-        this.setFilterOperator(op);
-      });
+      this.contributor.operatorChanged$
+        .pipe(takeUntil(this._onDestroy$))
+        .subscribe(op => {
+          this.setFilterOperator(op);
+        });
     }
   }
 

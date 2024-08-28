@@ -81,9 +81,9 @@
 </div>
 
 <div *ngIf="componentType === 'metricstable'">
-  <arlas-metrics-table 
+  <arlas-metrics-table
     [metricsTable]="contributor?.data"
-    [defaultSelection]="contributor?.selectedTerms"
+    [selectedTerms]="contributor?.selectedTerms"
     [filterOperator]="graphParam?.filterOperator"
     [useColorService]="graphParam?.useColorService"
     [applyColorTo]="graphParam?.applyColorTo"
