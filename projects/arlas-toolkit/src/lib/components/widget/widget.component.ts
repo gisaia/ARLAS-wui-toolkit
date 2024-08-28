@@ -39,12 +39,12 @@ import { DEFAULT_SPINNER_OPTIONS } from '../progress-spinner/progress-spinner.co
 @Component({
   selector: 'arlas-tool-widget',
   templateUrl: './widget.component.html',
-  styleUrls: ['./widget.component.css']
+  styleUrls: ['./widget.component.scss']
 })
 export class WidgetComponent implements OnInit {
 
   public chartType = ChartType;
-  public contributorType;
+  public contributorType: string;
   public contributor;
   public swimSelected;
   public swimlanes = [];
@@ -56,7 +56,7 @@ export class WidgetComponent implements OnInit {
   public donutOverlayRef: ArlasOverlayRef;
 
 
-  @Input() public componentType;
+  @Input() public componentType: string;
 
   /**
    * @Input : Angular
