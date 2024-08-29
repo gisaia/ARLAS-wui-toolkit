@@ -28,6 +28,7 @@
                                                 "enum": [
                                                     "analytics",
                                                     "chipssearch",
+                                                    "search",
                                                     "detailedhistogram",
                                                     "histogram",
                                                     "map",
@@ -64,6 +65,19 @@
                                         },
                                         "then": {
                                             "$ref": "chipssearchContributorConf.schema.json#"
+                                        }
+                                    },
+                                    {
+                                        "if": {
+                                            "type": "object",
+                                            "properties": {
+                                                "type": {
+                                                    "const": "search"
+                                                }
+                                            }
+                                        },
+                                        "then": {
+                                            "$ref": "searchContributorConf.schema.json#"
                                         }
                                     },
                                     {

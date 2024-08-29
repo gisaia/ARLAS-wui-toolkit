@@ -23,9 +23,7 @@ import { projType } from 'arlas-web-core';
 import { ComputationRequest, ComputationResponse } from 'arlas-api';
 import { LngLatBounds, Map, LngLat } from 'mapbox-gl';
 import bbox from '@turf/bbox';
-import { BBox } from '@turf/helpers';
 import { MapService } from '../../tools/utils';
-
 
 /**
  * This service provides methods to apply on the mapboxgl Map object
@@ -77,7 +75,7 @@ export class ArlasMapService implements MapService {
    * that is added as a padding to bbox of data (between 0 and 1). It allows to have some context around data
    */
   private toMapboxBounds(geometry: any, paddingPercentage?: number): LngLatBounds {
-    const boundingBox: BBox = bbox(geometry);
+    const boundingBox: any = bbox(geometry);
     let west = boundingBox[0];
     let south = boundingBox[1];
     let east = boundingBox[2];

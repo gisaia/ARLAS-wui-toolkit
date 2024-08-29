@@ -226,6 +226,7 @@ export class CustomTranslateLoader implements TranslateLoader {
       useClass: ArlasCollectionService
     }
     }),
+    GetCollectionDisplayModule,
     ColorGeneratorModule.forRoot({
       loader: {
         provide: ColorGeneratorLoader,

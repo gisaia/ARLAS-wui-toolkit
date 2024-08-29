@@ -22,7 +22,7 @@ import { OverlayRef } from '@angular/cdk/overlay';
 import { InjectionToken } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Contributor } from 'arlas-web-core';
-import { ChipsSearchContributor, ComputeContributor, DetailedHistogramContributor,
+import { ComputeContributor, DetailedHistogramContributor,
   HistogramContributor, ResultListContributor, SwimLaneContributor, TreeContributor } from 'arlas-web-contributors';
 import { ArlasError } from './errors/error';
 
@@ -307,9 +307,7 @@ export function getParamValue(param: string) {
 }
 
 export function hasContributorData(contributor: Contributor): boolean {
-  if (contributor instanceof ChipsSearchContributor) {
-    return contributor.chipMapData.size > 0;
-  } else if (contributor instanceof ComputeContributor) {
+  if (contributor instanceof ComputeContributor) {
     return contributor.metricValue !== undefined;
   } else if (contributor instanceof DetailedHistogramContributor) {
     return contributor.chartData.length > 0;
