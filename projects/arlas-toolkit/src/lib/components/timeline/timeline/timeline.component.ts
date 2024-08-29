@@ -69,12 +69,6 @@ export class TimelineComponent implements OnInit, OnDestroy {
 
   /**
    * @Input : Angular
-   * @description Units to use as display names for the timeline legend
-   */
-  @Input() public units: Array<CollectionUnit> = new Array();
-
-  /**
-   * @Input : Angular
    * @description Whether to display the timelines' histogram
    */
   @Input() public isDisplayHistogram = true;
