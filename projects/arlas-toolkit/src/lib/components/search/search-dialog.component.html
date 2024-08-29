@@ -1,13 +1,27 @@
 <form mat-dialog-content class="search-dialog">
     <div class="arlas-search-container">
-        <mat-icon class="search">search</mat-icon>
+        <span class="flex-span">
+            <mat-icon class="search">search</mat-icon>
+            <button *ngIf="displayCollectionSettings && searchContributors.length > 1" mat-icon-button
+                [matMenuTriggerFor]="menu">
+                <mat-icon class="settings">settings_outline</mat-icon>
+            </button>
+        </span>
+        <mat-menu #menu="matMenu" class="settings-list">
+            <mat-checkbox #menuItems id="{{ c.label }}" *ngFor="let c of collections;" [(ngModel)]="c.checked"
+                [ngModelOptions]="{standalone: true}" (click)="$event.stopPropagation()" [disableRipple]="true"
+                (change)="onChangeCollection($event)">
+                <span class="flex-span"><mat-icon class="scale-down"
+                        [style.color]="c.color">fiber_manual_record</mat-icon>
+                    {{ c.label | getCollectionDisplayName | translate }}</span></mat-checkbox>
+        </mat-menu>
         <input matInput [formControl]="searchCtrl" class="full-width-input" autocomplete="off"
-            placeholder="{{searchContributor?.getName() | translate}}" (keyup)="onKeyUp($event)" name="search">
+            placeholder="{{searchPlaceholder}}" (keyup)="onKeyUp($event)" name="search">
         <button *ngIf="searchCtrl.value" mat-icon-button type="button" class="close" (click)="clearSearch()">
             <mat-icon class="icon">close</mat-icon>
         </button>
     </div>
-    <ul class="autocomplete">
+    <ul class="autocomplete" *ngIf="searchContributors.length === 1">
         <li *ngFor="let search of filteredSearch | async" class="search-option"
             (click)="clickItemSearch(search.key_as_string)">
             <span class="key">{{ search.key_as_string }}</span>
@@ -16,7 +30,30 @@
         <li *ngIf="(filteredSearch | async).length === 0" class="search-warning">
             <!-- Under two characters, no search is performed -->
             <span *ngIf="searchCtrl.value === null || searchCtrl.value?.length < 2">{{ 'No search' | translate }}</span>
-            <span *ngIf="searchCtrl.value?.length >= 2">{{ (searching ? 'Searching' : 'No results') | translate }}</span>
+            <span *ngIf="searchCtrl.value?.length >= 2">{{ (searching ? 'Searching' : 'No results') | translate
+                }}</span>
+        </li>
+    </ul>
+
+    <ul class="autocomplete" *ngIf="searchContributors.length > 1">
+        <li *ngFor="let search of filteredSearch | async" class="search-option"
+            (click)="clickItemSearch(search.key_as_string)">
+            <span class="key">{{ search.key_as_string }}</span>
+            <div class="flex-span collections-count" >
+            <div *ngFor="let s of search.collections" class="flex-span">
+                <span class="flex-span">
+                    <mat-icon [matTooltip]="s.collection | getCollectionDisplayName | translate" 
+                    [style.color]="s.color"
+                        class="chip-collection">fiber_manual_record</mat-icon>
+                    <span class="count">{{ s.count }}</span>
+                </span>
+            </div>
+        </div>
+        </li>
+        <li *ngIf="(filteredSearch | async).length === 0" class="search-warning">
+            <!-- Under two characters, no search is performed -->
+            <span *ngIf="searchCtrl.value === null || searchCtrl.value?.length < 2">{{ 'No search' | translate }}</span>
+            <span *ngIf="searchCtrl.value?.length >= 2">{{ (searching ? 'Searching' : 'No results') | translate}}</span>
         </li>
     </ul>
 </form>
