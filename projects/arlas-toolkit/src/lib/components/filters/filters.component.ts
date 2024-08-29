@@ -16,18 +16,19 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import {
-  ChangeDetectorRef, Component, ViewEncapsulation, Input, ChangeDetectionStrategy,
-  OnInit, Output, PipeTransform, Pipe, OnChanges, SimpleChanges
+  ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges,
+  OnInit, Output, Pipe, PipeTransform, SimpleChanges, ViewEncapsulation
 } from '@angular/core';
-import { Subject } from 'rxjs';
-import { Contributor, Collaboration } from 'arlas-web-core';
 import { CollectionReferenceParameters } from 'arlas-api';
-import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from '../../services/startup/startup.service';
-import { CollectionUnit, CollectionCount, ZoomToDataStrategy } from '../../tools/utils';
-import { trigger, state, style, transition, animate } from '@angular/animations';
-import { isShortcutID } from '../filter-shortcut/filter-shortcut.utils';
 import { ArlasColorService } from 'arlas-web-components';
+import { Collaboration, Contributor } from 'arlas-web-core';
+import { Subject, take, takeUntil } from 'rxjs';
+import { ArlasCollectionService } from '../../services/collection/arlas-collection.service';
+import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from '../../services/startup/startup.service';
+import { CollectionCount, ZoomToDataStrategy } from '../../tools/utils';
+import { isShortcutID } from '../filter-shortcut/filter-shortcut.utils';
 
 @Pipe({ name: 'getContributorLabel' })
 export class GetContributorLabelPipe implements PipeTransform {
@@ -105,18 +106,6 @@ export class FiltersComponent implements OnInit, OnChanges {
 
   /**
    * @Input : Angular
-   * @description Title to display in filter bar
-   * @deprecated There is no display of the title in this component
-   */
-  @Input() public title = '';
-  /**
-   * @Input : Angular
-   * @description List of collection-unit
-   */
-  @Input() public units: CollectionUnit[] = [];
-
-  /**
-   * @Input : Angular
    * @description Background color of the filters chips
    */
   @Input() public backgroundColorFilter = '#FFF';
@@ -131,12 +120,6 @@ export class FiltersComponent implements OnInit, OnChanges {
    * @description Contributors identifier array which will be ignored from the filter summary
    */
   @Input() public ignoredContributors = new Array<string>();
-
-  /**
-   * @Input : Angular
-   * @description Url to a logo to display next the title
-   */
-  @Input() public logoUrl;
 
   /**
    * @Input : Angular
@@ -173,13 +156,6 @@ export class FiltersComponent implements OnInit, OnChanges {
 
   /**
    * @Output : Angular
-   * @description This output emit app name on click on the title of the filter
-   * @deprecated There is no display of the title in this component
-   */
-  @Output() public clickOnTitle: Subject<string> = new Subject<string>();
-
-  /**
-   * @Output : Angular
    * @description This output emit contributor id  on click on filter chip
    */
   @Output() public clickOnFilter: Subject<string> = new Subject<string>();
@@ -197,7 +173,7 @@ export class FiltersComponent implements OnInit, OnChanges {
   public collaborationByCollection: Array<{ collection: string; collaborationId: string; }> = [];
   public countAll: CollectionCount[];
   public extraCountAll: CollectionCount[];
-  public NUMBER_FORMAT_CHAR = 'NUMBER_FORMAT_CHAR';
+  public readonly NUMBER_FORMAT_CHAR = 'NUMBER_FORMAT_CHAR';
   public collaborationsMap: Map<string, Collaboration>;
   public isExtraOpen = false;
 
@@ -208,29 +184,33 @@ export class FiltersComponent implements OnInit, OnChanges {
    */
   public showExtraCollections = false;
 
+  private _onDestroy$ = new Subject<boolean>();
+
   public constructor(
     private collaborativeSearchService: ArlasCollaborativesearchService,
     private arlasStartupService: ArlasStartupService,
     private configService: ArlasConfigService,
     private arlasColorService: ArlasColorService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private collectionService: ArlasCollectionService
   ) {
-
     this.contributors = this.collaborativeSearchService.registry;
     this.subscribeToFutureCollaborations();
   }
 
   public ngOnInit(): void {
     this.contributorsIcons = new Map(this.getAllContributorsIcons());
-    if (!this.units) {
-      this.units = [];
-    }
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes['availableSpace'] || changes['extraTitleWidth']) {
       this.hideExtraCollections(true);
     }
+  }
+
+  public ngOnDestroy() {
+    this._onDestroy$.next(true);
+    this._onDestroy$.complete();
   }
 
   public removeCollaboration(contributorId: string): void {
@@ -250,7 +230,6 @@ export class FiltersComponent implements OnInit, OnChanges {
 
   public removeAllFilters(): void {
     this.collaborativeSearchService.removeAll();
-    this.clickOnTitle.next(this.title);
     this.cdr.detectChanges();
   }
 
@@ -281,16 +260,13 @@ export class FiltersComponent implements OnInit, OnChanges {
   }
 
   private subscribeToFutureCollaborations() {
-    this.collaborativeSearchService.collaborationBus.subscribe(collaborationBus => {
+    this.collaborativeSearchService.collaborationBus.pipe(takeUntil(this._onDestroy$)).subscribe(collaborationBus => {
       this.collaborationsMap = new Map(this.collaborativeSearchService.collaborations);
-      this.collaborativeSearchService.countAll.subscribe(count => {
+      this.collaborativeSearchService.countAll.pipe(take(1), takeUntil(this._onDestroy$)).subscribe(count => {
         if (!!count) {
           this.countAll = [];
-          /** respects order of units list that is given by config */
-          const unitsSet = new Set(this.units.map(u => u.collection));
           const countsMap = new Map<string, CollectionCount>();
           count.forEach(c => {
-            const unit = this.units.find(u => u.collection === c.collection);
             countsMap.set(c.collection, {
               collection: c.collection,
               count: c.count,
@@ -299,16 +275,19 @@ export class FiltersComponent implements OnInit, OnChanges {
                 !!this.collectionToDescription.get(c.collection).centroid_path,
               hasGeometryPath: !!this.collectionToDescription.get(c.collection) &&
                 !!this.collectionToDescription.get(c.collection).geometry_path,
-              unit: !!unit ? unit.unit : c.collection,
-              ignored: !!unit ? unit.ignored : false
+              unit: this.collectionService.getUnit(c.collection),
+              ignored: this.collectionService.isUnitIgnored(c.collection)
             });
           });
 
-          this.units.forEach(u => {
-            if (countsMap.get(u.collection)) {
-              this.countAll.push(countsMap.get(u.collection));
+          /** respects order of units list that is given by config */
+          const unitsSet = new Set(this.collectionService.getAllUnits().map(u => u.collection));
+          unitsSet.forEach(c => {
+            if (countsMap.get(c)) {
+              this.countAll.push(countsMap.get(c));
             }
           });
+          // Collections that don't have units are at the end of the list
           countsMap.forEach((v, k) => {
             if (!unitsSet.has(k)) {
               this.countAll.push(v);

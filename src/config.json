@@ -163,12 +163,12 @@
                 }
               ]
             },
-        
+
             {
               "termfield": "course.arrival.address.country",
               "collection": "demo_ais_flow",
               "metrics": [
-                
+
                 {
                   "metric": "count"
                 }
@@ -1330,7 +1330,7 @@
         "units": [
           {
             "collection": "demo_algoe",
-            "unit": "demo_algoe",
+            "unit": "buildings",
             "ignored": false
           }
         ],

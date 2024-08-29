@@ -22,7 +22,7 @@ import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AuthentificationService } from '../../services/authentification/authentification.service';
 import { CollectionReferenceDescription } from 'arlas-api';
 import { projType } from 'arlas-web-core';
-import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from '../../services/startup/startup.service';
+import { ArlasCollaborativesearchService, ArlasConfigService } from '../../services/startup/startup.service';
 import { ArlasSearchField } from '../share/model/ArlasSearchField';
 import { DeviceDetectorService, OS } from 'ngx-device-detector';
 import { MatSelectionList } from '@angular/material/list';
@@ -92,7 +92,6 @@ export class DownloadDialogComponent implements OnInit {
     private configService: ArlasConfigService,
     private authService: AuthentificationService,
     private deviceService: DeviceDetectorService,
-    private startupService: ArlasStartupService
   ) {
     this.collections = data;
     this.selectedCollection = data[0];

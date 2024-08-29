@@ -2,7 +2,7 @@
 <mat-dialog-content class="content">
     <div class="announcement"  *ngIf="!descriptionInputHidden">
         <span>{{'The current filters applied to' | translate}} </span>
-        <span class="collection">{{data.mainCollection}}, </span>
+        <span class="collection">{{ data.mainCollection | getCollectionDisplayName | translate }}, </span>
         <span>{{'will be associated to a new permission' | translate}} </span>
     </div>
     <div class="call_to_action"  *ngIf="!descriptionInputHidden">{{'Add permission description' | translate}}</div>

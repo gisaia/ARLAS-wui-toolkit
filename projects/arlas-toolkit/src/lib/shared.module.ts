@@ -58,6 +58,7 @@ import {
   DonutModule,
   FormatNumberModule,
   GetCollectionDisplayModule,
+  GetCollectionUnitModule,
   HistogramModule,
   MapglLegendModule,
   MetricModule,
@@ -99,9 +100,7 @@ import {
   GetContributorLabelPipe,
   GetGlobalColorFilterPipe
 } from './components/filters/filters.component';
-import {
-  HistogramTooltipOverlayComponent
-} from './components/histogram-tooltip-overlay/histogram-tooltip-overlay.component';
+import { HistogramTooltipOverlayComponent } from './components/histogram-tooltip-overlay/histogram-tooltip-overlay.component';
 import { HistogramWidgetComponent } from './components/histogram-widget/histogram-widget.component';
 import { DeniedAccessDialogComponent } from './components/denied-access-dialog/denied-access-dialog.component';
 import { LanguageSwitcherComponent } from './components/language-switcher/language-switcher.component';
@@ -243,7 +242,9 @@ export class CustomTranslateLoader implements TranslateLoader {
       }
     }),
     ArlasWalkthroughModule.forRoot(),
-    MarkdownModule.forRoot()
+    MarkdownModule.forRoot(),
+    GetCollectionUnitModule,
+    GetCollectionDisplayModule
   ],
   exports: [
     AnalyticsBoardComponent,
@@ -341,7 +342,8 @@ export class CustomTranslateLoader implements TranslateLoader {
     ContributorUpdatingPipe
   ],
   providers: [
-    ArlasOverlayService
+    ArlasOverlayService,
+    ArlasCollectionService
   ],
   entryComponents: [
     ReconnectDialogComponent,

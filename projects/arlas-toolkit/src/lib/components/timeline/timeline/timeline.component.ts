@@ -17,18 +17,19 @@
  * under the License.
  */
 
-import { Component, Input, OnInit, ViewChild, ChangeDetectorRef, ElementRef, Output, EventEmitter, OnDestroy } from '@angular/core';
-import { HistogramContributor, DetailedHistogramContributor } from 'arlas-web-contributors';
-import { OperationEnum } from 'arlas-web-core';
-import { ArlasCollaborativesearchService, ArlasStartupService } from '../../../services/startup/startup.service';
-import { SelectedOutputValues } from 'arlas-web-contributors/models/models';
-import { ChartType, DataType, Position, HistogramTooltip } from 'arlas-d3';
+import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { ChartType, DataType, HistogramTooltip, Position } from 'arlas-d3';
 import { ArlasColorService, HistogramComponent } from 'arlas-web-components';
-import { filter, take, takeUntil } from 'rxjs/operators';
-import { CollectionLegend, TimelineConfiguration } from './timeline.utils';
-import { ArlasOverlayService } from '../../../services/overlays/overlay.service';
-import { ArlasOverlayRef, CollectionUnit, getCollectionUnit } from '../../../tools/utils';
+import { DetailedHistogramContributor, HistogramContributor } from 'arlas-web-contributors';
+import { SelectedOutputValues } from 'arlas-web-contributors/models/models';
+import { OperationEnum } from 'arlas-web-core';
 import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { ArlasCollectionService } from '../../../services/collection/arlas-collection.service';
+import { ArlasOverlayService } from '../../../services/overlays/overlay.service';
+import { ArlasCollaborativesearchService, ArlasStartupService } from '../../../services/startup/startup.service';
+import { ArlasOverlayRef, CollectionUnit } from '../../../tools/utils';
+import { CollectionLegend, TimelineConfiguration } from './timeline.utils';
 
 
 /**
@@ -126,9 +127,12 @@ export class TimelineComponent implements OnInit, OnDestroy {
 
   private _onDestroy$ = new Subject<boolean>();
 
-  public constructor(protected arlasCollaborativesearchService: ArlasCollaborativesearchService, private cdr: ChangeDetectorRef,
-    private arlasStartupService: ArlasStartupService, private arlasOverlayService: ArlasOverlayService,
-    private arlasColorService: ArlasColorService) {
+  public constructor(
+    protected arlasCollaborativesearchService: ArlasCollaborativesearchService,
+    private arlasStartupService: ArlasStartupService,
+    private arlasOverlayService: ArlasOverlayService,
+    private arlasColorService: ArlasColorService,
+    private collectionService: ArlasCollectionService) {
   }
 
   public ngOnInit() {
@@ -138,18 +142,22 @@ export class TimelineComponent implements OnInit, OnDestroy {
       this.timelineContributor.updateData = true;
       this.mainCollection = this.timelineContributor.collection;
       this.resetHistogramsInputs(this.timelineComponent.input);
+      const displayName = this.collectionService.getDisplayName(this.mainCollection) !== this.mainCollection ?
+        this.collectionService.getDisplayName(this.mainCollection) : this.collectionService.getUnit(this.mainCollection);
       this.timelineLegend.push({
         collection: this.mainCollection,
-        display_name: getCollectionUnit(this.units, this.mainCollection),
+        display_name: displayName,
         color: this.arlasColorService.getColor(this.mainCollection),
         active: true,
         main: true
       });
       if (!!this.timelineContributor.additionalCollections) {
         this.timelineContributor.additionalCollections.forEach(ac => {
+          const displayName = this.collectionService.getDisplayName(ac.collectionName) !== ac.collectionName ?
+            this.collectionService.getDisplayName(ac.collectionName) : this.collectionService.getUnit(ac.collectionName);
           this.timelineLegend.push({
             collection: ac.collectionName,
-            display_name: getCollectionUnit(this.units, ac.collectionName),
+            display_name: displayName,
             color: this.arlasColorService.getColor(ac.collectionName),
             active: true,
             main: (ac.collectionName === this.mainCollection)
