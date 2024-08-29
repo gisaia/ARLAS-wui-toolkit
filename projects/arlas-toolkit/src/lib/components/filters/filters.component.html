@@ -25,7 +25,7 @@
             [style.background-color]="contributorId | getGlobalColorFilter:'background':colorFilter:backgroundColorFilter:collaborationsMap "
             (click)="changeCollaborationState(contributorId)"
             [matTooltip]="contributorId | getContributorLabel:contributors | translate">
-            <mat-icon class="icon">{{contributorId | getCollaborationIcon :contributorsIcons }}
+            <mat-icon class="icon">{{contributorId | getCollaborationIcon:contributorsIcons }}
             </mat-icon>
             <mat-icon (click)="removeCollaboration(contributorId)" class="icon_close mat-icon material-icons">
               clear</mat-icon>

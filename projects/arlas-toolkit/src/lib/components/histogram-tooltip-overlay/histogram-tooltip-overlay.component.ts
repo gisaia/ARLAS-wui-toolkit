@@ -34,7 +34,10 @@ export class HistogramTooltipOverlayComponent {
 
   public displayText = true;
 
-  public constructor(public overlayRef: ArlasOverlayRef, @Inject(HISTOGRAM_TOOLTIP_DATA) public tooltip: HistogramTooltip) {
+  public constructor(
+    public overlayRef: ArlasOverlayRef,
+    @Inject(HISTOGRAM_TOOLTIP_DATA) public tooltip: HistogramTooltip
+  ) {
     this.calculateDate();
   }
 

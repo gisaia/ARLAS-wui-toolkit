@@ -75,4 +75,11 @@ export class ArlasCollectionService extends BaseCollectionService {
   public getDisplayName(collectionName: string): string {
     return this.displayName.get(collectionName) || collectionName;
   }
+
+  public isUnitIgnored(collectionName: string): boolean {
+    if (this.appUnits.has(collectionName)) {
+      return this.appUnits.get(collectionName).ignored;
+    }
+    return false;
+  }
 }

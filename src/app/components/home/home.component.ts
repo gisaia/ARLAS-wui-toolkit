@@ -68,7 +68,6 @@ export class HomeComponent implements OnInit {
   public searchContributor: ChipsSearchContributor;
   public CHIPSSEARCH_ID = 'chipssearch';
 
-  public units: Array<CollectionUnit> = new Array();
   public connected = false;
 
   public windowWidth = window.innerWidth;
@@ -173,7 +172,7 @@ export class HomeComponent implements OnInit {
       'xUnit': 'voiture',
       'yUnit': 'velo'
     };
-    this.arlasOverlayService.openHistogramTooltip({data: noTime}, this.tooltip, 0, 0, false);
+    // this.arlasOverlayService.openHistogramTooltip({data: noTime}, this.tooltip, 0, 0, false);
 
     fromEvent(window, 'resize')
       .subscribe((event: Event) => {
