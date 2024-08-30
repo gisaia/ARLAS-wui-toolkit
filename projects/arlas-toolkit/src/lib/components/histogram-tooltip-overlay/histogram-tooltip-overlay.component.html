@@ -31,7 +31,7 @@
         </td>
         <td *ngIf="tooltip?.dataType === 'time'">
           <div class="value-unit">
-            {{ ((tooltip.yUnit && tooltip.yUnit.length > 0) ? tooltip.yUnit : y.chartId | getUnit) | translate }}
+            {{ ((tooltip.yUnit && tooltip.yUnit.length > 0) ? tooltip.yUnit : y.chartId | getCollectionUnit) | translate }}
           </div>
         </td>
         <td *ngIf="tooltip?.dataType !== 'time' && tooltip.yUnit !== undefined && tooltip.yUnit !== ''">
