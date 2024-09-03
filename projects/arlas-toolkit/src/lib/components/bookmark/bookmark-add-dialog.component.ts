@@ -17,9 +17,9 @@
  * under the License.
  */
 
-import { Component } from '@angular/core';
+import { Component, Inject, InjectionToken } from '@angular/core';
 import { ArlasBookmarkService } from '../../services/bookmark/bookmark.service';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormControl, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
@@ -34,7 +34,8 @@ export class BookmarkAddDialogComponent {
   public constructor(
     private bookmarkService: ArlasBookmarkService,
     private translateService: TranslateService,
-    public dialogRef: MatDialogRef<BookmarkAddDialogComponent>) { }
+    public dialogRef: MatDialogRef<BookmarkAddDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) protected data: { name: string | undefined; }) { }
 
   public cancel(): void {
     this.dialogRef.close();
@@ -43,7 +44,7 @@ export class BookmarkAddDialogComponent {
   public submit(): void {
     this.bookmarkName.setErrors({ 'incorrect': false });
     this.disableSubmit = true;
-    if (this.bookmarkName.value) {
+    if (this.bookmarkName.value && !this.data.name) {
       this.bookmarkService.addBookmark(this.bookmarkName.value).subscribe({
         next: () => {
           this.dialogRef.close();
@@ -59,6 +60,8 @@ export class BookmarkAddDialogComponent {
         },
         complete: () => this.disableSubmit = false
       });
+    } else {
+      this.dialogRef.close((this.bookmarkName.value));
     }
   }
 
@@ -68,3 +71,4 @@ export class BookmarkAddDialogComponent {
     }
   }
 }
+

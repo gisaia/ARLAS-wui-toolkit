@@ -19,6 +19,7 @@
 
 import { BehaviorSubject, map, Observable, of } from 'rxjs';
 import { sortOnDate, ArlasStorageObject } from './utils';
+import { mergeMap } from 'rxjs/operators';
 
 export class ArlasLocalDatabase<T extends ArlasStorageObject> {
   /** Stream that emits whenever the data has been modified. */
@@ -82,9 +83,7 @@ export class ArlasLocalDatabase<T extends ArlasStorageObject> {
 
 
   public update(id: string, storageObject: T): Observable<void> {
-    return of(true).pipe(map(v => {
-      this.remove(id);
-      this.add(storageObject);
-    }));
-  }
+    return of(true).pipe(mergeMap(v => this.remove(id).pipe(mergeMap(() => this.add(storageObject)))));
+  };
+
 }
