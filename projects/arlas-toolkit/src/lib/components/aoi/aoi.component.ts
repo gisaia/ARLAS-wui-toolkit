@@ -18,15 +18,15 @@
  */
 
 import { Component, Output } from '@angular/core';
-import { ArlasAoiService } from '../../services/aoi/aoi.service';
 import { Subject } from 'rxjs';
+import { ArlasAoiService } from '../../services/aoi/aoi.service';
 import { Aoi } from '../../services/aoi/model';
 import { ArlasDataSource } from '../../tools/arlasDataSource';
 
 @Component({
   selector: 'arlas-aoi',
   templateUrl: './aoi.component.html',
-  styleUrls: ['./aoi.component.css']
+  styleUrls: ['./aoi.component.scss']
 })
 export class AoiComponent {
 
@@ -34,7 +34,7 @@ export class AoiComponent {
   public columnsToDisplay = ['checked', 'name', 'date', 'actions'];
   public itemsCheck: Array<string> = new Array<string>();
 
-  @Output() public actions: Subject<{ action: string; id: string; geometry?: any; }> = new Subject<any>();
+  @Output() public actions = new Subject<{ action: string; id: string; geometry?: any; }>();
 
   public constructor(
     private aoiService: ArlasAoiService
@@ -42,7 +42,7 @@ export class AoiComponent {
     this.aois = new ArlasDataSource(this.aoiService.dataBase);
   }
 
-  public selectAoi(event, id) {
+  public selectAoi(event: { checked: boolean; }, id: string) {
     if (event.checked) {
       this.itemsCheck.push(id);
     } else {
@@ -61,7 +61,7 @@ export class AoiComponent {
 
   public removeAoi(id: string) {
     this.aoiService.removeAoi(id);
-    this.selectAoi({ event: { checked: false } }, id);
+    this.selectAoi({ checked: false }, id);
     this.actions.next({ action: 'remove', id: id });
   }
 }

@@ -8,12 +8,10 @@
   <ng-container matColumnDef="actions">
     <mat-header-cell *matHeaderCellDef> {{ 'Actions' | translate }} </mat-header-cell>
     <mat-cell *matCellDef="let aoi">
-      <mat-icon class="aoi-icons-action aoi-icons-action-view" title="{{ 'View' | translate }}" (click)="viewAoi(aoi.id)">
-        remove_red_eye
-      </mat-icon>
-      <mat-icon class="aoi-icons-action aoi-icons-action-delete" title="{{ 'Remove' | translate }}" (click)="removeAoi(aoi.id)">
-        delete
-      </mat-icon>
+      <mat-icon class="aoi-icons-action aoi-icons-action-view" [title]="'View' | translate"
+        (click)="viewAoi(aoi.id)">remove_red_eye</mat-icon>
+      <mat-icon class="aoi-icons-action aoi-icons-action-delete" [title]="'Remove' | translate"
+        (click)="removeAoi(aoi.id)">delete</mat-icon>
     </mat-cell>
   </ng-container>
   <ng-container matColumnDef="date">
