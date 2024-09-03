@@ -145,6 +145,15 @@ export class BookmarkComponent {
     this.actions.next({ action: 'view-combine', id: this.itemsCheck.join('#') });
     this.itemsCheck = new Array<string>();
   }
+
+  public updateBookMarkName(id, name){
+    const dialogRef = this.dialog.open(BookmarkAddDialogComponent, { data: { name: name } });
+    dialogRef.afterClosed().subscribe(bookmarkName => {
+      if (bookmarkName) {
+        this.bookmarkService.updateBookmarkName(bookmarkName, id);
+      }
+    });
+  }
 }
 
 

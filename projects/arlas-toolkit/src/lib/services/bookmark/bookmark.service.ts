@@ -221,6 +221,12 @@ export class ArlasBookmarkService {
     return initBookmark;
   }
 
+  public updateBookmarkName(bookmarkName: string, id: string){
+    const bookmark = this.getBookmarkById(id);
+    bookmark.name = bookmarkName;
+    this.dataBase.update(id, bookmark).subscribe(() => console.log(this.bookMarkMap));
+  }
+
   private viewFromDataModel(dataModel: Object) {
     this.collaborativesearchService.setCollaborations(dataModel);
     let language = null;

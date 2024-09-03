@@ -8,10 +8,18 @@
   <ng-container matColumnDef="actions">
     <mat-header-cell *matHeaderCellDef>{{ 'Actions' | translate }} </mat-header-cell>
     <mat-cell *matCellDef="let bookmark">
-      <mat-icon class="bookmark-icons-action bookmark-icons-action-view" (click)="viewBookmark(bookmark.id)">
-        remove_red_eye</mat-icon>
-      <mat-icon class="bookmark-icons-action bookmark-icons-action-delete" (click)="removeBookmark(bookmark.id)">delete
-      </mat-icon>
+      <mat-icon    mat-icon-button style="cursor: pointer;" (click)="$event.stopPropagation()"  [matMenuTriggerFor]="menu">more_vert</mat-icon>
+      <mat-menu #menu="matMenu">
+          <button mat-menu-item  (click)="viewBookmark(bookmark.id)">
+              <mat-icon>remove_red_eye</mat-icon><span>{{'View' | translate}}</span>
+          </button>
+          <button mat-menu-item (click)="removeBookmark(bookmark.id)">
+              <mat-icon >delete</mat-icon><span>{{'Delete' | translate}}</span>
+          </button>
+          <button mat-menu-item (click)="updateBookMarkName(bookmark.id, bookmark.name)">
+            <mat-icon >edit</mat-icon><span>{{'Rename' | translate}}</span>
+        </button>
+      </mat-menu>
     </mat-cell>
   </ng-container>
   <ng-container matColumnDef="date">

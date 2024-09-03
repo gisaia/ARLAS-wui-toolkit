@@ -94,10 +94,12 @@ export class ArlasPersistenceDatabase<T extends ArlasStorageObject> {
   }
 
   public update(id: string, storageObject: T): Observable<void> {
-    return this.persistenceService.update(id, JSON.stringify(storageObject), Date.now())
-      .pipe(catchError(e => of(e)), mergeMap((result =>
-        this.list(this.page.size, this.page.number, 'desc')
-      )));
+    return this.persistenceService.get(id)
+      .pipe(mergeMap(s => this.persistenceService.update(id, JSON.stringify(storageObject), (s.last_update_date as any))
+        .pipe(catchError(e => of(e)), mergeMap((result =>
+          this.list(this.page.size, this.page.number, 'desc')
+        )))));
+
   }
 
   public setPage(page: { size: number; number: number; }) {
