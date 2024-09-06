@@ -1,6 +1,14 @@
 # Change Log
 
-## [v26.0.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.0.0) (2024-08-30)
+## [v26.0.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.0.1) (2024-09-06)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v26.0.0...v26.0.1)
+
+**New stuff:**
+
+- Update function in ArlasPersistenceDatabase dont work [\#610](https://github.com/gisaia/ARLAS-wui-toolkit/issues/610)
+
+## [v26.0.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.0.0) (2024-09-02)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v26.0.0-rc.5...v26.0.0)
 
