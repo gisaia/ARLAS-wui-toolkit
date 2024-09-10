@@ -21,9 +21,10 @@ import { Injectable } from '@angular/core';
 import { ArlasCollaborativesearchService } from '../startup/startup.service';
 import { projType } from 'arlas-web-core';
 import { ComputationRequest, ComputationResponse } from 'arlas-api';
-import { LngLatBounds, Map, LngLat } from 'mapbox-gl';
+import { LngLat, LngLatBounds } from 'mapbox-gl';
 import bbox from '@turf/bbox';
 import { MapService } from '../../tools/utils';
+import { ArlasMapGL } from "arlas-web-components/lib/components/mapgl/model/ArlasMapGL";
 
 /**
  * This service provides methods to apply on the mapboxgl Map object
@@ -31,7 +32,7 @@ import { MapService } from '../../tools/utils';
 @Injectable()
 export class ArlasMapService implements MapService {
 
-  public map: Map;
+  public map: ArlasMapGL;
 
   public constructor(private collaborativeSearchService: ArlasCollaborativesearchService) {
   }
@@ -43,7 +44,7 @@ export class ArlasMapService implements MapService {
    * @param paddingPercentage a percentage of the extent's height and width
    * that is added as a padding to bbox of data (between 0 and 1). It allows to have some context around data
    */
-  public zoomToData(collection: string, geoPointField: string, map: Map, paddingPercentage?: number) {
+  public zoomToData(collection: string, geoPointField: string, map: ArlasMapGL, paddingPercentage?: number) {
     const computationRequest: ComputationRequest = {
       metric: ComputationRequest.MetricEnum.GEOBBOX,
       field: geoPointField
@@ -65,7 +66,7 @@ export class ArlasMapService implements MapService {
    *
    * @param map mapbox map instance
    */
-  public setMap(map: Map) {
+  public setMap(map: ArlasMapGL) {
     this.map = map;
   }
   /**
