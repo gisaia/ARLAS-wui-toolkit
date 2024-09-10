@@ -4,7 +4,7 @@
       <div class="title">
         <h2>ARLAS - {{'Sign up' | translate}}</h2>
       </div>
-      <div>
+      <div *ngIf="allowRegister; else notAllowed">
         <div class="subtitle">
           {{'It’s quick and easy !' | translate}}
           <br />
@@ -43,6 +43,12 @@
           </div>
         </form>
       </div>
+      <ng-template #notAllowed>
+        <div class="not-allowed">
+          {{'Registration is not enabled' | translate}}
+        </div>
+      </ng-template>
     </div>
+    
   </div>
 </div>

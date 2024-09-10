@@ -20,6 +20,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
 import { ArlasIamService } from '../../services/arlas-iam/arlas-iam.service';
+import { ArlasSettingsService } from '../../services/settings/arlas.settings.service';
 
 @Component({
   selector: 'arlas-tool-register',
@@ -31,16 +32,23 @@ export class RegisterComponent implements OnInit {
   public signUpForm: FormGroup;
   public validated = false;
   public displayForm = true;
+  public allowRegister = false;
 
   public constructor(
     private formBuilder: FormBuilder,
     private iamService: ArlasIamService,
+    private settingsService: ArlasSettingsService,
+
   ) { }
 
   public ngOnInit(): void {
-    this.signUpForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]]
-    });
+    const authSettings = this.settingsService.getAuthentSettings();
+    this.allowRegister = authSettings.sign_up_enabled;
+    if (this.allowRegister) {
+      this.signUpForm = this.formBuilder.group({
+        email: ['', [Validators.required, Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]]
+      });
+    }
   }
 
   public onSubmit(formDirective: FormGroupDirective) {
