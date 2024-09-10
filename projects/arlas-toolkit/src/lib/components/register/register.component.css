@@ -116,3 +116,10 @@
 .terms a:hover {
   text-decoration: underline;
 }
+
+.not-allowed {
+  text-align: center;
+  padding: 20px;
+  background: #ededed;
+  color: #606770;
+}
