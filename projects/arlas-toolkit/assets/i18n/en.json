@@ -190,7 +190,7 @@
 	"Missing permissions to create a dashboard": "Missing permissions to create a dashboard",
 	"A configuration with this name exists already, please choose another name": "A dashboard with this name exists already, please choose another name",
 	"An error occurred, please try later": "An error occurred, please try later",
-	"Loading data of": "",
+	"Loading data of": "Loading data of",
 	"Search...": "Search...",
 	"Datepicker.upSecondLabel": "Add a second",
 	"Datepicker.downSecondLabel": "Minus a second",
