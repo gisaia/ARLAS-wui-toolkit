@@ -188,6 +188,7 @@
 	"Datepicker.hour12AMLabel": "AM",
 	"Datepicker.hour12PMLabel": "PM",
 	"extraAboutText": "",
+	"Loading bookmark": "Chargement du bookmark {{bookmark}}",
 	"count": "Nombre",
 	"tour.nextBtn": "Suivant",
 	"tour.prevBtn": "Précédent",
@@ -276,5 +277,4 @@
 	"failed": "en erreur",
 	"dissmissed": "annulé",
 	"You are about to create a new permission on data, based on the current filters applied to": "Vous êtes sur le point de créer une nouvelle permission sur les données, basée sur les filtres actuels appliqués à"
-
 }

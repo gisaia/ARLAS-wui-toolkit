@@ -188,6 +188,7 @@
 	"Datepicker.hour12AMLabel": "AM",
 	"Datepicker.hour12PMLabel": "PM",
 	"extraAboutText": "",
+	"Loading bookmark": "Loading bookmark {{bookmark}}",
 	"count": "count",
 	"tour.nextBtn": "Next",
 	"tour.prevBtn": "Previous",
