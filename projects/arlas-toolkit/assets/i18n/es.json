@@ -211,6 +211,7 @@
 	"Datepicker.hour12AMLabel": "AM",
 	"Datepicker.hour12PMLabel": "PM",
 	"extraAboutText": "",
+	"Loading bookmark": "Cargango marcador {{bookmark}}",
 	"count": "Recuenta",
 	"tour.nextBtn": "Siguiente",
 	"tour.prevBtn": "Precedente",
