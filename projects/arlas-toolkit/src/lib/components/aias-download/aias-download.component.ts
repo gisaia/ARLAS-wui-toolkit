@@ -41,7 +41,7 @@ export class AiasDownloadComponent implements OnInit, OnDestroy {
 
   public formGroup: FormGroup = new FormGroup({
     raw_archive: new FormControl<boolean>(true),
-    crop_wkt: new FormControl<boolean | string>(false),
+    crop_wkt: new FormControl<boolean>(false),
     target_projection: new FormControl<string>(marker('native')),
     target_format: new FormControl<string>('native')
   });
@@ -165,7 +165,7 @@ export class AiasDownloadComponent implements OnInit, OnDestroy {
     this.hasError = false;
     const payload = this.formGroup.value;
     payload['crop_wkt'] = '';
-    if(this.formGroup.get('crop_wkt') && this.hasAoi){
+    if(this.formGroup.get('crop_wkt').value === true && this.hasAoi){
       payload['crop_wkt'] = this.data.wktAoi;
     }
 
