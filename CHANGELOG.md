@@ -1,5 +1,94 @@
 # Change Log
 
+## [v24.3.19](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.3.19) (2024-09-11)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v26.0.5...v24.3.19)
+
+## [v26.0.5](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.0.5) (2024-09-11)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v26.0.4...v26.0.5)
+
+## [v26.0.4](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.0.4) (2024-09-11)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v26.0.3...v26.0.4)
+
+## [v26.0.3](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.0.3) (2024-09-10)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v26.0.2...v26.0.3)
+
+## [v26.0.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.0.2) (2024-09-10)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v26.0.1...v26.0.2)
+
+## [v26.0.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.0.1) (2024-09-06)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v26.0.0...v26.0.1)
+
+**New stuff:**
+
+- Update function in ArlasPersistenceDatabase dont work [\#610](https://github.com/gisaia/ARLAS-wui-toolkit/issues/610)
+
+## [v26.0.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.0.0) (2024-09-02)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v26.0.0-rc.5...v26.0.0)
+
+## [v26.0.0-rc.5](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.0.0-rc.5) (2024-08-30)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v26.0.0-rc.4...v26.0.0-rc.5)
+
+## [v26.0.0-rc.4](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.0.0-rc.4) (2024-08-29)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v26.0.0-rc.3...v26.0.0-rc.4)
+
+## [v26.0.0-rc.3](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.0.0-rc.3) (2024-08-27)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v26.0.0-rc.2...v26.0.0-rc.3)
+
+## [v26.0.0-rc.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.0.0-rc.2) (2024-08-23)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v26.0.0-rc.1...v26.0.0-rc.2)
+
+## [v26.0.0-rc.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.0.0-rc.1) (2024-08-22)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v25.2.0-beta.2...v26.0.0-rc.1)
+
+## [v25.2.0-beta.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v25.2.0-beta.2) (2024-08-07)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v25.2.0-beta.1...v25.2.0-beta.2)
+
+## [v25.2.0-beta.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v25.2.0-beta.1) (2024-08-06)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v26.0.0-beta.2...v25.2.0-beta.1)
+
+## [v26.0.0-beta.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.0.0-beta.2) (2024-07-18)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v25.1.2...v26.0.0-beta.2)
+
+## [v25.1.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v25.1.2) (2024-07-18)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v26.0.0-beta.1...v25.1.2)
+
+## [v26.0.0-beta.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.0.0-beta.1) (2024-07-15)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v25.1.1...v26.0.0-beta.1)
+
+## [v25.1.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v25.1.1) (2024-07-12)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v25.1.0...v25.1.1)
+
+## [v25.1.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v25.1.0) (2024-07-09)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.3.18...v25.1.0)
+
+**New stuff:**
+
+- Update layout of X and Y labels in histogram tooltip  [\#781](https://github.com/gisaia/ARLAS-wui-toolkit/issues/781)
+- Disable add bookmark button while waiting for server answer [\#728](https://github.com/gisaia/ARLAS-wui-toolkit/issues/728)
+
+**Fixed bugs:**
+
+- Retrocompatibility with stored bookmarks with collection attribute bug [\#802](https://github.com/gisaia/ARLAS-wui-toolkit/issues/802)
+
 ## [v24.3.18](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.3.18) (2024-07-01)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v23.3.18...v24.3.18)
