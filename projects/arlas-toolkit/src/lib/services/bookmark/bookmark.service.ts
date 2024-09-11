@@ -22,7 +22,7 @@ import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Expression, Filter } from 'arlas-api';
 import { Collaboration, projType, fromEntries } from 'arlas-web-core';
-import { Observable, Subject, zip } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { getKeyForColor } from '../../tools/utils';
 import { AuthentificationService } from '../authentification/authentification.service';
@@ -31,21 +31,25 @@ import { ArlasCollaborativesearchService, ArlasStartupService } from '../startup
 import { BookmarkLocalDatabase } from './bookmarkLocalDatabase';
 import { BookmarkPersistenceDatabase } from './bookmarkPersistenceDatabase';
 import { BookMark, BookMarkType } from './model';
+import { TranslateService } from '@ngx-translate/core';
 
 /** Constants used to fill up our data base. */
 @Injectable()
 export class ArlasBookmarkService {
   public dataBase: BookmarkLocalDatabase | BookmarkPersistenceDatabase;
   public bookMarkMap: Map<string, BookMark> = new Map<string, BookMark>();
-  public selectorById;
+  public selectorById: string;
   public onAction = new Subject<{ action: string; id: string; }>();
 
-  public constructor(private collaborativesearchService: ArlasCollaborativesearchService,
-    private activatedRoute: ActivatedRoute, public snackBar: MatSnackBar,
+  public constructor(
+    private collaborativesearchService: ArlasCollaborativesearchService,
+    private activatedRoute: ActivatedRoute,
+    public snackBar: MatSnackBar,
     public arlasStartupService: ArlasStartupService,
     private authentService: AuthentificationService,
     private persistenceService: PersistenceService,
-    private router: Router) {
+    private router: Router,
+    private translate: TranslateService) {
     if (this.arlasStartupService.shouldRunApp && !this.arlasStartupService.emptyMode) {
       if (this.persistenceService.isAvailable && this.authentService.hasValidAccessToken() && this.authentService.hasValidIdToken()) {
         this.dataBase = new BookmarkPersistenceDatabase(this, this.persistenceService, this.arlasStartupService);
@@ -141,13 +145,7 @@ export class ArlasBookmarkService {
     const bookmark = this.getBookmarkById(id);
     const dataModel = this.collaborativesearchService.dataModelBuilder(decodeURI(bookmark.url), true);
     this.viewFromDataModel(dataModel);
-    this.dataBase.incrementBookmarkView(bookmark.id).subscribe(() => {
-      this.onAction.next({
-        action: 'view',
-        id: id
-      });
-      this.openSnackBar(bookmark.name + ' loading');
-    });
+    this.openSnackBar(this.translate.instant('Loading bookmark', {bookmark: bookmark.name}));
   }
 
   public openSnackBar(message: string) {
@@ -163,21 +161,18 @@ export class ArlasBookmarkService {
   }
 
   public viewCombineBookmark(selectedBookmark: Set<string>) {
-    // Increment view of each selected Bookmark
-    zip([...selectedBookmark].map(bookmarkId => this.dataBase.incrementBookmarkView(bookmarkId))).subscribe(() => {
-      let dataModel;
-      if (this.bookMarkMap.get(Array.from(selectedBookmark)[0]).type === BookMarkType.enumIds) {
-        const url = this.getUrlFomSetIds(this.combineBookmarkFromIds(selectedBookmark, true));
-        dataModel = this.collaborativesearchService.dataModelBuilder(decodeURI(url), true);
-      } else {
-        dataModel = this.combineBookmarkFromFilter(selectedBookmark, true);
-      }
-      this.viewFromDataModel(dataModel);
-    });
+    let dataModel: Object;
+    if (this.bookMarkMap.get(Array.from(selectedBookmark)[0]).type === BookMarkType.enumIds) {
+      const url = this.getUrlFomSetIds(this.combineBookmarkFromIds(selectedBookmark, true));
+      dataModel = this.collaborativesearchService.dataModelBuilder(decodeURI(url), true);
+    } else {
+      dataModel = this.combineBookmarkFromFilter(selectedBookmark, true);
+    }
+    this.viewFromDataModel(dataModel);
   }
 
-  public init(bookmark: BookMark): BookMark {
-    const initBookmark = {
+  public init(bookmark: BookMark) {
+    const initBookmark: BookMark = {
       id: bookmark.id,
       date: new Date(bookmark.date),
       name: bookmark.name,
