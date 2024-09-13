@@ -28,6 +28,7 @@ import { HomeComponent } from './components/home/home.component';
 import { LoginModule } from '../../projects/arlas-toolkit/src/lib/login.module';
 import { RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
   imports: [
@@ -38,7 +39,8 @@ import { MatButtonModule } from '@angular/material/button';
     MatIconModule,
     MatButtonModule,
     LoginModule,
-    RouterModule
+    RouterModule,
+    MatMenuModule
   ],
   exports: [AppComponent],
   declarations: [AppComponent, HomeComponent, ContactComponent],

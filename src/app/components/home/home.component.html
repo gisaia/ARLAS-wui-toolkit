@@ -13,7 +13,16 @@
     </ng-container>
   </div>
   <div right-menu>
-      <button *ngIf="connected" mat-flat-button color="accent" (click)="logout()">Log out</button>
+    <button mat-icon-button [matMenuTriggerFor]="actionMenu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #actionMenu="matMenu">
+      <button mat-menu-item [matMenuTriggerFor]="bookmarkMenu.matMenu">
+        <mat-icon>bookmark</mat-icon>
+        <span>Bookmarks</span>
+      </button>
+    </mat-menu>
+    <button *ngIf="connected" mat-flat-button color="accent" (click)="logout()">Log out</button>
   </div>
 </arlas-top-menu>
 
@@ -31,3 +40,4 @@
 <arlas-analytics-board class="arlas-board" [showSpinner]="true" [showIndicators]="true"></arlas-analytics-board>
 <arlas-tool-root></arlas-tool-root>
 
+<arlas-bookmark-menu #bookmarkMenu></arlas-bookmark-menu>
