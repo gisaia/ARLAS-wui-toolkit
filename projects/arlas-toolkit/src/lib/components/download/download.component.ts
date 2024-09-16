@@ -18,7 +18,7 @@
  */
 import { Component, Inject, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { AuthentificationService } from '../../services/authentification/authentification.service';
 import { CollectionReferenceDescription } from 'arlas-api';
 import { projType } from 'arlas-web-core';
@@ -26,6 +26,7 @@ import { ArlasCollaborativesearchService, ArlasConfigService } from '../../servi
 import { ArlasSearchField } from '../share/model/ArlasSearchField';
 import { DeviceDetectorService, OS } from 'ngx-device-detector';
 import { MatSelectionList } from '@angular/material/list';
+import { orderAlphabeticallyArlasSearchFields } from "../../tools/utils";
 
 export const ARLAS_HITS_EXPORTER_VERSION = 2.2;
 
@@ -138,7 +139,9 @@ export class DownloadDialogComponent implements OnInit {
           Object.keys(fields).forEach(fieldName => {
             this.getFieldProperties(fields, fieldName);
           });
+          this.allFields.sort(orderAlphabeticallyArlasSearchFields);
         }
+
       },
       error => {
         this.collaborativeService.collaborationErrorBus.next(error);

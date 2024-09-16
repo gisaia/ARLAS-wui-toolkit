@@ -22,9 +22,16 @@ import { OverlayRef } from '@angular/cdk/overlay';
 import { InjectionToken } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Contributor } from 'arlas-web-core';
-import { ComputeContributor, DetailedHistogramContributor,
-  HistogramContributor, ResultListContributor, SwimLaneContributor, TreeContributor } from 'arlas-web-contributors';
+import {
+  ComputeContributor,
+  DetailedHistogramContributor,
+  HistogramContributor,
+  ResultListContributor,
+  SwimLaneContributor,
+  TreeContributor
+} from 'arlas-web-contributors';
 import { ArlasError } from './errors/error';
+import { ArlasSearchField } from "../components/share/model/ArlasSearchField";
 
 export const CONFIG_ID_QUERY_PARAM = 'config_id';
 export const GET_OPTIONS = new InjectionToken<Function>('get_options');
@@ -323,4 +330,16 @@ export function hasContributorData(contributor: Contributor): boolean {
     // Other types of histogram don't have data
     return false;
   }
+}
+
+export function orderAlphabeticallyArlasSearchFields(arlasSearchFieldA: ArlasSearchField, arlasSearchFieldB: ArlasSearchField,){
+    let startLetter = arlasSearchFieldA?.label.trim()[0];
+    let startLetterCmp = arlasSearchFieldB?.label.trim()[0];
+    if(startLetter > startLetterCmp) {
+      return 1;
+    } else if(startLetter < startLetterCmp) {
+      return -1;
+    } else {
+      return 0;
+    }
 }
