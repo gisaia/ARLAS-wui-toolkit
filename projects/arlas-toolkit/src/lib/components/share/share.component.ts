@@ -16,9 +16,9 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { Component, Input, OnInit, ViewEncapsulation, Inject } from '@angular/core';
+import { Component, Inject, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Aggregation } from 'arlas-api';
 import { projType } from 'arlas-web-core';
 import { ArlasSearchField } from './model/ArlasSearchField';
@@ -30,6 +30,8 @@ import * as FileSaver from 'file-saver';
 import { TranslateService } from '@ngx-translate/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ARLAS_VSET } from 'arlas-web-components';
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { marker } from "@biesbjerg/ngx-translate-extract-marker";
 
 
 export interface ShareLayerSourceConfig extends LayerSourceConfig {
@@ -114,7 +116,8 @@ export class ShareDialogComponent implements OnInit {
     private configService: ArlasConfigService,
     public dialogRef: MatDialogRef<ShareDialogComponent>,
     private spinner: NgxSpinnerService,
-    public translate: TranslateService
+    public translate: TranslateService,
+    private snackBar: MatSnackBar,
   ) { }
 
   public isSelected(field: ArlasSearchField): boolean {
@@ -246,9 +249,15 @@ export class ShareDialogComponent implements OnInit {
       }
       this.collaborativeService.resolveButNotFeatureCollection([projType.geosearch, this.request],
         this.collaborativeService.collaborations, this.layerCollectionMap.get(geojsonType.id))
-        .subscribe(f => {
+        .subscribe({next: f => {
           this.saveJson(f, (this.translate.instant(geojsonType.id) + '').toLowerCase().replace(/ /g, '_') + '-' + fileDate + '-geojson.json');
           this.spinner.hide('downloadgeojson');
+          this.dialogRef.close();
+        },
+          error: () => {
+            this.spinner.hide('downloadgeojson');
+            this.snackBar.open(marker('An error occured'));
+          }
         });
     } else {
       this.request = (this.request as Aggregation);
@@ -257,9 +266,15 @@ export class ShareDialogComponent implements OnInit {
       }
       this.collaborativeService.resolveButNotFeatureCollection([projType.geoaggregate, [this.request]],
         this.collaborativeService.collaborations, this.layerCollectionMap.get(geojsonType.id))
-        .subscribe(f => {
+        .subscribe({next: f => {
           this.saveJson(f, (this.translate.instant(geojsonType.id) + '').toLowerCase().replace(/ /g, '_') + '-' + fileDate + '-geojson.json');
           this.spinner.hide('downloadgeojson');
+          this.dialogRef.close();
+         },
+          error: () => {
+            this.spinner.hide('downloadgeojson');
+            this.snackBar.open(marker('An error occured'));
+          }
         });
     }
   }
@@ -284,13 +299,20 @@ export class ShareDialogComponent implements OnInit {
       }
       this.collaborativeService.resolveButNotShapefile([projType.shapesearch, this.request],
         this.collaborativeService.collaborations, this.layerCollectionMap.get(geojsonType.id))
-        .subscribe(data => {
+        .subscribe({next: (data) => {
           const blob = new Blob([data], {
             type: 'application/zip'
           });
           const url = window.URL.createObjectURL(blob);
           window.open(url);
           this.spinner.hide('downloadshapefile');
+          this.dialogRef.close();
+        },
+          error: () => {
+            this.spinner.hide('downloadshapefile');
+            this.snackBar.open(marker('An error occured'));
+          }
+
         });
     } else {
       this.request = (this.request as Aggregation);
@@ -299,13 +321,19 @@ export class ShareDialogComponent implements OnInit {
       }
       this.collaborativeService.resolveButNotShapefile([projType.shapeaggregate, [this.request]],
         this.collaborativeService.collaborations, this.layerCollectionMap.get(geojsonType.id))
-        .subscribe(data => {
+        .subscribe({next: data => {
           const blob = new Blob([data], {
             type: 'application/zip'
           });
           const url = window.URL.createObjectURL(blob);
           window.open(url);
           this.spinner.hide('downloadshapefile');
+          this.dialogRef.close();
+        },
+        error: (err) => {
+          this.spinner.hide('downloadshapefile');
+          this.snackBar.open(marker('An error occured'));
+        }
         });
     }
   }
