@@ -30,8 +30,8 @@ import * as FileSaver from 'file-saver';
 import { TranslateService } from '@ngx-translate/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ARLAS_VSET } from 'arlas-web-components';
-import { MatSnackBar } from "@angular/material/snack-bar";
-import { marker } from "@biesbjerg/ngx-translate-extract-marker";
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 
 
 export interface ShareLayerSourceConfig extends LayerSourceConfig {
@@ -254,10 +254,10 @@ export class ShareDialogComponent implements OnInit {
           this.spinner.hide('downloadgeojson');
           this.dialogRef.close();
         },
-          error: () => {
-            this.spinner.hide('downloadgeojson');
-            this.snackBar.open(marker('An error occured'));
-          }
+        error: () => {
+          this.spinner.hide('downloadgeojson');
+          this.snackBar.open(marker('An error occured'));
+        }
         });
     } else {
       this.request = (this.request as Aggregation);
@@ -270,11 +270,11 @@ export class ShareDialogComponent implements OnInit {
           this.saveJson(f, (this.translate.instant(geojsonType.id) + '').toLowerCase().replace(/ /g, '_') + '-' + fileDate + '-geojson.json');
           this.spinner.hide('downloadgeojson');
           this.dialogRef.close();
-         },
-          error: () => {
-            this.spinner.hide('downloadgeojson');
-            this.snackBar.open(marker('An error occured'));
-          }
+        },
+        error: () => {
+          this.spinner.hide('downloadgeojson');
+          this.snackBar.open(marker('An error occured'));
+        }
         });
     }
   }
@@ -308,10 +308,10 @@ export class ShareDialogComponent implements OnInit {
           this.spinner.hide('downloadshapefile');
           this.dialogRef.close();
         },
-          error: () => {
-            this.spinner.hide('downloadshapefile');
-            this.snackBar.open(marker('An error occured'));
-          }
+        error: () => {
+          this.spinner.hide('downloadshapefile');
+          this.snackBar.open(marker('An error occured'));
+        }
 
         });
     } else {
