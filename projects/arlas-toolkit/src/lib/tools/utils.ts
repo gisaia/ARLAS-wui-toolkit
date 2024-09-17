@@ -333,8 +333,8 @@ export function hasContributorData(contributor: Contributor): boolean {
 }
 
 export function orderAlphabeticallyArlasSearchFields(arlasSearchFieldA: ArlasSearchField, arlasSearchFieldB: ArlasSearchField,){
-  const startLetter = arlasSearchFieldA?.label.trim()[0];
-  const startLetterCmp = arlasSearchFieldB?.label.trim()[0];
+  const startLetter = arlasSearchFieldA?.label.trim().toLowerCase();
+  const startLetterCmp = arlasSearchFieldB?.label.trim().toLowerCase();
   if(startLetter > startLetterCmp) {
     return 1;
   } else if(startLetter < startLetterCmp) {
