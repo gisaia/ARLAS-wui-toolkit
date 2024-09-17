@@ -26,7 +26,7 @@ import { ArlasCollaborativesearchService, ArlasConfigService } from '../../servi
 import { ArlasSearchField } from '../share/model/ArlasSearchField';
 import { DeviceDetectorService, OS } from 'ngx-device-detector';
 import { MatSelectionList } from '@angular/material/list';
-import { orderAlphabeticallyArlasSearchFields } from "../../tools/utils";
+import { orderAlphabeticallyArlasSearchFields } from '../../tools/utils';
 
 export const ARLAS_HITS_EXPORTER_VERSION = 2.2;
 

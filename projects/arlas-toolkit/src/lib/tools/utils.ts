@@ -31,7 +31,7 @@ import {
   TreeContributor
 } from 'arlas-web-contributors';
 import { ArlasError } from './errors/error';
-import { ArlasSearchField } from "../components/share/model/ArlasSearchField";
+import { ArlasSearchField } from '../components/share/model/ArlasSearchField';
 
 export const CONFIG_ID_QUERY_PARAM = 'config_id';
 export const GET_OPTIONS = new InjectionToken<Function>('get_options');
@@ -333,13 +333,13 @@ export function hasContributorData(contributor: Contributor): boolean {
 }
 
 export function orderAlphabeticallyArlasSearchFields(arlasSearchFieldA: ArlasSearchField, arlasSearchFieldB: ArlasSearchField,){
-    let startLetter = arlasSearchFieldA?.label.trim()[0];
-    let startLetterCmp = arlasSearchFieldB?.label.trim()[0];
-    if(startLetter > startLetterCmp) {
-      return 1;
-    } else if(startLetter < startLetterCmp) {
-      return -1;
-    } else {
-      return 0;
-    }
+  const startLetter = arlasSearchFieldA?.label.trim()[0];
+  const startLetterCmp = arlasSearchFieldB?.label.trim()[0];
+  if(startLetter > startLetterCmp) {
+    return 1;
+  } else if(startLetter < startLetterCmp) {
+    return -1;
+  } else {
+    return 0;
+  }
 }

@@ -30,7 +30,7 @@ import * as FileSaver from 'file-saver';
 import { TranslateService } from '@ngx-translate/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ARLAS_VSET } from 'arlas-web-components';
-import { orderAlphabeticallyArlasSearchFields } from "../../tools/utils";
+import { orderAlphabeticallyArlasSearchFields } from '../../tools/utils';
 
 
 export interface ShareLayerSourceConfig extends LayerSourceConfig {
