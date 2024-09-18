@@ -114,6 +114,7 @@
     "@angular-devkit/build-angular": {
       "webpack-dev-middleware": "~5.3.4"
     },
-    "@babel/traverse": "~7.23.2"
+    "@babel/traverse": "~7.23.2",
+    "dompurify": "3.1.6"
   }
 }

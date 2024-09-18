@@ -16,9 +16,9 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { Component, Input, OnInit, ViewEncapsulation, Inject } from '@angular/core';
+import { Component, Inject, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Aggregation } from 'arlas-api';
 import { projType } from 'arlas-web-core';
 import { ArlasSearchField } from './model/ArlasSearchField';
@@ -30,6 +30,7 @@ import * as FileSaver from 'file-saver';
 import { TranslateService } from '@ngx-translate/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ARLAS_VSET } from 'arlas-web-components';
+import { orderAlphabeticallyArlasSearchFields } from '../../tools/utils';
 
 
 export interface ShareLayerSourceConfig extends LayerSourceConfig {
@@ -192,6 +193,7 @@ export class ShareDialogComponent implements OnInit {
                 Object.keys(fields).forEach(fieldName => {
                   this.getFieldProperties(fields, fieldName);
                 });
+                this.allFields.sort(orderAlphabeticallyArlasSearchFields);
               }
               if (!!(<any>this.request).projection && !!(<any>this.request).projection.includes) {
                 (<any>this.request).projection.includes.split(',').forEach(f => {
