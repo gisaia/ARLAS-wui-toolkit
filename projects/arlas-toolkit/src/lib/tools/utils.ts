@@ -333,13 +333,7 @@ export function hasContributorData(contributor: Contributor): boolean {
 }
 
 export function orderAlphabeticallyArlasSearchFields(arlasSearchFieldA: ArlasSearchField, arlasSearchFieldB: ArlasSearchField,){
-  const startLetter = arlasSearchFieldA?.label.trim().toLowerCase();
-  const startLetterCmp = arlasSearchFieldB?.label.trim().toLowerCase();
-  if(startLetter > startLetterCmp) {
-    return 1;
-  } else if(startLetter < startLetterCmp) {
-    return -1;
-  } else {
-    return 0;
-  }
+  const comparedWordA = arlasSearchFieldA?.label.trim().toLowerCase();
+  const comparedWordB = arlasSearchFieldB?.label.trim().toLowerCase();
+  return comparedWordA.localeCompare(comparedWordB);
 }
