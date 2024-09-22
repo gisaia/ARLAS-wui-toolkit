@@ -1,5 +1,25 @@
 # Change Log
 
+## [v26.0.8](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.0.8) (2024-09-22)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v26.0.7...v26.0.8)
+
+**New stuff:**
+
+- Share layers : Sort alphabetically the list of fields to include [\#509](https://github.com/gisaia/ARLAS-wui-toolkit/issues/509)
+
+## [v26.0.7](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.0.7) (2024-09-12)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.3.19...v26.0.7)
+
+**Fixed bugs:**
+
+- When unchecking the crop checkbox in aias download component the the aoi is sent to the payload [\#849](https://github.com/gisaia/ARLAS-wui-toolkit/issues/849)
+
+## [v24.3.19](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.3.19) (2024-09-11)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v26.0.5...v24.3.19)
+
 ## [v26.0.5](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.0.5) (2024-09-11)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v26.0.4...v26.0.5)
@@ -442,15 +462,15 @@
 
 ## [v24.2.0-beta-iam.5](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.2.0-beta-iam.5) (2023-09-04)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.2.0-beta-iam.3...v24.2.0-beta-iam.5)
-
-## [v24.2.0-beta-iam.3](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.2.0-beta-iam.3) (2023-08-28)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.2.0-beta-iam.4...v24.2.0-beta-iam.3)
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.2.0-beta-iam.4...v24.2.0-beta-iam.5)
 
 ## [v24.2.0-beta-iam.4](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.2.0-beta-iam.4) (2023-08-28)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.1.6...v24.2.0-beta-iam.4)
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.2.0-beta-iam.3...v24.2.0-beta-iam.4)
+
+## [v24.2.0-beta-iam.3](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.2.0-beta-iam.3) (2023-08-28)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.1.6...v24.2.0-beta-iam.3)
 
 ## [v24.1.6](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.1.6) (2023-08-09)
 
