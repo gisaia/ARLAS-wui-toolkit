@@ -32,6 +32,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ARLAS_VSET } from 'arlas-web-components';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
+import { orderAlphabeticallyArlasSearchFields } from '../../tools/utils';
 
 
 export interface ShareLayerSourceConfig extends LayerSourceConfig {
@@ -195,6 +196,7 @@ export class ShareDialogComponent implements OnInit {
                 Object.keys(fields).forEach(fieldName => {
                   this.getFieldProperties(fields, fieldName);
                 });
+                this.allFields.sort(orderAlphabeticallyArlasSearchFields);
               }
               if (!!(<any>this.request).projection && !!(<any>this.request).projection.includes) {
                 (<any>this.request).projection.includes.split(',').forEach(f => {

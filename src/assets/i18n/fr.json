@@ -198,7 +198,10 @@
 	"days (~ 10 years)": "jours (~ 10 ans)",
 	"You are about to create a new permission on data, based on the current filters applied to": "Vous êtes sur le point de créer une nouvelle permission sur les données, basée sur les filtres actuels appliqués à",
 	"Add permission description": "Ajouter une description pour spécifer la permission :",
-	"course.distance.gps.travelled_m": "Distance"
+	"course.distance.gps.travelled_m": "Distance",
+	"bookmark_maxSizeExceeded": "Vous avez atteint {{maxBookmarks}} bookmarks, le nombre maximum de bookmarks que vous pouvez créer.",
+	"bookmark_noFilter": "Il n'est pas possible d'ajouter un bookmark sans appliquer de filtre.",
+	"bookmark_maxSizeExceeded_noFilter": "- Vous avez atteint {{maxBookmarks}} bookmarks, le nombre maximum de bookmarks que vous pouvez créer. \n\n - Il n'est pas possible d'ajouter un bookmark sans appliquer de filtre."
 
 
 }

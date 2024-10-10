@@ -16,45 +16,24 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+ $sm-spacing: 5px;
 
-$search-height: 30px;
-
-.arlas-search-container {
-  min-width: 150px;
+.add {
   display: flex;
   align-items: center;
-  border: 1px solid black;
-  border-radius: 8px;
-  height: $search-height;
-  margin-left: -2px;
-
-  .search {
-    margin: 0 4px;
+  .full-width {
+    width: 100%;
   }
-  
-  .search-text {
-    color: black;
-    font-size: 14px;
-    margin-right: auto;
+  .info {
+    width: 17px;
+    height: 17px;
+    font-size: 17px;
     cursor: pointer;
-    width: 150px;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-    padding-bottom: 2px;
-    margin-left: -4px;
+    padding: 0 $sm-spacing;
   }
-  
-  .search-text-empty {
-    color: grey;
-    margin-left: -2px;
-  }
-  
-  .close {
-    margin-bottom: 2px;
-  
-    .icon {
-      font-size: 16px;
-    }
-  }
+ 
+}
+
+::ng-deep .allow-breakline {
+  white-space: pre-line !important;
 }
