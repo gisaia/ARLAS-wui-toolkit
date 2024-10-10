@@ -116,5 +116,6 @@
     },
     "@babel/traverse": "~7.23.2",
     "dompurify": "2.5.6"
+
   }
 }
