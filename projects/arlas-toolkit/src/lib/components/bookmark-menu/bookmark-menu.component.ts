@@ -74,11 +74,11 @@ export class BookmarkMenuComponent implements OnInit, OnDestroy {
     const infoMessagesKeys = [];
     this.infoMessage = '';
     if (this.bookmarkService.count >= this.bookmarkService.maxSize) {
-      infoMessagesKeys.push('maxSizeExceeded')
+      infoMessagesKeys.push('maxSizeExceeded');
     }
 
     if (this.nbCollaborations === 0) {
-      infoMessagesKeys.push('noFilter')
+      infoMessagesKeys.push('noFilter');
     }
     if (infoMessagesKeys.length > 0) {
       this.infoMessage = marker('bookmark_' + infoMessagesKeys.join('_'));
