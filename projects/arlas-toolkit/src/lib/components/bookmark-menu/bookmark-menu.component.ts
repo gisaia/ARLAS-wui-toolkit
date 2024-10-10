@@ -17,21 +17,22 @@
  * under the License.
  */
 
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ArlasBookmarkService } from '../../services/bookmark/bookmark.service';
 import { BookmarkComponent } from '../bookmark/bookmark.component';
-import { ArlasStartupService } from '../../services/startup/startup.service';
 import { MatMenu } from '@angular/material/menu';
 import { BookmarkAddDialogComponent } from '../bookmark/bookmark-add-dialog.component';
-
+import { ArlasCollaborativesearchService } from '../../services/startup/startup.service';
+import { Subject, takeUntil } from 'rxjs';
+import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 
 @Component({
   selector: 'arlas-bookmark-menu',
   templateUrl: './bookmark-menu.component.html',
   styleUrls: ['./bookmark-menu.component.scss']
 })
-export class BookmarkMenuComponent implements OnInit {
+export class BookmarkMenuComponent implements OnInit, OnDestroy {
 
   /**
    * @Input : Angular
@@ -44,14 +45,44 @@ export class BookmarkMenuComponent implements OnInit {
   @Input() public nbTopBookmarks: number;
   @Input() public isSelectMultipleBookmarks = true;
 
+  public nbCollaborations = 0;
+  public addBookmarkDisabled = false;
+  private _onDestroy$ = new Subject<boolean>();
+  public infoMessage: string;
   @ViewChild('menu') public matMenu: MatMenu;
 
   public constructor(
     public dialog: MatDialog,
-    public bookmarkService: ArlasBookmarkService  ) { }
+    public bookmarkService: ArlasBookmarkService,
+    private collabrativeSearchService: ArlasCollaborativesearchService  ) { }
 
   public ngOnInit(): void {
     this.icon = this.icon ? this.icon : 'view_list';
+
+    this.nbCollaborations = this.collabrativeSearchService.collaborations.size;
+    this.checkAddButtonState();
+    this.collabrativeSearchService.collaborationBus.pipe(takeUntil(this._onDestroy$))
+      .subscribe(() => {
+        this.nbCollaborations = this.collabrativeSearchService.collaborations.size;
+        this.checkAddButtonState();
+      });
+  }
+
+  private checkAddButtonState() {
+    this.addBookmarkDisabled = this.bookmarkService.count >= this.bookmarkService.maxSize
+      || this.nbCollaborations === 0;
+    const infoMessagesKeys = [];
+    this.infoMessage = '';
+    if (this.bookmarkService.count >= this.bookmarkService.maxSize) {
+      infoMessagesKeys.push('maxSizeExceeded')
+    }
+
+    if (this.nbCollaborations === 0) {
+      infoMessagesKeys.push('noFilter')
+    }
+    if (infoMessagesKeys.length > 0) {
+      this.infoMessage = marker('bookmark_' + infoMessagesKeys.join('_'));
+    }
   }
 
   public openDatasetListDialog() {
@@ -59,11 +90,20 @@ export class BookmarkMenuComponent implements OnInit {
   }
 
   public openDialogAdd() {
-    this.dialog.open(BookmarkAddDialogComponent, { data: { name: null } });
+    if (!this.addBookmarkDisabled) {
+      this.dialog.open(BookmarkAddDialogComponent, { data: { name: null } });
+    }
   }
 
   public viewBookmark(id) {
     this.bookmarkService.viewBookMark(id);
   }
+
+  public ngOnDestroy() {
+    this._onDestroy$.next(true);
+    this._onDestroy$.complete();
+  }
+
+
 
 }
