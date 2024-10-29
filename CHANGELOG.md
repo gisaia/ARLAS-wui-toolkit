@@ -1,12 +1,16 @@
 # Change Log
 
+## [v27.0.0-beta.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.0.0-beta.1) (2024-10-29)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v26.0.9-beta.1...v27.0.0-beta.1)
+
+## [v26.0.9-beta.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.0.9-beta.1) (2024-09-30)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v26.0.8...v26.0.9-beta.1)
+
 ## [v26.0.8](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.0.8) (2024-09-22)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v26.0.7...v26.0.8)
-
-**New stuff:**
-
-- Share layers : Sort alphabetically the list of fields to include [\#509](https://github.com/gisaia/ARLAS-wui-toolkit/issues/509)
 
 ## [v26.0.7](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.0.7) (2024-09-12)
 
@@ -462,15 +466,15 @@
 
 ## [v24.2.0-beta-iam.5](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.2.0-beta-iam.5) (2023-09-04)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.2.0-beta-iam.4...v24.2.0-beta-iam.5)
-
-## [v24.2.0-beta-iam.4](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.2.0-beta-iam.4) (2023-08-28)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.2.0-beta-iam.3...v24.2.0-beta-iam.4)
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.2.0-beta-iam.3...v24.2.0-beta-iam.5)
 
 ## [v24.2.0-beta-iam.3](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.2.0-beta-iam.3) (2023-08-28)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.1.6...v24.2.0-beta-iam.3)
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.2.0-beta-iam.4...v24.2.0-beta-iam.3)
+
+## [v24.2.0-beta-iam.4](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.2.0-beta-iam.4) (2023-08-28)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.1.6...v24.2.0-beta-iam.4)
 
 ## [v24.1.6](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.1.6) (2023-08-09)
 
