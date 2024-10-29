@@ -19,7 +19,11 @@
 
 import { Component, Inject, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
-import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialog as MatDialog, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import {
+  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
+  MatLegacyDialog as MatDialog,
+  MatLegacyDialogRef as MatDialogRef
+} from '@angular/material/legacy-dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 import { TranslateService } from '@ngx-translate/core';
@@ -106,29 +110,30 @@ export class SearchComponent implements OnInit, OnDestroy, OnChanges {
             letPassContributor = contributor.getConfigValue('type') === 'search' || contributor.getConfigValue('type') === 'chipssearch';
           }
           return s.isMyOwnCollaboration(e) || e.id === 'url' || e.id === 'all' || (letPassContributor && e.operation === OperationEnum.remove);
-        })).subscribe(
-        e => {
-          const collaboration = this.collaborativeService.getCollaboration(s.identifier);
-          if (collaboration) {
-            collaboration.filters.forEach((f, collection) => {
-              let initSearchValue = '';
-              if (collection === s.collection) {
-                for (const filter of f) {
-                  let searchtxt = filter.q[0][0];
-                  if (filter.q[0][0].split(':').length > 0) {
-                    searchtxt = filter.q[0][0].split(':')[1];
+        }))
+        .subscribe(
+          e => {
+            const collaboration = this.collaborativeService.getCollaboration(s.identifier);
+            if (collaboration) {
+              collaboration.filters.forEach((f, collection) => {
+                let initSearchValue = '';
+                if (collection === s.collection) {
+                  for (const filter of f) {
+                    let searchtxt = filter.q[0][0];
+                    if (filter.q[0][0].split(':').length > 0) {
+                      searchtxt = filter.q[0][0].split(':')[1];
+                    }
+                    const pattern = /\"/gi;
+                    initSearchValue += searchtxt.replace(pattern, '') + ' ';
                   }
-                  const pattern = /\"/gi;
-                  initSearchValue += searchtxt.replace(pattern, '') + ' ';
+                  this.searchValue = initSearchValue.slice(0, -1);
                 }
-                this.searchValue = initSearchValue.slice(0, -1);
-              }
-            });
-          } else {
-            this.searchValue = this.searchPlaceholder;
+              });
+            } else {
+              this.searchValue = this.searchPlaceholder;
+            }
           }
-        }
-      );
+        );
     });
   }
 
@@ -369,13 +374,13 @@ export class SearchDialogComponent {
             f.collections.push({
               color: this.arlasColorService.getColor(l.collection),
               count: l.count,
-              collection:l.collection
+              collection: l.collection
             });
           } else {
             l.collections = [{
               color: this.arlasColorService.getColor(l.collection),
               count: l.count,
-              collection:l.collection
+              collection: l.collection
             }];
             acc.push({ ...l });
           }
