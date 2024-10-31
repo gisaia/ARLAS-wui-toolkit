@@ -1,6 +1,6 @@
 {
   "name": "arlas-wui-toolkit",
-  "version": "26.1.0-dev0",
+  "version": "26.0.9",
   "description": "Tool Kit Library for ARLAS wui web App",
   "author": "gisaia",
   "license": "Apache-2.0",
@@ -118,6 +118,5 @@
     "dompurify": "2.5.6",
     "http-proxy-middleware": "2.0.7",
     "mermaid": "10.9.3"
-
   }
 }

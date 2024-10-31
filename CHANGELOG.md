@@ -1,12 +1,20 @@
 # Change Log
 
+## [v26.0.9](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.0.9) (2024-10-31)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v27.0.0-beta.1...v26.0.9)
+
+## [v27.0.0-beta.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.0.0-beta.1) (2024-10-29)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v26.0.9-beta.1...v27.0.0-beta.1)
+
+## [v26.0.9-beta.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.0.9-beta.1) (2024-09-30)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v26.0.8...v26.0.9-beta.1)
+
 ## [v26.0.8](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.0.8) (2024-09-22)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v26.0.7...v26.0.8)
-
-**New stuff:**
-
-- Share layers : Sort alphabetically the list of fields to include [\#509](https://github.com/gisaia/ARLAS-wui-toolkit/issues/509)
 
 ## [v26.0.7](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.0.7) (2024-09-12)
 
