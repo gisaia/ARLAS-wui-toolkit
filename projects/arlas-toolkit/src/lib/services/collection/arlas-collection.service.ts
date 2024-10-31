@@ -26,9 +26,11 @@ import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupServic
 export class ArlasCollectionService extends BaseCollectionService {
   private appUnits: Map<string, CollectionUnit> = new Map();
   private displayName: Map<string, string> = new Map();
+  public displayFieldName: Map<string, string> = new Map();
+  public FLAT_CHAR = '_';
   public constructor(private collaborativeService: ArlasCollaborativesearchService,
-                     private configService: ArlasConfigService,
-                     private arlasStartupeService: ArlasStartupService
+    private configService: ArlasConfigService,
+    private arlasStartupeService: ArlasStartupService
   ) {
     super();
     this._initUnits();
@@ -52,11 +54,17 @@ export class ArlasCollectionService extends BaseCollectionService {
     /** end of retrocompatibility code */
   }
 
-  protected _initDisplayNames(){
-    if(this.arlasStartupeService.shouldRunApp){
-      for(const key of this.arlasStartupeService.collectionsMap.keys()) {
+  protected _initDisplayNames() {
+    if (this.arlasStartupeService.shouldRunApp) {
+      for (const key of this.arlasStartupeService.collectionsMap.keys()) {
         const c = this.arlasStartupeService.collectionsMap.get(key);
         this.displayName.set(key, c?.display_names?.collection ?? key);
+        const fields = c?.display_names?.fields;
+        if(fields){
+          for (const f of Object.keys(fields)) {
+            this.displayFieldName.set(this.flatten(f), c?.display_names?.fields[f]);
+          }
+        }
       }
     }
   }
@@ -76,10 +84,18 @@ export class ArlasCollectionService extends BaseCollectionService {
     return this.displayName.get(collectionName) || collectionName;
   }
 
+  public getDisplayFieldName(fieldName: string): string {
+    return this.displayFieldName.get(this.flatten(fieldName)) || this.flatten(fieldName);
+  }
+
   public isUnitIgnored(collectionName: string): boolean {
     if (this.appUnits.has(collectionName)) {
       return this.appUnits.get(collectionName).ignored;
     }
     return false;
+  }
+
+  public flatten(f: string): string {
+    return f?.replace(/\./g, this.FLAT_CHAR);
   }
 }
