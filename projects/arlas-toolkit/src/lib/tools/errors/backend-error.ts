@@ -22,8 +22,9 @@ import { ArlasError } from './error';
 
 
 export class BackendError extends ArlasError {
-  private service = 'ARLAS backend services';
-  private hubUrl;
+  private service: string = marker('ARLAS backend services');
+  private hubUrl: string;
+
   public constructor(status: number, message: string, hubUrl: string, service?: string) {
     super(status);
     if (service && service !== '') {
@@ -32,20 +33,23 @@ export class BackendError extends ArlasError {
     this.hubUrl = hubUrl;
     this.title = marker('ARLAS encountered an error');
     if (this.status === 404) {
+      this.message = message;
       this.showAction = true;
       this.actionMessage = marker('go to arlas hub');
       this.actionType = 'link';
-      this.message = message;
     } else if (this.status === 400) {
       this.message = message;
       this.showAction = true;
       this.actionMessage = marker('go to arlas hub');
       this.actionType = 'link';
     } else if (this.status === 502) {
-      this.message = 'The connection to ' + this.service + ' is lost';
+      this.message = marker('The connection is lost');
+      this.showAction = false;
+    } else if (this.status === 503) {
+      this.message = marker('The service is unavailable');
       this.showAction = false;
     } else {
-      this.message = 'An error occured in ' + this.service;
+      this.message = marker('An error occured in the service');
       this.showAction = false;
     }
   }
@@ -59,6 +63,4 @@ export class BackendError extends ArlasError {
       window.open(this.hubUrl, '_self');
     }
   }
-
 }
-
