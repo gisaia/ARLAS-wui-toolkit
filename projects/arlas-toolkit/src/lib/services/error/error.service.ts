@@ -19,22 +19,27 @@
 
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { marker } from '@colsen1991/ngx-translate-extract-marker';
+import { Subscription } from 'rxjs';
 import { DeniedAccessDialogComponent } from '../../components/denied-access-dialog/denied-access-dialog.component';
 import { ArlasSettingsService } from '../../services/settings/arlas.settings.service';
 import { AuthorisationError } from '../../tools/errors/authorisation-error';
 import { BackendError } from '../../tools/errors/backend-error';
 import { SettingsError } from '../../tools/errors/settings-error';
+import { ArlasCollaborativesearchService } from '../collaborative-search/arlas.collaborative-search.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ErrorService {
 
+  private arlasErrorsSubscription: Subscription;
+
   public constructor(
     private dialog: MatDialog,
-    private settingsService: ArlasSettingsService) {
-
-  }
+    private settingsService: ArlasSettingsService,
+    private arlasCollaborationService: ArlasCollaborativesearchService
+  ) { }
 
   public emitAuthorisationError(error: AuthorisationError, forceAction = true) {
     if (!this.dialog.openDialogs || this.dialog.openDialogs.length === 0) {
@@ -83,5 +88,17 @@ export class ErrorService {
   public closeAll() {
     this.dialog.closeAll();
     return this.dialog;
+  }
+
+  public listenToArlasCollaborativeErrors() {
+    this.arlasErrorsSubscription = this.arlasCollaborationService.collaborationErrorBus.subscribe(e => {
+      if ((e as any).status >= 400) {
+        this.emitBackendError((e as any).status, e.message, marker('ARLAS-server'));
+      }
+    });
+  }
+
+  public unlistenToArlasCollaborativeErrors() {
+    this.arlasErrorsSubscription.unsubscribe();
   }
 }

@@ -52,6 +52,10 @@ import {
   AuthentSetting,
   SpinnerOptions
 } from '../../../../projects/arlas-toolkit/src/lib/tools/utils';
+import {
+  ArlasOverlayService,
+  ErrorService
+} from '../../../../projects/arlas-toolkit/src/public-api';
 
 @Component({
   selector: 'arlas-tool-home',
@@ -104,8 +108,12 @@ export class HomeComponent implements OnInit {
     private arlasAuthentService: ArlasAuthentificationService,
     private analyticsService: AnalyticsService,
     private collaborativeService: ArlasCollaborativesearchService,
-    private dialog: MatDialog
+    private arlasOverlayService: ArlasOverlayService,
+    private dialog: MatDialog,
+    private errorService: ErrorService
   ) {
+    this.errorService.listenToArlasCollaborativeErrors();
+
   }
 
   public ngOnInit(): void {

@@ -2,9 +2,9 @@
 ############   AUTHENTICATION SETTINGS   ###############
 ########################################################
 authentication:
-  use_authent: true
+  use_authent: false
   auth_mode: 'iam'
-  force_connect: true
+  force_connect: false
   threshold: 5000
   url: http://localhost:80/arlas_iam_server
   sign_up_enabled: true

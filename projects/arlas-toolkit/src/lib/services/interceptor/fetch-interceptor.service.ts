@@ -97,7 +97,7 @@ export class FetchInterceptorService {
                 break;
               };
             }
-            this.errorService.emitBackendError(code, message, 'ARLAS-server');
+            this.errorService.emitBackendError(code, message, marker('ARLAS-server'));
           }
           return response;
         },
