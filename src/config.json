@@ -4,9 +4,9 @@
       "contributors": [
         {
           "type": "map",
-          "identifier": "courses_public",
-          "name": "Map courses_public",
-          "collection": "courses_public",
+          "identifier": "courses",
+          "name": "Map courses",
+          "collection": "courses",
           "geo_query_op": "Intersects",
           "geo_query_field": "track.location",
           "icon": "check_box_outline_blank",
@@ -15,7 +15,7 @@
         {
           "type": "chipssearch",
           "identifier": "chipssearch",
-          "collection": "courses_public",
+          "collection": "courses",
           "search_field": "internal.fulltext",
           "name": "Search...",
           "icon": "search",
@@ -25,7 +25,7 @@
         {
           "type": "histogram",
           "identifier": "timeline",
-          "collection": "courses_public",
+          "collection": "courses",
           "name": "Timeline",
           "icon": "watch_later",
           "isOneDimension": false,
@@ -41,7 +41,7 @@
         {
           "type": "detailedhistogram",
           "identifier": "detailedTimeline",
-          "collection": "courses_public",
+          "collection": "courses",
           "name": "Timeline",
           "icon": "watch_later",
           "isOneDimension": false,
@@ -57,10 +57,10 @@
           "selectionExtentPercentage": 0.02
         },
         {
-          "identifier": "courses_public-arrival.address.country-10-Count-desc-count",
+          "identifier": "courses-arrival.address.country-10-Count-desc-count",
           "name": "Country arrival",
           "title": "Country arrival",
-          "collection": "courses_public",
+          "collection": "courses",
           "icon": "poll",
           "type": "tree",
           "jsonpath": "$.count",
@@ -228,7 +228,7 @@
                 "unit": "",
                 "chartWidth": 445
               },
-              "contributorId": "courses_public-arrival.address.country-10-Count-desc-count",
+              "contributorId": "courses-arrival.address.country-10-Count-desc-count",
               "uuid": "7b4a8994-8c1c-4143-a284-207b22c359ab",
               "usage": "analytics"
             }
@@ -260,10 +260,10 @@
       "externalNode": {}
     },
     "server": {
-      "url": "http://merolla/arlas",
+      "url": "http://localhost:80/arlas",
       "max_age_cache": 120,
       "collection": {
-        "name": "courses_public"
+        "name": "courses"
       }
     }
   },
@@ -279,8 +279,8 @@
         "name": "ARLAS",
         "units": [
           {
-            "collection": "courses_public",
-            "unit": "courses_public",
+            "collection": "courses",
+            "unit": "courses",
             "ignored": false
           }
         ]

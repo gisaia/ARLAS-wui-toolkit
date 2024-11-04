@@ -19,16 +19,15 @@
 
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 import fetchIntercept from 'fetch-intercept';
 import { DeniedAccessDialogComponent } from '../../components/denied-access-dialog/denied-access-dialog.component';
 import { ReconnectDialogComponent } from '../../components/reconnect-dialog/reconnect-dialog.component';
 import { ErrorService } from '../../services/error/error.service';
-import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
 import { AuthorisationError } from '../../tools/errors/authorisation-error';
 import { DeniedAccessData } from '../../tools/utils';
 import { ArlasSettingsService } from '../settings/arlas.settings.service';
-import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 
 @Injectable({
   providedIn: 'root'
@@ -98,7 +97,7 @@ export class FetchInterceptorService {
                 break;
               };
             }
-            this.errorService.emitBackendError(code, message, 'ARLAS-server');
+            this.errorService.emitBackendError(code, message, marker('ARLAS-server'));
           }
           return response;
         },
