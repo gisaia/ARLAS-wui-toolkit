@@ -17,17 +17,22 @@
  * under the License.
  */
 
-.bookmark-table-items{
+.bookmark-table-items {
   max-height: 60vh;
   overflow-y: auto;
+
+  .mat-column-checked {
+    flex: 0 0 50px;
+    overflow: visible;
+  }
 }
 
-.bookmark-table-items .mat-column-checked{
-  flex:0 0 50px;
-}
-
-.mat-column-checked{
-  overflow: visible;
+mat-row:hover {
+  .bookmark__name {
+    text-decoration-line: underline;
+    font-style: italic;
+    cursor: pointer;
+  }
 }
 
 .bookmark-icons-action{
@@ -71,4 +76,23 @@
 
 .bookmark-action-button{
   margin: 0 5px;
+}
+
+.bookmark-actions__description {
+  color: grey;
+  font-size: 14px;
+  display: flex;
+  margin-top: 10px;
+  margin-left: 5px;
+
+  mat-icon {
+    height: 18px;
+    width: 18px;
+    font-size: 18px;
+    margin-right: 5px;
+  }
+
+  span {
+    flex: 1;
+  }
 }

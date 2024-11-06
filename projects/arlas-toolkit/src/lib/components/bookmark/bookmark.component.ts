@@ -30,7 +30,7 @@ import { ArlasCollaborativesearchService } from '../../services/startup/startup.
 @Component({
   selector: 'arlas-bookmark',
   templateUrl: './bookmark.component.html',
-  styleUrls: ['./bookmark.component.css']
+  styleUrls: ['./bookmark.component.scss']
 })
 export class BookmarkComponent {
 
