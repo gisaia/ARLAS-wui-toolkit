@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { CollectionUnit } from '../../tools/utils';
+import { CollectionUnit, flattenData } from '../../tools/utils';
 import { BaseCollectionService } from 'arlas-web-components';
 import { Injectable } from '@angular/core';
 import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from '../startup/startup.service';
@@ -27,8 +27,8 @@ export class ArlasCollectionService extends BaseCollectionService {
   private appUnits: Map<string, CollectionUnit> = new Map();
   private displayName: Map<string, string> = new Map();
   public constructor(private collaborativeService: ArlasCollaborativesearchService,
-                     private configService: ArlasConfigService,
-                     private arlasStartupeService: ArlasStartupService
+    private configService: ArlasConfigService,
+    private arlasStartupeService: ArlasStartupService
   ) {
     super();
     this._initUnits();
@@ -52,9 +52,9 @@ export class ArlasCollectionService extends BaseCollectionService {
     /** end of retrocompatibility code */
   }
 
-  protected _initDisplayNames(){
-    if(this.arlasStartupeService.shouldRunApp){
-      for(const key of this.arlasStartupeService.collectionsMap.keys()) {
+  protected _initDisplayNames() {
+    if (this.arlasStartupeService.shouldRunApp) {
+      for (const key of this.arlasStartupeService.collectionsMap.keys()) {
         const c = this.arlasStartupeService.collectionsMap.get(key);
         this.displayName.set(key, c?.display_names?.collection ?? key);
       }
@@ -81,5 +81,14 @@ export class ArlasCollectionService extends BaseCollectionService {
       return this.appUnits.get(collectionName).ignored;
     }
     return false;
+  }
+  // Retrieve all collections used in a dashboards
+  public getCollectionFromDashboard(config: any): Set<string> {
+    const flattenedConfig = flattenData(config);
+    const collections = new Set<string>();
+    Object.keys(flattenedConfig)
+      .filter(f => f.indexOf('collection') >= 0 || (f.indexOf('additionalCollections') >= 0 && f.indexOf('collectionName') >= 0))
+      .forEach(k => collections.add(flattenedConfig[k]));
+    return collections;
   }
 }
