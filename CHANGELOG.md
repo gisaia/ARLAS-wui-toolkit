@@ -1,9 +1,16 @@
 # Change Log
 
+## [v26.0.11](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.0.11) (2024-11-12)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v26.0.10...v26.0.11)
+
 ## [v26.0.10](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.0.10) (2024-11-12)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v26.0.9...v26.0.10)
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v26.0.10-rc.1...v26.0.10)
 
+## [v26.0.10-rc.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.0.10-rc.1) (2024-11-12)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v26.0.9...v26.0.10-rc.1)
 
 **New stuff:**
 
@@ -16,10 +23,11 @@
 - Export csv service : use map field/label collection to set the column name [\#521](https://github.com/gisaia/ARLAS-wui-toolkit/issues/521)
 
 **Fixed bugs:**
-- Map: Fix draw strip mode [\#876](https://github.com/gisaia/ARLAS-wui-toolkit/issues/876)
+
 - Normalized colored layer display \[0-1\] values in legend [\#879](https://github.com/gisaia/ARLAS-wui-toolkit/issues/879)
 - Map: Geo-sorted products are not sorted relatively to the map center [\#878](https://github.com/gisaia/ARLAS-wui-toolkit/issues/878)
 - Change "Mode" by "Geometry" in the "Share geo data" menu \(bottom left\)  [\#877](https://github.com/gisaia/ARLAS-wui-toolkit/issues/877)
+- Map: Fix draw strip mode [\#876](https://github.com/gisaia/ARLAS-wui-toolkit/issues/876)
 - detail of a feature is closed after clicking on a feature on the map [\#875](https://github.com/gisaia/ARLAS-wui-toolkit/issues/875)
 - Detailed timeline doesn't show buckets for some cases  [\#871](https://github.com/gisaia/ARLAS-wui-toolkit/issues/871)
 
