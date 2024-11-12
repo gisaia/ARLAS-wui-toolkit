@@ -103,7 +103,7 @@ export class ArlasCollectionService extends BaseCollectionService {
       .forEach(k => collections.add(flattenedConfig[k]));
     return collections;
   }
-  
+
   public flatten(f: string): string {
     return f?.replace(/\./g, this.FLAT_CHAR);
   }
