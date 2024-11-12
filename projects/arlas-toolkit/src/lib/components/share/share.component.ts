@@ -29,7 +29,7 @@ import { Search } from 'arlas-tagger-api';
 import * as FileSaver from 'file-saver';
 import { TranslateService } from '@ngx-translate/core';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { ARLAS_VSET } from 'arlas-web-components';
+import { ARLAS_VSET } from 'arlas-map';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 import { orderAlphabeticallyArlasSearchFields } from '../../tools/utils';

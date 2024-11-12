@@ -29,7 +29,7 @@ import { CollectionReferenceDescription, CollectionReferenceParameters, Collecti
 import { Configuration as IamConfiguration, DefaultApi } from 'arlas-iam-api';
 import { DataWithLinks } from 'arlas-persistence-api';
 import {
-  DonutComponent, HistogramComponent, MapglComponent, MetricComponent,
+  DonutComponent, HistogramComponent, MetricComponent,
   MetricsTableComponent, PowerbarsComponent
 } from 'arlas-web-components';
 import {
@@ -349,7 +349,7 @@ export class ArlasStartupService {
         .addSchema((<any>HistogramComponent.getHistogramJsonSchema()).default)
         .addSchema((<any>HistogramComponent.getSwimlaneJsonSchema()).default)
         .addSchema((<any>PowerbarsComponent.getPowerbarsJsonSchema()).default)
-        .addSchema((<any>MapglComponent.getMapglJsonSchema()).default)
+        // .addSchema((<any>MapglComponent.getMapglJsonSchema()).default)
         .addSchema((<any>DonutComponent.getDonutJsonSchema()).default)
         .addSchema((<any>MetricComponent.getMetricJsonSchema()).default)
         .addSchema((<any>MetricsTableComponent.getJsonSchema()).default)

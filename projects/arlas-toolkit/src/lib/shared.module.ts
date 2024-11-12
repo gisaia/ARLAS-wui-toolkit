@@ -60,7 +60,6 @@ import {
   GetCollectionDisplayModule,
   GetCollectionUnitModule,
   HistogramModule,
-  MapglLegendModule,
   MetricModule,
   MetricsTableModule,
   PowerbarsModule,
@@ -137,6 +136,7 @@ import { BookmarkAddDialogComponent } from './components/bookmark/bookmark-add-d
 import { ContributorUpdatingPipe } from './pipes/contributor-updating.pipe';
 import { AiasDownloadComponent } from './components/aias-download/aias-download.component';
 import { ArlasCollectionService } from './services/collection/arlas-collection.service';
+import { ArlasMapModule } from 'arlas-map';
 
 export class CustomTranslateLoader implements TranslateLoader {
 
@@ -211,11 +211,11 @@ export class CustomTranslateLoader implements TranslateLoader {
     PowerbarsModule,
     ReactiveFormsModule,
     ResultsModule,
+    ArlasMapModule,
     ConfigMenuModule,
     ScrollingModule,
     FormatNumberModule,
     NgxSpinnerModule,
-    MapglLegendModule,
     CollectionModule.forRoot({loader:{
       deps:[
         ArlasCollaborativesearchService,
