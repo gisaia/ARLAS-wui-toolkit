@@ -47,7 +47,7 @@
     "arlas-permissions-api": "26.0.0",
     "arlas-persistence-api": "26.0.0",
     "arlas-tagger-api": "26.0.0",
-    "arlas-web-components": "~26.0.9",
+    "arlas-web-components": "~26.0.10",
     "arlas-web-contributors": "~26.0.5",
     "cli-color": "^1.2.0",
     "core-js": "~3.26.1",
@@ -114,7 +114,6 @@
     "@angular-devkit/build-angular": {
       "webpack-dev-middleware": "~5.3.4"
     },
-    "@babel/traverse": "7.25.6",
     "dompurify": "2.5.6",
     "http-proxy-middleware": "2.0.7",
     "mermaid": "10.9.3"
