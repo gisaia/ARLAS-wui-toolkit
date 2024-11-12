@@ -45,6 +45,7 @@
 	"Delete": "Borrar",
 	"Rename": "Cambia nombre",
 	"Count": "Recuento de elementos",
+	"Bookmarks can be combined to create a new one containing the filters of all selected bookmarks.": "Los marcadores se pueden combinar para crear uno nuevo que contenga los filtros de todos los seleccionados.",
 	"View Combine": "Simular la combinación",
 	"Combine": "Combinar filtros",
 	"Close": "Cerrar",
@@ -125,7 +126,7 @@
 	"Continue": "Continuar",
 	"Unauthorized action": "Acción no autorizada",
 	"You are not authorized to access this resource.": "No está autorizado a acceder a este recurso.",
-	"It’s quick and easy !": "Es fácil y rápido !",
+	"It's quick and easy !": "¡Es fácil y rápido!",
 	"Just enter your email": "Sólo tiene que introducir su correo electrónico",
 	"By creating an account, you agree to the": "Al crear su cuenta, acepte las",
 	"Terms of Service": "condiciones de uso",
@@ -136,7 +137,7 @@
 	"Searching": "Búsqueda en curso...",
 	"No results": "No se encontró resultados para su búsqueda.",
 	"Remove search text": "Reiniciar búsqueda",
-	"Mode": "Modo",
+	"Geometry": "Geometría",
 	"Desired precision": "Precisión",
 	"None": "Ninguna",
 	"Order by": "Ordenar por",
@@ -213,6 +214,7 @@
 	"extraAboutText": "",
 	"Loading bookmark": "Cargango marcador {{bookmark}}",
 	"count": "Recuenta",
+	"HEADER_EXPORT": "{{field}} {{metric}}",
 	"tour.nextBtn": "Siguiente",
 	"tour.prevBtn": "Precedente",
 	"tour.doneBtn": "Hecho",
@@ -316,5 +318,7 @@
 	"successful": "completado",
 	"failed": "fallido",
 	"dissmissed": "cancelado",
-	"You are about to create a new permission on data, based on the current filters applied to": "Está a punto de crear un nuevo permiso sobre los datos, basado en los filtros actuales aplicados a"
+	"You are about to create a new permission on data, based on the current filters applied to": "Está a punto de crear un nuevo permiso sobre los datos, basado en los filtros actuales aplicados a",
+	"HEADER_EXPORT": "{{field}} {{metric}}"
+
 }
