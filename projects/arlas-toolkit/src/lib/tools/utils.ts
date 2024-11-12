@@ -55,6 +55,7 @@ export interface Config {
   writers: Array<string>;
   zone: string;
   org: string;
+  displayPublic: boolean;
 }
 
 export enum ConfigActionEnum {
@@ -143,7 +144,7 @@ export interface DeniedAccessData {
   forceAction?: boolean;
 }
 
-export enum ZoomToDataStrategy{
+export enum ZoomToDataStrategy {
   NONE = 'none',
   CENTROID = 'centroid',
   GEOMETRY = 'geometry'
@@ -332,8 +333,30 @@ export function hasContributorData(contributor: Contributor): boolean {
   }
 }
 
-export function orderAlphabeticallyArlasSearchFields(arlasSearchFieldA: ArlasSearchField, arlasSearchFieldB: ArlasSearchField,){
+export function orderAlphabeticallyArlasSearchFields(arlasSearchFieldA: ArlasSearchField, arlasSearchFieldB: ArlasSearchField,) {
   const comparedWordA = arlasSearchFieldA?.label.trim().toLowerCase();
   const comparedWordB = arlasSearchFieldB?.label.trim().toLowerCase();
   return comparedWordA.localeCompare(comparedWordB);
 }
+
+export function flattenData(y: Object) {
+  const out = {};
+  function flatten(x, name = '') {
+    if (typeof x === 'object' && !Array.isArray(x)) {
+      for (const a in x) {
+        if (Object.prototype.hasOwnProperty.call(x, a)) {
+          flatten(x[a], name + a + '_');
+        }
+      }
+    } else if (Array.isArray(x)) {
+      for (let i = 0; i < x.length; i++) {
+        flatten(x[i], name + i + '_');
+      }
+    } else {
+      out[name.slice(0, -1)] = x;
+    }
+  }
+  flatten(y);
+  return out;
+}
+

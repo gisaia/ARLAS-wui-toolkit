@@ -59,7 +59,13 @@ export class ShareConfigComponent implements OnInit {
           reader: (new Set(this.config.readers)).has(g),
           writer: (new Set(this.config.writers)).has(g)
         };
-        this.groups.push(group);
+        if(g === 'group/public'){
+          if(this.config.displayPublic){
+            this.groups.push(group);
+          }
+        }else{
+          this.groups.push(group);
+        }
       });
     });
   }

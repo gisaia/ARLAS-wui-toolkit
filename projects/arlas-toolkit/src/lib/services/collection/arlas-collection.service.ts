@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { CollectionUnit } from '../../tools/utils';
+import { CollectionUnit, flattenData } from '../../tools/utils';
 import { BaseCollectionService } from 'arlas-web-components';
 import { Injectable } from '@angular/core';
 import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from '../startup/startup.service';
@@ -93,6 +93,15 @@ export class ArlasCollectionService extends BaseCollectionService {
       return this.appUnits.get(collectionName).ignored;
     }
     return false;
+  }
+  // Retrieve all collections used in a dashboards
+  public getCollectionFromDashboard(config: any): Set<string> {
+    const flattenedConfig = flattenData(config);
+    const collections = new Set<string>();
+    Object.keys(flattenedConfig)
+      .filter(f => f.indexOf('collection') >= 0 || (f.indexOf('additionalCollections') >= 0 && f.indexOf('collectionName') >= 0))
+      .forEach(k => collections.add(flattenedConfig[k]));
+    return collections;
   }
 
   public flatten(f: string): string {
