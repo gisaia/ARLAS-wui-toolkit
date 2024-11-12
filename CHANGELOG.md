@@ -10,7 +10,6 @@
 
 **New stuff:**
 
-- Map: Fix draw strip mode [\#876](https://github.com/gisaia/ARLAS-wui-toolkit/issues/876)
 - Add a display name pipe for arlas fields [\#874](https://github.com/gisaia/ARLAS-wui-toolkit/issues/874)
 - Resultlists: add reversible actions type, that stays pinned on each item when activated  [\#873](https://github.com/gisaia/ARLAS-wui-toolkit/issues/873)
 - add an option for default zoomTo on importing a polygon [\#872](https://github.com/gisaia/ARLAS-wui-toolkit/issues/872)
@@ -20,7 +19,7 @@
 - Export csv service : use map field/label collection to set the column name [\#521](https://github.com/gisaia/ARLAS-wui-toolkit/issues/521)
 
 **Fixed bugs:**
-
+- Map: Fix draw strip mode [\#876](https://github.com/gisaia/ARLAS-wui-toolkit/issues/876)
 - Normalized colored layer display \[0-1\] values in legend [\#879](https://github.com/gisaia/ARLAS-wui-toolkit/issues/879)
 - Map: Geo-sorted products are not sorted relatively to the map center [\#878](https://github.com/gisaia/ARLAS-wui-toolkit/issues/878)
 - Change "Mode" by "Geometry" in the "Share geo data" menu \(bottom left\)  [\#877](https://github.com/gisaia/ARLAS-wui-toolkit/issues/877)
