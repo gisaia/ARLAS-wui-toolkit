@@ -305,5 +305,6 @@
 	"running": "running",
 	"successful": "successful",
 	"failed": "failed",
-	"dissmissed": "dissmissed"
+	"dissmissed": "dissmissed",
+	"HEADER_EXPORT": "{{metric}} of {{field}}"
 }

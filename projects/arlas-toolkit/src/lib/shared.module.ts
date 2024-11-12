@@ -58,6 +58,7 @@ import {
   DonutModule,
   FormatNumberModule,
   GetCollectionDisplayModule,
+  GetFieldDisplayModule,
   GetCollectionUnitModule,
   HistogramModule,
   MapglLegendModule,
@@ -226,7 +227,6 @@ export class CustomTranslateLoader implements TranslateLoader {
       useClass: ArlasCollectionService
     }
     }),
-    GetCollectionDisplayModule,
     ColorGeneratorModule.forRoot({
       loader: {
         provide: ColorGeneratorLoader,
@@ -244,7 +244,8 @@ export class CustomTranslateLoader implements TranslateLoader {
     ArlasWalkthroughModule.forRoot(),
     MarkdownModule.forRoot(),
     GetCollectionUnitModule,
-    GetCollectionDisplayModule
+    GetCollectionDisplayModule,
+    GetFieldDisplayModule
   ],
   exports: [
     AnalyticsBoardComponent,

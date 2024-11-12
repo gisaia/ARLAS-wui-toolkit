@@ -28,6 +28,7 @@ import { Observable } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 import { ArlasSettingsService } from '../settings/arlas.settings.service';
 import { ArlasCollaborativesearchService, ArlasConfigService } from '../startup/startup.service';
+import { ArlasCollectionService } from '../collection/arlas-collection.service';
 
 @Injectable({
   providedIn: 'root'
@@ -35,19 +36,23 @@ import { ArlasCollaborativesearchService, ArlasConfigService } from '../startup/
 export class ArlasExportCsvService {
 
   public constructor(private collaborativesearchService: ArlasCollaborativesearchService, private configService: ArlasConfigService,
-    private settingsService: ArlasSettingsService, private translate: TranslateService) { }
+    private settingsService: ArlasSettingsService, private translate: TranslateService,
+    private arlasCollectionService: ArlasCollectionService) { }
 
   public export(contributor: Contributor, stayAtFirstLevel: boolean, contributorType?: string): Observable<Blob> {
     return this.compute(contributor, contributorType).pipe(map(data => {
       const csvData = new Array<Array<string>>();
       const header = new Array<string>();
       (<TreeContributor>contributor).getAggregations().forEach(agg => {
-        header.push(this.translate.instant(agg.field));
+        header.push(this.translate.instant(this.arlasCollectionService.getDisplayFieldName(agg.field)));
       });
       header.push(this.translate.instant('count'));
       if ((<TreeContributor>contributor).getAggregations()[0].metrics) {
         (<TreeContributor>contributor).getAggregations()[0].metrics.forEach(m => {
-          header.push(this.translate.instant('metric.'.concat(m.collect_field).concat('.').concat(m.collect_fct.toString())));
+          header.push(this.translate.instant('HEADER_EXPORT',
+            {field: this.translate.instant(this.arlasCollectionService.getDisplayFieldName(m.collect_field)),
+              metric: this.translate.instant(m.collect_fct.toString())
+            }));
         });
       }
       csvData.push(header);
