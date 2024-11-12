@@ -45,6 +45,7 @@
 	"Delete": "Supprimer",
 	"Rename": "Renommer",
 	"Count": "Nombre d'éléments",
+	"Bookmarks can be combined to create a new one containing the filters of all selected bookmarks.": "Les bookmarks peuvent être combinés pour créer un nouveau bookmark contenant les filtres de tous ceux sélectionnés.",
 	"View Combine": "Simuler la combinaison",
 	"Combine": "Combiner",
 	"Close": "Fermer",
