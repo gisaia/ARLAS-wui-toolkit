@@ -425,7 +425,7 @@
               "network_fetching_level": 6
             },
             {
-              "id": "arlas_id:Speed (m/s):1648224992011",
+              "id": "arlas_id:Speed (m/s):1726741986360",
               "name": "Speed (m/s)",
               "source": "feature-metric-location_id-box_geom--6-demo_sea_phys_bcg",
               "minzoom": 3,
@@ -475,69 +475,49 @@
               },
               "geometry_id": "location_id",
               "network_fetching_level": 6
+            },
+            {
+              "id": "arlas_id:Current orientation:1726740256619",
+              "name": "Current orientation",
+              "source": "feature-metric-location_id-box_geom--6-demo_sea_phys_bcg",
+              "minzoom": 3,
+              "maxzoom": 22,
+              "include_fields": [],
+              "short_form_fields": [],
+              "colors_from_fields": [],
+              "provided_fields": [],
+              "normalization_fields": [],
+              "metrics": [
+                {
+                  "field": "current_speed",
+                  "metric": "avg",
+                  "normalize": true
+                },
+                {
+                  "field": "current_dir_angle_arlas",
+                  "metric": "avg",
+                  "normalize": false
+                }
+              ],
+              "maxfeatures": 10000,
+              "raw_geometry": {
+                "geometry": "box_geom",
+                "sort": ""
+              },
+              "geometry_id": "location_id",
+              "network_fetching_level": 6
             }
           ]
         },
         {
-          "type": "chipssearch",
-          "identifier": "chipssearch",
+          "type": "search",
+          "identifier": "search_demo_ais_flow_internal.fulltext_internal.autocomplete",
           "collection": "demo_ais_flow",
           "search_field": "internal.fulltext",
           "name": "Search...",
           "icon": "search",
           "autocomplete_field": "internal.autocomplete",
           "autocomplete_size": 10
-        },
-        {
-          "type": "metricstable",
-          "identifier": "metricstable-1",
-          "name": "Metrics table",
-          "numberOfBuckets": 3,
-          "sort": {
-            "collection": "demo_ais_flow",
-            "termfield": "course.arrival.address.country",
-            "order": "desc",
-            "on": "metric",
-            "metric": {
-              "metric": "sum",
-              "field": "course.distance.gps.travelled_m"
-            }
-          },
-          "configuration": [
-            {
-              "termfield": "course.arrival.address.country",
-              "collection": "demo_ais_flow",
-              "metrics": [
-                {
-                  "metric": "sum",
-                  "field": "course.distance.gps.travelled_m"
-                },
-                {
-                  "metric": "count"
-                }
-              ]
-            },
-            {
-              "termfield": "arrival.address.country",
-              "collection": "demo_ais_course",
-              "metrics": [
-                {
-                  "metric": "count"
-                }
-              ]
-            },
-
-            {
-              "termfield": "course.arrival.address.country",
-              "collection": "demo_ais_flow",
-              "metrics": [
-
-                {
-                  "metric": "count"
-                }
-              ]
-            }
-          ]
         },
         {
           "type": "histogram",
@@ -558,14 +538,6 @@
             {
               "collectionName": "demo_sea_phys_bcg",
               "field": "timestamp"
-            },
-            {
-              "collectionName": "demo_ais_course",
-              "field": "track.timestamps.center"
-            },
-            {
-              "collectionName": "demo_ais_flow",
-              "field": "track.timestamps.center"
             }
           ]
         },
@@ -591,10 +563,14 @@
                 "process": ""
               }
             ],
-            "icon": "fiber_manual_record",
             "iconColorFieldName": "metadata.core.identity.collection",
             "urlThumbnailTemplate": "{metadata.core.graphics.thumbnail}",
-            "urlImageTemplate": "{metadata.core.graphics.quicklook}"
+            "urlImageTemplates": [
+              {
+                "url": "{metadata.core.graphics.quicklook}",
+                "description": ""
+              }
+            ]
           },
           "columns": [
             {
@@ -625,7 +601,7 @@
               "columnName": "Incidence angle",
               "fieldName": "metadata.ObservationContext.eo.acquisition.incidenceAngle",
               "dataType": "°",
-              "process": "(result !== undefined && result !== null) ? result.toString().split('.')[0].concat((result.toString().split('.')[1] !== undefined && result.toString().split('.')[1] !== null) ? '.'+result.toString().split('.')[1].substring(0, 4) : '') : ''",
+              "process": "result !== undefined ? (result !== null ? Math.round(result, 4) : '') : ''",
               "useColorService": false,
               "sort": ""
             }
@@ -742,12 +718,7 @@
               ]
             }
           ],
-          "includeMetadata": [
-            "metadata.core.identity.collection",
-            "metadata.core.temporalCoverage.begin",
-            "{metadata.core.graphics.thumbnail}",
-            "{metadata.core.graphics.quicklook}"
-          ]
+          "includeMetadata": []
         },
         {
           "type": "detailedhistogram",
@@ -770,14 +741,6 @@
             {
               "collectionName": "demo_sea_phys_bcg",
               "field": "timestamp"
-            },
-            {
-              "collectionName": "demo_ais_course",
-              "field": "track.timestamps.center"
-            },
-            {
-              "collectionName": "demo_ais_flow",
-              "field": "track.timestamps.center"
             }
           ]
         },
@@ -916,36 +879,6 @@
           ],
           "filterOperator": "Eq",
           "allowOperatorChange": true
-        },
-        {
-          "identifier": "demo_ais_flow-course.departure.timestamp-time-bucket-Count--50course.arrival.address.country",
-          "name": "Swimlane",
-          "title": "Swimlane",
-          "collection": "demo_ais_flow",
-          "icon": "poll",
-          "type": "swimlane",
-          "numberOfBuckets": 50,
-          "swimlanes": [
-            {
-              "id": 1,
-              "name": "Swimlane",
-              "xAxisField": "course.departure.timestamp",
-              "termField": "course.arrival.address.country",
-              "aggregationmodels": [
-                {
-                  "type": "term",
-                  "field": "course.arrival.address.country",
-                  "size": 5
-                },
-                {
-                  "type": "datehistogram",
-                  "field": "course.departure.timestamp"
-                }
-              ],
-              "useUtc": true,
-              "jsonpath": "$.count"
-            }
-          ]
         },
         {
           "identifier": "demo_osm-osm.building-10-",
@@ -1123,7 +1056,44 @@
               "on": "count"
             }
           ],
-          "linked_contributor_id": "demo_algoe-valeurfonc-numeric-bucket-Count--50"
+          "filterOperator": "Eq",
+          "allowOperatorChange": true
+        },
+        {
+          "identifier": "demo_sea_phys_bcg-depth-numeric-bucket-Count--50",
+          "name": "Depth distribution",
+          "title": "Depth distribution",
+          "collection": "demo_sea_phys_bcg",
+          "icon": "arrow_downward",
+          "charttype": "bars",
+          "isOneDimension": false,
+          "type": "histogram",
+          "numberOfBuckets": 50,
+          "jsonpath": "$.count",
+          "aggregationmodels": [
+            {
+              "type": "histogram",
+              "field": "depth"
+            }
+          ]
+        },
+        {
+          "identifier": "demo_sea_phys_bcg-ph-numeric-bucket-Count--50",
+          "name": "ph distribution",
+          "title": "ph distribution",
+          "collection": "demo_sea_phys_bcg",
+          "icon": "poll",
+          "charttype": "bars",
+          "isOneDimension": false,
+          "type": "histogram",
+          "numberOfBuckets": 50,
+          "jsonpath": "$.count",
+          "aggregationmodels": [
+            {
+              "type": "histogram",
+              "field": "ph"
+            }
+          ]
         },
         {
           "identifier": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-ph-50",
@@ -1654,6 +1624,7 @@
         "timeline": {
           "contributorId": "timeline",
           "componentType": "histogram",
+          "uuid": "",
           "input": {
             "id": "histogram-timeline",
             "xTicks": 9,
@@ -1694,28 +1665,33 @@
             "defaultBasemapStyle": {
               "name": "Streets-light - No label",
               "styleFile": "https://api.maptiler.com/maps/bfbf9c99-aa66-4830-8b6c-2251d177f2f5/style.json?key=E7xmD2y9rRj1z4TcNnj9",
-              "image": null
+              "image": null,
+              "type": null
             },
             "basemapStyles": [
               {
                 "name": "Basic",
                 "styleFile": "https://api.maptiler.com/maps/basic/style.json?key=E7xmD2y9rRj1z4TcNnj9",
-                "image": null
+                "image": null,
+                "type": null
               },
               {
                 "name": "Streets-dark",
                 "styleFile": "https://api.maptiler.com/maps/a1e62ee0-aca6-451a-a4b8-42250422a212/style.json?key=E7xmD2y9rRj1z4TcNnj9",
-                "image": null
+                "image": null,
+                "type": null
               },
               {
                 "name": "Streets-light",
                 "styleFile": "https://api.maptiler.com/maps/208a41eb-368f-4003-8e3c-2dba0d90b3cb/style.json?key=E7xmD2y9rRj1z4TcNnj9",
-                "image": null
+                "image": null,
+                "type": null
               },
               {
                 "name": "Streets-light - No label",
                 "styleFile": "https://api.maptiler.com/maps/bfbf9c99-aa66-4830-8b6c-2251d177f2f5/style.json?key=E7xmD2y9rRj1z4TcNnj9",
-                "image": null
+                "image": null,
+                "type": null
               }
             ],
             "margePanForLoad": 5,
@@ -1840,7 +1816,7 @@
               {
                 "name": "Current Speed",
                 "layers": [
-                  "arlas_id:Speed (m/s):1648224992011"
+                  "arlas_id:Current orientation:1726740256619"
                 ],
                 "enabled": false
               }
@@ -1849,7 +1825,6 @@
         },
         "resultlists": [
           {
-            "contributorId": "demo_eo-metadata.core.identity.identifier-150-Sensor-Date-Cloud %-Incidence angle-Location-Source-Technical details-Processing-Acquisition-",
             "componentType": "resultlist",
             "input": {
               "id": "demo_eo-metadata.core.identity.identifier-150-Sensor-Date-Cloud %-Incidence angle-Location-Source-Technical details-Processing-Acquisition-",
@@ -1863,7 +1838,7 @@
               "hasGridMode": true,
               "defautMode": "grid",
               "visualisationLink": "{_services_WMS_0_url}",
-              "downloadLink": "https://demo.cloud.arlas.io/arlas/server/explore/demo_eo/_search?f=metadata.core.identity.identifier:eq:{metadata_core_identity_identifier}",
+              "downloadLink": "https://cloud.arlas.io/arlas/server/explore/demo_eo/_search?f=metadata.core.identity.identifier:eq:{metadata_core_identity_identifier}",
               "isBodyHidden": false,
               "isGeoSortActived": true,
               "isAutoGeoSortActived": null,
@@ -1881,12 +1856,16 @@
                 "showName": true,
                 "showIcon": true
               }
-            }
+            },
+            "contributorId": "demo_eo-metadata.core.identity.identifier-150-Sensor-Date-Cloud %-Incidence angle-Location-Source-Technical details-Processing-Acquisition-",
+            "uuid": "ddd3ae98-6487-493c-90d2-7f706d720c8a",
+            "usage": "analytics"
           }
         ],
         "detailedTimeline": {
           "contributorId": "detailedTimeline",
           "componentType": "histogram",
+          "uuid": "",
           "input": {
             "id": "histogram-detailed-timeline",
             "xTicks": 5,
@@ -1939,7 +1918,6 @@
           "icon": "multiline_chart",
           "components": [
             {
-              "contributorId": "demo_ais_flow-object.id-cardinality-0",
               "componentType": "metric",
               "input": {
                 "customizedCssClass": "power",
@@ -1947,10 +1925,12 @@
                 "valuePrecision": 0,
                 "chartWidth": 143,
                 "afterValue": "Vessels"
-              }
+              },
+              "contributorId": "demo_ais_flow-object.id-cardinality-0",
+              "uuid": "8a8aae66-5a04-4695-8584-6d671da91b04",
+              "usage": "analytics"
             },
             {
-              "contributorId": "demo_ais_flow-m[0]/1852track.distance.gps.travelled_m-sum-0",
               "componentType": "metric",
               "input": {
                 "customizedCssClass": "power",
@@ -1958,10 +1938,12 @@
                 "valuePrecision": 0,
                 "chartWidth": 143,
                 "afterValue": "Nautic Miles"
-              }
+              },
+              "contributorId": "demo_ais_flow-m[0]/1852track.distance.gps.travelled_m-sum-0",
+              "uuid": "f7d9e021-d1f2-47cf-b6c2-8be96faf9b61",
+              "usage": "analytics"
             },
             {
-              "contributorId": "demo_ais_flow-track.nb_geopoints-sum-0",
               "componentType": "metric",
               "input": {
                 "customizedCssClass": "power",
@@ -1969,7 +1951,10 @@
                 "valuePrecision": 0,
                 "chartWidth": 143,
                 "afterValue": "Geopoints"
-              }
+              },
+              "contributorId": "demo_ais_flow-track.nb_geopoints-sum-0",
+              "uuid": "97b57b9d-85bc-402a-b6f6-f2a346fd5648",
+              "usage": "analytics"
             }
           ]
         },
@@ -1980,7 +1965,6 @@
           "icon": "directions_boat",
           "components": [
             {
-              "contributorId": "demo_ais_flow-object.ship_type-15-",
               "componentType": "donut",
               "showExportCsv": "",
               "input": {
@@ -1990,10 +1974,12 @@
                 "containerWidth": 223,
                 "multiselectable": true,
                 "opacity": 0.4
-              }
+              },
+              "contributorId": "demo_ais_flow-object.ship_type-15-",
+              "uuid": "fc55a6f5-c15c-47c7-b987-73bfa662a8cd",
+              "usage": "analytics"
             },
             {
-              "contributorId": "demo_ais_flow-object.ship_type-6-Count-desc-count",
               "showExportCsv": "",
               "componentType": "powerbars",
               "input": {
@@ -2009,7 +1995,10 @@
                 "useColorFromData": false,
                 "unit": "",
                 "chartWidth": 217
-              }
+              },
+              "contributorId": "demo_ais_flow-object.ship_type-6-Count-desc-count",
+              "uuid": "32dca24d-223c-410a-8c65-39b32ef4eda7",
+              "usage": "analytics"
             }
           ]
         },
@@ -2020,7 +2009,6 @@
           "icon": "explore",
           "components": [
             {
-              "contributorId": "demo_ais_flow-track.dynamics.sensor.heading-numeric-bucket-Count--50",
               "input": {
                 "id": "demo_ais_flow-track.dynamics.sensor.heading-numeric-bucket-Count--50",
                 "isHistogramSelectable": true,
@@ -2040,7 +2028,7 @@
                 "xLabels": 4,
                 "yLabels": 4,
                 "xUnit": "",
-                "yUnit": "",
+                "yUnit": "Vessel tracks",
                 "chartXLabel": "",
                 "shortYLabels": false,
                 "showXTicks": true,
@@ -2054,10 +2042,12 @@
                 "isSmoothedCurve": false
               },
               "componentType": "histogram",
-              "showExportCsv": ""
+              "showExportCsv": "",
+              "contributorId": "demo_ais_flow-track.dynamics.sensor.heading-numeric-bucket-Count--50",
+              "uuid": "c40e1207-b57e-4a04-9471-064e680abafc",
+              "usage": "analytics"
             },
             {
-              "contributorId": "demo_ais_flow-track.dynamics.sensor.speed_nd-numeric-bucket-Count--50",
               "input": {
                 "id": "demo_ais_flow-track.dynamics.sensor.speed_nd-numeric-bucket-Count--50",
                 "isHistogramSelectable": true,
@@ -2077,7 +2067,7 @@
                 "xLabels": 4,
                 "yLabels": 4,
                 "xUnit": "",
-                "yUnit": "",
+                "yUnit": "Vessel tracks",
                 "chartXLabel": "",
                 "shortYLabels": false,
                 "showXTicks": true,
@@ -2091,7 +2081,10 @@
                 "isSmoothedCurve": false
               },
               "componentType": "histogram",
-              "showExportCsv": ""
+              "showExportCsv": "",
+              "contributorId": "demo_ais_flow-track.dynamics.sensor.speed_nd-numeric-bucket-Count--50",
+              "uuid": "7b47a187-3118-4004-95f5-4a7ffa853104",
+              "usage": "analytics"
             }
           ]
         },
@@ -2102,7 +2095,6 @@
           "icon": "fingerprint",
           "components": [
             {
-              "contributorId": "demo_ais_flow-object.name-10-Count-desc-count",
               "showExportCsv": "",
               "componentType": "powerbars",
               "input": {
@@ -2118,61 +2110,10 @@
                 "useColorFromData": false,
                 "unit": "",
                 "chartWidth": 445
-              }
-            }
-          ]
-        },
-        {
-          "groupId": "Vessels-4",
-          "title": "Departures per country",
-          "tab": "Vessels",
-          "icon": "poll",
-          "components": [
-            {
-              "contributorId": "demo_ais_flow-course.departure.timestamp-time-bucket-Count--50course.arrival.address.country",
-              "input": {
-                "id": "demo_ais_flow-course.departure.timestamp-time-bucket-Count--50course.arrival.address.country",
-                "isHistogramSelectable": true,
-                "multiselectable": false,
-                "topOffsetRemoveInterval": 40,
-                "leftOffsetRemoveInterval": 18,
-                "brushHandlesHeightWeight": 0.8,
-                "yAxisStartsFromZero": true,
-                "chartTitle": "Swimlane",
-                "chartHeight": 100,
-                "chartWidth": 445,
-                "xAxisPosition": "bottom",
-                "descriptionPosition": "bottom",
-                "xTicks": 4,
-                "yTicks": 1,
-                "xLabels": 4,
-                "yLabels": 4,
-                "xUnit": "",
-                "yUnit": "",
-                "chartXLabel": "",
-                "shortYLabels": false,
-                "showXTicks": true,
-                "showYTicks": true,
-                "showXLabels": true,
-                "showYLabels": true,
-                "barWeight": 0.8,
-                "dataType": "time",
-                "swimLaneLabelsWidth": 100,
-                "swimlaneHeight": 20,
-                "swimlaneMode": "fixedHeight",
-                "swimlaneBorderRadius": 3,
-                "paletteColors": [
-                  330,
-                  170
-                ],
-                "swimlane_representation": "global",
-                "customizedCssClass": "arlas-swimlane",
-                "swimlane_options": {
-                  "nan_color": "#D6D6D6"
-                }
               },
-              "componentType": "swimlane",
-              "showExportCsv": false
+              "contributorId": "demo_ais_flow-object.name-10-Count-desc-count",
+              "uuid": "ea8a3129-637b-4d3c-8e9e-5a179d1dd37b",
+              "usage": "analytics"
             }
           ]
         },
@@ -2183,7 +2124,6 @@
           "icon": "account_balance",
           "components": [
             {
-              "contributorId": "demo_osm-osm.building-10-",
               "componentType": "donut",
               "showExportCsv": "",
               "input": {
@@ -2193,10 +2133,12 @@
                 "containerWidth": 223,
                 "multiselectable": true,
                 "opacity": 0.4
-              }
+              },
+              "contributorId": "demo_osm-osm.building-10-",
+              "uuid": "8e9565af-c8f1-4703-bedb-b48655a04875",
+              "usage": "analytics"
             },
             {
-              "contributorId": "demo_osm-osm.building-6-Count-desc-count",
               "showExportCsv": "",
               "componentType": "powerbars",
               "input": {
@@ -2212,7 +2154,10 @@
                 "useColorFromData": false,
                 "unit": "",
                 "chartWidth": 217
-              }
+              },
+              "contributorId": "demo_osm-osm.building-6-Count-desc-count",
+              "uuid": "6da16cb0-741b-40df-8225-a6baec87af57",
+              "usage": "analytics"
             }
           ]
         },
@@ -2223,7 +2168,6 @@
           "icon": "settings_ethernet",
           "components": [
             {
-              "contributorId": "demo_osm-osm.area-numeric-bucket-Count--50",
               "input": {
                 "id": "demo_osm-osm.area-numeric-bucket-Count--50",
                 "isHistogramSelectable": true,
@@ -2243,7 +2187,7 @@
                 "xLabels": 4,
                 "yLabels": 4,
                 "xUnit": "",
-                "yUnit": "",
+                "yUnit": "Buildings",
                 "chartXLabel": "",
                 "shortYLabels": false,
                 "showXTicks": true,
@@ -2257,7 +2201,10 @@
                 "isSmoothedCurve": false
               },
               "componentType": "histogram",
-              "showExportCsv": ""
+              "showExportCsv": "",
+              "contributorId": "demo_osm-osm.area-numeric-bucket-Count--50",
+              "uuid": "0e77de64-db1a-4f78-930d-582701666745",
+              "usage": "analytics"
             }
           ]
         },
@@ -2268,7 +2215,6 @@
           "icon": "camera",
           "components": [
             {
-              "contributorId": "demo_eo-_sensorType-10-metadata.ObservationContext.processusUsed.platform-10-",
               "componentType": "donut",
               "showExportCsv": false,
               "input": {
@@ -2278,10 +2224,12 @@
                 "containerWidth": 223,
                 "multiselectable": true,
                 "opacity": 0.4
-              }
+              },
+              "contributorId": "demo_eo-_sensorType-10-metadata.ObservationContext.processusUsed.platform-10-",
+              "uuid": "4dc32097-24bc-40b7-acda-c6e995e270c7",
+              "usage": "analytics"
             },
             {
-              "contributorId": "demo_eo-metadata.ObservationContext.processusUsed.platform-6-Count-desc-count",
               "showExportCsv": false,
               "componentType": "powerbars",
               "input": {
@@ -2297,7 +2245,10 @@
                 "useColorFromData": false,
                 "unit": "",
                 "chartWidth": 217
-              }
+              },
+              "contributorId": "demo_eo-metadata.ObservationContext.processusUsed.platform-6-Count-desc-count",
+              "uuid": "7c51f157-43ed-4ade-bd06-db52aa519264",
+              "usage": "analytics"
             }
           ]
         },
@@ -2308,7 +2259,6 @@
           "icon": "cloud_queue",
           "components": [
             {
-              "contributorId": "demo_eo-metadata.ObservationContext.eo.opt.cloudCoverPercentage-numeric-bucket-Count--50",
               "input": {
                 "id": "demo_eo-metadata.ObservationContext.eo.opt.cloudCoverPercentage-numeric-bucket-Count--50",
                 "isHistogramSelectable": true,
@@ -2328,7 +2278,7 @@
                 "xLabels": 4,
                 "yLabels": 4,
                 "xUnit": "",
-                "yUnit": "",
+                "yUnit": "EO images",
                 "chartXLabel": "",
                 "shortYLabels": false,
                 "showXTicks": true,
@@ -2342,7 +2292,10 @@
                 "isSmoothedCurve": false
               },
               "componentType": "histogram",
-              "showExportCsv": ""
+              "showExportCsv": "",
+              "contributorId": "demo_eo-metadata.ObservationContext.eo.opt.cloudCoverPercentage-numeric-bucket-Count--50",
+              "uuid": "2d24c653-86b0-4d94-a5b2-dc3b9124af81",
+              "usage": "analytics"
             }
           ]
         },
@@ -2353,7 +2306,6 @@
           "icon": "call_missed_outgoing",
           "components": [
             {
-              "contributorId": "demo_eo-metadata.ObservationContext.eo.acquisition.incidenceAngle-numeric-bucket-Count--50",
               "input": {
                 "id": "demo_eo-metadata.ObservationContext.eo.acquisition.incidenceAngle-numeric-bucket-Count--50",
                 "isHistogramSelectable": true,
@@ -2373,7 +2325,7 @@
                 "xLabels": 4,
                 "yLabels": 4,
                 "xUnit": "",
-                "yUnit": "",
+                "yUnit": "EO images",
                 "chartXLabel": "",
                 "shortYLabels": false,
                 "showXTicks": true,
@@ -2387,7 +2339,10 @@
                 "isSmoothedCurve": false
               },
               "componentType": "histogram",
-              "showExportCsv": ""
+              "showExportCsv": "",
+              "contributorId": "demo_eo-metadata.ObservationContext.eo.acquisition.incidenceAngle-numeric-bucket-Count--50",
+              "uuid": "dd74fc23-bce7-40ea-a052-c5bf1dabe6fe",
+              "usage": "analytics"
             }
           ]
         },
@@ -2398,7 +2353,6 @@
           "icon": "apps",
           "components": [
             {
-              "contributorId": "demo_sea_phys_bcg-location_id-cardinality-0",
               "componentType": "metric",
               "input": {
                 "customizedCssClass": "power",
@@ -2406,10 +2360,12 @@
                 "valuePrecision": 1,
                 "chartWidth": 217,
                 "beforeValue": "Cells number"
-              }
+              },
+              "contributorId": "demo_sea_phys_bcg-location_id-cardinality-0",
+              "uuid": "a3cab18b-5165-499f-8af4-b28654af9166",
+              "usage": "analytics"
             },
             {
-              "contributorId": "demo_sea_phys_bcg-location_id_depth-cardinality-0",
               "componentType": "metric",
               "input": {
                 "customizedCssClass": "power",
@@ -2417,7 +2373,10 @@
                 "valuePrecision": 1,
                 "chartWidth": 217,
                 "beforeValue": "3D Cells number (depth)"
-              }
+              },
+              "contributorId": "demo_sea_phys_bcg-location_id_depth-cardinality-0",
+              "uuid": "0d0f8fcf-5558-49d8-be33-38d7ece47dad",
+              "usage": "analytics"
             }
           ]
         },
@@ -2428,7 +2387,6 @@
           "icon": "arrow_downward",
           "components": [
             {
-              "contributorId": "demo_sea_phys_bcg-depth_status-4-Count-desc-count",
               "showExportCsv": true,
               "componentType": "powerbars",
               "input": {
@@ -2444,10 +2402,12 @@
                 "useColorFromData": false,
                 "unit": "measures",
                 "chartWidth": 445
-              }
+              },
+              "contributorId": "demo_sea_phys_bcg-depth_status-4-Count-desc-count",
+              "uuid": "ef17e867-9edf-4959-bf4e-d480926574f5",
+              "usage": "analytics"
             },
             {
-              "contributorId": "demo_sea_phys_bcg-depth-numeric-bucket-Count--50",
               "input": {
                 "id": "demo_sea_phys_bcg-depth-numeric-bucket-Count--50",
                 "isHistogramSelectable": true,
@@ -2467,7 +2427,7 @@
                 "xLabels": 4,
                 "yLabels": 4,
                 "xUnit": "",
-                "yUnit": "",
+                "yUnit": "Sea measures",
                 "chartXLabel": "",
                 "shortYLabels": false,
                 "showXTicks": true,
@@ -2481,7 +2441,10 @@
                 "isSmoothedCurve": false
               },
               "componentType": "histogram",
-              "showExportCsv": ""
+              "showExportCsv": "",
+              "contributorId": "demo_sea_phys_bcg-depth-numeric-bucket-Count--50",
+              "uuid": "b9732566-c82f-4a95-8441-0b7cc050a357",
+              "usage": "analytics"
             }
           ]
         },
@@ -2492,7 +2455,6 @@
           "icon": "poll",
           "components": [
             {
-              "contributorId": "demo_sea_phys_bcg-ph-numeric-bucket-Count--50",
               "input": {
                 "id": "demo_sea_phys_bcg-ph-numeric-bucket-Count--50",
                 "isHistogramSelectable": true,
@@ -2512,7 +2474,7 @@
                 "xLabels": 4,
                 "yLabels": 4,
                 "xUnit": "",
-                "yUnit": "",
+                "yUnit": "Sea measures",
                 "chartXLabel": "",
                 "shortYLabels": false,
                 "showXTicks": true,
@@ -2526,10 +2488,12 @@
                 "isSmoothedCurve": false
               },
               "componentType": "histogram",
-              "showExportCsv": ""
+              "showExportCsv": "",
+              "contributorId": "demo_sea_phys_bcg-ph-numeric-bucket-Count--50",
+              "uuid": "4e7c2074-4df6-4f9b-a766-a457a625bd8e",
+              "usage": "analytics"
             },
             {
-              "contributorId": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-ph-50",
               "input": {
                 "id": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-ph-50",
                 "isHistogramSelectable": true,
@@ -2564,7 +2528,10 @@
                 "isSmoothedCurve": false
               },
               "componentType": "histogram",
-              "showExportCsv": ""
+              "showExportCsv": "",
+              "contributorId": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-ph-50",
+              "uuid": "acfe91db-7fbd-4fe7-89b2-5607b698b301",
+              "usage": "analytics"
             }
           ]
         },
@@ -2575,7 +2542,6 @@
           "icon": "poll",
           "components": [
             {
-              "contributorId": "demo_sea_phys_bcg-spco2-numeric-bucket-Count--50",
               "input": {
                 "id": "demo_sea_phys_bcg-spco2-numeric-bucket-Count--50",
                 "isHistogramSelectable": true,
@@ -2595,7 +2561,7 @@
                 "xLabels": 4,
                 "yLabels": 4,
                 "xUnit": "",
-                "yUnit": "",
+                "yUnit": "Sea measures",
                 "chartXLabel": "",
                 "shortYLabels": false,
                 "showXTicks": true,
@@ -2609,10 +2575,12 @@
                 "isSmoothedCurve": false
               },
               "componentType": "histogram",
-              "showExportCsv": ""
+              "showExportCsv": "",
+              "contributorId": "demo_sea_phys_bcg-spco2-numeric-bucket-Count--50",
+              "uuid": "a8b683bc-0b44-452d-b35a-7f59796289bf",
+              "usage": "analytics"
             },
             {
-              "contributorId": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-spco2-50",
               "input": {
                 "id": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-spco2-50",
                 "isHistogramSelectable": true,
@@ -2647,7 +2615,10 @@
                 "isSmoothedCurve": false
               },
               "componentType": "histogram",
-              "showExportCsv": ""
+              "showExportCsv": "",
+              "contributorId": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-spco2-50",
+              "uuid": "e8a81e20-9e73-46e8-98eb-ca3340f14a56",
+              "usage": "analytics"
             }
           ]
         },
@@ -2658,7 +2629,6 @@
           "icon": "poll",
           "components": [
             {
-              "contributorId": "demo_sea_phys_bcg-so-numeric-bucket-Count--50",
               "input": {
                 "id": "demo_sea_phys_bcg-so-numeric-bucket-Count--50",
                 "isHistogramSelectable": true,
@@ -2678,7 +2648,7 @@
                 "xLabels": 4,
                 "yLabels": 4,
                 "xUnit": "",
-                "yUnit": "",
+                "yUnit": "Sea measures",
                 "chartXLabel": "",
                 "shortYLabels": false,
                 "showXTicks": true,
@@ -2692,10 +2662,12 @@
                 "isSmoothedCurve": false
               },
               "componentType": "histogram",
-              "showExportCsv": ""
+              "showExportCsv": "",
+              "contributorId": "demo_sea_phys_bcg-so-numeric-bucket-Count--50",
+              "uuid": "b6a1720b-8f4f-4a34-85b1-523609f12325",
+              "usage": "analytics"
             },
             {
-              "contributorId": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-so-50",
               "input": {
                 "id": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-so-50",
                 "isHistogramSelectable": true,
@@ -2730,7 +2702,10 @@
                 "isSmoothedCurve": false
               },
               "componentType": "histogram",
-              "showExportCsv": ""
+              "showExportCsv": "",
+              "contributorId": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-so-50",
+              "uuid": "8090581e-2eb6-449e-bc24-1f1d5cae22d6",
+              "usage": "analytics"
             }
           ]
         },
@@ -2741,7 +2716,6 @@
           "icon": "poll",
           "components": [
             {
-              "contributorId": "demo_sea_phys_bcg-nh4-numeric-bucket-Count--50",
               "input": {
                 "id": "demo_sea_phys_bcg-nh4-numeric-bucket-Count--50",
                 "isHistogramSelectable": true,
@@ -2761,7 +2735,7 @@
                 "xLabels": 4,
                 "yLabels": 4,
                 "xUnit": "",
-                "yUnit": "",
+                "yUnit": "Sea measures",
                 "chartXLabel": "",
                 "shortYLabels": false,
                 "showXTicks": true,
@@ -2775,10 +2749,12 @@
                 "isSmoothedCurve": false
               },
               "componentType": "histogram",
-              "showExportCsv": ""
+              "showExportCsv": "",
+              "contributorId": "demo_sea_phys_bcg-nh4-numeric-bucket-Count--50",
+              "uuid": "cb0f0a01-52f0-4e1e-bf47-6b2d426ec48b",
+              "usage": "analytics"
             },
             {
-              "contributorId": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-nh4-50",
               "input": {
                 "id": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-nh4-50",
                 "isHistogramSelectable": true,
@@ -2813,7 +2789,10 @@
                 "isSmoothedCurve": false
               },
               "componentType": "histogram",
-              "showExportCsv": ""
+              "showExportCsv": "",
+              "contributorId": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-nh4-50",
+              "uuid": "9acb7d82-446b-4c93-91ee-f8d4aa7c526a",
+              "usage": "analytics"
             }
           ]
         },
@@ -2824,7 +2803,6 @@
           "icon": "poll",
           "components": [
             {
-              "contributorId": "demo_sea_phys_bcg-chl-numeric-bucket-Count--50",
               "input": {
                 "id": "demo_sea_phys_bcg-chl-numeric-bucket-Count--50",
                 "isHistogramSelectable": true,
@@ -2844,7 +2822,7 @@
                 "xLabels": 4,
                 "yLabels": 4,
                 "xUnit": "",
-                "yUnit": "",
+                "yUnit": "Sea measures",
                 "chartXLabel": "",
                 "shortYLabels": false,
                 "showXTicks": true,
@@ -2858,10 +2836,12 @@
                 "isSmoothedCurve": false
               },
               "componentType": "histogram",
-              "showExportCsv": ""
+              "showExportCsv": "",
+              "contributorId": "demo_sea_phys_bcg-chl-numeric-bucket-Count--50",
+              "uuid": "5275b806-0a58-483e-ae75-710ceb4fa978",
+              "usage": "analytics"
             },
             {
-              "contributorId": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-chl-50",
               "input": {
                 "id": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-chl-50",
                 "isHistogramSelectable": true,
@@ -2896,7 +2876,10 @@
                 "isSmoothedCurve": false
               },
               "componentType": "histogram",
-              "showExportCsv": ""
+              "showExportCsv": "",
+              "contributorId": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-chl-50",
+              "uuid": "c6dea3ee-35f2-4666-a32c-93824ba55257",
+              "usage": "analytics"
             }
           ]
         },
@@ -2907,7 +2890,6 @@
           "icon": "poll",
           "components": [
             {
-              "contributorId": "demo_sea_phys_bcg-no3-numeric-bucket-Count--50",
               "input": {
                 "id": "demo_sea_phys_bcg-no3-numeric-bucket-Count--50",
                 "isHistogramSelectable": true,
@@ -2927,7 +2909,7 @@
                 "xLabels": 4,
                 "yLabels": 4,
                 "xUnit": "",
-                "yUnit": "",
+                "yUnit": "Sea measures",
                 "chartXLabel": "",
                 "shortYLabels": false,
                 "showXTicks": true,
@@ -2941,10 +2923,12 @@
                 "isSmoothedCurve": false
               },
               "componentType": "histogram",
-              "showExportCsv": ""
+              "showExportCsv": "",
+              "contributorId": "demo_sea_phys_bcg-no3-numeric-bucket-Count--50",
+              "uuid": "3bd1f8f5-1b98-483a-850e-29b9166c1f3b",
+              "usage": "analytics"
             },
             {
-              "contributorId": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-no3-50",
               "input": {
                 "id": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-no3-50",
                 "isHistogramSelectable": true,
@@ -2979,7 +2963,10 @@
                 "isSmoothedCurve": false
               },
               "componentType": "histogram",
-              "showExportCsv": ""
+              "showExportCsv": "",
+              "contributorId": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-no3-50",
+              "uuid": "18d06f5b-7540-48f8-8770-a34f96f8d05f",
+              "usage": "analytics"
             }
           ]
         },
@@ -2990,7 +2977,6 @@
           "icon": "poll",
           "components": [
             {
-              "contributorId": "demo_sea_phys_bcg-o2-numeric-bucket-Count--50",
               "input": {
                 "id": "demo_sea_phys_bcg-o2-numeric-bucket-Count--50",
                 "isHistogramSelectable": true,
@@ -3010,7 +2996,7 @@
                 "xLabels": 4,
                 "yLabels": 4,
                 "xUnit": "",
-                "yUnit": "",
+                "yUnit": "Sea measures",
                 "chartXLabel": "",
                 "shortYLabels": false,
                 "showXTicks": true,
@@ -3024,10 +3010,12 @@
                 "isSmoothedCurve": false
               },
               "componentType": "histogram",
-              "showExportCsv": ""
+              "showExportCsv": "",
+              "contributorId": "demo_sea_phys_bcg-o2-numeric-bucket-Count--50",
+              "uuid": "2c70ebed-fe23-4266-80ec-dc0ad4e7710e",
+              "usage": "analytics"
             },
             {
-              "contributorId": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-o2-50",
               "input": {
                 "id": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-o2-50",
                 "isHistogramSelectable": true,
@@ -3062,7 +3050,10 @@
                 "isSmoothedCurve": false
               },
               "componentType": "histogram",
-              "showExportCsv": ""
+              "showExportCsv": "",
+              "contributorId": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-o2-50",
+              "uuid": "1ba5b6bc-f270-4a52-ae1f-eeacbe166493",
+              "usage": "analytics"
             }
           ]
         },
@@ -3073,7 +3064,6 @@
           "icon": "poll",
           "components": [
             {
-              "contributorId": "demo_sea_phys_bcg-po4-numeric-bucket-Count--50",
               "input": {
                 "id": "demo_sea_phys_bcg-po4-numeric-bucket-Count--50",
                 "isHistogramSelectable": true,
@@ -3093,7 +3083,7 @@
                 "xLabels": 4,
                 "yLabels": 4,
                 "xUnit": "",
-                "yUnit": "",
+                "yUnit": "Sea measures",
                 "chartXLabel": "",
                 "shortYLabels": false,
                 "showXTicks": true,
@@ -3107,10 +3097,12 @@
                 "isSmoothedCurve": false
               },
               "componentType": "histogram",
-              "showExportCsv": ""
+              "showExportCsv": "",
+              "contributorId": "demo_sea_phys_bcg-po4-numeric-bucket-Count--50",
+              "uuid": "5812168e-b77b-4e34-9c39-da2893a915a6",
+              "usage": "analytics"
             },
             {
-              "contributorId": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-po4-50",
               "input": {
                 "id": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-po4-50",
                 "isHistogramSelectable": true,
@@ -3145,7 +3137,10 @@
                 "isSmoothedCurve": false
               },
               "componentType": "histogram",
-              "showExportCsv": ""
+              "showExportCsv": "",
+              "contributorId": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-po4-50",
+              "uuid": "b63e81f4-a6e4-410e-a403-a86f3e9cbd2a",
+              "usage": "analytics"
             }
           ]
         },
@@ -3156,7 +3151,6 @@
           "icon": "apps",
           "components": [
             {
-              "contributorId": "demo_sea_phys_bcg-location_id-cardinality-0",
               "componentType": "metric",
               "input": {
                 "customizedCssClass": "power",
@@ -3164,10 +3158,12 @@
                 "valuePrecision": 1,
                 "chartWidth": 217,
                 "beforeValue": "Cells number"
-              }
+              },
+              "contributorId": "demo_sea_phys_bcg-location_id-cardinality-0",
+              "uuid": "69fd6228-101a-4109-881e-d64423afa1ce",
+              "usage": "analytics"
             },
             {
-              "contributorId": "demo_sea_phys_bcg-location_id_depth-cardinality-0",
               "componentType": "metric",
               "input": {
                 "customizedCssClass": "power",
@@ -3175,7 +3171,10 @@
                 "valuePrecision": 1,
                 "chartWidth": 217,
                 "beforeValue": "3D Cells number (depth)"
-              }
+              },
+              "contributorId": "demo_sea_phys_bcg-location_id_depth-cardinality-0",
+              "uuid": "59cb9713-0fe4-492a-b443-40d9ededb6c7",
+              "usage": "analytics"
             }
           ]
         },
@@ -3186,31 +3185,7 @@
           "icon": "arrow_downward",
           "components": [
             {
-              "componentType": "metricstable",
               "showExportCsv": "",
-              "input": {
-                "id": "demo_algoe-libtypbien-10-",
-                "customizedCssClass": "arlas-donuts-analytics",
-                "diameter": 170,
-                "containerWidth": 223,
-                "multiselectable": true,
-                "opacity": 0.4,
-                "filterOperator": {
-                  "value": "Eq",
-                  "display": true
-                },
-                "useColorService": true,
-                "applyColorTo": "row",
-                "headerDisplayMode": "full",
-                "normaliseBy": "column"
-
-              },
-              "contributorId": "metricstable-1",
-              "uuid": "85fc2576-10cd-4a90-9691-d26b60d9b770",
-              "usage": "both"
-            },
-            {
-              "showExportCsv": true,
               "componentType": "powerbars",
               "input": {
                 "chartTitle": "Depth status",
@@ -3225,10 +3200,12 @@
                 "useColorFromData": false,
                 "unit": "measures",
                 "chartWidth": 445
-              }
+              },
+              "contributorId": "demo_sea_phys_bcg-depth_status-4-Count-desc-count",
+              "uuid": "ad30cac9-fbd5-42f1-989f-1dbf2df3def1",
+              "usage": "analytics"
             },
             {
-              "contributorId": "demo_sea_phys_bcg-depth-numeric-bucket-Count--50",
               "input": {
                 "id": "demo_sea_phys_bcg-depth-numeric-bucket-Count--50",
                 "isHistogramSelectable": true,
@@ -3248,7 +3225,7 @@
                 "xLabels": 4,
                 "yLabels": 4,
                 "xUnit": "",
-                "yUnit": "",
+                "yUnit": "Sea measures",
                 "chartXLabel": "",
                 "shortYLabels": false,
                 "showXTicks": true,
@@ -3262,7 +3239,10 @@
                 "isSmoothedCurve": false
               },
               "componentType": "histogram",
-              "showExportCsv": ""
+              "showExportCsv": "",
+              "contributorId": "demo_sea_phys_bcg-depth-numeric-bucket-Count--50",
+              "uuid": "04e956a4-81a5-445a-a6ca-21e31f82a6db",
+              "usage": "analytics"
             }
           ]
         },
@@ -3273,7 +3253,6 @@
           "icon": "poll",
           "components": [
             {
-              "contributorId": "demo_sea_phys_bcg-uo-numeric-bucket-Count--50",
               "input": {
                 "id": "demo_sea_phys_bcg-uo-numeric-bucket-Count--50",
                 "isHistogramSelectable": true,
@@ -3293,7 +3272,7 @@
                 "xLabels": 4,
                 "yLabels": 4,
                 "xUnit": "",
-                "yUnit": "",
+                "yUnit": "Sea measures",
                 "chartXLabel": "",
                 "shortYLabels": false,
                 "showXTicks": true,
@@ -3307,10 +3286,12 @@
                 "isSmoothedCurve": false
               },
               "componentType": "histogram",
-              "showExportCsv": ""
+              "showExportCsv": "",
+              "contributorId": "demo_sea_phys_bcg-uo-numeric-bucket-Count--50",
+              "uuid": "fd08d27a-35e5-48fb-8c43-ec4c4204f9df",
+              "usage": "analytics"
             },
             {
-              "contributorId": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-uo-50",
               "input": {
                 "id": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-uo-50",
                 "isHistogramSelectable": true,
@@ -3345,7 +3326,10 @@
                 "isSmoothedCurve": false
               },
               "componentType": "histogram",
-              "showExportCsv": ""
+              "showExportCsv": "",
+              "contributorId": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-uo-50",
+              "uuid": "ed72bed1-287d-45c6-aa1b-3e87a3737f2a",
+              "usage": "analytics"
             }
           ]
         },
@@ -3356,7 +3340,6 @@
           "icon": "poll",
           "components": [
             {
-              "contributorId": "demo_sea_phys_bcg-vo-numeric-bucket-Count--50",
               "input": {
                 "id": "demo_sea_phys_bcg-vo-numeric-bucket-Count--50",
                 "isHistogramSelectable": true,
@@ -3376,7 +3359,7 @@
                 "xLabels": 4,
                 "yLabels": 4,
                 "xUnit": "",
-                "yUnit": "",
+                "yUnit": "Sea measures",
                 "chartXLabel": "",
                 "shortYLabels": false,
                 "showXTicks": true,
@@ -3390,10 +3373,12 @@
                 "isSmoothedCurve": false
               },
               "componentType": "histogram",
-              "showExportCsv": ""
+              "showExportCsv": "",
+              "contributorId": "demo_sea_phys_bcg-vo-numeric-bucket-Count--50",
+              "uuid": "604a2b07-ff1e-4da1-8184-2974bde76f09",
+              "usage": "analytics"
             },
             {
-              "contributorId": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-vo-50",
               "input": {
                 "id": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-vo-50",
                 "isHistogramSelectable": true,
@@ -3428,7 +3413,10 @@
                 "isSmoothedCurve": false
               },
               "componentType": "histogram",
-              "showExportCsv": ""
+              "showExportCsv": "",
+              "contributorId": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-vo-50",
+              "uuid": "4c579431-6945-4e39-87a0-facdf1371b7e",
+              "usage": "analytics"
             }
           ]
         },
@@ -3439,7 +3427,6 @@
           "icon": "poll",
           "components": [
             {
-              "contributorId": "demo_sea_phys_bcg-current_speed-numeric-bucket-Count--50",
               "input": {
                 "id": "demo_sea_phys_bcg-current_speed-numeric-bucket-Count--50",
                 "isHistogramSelectable": true,
@@ -3459,7 +3446,7 @@
                 "xLabels": 4,
                 "yLabels": 4,
                 "xUnit": "",
-                "yUnit": "",
+                "yUnit": "Sea measures",
                 "chartXLabel": "",
                 "shortYLabels": false,
                 "showXTicks": true,
@@ -3473,10 +3460,12 @@
                 "isSmoothedCurve": false
               },
               "componentType": "histogram",
-              "showExportCsv": ""
+              "showExportCsv": "",
+              "contributorId": "demo_sea_phys_bcg-current_speed-numeric-bucket-Count--50",
+              "uuid": "0d1d21f2-c894-45fe-b2a2-a67b131ee4f0",
+              "usage": "analytics"
             },
             {
-              "contributorId": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-current_speed-50",
               "input": {
                 "id": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-current_speed-50",
                 "isHistogramSelectable": true,
@@ -3511,7 +3500,10 @@
                 "isSmoothedCurve": false
               },
               "componentType": "histogram",
-              "showExportCsv": ""
+              "showExportCsv": "",
+              "contributorId": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-current_speed-50",
+              "uuid": "aaff98b9-c5b8-40e5-abc6-90f2d61644de",
+              "usage": "analytics"
             }
           ]
         },
@@ -3522,7 +3514,6 @@
           "icon": "poll",
           "components": [
             {
-              "contributorId": "demo_sea_phys_bcg-thetao-numeric-bucket-Count--50",
               "input": {
                 "id": "demo_sea_phys_bcg-thetao-numeric-bucket-Count--50",
                 "isHistogramSelectable": true,
@@ -3542,7 +3533,7 @@
                 "xLabels": 4,
                 "yLabels": 4,
                 "xUnit": "",
-                "yUnit": "",
+                "yUnit": "Sea measures",
                 "chartXLabel": "",
                 "shortYLabels": false,
                 "showXTicks": true,
@@ -3556,10 +3547,12 @@
                 "isSmoothedCurve": false
               },
               "componentType": "histogram",
-              "showExportCsv": ""
+              "showExportCsv": "",
+              "contributorId": "demo_sea_phys_bcg-thetao-numeric-bucket-Count--50",
+              "uuid": "e7aad66b-8fbb-4d7a-af3e-b7c2fb3852cc",
+              "usage": "analytics"
             },
             {
-              "contributorId": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-thetao-50",
               "input": {
                 "id": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-thetao-50",
                 "isHistogramSelectable": true,
@@ -3594,10 +3587,12 @@
                 "isSmoothedCurve": false
               },
               "componentType": "histogram",
-              "showExportCsv": ""
+              "showExportCsv": "",
+              "contributorId": "demo_sea_phys_bcg-timestamp-time-bucket-AVG-thetao-50",
+              "uuid": "e1690793-8754-4dff-8563-2af65a3ce1e0",
+              "usage": "analytics"
             },
             {
-              "contributorId": "demo_sea_phys_bcg-depth-numeric-interval-AVG-thetao-5-",
               "input": {
                 "id": "demo_sea_phys_bcg-depth-numeric-interval-AVG-thetao-5-",
                 "isHistogramSelectable": true,
@@ -3631,33 +3626,15 @@
                 "isSmoothedCurve": false
               },
               "componentType": "histogram",
-              "showExportCsv": ""
+              "showExportCsv": "",
+              "contributorId": "demo_sea_phys_bcg-depth-numeric-interval-AVG-thetao-5-",
+              "uuid": "3bfbc4d8-f6f8-498e-89bf-ef1ff6685d79",
+              "usage": "analytics"
             }
           ]
         }
       ],
-      "filters_shortcuts": [
-        {
-          "uuid": "85fc2576-10cd-4a90-9691-d26b60d9b770",
-          "title": "Table metrics",
-          "order": 1
-        },
-        {
-          "uuid": "85fc2576-10cd-4a90-9691-d26b60d9b774",
-          "title": "Type de bien",
-          "order": 2
-        },
-        {
-          "uuid": "d0fc0203-e56c-4c36-a330-dda760344196",
-          "title": "Valeur moyenne à travers le temps",
-          "order": 3
-        },
-        {
-          "uuid": "40cf9f83-aea3-47f2-a6aa-0d9f9e2375c0",
-          "title": "Distribution de la valeur",
-          "order": 4
-        }
-      ],
+      "filters_shortcuts": [],
       "colorGenerator": {
         "keysToColors": [
           [
@@ -3808,7 +3785,7 @@
       },
       "options": {
         "drag_items": true,
-        "zoom_to_data": true,
+        "zoom_to_strategy": "centroid",
         "indicators": true,
         "spinner": {
           "show": true,
@@ -3870,13 +3847,29 @@
         "name": "ARLAS",
         "units": [
           {
-            "collection": "demo_algoe",
-            "unit": "buildings",
+            "collection": "demo_eo",
+            "unit": "EO images",
+            "ignored": false
+          },
+          {
+            "collection": "demo_ais_flow",
+            "unit": "Vessel tracks",
+            "ignored": false
+          },
+          {
+            "collection": "demo_osm",
+            "unit": "Buildings",
+            "ignored": false
+          },
+          {
+            "collection": "demo_sea_phys_bcg",
+            "unit": "Sea measures",
             "ignored": false
           }
-        ],
-        "name_background_color": "#FF4081"
+        ]
       }
     }
+  },
+  "resources": {
   }
 }

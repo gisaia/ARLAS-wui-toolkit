@@ -33,8 +33,8 @@ import { ARLAS_VSET } from 'arlas-web-components';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 import { orderAlphabeticallyArlasSearchFields } from '../../tools/utils';
-import { MatLegacyListOption as MatListOption } from '@angular/material/legacy-list';
 import { SelectionModel } from '@angular/cdk/collections';
+import { MatListOption } from '@angular/material/list';
 
 
 export interface ShareLayerSourceConfig extends LayerSourceConfig {

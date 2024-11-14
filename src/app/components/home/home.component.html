@@ -32,10 +32,6 @@
         <mat-icon>get_app</mat-icon>
         <span>Download data</span>
       </button>
-      <button mat-menu-item [matMenuTriggerFor]="tagMenu">
-        <mat-icon>local_offer</mat-icon>
-        <span>Tag data</span>
-      </button>
     </mat-menu>
     <button *ngIf="connected" mat-flat-button color="accent" (click)="logout()">Log out</button>
   </div>
@@ -56,3 +52,5 @@
 <arlas-tool-root></arlas-tool-root>
 
 <arlas-bookmark-menu #bookmarkMenu></arlas-bookmark-menu>
+<arlas-download #download [collections]="collections" [hidden]="true"></arlas-download>
+<arlas-share #share [icon]="'share'" [hidden]="true"></arlas-share>

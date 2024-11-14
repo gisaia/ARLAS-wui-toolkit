@@ -19,10 +19,10 @@
 
 import { Component, Inject } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 import { TranslateService } from '@ngx-translate/core';
 import { ArlasBookmarkService } from '../../services/bookmark/bookmark.service';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 @Component({
   templateUrl: './bookmark-add-dialog.component.html',
   styleUrls: ['./bookmark-add-dialog.component.scss']

@@ -26,8 +26,8 @@ import { ArlasCollaborativesearchService, ArlasConfigService } from '../../servi
 import { ArlasSearchField } from '../share/model/ArlasSearchField';
 import { DeviceDetectorService, OS } from 'ngx-device-detector';
 import { orderAlphabeticallyArlasSearchFields } from '../../tools/utils';
-import { MatLegacySelectionList as MatSelectionList, MatLegacyListOption as MatListOption } from '@angular/material/legacy-list';
 import { SelectionModel } from '@angular/cdk/collections';
+import { MatListOption, MatSelectionList } from '@angular/material/list';
 
 export const ARLAS_HITS_EXPORTER_VERSION = 2.2;
 
