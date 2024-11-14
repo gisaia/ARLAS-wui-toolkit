@@ -45,6 +45,7 @@
 	"Delete": "Delete",
 	"Rename": "Rename",
 	"Count": "Number of elements",
+	"Bookmarks can be combined to create a new one containing the filters of all selected bookmarks.": "Bookmarks can be combined to create a new one containing the filters of all selected bookmarks.",
 	"View Combine": "View Combine",
 	"Combine": "Combine",
 	"Close": "Close",
@@ -125,7 +126,7 @@
 	"Continue": "Continue",
 	"Unauthorized action": "Unauthorized action",
 	"You are not authorized to access this resource.": "You are not authorized to access this resource.",
-	"It’s quick and easy !": "It’s quick and easy!",
+	"It's quick and easy !": "It's quick and easy!",
 	"Just enter your email": "Just enter your email",
 	"By creating an account, you agree to the": "By creating an account, you agree to the",
 	"Terms of Service": "Terms of Service",
@@ -136,7 +137,7 @@
 	"Searching": "Searching...",
 	"No results": "No results matching the search.",
 	"Remove search text": "Remove search text",
-	"Mode": "Mode",
+	"Geometry": "Geometry",
 	"Desired precision": "Desired precision",
 	"None": "None",
 	"Order by": "Order by",
@@ -215,6 +216,7 @@
 	"extraAboutText": "",
 	"Loading bookmark": "Loading bookmark {{bookmark}}",
 	"count": "count",
+	"HEADER_EXPORT": "{{metric}} of {{field}}",
 	"tour.nextBtn": "Next",
 	"tour.prevBtn": "Previous",
 	"tour.doneBtn": "Done",
@@ -303,5 +305,6 @@
 	"running": "running",
 	"successful": "successful",
 	"failed": "failed",
-	"dissmissed": "dissmissed"
+	"dissmissed": "dissmissed",
+	"HEADER_EXPORT": "{{metric}} of {{field}}"
 }

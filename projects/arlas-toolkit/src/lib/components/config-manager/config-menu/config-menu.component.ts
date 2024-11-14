@@ -19,6 +19,14 @@
 
 import { Component, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Resource } from 'arlas-permissions-api';
+import { catchError, filter, map, take, tap } from 'rxjs/operators';
+import { PermissionService } from '../../../services/permission/permission.service';
+import { PersistenceService } from '../../../services/persistence/persistence.service';
+import { Subject, from, of } from 'rxjs';
+import { ConfigAction, ConfigActionEnum } from '../../../tools/utils';
+import { ActionModalComponent } from '../action-modal/action-modal.component';
+import { ArlasConfigService, ArlasExploreApi } from '../../../services/startup/startup.service';
 import { DataWithLinks } from 'arlas-persistence-api';
 import { Subject, of } from 'rxjs';
 import { catchError, filter, map, take } from 'rxjs/operators';
@@ -29,6 +37,11 @@ import { NO_ORGANISATION } from '../../../tools/consts';
 import { AuthorisationOnActionError } from '../../../tools/errors/authorisation-on-action-error';
 import { ConfigAction, ConfigActionEnum } from '../../../tools/utils';
 import { ActionModalComponent } from '../action-modal/action-modal.component';
+import { ArlasCollectionService } from '../../../services/collection/arlas-collection.service';
+import { Configuration, ExploreApi } from 'arlas-api';
+import { ArlasIamService } from '../../../services/arlas-iam/arlas-iam.service';
+import { ArlasSettingsService } from '../../../services/settings/arlas.settings.service';
+import { AuthentificationService } from '../../../services/authentification/authentification.service';
 
 @Component({
   selector: 'arlas-config-menu',
@@ -49,7 +62,11 @@ export class ConfigMenuComponent implements OnInit {
     private dialog: MatDialog,
     private persistenceService: PersistenceService,
     private configService: ArlasConfigService,
-    private errorService: ErrorService
+    private collectionService: ArlasCollectionService,
+    private errorService: ErrorService,
+    private arlasIamService: ArlasIamService,
+    private arlasSettings: ArlasSettingsService,
+    private authenService: AuthentificationService
   ) {
 
   }
@@ -125,9 +142,39 @@ export class ConfigMenuComponent implements OnInit {
       }
       case ConfigActionEnum.DUPLICATE:
       case ConfigActionEnum.RENAME:
-      case ConfigActionEnum.SHARE: {
         if (action.config && action.config.id) {
           this.getDialogRef(action).subscribe(() => this.actionExecutedEmitter.next(action));
+        }
+        break;
+      case ConfigActionEnum.SHARE: {
+        if (action.config && action.config.id && action.config.value && JSON.parse(action.config.value).arlas?.server?.url) {
+          const arlasServerUrl = JSON.parse(action.config.value).arlas.server.url;
+          const configuration: Configuration = new Configuration();
+          const arlasExploreApi: ExploreApi = new ExploreApi(
+            configuration,
+            arlasServerUrl,
+            window.fetch
+          );
+          let headers = {};
+          const authentConfig = this.arlasSettings.getAuthentSettings();
+          if (authentConfig && authentConfig.auth_mode === 'iam') {
+            headers = {
+              Authorization: 'Bearer ' + this.arlasIamService.getAccessToken(),
+              'arlas-org-filter': action.config.org
+            };
+          } else if (authentConfig && authentConfig.auth_mode === 'openid') {
+            headers = {
+              Authorization: 'Bearer ' + this.authenService.accessToken,
+            };
+          }
+          const fetchOptions = { headers };
+          from(arlasExploreApi.list(false, 0, fetchOptions)).subscribe(cdrs => {
+            const publicCollections = cdrs.filter(c => (c.params.organisations as any).public).map(c => c.collection_name);
+            const dashboardCollections = Array.from(this.collectionService.getCollectionFromDashboard(JSON.parse(action.config.value)));
+            const publicChecker = (arr, target) => target.every(v => arr.includes(v));
+            action.config.displayPublic = publicChecker(publicCollections, dashboardCollections);
+            this.getDialogRef(action).subscribe(() => this.actionExecutedEmitter.next(action));
+          });
         }
         break;
       }

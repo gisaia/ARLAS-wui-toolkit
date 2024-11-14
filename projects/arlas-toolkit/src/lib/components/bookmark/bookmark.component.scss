@@ -51,6 +51,14 @@
   }
 }
 
+mat-row:hover {
+  .bookmark__name {
+    text-decoration-line: underline;
+    font-style: italic;
+    cursor: pointer;
+  }
+}
+
 .bookmark-icons-action {
   cursor: pointer;
 
@@ -91,4 +99,23 @@
 
 ::ng-deep.mdc-dialog__surface {
   padding: 24px;
+}
+
+.bookmark-actions__description {
+  color: grey;
+  font-size: 14px;
+  display: flex;
+  margin-top: 10px;
+  margin-left: 5px;
+
+  mat-icon {
+    height: 18px;
+    width: 18px;
+    font-size: 18px;
+    margin-right: 5px;
+  }
+
+  span {
+    flex: 1;
+  }
 }
