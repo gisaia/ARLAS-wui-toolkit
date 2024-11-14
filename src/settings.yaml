@@ -36,10 +36,3 @@ links:
     icon: satellite_alt
     url: https://demo.cloud.arlas.io/
     check_url: http://localhost:9997/arlas_iam_server
-process:
-  url: 'https://arlas/processes/download/execution'
-  max_items: 15
-  settings:
-    url: 'assets/processes/download.json'
-  status:
-    url: 'http://arlas/jobs'

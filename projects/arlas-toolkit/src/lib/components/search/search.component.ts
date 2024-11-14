@@ -19,11 +19,6 @@
 
 import { Component, Inject, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
-import {
-  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
-  MatLegacyDialog as MatDialog,
-  MatLegacyDialogRef as MatDialogRef
-} from '@angular/material/legacy-dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 import { TranslateService } from '@ngx-translate/core';
@@ -34,6 +29,7 @@ import { Observable, of, Subject, Subscription, zip } from 'rxjs';
 import { debounceTime, filter, map, mergeMap, mergeWith, startWith } from 'rxjs/operators';
 import { ArlasCollaborativesearchService, ArlasConfigService } from '../../services/startup/startup.service';
 import { SearchContributor } from 'arlas-web-contributors';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'arlas-search',

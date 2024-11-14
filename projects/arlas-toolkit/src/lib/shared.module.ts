@@ -120,7 +120,6 @@ import { ArlasOverlayService } from './services/overlays/overlay.service';
 import { ArlasWalkthroughModule } from './services/walkthrough/walkthrough.module';
 import { MarkdownModule } from 'ngx-markdown';
 import { AboutComponent, AboutDialogComponent } from './components/top-menu/about/about.component';
-import { MatLegacyMenuModule as MatMenuModule } from '@angular/material/legacy-menu';
 import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from './services/startup/startup.service';
 import { PermissionsCreatorComponent } from './components/permissions-creator/permissions-creator.component';
 import {
@@ -137,6 +136,7 @@ import { ArlasCollectionService } from './services/collection/arlas-collection.s
 import { AiasEnrichComponent } from './components/aias/aias-enrich/aias-enrich.component';
 import { AiasResultComponent } from './components/aias/aias-result/aias-result.component';
 
+import { MatMenuModule } from '@angular/material/menu';
 
 export class CustomTranslateLoader implements TranslateLoader {
 

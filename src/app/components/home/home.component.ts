@@ -31,6 +31,7 @@ import {
 import {
   TimelineConfiguration
 } from '../../../../projects/arlas-toolkit/src/lib/components/timeline/timeline/timeline.utils';
+import { AnalyticsService } from '../../../../projects/arlas-toolkit/src/lib/services/analytics/analytics.service';
 import {
   ArlasAuthentificationService
 } from '../../../../projects/arlas-toolkit/src/lib/services/arlas-authentification/arlas-authentification.service';
@@ -46,11 +47,10 @@ import {
   ConfigAction,
   SpinnerOptions
 } from '../../../../projects/arlas-toolkit/src/lib/tools/utils';
-import {
-  AiasDownloadComponent,
-  AnalyticsService,
-  ProcessService
-} from '../../../../projects/arlas-toolkit/src/public-api';
+import { DownloadComponent } from '../../../../projects/arlas-toolkit/src/lib/components/download/download.component';
+import { ShareComponent } from '../../../../projects/arlas-toolkit/src/lib/components/share/share.component';
+import { ProcessService } from '../../../../projects/arlas-toolkit/src/lib/services/process/process.service';
+import { AiasDownloadComponent } from '../../../../projects/arlas-toolkit/src/lib/components/aias/aias-download/aias-download.component';
 
 @Component({
   selector: 'arlas-tool-home',
@@ -94,6 +94,8 @@ export class HomeComponent implements OnInit {
   public actions = new Array<ConfigAction>();
 
   @ViewChild('tooltip') public tooltip;
+  @ViewChild('download', { static: false }) private downloadComponent: DownloadComponent;
+  @ViewChild('share', { static: false }) private shareComponent: ShareComponent;
 
   public constructor(
     private arlasStartupService: ArlasStartupService,
@@ -209,6 +211,14 @@ export class HomeComponent implements OnInit {
     if (event) {
       this.lastShortcutOpen = idx;
     }
+  }
+
+  public displayDownload() {
+    this.downloadComponent.openDialog();
+  }
+
+  public displayShare() {
+    this.shareComponent.openDialog();
   }
 
   private getSearchContributorConfig() {
