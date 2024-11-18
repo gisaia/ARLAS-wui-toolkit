@@ -17,14 +17,8 @@
  * under the License.
  */
 
-.arlas-timeline-toolkit{
-  position:relative;
-  display: block;
-  top: 175px;
-}
 .arlas-board{
   position: relative;
-  top: 115px;
   width: 466px;
   display: block;
 }
@@ -63,16 +57,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.timeline {
-  position: relative;
-  top: 220px;
-}
-
-.analytics-menu-container {
-  position: relative;
-  top: 220px;
 }
 
 ::ng-deep.extra-counts {

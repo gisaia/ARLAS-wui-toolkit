@@ -46,6 +46,7 @@ import {
 import {
   AuthentSetting,
   ConfigAction,
+  ConfigActionEnum,
   SpinnerOptions
 } from '../../../../projects/arlas-toolkit/src/lib/tools/utils';
 import { DownloadComponent } from '../../../../projects/arlas-toolkit/src/lib/components/download/download.component';
@@ -79,8 +80,6 @@ export class HomeComponent implements OnInit {
 
   public collections: Array<string>;
 
-  public actions = new Array<ConfigAction>();
-
   @ViewChild('tooltip') public tooltip;
   @ViewChild('download', { static: false }) private downloadComponent: DownloadComponent;
   @ViewChild('share', { static: false }) private shareComponent: ShareComponent;
@@ -95,7 +94,6 @@ export class HomeComponent implements OnInit {
     private collaborativeService: ArlasCollaborativesearchService,
     private dialog: MatDialog
   ) {
-
   }
 
   public ngOnInit(): void {
