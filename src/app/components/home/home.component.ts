@@ -45,6 +45,7 @@ import {
 import {
   AuthentSetting,
   ConfigAction,
+  ConfigActionEnum,
   SpinnerOptions
 } from '../../../../projects/arlas-toolkit/src/lib/tools/utils';
 import { DownloadComponent } from '../../../../projects/arlas-toolkit/src/lib/components/download/download.component';
@@ -90,8 +91,6 @@ export class HomeComponent implements OnInit {
   ];
   public selectedItemFormat = this.itemFormats[0];
   public collections: Array<string>;
-
-  public actions = new Array<ConfigAction>();
 
   @ViewChild('tooltip') public tooltip;
   @ViewChild('download', { static: false }) private downloadComponent: DownloadComponent;
