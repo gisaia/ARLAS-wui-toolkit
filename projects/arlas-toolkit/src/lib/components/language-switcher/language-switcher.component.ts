@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { OnInit, Component, Input } from '@angular/core';
+import { OnInit, Component, Input, ViewEncapsulation } from '@angular/core';
 import { getParamValue } from '../../tools/utils';
 
 /**
@@ -26,7 +26,8 @@ import { getParamValue } from '../../tools/utils';
 @Component({
   selector: 'arlas-language-switcher',
   templateUrl: './language-switcher.component.html',
-  styleUrls: ['./language-switcher.component.scss']
+  styleUrls: ['./language-switcher.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class LanguageSwitcherComponent implements OnInit {
   /**
