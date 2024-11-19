@@ -47,6 +47,7 @@ import {
 } from '../../../../projects/arlas-toolkit/src/lib/components/progress-spinner/progress-spinner.component';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { AiasEnrichComponent } from '../../../../projects/arlas-toolkit/src/lib/components/aias/aias-enrich/aias-enrich.component';
 
 @Component({
   selector: 'arlas-tool-home',
@@ -209,7 +210,7 @@ export class HomeComponent implements OnInit {
     );
   }
 
-  public openProcess() {
+  public openDownload() {
     const wkt = 'POLYGON((10 10, 20 10, 20 20, 10 20, 10 10),(13 13, 17 13, 17 17, 13 17, 13 13))';
     // can be used to mock your data
     const item = new Map<string, any>();
@@ -231,6 +232,21 @@ export class HomeComponent implements OnInit {
       });
   }
 
+  public openEnrich() {
+    const item = new Map<string, any>();
+    item.set('properties.item_format', this.selectedItemFormat);
+
+    this.dialog.open(
+      AiasEnrichComponent,
+      {
+        minWidth: '520px',
+        maxWidth: '60vw',
+        data: {
+          nbProducts: 1,
+          itemDetail: item,
+          ids: ['1'],
+          collection: 'totot'
+        }
+      });
+  }
 }
-
-

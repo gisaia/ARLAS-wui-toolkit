@@ -1,0 +1,26 @@
+<div class="process-result">
+    <mat-progress-bar *ngIf="isProcessing" [mode]="'indeterminate'"></mat-progress-bar>
+    <div *ngIf="isProcessing && !!statusResult?.status" class="processing">
+      <div>{{ processAction | translate }}...</div>
+      <div class="status status-{{statusResult?.status}}">{{ statusResult?.status | translate }}</div>
+    </div>
+    <div class="detail" *ngIf="!isProcessing && !hasError">
+      <div>
+        <div class="prop">
+          <div class="label">{{ 'Start date' | translate }}:</div>
+          <div class="value">{{ statusResult.started ? (statusResult.started * 1000 | date:'medium') : '--' }}</div>
+        </div>
+        <div class="prop">
+          <div class="label">{{ 'End date' | translate }}:</div>
+          <div class="value">{{ statusResult.finished ? (statusResult.finished * 1000 | date:'medium') : '--' }}</div>
+        </div>
+      </div>
+      <div class="status status-{{statusResult?.status}}">{{ statusResult?.status | translate }}</div>
+    </div>
+    <div class="error" *ngIf="hasError">
+      {{ 'processing error occured' | translate:{processingName: (processName | translate)} }}
+    </div>
+    <div class="close">
+      <button mat-dialog-close="true" mat-button>{{ 'Close dialog' | translate }}</button>
+    </div>
+  </div>

@@ -36,7 +36,7 @@
   </mat-form-field>
 
   <mat-form-field>
-    <mat-label>Asset format</mat-label>
+    <mat-label>Item format</mat-label>
     <mat-select [(value)]="selectedItemFormat">
       <mat-option *ngFor="let format of itemFormats" [value]="format">
         {{ format }}
@@ -44,8 +44,11 @@
     </mat-select>
   </mat-form-field>
 
-  <button mat-raised-button style="height: fit-content;"
-    (click)="openProcess()">process</button>
+  <button mat-raised-button class="process"
+    (click)="openDownload()">Download</button>
+
+  <button mat-raised-button class="process"
+    (click)="openEnrich()">Enrich</button>
 </div>
 
 <div style="margin-bottom: 10px;">

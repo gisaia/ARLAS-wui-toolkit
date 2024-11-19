@@ -17,58 +17,29 @@
  * under the License.
  */
 
-.arlas-board{
-  position: relative;
-  width: 466px;
-  display: block;
-}
+import { Component, Input, OnInit } from '@angular/core';
+import { ProcessOutput } from '../../../tools/process.interface';
 
-.shortcut-list {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  font-size: 14px;
-  height: 30px;
-}
+@Component({
+  selector: 'arlas-aias-result',
+  templateUrl: './aias-result.component.html',
+  styleUrls: ['./aias-result.component.scss']
+})
+export class AiasResultComponent implements OnInit {
 
-.shortcut {
-  padding: 0 8px;
-  height: fit-content;
-}
+  @Input() public isProcessing = false;
 
-::ng-deep.title {
-  height: 28px;
-}
+  @Input() public statusResult: ProcessOutput;
 
-::ng-deep.open_title {
-  margin-bottom: 0;
-}
+  @Input() public hasError = false;
 
-::ng-deep.content {
-  top: 52px !important;
-}
+  @Input() public processName = '';
 
-::ng-deep.arlas-timeline--tools {
-  position: relative !important;
-  bottom: unset !important;
-}
+  @Input() public processAction = '';
 
-.left-menu {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+  public constructor() { }
 
-::ng-deep.extra-counts {
-  top: 78px !important;
-}
+  public ngOnInit(): void {
+  }
 
-.process-container {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.process {
-  height: fit-content;
 }

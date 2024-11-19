@@ -21,23 +21,23 @@ import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ProcessService } from '../../services/process/process.service';
-import { ProcessInputs, ProcessOutput, ProcessProjection, ProcessStatus } from '../../tools/process.interface';
+import { ProcessService } from '../../../services/process/process.service';
+import { ProcessInputs, ProcessOutput, ProcessProjection, ProcessStatus } from '../../../tools/process.interface';
 import { Subject, Subscription, takeUntil, timer } from 'rxjs';
-import { AiasDownloadDialogData } from '../../tools/aias-download.interface';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 import bboxPolygon from '@turf/bbox-polygon';
 import booleanIntersects from '@turf/boolean-intersects';
+import { AiasDownloadDialogData, AiasProcess } from '../aias-process';
 
 @Component({
   selector: 'arlas-aias-download',
   templateUrl: './aias-download.component.html',
-  styleUrls: ['./aias-download.component.scss'],
+  styleUrls: ['./aias-download.component.scss', '../aias-process.scss'],
   providers: [{
     provide: STEPPER_GLOBAL_OPTIONS, useValue: { displayDefaultIndicatorType: false }
   }]
 })
-export class AiasDownloadComponent implements OnInit, OnDestroy {
+export class AiasDownloadComponent extends AiasProcess implements OnInit, OnDestroy {
 
   public formGroup: FormGroup = new FormGroup({
     raw_archive: new FormControl<boolean>(true),
@@ -53,10 +53,6 @@ export class AiasDownloadComponent implements OnInit, OnDestroy {
   ];
   public projections: ProcessProjection[] = [];
 
-
-  public isProcessing = false;
-  public processStarted = false;
-  public hasError = false;
   public hasAoi = false;
   public displayAoiForms = false;
   public displayFormatFrom = false;
@@ -64,21 +60,18 @@ export class AiasDownloadComponent implements OnInit, OnDestroy {
 
   public tooltipDelay = 2000;
 
-  public statusSub!: Subscription;
-  public unsubscribeStatus = new Subject<boolean>();
-  public statusResult: ProcessOutput = null;
-
   private _onDestroy$ = new Subject();
 
   public constructor(
-    private processService: ProcessService,
+    protected processService: ProcessService,
     @Inject(MAT_DIALOG_DATA) protected data: AiasDownloadDialogData
   ) {
+    super(processService, data);
   }
 
   public ngOnInit(): void {
     if (this.data.nbProducts === 1){
-      const processConfigFileInput= this.processService.getProcessInputs();
+      const processConfigFileInput = this.processService.getProcessInputs();
       this._initPictureFormatList();
       this._initProjectionList(processConfigFileInput);
     }
@@ -105,8 +98,6 @@ export class AiasDownloadComponent implements OnInit, OnDestroy {
         this.formGroup.get('target_format').setValue('Jpeg2000');
       } else if (assetFormat === 'GEOTIFF') {
         this.pictureFormats = this.pictureFormats.filter(format => format.toUpperCase() !== 'GEOTIFF');
-      } else {
-        this.pictureFormats = [];
       }
     }
 
@@ -172,46 +163,13 @@ export class AiasDownloadComponent implements OnInit, OnDestroy {
     return this.formGroup.get('raw_archive').value;
   }
 
-  public submit(): void {
-    this.isProcessing = true;
-    this.processStarted = true;
-    this.hasError = false;
+  protected preparePayload() {
     const payload = this.formGroup.value;
     payload['crop_wkt'] = '';
     if(this.formGroup.get('crop_wkt').value === true && this.hasAoi){
       payload['crop_wkt'] = this.data.wktAoi;
     }
 
-    this.processService.process(this.data.ids, payload, this.data.collection).subscribe({
-      next: (result) => {
-        this.statusResult = result;
-        const executionObservable = timer(0, 5000);
-        this.statusSub = executionObservable.pipe(takeUntil(this.unsubscribeStatus)).subscribe(() => {
-          this.getStatus(result.jobID);
-        });
-      },
-      error: (err) => {
-        this.isProcessing = false;
-        this.hasError = true;
-        console.error(err);
-      }
-    });
-  }
-
-  private getStatus(jobId) {
-    this.processService.getJobStatus(jobId).subscribe({
-      next: (job) => {
-        this.statusResult = job;
-        if (job.status !== ProcessStatus.accepted && job.status !== ProcessStatus.running) {
-          this.unsubscribeStatus.next(true);
-          this.isProcessing = false;
-        }
-      },
-      error: (err) => {
-        this.unsubscribeStatus.next(true);
-        this.hasError = true;
-        this.isProcessing = false;
-      }
-    });
+    return payload;
   }
 }
