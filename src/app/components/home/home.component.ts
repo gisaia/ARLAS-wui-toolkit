@@ -86,7 +86,6 @@ export class HomeComponent implements OnInit {
     private arlasOverlayService: ArlasOverlayService,
     private dialog: MatDialog
   ) {
-
   }
 
   public ngOnInit(): void {
