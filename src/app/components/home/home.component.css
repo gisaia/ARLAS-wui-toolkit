@@ -62,3 +62,9 @@
 ::ng-deep.extra-counts {
   top: 78px !important;
 }
+
+.process-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}

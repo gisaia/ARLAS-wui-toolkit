@@ -74,6 +74,18 @@ export class HomeComponent implements OnInit {
   public windowWidth = window.innerWidth;
   public spinnerOptions: SpinnerOptions = DEFAULT_SPINNER_OPTIONS;
 
+  /** Different asset formats to test process */
+  public assetFormats = [
+    'Jpeg2000',
+    'GEOTIFF'
+  ];
+  public selectedAssetFormat = this.assetFormats[0];
+  public itemFormats = [
+    'Safe',
+    'Other'
+  ];
+  public selectedItemFormat = this.itemFormats[0];
+
   @ViewChild('tooltip') public tooltip;
 
   public constructor(
@@ -200,7 +212,10 @@ export class HomeComponent implements OnInit {
   public openProcess() {
     const wkt = 'POLYGON((10 10, 20 10, 20 20, 10 20, 10 10),(13 13, 17 13, 17 17, 13 17, 13 13))';
     // can be used to mock your data
-    const item = null;
+    const item = new Map<string, any>();
+    item.set('properties.main_asset_format', this.selectedAssetFormat);
+    item.set('properties.item_format', this.selectedItemFormat);
+
     const downloadDialogRef = this.dialog.open(
       AiasDownloadComponent,
       {

@@ -184,6 +184,9 @@
 	"An error occured": "Se ha producido un error",
 	"Validate": "Confirmar",
 	"native": "Nativo",
+	"Geotiff": "Geotiff",
+	"Jpeg2000": "Jpeg2000",
+	"Zarr": "Zarr",
 	"Bookmark already exists": "Ya existe un marcador con este nombre.",
 	"Bookmark creation error": "Error durante la creación del marcador.",
 	"Bookmark succefully created.": "Marcador creado con éxito.",
@@ -318,7 +321,5 @@
 	"successful": "completado",
 	"failed": "fallido",
 	"dissmissed": "cancelado",
-	"You are about to create a new permission on data, based on the current filters applied to": "Está a punto de crear un nuevo permiso sobre los datos, basado en los filtros actuales aplicados a",
-	"HEADER_EXPORT": "{{field}} {{metric}}"
-
+	"You are about to create a new permission on data, based on the current filters applied to": "Está a punto de crear un nuevo permiso sobre los datos, basado en los filtros actuales aplicados a"
 }

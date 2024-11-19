@@ -46,10 +46,10 @@ export class AiasDownloadComponent implements OnInit, OnDestroy {
     target_format: new FormControl<string>('native')
   });
 
-  public pictureFormats= [
+  public pictureFormats: Array<string> = [
     marker('native'),
-    'Geotiff',
-    'Jpeg2000'
+    marker('Geotiff'),
+    marker('Jpeg2000')
   ];
   public projections: ProcessProjection[] = [];
 
@@ -77,7 +77,7 @@ export class AiasDownloadComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    if(this.data.nbProducts === 1){
+    if (this.data.nbProducts === 1){
       const processConfigFileInput= this.processService.getProcessInputs();
       this._initPictureFormatList();
       this._initProjectionList(processConfigFileInput);
@@ -95,15 +95,28 @@ export class AiasDownloadComponent implements OnInit, OnDestroy {
   }
 
   private _initPictureFormatList(): void{
-    const inputKey = 'properties.main_asset_format';
-    const keyIsValid = this.data.itemDetail && this.data.itemDetail.has(inputKey) &&
-      this.data.itemDetail.get(inputKey) !== undefined && this.data.itemDetail.get(inputKey) !== null;
-    if (keyIsValid) {
-      if (this.data.itemDetail.get(inputKey).toUpperCase() === 'JPEG2000') {
+    const assetFormatKey = 'properties.main_asset_format';
+    const assetFormatIsValid = this.data.itemDetail && this.data.itemDetail.has(assetFormatKey)
+      && !!this.data.itemDetail.get(assetFormatKey);
+    if (assetFormatIsValid) {
+      const assetFormat = this.data.itemDetail.get(assetFormatKey).toUpperCase();
+      if (assetFormat === 'JPEG2000') {
         this.pictureFormats = ['Jpeg2000'];
         this.formGroup.get('target_format').setValue('Jpeg2000');
-      } else if (this.data.itemDetail.get(inputKey).toUpperCase() === 'GEOTIFF') {
+      } else if (assetFormat === 'GEOTIFF') {
         this.pictureFormats = this.pictureFormats.filter(format => format.toUpperCase() !== 'GEOTIFF');
+      } else {
+        this.pictureFormats = [];
+      }
+    }
+
+    const itemFormatKey = 'properties.item_format';
+    const itemFormatIsValid = this.data.itemDetail && this.data.itemDetail.has(itemFormatKey)
+      && !!this.data.itemDetail.get(itemFormatKey);
+    if (itemFormatIsValid) {
+      const itemFormat = this.data.itemDetail.get(itemFormatKey).toUpperCase();
+      if (itemFormat === 'SAFE') {
+        this.pictureFormats.push(marker('Zarr'));
       }
     }
   }

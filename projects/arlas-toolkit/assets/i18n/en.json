@@ -184,6 +184,9 @@
 	"An error occured": "An error occured",
 	"Validate": "Validate",
 	"native": "Native",
+	"Geotiff": "Geotiff",
+	"Jpeg2000": "Jpeg2000",
+	"Zarr": "Zarr",
 	"Bookmark already exists": "A bookmark already exists with this name.",
 	"Bookmark creation error": "Error during bookmark creation.",
 	"Bookmark succefully created.": "Bookmark succefully created.",
@@ -305,6 +308,5 @@
 	"running": "running",
 	"successful": "successful",
 	"failed": "failed",
-	"dissmissed": "dissmissed",
-	"HEADER_EXPORT": "{{metric}} of {{field}}"
+	"dissmissed": "dissmissed"
 }
