@@ -10,7 +10,7 @@ describe('AiasEnrichComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ AiasEnrichComponent ]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(AiasEnrichComponent);
     component = fixture.componentInstance;

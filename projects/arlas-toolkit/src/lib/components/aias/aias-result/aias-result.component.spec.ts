@@ -10,7 +10,7 @@ describe('AiasResultComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ AiasResultComponent ]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(AiasResultComponent);
     component = fixture.componentInstance;
