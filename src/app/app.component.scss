@@ -17,6 +17,9 @@
  * under the License.
  */
 
-.mat-tooltip {
-    font-size: 6px !important;
+::ng-deep.mat-mdc-tooltip {
+    --mdc-plain-tooltip-supporting-text-size: 10px;
+    --mdc-plain-tooltip-supporting-text-weight: 400;
+    --mdc-plain-tooltip-container-color: #616161;
+    --mdc-plain-tooltip-supporting-text-color: #white;
 }
