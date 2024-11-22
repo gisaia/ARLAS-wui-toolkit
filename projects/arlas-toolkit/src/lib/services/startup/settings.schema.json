@@ -115,13 +115,13 @@
         "dummy_client_secret": {
           "description": "dummy string for tests. DO NOT USE IT in production environment.",
           "type": "string"
-        },        
+        },
         "sign_up_enabled": {
           "description": "Display or not the sign up button in arlas iam login page.",
           "type": "boolean"
         }
 
-        
+
       },
       "required": [
         "use_authent",
@@ -240,49 +240,58 @@
         "export_nb_buckets"
       ]
     },
-    "process": {
-      "description": "Configuration of a process for the result list",
-      "type": "object",
-      "properties": {
-        "url": {
-          "description": "URL to the process",
-          "type": "string"
-        },
-        "max_items": {
-          "description": "Number of maximum items the process can be applied to",
-          "type": "number"
-        },
-        "settings": {
-          "description": "Settings of the process",
-          "type": "object",
-          "properties": {
-            "url": {
-              "description": "URL of the description of the process according to OGC Processes standards",
-              "type": "string"
-            }
+    "processes": {
+      "description": "Configuration of processes for the result list",
+      "type": "array",
+      "items": {
+        "description": "Process",
+        "type": "object",
+        "properties": {
+          "name": {
+            "description": "Name of the process",
+            "type": "string"
           },
-          "required": [
-            "url"
-          ]
-        },
-        "status": {
-          "description": "Status of the process",
-          "type": "object",
-          "properties": {
-            "url": {
-              "description": "URL to query to get information about the process status",
-              "type": "string"
-            }
+          "url": {
+            "description": "URL to the process",
+            "type": "string"
           },
-          "required": [
-            "url"
-          ]
-        }
-      },
-      "required": [
-        "settings",
-        "status"
-      ]
+          "max_items": {
+            "description": "Number of maximum items the process can be applied to",
+            "type": "number"
+          },
+          "settings": {
+            "description": "Settings of the process",
+            "type": "object",
+            "properties": {
+              "url": {
+                "description": "URL of the description of the process according to OGC Processes standards",
+                "type": "string"
+              }
+            },
+            "required": [
+              "url"
+            ]
+          },
+          "status": {
+            "description": "Status of the process",
+            "type": "object",
+            "properties": {
+              "url": {
+                "description": "URL to query to get information about the process status",
+                "type": "string"
+              }
+            },
+            "required": [
+              "url"
+            ]
+          }
+        },
+        "required": [
+          "settings",
+          "status",
+          "name"
+        ]
+      }
     },
     "geocoding": {
       "description": "Configuration of the geocoding for ARLAS",

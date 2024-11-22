@@ -9,10 +9,16 @@ authentication:
   url: http://localhost:9997/arlas_iam_server
   sign_up_enabled: true
 process:
-  settings:
-    url: http://localhost:34489/assets/processes/download.json
-  status:
-    url: ''
+  - name: download
+    settings:
+      url: http://localhost:34489/assets/processes/download.json
+    status:
+      url: ''
+  - name: enrich
+    settings:
+      url: http://localhost:34489/assets/processes/enrich.json
+    status:
+      url: ''
 links:
   - name: Explorer
     icon: landscape

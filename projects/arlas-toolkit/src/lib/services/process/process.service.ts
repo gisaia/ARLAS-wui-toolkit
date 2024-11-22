@@ -49,7 +49,7 @@ export class ProcessService {
    * @param payload Values of the dynamic form
    * @param collection Collection of selectied items
    */
-  public process(ids: string[], payload: any, collection: string): Observable<ProcessOutput> {
+  public process(processName: string, ids: string[], payload: any, collection: string): Observable<ProcessOutput> {
     const requests: any[] = [];
     ids.forEach(id => {
       requests.push({ collection, item_id: id });
@@ -60,7 +60,11 @@ export class ProcessService {
       }
     };
     data.inputs = Object.assign(data.inputs, payload);
-    return this.http.post(this.arlasSettingsService.getProcessSettings()?.url, data, Object.assign(this.options, { responseType: 'text' }))
+
+    return this.http.post(
+      this.arlasSettingsService.getProcessSettings(processName)?.url, data,
+      Object.assign(this.options, { responseType: 'text' })
+    )
       .pipe(map(
         p => {
           const processOutput: ProcessOutput = JSON.parse(p as any);
@@ -69,8 +73,8 @@ export class ProcessService {
       ));
   }
 
-  public check(): Observable<any> {
-    return this.http.get(this.arlasSettingsService.getProcessSettings()?.check_url, this.options);
+  public check(processName: string): Observable<any> {
+    return this.http.get(this.arlasSettingsService.getProcessSettings(processName)?.check_url, this.options);
   }
 
   public getProcessInputs(): ProcessInputs {
@@ -81,8 +85,11 @@ export class ProcessService {
     this.processInputs = process;
   }
 
-  public load(): Observable<ProcessInputs> {
-    return this.http.get(this.arlasSettingsService.getProcessSettings()?.settings.url, Object.assign(this.options, { responseType: 'text' }))
+  public load(processName: string): Observable<ProcessInputs> {
+    return this.http.get(
+      this.arlasSettingsService.getProcessSettings(processName)?.settings.url,
+      Object.assign(this.options, { responseType: 'text' })
+    )
       .pipe(
         map(c => {
           const process: ProcessInputs = JSON.parse(c as any);
@@ -92,9 +99,9 @@ export class ProcessService {
       );
   }
 
-  public getJobStatus(jobId: string): Observable<ProcessOutput> {
+  public getJobStatus(processName: string, jobId: string): Observable<ProcessOutput> {
     return this.http.get(
-      this.arlasSettingsService.getProcessSettings().status.url + '/' + jobId,
+      this.arlasSettingsService.getProcessSettings(processName).status.url + '/' + jobId,
       Object.assign(this.options, { responseType: 'text' })
     )
       .pipe(map(

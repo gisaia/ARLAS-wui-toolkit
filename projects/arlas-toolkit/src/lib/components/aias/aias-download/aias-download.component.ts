@@ -29,6 +29,8 @@ import { ProcessService } from '../../../services/process/process.service';
 import { ProcessInputs, ProcessProjection } from '../../../tools/process.interface';
 import { AiasDownloadDialogData, AiasProcess } from '../aias-process';
 
+export const DOWNLOAD_PROCESS_NAME = 'download';
+
 @Component({
   selector: 'arlas-aias-download',
   templateUrl: './aias-download.component.html',
@@ -66,7 +68,7 @@ export class AiasDownloadComponent extends AiasProcess implements OnInit, OnDest
     protected processService: ProcessService,
     @Inject(MAT_DIALOG_DATA) protected data: AiasDownloadDialogData
   ) {
-    super(processService, data);
+    super(processService, data, DOWNLOAD_PROCESS_NAME);
   }
 
   public ngOnInit(): void {

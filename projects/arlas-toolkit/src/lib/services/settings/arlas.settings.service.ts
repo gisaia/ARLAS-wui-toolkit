@@ -96,7 +96,7 @@ export class ArlasSettingsService {
     return !!this.settings && !!this.settings.authentication ? this.settings.authentication : undefined;
   }
 
-  public getProcessSettings(): ProcessSettings {
-    return !!this.settings && !!this.settings.process ? this.settings.process : undefined;
+  public getProcessSettings(name: string): ProcessSettings {
+    return !!this.settings && !!this.settings.processes ? this.settings.processes.find(p => p.name === name) : undefined;
   }
 }

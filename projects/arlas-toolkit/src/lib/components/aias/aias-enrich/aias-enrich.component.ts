@@ -25,6 +25,8 @@ import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 import { ProcessService } from '../../../services/process/process.service';
 import { AiasEnrichDialogData, AiasProcess } from '../aias-process';
 
+export const ENRICH_PROCESS_NAME = 'enrich';
+
 @Component({
   selector: 'arlas-aias-enrich',
   templateUrl: './aias-enrich.component.html',
@@ -47,7 +49,7 @@ export class AiasEnrichComponent extends AiasProcess implements OnInit {
     protected processService: ProcessService,
     @Inject(MAT_DIALOG_DATA) protected data: AiasEnrichDialogData
   ) {
-    super(processService, data);
+    super(processService, data, ENRICH_PROCESS_NAME);
   }
 
   public ngOnInit(): void {

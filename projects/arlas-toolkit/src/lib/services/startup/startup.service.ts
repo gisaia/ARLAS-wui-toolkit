@@ -992,13 +992,13 @@ export interface ArlasSettings {
   arlas_builder_url?: string;
   arlas_hub_url?: string;
   arlas_iam_wui_url?: string;
-  links?: LinkSettings[];
+  links?: Array<LinkSettings>;
   ticketing_key?: string;
   tab_name?: string;
   dashboards_shortcut?: boolean;
   histogram?: HistogramSettings;
   resultlist?: ResultlistSettings;
-  process?: ProcessSettings;
+  processes?: Array<ProcessSettings>;
   geocoding?: GeocodingSetting;
 }
 
@@ -1022,6 +1022,7 @@ export interface ResultlistSettings {
 }
 
 export interface ProcessSettings {
+  name: string;
   url?: string;
   check_url?: string;
   max_items?: number;
@@ -1032,5 +1033,3 @@ export interface ProcessSettings {
     url: string;
   };
 }
-
-

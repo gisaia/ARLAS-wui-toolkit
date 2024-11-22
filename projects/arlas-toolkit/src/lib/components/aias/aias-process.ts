@@ -48,7 +48,8 @@ export abstract class AiasProcess {
 
   public constructor(
     protected processService: ProcessService,
-    protected data: AiasProcessDialogData
+    protected data: AiasProcessDialogData,
+    private processName: string
   ) { }
 
   protected abstract preparePayload(): any;
@@ -60,7 +61,7 @@ export abstract class AiasProcess {
 
     const payload = this.preparePayload();
 
-    this.processService.process(this.data.ids, payload, this.data.collection).subscribe({
+    this.processService.process(this.processName, this.data.ids, payload, this.data.collection).subscribe({
       next: (result) => {
         this.statusResult = result;
         const executionObservable = timer(0, 5000);
@@ -76,8 +77,8 @@ export abstract class AiasProcess {
     });
   }
 
-  private getStatus(jobId) {
-    this.processService.getJobStatus(jobId).subscribe({
+  private getStatus(jobId: string) {
+    this.processService.getJobStatus(this.processName, jobId).subscribe({
       next: (job) => {
         this.statusResult = job;
         if (job.status !== ProcessStatus.accepted && job.status !== ProcessStatus.running) {
