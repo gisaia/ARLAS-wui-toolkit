@@ -1,8 +1,20 @@
 # Change Log
 
+## [v26.0.12-beta.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.0.12-beta.1) (2024-11-19)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v27.0.0-beta.2...v26.0.12-beta.1)
+
+## [v27.0.0-beta.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.0.0-beta.2) (2024-11-15)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v26.0.11...v27.0.0-beta.2)
+
 ## [v26.0.11](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.0.11) (2024-11-12)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v26.0.10...v26.0.11)
+
+**Fixed bugs:**
+
+- Add missing css class names for actions [\#882](https://github.com/gisaia/ARLAS-wui-toolkit/issues/882)
 
 ## [v26.0.10](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.0.10) (2024-11-12)
 
