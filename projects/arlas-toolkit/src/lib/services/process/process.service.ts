@@ -118,7 +118,7 @@ export class ProcessService {
     collection: string
   ): Observable<Map<string, any>> {
     // properties.main_asset_format its the field to pass to get the object value
-    const fields = ['properties.proj__epsg', 'properties.main_asset_format', 'geometry'];
+    const fields = ['properties.proj__epsg', 'properties.main_asset_format', 'geometry', 'properties.item_format'];
     const search: Search = {
       page: { size: itemsId.length },
       form: { pretty: false, flat: false },

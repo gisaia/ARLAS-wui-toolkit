@@ -103,7 +103,7 @@ export class HomeComponent implements OnInit {
 
   public ngOnInit(): void {
     this.processService.setOptions({});
-    this.processService.load().subscribe();
+    this.processService.load('download').subscribe();
     this.analyticsService.initializeGroups(this.arlasStartupService.analytics);
     this.shortcuts = this.arlasStartupService.filtersShortcuts;
     this.languages = ['en', 'fr', 'it', 'es', 'de', 'us', 'cn'];
