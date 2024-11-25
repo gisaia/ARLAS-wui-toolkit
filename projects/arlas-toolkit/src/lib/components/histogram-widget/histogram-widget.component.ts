@@ -112,7 +112,7 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy {
     public translate: TranslateService,
     public arlasExportCsvService: ArlasExportCsvService,
     private arlasOverlayService: ArlasOverlayService
-  ) {  }
+  ) { }
 
   public initDetailedContributor() {
     if (!!this.contributor) {
@@ -324,14 +324,14 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy {
         /** If no data has been fetched previously in the detailed contributor, then the range is necessarily undefined
          * Which means we should trigger the collaboration of th
          */
-          if (this.detailedContributor.range === undefined || this.detailedContributor.range === null) {
-            // Simulate a collaboration event that will result in a fetchData
-            this.detailedContributor.updateFromCollaboration({
-              id: 'url',
-              operation: OperationEnum.add,
-              all: false
-            });
-          }
+        if (this.detailedContributor.range === undefined || this.detailedContributor.range === null) {
+          // Simulate a collaboration event that will result in a fetchData
+          this.detailedContributor.updateFromCollaboration({
+            id: 'url',
+            operation: OperationEnum.add,
+            all: false
+          });
+        }
 
         if (this.detailedHistogramComponent) {
           this.detailedHistogramComponent.histogram.histogramParams.chartHeight = this.componentInputs.chartHeight;
