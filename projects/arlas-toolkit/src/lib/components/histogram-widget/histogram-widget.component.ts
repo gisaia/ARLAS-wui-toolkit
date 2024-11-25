@@ -320,7 +320,7 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy {
           this.initDetailedContributor();
         }
         this.detailedContributor.updateData = true;
-        if (!this.detailedContributor.range) {
+        if (this.detailedContributor.range === undefined || this.detailedContributor.range === null) {
           // Simulate a collaboration event that will result in a fetchData
           this.detailedContributor.updateFromCollaboration({
             id: 'url',
