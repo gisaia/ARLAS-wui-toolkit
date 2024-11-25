@@ -122,6 +122,7 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy {
         this.arlasCollaborativesearchService, this.arlasConfigurationService, this.contributor.collection, false);
       this.contributor.detailedHistrogramContributor = this.detailedContributor;
       this.detailedContributor.updateData = false;
+      this.detailedContributor.range = undefined;
       this.detailedContributor.annexedContributorId = this.contributor.identifier;
       this.detailedContributor.useUtc = this.contributor.useUtc;
       this.detailedContributor.selectionExtentPercentage = 0.02;
@@ -320,14 +321,17 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy {
           this.initDetailedContributor();
         }
         this.detailedContributor.updateData = true;
-        if (this.detailedContributor.range === undefined || this.detailedContributor.range === null) {
-          // Simulate a collaboration event that will result in a fetchData
-          this.detailedContributor.updateFromCollaboration({
-            id: 'url',
-            operation: OperationEnum.add,
-            all: false
-          });
-        }
+        /** If no data has been fetched previously in the detailed contributor, then the range is necessarily undefined
+         * Which means we should trigger the collaboration of th
+         */
+          if (this.detailedContributor.range === undefined || this.detailedContributor.range === null) {
+            // Simulate a collaboration event that will result in a fetchData
+            this.detailedContributor.updateFromCollaboration({
+              id: 'url',
+              operation: OperationEnum.add,
+              all: false
+            });
+          }
 
         if (this.detailedHistogramComponent) {
           this.detailedHistogramComponent.histogram.histogramParams.chartHeight = this.componentInputs.chartHeight;
@@ -354,6 +358,7 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy {
     this.histogramComponent.histogram.histogramParams.topOffsetRemoveInterval = this.componentInputs.topOffsetRemoveInterval;
     if (!!this.detailedContributor) {
       this.detailedContributor.updateData = false;
+      this.detailedContributor.range = undefined;
     }
   }
 }
