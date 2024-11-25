@@ -17,18 +17,18 @@
  * under the License.
  */
 
-import { Component, OnInit, Input, ViewChild, ChangeDetectorRef, Output, ElementRef, OnDestroy, EventEmitter, Inject } from '@angular/core';
-import { ArlasCollaborativesearchService, ArlasConfigService } from '../../services/startup/startup.service';
-import { DataType, HistogramComponent, HistogramTooltip } from 'arlas-web-components';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter,
+  Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Subject } from 'rxjs';
-import { ArlasExportCsvService } from '../../services/export-csv/export-csv.service';
-import { HistogramContributor, DetailedHistogramContributor } from 'arlas-web-contributors';
+import { DataType, HistogramComponent, HistogramTooltip } from 'arlas-web-components';
+import { DetailedHistogramContributor, HistogramContributor } from 'arlas-web-contributors';
 import { SelectedOutputValues } from 'arlas-web-contributors/models/models';
-import { filter } from 'rxjs/operators';
 import { OperationEnum } from 'arlas-web-core';
-import { SpinnerOptions, ArlasOverlayRef } from '../../tools/utils';
+import { Subject, filter, takeUntil } from 'rxjs';
+import { ArlasExportCsvService } from '../../services/export-csv/export-csv.service';
 import { ArlasOverlayService } from '../../services/overlays/overlay.service';
+import { ArlasCollaborativesearchService, ArlasConfigService } from '../../services/startup/startup.service';
+import { ArlasOverlayRef, SpinnerOptions } from '../../tools/utils';
 import { isShortcutID } from '../filter-shortcut/filter-shortcut.utils';
 import { DEFAULT_SPINNER_OPTIONS } from '../progress-spinner/progress-spinner.component';
 
@@ -42,7 +42,7 @@ import { DEFAULT_SPINNER_OPTIONS } from '../progress-spinner/progress-spinner.co
   templateUrl: './histogram-widget.component.html',
   styleUrls: ['./histogram-widget.component.css']
 })
-export class HistogramWidgetComponent implements OnInit, OnDestroy {
+export class HistogramWidgetComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public showDetailedHistogram = false;
   public detailedContributor: DetailedHistogramContributor;
@@ -105,6 +105,8 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy {
   @ViewChild('histogram', { static: false }) public histogramComponent: HistogramComponent;
   @ViewChild('detailedhistogram', { static: false }) public detailedHistogramComponent: HistogramComponent;
 
+  private _onDestroy$ = new Subject<boolean>();
+
   public constructor(
     protected arlasCollaborativesearchService: ArlasCollaborativesearchService,
     private arlasConfigurationService: ArlasConfigService,
@@ -141,12 +143,19 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy {
     }
   }
 
+  public ngAfterViewInit() {
+    this.checkDisplayDetailedHistogram();
+  }
+
   public ngOnDestroy() {
     this.tooltipEvent.complete();
     this.tooltipEvent.unsubscribe();
 
     this.exportCsvEvent.complete();
     this.exportCsvEvent.unsubscribe();
+
+    this._onDestroy$.next(true);
+    this._onDestroy$.complete();
   }
 
   public exportCsv(contributor: HistogramContributor) {
@@ -271,7 +280,7 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy {
   /** show detailed histogram if selection range is less than 20% of the main histogram range */
   private showDetailedHistogramOnCollaborationEnd(): void {
     this.arlasCollaborativesearchService.collaborationBus.pipe(filter(c => ((!!this.contributor && this.histogramComponent
-      && c.id === this.contributor.identifier) || c.all)))
+      && c.id === this.contributor.identifier) || c.all)), takeUntil(this._onDestroy$))
       .subscribe(c => {
         if (c.operation === OperationEnum.remove) {
           this.histogramIsFiltered = false;
@@ -295,7 +304,7 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy {
         }
       });
 
-    this.arlasCollaborativesearchService.ongoingSubscribe.subscribe(nb => {
+    this.arlasCollaborativesearchService.ongoingSubscribe.pipe(takeUntil(this._onDestroy$)).subscribe(nb => {
       if (this.arlasCollaborativesearchService.totalSubscribe === 0 && this.histogramIsFiltered) {
         this.checkDisplayDetailedHistogram();
       }
