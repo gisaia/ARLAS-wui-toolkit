@@ -22,7 +22,7 @@ import { Injectable } from '@angular/core';
 import { Expression, Filter, Search } from 'arlas-api';
 import { projType } from 'arlas-web-core';
 import { map, Observable } from 'rxjs';
-import { ProcessInputs, ProcessOutput } from '../../tools/process.interface';
+import { Process, ProcessInputs, ProcessOutput } from '../../tools/process.interface';
 import { ArlasCollaborativesearchService } from '../collaborative-search/arlas.collaborative-search.service';
 import { ArlasSettingsService } from '../settings/arlas.settings.service';
 
@@ -85,15 +85,15 @@ export class ProcessService {
     this.processInputs = process;
   }
 
-  public load(processName: string): Observable<ProcessInputs> {
+  public load(processName: string): Observable<Process> {
     return this.http.get(
       this.arlasSettingsService.getProcessSettings(processName)?.settings.url,
       Object.assign(this.options, { responseType: 'text' })
     )
       .pipe(
         map(c => {
-          const process: ProcessInputs = JSON.parse(c as any);
-          this.setProcessInputs(process);
+          const process: Process = JSON.parse(c as any);
+          this.setProcessInputs(process.inputs);
           return process;
         })
       );
@@ -112,12 +112,8 @@ export class ProcessService {
       ));
   }
 
-  public getItemsDetail(
-    idFieldName,
-    itemsId: string[],
-    collection: string
-  ): Observable<Map<string, any>> {
-    // properties.main_asset_format its the field to pass to get the object value
+  public getItemsDetail(idFieldName: string, itemsId: string[], collection: string): Observable<Map<string, any>> {
+    // properties.main_asset_format is the field to pass to get the object value
     const fields = ['properties.proj__epsg', 'properties.main_asset_format', 'geometry', 'properties.item_format'];
     const search: Search = {
       page: { size: itemsId.length },
@@ -126,6 +122,7 @@ export class ProcessService {
         includes: fields.map(field => field).join(',')
       }
     };
+
     const expression: Expression = {
       field: idFieldName,
       // TODO: Manage other Operators ?
@@ -147,11 +144,10 @@ export class ProcessService {
     return searchResult.pipe(map((data: any) => {
       const matchingAdditionalParams = new Map<string, any>();
       if (!!data && !!data?.hits && data.hits.length > 0) {
-        const regexReplacePoint = /\./gi;
         data.hits.forEach(i => {
           const itemMetadata = i.data;
           fields.forEach(f => {
-            matchingAdditionalParams.set(f, this.resolve(f,itemMetadata));
+            matchingAdditionalParams.set(f, this.resolve(f, itemMetadata));
           });
         });
       }
