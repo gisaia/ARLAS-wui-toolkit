@@ -136,8 +136,11 @@ import { LinksComponent } from './components/top-menu/links/links.component';
 import { LinkComponent } from './components/top-menu/links/link/link.component';
 import { BookmarkAddDialogComponent } from './components/bookmark/bookmark-add-dialog.component';
 import { ContributorUpdatingPipe } from './pipes/contributor-updating.pipe';
-import { AiasDownloadComponent } from './components/aias-download/aias-download.component';
+import { AiasDownloadComponent } from './components/aias/aias-download/aias-download.component';
 import { ArlasCollectionService } from './services/collection/arlas-collection.service';
+import { AiasEnrichComponent } from './components/aias/aias-enrich/aias-enrich.component';
+import { AiasResultComponent } from './components/aias/aias-result/aias-result.component';
+
 
 export class CustomTranslateLoader implements TranslateLoader {
 
@@ -340,7 +343,9 @@ export class CustomTranslateLoader implements TranslateLoader {
     AboutComponent,
     AboutDialogComponent,
     AiasDownloadComponent,
-    ContributorUpdatingPipe
+    ContributorUpdatingPipe,
+    AiasEnrichComponent,
+    AiasResultComponent
   ],
   providers: [
     ArlasOverlayService,

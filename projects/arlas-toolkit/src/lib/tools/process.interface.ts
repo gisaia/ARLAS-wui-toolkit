@@ -17,6 +17,8 @@
  * under the License.
  */
 
+import { BBox } from 'geojson';
+
 export interface Process {
   id?: string;
   version?: string;
@@ -27,7 +29,6 @@ export interface Process {
     parameters: any[];
   };
 }
-import { BBox } from 'geojson';
 
 export interface ProcessInputs {
   [key: string]: ProcessInput;
@@ -54,7 +55,7 @@ export interface ProcessInput {
 }
 
 export interface ProcessOutput {
-  processID: 'download' | 'ingest' | 'directory_ingest';
+  processID: 'download' | 'ingest' | 'directory_ingest' | 'enrich';
   type: string;
   jobID: string;
   status: ProcessStatus;

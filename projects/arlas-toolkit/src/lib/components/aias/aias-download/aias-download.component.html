@@ -14,7 +14,7 @@
             <mat-form-field class="field" appearance="outline">
               <mat-label>{{ 'Download type' | translate }}</mat-label>
               <mat-select [formControlName]="'raw_archive'" class="data-cy-target_format">
-                <mat-option [value]="true">{{ (data.nbProducts >= 2) ? ('Download archives' | translate)  : ('Download archive' | translate)  }}</mat-option>
+                <mat-option [value]="true">{{ (data.nbProducts >= 2) ? ('Download archives' | translate) : ('Download archive' | translate)  }}</mat-option>
                 <mat-option [value]="false">{{ (data.nbProducts >= 2) ? ('Download images' | translate) : ('Download image' | translate)  }}</mat-option>
               </mat-select>
               <mat-hint *ngIf="formGroup.get('raw_archive').value" class="warning-text">
@@ -110,30 +110,9 @@
       <mat-icon>check</mat-icon>
     </ng-template>
   </mat-stepper>
-  <div *ngIf="processStarted" class="process-result">
-    <mat-progress-bar *ngIf="isProcessing" [mode]="'indeterminate'"></mat-progress-bar>
-    <div *ngIf="isProcessing && !!statusResult?.status" class="processing">
-      <div>{{ 'Downloading' | translate }}...</div>
-      <div class="status status-{{statusResult?.status}}">{{ statusResult?.status | translate }}</div>
-    </div>
-    <div class="detail" *ngIf="!isProcessing && !hasError">
-      <div>
-        <div class="prop">
-          <div class="label">{{ 'Start date' | translate }}:</div>
-          <div class="value">{{ statusResult.started ? (statusResult.started * 1000 | date:'medium') : '--' }}</div>
-        </div>
-        <div class="prop">
-          <div class="label">{{ 'End date' | translate }}:</div>
-          <div class="value">{{ statusResult.finished ? (statusResult.finished * 1000 | date:'medium') : '--' }}</div>
-        </div>
-      </div>
-      <div class="status status-{{statusResult?.status}}">{{ statusResult?.status | translate }}</div>
-    </div>
-    <div class="error" *ngIf="hasError">
-      {{ 'processing error occured' | translate:{processingName: ('Download' | translate)} }}
-    </div>
-    <div class="close">
-      <button mat-dialog-close="true" mat-button>{{ 'Close dialog' | translate }}</button>
-    </div>
-  </div>
+
+  <!-- TODO: migration Angular15 use marker pipe -->
+  <arlas-aias-result *ngIf="processStarted" [isProcessing]="isProcessing"
+    [statusResult]="statusResult" [hasError]="hasError"
+    [processName]="'Download'" [processAction]="'Downloading...'"></arlas-aias-result>
 </div>

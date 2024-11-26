@@ -29,6 +29,7 @@ import { LoginModule } from '../../projects/arlas-toolkit/src/lib/login.module';
 import { RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   imports: [
@@ -40,7 +41,8 @@ import { MatMenuModule } from '@angular/material/menu';
     MatButtonModule,
     LoginModule,
     RouterModule,
-    MatMenuModule
+    MatMenuModule,
+    MatSelectModule
   ],
   exports: [AppComponent],
   declarations: [AppComponent, HomeComponent, ContactComponent],

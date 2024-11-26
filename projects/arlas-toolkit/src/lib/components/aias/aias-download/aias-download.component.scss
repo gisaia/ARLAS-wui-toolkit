@@ -16,10 +16,29 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-export interface AiasDownloadDialogData {
-  nbProducts: number;
-  itemDetail:  Map<string, any>;
-  wktAoi: string | null;
-  ids: string[] | null;
-  collection: string;
+
+$warnColor: #f0ad4e;
+$sm-margin: 5px;
+$default-spacing: 10px;
+
+:host {
+  font-size: 14px;
+}
+
+.checkbox-hint {
+  font-size: 10px;
+  font-style: italic;
+}
+
+.warning-text{
+  display: flex;
+  align-items: center;
+  font-size: 10px;
+  gap: $default-spacing;
+  color: $warnColor;
+  & mat-icon {
+    font-size: 15px;
+    width: 15px;
+    height: 15px;
+  }
 }
