@@ -1,5 +1,14 @@
 # Change Log
 
+## [v26.1.0-beta.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.1.0-beta.1) (2024-11-26)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v26.0.12-beta.3...v26.1.0-beta.1)
+
+**Fixed bugs:**
+
+- When loading again histogram, detailed one is not drawn [\#885](https://github.com/gisaia/ARLAS-wui-toolkit/issues/885)
+- Detailed histograms send infinite collaboration events [\#883](https://github.com/gisaia/ARLAS-wui-toolkit/issues/883)
+
 ## [v26.0.12-beta.3](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.0.12-beta.3) (2024-11-25)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v26.0.12-beta.2...v26.0.12-beta.3)
