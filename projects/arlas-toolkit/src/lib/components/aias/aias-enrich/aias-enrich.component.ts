@@ -25,7 +25,7 @@ import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 import { ProcessService } from '../../../services/process/process.service';
 import { AiasEnrichDialogData, AiasProcess } from '../aias-process';
 
-export const ENRICH_PROCESS_NAME = 'enrich';
+export const ENRICH_PROCESS_NAME = marker('enrich');
 
 @Component({
   selector: 'arlas-aias-enrich',

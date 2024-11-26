@@ -36,7 +36,7 @@
                 <div class="summary">
                     <div class="infos">
                         <span>{{ data.nbProducts >= 2
-                            ? ('You are about to enrich multiple products' | translate)
+                            ? ('You are about to enrich multiple products' | translate:{value: data.nbProducts})
                             : ('You are about to enrich one product' | translate) }}</span>
                         <span class="infos-subtitle">{{ 'Summary of parameters' | translate }} :</span>
                     </div>

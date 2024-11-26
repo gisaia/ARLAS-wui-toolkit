@@ -29,7 +29,7 @@ import { ProcessService } from '../../../services/process/process.service';
 import { ProcessInputs, ProcessProjection } from '../../../tools/process.interface';
 import { AiasDownloadDialogData, AiasProcess } from '../aias-process';
 
-export const DOWNLOAD_PROCESS_NAME = 'download';
+export const DOWNLOAD_PROCESS_NAME = marker('download');
 
 @Component({
   selector: 'arlas-aias-download',
