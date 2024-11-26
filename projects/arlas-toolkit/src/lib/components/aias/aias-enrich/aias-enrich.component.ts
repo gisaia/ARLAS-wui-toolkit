@@ -42,7 +42,7 @@ export class AiasEnrichComponent extends AiasProcess implements OnInit {
   ];
 
   public formGroup = new FormGroup({
-    process: new FormControl<string>(this.enrichments[0])
+    asset_type: new FormControl<string>(this.enrichments[0])
   });
 
   public constructor(

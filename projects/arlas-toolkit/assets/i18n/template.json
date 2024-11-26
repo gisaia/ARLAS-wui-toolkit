@@ -191,7 +191,7 @@
 	"native": "native",
 	"Geotiff": "Geotiff",
 	"Jpeg2000": "Jpeg2000",
-	"Zarr": "Zarr",
+	"ZARR": "Zarr",
 	"enrich": "enrich",
 	"Cog": "Cog",
 	"Bookmark already exists": "Bookmark already exists",
