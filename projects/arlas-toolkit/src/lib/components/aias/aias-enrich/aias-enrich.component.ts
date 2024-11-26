@@ -38,7 +38,7 @@ export const ENRICH_PROCESS_NAME = marker('enrich');
 export class AiasEnrichComponent extends AiasProcess implements OnInit {
 
   public enrichments: Array<string> = [
-    marker('Cog')
+    marker('cog')
   ];
 
   public formGroup = new FormGroup({
@@ -63,7 +63,7 @@ export class AiasEnrichComponent extends AiasProcess implements OnInit {
     if (itemFormatIsValid) {
       const itemFormat = this.data.itemDetail.get(itemFormatKey).toUpperCase();
       if (itemFormat === 'SAFE') {
-        this.enrichments = [marker('Cog')];
+        this.enrichments = [marker('cog')];
       }
     }
   }

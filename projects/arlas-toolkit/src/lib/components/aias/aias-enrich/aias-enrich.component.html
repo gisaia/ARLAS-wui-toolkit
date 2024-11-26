@@ -71,5 +71,5 @@
     <!-- TODO: migration Angular15 use marker pipe -->
   <arlas-aias-result *ngIf="processStarted" [isProcessing]="isProcessing"
   [statusResult]="statusResult" [hasError]="hasError"
-  [processName]="'Enrich'" [processAction]="'Enriching...'"></arlas-aias-result>
+  [processName]="'Enrich' | translate" [processAction]="'Enriching...' | translate"></arlas-aias-result>
 </div>
