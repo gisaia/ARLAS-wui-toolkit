@@ -1,5 +1,9 @@
 # Change Log
 
+## [v26.1.0-beta.3](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.1.0-beta.3) (2024-11-27)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v26.1.0-beta.2...v26.1.0-beta.3)
+
 ## [v26.1.0-beta.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.1.0-beta.2) (2024-11-26)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v26.1.0-beta.1...v26.1.0-beta.2)
