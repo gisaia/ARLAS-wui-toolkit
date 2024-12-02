@@ -114,5 +114,5 @@
   <!-- TODO: migration Angular15 use marker pipe -->
   <arlas-aias-result *ngIf="processStarted" [isProcessing]="isProcessing"
     [statusResult]="statusResult" [hasError]="hasError"
-    [processName]="'Download'" [processAction]="'Downloading...'"></arlas-aias-result>
+    [processName]="'Download' | translate" [processAction]="'Downloading...' | translate"></arlas-aias-result>
 </div>

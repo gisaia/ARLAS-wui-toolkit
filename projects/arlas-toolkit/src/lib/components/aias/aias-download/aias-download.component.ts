@@ -109,7 +109,7 @@ export class AiasDownloadComponent extends AiasProcess implements OnInit, OnDest
     if (itemFormatIsValid) {
       const itemFormat = this.data.itemDetail.get(itemFormatKey).toUpperCase();
       if (itemFormat === 'SAFE') {
-        this.pictureFormats.push(marker('Zarr'));
+        this.pictureFormats.push(marker('ZARR'));
       }
     }
   }
