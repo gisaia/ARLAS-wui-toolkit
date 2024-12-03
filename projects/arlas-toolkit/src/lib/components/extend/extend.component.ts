@@ -74,7 +74,7 @@ export class ExtendComponent {
     this.getExtendsList();
   }
 
-  public selectExtend(event, id) {
+  public selectExtend(event: { checked: boolean; }, id: string) {
     if (event.checked) {
       this.itemsCheck.push(id);
     } else {
@@ -93,7 +93,7 @@ export class ExtendComponent {
 
   public removeExtend(id: string) {
     this.extendService.removeExtend(id).subscribe(()=>{
-      this.selectExtend({ event: { checked: false } }, id);
+      this.selectExtend({ checked: false }, id);
       this.actions.next({ action: 'remove', id: id });
     },(e)=> console.error(e));
   }

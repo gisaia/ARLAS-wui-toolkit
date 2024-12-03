@@ -1,21 +1,21 @@
 <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Show actions">
   <mat-icon>more_vert</mat-icon>
 </button>
-<mat-menu #menu="matMenu">
+<mat-menu #menu="matMenu" class="action-menu">
   <div *ngFor="let action of actions">
-    <div *ngIf="action.type === ConfigAction.VIEW" >
+    <div *ngIf="action.type === ConfigAction.VIEW">
       <button mat-menu-item (click)="onActionClick(action)">
         <mat-icon>launch</mat-icon>
         <span>{{'View' | translate}}</span>
       </button>
     </div>
-    <div *ngIf="action.type === ConfigAction.SHARE" >
+    <div *ngIf="action.type === ConfigAction.SHARE">
       <button mat-menu-item [disabled]="!action.enabled" (click)="onActionClick(action)">
         <mat-icon>share</mat-icon>
         <span>{{'Share' | translate}}</span>
       </button>
     </div>
-    <div *ngIf="action.type === ConfigAction.EDIT" >
+    <div *ngIf="action.type === ConfigAction.EDIT">
       <button mat-menu-item [disabled]="!action.enabled" (click)="onActionClick(action)">
         <mat-icon>create</mat-icon>
         <span>{{'Edit' | translate}}</span>

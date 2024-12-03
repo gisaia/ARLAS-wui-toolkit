@@ -17,42 +17,46 @@
  * under the License.
  */
 
-
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { SearchContributor } from 'arlas-web-contributors';
+import { fromEvent } from 'rxjs';
+import packageJson from '../../../../package.json';
 import {
   FilterShortcutConfiguration
 } from '../../../../projects/arlas-toolkit/src/lib/components/filter-shortcut/filter-shortcut.utils';
 import {
+  DEFAULT_SPINNER_OPTIONS
+} from '../../../../projects/arlas-toolkit/src/lib/components/progress-spinner/progress-spinner.component';
+import {
   TimelineConfiguration
 } from '../../../../projects/arlas-toolkit/src/lib/components/timeline/timeline/timeline.utils';
+import { AnalyticsService } from '../../../../projects/arlas-toolkit/src/lib/services/analytics/analytics.service';
 import {
   ArlasAuthentificationService
 } from '../../../../projects/arlas-toolkit/src/lib/services/arlas-authentification/arlas-authentification.service';
 import { ArlasIamService } from '../../../../projects/arlas-toolkit/src/lib/services/arlas-iam/arlas-iam.service';
+import { AiasEnrichComponent } from '../../../../projects/arlas-toolkit/src/lib/components/aias/aias-enrich/aias-enrich.component';
 import {
+  ArlasCollaborativesearchService,
   ArlasConfigService,
   ArlasStartupService
 } from '../../../../projects/arlas-toolkit/src/lib/services/startup/startup.service';
-import { AuthentSetting, CollectionUnit, SpinnerOptions } from '../../../../projects/arlas-toolkit/src/lib/tools/utils';
-import { SearchContributor } from 'arlas-web-contributors';
 import {
-  AiasDownloadComponent,
-  AnalyticsService,
-  ArlasOverlayService,
-  ProcessService
-} from '../../../../projects/arlas-toolkit/src/public-api';
-import packageJson from '../../../../package.json';
-import { fromEvent } from 'rxjs';
-import {
-  DEFAULT_SPINNER_OPTIONS
-} from '../../../../projects/arlas-toolkit/src/lib/components/progress-spinner/progress-spinner.component';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { AiasEnrichComponent } from '../../../../projects/arlas-toolkit/src/lib/components/aias/aias-enrich/aias-enrich.component';
+  AuthentSetting,
+  ConfigAction,
+  ConfigActionEnum,
+  SpinnerOptions
+} from '../../../../projects/arlas-toolkit/src/lib/tools/utils';
+import { DownloadComponent } from '../../../../projects/arlas-toolkit/src/lib/components/download/download.component';
+import { ShareComponent } from '../../../../projects/arlas-toolkit/src/lib/components/share/share.component';
+import { ProcessService } from '../../../../projects/arlas-toolkit/src/lib/services/process/process.service';
+import { AiasDownloadComponent } from '../../../../projects/arlas-toolkit/src/lib/components/aias/aias-download/aias-download.component';
 
 @Component({
   selector: 'arlas-tool-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
 
@@ -86,8 +90,11 @@ export class HomeComponent implements OnInit {
     'Other'
   ];
   public selectedItemFormat = this.itemFormats[0];
+  public collections: Array<string>;
 
   @ViewChild('tooltip') public tooltip;
+  @ViewChild('download', { static: false }) private downloadComponent: DownloadComponent;
+  @ViewChild('share', { static: false }) private shareComponent: ShareComponent;
 
   public constructor(
     private arlasStartupService: ArlasStartupService,
@@ -96,7 +103,7 @@ export class HomeComponent implements OnInit {
     private processService: ProcessService,
     private arlasAuthentService: ArlasAuthentificationService,
     private analyticsService: AnalyticsService,
-    private arlasOverlayService: ArlasOverlayService,
+    private collaborativeService: ArlasCollaborativesearchService,
     private dialog: MatDialog
   ) {
   }
@@ -121,6 +128,7 @@ export class HomeComponent implements OnInit {
     this.shortcuts?.forEach((_, idx) => {
       this.isShortcutOpen.push(idx % 2 === 0);
     });
+    this.collections = [...new Set(Array.from(this.collaborativeService.registry.values()).map(c => c.collection))];
 
     const authConfig: AuthentSetting = this.arlasAuthentService.authConfigValue;
     if (!!authConfig && authConfig.use_authent) {
@@ -202,6 +210,14 @@ export class HomeComponent implements OnInit {
     if (event) {
       this.lastShortcutOpen = idx;
     }
+  }
+
+  public displayDownload() {
+    this.downloadComponent.openDialog();
+  }
+
+  public displayShare() {
+    this.shareComponent.openDialog();
   }
 
   private getSearchContributorConfig() {

@@ -24,7 +24,7 @@
 .flag-icon{
   width: 24px;
   height: 24px;
-  position: absolute;
+  display: block;
 }
 
 .flag-de{
@@ -74,11 +74,25 @@
   background-size: contain;
 }
 
-::ng-deep .switcher-option .mat-option-text{
-  width: 24px;
-  height: 24px;
+.language-picker {
+  width: 48px !important;
 }
 
-::ng-deep .mat-select-trigger{
-  height: 24px;
+.language-picker__panel {
+  padding: 0 !important;
+
+  .switcher-option {
+    padding: 0 4px;
+
+    .mat-pseudo-checkbox-minimal {
+      margin-left: 0;
+      width: 14px;
+      height: 14px;
+
+      &::after {
+        width: 10px;
+        height: 5px;
+      }
+    }
+  }
 }

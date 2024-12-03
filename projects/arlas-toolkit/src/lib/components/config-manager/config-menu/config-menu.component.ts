@@ -17,30 +17,29 @@
  * under the License.
  */
 
-import { Component, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Resource } from 'arlas-permissions-api';
-import { catchError, filter, map, take, tap } from 'rxjs/operators';
-import { PermissionService } from '../../../services/permission/permission.service';
-import { PersistenceService } from '../../../services/persistence/persistence.service';
+import { Configuration, ExploreApi } from 'arlas-api';
+import { DataWithLinks } from 'arlas-persistence-api';
 import { Subject, from, of } from 'rxjs';
+import { catchError, filter, map, take } from 'rxjs/operators';
+import { ArlasIamService } from '../../../services/arlas-iam/arlas-iam.service';
+import { AuthentificationService } from '../../../services/authentification/authentification.service';
+import { ArlasCollectionService } from '../../../services/collection/arlas-collection.service';
+import { ErrorService } from '../../../services/error/error.service';
+import { PersistenceService } from '../../../services/persistence/persistence.service';
+import { ArlasSettingsService } from '../../../services/settings/arlas.settings.service';
+import { ArlasConfigService } from '../../../services/startup/startup.service';
+import { NO_ORGANISATION } from '../../../tools/consts';
 import { ConfigAction, ConfigActionEnum } from '../../../tools/utils';
 import { ActionModalComponent } from '../action-modal/action-modal.component';
-import { ArlasConfigService, ArlasExploreApi } from '../../../services/startup/startup.service';
-import { DataWithLinks } from 'arlas-persistence-api';
 import { AuthorisationOnActionError } from '../../../tools/errors/authorisation-on-action-error';
-import { ErrorService } from '../../../services/error/error.service';
-import { NO_ORGANISATION } from '../../../tools/consts';
-import { ArlasCollectionService } from '../../../services/collection/arlas-collection.service';
-import { Configuration, ExploreApi } from 'arlas-api';
-import { ArlasIamService } from '../../../services/arlas-iam/arlas-iam.service';
-import { ArlasSettingsService } from '../../../services/settings/arlas.settings.service';
-import { AuthentificationService } from '../../../services/authentification/authentification.service';
 
 @Component({
   selector: 'arlas-config-menu',
   templateUrl: './config-menu.component.html',
-  styleUrls: ['./config-menu.component.css']
+  styleUrls: ['./config-menu.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class ConfigMenuComponent implements OnInit {
   @Input() public actions: Array<ConfigAction>;

@@ -1,4 +1,9 @@
-<mat-select [(value)]="currentLanguage" [disableOptionCentering]="true">
-  <mat-select-trigger style="height:24px"><span class="flag-icon flag-{{currentLanguage}}"></span></mat-select-trigger>
-  <mat-option (click)="setLanguage(lang)" [value]="lang" *ngFor="let lang of availablesLanguages" class="switcher-option"><span class="flag-icon flag-{{lang}}"></span></mat-option>
+<mat-select class="language-picker" [(value)]="currentLanguage"
+    [disableOptionCentering]="true" [panelClass]="'language-picker__panel'">
+  <mat-select-trigger class="language-picker__trigger">
+    <span class="flag-icon flag-{{currentLanguage}}"></span>
+  </mat-select-trigger>
+  <mat-option (click)="setLanguage(lang)" [value]="lang" *ngFor="let lang of availablesLanguages" class="switcher-option">
+    <span class="flag-icon flag-{{lang}}"></span>
+  </mat-option>
 </mat-select>

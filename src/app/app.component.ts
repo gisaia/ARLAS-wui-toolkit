@@ -18,13 +18,13 @@
  */
 
 import { Location } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'arlas-tool-app',
   templateUrl: './app.component.html',
   providers: [Location],
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent{
 

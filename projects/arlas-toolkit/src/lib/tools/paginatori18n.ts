@@ -30,13 +30,22 @@ export class PaginatorI18n implements MatPaginatorIntl {
   public firstPageLabel: string;
   public lastPageLabel: string;
 
-  public constructor(private readonly translate: TranslateService) {
+  public constructor(
+    private readonly translate: TranslateService) {
+    this.changes = new Subject();
+    this.translate.onLangChange.subscribe({
+      next: () => {
+        this.initLabels();
+      }
+    });
+  }
+
+  public initLabels() {
     this.itemsPerPageLabel = this.translate.instant('ITEMS_PER_PAGE_LABEL');
     this.nextPageLabel = this.translate.instant('NEXT_PAGE_LABEL');
     this.previousPageLabel = this.translate.instant('PREVIOUS_PAGE_LABEL');
     this.firstPageLabel = this.translate.instant('FIRST_PAGE_LABEL');
     this.lastPageLabel = this.translate.instant('LAST_PAGE_LABEL');
-    this.changes = new Subject();
   }
 
   public getRangeLabel(page: number, pageSize: number, length: number): string {

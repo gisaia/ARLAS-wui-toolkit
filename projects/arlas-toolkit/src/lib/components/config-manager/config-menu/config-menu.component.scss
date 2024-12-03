@@ -17,58 +17,8 @@
  * under the License.
  */
 
-.arlas-board{
-  position: relative;
-  width: 466px;
-  display: block;
-}
-
-.shortcut-list {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  font-size: 14px;
-  height: 30px;
-}
-
-.shortcut {
-  padding: 0 8px;
-  height: fit-content;
-}
-
-::ng-deep.title {
-  height: 28px;
-}
-
-::ng-deep.open_title {
-  margin-bottom: 0;
-}
-
-::ng-deep.content {
-  top: 52px !important;
-}
-
-::ng-deep.arlas-timeline--tools {
-  position: relative !important;
-  bottom: unset !important;
-}
-
-.left-menu {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-::ng-deep.extra-counts {
-  top: 78px !important;
-}
-
-.process-container {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.process {
-  height: fit-content;
+.action-menu {
+    --mdc-typography-body1-letter-spacing: 0;
+    --mdc-theme-text-primary-on-background: #000000d1;
+    --mdc-list-list-item-label-text-color: #000000d1;
 }

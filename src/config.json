@@ -92,7 +92,7 @@
           "aggregationmodels": [
             {
               "type": "datehistogram",
-              "field": "timestamp"
+              "field": "track.timestamps.center"
             }
           ],
           "annexedContributorId": "timeline",
@@ -132,8 +132,7 @@
               "size": 10,
               "type": "term"
             }
-          ],
-          "linked_contributor_id": "demo_algoe-timestamp-time-bucket-AVG-valeurfonc-50"
+          ]
         },
         {
           "identifier": "courses-track.duration_s-numeric-bucket-Count--50",
@@ -503,28 +502,7 @@
           ]
         }
       ],
-      "filters_shortcuts": [
-        {
-          "uuid": "85fc2576-10cd-4a90-9691-d26b60d9b770",
-          "title": "Table metrics",
-          "order": 1
-        },
-        {
-          "uuid": "85fc2576-10cd-4a90-9691-d26b60d9b774",
-          "title": "Type de bien",
-          "order": 2
-        },
-        {
-          "uuid": "d0fc0203-e56c-4c36-a330-dda760344196",
-          "title": "Valeur moyenne à travers le temps",
-          "order": 3
-        },
-        {
-          "uuid": "40cf9f83-aea3-47f2-a6aa-0d9f9e2375c0",
-          "title": "Distribution de la valeur",
-          "order": 4
-        }
-      ],
+      "filters_shortcuts": [],
       "colorGenerator": {
         "keysToColors": [
           [
@@ -575,7 +553,7 @@
       },
       "options": {
         "drag_items": true,
-        "zoom_to_data": true,
+        "zoom_to_strategy": "centroid",
         "indicators": true,
         "spinner": {
           "show": true,
@@ -617,8 +595,7 @@
             "unit": "courses",
             "ignored": false
           }
-        ],
-        "name_background_color": "#FF4081"
+        ]
       }
     }
   },

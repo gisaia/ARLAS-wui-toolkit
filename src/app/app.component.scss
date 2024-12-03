@@ -16,10 +16,10 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-.dark{
-  color: darkgrey;
-}
-.add_bookmark .mat-form-field {
-  width: 100%;
-}
 
+::ng-deep.mat-mdc-tooltip {
+    --mdc-plain-tooltip-supporting-text-size: 10px;
+    --mdc-plain-tooltip-supporting-text-weight: 400;
+    --mdc-plain-tooltip-container-color: #616161;
+    --mdc-plain-tooltip-supporting-text-color: #white;
+}

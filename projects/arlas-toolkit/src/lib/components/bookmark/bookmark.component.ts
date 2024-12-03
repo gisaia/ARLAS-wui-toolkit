@@ -17,15 +17,16 @@
  * under the License.
  */
 
-import { Component, Inject, Output, ViewChild } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Component, Inject, Output } from '@angular/core';
+import { of, Subject, takeUntil } from 'rxjs';
 import { ArlasBookmarkService } from '../../services/bookmark/bookmark.service';
-import { BookMark } from '../../services/bookmark/model';
+import { BookMark, BookMarkType } from '../../services/bookmark/model';
 import { BookmarkPersistenceDatabase } from '../../services/bookmark/bookmarkPersistenceDatabase';
 import { BookmarkDataSource } from '../../services/bookmark/bookmarkDataSource';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { BookmarkAddDialogComponent } from './bookmark-add-dialog.component';
 import { ArlasCollaborativesearchService } from '../../services/startup/startup.service';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 
 @Component({
   selector: 'arlas-bookmark',
@@ -46,6 +47,8 @@ export class BookmarkComponent {
 
   @Output() public actions: Subject<{ action: string; id: string; geometry?: any; }> = new Subject<any>();
 
+  private _onDestroy$ = new Subject<boolean>();
+
   public constructor(
     private bookmarkService: ArlasBookmarkService,
     private dialog: MatDialog,
@@ -65,17 +68,24 @@ export class BookmarkComponent {
       this.bookmarkService.setPage(this.bookmarkService.maxSize, this.bookmarkService.pageNumber);
       this.getBookmarksList();
       (this.bookmarkService.dataBase as BookmarkPersistenceDatabase).dataChange
+        .pipe(takeUntil(this._onDestroy$))
         .subscribe((data: { total: number; items: BookMark[]; }) => {
           this.bookmarkService.count = data.total;
           this.bookmarks = this.getDisplayableBookmarks(data.items);
         });
     } else {
       (this.bookmarkService.dataBase).dataChange
+        .pipe(takeUntil(this._onDestroy$))
         .subscribe((data: BookMark[]) => {
           this.bookmarkService.count = data.length;
           this.bookmarks = this.getDisplayableBookmarks(data);
         });
     }
+  }
+
+  public ngOnDestroy() {
+    this._onDestroy$.next(true);
+    this._onDestroy$.complete();
   }
 
   public getDisplayableBookmarks(items: BookMark[]) {
@@ -102,7 +112,7 @@ export class BookmarkComponent {
   }
 
 
-  public selectBookmark(event, id) {
+  public selectBookmark(event: { checked: boolean; }, id: string) {
     if (event.checked) {
       this.itemsCheck.push(id);
     } else {
@@ -119,14 +129,14 @@ export class BookmarkComponent {
     }
   }
 
-  public viewBookmark(id) {
+  public viewBookmark(id: string) {
     this.bookmarkService.viewBookMark(id);
     this.actions.next({ action: 'view', id: id });
   }
 
-  public removeBookmark(id) {
+  public removeBookmark(id: string) {
     this.bookmarkService.removeBookmark(id);
-    this.selectBookmark({ event: { checked: false } }, id);
+    this.selectBookmark({ checked: false }, id);
     this.actions.next({ action: 'remove', id: id });
   }
 
@@ -155,5 +165,3 @@ export class BookmarkComponent {
     });
   }
 }
-
-
