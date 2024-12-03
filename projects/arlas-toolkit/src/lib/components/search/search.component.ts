@@ -154,8 +154,7 @@ export class SearchComponent implements OnInit, OnDestroy, OnChanges {
       const enabledContributors = this.searchContributors.filter(s => this.collectionsState.get(s.collection));
       for (let i = 0; i < enabledContributors.length; i++) {
         setTimeout(() => {
-          this.snackbar.open(this.translate.instant('Loading data of') + ' ' +
-            enabledContributors[i].collection);
+          this.snackbar.open(this.translate.instant('Loading data of', { collection: enabledContributors[i].collection }));
           enabledContributors[i].search(value);
           if (i === enabledContributors.length - 1) {
             setTimeout(() => this.snackbar.dismiss(), 1000);
@@ -188,7 +187,7 @@ export class SearchComponent implements OnInit, OnDestroy, OnChanges {
         this.collections = event.collections;
         this.collectionsState = event.collectionsState;
         this.search(event.searchValue);
-      } else if (event.searchValue === null || event.searchValue === '') {
+      } else if (!event || event.searchValue === null || event.searchValue === '') {
         // When nothing is in the search and no text was typed then it is null
         // If text was typed then removed, it is ''
         this.clearSearch();
