@@ -61,7 +61,7 @@ export class ShareComponent {
   ) { }
 
   public openDialog(visibilityStatus?: Map<string, boolean>) {
-    this.dialog.open(ShareDialogComponent, { data: visibilityStatus, minWidth: '60vw' });
+    this.dialog.open(ShareDialogComponent, { data: visibilityStatus, width: '80vw' });
   }
 }
 
