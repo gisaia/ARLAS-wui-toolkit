@@ -170,6 +170,8 @@
 	"Datepicker.rangeToLabel": "au",
 	"Time zone": "Fuseau horaire :",
 	"Remove time filter": "Supprimer le filtre temporel",
+	"Show timeline": "Afficher la timeline",
+	"Hide timeline": "Cacher la timeline",
 	"No data available.": "Pas de données disponibles.",
 	"no access to apps": "Vous n'avez pas accès à d'autres applications.",
 	"About": "A propos",

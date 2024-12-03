@@ -149,14 +149,6 @@ export class TimelineShortcutComponent implements OnInit {
     this.removeCollaboration.next();
   }
 
-  /**
-   * Gets the list of keys of a Typescript map
-   * @param map
-   */
-  public getKeys(map): Array<string> {
-    return Array.from(map.keys());
-  }
-
   public toggleTimeline() {
     this.isDisplayHistogram = !this.isDisplayHistogram;
     this.isDisplayHistogramChange.next(this.isDisplayHistogram);
