@@ -25,8 +25,8 @@ import { DeniedAccessDialogComponent } from '../../components/denied-access-dial
 import { DeniedAccessData } from '../../tools/utils';
 import { AuthorisationError } from '../../tools/errors/authorisation-error';
 import { ErrorService } from '../../services/error/error.service';
-import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
 
 @Injectable({
   providedIn: 'root'

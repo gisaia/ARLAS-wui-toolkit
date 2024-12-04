@@ -1,4 +1,4 @@
-<mat-chip-list class="chips--container">
+<mat-chip-listbox class="chips--container">
   <ng-container *ngFor="let c of countAll">
     <mat-basic-chip class="collection-chip" id="arlas-count-{{c.collection}}" [style.borderColor]="c.color"
       *ngIf="!c.ignored">
@@ -104,4 +104,4 @@
     (click)="removeAllFilters()" [matTooltip]="'Clear all filters' | translate">
     <mat-icon>filter_alt_off</mat-icon>
   </mat-basic-chip>
-</mat-chip-list>
+</mat-chip-listbox>

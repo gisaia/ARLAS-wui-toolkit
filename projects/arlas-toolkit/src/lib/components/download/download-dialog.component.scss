@@ -70,6 +70,7 @@
   padding: 8px 20px;
   color: rgba(0, 0, 0, .54);
   background: rgba(0, 0, 0, .03);
+  flex:3
 }
 
 .download-feature-block {
@@ -90,14 +91,23 @@
   min-width: 55px;
 }
 
-.download-block .btn-success {
-  background-color: #4CAF50;
-}
+.download-block {
+  .btn-success {
+    background-color: #4CAF50;
 
-.download-block .btn-success mat-icon {
-  font-size: 20px;
-  width: 20px;
-  height: 20px;
+    mat-icon {
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  .mat-mdc-select-value {
+    padding-left: 10px;
+  }
+  .mat-mdc-select-arrow-wrapper {
+    padding-right: 10px;
+  }
 }
 
 .fields-additional-selection {
@@ -110,22 +120,26 @@
   flex-direction: column;
 }
 
-.download-order-field .mat-select-content {
-  font-size: 13px;
-}
-
 .download-stepper {
-  width: 45vw;
+  width: 100%;
+
+  .mat-horizontal-content-container {
+    padding: 12px 24px 24px 24px;
+  }
+
+  .download__divider {
+    margin: 15px 0;
+  }
 }
 
 .download-box {
-  height: 208px;
+  height: 240px;
   font-family: monospace;
-  font-size: 16px;
   background-color: lightgray;
   border: none;
   width: 100%;
-  padding: 10px;
+  padding: 10px 10px 0;
+  box-sizing: border-box;
 }
 
 .admonition {

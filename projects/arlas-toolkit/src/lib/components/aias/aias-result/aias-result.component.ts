@@ -16,10 +16,30 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-export interface AiasDownloadDialogData {
-  nbProducts: number;
-  itemDetail:  Map<string, any>;
-  wktAoi: string | null;
-  ids: string[] | null;
-  collection: string;
+
+import { Component, Input, OnInit } from '@angular/core';
+import { ProcessOutput } from '../../../tools/process.interface';
+
+@Component({
+  selector: 'arlas-aias-result',
+  templateUrl: './aias-result.component.html',
+  styleUrls: ['./aias-result.component.scss']
+})
+export class AiasResultComponent implements OnInit {
+
+  @Input() public isProcessing = false;
+
+  @Input() public statusResult: ProcessOutput;
+
+  @Input() public hasError = false;
+
+  @Input() public processName = '';
+
+  @Input() public processAction = '';
+
+  public constructor() { }
+
+  public ngOnInit(): void {
+  }
+
 }

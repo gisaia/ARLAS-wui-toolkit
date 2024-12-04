@@ -15,19 +15,17 @@
           {{'Make sure you have' | translate}} <strong>docker</strong> {{'installed before continuing' | translate}}.
         </p>
       </div>
-      <div>
-        <mat-divider style="margin-top:15px;"></mat-divider>
-        <button mat-button matStepperNext class="download-stepper-button">{{ 'Next' | translate}}</button>
-      </div>
+      <mat-divider class="download__divider"></mat-divider>
+      <button mat-button matStepperNext class="download-stepper-button">{{ 'Next' | translate}}</button>
     </form>
   </mat-step>
   <mat-step [stepControl]="paramFormGroup">
     <form [formGroup]="paramFormGroup">
       <ng-template matStepLabel>{{'Parameters' | translate}}</ng-template>
 
-      <mat-form-field >
+      <mat-form-field>
         <mat-label>{{ "Collection" | translate}}</mat-label>
-        <mat-select (selectionChange)="collectionChange($event)" [(value)]="selectedCollection" >
+        <mat-select (selectionChange)="collectionChange($event)" [(value)]="selectedCollection">
           <mat-option *ngFor="let option of collections" [value]="option" >
               {{ option | getCollectionDisplayName | translate }}
             </mat-option>
@@ -36,19 +34,19 @@
 
 
       <div class="download-feature-block">
-        <div style="flex:3" class="download-title-list">
+        <div class="download-title-list">
           <mat-label>{{'Available fields' | translate}}</mat-label>
         </div>
         <div style="flex:1;padding:0 7px;">
         </div>
-        <div style="flex:3" class="download-title-list">
+        <div class="download-title-list">
           <mat-label>{{'Selected fields' | translate}}</mat-label>
         </div>
       </div>
       <div class="download-feature-block">
         <div style="max-height: 40vh;overflow:auto;flex:3">
           <mat-selection-list role="listbox" formControlName="availableFields" #selectedList
-            (selectionChange)=onSelectionChange(selectedList.selectedOptions.selected)>
+            (selectionChange)="onSelectionChange(selectedList.selectedOptions)">
             <mat-list-option *ngFor="let field of allFields">
               <p matLine title="{{ field.label }} - {{field.type}}">
                 {{ field.label }} - <span class="download-description">{{field.type}}</span>
@@ -59,13 +57,13 @@
         <div class="download-feature-button">
           <button mat-raised-button class="mat-accent fill text-sm download-button"
             matTooltip="{{'Select All' | translate}}" matTooltipPosition="above"
-            (click)="selectedList.selectAll();onSelectionChange(selectedList.selectedOptions.selected)">
+            (click)="selectedList.selectAll();onSelectionChange(selectedList.selectedOptions)">
             &gt;&gt;
           </button>
           <br /><br />
           <button mat-raised-button class="mat-primary fill text-sm download-button"
             matTooltip="{{'Remove All' | translate}}"
-            (click)="selectedList.deselectAll();onSelectionChange(selectedList.selectedOptions.selected)">
+            (click)="selectedList.deselectAll();onSelectionChange(selectedList.selectedOptions)">
             &lt;&lt;
           </button>
         </div>
@@ -81,11 +79,9 @@
           </mat-list>
         </div>
       </div>
-      <div>
-        <mat-divider style="margin-top:15px;"></mat-divider>
-        <button mat-button matStepperPrevious class="download-stepper-button">{{ 'Back' | translate}}</button>
-        <button mat-button matStepperNext class="download-stepper-button">{{ 'Next' | translate}}</button>
-      </div>
+      <mat-divider class="download__divider"></mat-divider>
+      <button mat-button matStepperPrevious class="download-stepper-button">{{ 'Back' | translate}}</button>
+      <button mat-button matStepperNext class="download-stepper-button">{{ 'Next' | translate}}</button>
     </form>
   </mat-step>
   <mat-step>
@@ -109,10 +105,10 @@
         --format={{this.exportedTypeCommand}} \
         {{authTypeCommand}}
       </textarea>
-      <textarea [hidden]="osselection.value !== 'Windows'" class="download-box" #downloadCommandWindows>docker run -it --mount dst=/output,src="%cd%",type=bind --rm gisaia/arlas-hits-exporter:{{arlasHitsExporterVersion}} --search_url="{{serverUrl}}/explore/{{selectedCollection}}/_search?size=9999&sort={{this.collectionRef?.params.id_path}}&{{filterUrl}}" --include={{selectedFieldString}} --format={{this.exportedTypeCommand}} {{authTypeCommand}}
+      <textarea [hidden]="osselection.value !== 'Windows'" class="download-box" #downloadCommandWindows>docker run -it --mount dst=/output,src="%cd%",type=bind --rm gisaia/arlas-hits-exporter:{{arlasHitsExporterVersion}} --search_url="{{serverUrl}}/explore/{{selectedCollection}}/_search?size=9999&sort={{collectionRef?.params.id_path}}&{{filterUrl}}" --include={{selectedFieldString}} --format={{exportedTypeCommand}} {{authTypeCommand}}
       </textarea>
     </div>
-    <mat-divider></mat-divider>
+    <mat-divider class="download__divider"></mat-divider>
     <div class="download-stepper-actions">
       <button mat-button matStepperPrevious class="download-stepper-button">{{ 'Back' | translate}}</button>
       <button mat-raised-button color="accent" class="download-stepper-button"

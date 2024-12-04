@@ -1,21 +1,19 @@
 <mat-horizontal-stepper [linear]="true" (selectionChange)="changeStep($event)" class="share-stepper">
   <mat-step [stepControl]="geojsonTypeGroup">
     <form [formGroup]="geojsonTypeGroup">
-      <ng-template matStepLabel>{{'Mode' | translate}}</ng-template>
+      <ng-template matStepLabel>{{'Geometry' | translate}}</ng-template>
       <mat-radio-group class="share-radio-group" formControlName="geojsonType">
         <mat-radio-button *ngFor="let layer of sharableLayers" [value]="{source: layer.source, id: layer.id}" class="share-radio-button">{{ layer?.visualisationName | translate}} - {{ layer.id | layerIdToName | translate}}</mat-radio-button>
       </mat-radio-group>
-      <div>
-        <mat-divider style="margin-top:15px;"></mat-divider>
-        <button mat-button matStepperNext class="share-stepper-button">{{ 'Next' | translate}}</button>
-      </div>
+      <mat-divider class="share-stepper__divider"></mat-divider>
+      <button mat-button matStepperNext class="share-stepper-button">{{ 'Next' | translate}}</button>
     </form>
   </mat-step>
   <mat-step [stepControl]="paramFormGroup" *ngIf="!geojsonTypeGroup.get('geojsonType').value?.source?.startsWith('feature-metric')">
     <form [formGroup]="paramFormGroup">
       <ng-template matStepLabel>{{'Parameters' | translate}}</ng-template>
       <div *ngIf="geojsonTypeGroup.get('geojsonType').value?.source?.startsWith('cluster')">
-        <mat-form-field>
+        <mat-form-field class="share-stepper__precision">
           <mat-select placeholder="{{'Desired precision' | translate}}" formControlName="precision" matInput required>
             <mat-option *ngFor="let val of precisions" [value]="val[0]">
               {{ val[0] }} - <span class="share-description">({{val[1]}})</span>
@@ -36,20 +34,20 @@
         </div>
         <div class="share-feature-block">
           <div style="max-height: 40vh;overflow:auto;flex:3">
-            <mat-selection-list role="listbox" formControlName="availableFields" #selectedList (selectionChange)=onSelectionChange(selectedList.selectedOptions.selected)>
+            <mat-selection-list role="listbox" formControlName="availableFields" #selectedList (selectionChange)="onSelectionChange(selectedList.selectedOptions)">
               <mat-list-option [value]="field.label" *ngFor="let field of allFields">
                 <p matLine title="{{ field.label }} - {{field.type}}">
-                    {{ field.label }} - <span class="share-description">{{field.type}}</span>
+                  {{ field.label }} - <span class="share-description">{{field.type}}</span>
                 </p>
               </mat-list-option>
             </mat-selection-list>
           </div>
           <div class="share-feature-button">
-            <button mat-raised-button class="mat-accent fill text-sm share-button" matTooltip="{{'Select All' | translate}}" [matTooltipPosition]="'above'" (click)="selectedList.selectAll();onSelectionChange(selectedList.selectedOptions.selected)">
+            <button mat-raised-button class="mat-accent fill text-sm share-button" matTooltip="{{'Select All' | translate}}" [matTooltipPosition]="'above'" (click)="selectedList.selectAll();onSelectionChange(selectedList.selectedOptions)">
               &gt;&gt;
             </button>
             <br /><br />
-            <button mat-raised-button class="mat-primary fill text-sm share-button" matTooltip="{{'Remove All' | translate}}" (click)="selectedList.deselectAll();onSelectionChange(selectedList.selectedOptions.selected)">
+            <button mat-raised-button class="mat-primary fill text-sm share-button" matTooltip="{{'Remove All' | translate}}" (click)="selectedList.deselectAll();onSelectionChange(selectedList.selectedOptions)">
               &lt;&lt;
             </button>
           </div>
@@ -66,7 +64,7 @@
           </div>
         </div>
 
-        <div class="share-feature-block">
+        <div class="share-feature-block share-feature-block__options">
           <mat-form-field class="share-form-field">
             <mat-select placeholder="{{'Order by' | translate}}" formControlName="orderField" [(value)]="selectedOrderField" panelClass="share-order-field">
               <mat-option [value]="">{{'None' | translate}}</mat-option>
@@ -82,11 +80,9 @@
           </mat-radio-group>
         </div>
       </div>
-      <div>
-        <mat-divider style="margin-top:15px;"></mat-divider>
-        <button mat-button matStepperPrevious class="share-stepper-button">{{ 'Back' | translate}}</button>
-        <button mat-button matStepperNext class="share-stepper-button">{{ 'Next' | translate}}</button>
-      </div>
+      <mat-divider class="share-stepper__divider"></mat-divider>
+      <button mat-button matStepperPrevious class="share-stepper-button">{{ 'Back' | translate}}</button>
+      <button mat-button matStepperNext class="share-stepper-button">{{ 'Next' | translate}}</button>
     </form>
   </mat-step>
   <mat-step>
@@ -110,9 +106,7 @@
         {{ 'Download Shapefile' | translate}}
       </button>
     </div>
-    <div>
-      <mat-divider style="margin-top:15px;"></mat-divider>
-      <button mat-button matStepperPrevious class="share-stepper-button">{{ 'Back' | translate}}</button>
-    </div>
+    <mat-divider class="share-stepper__divider"></mat-divider>
+    <button mat-button matStepperPrevious class="share-stepper-button">{{ 'Back' | translate}}</button>
   </mat-step>
 </mat-horizontal-stepper>

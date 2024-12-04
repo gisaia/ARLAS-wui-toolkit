@@ -17,19 +17,19 @@
  * under the License.
  */
 
-import { Component, Input, Inject, OnInit, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Inject, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
-import { TranslateService } from '@ngx-translate/core';
-import { SearchContributor } from 'arlas-web-contributors';
-import { ArlasCollaborativesearchService, ArlasConfigService } from '../../services/startup/startup.service';
-import { Observable, Subject, Subscription, concat, from, of, zip } from 'rxjs';
-import { filter, startWith, debounceTime, map, mergeMap, mergeWith, reduce } from 'rxjs/operators';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { marker } from '@biesbjerg/ngx-translate-extract-marker';
-import { AggregationResponse } from 'arlas-api';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { OperationEnum } from 'arlas-web-core';
+import { marker } from '@biesbjerg/ngx-translate-extract-marker';
+import { TranslateService } from '@ngx-translate/core';
+import { AggregationResponse } from 'arlas-api';
 import { ArlasColorService } from 'arlas-web-components';
+import { OperationEnum } from 'arlas-web-core';
+import { Observable, of, Subject, Subscription, zip } from 'rxjs';
+import { debounceTime, filter, map, mergeMap, mergeWith, startWith } from 'rxjs/operators';
+import { ArlasCollaborativesearchService, ArlasConfigService } from '../../services/startup/startup.service';
+import { SearchContributor } from 'arlas-web-contributors';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'arlas-search',
@@ -106,29 +106,30 @@ export class SearchComponent implements OnInit, OnDestroy, OnChanges {
             letPassContributor = contributor.getConfigValue('type') === 'search' || contributor.getConfigValue('type') === 'chipssearch';
           }
           return s.isMyOwnCollaboration(e) || e.id === 'url' || e.id === 'all' || (letPassContributor && e.operation === OperationEnum.remove);
-        })).subscribe(
-        e => {
-          const collaboration = this.collaborativeService.getCollaboration(s.identifier);
-          if (collaboration) {
-            collaboration.filters.forEach((f, collection) => {
-              let initSearchValue = '';
-              if (collection === s.collection) {
-                for (const filter of f) {
-                  let searchtxt = filter.q[0][0];
-                  if (filter.q[0][0].split(':').length > 0) {
-                    searchtxt = filter.q[0][0].split(':')[1];
+        }))
+        .subscribe(
+          e => {
+            const collaboration = this.collaborativeService.getCollaboration(s.identifier);
+            if (collaboration) {
+              collaboration.filters.forEach((f, collection) => {
+                let initSearchValue = '';
+                if (collection === s.collection) {
+                  for (const filter of f) {
+                    let searchtxt = filter.q[0][0];
+                    if (filter.q[0][0].split(':').length > 0) {
+                      searchtxt = filter.q[0][0].split(':')[1];
+                    }
+                    const pattern = /\"/gi;
+                    initSearchValue += searchtxt.replace(pattern, '') + ' ';
                   }
-                  const pattern = /\"/gi;
-                  initSearchValue += searchtxt.replace(pattern, '') + ' ';
+                  this.searchValue = initSearchValue.slice(0, -1);
                 }
-                this.searchValue = initSearchValue.slice(0, -1);
-              }
-            });
-          } else {
-            this.searchValue = this.searchPlaceholder;
+              });
+            } else {
+              this.searchValue = this.searchPlaceholder;
+            }
           }
-        }
-      );
+        );
     });
   }
 
@@ -369,13 +370,13 @@ export class SearchDialogComponent {
             f.collections.push({
               color: this.arlasColorService.getColor(l.collection),
               count: l.count,
-              collection:l.collection
+              collection: l.collection
             });
           } else {
             l.collections = [{
               color: this.arlasColorService.getColor(l.collection),
               count: l.count,
-              collection:l.collection
+              collection: l.collection
             }];
             acc.push({ ...l });
           }

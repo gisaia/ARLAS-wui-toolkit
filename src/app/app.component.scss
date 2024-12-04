@@ -17,58 +17,9 @@
  * under the License.
  */
 
-.bookmark-table-items{
-  max-height: 60vh;
-  overflow-y: auto;
-}
-
-.bookmark-table-items .mat-column-checked{
-  flex:0 0 50px;
-}
-
-.mat-column-checked{
-  overflow: visible;
-}
-
-.bookmark-icons-action{
-  cursor: pointer;
-}
-
-.bookmark-icons-action-view:hover{
-  color: #2196f3;
-}
-
-.bookmark-icons-action-delete:hover{
-  color: #FF0000;
-}
-
-::ng-deep .mat-checkbox-layout{
-  margin-bottom: 0;
-}
-
-.mat-header-cell {
-  display:flex;
-  justify-content:center;
-}
-
-.mat-cell{
-  display:flex;
-  justify-content:center;
-}
-
-.mat-column-name{
-  display:flex;
-  justify-content:flex-start;
-  align-items: center;
-}
-
-.bookmark-actions{
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  padding: 5px 0;
-}
-
-.bookmark-action-button{
-  margin: 0 5px;
+::ng-deep.mat-mdc-tooltip {
+    --mdc-plain-tooltip-supporting-text-size: 10px;
+    --mdc-plain-tooltip-supporting-text-weight: 400;
+    --mdc-plain-tooltip-container-color: #616161;
+    --mdc-plain-tooltip-supporting-text-color: #white;
 }

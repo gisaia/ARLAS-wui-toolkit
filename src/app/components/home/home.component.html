@@ -4,7 +4,6 @@
   <div left-menu class="left-menu">
     <div>ARLAS Toolkit</div>
     <arlas-search [searchContributors]="searchContributors" [dialogPositionTop]="10" [dialogPositionLeft]="50"></arlas-search>
-    <button (click)="openProcess()">process</button>
   </div>
   <div middle-menu class="shortcut-list">
     <ng-container *ngFor="let shortcut of shortcuts; let idx=index" >
@@ -13,9 +12,54 @@
     </ng-container>
   </div>
   <div right-menu>
-      <button *ngIf="connected" mat-flat-button color="accent" (click)="logout()">Log out</button>
+    <arlas-permissions-creator></arlas-permissions-creator>
+    <arlas-language-switcher [availablesLanguages]="['en', 'fr']" [currentLanguage]="'en'"></arlas-language-switcher>
+    <button mat-icon-button [matMenuTriggerFor]="actionMenu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #actionMenu="matMenu">
+      <button mat-menu-item (click)="displayShare()">
+        <mat-icon>share</mat-icon>
+        <span>Share geographical data</span>
+      </button>
+      <button mat-menu-item [matMenuTriggerFor]="bookmarkMenu.matMenu">
+        <mat-icon>bookmark</mat-icon>
+        <span>Bookmarks</span>
+      </button>
+      <button mat-menu-item (click)="displayDownload()">
+        <mat-icon>get_app</mat-icon>
+        <span>Download data</span>
+      </button>
+    </mat-menu>
+    <button *ngIf="connected" mat-flat-button color="accent" (click)="logout()">Log out</button>
   </div>
 </arlas-top-menu>
+
+<div class="process-container">
+  <mat-form-field>
+    <mat-label>Asset format</mat-label>
+    <mat-select [(value)]="selectedAssetFormat">
+      <mat-option *ngFor="let format of assetFormats" [value]="format">
+        {{ format }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Item format</mat-label>
+    <mat-select [(value)]="selectedItemFormat">
+      <mat-option *ngFor="let format of itemFormats" [value]="format">
+        {{ format }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <button mat-raised-button class="process"
+    (click)="openDownload()">Download</button>
+
+  <button mat-raised-button class="process"
+    (click)="openEnrich()">Enrich</button>
+</div>
 
 <div style="margin-bottom: 10px;">
   <arlas-filter [title]="'ARLAS toolkit'" [backgroundColorFilter]="'#eee'" [colorFilter]="'#000'"
@@ -31,3 +75,6 @@
 <arlas-analytics-board class="arlas-board" [showSpinner]="true" [showIndicators]="true"></arlas-analytics-board>
 <arlas-tool-root></arlas-tool-root>
 
+<arlas-bookmark-menu #bookmarkMenu></arlas-bookmark-menu>
+<arlas-download #download [collections]="collections" [hidden]="true"></arlas-download>
+<arlas-share #share [icon]="'share'" [hidden]="true"></arlas-share>

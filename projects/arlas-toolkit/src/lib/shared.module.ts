@@ -58,8 +58,10 @@ import {
   DonutModule,
   FormatNumberModule,
   GetCollectionDisplayModule,
+  GetFieldDisplayModule,
   GetCollectionUnitModule,
   HistogramModule,
+  MapglLegendModule,
   MetricModule,
   MetricsTableModule,
   PowerbarsModule,
@@ -118,12 +120,7 @@ import { ArlasOverlayService } from './services/overlays/overlay.service';
 import { ArlasWalkthroughModule } from './services/walkthrough/walkthrough.module';
 import { MarkdownModule } from 'ngx-markdown';
 import { AboutComponent, AboutDialogComponent } from './components/top-menu/about/about.component';
-import { MatMenuModule } from '@angular/material/menu';
-import {
-  ArlasCollaborativesearchService,
-  ArlasConfigService,
-  ArlasStartupService
-} from './services/startup/startup.service';
+import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from './services/startup/startup.service';
 import { PermissionsCreatorComponent } from './components/permissions-creator/permissions-creator.component';
 import {
   PermissionsCreatorDialogComponent
@@ -134,9 +131,13 @@ import { LinksComponent } from './components/top-menu/links/links.component';
 import { LinkComponent } from './components/top-menu/links/link/link.component';
 import { BookmarkAddDialogComponent } from './components/bookmark/bookmark-add-dialog.component';
 import { ContributorUpdatingPipe } from './pipes/contributor-updating.pipe';
-import { AiasDownloadComponent } from './components/aias-download/aias-download.component';
+import { AiasDownloadComponent } from './components/aias/aias-download/aias-download.component';
 import { ArlasCollectionService } from './services/collection/arlas-collection.service';
+import { AiasEnrichComponent } from './components/aias/aias-enrich/aias-enrich.component';
+import { AiasResultComponent } from './components/aias/aias-result/aias-result.component';
 import { ArlasMapModule } from 'arlas-map';
+
+import { MatMenuModule } from '@angular/material/menu';
 
 export class CustomTranslateLoader implements TranslateLoader {
 
@@ -211,11 +212,11 @@ export class CustomTranslateLoader implements TranslateLoader {
     PowerbarsModule,
     ReactiveFormsModule,
     ResultsModule,
-    ArlasMapModule,
     ConfigMenuModule,
     ScrollingModule,
     FormatNumberModule,
     NgxSpinnerModule,
+    MapglLegendModule,
     CollectionModule.forRoot({loader:{
       deps:[
         ArlasCollaborativesearchService,
@@ -226,7 +227,6 @@ export class CustomTranslateLoader implements TranslateLoader {
       useClass: ArlasCollectionService
     }
     }),
-    GetCollectionDisplayModule,
     ColorGeneratorModule.forRoot({
       loader: {
         provide: ColorGeneratorLoader,
@@ -244,7 +244,8 @@ export class CustomTranslateLoader implements TranslateLoader {
     ArlasWalkthroughModule.forRoot(),
     MarkdownModule.forRoot(),
     GetCollectionUnitModule,
-    GetCollectionDisplayModule
+    GetCollectionDisplayModule,
+    GetFieldDisplayModule
   ],
   exports: [
     AnalyticsBoardComponent,
@@ -339,7 +340,9 @@ export class CustomTranslateLoader implements TranslateLoader {
     AboutComponent,
     AboutDialogComponent,
     AiasDownloadComponent,
-    ContributorUpdatingPipe
+    ContributorUpdatingPipe,
+    AiasEnrichComponent,
+    AiasResultComponent
   ],
   providers: [
     ArlasOverlayService,

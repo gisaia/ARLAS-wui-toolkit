@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { CollectionUnit } from '../../tools/utils';
+import { CollectionUnit, flattenData } from '../../tools/utils';
 import { BaseCollectionService } from 'arlas-web-components';
 import { Injectable } from '@angular/core';
 import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from '../startup/startup.service';
@@ -26,9 +26,11 @@ import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupServic
 export class ArlasCollectionService extends BaseCollectionService {
   private appUnits: Map<string, CollectionUnit> = new Map();
   private displayName: Map<string, string> = new Map();
+  public displayFieldName: Map<string, string> = new Map();
+  public FLAT_CHAR = '_';
   public constructor(private collaborativeService: ArlasCollaborativesearchService,
-                     private configService: ArlasConfigService,
-                     private arlasStartupeService: ArlasStartupService
+    private configService: ArlasConfigService,
+    private arlasStartupeService: ArlasStartupService
   ) {
     super();
     this._initUnits();
@@ -52,11 +54,17 @@ export class ArlasCollectionService extends BaseCollectionService {
     /** end of retrocompatibility code */
   }
 
-  protected _initDisplayNames(){
-    if(this.arlasStartupeService.shouldRunApp){
-      for(const key of this.arlasStartupeService.collectionsMap.keys()) {
+  protected _initDisplayNames() {
+    if (this.arlasStartupeService.shouldRunApp) {
+      for (const key of this.arlasStartupeService.collectionsMap.keys()) {
         const c = this.arlasStartupeService.collectionsMap.get(key);
         this.displayName.set(key, c?.display_names?.collection ?? key);
+        const fields = c?.display_names?.fields;
+        if(fields){
+          for (const f of Object.keys(fields)) {
+            this.displayFieldName.set(this.flatten(f), c?.display_names?.fields[f]);
+          }
+        }
       }
     }
   }
@@ -76,10 +84,27 @@ export class ArlasCollectionService extends BaseCollectionService {
     return this.displayName.get(collectionName) || collectionName;
   }
 
+  public getDisplayFieldName(fieldName: string): string {
+    return this.displayFieldName.get(this.flatten(fieldName)) || this.flatten(fieldName);
+  }
+
   public isUnitIgnored(collectionName: string): boolean {
     if (this.appUnits.has(collectionName)) {
       return this.appUnits.get(collectionName).ignored;
     }
     return false;
+  }
+  // Retrieve all collections used in a dashboards
+  public getCollectionFromDashboard(config: any): Set<string> {
+    const flattenedConfig = flattenData(config);
+    const collections = new Set<string>();
+    Object.keys(flattenedConfig)
+      .filter(f => f.indexOf('collection') >= 0 || (f.indexOf('additionalCollections') >= 0 && f.indexOf('collectionName') >= 0))
+      .forEach(k => collections.add(flattenedConfig[k]));
+    return collections;
+  }
+
+  public flatten(f: string): string {
+    return f?.replace(/\./g, this.FLAT_CHAR);
   }
 }

@@ -1,12 +1,104 @@
 # Change Log
 
-## [v26.0.8](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.0.8) (2024-09-22)
+## [v27.0.0-rc.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.0.0-rc.1) (2024-12-03)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v26.0.7...v26.0.8)
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v26.1.0...v27.0.0-rc.1)
+
+## [v26.1.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.1.0) (2024-12-02)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v27.0.0-beta.4...v26.1.0)
+
+## [v27.0.0-beta.4](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.0.0-beta.4) (2024-11-29)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v27.0.0-beta.3...v27.0.0-beta.4)
+
+## [v27.0.0-beta.3](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.0.0-beta.3) (2024-11-29)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v26.1.0-beta.3...v27.0.0-beta.3)
+
+## [v26.1.0-beta.3](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.1.0-beta.3) (2024-11-27)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v26.1.0-beta.2...v26.1.0-beta.3)
+
+## [v26.1.0-beta.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.1.0-beta.2) (2024-11-26)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v26.1.0-beta.1...v26.1.0-beta.2)
+
+## [v26.1.0-beta.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.1.0-beta.1) (2024-11-26)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v26.0.12-beta.3...v26.1.0-beta.1)
+
+**Fixed bugs:**
+
+- When loading again histogram, detailed one is not drawn [\#885](https://github.com/gisaia/ARLAS-wui-toolkit/issues/885)
+- Detailed histograms send infinite collaboration events [\#883](https://github.com/gisaia/ARLAS-wui-toolkit/issues/883)
+
+## [v26.0.12-beta.3](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.0.12-beta.3) (2024-11-25)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v26.0.12-beta.2...v26.0.12-beta.3)
+
+## [v26.0.12-beta.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.0.12-beta.2) (2024-11-22)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v26.0.12-beta.1...v26.0.12-beta.2)
+
+## [v26.0.12-beta.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.0.12-beta.1) (2024-11-22)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v27.0.0-beta.2...v26.0.12-beta.1)
+
+## [v27.0.0-beta.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.0.0-beta.2) (2024-11-15)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v26.0.11...v27.0.0-beta.2)
+
+## [v26.0.11](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.0.11) (2024-11-12)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v26.0.10...v26.0.11)
+
+**Fixed bugs:**
+
+- Add missing css class names for actions [\#882](https://github.com/gisaia/ARLAS-wui-toolkit/issues/882)
+
+## [v26.0.10](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.0.10) (2024-11-12)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v26.0.10-rc.1...v26.0.10)
+
+## [v26.0.10-rc.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.0.10-rc.1) (2024-11-12)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v26.0.9...v26.0.10-rc.1)
 
 **New stuff:**
 
-- Share layers : Sort alphabetically the list of fields to include [\#509](https://github.com/gisaia/ARLAS-wui-toolkit/issues/509)
+- Add a display name pipe for arlas fields [\#874](https://github.com/gisaia/ARLAS-wui-toolkit/issues/874)
+- Resultlists: add reversible actions type, that stays pinned on each item when activated  [\#873](https://github.com/gisaia/ARLAS-wui-toolkit/issues/873)
+- add an option for default zoomTo on importing a polygon [\#872](https://github.com/gisaia/ARLAS-wui-toolkit/issues/872)
+- Disable bookmark creation if there is no filter [\#870](https://github.com/gisaia/ARLAS-wui-toolkit/issues/870)
+- Close the 'share' dialog after downloading geojson/shape zip [\#869](https://github.com/gisaia/ARLAS-wui-toolkit/issues/869)
+- Share layers : Sort alphabetically the list of fields to include [\#868](https://github.com/gisaia/ARLAS-wui-toolkit/issues/868)
+- Export csv service : use map field/label collection to set the column name [\#521](https://github.com/gisaia/ARLAS-wui-toolkit/issues/521)
+
+**Fixed bugs:**
+
+- Normalized colored layer display \[0-1\] values in legend [\#879](https://github.com/gisaia/ARLAS-wui-toolkit/issues/879)
+- Map: Geo-sorted products are not sorted relatively to the map center [\#878](https://github.com/gisaia/ARLAS-wui-toolkit/issues/878)
+- Change "Mode" by "Geometry" in the "Share geo data" menu \(bottom left\)  [\#877](https://github.com/gisaia/ARLAS-wui-toolkit/issues/877)
+- Map: Fix draw strip mode [\#876](https://github.com/gisaia/ARLAS-wui-toolkit/issues/876)
+- detail of a feature is closed after clicking on a feature on the map [\#875](https://github.com/gisaia/ARLAS-wui-toolkit/issues/875)
+- Detailed timeline doesn't show buckets for some cases  [\#871](https://github.com/gisaia/ARLAS-wui-toolkit/issues/871)
+
+## [v26.0.9](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.0.9) (2024-10-31)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v27.0.0-beta.1...v26.0.9)
+
+## [v27.0.0-beta.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.0.0-beta.1) (2024-10-29)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v26.0.9-beta.1...v27.0.0-beta.1)
+
+## [v26.0.9-beta.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.0.9-beta.1) (2024-09-30)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v26.0.8...v26.0.9-beta.1)
+
+## [v26.0.8](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.0.8) (2024-09-22)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v26.0.7...v26.0.8)
 
 ## [v26.0.7](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.0.7) (2024-09-12)
 

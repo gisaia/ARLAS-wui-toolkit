@@ -54,6 +54,8 @@ $avatar-color: #999;
         align-items: center;
         width: $icon-height;
         margin-right: $sm-margin;
+        padding: 0;
+
         .avatar {
             height: $icon-height;
             width: $icon-height;

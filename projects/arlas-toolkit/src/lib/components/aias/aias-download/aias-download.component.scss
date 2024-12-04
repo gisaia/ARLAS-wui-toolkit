@@ -17,64 +17,28 @@
  * under the License.
  */
 
-.arlas-timeline-toolkit{
-  position:relative;
-  display: block;
-  top: 175px;
-}
-.arlas-board{
-  position: relative;
-  top: 115px;
-  width: 466px;
-  display: block;
-}
+$warnColor: #f0ad4e;
+$sm-margin: 5px;
+$default-spacing: 10px;
 
-.shortcut-list {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
+:host {
   font-size: 14px;
-  height: 30px;
 }
 
-.shortcut {
-  padding: 0 8px;
-  height: fit-content;
+.checkbox-hint {
+  font-size: 10px;
+  font-style: italic;
 }
 
-::ng-deep.title {
-  height: 28px;
-}
-
-::ng-deep.open_title {
-  margin-bottom: 0;
-}
-
-::ng-deep.content {
-  top: 52px !important;
-}
-
-::ng-deep.arlas-timeline--tools {
-  position: relative !important;
-  bottom: unset !important;
-}
-
-.left-menu {
+.warning-text{
   display: flex;
   align-items: center;
-  justify-content: center;
-}
-
-.timeline {
-  position: relative;
-  top: 220px;
-}
-
-.analytics-menu-container {
-  position: relative;
-  top: 220px;
-}
-
-::ng-deep.extra-counts {
-  top: 78px !important;
+  font-size: 10px;
+  gap: $default-spacing;
+  color: $warnColor;
+  & mat-icon {
+    font-size: 15px;
+    width: 15px;
+    height: 15px;
+  }
 }

@@ -18,7 +18,6 @@
  */
 
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { finalize } from 'rxjs';
@@ -29,6 +28,7 @@ import { ArlasSettingsService } from '../../services/settings/arlas.settings.ser
 import { ChangePasswordComponent } from '../change-password/change-password.component';
 import { UserInfosComponent } from '../user-infos/user-infos.component';
 import { AboutComponent } from './about/about.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'arlas-top-menu',

@@ -31,7 +31,7 @@
   flex: 0 0 160px;
 }
 
-.tags-table-items .mat-header-row{
+.tags-table-items .mat-mdc-header-row{
   position: sticky;
   top: 0;
   z-index: 1;
@@ -58,14 +58,10 @@
   background-color: #174ea6;
 }
 
-.active-tag .mat-cell{
+.active-tag .mat-mdc-cell{
   color : white;
 }
 
-.active-tag .mat-radio-outer-circle{
-  border-color: white;
-}
-
-.inactive-tag .mat-cell{
+.inactive-tag .mat-mdc-cell{
   color : #cccccc;
 }
