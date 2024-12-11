@@ -10,6 +10,7 @@
             <mat-form-field appearance="outline">
               <mat-label>{{'Email' | translate}}</mat-label>
               <input matInput type="email" formControlName="email">
+              <mat-icon matPrefix>mail_outline</mat-icon>
               <mat-error *ngIf="forgotForm.hasError('required', 'email')">
                 {{'Email is required' | translate}}
               </mat-error>

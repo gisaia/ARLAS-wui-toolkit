@@ -47,7 +47,7 @@ export class DownloadComponent {
   ) { }
 
   public openDialog() {
-    this.dialog.open(DownloadDialogComponent, { data: this.collections }
+    this.dialog.open(DownloadDialogComponent, { data: this.collections, width: '80vw' }
     );
   }
 }
