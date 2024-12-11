@@ -346,15 +346,6 @@ export class CustomTranslateLoader implements TranslateLoader {
   providers: [
     ArlasOverlayService,
     ArlasCollectionService
-  ],
-  entryComponents: [
-    ReconnectDialogComponent,
-    DeniedAccessDialogComponent,
-    ActionModalComponent,
-    UserInfosComponent,
-    HistogramTooltipOverlayComponent,
-    CalendarTimelineTooltipOverlayComponent,
-    DonutTooltipOverlayComponent
   ]
 })
 export class ArlasToolkitSharedModule { }
