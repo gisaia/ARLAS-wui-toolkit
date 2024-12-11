@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { marker } from '@biesbjerg/ngx-translate-extract-marker';
+import { marker } from '@colsen1991/ngx-translate-extract-marker';
 import { AuthorisationError } from './authorisation-error';
 
 export class AuthorisationOnActionError extends AuthorisationError {

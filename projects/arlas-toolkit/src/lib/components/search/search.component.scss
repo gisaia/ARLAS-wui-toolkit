@@ -31,7 +31,7 @@ $search-height: 30px;
   box-sizing: border-box;
 
   .search {
-    margin-right: 4px;
+    margin: 0 4px;
     color: grey;
   }
 
@@ -52,10 +52,12 @@ $search-height: 30px;
   }
 
   .close {
-    margin-bottom: 2px;
+    padding: 0;
 
     .icon {
       font-size: 16px;
+      height: 16px;
+      width: 16px;
     }
   }
 }

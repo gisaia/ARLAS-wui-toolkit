@@ -31,7 +31,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ARLAS_VSET } from 'arlas-web-components';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { marker } from '@biesbjerg/ngx-translate-extract-marker';
+import { marker } from '@colsen1991/ngx-translate-extract-marker';
 import { orderAlphabeticallyArlasSearchFields } from '../../tools/utils';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatListOption } from '@angular/material/list';

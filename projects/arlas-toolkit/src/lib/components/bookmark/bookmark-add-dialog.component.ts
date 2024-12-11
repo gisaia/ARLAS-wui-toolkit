@@ -19,7 +19,7 @@
 
 import { Component, Inject } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { marker } from '@biesbjerg/ngx-translate-extract-marker';
+import { marker } from '@colsen1991/ngx-translate-extract-marker';
 import { TranslateService } from '@ngx-translate/core';
 import { ArlasBookmarkService } from '../../services/bookmark/bookmark.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
