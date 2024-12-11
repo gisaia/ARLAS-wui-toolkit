@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -40,28 +40,27 @@ describe('SearchComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        ReactiveFormsModule, MatAutocompleteModule,
-        MatInputModule, FormsModule, BrowserAnimationsModule, HttpClientModule,
-        MatIconModule, TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } })
-      ],
-      declarations: [SearchComponent],
-      providers: [
+    declarations: [SearchComponent],
+    imports: [ReactiveFormsModule, MatAutocompleteModule,
+        MatInputModule, FormsModule, BrowserAnimationsModule,
+        MatIconModule, TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } })],
+    providers: [
         ArlasConfigService, ArlasCollaborativesearchService,
         {
-          provide: ArlasStartupService,
-          useClass: ArlasStartupService,
-          deps: [ArlasConfigurationUpdaterService]
+            provide: ArlasStartupService,
+            useClass: ArlasStartupService,
+            deps: [ArlasConfigurationUpdaterService]
         },
         HttpClient, TranslateService,
         { provide: CONFIG_UPDATER, useValue: {} },
         {
-          provide: ArlasConfigurationUpdaterService,
-          useClass: ArlasConfigurationUpdaterService
+            provide: ArlasConfigurationUpdaterService,
+            useClass: ArlasConfigurationUpdaterService
         },
-        {provide: FETCH_OPTIONS, useValue: {}}
-      ]
-    })
+        { provide: FETCH_OPTIONS, useValue: {} },
+        provideHttpClient(withInterceptorsFromDi())
+    ]
+})
       .compileComponents();
   });
 

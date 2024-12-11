@@ -25,7 +25,7 @@ import {
   CONFIG_UPDATER,
   FETCH_OPTIONS
 } from '../startup/startup.service';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import {
   TranslateService, TranslateStore,
   TranslateModule, TranslateLoader, TranslateFakeLoader
@@ -34,26 +34,24 @@ import { ArlasConfigurationUpdaterService } from '../configuration-updater/confi
 
 describe('ArlasAoiService', () => {
   beforeEach(() => TestBed.configureTestingModule({
-    imports: [
-      HttpClientModule,
-      TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } })
-    ],
+    imports: [TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } })],
     providers: [
-      {
-        provide: ArlasStartupService,
-        useClass: ArlasStartupService,
-        deps: [ArlasConfigurationUpdaterService]
-      },
-      HttpClient, ArlasConfigService, TranslateService, TranslateStore,
-      ArlasCollaborativesearchService,
-      { provide: CONFIG_UPDATER, useValue: {} },
-      {
-        provide: ArlasConfigurationUpdaterService,
-        useClass: ArlasConfigurationUpdaterService
-      },
-      {provide: FETCH_OPTIONS, useValue: {}},
+        {
+            provide: ArlasStartupService,
+            useClass: ArlasStartupService,
+            deps: [ArlasConfigurationUpdaterService]
+        },
+        HttpClient, ArlasConfigService, TranslateService, TranslateStore,
+        ArlasCollaborativesearchService,
+        { provide: CONFIG_UPDATER, useValue: {} },
+        {
+            provide: ArlasConfigurationUpdaterService,
+            useClass: ArlasConfigurationUpdaterService
+        },
+        { provide: FETCH_OPTIONS, useValue: {} },
+        provideHttpClient(withInterceptorsFromDi()),
     ]
-  }));
+}));
 
   it('should be created', () => {
     const service: ArlasAoiService = TestBed.get(ArlasAoiService);

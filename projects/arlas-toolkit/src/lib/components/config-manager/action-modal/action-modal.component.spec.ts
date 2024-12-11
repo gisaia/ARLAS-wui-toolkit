@@ -12,7 +12,7 @@ import { FormsModule } from '@angular/forms';
 import { AuthentificationService } from '../../../services/authentification/authentification.service';
 import { getOptionsFactory } from '../../../toolkit.module';
 import { DateTimeProvider, OAuthLogger, OAuthService, UrlHelperService } from 'angular-oauth2-oidc';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ShareConfigModule } from '../share-config/share-config.module';
 import { GET_OPTIONS } from '../../../tools/utils';
 
@@ -25,9 +25,8 @@ describe('ActionModalComponent', () => {
       close: jasmine.createSpy('close')
     };
     TestBed.configureTestingModule({
-      declarations: [ActionModalComponent],
-      imports: [
-        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }),
+    declarations: [ActionModalComponent],
+    imports: [TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }),
         MatMenuModule,
         MatIconModule,
         MatDialogModule,
@@ -35,29 +34,29 @@ describe('ActionModalComponent', () => {
         MatInputModule,
         MatButtonModule,
         FormsModule,
-        HttpClientModule,
-        ShareConfigModule
-      ],
-      providers: [
+        ShareConfigModule],
+    providers: [
         AuthentificationService,
         OAuthService,
         OAuthLogger,
         DateTimeProvider,
         UrlHelperService,
         {
-          provide: MAT_DIALOG_DATA,
-          useValue: {}
+            provide: MAT_DIALOG_DATA,
+            useValue: {}
         },
         {
-          provide: MatDialogRef,
-          useValue: mockDialogRef
+            provide: MatDialogRef,
+            useValue: mockDialogRef
         },
         {
-          provide: GET_OPTIONS,
-          useFactory: getOptionsFactory,
-          deps: [AuthentificationService]
-        }]
-    })
+            provide: GET_OPTIONS,
+            useFactory: getOptionsFactory,
+            deps: [AuthentificationService]
+        },
+        provideHttpClient(withInterceptorsFromDi())
+    ]
+})
       .compileComponents();
   }));
 

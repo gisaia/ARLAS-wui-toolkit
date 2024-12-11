@@ -26,7 +26,7 @@ import {
 } from '../../services/startup/startup.service';
 import { FiltersComponent, GetColorFilterPipe, GetCollaborationIconPipe, ConcatCollectionPipe,
   GetContributorLabelPipe } from './filters.component';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { TranslateService, TranslateModule, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
 import { ArlasWalkthroughService } from '../../services/walkthrough/walkthrough.service';
 import { FormatNumberModule } from 'arlas-web-components';
@@ -43,29 +43,27 @@ describe('FiltersChipsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        MatChipsModule, MatIconModule, MatTooltipModule, MatMenuModule,
+    declarations: [FiltersComponent, GetColorFilterPipe, GetCollaborationIconPipe, ConcatCollectionPipe, GetContributorLabelPipe],
+    imports: [MatChipsModule, MatIconModule, MatTooltipModule, MatMenuModule,
         TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }),
-        FormatNumberModule,
-        HttpClientModule
-      ],
-      declarations: [FiltersComponent,  GetColorFilterPipe, GetCollaborationIconPipe, ConcatCollectionPipe, GetContributorLabelPipe],
-      providers: [
+        FormatNumberModule],
+    providers: [
         {
-          provide: ArlasStartupService,
-          useClass: ArlasStartupService,
-          deps: [ArlasConfigurationUpdaterService]
+            provide: ArlasStartupService,
+            useClass: ArlasStartupService,
+            deps: [ArlasConfigurationUpdaterService]
         },
         ArlasConfigService, ArlasCollaborativesearchService,
         ArlasWalkthroughService, HttpClient, TranslateService,
         { provide: CONFIG_UPDATER, useValue: {} },
         {
-          provide: ArlasConfigurationUpdaterService,
-          useClass: ArlasConfigurationUpdaterService
+            provide: ArlasConfigurationUpdaterService,
+            useClass: ArlasConfigurationUpdaterService
         },
-        {provide: FETCH_OPTIONS, useValue: {}}
-      ]
-    })
+        { provide: FETCH_OPTIONS, useValue: {} },
+        provideHttpClient(withInterceptorsFromDi())
+    ]
+})
       .compileComponents();
   }));
 

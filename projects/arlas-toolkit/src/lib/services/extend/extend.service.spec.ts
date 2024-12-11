@@ -27,7 +27,7 @@ import {
   CONFIG_UPDATER,
   FETCH_OPTIONS
 } from '../startup/startup.service';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import {
   TranslateModule, TranslateService, TranslateLoader,
   TranslateFakeLoader, TranslateStore
@@ -37,31 +37,28 @@ import { ArlasConfigurationUpdaterService } from '../configuration-updater/confi
 describe('ArlasExtendService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientModule, OAuthModule,
-        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } })
-      ],
-      providers: [ArlasConfigService,
+    imports: [OAuthModule,
+        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } })],
+    providers: [ArlasConfigService,
         OAuthService,
         OAuthLogger,
         UrlHelperService,
         AuthentificationService,
         ArlasExtendService,
         {
-          provide: ArlasStartupService,
-          useClass: ArlasStartupService,
-          deps: [ArlasConfigurationUpdaterService]
+            provide: ArlasStartupService,
+            useClass: ArlasStartupService,
+            deps: [ArlasConfigurationUpdaterService]
         },
         {
-          provide: ArlasConfigurationUpdaterService,
-          useClass: ArlasConfigurationUpdaterService
+            provide: ArlasConfigurationUpdaterService,
+            useClass: ArlasConfigurationUpdaterService
         },
-        {provide: FETCH_OPTIONS, useValue: {}},
+        { provide: FETCH_OPTIONS, useValue: {} },
         ArlasCollaborativesearchService,
         { provide: GET_OPTIONS, useValue: {} },
-        { provide: CONFIG_UPDATER, useValue: {} }
-      ]
-    });
+        { provide: CONFIG_UPDATER, useValue: {} }, provideHttpClient(withInterceptorsFromDi())]
+});
   });
 
   it('should be created', inject([ArlasConfigService],

@@ -11,7 +11,7 @@ import {
 } from '@danielmoncada/angular-datetime-picker';
 import { MomentDateTimeAdapter } from '@danielmoncada/angular-datetime-picker-moment-adapter';
 import { TranslateModule, TranslateLoader, TranslateFakeLoader, TranslateService } from '@ngx-translate/core';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ArlasConfigurationUpdaterService } from '../../../services/configuration-updater/configurationUpdater.service';
 export const MY_CUSTOM_FORMATS = {
   parseInput: 'lll',
@@ -28,33 +28,31 @@ describe('DatePickerComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [DatePickerComponent],
-      imports: [
-        OwlDateTimeModule, FormsModule, HttpClientModule,
+    declarations: [DatePickerComponent],
+    imports: [OwlDateTimeModule, FormsModule,
         TranslateModule.forRoot({
-          loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
-        })
-      ],
-      providers: [
+            loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
+        })],
+    providers: [
         { provide: OWL_DATE_TIME_LOCALE, useValue: 'fr' }, HttpClient,
-
         ArlasCollaborativesearchService,
         {
-          provide: ArlasStartupService,
-          useClass: ArlasStartupService,
-          deps: [ArlasConfigurationUpdaterService]
+            provide: ArlasStartupService,
+            useClass: ArlasStartupService,
+            deps: [ArlasConfigurationUpdaterService]
         },
         ArlasConfigService, TranslateService,
         { provide: DateTimeAdapter, useClass: MomentDateTimeAdapter, deps: [OWL_DATE_TIME_LOCALE] },
         { provide: OWL_DATE_TIME_FORMATS, useValue: MY_CUSTOM_FORMATS },
-        {provide: CONFIG_UPDATER, useValue: {}},
+        { provide: CONFIG_UPDATER, useValue: {} },
         {
-          provide: ArlasConfigurationUpdaterService,
-          useClass: ArlasConfigurationUpdaterService
+            provide: ArlasConfigurationUpdaterService,
+            useClass: ArlasConfigurationUpdaterService
         },
-        {provide: FETCH_OPTIONS, useValue: {}},
-      ]
-    })
+        { provide: FETCH_OPTIONS, useValue: {} },
+        provideHttpClient(withInterceptorsFromDi()),
+    ]
+})
       .compileComponents();
   }));
 

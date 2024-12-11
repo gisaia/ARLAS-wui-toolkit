@@ -7,7 +7,7 @@ import { GET_OPTIONS } from '../../tools/utils';
 import { AuthentificationService } from '../../services/authentification/authentification.service';
 import { getOptionsFactory } from '../../toolkit.module';
 import { OAuthService, OAuthModule, OAuthLogger, UrlHelperService, DateTimeProvider } from 'angular-oauth2-oidc';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('ReconnectDialogComponent', () => {
   let component: ReconnectDialogComponent;
@@ -15,29 +15,28 @@ describe('ReconnectDialogComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ReconnectDialogComponent],
-      providers: [
+    declarations: [ReconnectDialogComponent],
+    imports: [TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }),
+        MatDialogModule,
+        OAuthModule],
+    providers: [
         AuthentificationService,
         OAuthService,
         OAuthLogger,
         DateTimeProvider,
         UrlHelperService,
         {
-          provide: MAT_DIALOG_DATA,
-          useValue: {}
+            provide: MAT_DIALOG_DATA,
+            useValue: {}
         },
         {
-          provide: GET_OPTIONS,
-          useFactory: getOptionsFactory,
-          deps: [AuthentificationService]
-        }
-      ],
-      imports: [
-        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }),
-        MatDialogModule,
-        OAuthModule,
-        HttpClientModule]
-    })
+            provide: GET_OPTIONS,
+            useFactory: getOptionsFactory,
+            deps: [AuthentificationService]
+        },
+        provideHttpClient(withInterceptorsFromDi())
+    ]
+})
       .compileComponents();
   }));
 

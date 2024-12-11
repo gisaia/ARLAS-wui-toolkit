@@ -18,7 +18,7 @@
  */
 
 import { APP_BASE_HREF } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { inject, TestBed } from '@angular/core/testing';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -29,23 +29,23 @@ import { ArlasBookmarkService } from './bookmark.service';
 describe('ArlasBookmarkService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [MatSnackBarModule, RouterTestingModule, HttpClientModule],
-      providers: [
+    imports: [MatSnackBarModule, RouterTestingModule],
+    providers: [
         ArlasBookmarkService,
         {
-          provide: ArlasStartupService,
-          useClass: ArlasStartupService,
-          deps: [ArlasConfigurationUpdaterService]
+            provide: ArlasStartupService,
+            useClass: ArlasStartupService,
+            deps: [ArlasConfigurationUpdaterService]
         },
         {
-          provide: ArlasConfigurationUpdaterService,
-          useClass: ArlasConfigurationUpdaterService
+            provide: ArlasConfigurationUpdaterService,
+            useClass: ArlasConfigurationUpdaterService
         },
         ArlasCollaborativesearchService, { provide: APP_BASE_HREF, useValue: '/' },
-        ArlasConfigService
-      ]
-
-    });
+        ArlasConfigService,
+        provideHttpClient(withInterceptorsFromDi())
+    ]
+});
   });
 
   it('should be created', inject([ArlasConfigService],

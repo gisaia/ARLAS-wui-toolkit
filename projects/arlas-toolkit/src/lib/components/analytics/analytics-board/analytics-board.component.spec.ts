@@ -1,5 +1,5 @@
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
@@ -33,33 +33,32 @@ describe('AnalyticsBoardComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
+    declarations: [
         AnalyticsBoardComponent, WidgetComponent, ProgressSpinnerComponent, HistogramWidgetComponent
-      ],
-      imports: [
-        MatCardModule, MatIconModule, MatExpansionModule, MatSelectModule, MatButtonModule,
+    ],
+    imports: [MatCardModule, MatIconModule, MatExpansionModule, MatSelectModule, MatButtonModule,
         MatTooltipModule, BrowserModule, HistogramModule, ResultsModule, PowerbarsModule,
         DonutModule, RouterModule,
         TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }),
-        MatBadgeModule, DragDropModule, HttpClientModule,
-        MetricModule, MatProgressSpinnerModule, MatTabsModule
-      ],
-      providers: [
+        MatBadgeModule, DragDropModule,
+        MetricModule, MatProgressSpinnerModule, MatTabsModule],
+    providers: [
         ArlasConfigService, ArlasCollaborativesearchService,
         HttpClient, TranslateService, TranslateStore,
         {
-          provide: ArlasStartupService,
-          useClass: ArlasStartupService,
-          deps: [ArlasConfigurationUpdaterService]
+            provide: ArlasStartupService,
+            useClass: ArlasStartupService,
+            deps: [ArlasConfigurationUpdaterService]
         },
         {
-          provide: ArlasConfigurationUpdaterService,
-          useClass: ArlasConfigurationUpdaterService
+            provide: ArlasConfigurationUpdaterService,
+            useClass: ArlasConfigurationUpdaterService
         },
         { provide: CONFIG_UPDATER, useValue: {} },
-        { provide: FETCH_OPTIONS, useValue: {} }
-      ]
-    }).compileComponents();
+        { provide: FETCH_OPTIONS, useValue: {} },
+        provideHttpClient(withInterceptorsFromDi())
+    ]
+}).compileComponents();
   }));
 
   beforeEach(() => {

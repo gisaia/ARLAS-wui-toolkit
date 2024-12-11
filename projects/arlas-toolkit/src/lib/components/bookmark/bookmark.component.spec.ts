@@ -24,7 +24,7 @@ import { BookmarkComponent } from './bookmark.component';
 import { ArlasStartupService, ArlasConfigService, ArlasCollaborativesearchService,
   CONFIG_UPDATER,
   FETCH_OPTIONS} from '../../services/startup/startup.service';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { TranslateService, TranslateModule, TranslateFakeLoader, TranslateLoader } from '@ngx-translate/core';
 import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
 import { MatTableModule } from '@angular/material/table';
@@ -39,27 +39,26 @@ describe('BookmarkComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        MatTableModule, MatCheckboxModule, MatIconModule, HttpClientModule, MatPaginatorModule,
-        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } })
-      ],
-      declarations: [BookmarkComponent],
-      providers: [
+    declarations: [BookmarkComponent],
+    imports: [MatTableModule, MatCheckboxModule, MatIconModule, MatPaginatorModule,
+        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } })],
+    providers: [
         ArlasConfigService, ArlasCollaborativesearchService,
         {
-          provide: ArlasStartupService,
-          useClass: ArlasStartupService,
-          deps: [ArlasConfigurationUpdaterService]
+            provide: ArlasStartupService,
+            useClass: ArlasStartupService,
+            deps: [ArlasConfigurationUpdaterService]
         },
         HttpClient, TranslateService,
-        {provide: CONFIG_UPDATER, useValue: {}},
+        { provide: CONFIG_UPDATER, useValue: {} },
         {
-          provide: ArlasConfigurationUpdaterService,
-          useClass: ArlasConfigurationUpdaterService
+            provide: ArlasConfigurationUpdaterService,
+            useClass: ArlasConfigurationUpdaterService
         },
-        {provide: FETCH_OPTIONS, useValue: {}}
-      ]
-    })
+        { provide: FETCH_OPTIONS, useValue: {} },
+        provideHttpClient(withInterceptorsFromDi())
+    ]
+})
       .compileComponents();
   }));
 

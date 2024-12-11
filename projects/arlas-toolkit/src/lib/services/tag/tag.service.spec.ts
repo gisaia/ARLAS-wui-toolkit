@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import {  HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { TestBed, inject } from '@angular/core/testing';
 import { ArlasTagService } from './tag.service';
 import { GET_OPTIONS } from '../../tools/utils';
@@ -30,8 +30,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 describe('ArlasTagService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientModule, OAuthModule, MatSnackBarModule],
-      providers: [
+    imports: [OAuthModule, MatSnackBarModule],
+    providers: [
         ArlasTagService,
         ArlasCollaborativesearchService,
         ArlasSettingsService,
@@ -41,11 +41,13 @@ describe('ArlasTagService', () => {
         UrlHelperService,
         AuthentificationService,
         {
-          provide: GET_OPTIONS,
-          useFactory: getOptionsFactory,
-          deps: [AuthentificationService]
-        }]
-    });
+            provide: GET_OPTIONS,
+            useFactory: getOptionsFactory,
+            deps: [AuthentificationService]
+        },
+        provideHttpClient(withInterceptorsFromDi())
+    ]
+});
   });
 
   it('should be created', inject([ArlasSettingsService],

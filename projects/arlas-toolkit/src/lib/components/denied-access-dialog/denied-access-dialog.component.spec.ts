@@ -3,7 +3,7 @@ import { TranslateModule, TranslateLoader, TranslateFakeLoader } from '@ngx-tran
 
 import { DeniedAccessDialogComponent } from './denied-access-dialog.component';
 import { MatDialogModule, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('ReconnectDialogComponent', () => {
   let component: DeniedAccessDialogComponent;
@@ -11,18 +11,17 @@ describe('ReconnectDialogComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [DeniedAccessDialogComponent],
-      providers: [
+    declarations: [DeniedAccessDialogComponent],
+    imports: [TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }),
+        MatDialogModule],
+    providers: [
         {
-          provide: MAT_DIALOG_DATA,
-          useValue: {}
+            provide: MAT_DIALOG_DATA,
+            useValue: {}
         },
-      ],
-      imports: [
-        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }),
-        MatDialogModule,
-        HttpClientModule]
-    })
+        provideHttpClient(withInterceptorsFromDi()),
+    ]
+})
       .compileComponents();
   }));
 

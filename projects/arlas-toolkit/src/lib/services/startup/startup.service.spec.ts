@@ -5,7 +5,7 @@ import {
   CONFIG_UPDATER,
   FETCH_OPTIONS
 } from './startup.service';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import {
   TranslateModule, TranslateService, TranslateLoader,
   TranslateFakeLoader, TranslateStore
@@ -16,15 +16,16 @@ import { ArlasSettingsService } from '../settings/arlas.settings.service';
 describe('ArlasStartupService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
+    imports: [TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } })],
+    providers: [
         {
-          provide: ArlasStartupService,
-          useClass: ArlasStartupService,
-          deps: [ArlasConfigurationUpdaterService]
+            provide: ArlasStartupService,
+            useClass: ArlasStartupService,
+            deps: [ArlasConfigurationUpdaterService]
         },
         {
-          provide: ArlasConfigurationUpdaterService,
-          useClass: ArlasConfigurationUpdaterService
+            provide: ArlasConfigurationUpdaterService,
+            useClass: ArlasConfigurationUpdaterService
         },
         ArlasConfigService,
         ArlasCollaborativesearchService,
@@ -32,12 +33,9 @@ describe('ArlasStartupService', () => {
         TranslateService, TranslateStore,
         { provide: CONFIG_UPDATER, useValue: {} },
         { provide: FETCH_OPTIONS, useValue: {} },
-      ],
-      imports: [
-        HttpClientModule,
-        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } })
-      ]
-    });
+        provideHttpClient(withInterceptorsFromDi()),
+    ]
+});
   });
 
   it('should be created', (() => {

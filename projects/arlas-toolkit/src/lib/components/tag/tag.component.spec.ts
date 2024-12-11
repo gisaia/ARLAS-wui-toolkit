@@ -1,4 +1,4 @@
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -29,30 +29,27 @@ describe('TagComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        ArlasToolKitModule,
+    declarations: [TagComponent],
+    imports: [ArlasToolKitModule,
         ReactiveFormsModule, MatAutocompleteModule,
         MatInputModule, FormsModule, BrowserAnimationsModule,
-        MatIconModule, HttpClientModule, MatDialogModule, MatStepperModule,
-        MatRadioModule, MatSelectModule, MatProgressBarModule, MatSnackBarModule
-      ],
-      declarations: [TagComponent],
-      providers: [ArlasConfigService, ArlasCollaborativesearchService,
+        MatIconModule, MatDialogModule, MatStepperModule,
+        MatRadioModule, MatSelectModule, MatProgressBarModule, MatSnackBarModule],
+    providers: [ArlasConfigService, ArlasCollaborativesearchService,
         ArlasTagService,
         AuthentificationService,
         {
-          provide: ArlasConfigurationUpdaterService,
-          useClass: ArlasConfigurationUpdaterService
+            provide: ArlasConfigurationUpdaterService,
+            useClass: ArlasConfigurationUpdaterService
         },
         { provide: FETCH_OPTIONS, useValue: {} },
         { provide: CONFIG_UPDATER, useValue: {} },
         {
-          provide: GET_OPTIONS,
-          useFactory: getOptionsFactory,
-          deps: [AuthentificationService]
-        }, HttpClient
-      ]
-    })
+            provide: GET_OPTIONS,
+            useFactory: getOptionsFactory,
+            deps: [AuthentificationService]
+        }, HttpClient, provideHttpClient(withInterceptorsFromDi())]
+})
       .compileComponents();
   }));
 

@@ -9,7 +9,7 @@ import {
 import { HistogramModule, ResultsModule, DonutModule, MetricModule, PowerbarsModule,
   AwcColorGeneratorLoader, ColorGeneratorLoader, ColorGeneratorModule, ArlasColorService } from 'arlas-web-components';
 
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { TranslateModule, TranslateService, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
 import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
 import { ProgressSpinnerComponent } from '../progress-spinner/progress-spinner.component';
@@ -25,44 +25,40 @@ describe('HistogramWidgetComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [HistogramWidgetComponent, ProgressSpinnerComponent],
-      providers: [ArlasCollaborativesearchService, ArlasConfigService, ArlasColorService,
-        {
-          provide: ArlasStartupService,
-          useClass: ArlasStartupService,
-          deps: [ArlasConfigurationUpdaterService]
-        },
-        TranslateService,
-        ArlasOverlayService,
-        { provide: CONFIG_UPDATER, useValue: {} },
-        {
-          provide: ArlasConfigurationUpdaterService,
-          useClass: ArlasConfigurationUpdaterService
-        },
-        { provide: FETCH_OPTIONS, useValue: {} }
-      ],
-      imports: [
-        HistogramModule,
+    declarations: [HistogramWidgetComponent, ProgressSpinnerComponent],
+    imports: [HistogramModule,
         PowerbarsModule,
         ResultsModule,
         DonutModule,
         MetricModule,
         MatSelectModule,
-        HttpClientModule,
         MatTooltipModule,
         MatIconModule,
         MatProgressSpinnerModule,
         TranslateModule.forRoot({
-          loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
+            loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
         }),
         ColorGeneratorModule.forRoot({
-          loader: {
-            provide: ColorGeneratorLoader,
-            useClass: AwcColorGeneratorLoader
-          }
-        })
-      ]
-    })
+            loader: {
+                provide: ColorGeneratorLoader,
+                useClass: AwcColorGeneratorLoader
+            }
+        })],
+    providers: [ArlasCollaborativesearchService, ArlasConfigService, ArlasColorService,
+        {
+            provide: ArlasStartupService,
+            useClass: ArlasStartupService,
+            deps: [ArlasConfigurationUpdaterService]
+        },
+        TranslateService,
+        ArlasOverlayService,
+        { provide: CONFIG_UPDATER, useValue: {} },
+        {
+            provide: ArlasConfigurationUpdaterService,
+            useClass: ArlasConfigurationUpdaterService
+        },
+        { provide: FETCH_OPTIONS, useValue: {} }, provideHttpClient(withInterceptorsFromDi())]
+})
       .compileComponents();
   }));
 

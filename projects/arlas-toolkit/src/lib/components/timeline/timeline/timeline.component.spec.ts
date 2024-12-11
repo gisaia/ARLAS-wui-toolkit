@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -52,38 +52,37 @@ describe('TimelineComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [TimelineComponent, DatePickerComponent, TimelineShortcutComponent, GetTimeLabelPipe],
-      imports: [
-        MatCardModule, MatIconModule, MatExpansionModule, MatSelectModule, MatButtonModule, MatChipsModule,
-        OwlDateTimeModule, OwlNativeDateTimeModule, FormsModule, HttpClientModule,
+    declarations: [TimelineComponent, DatePickerComponent, TimelineShortcutComponent, GetTimeLabelPipe],
+    imports: [MatCardModule, MatIconModule, MatExpansionModule, MatSelectModule, MatButtonModule, MatChipsModule,
+        OwlDateTimeModule, OwlNativeDateTimeModule, FormsModule,
         MatTooltipModule, BrowserModule, HistogramModule, ResultsModule, PowerbarsModule, DonutModule, MetricModule,
         TranslateModule.forRoot({
-          loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
+            loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
         }),
         ColorGeneratorModule.forRoot({
-          loader: {
-            provide: ColorGeneratorLoader,
-            useClass: AwcColorGeneratorLoader
-          }
-        })
-      ],
-      providers: [
+            loader: {
+                provide: ColorGeneratorLoader,
+                useClass: AwcColorGeneratorLoader
+            }
+        })],
+    providers: [
         ArlasCollaborativesearchService,
         ArlasOverlayService,
         {
-          provide: ArlasStartupService,
-          useClass: ArlasStartupService,
-          deps: [ArlasConfigurationUpdaterService]
+            provide: ArlasStartupService,
+            useClass: ArlasStartupService,
+            deps: [ArlasConfigurationUpdaterService]
         },
         ArlasConfigService, TranslateService, HttpClient,
         { provide: CONFIG_UPDATER, useValue: {} },
         {
-          provide: ArlasConfigurationUpdaterService,
-          useClass: ArlasConfigurationUpdaterService
+            provide: ArlasConfigurationUpdaterService,
+            useClass: ArlasConfigurationUpdaterService
         },
         { provide: FETCH_OPTIONS, useValue: {} },
-      ]
-    })
+        provideHttpClient(withInterceptorsFromDi()),
+    ]
+})
       .compileComponents();
   }));
 
