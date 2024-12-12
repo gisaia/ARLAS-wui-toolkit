@@ -1,32 +1,36 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { HistogramWidgetComponent } from './histogram-widget.component';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { TranslateFakeLoader, TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import {
+  ArlasColorService,
+  AwcColorGeneratorLoader, ColorGeneratorLoader, ColorGeneratorModule,
+  DonutModule,
+  HistogramModule,
+  MetricModule, PowerbarsModule,
+  ResultsModule
+} from 'arlas-web-components';
+import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
+import { ArlasOverlayService } from '../../services/overlays/overlay.service';
 import {
   ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService,
   CONFIG_UPDATER,
   FETCH_OPTIONS
 } from '../../services/startup/startup.service';
-import { HistogramModule, ResultsModule, DonutModule, MetricModule, PowerbarsModule,
-  AwcColorGeneratorLoader, ColorGeneratorLoader, ColorGeneratorModule, ArlasColorService } from 'arlas-web-components';
-
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { TranslateModule, TranslateService, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
-import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
 import { ProgressSpinnerComponent } from '../progress-spinner/progress-spinner.component';
-import { ArlasOverlayService } from '../../services/overlays/overlay.service';
-import { MatSelectModule } from '@angular/material/select';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatIconModule } from '@angular/material/icon';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { HistogramWidgetComponent } from './histogram-widget.component';
 
 describe('HistogramWidgetComponent', () => {
   let component: HistogramWidgetComponent;
   let fixture: ComponentFixture<HistogramWidgetComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    declarations: [HistogramWidgetComponent, ProgressSpinnerComponent],
-    imports: [HistogramModule,
+      declarations: [HistogramWidgetComponent, ProgressSpinnerComponent],
+      imports: [HistogramModule,
         PowerbarsModule,
         ResultsModule,
         DonutModule,
@@ -36,29 +40,29 @@ describe('HistogramWidgetComponent', () => {
         MatIconModule,
         MatProgressSpinnerModule,
         TranslateModule.forRoot({
-            loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
+          loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
         }),
         ColorGeneratorModule.forRoot({
-            loader: {
-                provide: ColorGeneratorLoader,
-                useClass: AwcColorGeneratorLoader
-            }
+          loader: {
+            provide: ColorGeneratorLoader,
+            useClass: AwcColorGeneratorLoader
+          }
         })],
-    providers: [ArlasCollaborativesearchService, ArlasConfigService, ArlasColorService,
+      providers: [ArlasCollaborativesearchService, ArlasConfigService, ArlasColorService,
         {
-            provide: ArlasStartupService,
-            useClass: ArlasStartupService,
-            deps: [ArlasConfigurationUpdaterService]
+          provide: ArlasStartupService,
+          useClass: ArlasStartupService,
+          deps: [ArlasConfigurationUpdaterService]
         },
         TranslateService,
         ArlasOverlayService,
         { provide: CONFIG_UPDATER, useValue: {} },
         {
-            provide: ArlasConfigurationUpdaterService,
-            useClass: ArlasConfigurationUpdaterService
+          provide: ArlasConfigurationUpdaterService,
+          useClass: ArlasConfigurationUpdaterService
         },
         { provide: FETCH_OPTIONS, useValue: {} }, provideHttpClient(withInterceptorsFromDi())]
-})
+    })
       .compileComponents();
   }));
 

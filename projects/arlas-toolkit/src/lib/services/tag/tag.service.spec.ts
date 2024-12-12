@@ -30,8 +30,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 describe('ArlasTagService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [OAuthModule, MatSnackBarModule],
-    providers: [
+      imports: [OAuthModule, MatSnackBarModule],
+      providers: [
         ArlasTagService,
         ArlasCollaborativesearchService,
         ArlasSettingsService,
@@ -41,13 +41,13 @@ describe('ArlasTagService', () => {
         UrlHelperService,
         AuthentificationService,
         {
-            provide: GET_OPTIONS,
-            useFactory: getOptionsFactory,
-            deps: [AuthentificationService]
+          provide: GET_OPTIONS,
+          useFactory: getOptionsFactory,
+          deps: [AuthentificationService]
         },
         provideHttpClient(withInterceptorsFromDi())
-    ]
-});
+      ]
+    });
   });
 
   it('should be created', inject([ArlasSettingsService],

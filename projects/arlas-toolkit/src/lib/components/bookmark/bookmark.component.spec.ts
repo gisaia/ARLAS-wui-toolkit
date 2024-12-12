@@ -17,48 +17,50 @@
  * under the License.
  */
 
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { BookmarkComponent } from './bookmark.component';
-
-import { ArlasStartupService, ArlasConfigService, ArlasCollaborativesearchService,
-  CONFIG_UPDATER,
-  FETCH_OPTIONS} from '../../services/startup/startup.service';
 import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { TranslateService, TranslateModule, TranslateFakeLoader, TranslateLoader } from '@ngx-translate/core';
-import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
-import { MatTableModule } from '@angular/material/table';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
+import { TranslateFakeLoader, TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
+import {
+  ArlasCollaborativesearchService,
+  ArlasConfigService,
+  ArlasStartupService,
+  CONFIG_UPDATER,
+  FETCH_OPTIONS
+} from '../../services/startup/startup.service';
+import { BookmarkComponent } from './bookmark.component';
 
 describe('BookmarkComponent', () => {
   let component: BookmarkComponent;
   let fixture: ComponentFixture<BookmarkComponent>;
   let arlasStartupService: ArlasStartupService;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    declarations: [BookmarkComponent],
-    imports: [MatTableModule, MatCheckboxModule, MatIconModule, MatPaginatorModule,
+      declarations: [BookmarkComponent],
+      imports: [MatTableModule, MatCheckboxModule, MatIconModule, MatPaginatorModule,
         TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } })],
-    providers: [
+      providers: [
         ArlasConfigService, ArlasCollaborativesearchService,
         {
-            provide: ArlasStartupService,
-            useClass: ArlasStartupService,
-            deps: [ArlasConfigurationUpdaterService]
+          provide: ArlasStartupService,
+          useClass: ArlasStartupService,
+          deps: [ArlasConfigurationUpdaterService]
         },
         HttpClient, TranslateService,
         { provide: CONFIG_UPDATER, useValue: {} },
         {
-            provide: ArlasConfigurationUpdaterService,
-            useClass: ArlasConfigurationUpdaterService
+          provide: ArlasConfigurationUpdaterService,
+          useClass: ArlasConfigurationUpdaterService
         },
         { provide: FETCH_OPTIONS, useValue: {} },
         provideHttpClient(withInterceptorsFromDi())
-    ]
-})
+      ]
+    })
       .compileComponents();
   }));
 

@@ -16,16 +16,16 @@ import { ArlasSettingsService } from '../settings/arlas.settings.service';
 describe('ArlasStartupService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } })],
-    providers: [
+      imports: [TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } })],
+      providers: [
         {
-            provide: ArlasStartupService,
-            useClass: ArlasStartupService,
-            deps: [ArlasConfigurationUpdaterService]
+          provide: ArlasStartupService,
+          useClass: ArlasStartupService,
+          deps: [ArlasConfigurationUpdaterService]
         },
         {
-            provide: ArlasConfigurationUpdaterService,
-            useClass: ArlasConfigurationUpdaterService
+          provide: ArlasConfigurationUpdaterService,
+          useClass: ArlasConfigurationUpdaterService
         },
         ArlasConfigService,
         ArlasCollaborativesearchService,
@@ -34,8 +34,8 @@ describe('ArlasStartupService', () => {
         { provide: CONFIG_UPDATER, useValue: {} },
         { provide: FETCH_OPTIONS, useValue: {} },
         provideHttpClient(withInterceptorsFromDi()),
-    ]
-});
+      ]
+    });
   });
 
   it('should be created', (() => {

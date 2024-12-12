@@ -8,15 +8,15 @@ describe('JwtInterceptor', () => {
   beforeEach(() => TestBed.configureTestingModule({
     imports: [],
     providers: [
-        AuthentificationService,
-        OAuthService,
-        OAuthLogger,
-        DateTimeProvider,
-        UrlHelperService,
-        JwtInterceptor,
-        provideHttpClient(withInterceptorsFromDi())
+      AuthentificationService,
+      OAuthService,
+      OAuthLogger,
+      DateTimeProvider,
+      UrlHelperService,
+      JwtInterceptor,
+      provideHttpClient(withInterceptorsFromDi())
     ]
-}));
+  }));
 
   it('should be created', () => {
     const interceptor: JwtInterceptor = TestBed.inject(JwtInterceptor);

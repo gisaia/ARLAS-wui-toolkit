@@ -29,23 +29,23 @@ import { ArlasBookmarkService } from './bookmark.service';
 describe('ArlasBookmarkService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [MatSnackBarModule, RouterTestingModule],
-    providers: [
+      imports: [MatSnackBarModule, RouterTestingModule],
+      providers: [
         ArlasBookmarkService,
         {
-            provide: ArlasStartupService,
-            useClass: ArlasStartupService,
-            deps: [ArlasConfigurationUpdaterService]
+          provide: ArlasStartupService,
+          useClass: ArlasStartupService,
+          deps: [ArlasConfigurationUpdaterService]
         },
         {
-            provide: ArlasConfigurationUpdaterService,
-            useClass: ArlasConfigurationUpdaterService
+          provide: ArlasConfigurationUpdaterService,
+          useClass: ArlasConfigurationUpdaterService
         },
         ArlasCollaborativesearchService, { provide: APP_BASE_HREF, useValue: '/' },
         ArlasConfigService,
         provideHttpClient(withInterceptorsFromDi())
-    ]
-});
+      ]
+    });
   });
 
   it('should be created', inject([ArlasConfigService],

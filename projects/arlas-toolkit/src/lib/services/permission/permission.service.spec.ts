@@ -11,20 +11,20 @@ describe('PermissionService', () => {
   beforeEach(() => TestBed.configureTestingModule({
     imports: [OAuthModule],
     providers: [
-        ArlasSettingsService,
-        OAuthService,
-        DateTimeProvider,
-        OAuthLogger,
-        UrlHelperService,
-        AuthentificationService,
-        {
-            provide: GET_OPTIONS,
-            useFactory: getOptionsFactory,
-            deps: [AuthentificationService]
-        },
-        provideHttpClient(withInterceptorsFromDi())
+      ArlasSettingsService,
+      OAuthService,
+      DateTimeProvider,
+      OAuthLogger,
+      UrlHelperService,
+      AuthentificationService,
+      {
+        provide: GET_OPTIONS,
+        useFactory: getOptionsFactory,
+        deps: [AuthentificationService]
+      },
+      provideHttpClient(withInterceptorsFromDi())
     ]
-}));
+  }));
 
   it('should be created', () => {
     const service: PermissionService = TestBed.get(PermissionService);

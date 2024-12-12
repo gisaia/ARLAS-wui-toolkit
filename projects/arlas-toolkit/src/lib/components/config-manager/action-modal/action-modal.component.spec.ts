@@ -1,32 +1,31 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { ActionModalComponent } from './action-modal.component';
-import { TranslateModule, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatIconModule } from '@angular/material/icon';
-import { MatDialogModule, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatMenuModule } from '@angular/material/menu';
+import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { DateTimeProvider, OAuthLogger, OAuthService, UrlHelperService } from 'angular-oauth2-oidc';
 import { AuthentificationService } from '../../../services/authentification/authentification.service';
 import { getOptionsFactory } from '../../../toolkit.module';
-import { DateTimeProvider, OAuthLogger, OAuthService, UrlHelperService } from 'angular-oauth2-oidc';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { ShareConfigModule } from '../share-config/share-config.module';
 import { GET_OPTIONS } from '../../../tools/utils';
+import { ShareConfigModule } from '../share-config/share-config.module';
+import { ActionModalComponent } from './action-modal.component';
 
 describe('ActionModalComponent', () => {
   let component: ActionModalComponent;
   let fixture: ComponentFixture<ActionModalComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     const mockDialogRef = {
       close: jasmine.createSpy('close')
     };
     TestBed.configureTestingModule({
-    declarations: [ActionModalComponent],
-    imports: [TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }),
+      declarations: [ActionModalComponent],
+      imports: [TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }),
         MatMenuModule,
         MatIconModule,
         MatDialogModule,
@@ -35,28 +34,28 @@ describe('ActionModalComponent', () => {
         MatButtonModule,
         FormsModule,
         ShareConfigModule],
-    providers: [
+      providers: [
         AuthentificationService,
         OAuthService,
         OAuthLogger,
         DateTimeProvider,
         UrlHelperService,
         {
-            provide: MAT_DIALOG_DATA,
-            useValue: {}
+          provide: MAT_DIALOG_DATA,
+          useValue: {}
         },
         {
-            provide: MatDialogRef,
-            useValue: mockDialogRef
+          provide: MatDialogRef,
+          useValue: mockDialogRef
         },
         {
-            provide: GET_OPTIONS,
-            useFactory: getOptionsFactory,
-            deps: [AuthentificationService]
+          provide: GET_OPTIONS,
+          useFactory: getOptionsFactory,
+          deps: [AuthentificationService]
         },
         provideHttpClient(withInterceptorsFromDi())
-    ]
-})
+      ]
+    })
       .compileComponents();
   }));
 

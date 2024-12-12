@@ -11,8 +11,8 @@ import { ArlasSettingsService } from '../settings/arlas.settings.service';
 describe('PersistenceService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [OAuthModule],
-    providers: [
+      imports: [OAuthModule],
+      providers: [
         ArlasSettingsService,
         OAuthService,
         DateTimeProvider,
@@ -20,13 +20,13 @@ describe('PersistenceService', () => {
         UrlHelperService,
         AuthentificationService,
         {
-            provide: GET_OPTIONS,
-            useFactory: getOptionsFactory,
-            deps: [AuthentificationService]
+          provide: GET_OPTIONS,
+          useFactory: getOptionsFactory,
+          deps: [AuthentificationService]
         },
         provideHttpClient(withInterceptorsFromDi())
-    ]
-});
+      ]
+    });
   });
 
   it('should be created', inject([ArlasSettingsService],

@@ -1,27 +1,26 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { TranslateModule, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
-
-import { DeniedAccessDialogComponent } from './denied-access-dialog.component';
-import { MatDialogModule, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
+import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { DeniedAccessDialogComponent } from './denied-access-dialog.component';
 
 describe('ReconnectDialogComponent', () => {
   let component: DeniedAccessDialogComponent;
   let fixture: ComponentFixture<DeniedAccessDialogComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    declarations: [DeniedAccessDialogComponent],
-    imports: [TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }),
+      declarations: [DeniedAccessDialogComponent],
+      imports: [TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }),
         MatDialogModule],
-    providers: [
+      providers: [
         {
-            provide: MAT_DIALOG_DATA,
-            useValue: {}
+          provide: MAT_DIALOG_DATA,
+          useValue: {}
         },
         provideHttpClient(withInterceptorsFromDi()),
-    ]
-})
+      ]
+    })
       .compileComponents();
   }));
 

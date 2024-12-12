@@ -1,5 +1,5 @@
 import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -11,45 +11,45 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatStepperModule } from '@angular/material/stepper';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AuthentificationService } from '../../services/authentification/authentification.service';
 import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
 import {
   ArlasCollaborativesearchService,
-  ArlasConfigService, ArlasStartupService, CONFIG_UPDATER, FETCH_OPTIONS
+  ArlasConfigService,
+  CONFIG_UPDATER, FETCH_OPTIONS
 } from '../../services/startup/startup.service';
 import { ArlasTagService } from '../../services/tag/tag.service';
-import { TagComponent } from './tag.component';
-import { GET_OPTIONS } from '../../tools/utils';
-import { ToolKitAppModule } from 'app/app.module';
 import { ArlasToolKitModule, getOptionsFactory } from '../../toolkit.module';
-import { AuthentificationService } from '../../services/authentification/authentification.service';
+import { GET_OPTIONS } from '../../tools/utils';
+import { TagComponent } from './tag.component';
 
 describe('TagComponent', () => {
   let component: TagComponent;
   let fixture: ComponentFixture<TagComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    declarations: [TagComponent],
-    imports: [ArlasToolKitModule,
+      declarations: [TagComponent],
+      imports: [ArlasToolKitModule,
         ReactiveFormsModule, MatAutocompleteModule,
         MatInputModule, FormsModule, BrowserAnimationsModule,
         MatIconModule, MatDialogModule, MatStepperModule,
         MatRadioModule, MatSelectModule, MatProgressBarModule, MatSnackBarModule],
-    providers: [ArlasConfigService, ArlasCollaborativesearchService,
+      providers: [ArlasConfigService, ArlasCollaborativesearchService,
         ArlasTagService,
         AuthentificationService,
         {
-            provide: ArlasConfigurationUpdaterService,
-            useClass: ArlasConfigurationUpdaterService
+          provide: ArlasConfigurationUpdaterService,
+          useClass: ArlasConfigurationUpdaterService
         },
         { provide: FETCH_OPTIONS, useValue: {} },
         { provide: CONFIG_UPDATER, useValue: {} },
         {
-            provide: GET_OPTIONS,
-            useFactory: getOptionsFactory,
-            deps: [AuthentificationService]
+          provide: GET_OPTIONS,
+          useFactory: getOptionsFactory,
+          deps: [AuthentificationService]
         }, HttpClient, provideHttpClient(withInterceptorsFromDi())]
-})
+    })
       .compileComponents();
   }));
 

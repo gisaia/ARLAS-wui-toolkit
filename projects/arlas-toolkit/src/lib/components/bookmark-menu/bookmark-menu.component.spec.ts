@@ -17,48 +17,48 @@
  * under the License.
  */
 
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { BookmarkMenuComponent } from './bookmark-menu.component';
-
-import {
-  ArlasStartupService, ArlasConfigService,
-  ArlasCollaborativesearchService, CONFIG_UPDATER, FETCH_OPTIONS
-} from '../../services/startup/startup.service';
 import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { TranslateService, TranslateModule, TranslateFakeLoader, TranslateLoader } from '@ngx-translate/core';
-import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MatIconModule } from '@angular/material/icon';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { TranslateFakeLoader, TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
+import {
+  ArlasCollaborativesearchService,
+  ArlasConfigService,
+  ArlasStartupService,
+  CONFIG_UPDATER, FETCH_OPTIONS
+} from '../../services/startup/startup.service';
+import { BookmarkMenuComponent } from './bookmark-menu.component';
 
 describe('BookmarkMenuComponent', () => {
   let component: BookmarkMenuComponent;
   let fixture: ComponentFixture<BookmarkMenuComponent>;
   let arlasStartupService: ArlasStartupService;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    declarations: [BookmarkMenuComponent],
-    imports: [MatMenuModule, MatIconModule, MatTooltipModule,
+      declarations: [BookmarkMenuComponent],
+      imports: [MatMenuModule, MatIconModule, MatTooltipModule,
         TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } })],
-    providers: [
+      providers: [
         ArlasConfigService, ArlasCollaborativesearchService,
         {
-            provide: ArlasStartupService,
-            useClass: ArlasStartupService,
-            deps: [ArlasConfigurationUpdaterService]
+          provide: ArlasStartupService,
+          useClass: ArlasStartupService,
+          deps: [ArlasConfigurationUpdaterService]
         },
         HttpClient, TranslateService,
         { provide: CONFIG_UPDATER, useValue: {} },
         {
-            provide: ArlasConfigurationUpdaterService,
-            useClass: ArlasConfigurationUpdaterService
+          provide: ArlasConfigurationUpdaterService,
+          useClass: ArlasConfigurationUpdaterService
         },
         { provide: FETCH_OPTIONS, useValue: {} },
         provideHttpClient(withInterceptorsFromDi())
-    ]
-})
+      ]
+    })
       .compileComponents();
   }));
 

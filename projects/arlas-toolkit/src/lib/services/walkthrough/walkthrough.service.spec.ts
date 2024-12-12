@@ -12,28 +12,28 @@ import { ArlasWalkthroughModule } from './walkthrough.module';
 describe('ArlasWalkthroughService', () => {
   beforeEach(() => TestBed.configureTestingModule({
     imports: [TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }),
-        ArlasWalkthroughModule.forRoot({})],
+      ArlasWalkthroughModule.forRoot({})],
     providers: [
-        ArlasWalkthroughService,
-        HttpClient,
-        TranslateService,
-        TranslateStore,
-        {
-            provide: ArlasStartupService,
-            useClass: ArlasStartupService,
-            deps: [ArlasConfigurationUpdaterService]
-        },
-        ArlasCollaborativesearchService,
-        {
-            provide: ArlasConfigurationUpdaterService,
-            useClass: ArlasConfigurationUpdaterService
-        },
-        { provide: FETCH_OPTIONS, useValue: {} }, ArlasMapSettings,
-        ArlasMapService,
-        { provide: CONFIG_UPDATER, useValue: {} },
-        provideHttpClient(withInterceptorsFromDi())
+      ArlasWalkthroughService,
+      HttpClient,
+      TranslateService,
+      TranslateStore,
+      {
+        provide: ArlasStartupService,
+        useClass: ArlasStartupService,
+        deps: [ArlasConfigurationUpdaterService]
+      },
+      ArlasCollaborativesearchService,
+      {
+        provide: ArlasConfigurationUpdaterService,
+        useClass: ArlasConfigurationUpdaterService
+      },
+      { provide: FETCH_OPTIONS, useValue: {} }, ArlasMapSettings,
+      ArlasMapService,
+      { provide: CONFIG_UPDATER, useValue: {} },
+      provideHttpClient(withInterceptorsFromDi())
     ]
-}));
+  }));
 
   it('should be created', () => {
     const service: ArlasWalkthroughService = TestBed.get(ArlasWalkthroughService);

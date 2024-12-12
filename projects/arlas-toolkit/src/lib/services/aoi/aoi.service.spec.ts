@@ -36,22 +36,22 @@ describe('ArlasAoiService', () => {
   beforeEach(() => TestBed.configureTestingModule({
     imports: [TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } })],
     providers: [
-        {
-            provide: ArlasStartupService,
-            useClass: ArlasStartupService,
-            deps: [ArlasConfigurationUpdaterService]
-        },
-        HttpClient, ArlasConfigService, TranslateService, TranslateStore,
-        ArlasCollaborativesearchService,
-        { provide: CONFIG_UPDATER, useValue: {} },
-        {
-            provide: ArlasConfigurationUpdaterService,
-            useClass: ArlasConfigurationUpdaterService
-        },
-        { provide: FETCH_OPTIONS, useValue: {} },
-        provideHttpClient(withInterceptorsFromDi()),
+      {
+        provide: ArlasStartupService,
+        useClass: ArlasStartupService,
+        deps: [ArlasConfigurationUpdaterService]
+      },
+      HttpClient, ArlasConfigService, TranslateService, TranslateStore,
+      ArlasCollaborativesearchService,
+      { provide: CONFIG_UPDATER, useValue: {} },
+      {
+        provide: ArlasConfigurationUpdaterService,
+        useClass: ArlasConfigurationUpdaterService
+      },
+      { provide: FETCH_OPTIONS, useValue: {} },
+      provideHttpClient(withInterceptorsFromDi()),
     ]
-}));
+  }));
 
   it('should be created', () => {
     const service: ArlasAoiService = TestBed.get(ArlasAoiService);
