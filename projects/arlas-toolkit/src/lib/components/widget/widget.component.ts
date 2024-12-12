@@ -17,19 +17,18 @@
  * under the License.
  */
 
-import { Component, OnInit, Input, ViewChild, ChangeDetectorRef, Output, ElementRef, EventEmitter } from '@angular/core';
-import { ArlasStartupService, ArlasCollaborativesearchService } from '../../services/startup/startup.service';
-import { Contributor, CollaborationEvent, OperationEnum } from 'arlas-web-core';
-import { ChartType, HistogramComponent, CellBackgroundStyleEnum, DataType } from 'arlas-web-components';
-import { SwimlaneRepresentation, SwimlaneMode, Position } from 'arlas-d3';
+import { Component, ElementRef, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { Expression } from 'arlas-api';
+import { ARLASDonutTooltip, Position, SwimlaneMode, SwimlaneRepresentation } from 'arlas-d3';
+import { CellBackgroundStyleEnum, ChartType, DataType, HistogramComponent } from 'arlas-web-components';
+import { ComputeConfig, MetricsTableContributor, TreeContributor } from 'arlas-web-contributors';
+import { CollaborationEvent, Contributor, OperationEnum } from 'arlas-web-core';
 import { Subject, takeUntil } from 'rxjs';
 import { ArlasExportCsvService } from '../../services/export-csv/export-csv.service';
-import { SpinnerOptions, ArlasOverlayRef } from '../../tools/utils';
-import { ARLASDonutTooltip } from 'arlas-d3';
 import { ArlasOverlayService } from '../../services/overlays/overlay.service';
-import { ComputeConfig, MetricsTableContributor, TreeContributor } from 'arlas-web-contributors';
-import { Expression } from 'arlas-api';
+import { ArlasCollaborativesearchService, ArlasStartupService } from '../../services/startup/startup.service';
+import { ArlasOverlayRef, SpinnerOptions } from '../../tools/utils';
 import { DEFAULT_SPINNER_OPTIONS } from '../progress-spinner/progress-spinner.component';
 
 /**
@@ -114,10 +113,11 @@ export class WidgetComponent implements OnInit {
   private _onDestroy$ = new Subject<boolean>();
 
   public constructor(private arlasStartupService: ArlasStartupService,
-    private cdr: ChangeDetectorRef,
     private arlasCollaborativesearchService: ArlasCollaborativesearchService,
     private arlasOverlayService: ArlasOverlayService,
-    public translate: TranslateService, public arlasExportCsvService: ArlasExportCsvService) {
+    public translate: TranslateService, public arlasExportCsvService: ArlasExportCsvService
+  ) {
+    console.log('creating widget');
   }
 
   public showDonutTooltip(tooltip: ARLASDonutTooltip, e: ElementRef) {

@@ -79,18 +79,19 @@ $default-spacing: 10px;
     display: flex;
     justify-content: space-between;
     margin-top: 20px;
+
+    --mdc-filled-button-label-text-tracking: 0;
   }
 }
 
-::ng-deep .mat-form-field-wrapper {
-  margin: 0.3em !important;
-  padding-bottom: 1.1em !important;
-}
-
 ::ng-deep .mat-horizontal-content-container {
-  padding: 0 24px !important;
+  padding: 12px 24px !important;
 }
 
 ::ng-deep .mat-dialog-content {
   max-height: none !important;
+}
+
+::ng-deep .mdc-dialog__title::before {
+  display: none !important;
 }

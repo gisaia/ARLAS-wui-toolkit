@@ -176,6 +176,7 @@ export class AnalyticsService {
    * @param group Configuration of the group to hide
    */
   public closePanel(group: AnalyticGroupConfiguration) {
+    console.log('closing');
     this._groupsByTab.forEach(groupTab => {
       groupTab.groups.map(grp => {
         if (grp.groupId === group.groupId) {
