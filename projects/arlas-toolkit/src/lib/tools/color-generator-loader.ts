@@ -17,13 +17,14 @@
  * under the License.
  */
 
-import { mix } from 'tinycolor2';
-import { ArlasConfigService, ArlasCollaborativesearchService } from '../services/startup/startup.service';
 import { Aggregation } from 'arlas-api';
-import { projType } from 'arlas-web-core';
 import { ColorGeneratorLoader } from 'arlas-web-components';
-import * as tinycolor from 'tinycolor2';
+import { projType } from 'arlas-web-core';
 import { Subject } from 'rxjs';
+import * as tinycolor from 'tinycolor2';
+import { mix } from 'tinycolor2';
+import { ArlasCollaborativesearchService } from '../services/collaborative-search/arlas.collaborative-search.service';
+import { ArlasConfigService } from '../services/startup/startup.service';
 
 /**
  * This service allows to generate a color for a given term.

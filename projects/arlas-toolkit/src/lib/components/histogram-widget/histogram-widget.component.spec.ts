@@ -13,15 +13,19 @@ import {
   MetricModule, PowerbarsModule,
   ResultsModule
 } from 'arlas-web-components';
+import { ArlasCollaborativesearchService } from '../../services/collaborative-search/arlas.collaborative-search.service';
+import { ArlasCollectionService } from '../../services/collection/arlas-collection.service';
 import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
+import { ArlasExportCsvService } from '../../services/export-csv/export-csv.service';
 import { ArlasOverlayService } from '../../services/overlays/overlay.service';
 import {
-  ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService,
+  ArlasConfigService, ArlasStartupService,
   CONFIG_UPDATER,
   FETCH_OPTIONS
 } from '../../services/startup/startup.service';
 import { ProgressSpinnerComponent } from '../progress-spinner/progress-spinner.component';
 import { HistogramWidgetComponent } from './histogram-widget.component';
+import { ContributorUpdatingPipe } from '../../pipes/contributor-updating.pipe';
 
 describe('HistogramWidgetComponent', () => {
   let component: HistogramWidgetComponent;
@@ -29,7 +33,7 @@ describe('HistogramWidgetComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [HistogramWidgetComponent, ProgressSpinnerComponent],
+      declarations: [HistogramWidgetComponent, ProgressSpinnerComponent, ContributorUpdatingPipe],
       imports: [HistogramModule,
         PowerbarsModule,
         ResultsModule,
@@ -48,7 +52,10 @@ describe('HistogramWidgetComponent', () => {
             useClass: AwcColorGeneratorLoader
           }
         })],
-      providers: [ArlasCollaborativesearchService, ArlasConfigService, ArlasColorService,
+      providers: [
+        ArlasCollaborativesearchService,
+        ArlasConfigService,
+        ArlasColorService,
         {
           provide: ArlasStartupService,
           useClass: ArlasStartupService,
@@ -61,7 +68,11 @@ describe('HistogramWidgetComponent', () => {
           provide: ArlasConfigurationUpdaterService,
           useClass: ArlasConfigurationUpdaterService
         },
-        { provide: FETCH_OPTIONS, useValue: {} }, provideHttpClient(withInterceptorsFromDi())]
+        { provide: FETCH_OPTIONS, useValue: {} },
+        provideHttpClient(withInterceptorsFromDi()),
+        ArlasExportCsvService,
+        ArlasCollectionService,
+      ]
     })
       .compileComponents();
   }));
@@ -69,6 +80,7 @@ describe('HistogramWidgetComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(HistogramWidgetComponent);
     component = fixture.componentInstance;
+    component.componentInputs = {};
     fixture.detectChanges();
   });
 

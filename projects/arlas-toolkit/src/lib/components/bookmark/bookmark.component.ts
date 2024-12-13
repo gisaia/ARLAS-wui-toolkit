@@ -18,15 +18,14 @@
  */
 
 import { Component, Inject, Output } from '@angular/core';
-import { of, Subject, takeUntil } from 'rxjs';
-import { ArlasBookmarkService } from '../../services/bookmark/bookmark.service';
-import { BookMark, BookMarkType } from '../../services/bookmark/model';
-import { BookmarkPersistenceDatabase } from '../../services/bookmark/bookmarkPersistenceDatabase';
-import { BookmarkDataSource } from '../../services/bookmark/bookmarkDataSource';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { Subject, takeUntil } from 'rxjs';
+import { ArlasBookmarkService } from '../../services/bookmark/bookmark.service';
+import { BookmarkDataSource } from '../../services/bookmark/bookmarkDataSource';
+import { BookmarkPersistenceDatabase } from '../../services/bookmark/bookmarkPersistenceDatabase';
+import { BookMark } from '../../services/bookmark/model';
+import { ArlasCollaborativesearchService } from '../../services/collaborative-search/arlas.collaborative-search.service';
 import { BookmarkAddDialogComponent } from './bookmark-add-dialog.component';
-import { ArlasCollaborativesearchService } from '../../services/startup/startup.service';
-import { MatCheckboxChange } from '@angular/material/checkbox';
 
 @Component({
   selector: 'arlas-bookmark',

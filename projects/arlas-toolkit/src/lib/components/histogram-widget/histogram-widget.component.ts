@@ -17,17 +17,20 @@
  * under the License.
  */
 
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter,
-  Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter,
+  Input, OnDestroy, OnInit, Output, ViewChild
+} from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { DataType, HistogramComponent, HistogramTooltip } from 'arlas-web-components';
 import { DetailedHistogramContributor, HistogramContributor } from 'arlas-web-contributors';
 import { SelectedOutputValues } from 'arlas-web-contributors/models/models';
 import { OperationEnum } from 'arlas-web-core';
 import { Subject, filter, takeUntil } from 'rxjs';
+import { ArlasCollaborativesearchService } from '../../services/collaborative-search/arlas.collaborative-search.service';
 import { ArlasExportCsvService } from '../../services/export-csv/export-csv.service';
 import { ArlasOverlayService } from '../../services/overlays/overlay.service';
-import { ArlasCollaborativesearchService, ArlasConfigService } from '../../services/startup/startup.service';
+import { ArlasConfigService } from '../../services/startup/startup.service';
 import { ArlasOverlayRef, SpinnerOptions } from '../../tools/utils';
 import { isShortcutID } from '../filter-shortcut/filter-shortcut.utils';
 import { DEFAULT_SPINNER_OPTIONS } from '../progress-spinner/progress-spinner.component';
@@ -317,9 +320,9 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy, AfterViewIni
    * Otherwise, hides the detailed histogram, and resizes the main one.
    */
   private checkDisplayDetailedHistogram() {
-    const histogramRange = this.contributor.range;
+    const histogramRange = this.contributor?.range;
     this.showSpinner = false;
-    const selection = this.contributor.intervalSelection;
+    const selection = this.contributor?.intervalSelection;
     if (histogramRange && !!selection) {
       const detailedHistogramRange = (+selection.endvalue - +selection.startvalue);
       this.showDetailedHistogram = (detailedHistogramRange <= 0.2 * histogramRange);

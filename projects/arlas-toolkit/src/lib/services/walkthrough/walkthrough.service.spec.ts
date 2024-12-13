@@ -1,13 +1,14 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ArlasWalkthroughService } from './walkthrough.service';
-import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { ArlasCollaborativesearchService, ArlasStartupService, CONFIG_UPDATER, FETCH_OPTIONS } from '../startup/startup.service';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { TranslateFakeLoader, TranslateLoader, TranslateModule, TranslateService, TranslateStore } from '@ngx-translate/core';
+import { ArlasCollaborativesearchService } from '../collaborative-search/arlas.collaborative-search.service';
+import { ArlasConfigurationUpdaterService } from '../configuration-updater/configurationUpdater.service';
 import { ArlasMapSettings } from '../map-settings/map-settings.service';
 import { ArlasMapService } from '../map/map.service';
-import { TranslateService, TranslateStore, TranslateModule, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
-import { ArlasConfigurationUpdaterService } from '../configuration-updater/configurationUpdater.service';
+import { ArlasStartupService, CONFIG_UPDATER, FETCH_OPTIONS } from '../startup/startup.service';
 import { ArlasWalkthroughModule } from './walkthrough.module';
+import { ArlasWalkthroughService } from './walkthrough.service';
 
 describe('ArlasWalkthroughService', () => {
   beforeEach(() => TestBed.configureTestingModule({
@@ -15,7 +16,6 @@ describe('ArlasWalkthroughService', () => {
       ArlasWalkthroughModule.forRoot({})],
     providers: [
       ArlasWalkthroughService,
-      HttpClient,
       TranslateService,
       TranslateStore,
       {

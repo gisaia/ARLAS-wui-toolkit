@@ -97,9 +97,10 @@ export { PersistenceService, PersistenceSetting } from './lib/services/persisten
 export { ArlasSettingsService } from './lib/services/settings/arlas.settings.service';
 export { ContributorBuilder } from './lib/services/startup/contributorBuilder';
 export {
-  ArlasCollaborativesearchService, ArlasConfigService, ArlasExploreApi, ArlasSettings,
+  ArlasConfigService, ArlasExploreApi, ArlasSettings,
   ArlasStartupService, CONFIG_UPDATER, FETCH_OPTIONS, LinkSettings, Error, ExtraConfig
 } from './lib/services/startup/startup.service';
+export { ArlasCollaborativesearchService } from './lib/services/collaborative-search/arlas.collaborative-search.service';
 export { ArlasWalkthroughModule, WalkthroughModuleConfig } from './lib/services/walkthrough/walkthrough.module';
 export { ArlasWalkthroughService } from './lib/services/walkthrough/walkthrough.service';
 export { WalkthroughLoader } from './lib/services/walkthrough/walkthrough.utils';

@@ -1,17 +1,21 @@
 import { TestBed } from '@angular/core/testing';
 
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import {
-  ArlasStartupService, ArlasConfigService, ArlasCollaborativesearchService,
+  TranslateFakeLoader,
+  TranslateLoader,
+  TranslateModule, TranslateService,
+  TranslateStore
+} from '@ngx-translate/core';
+import { ArlasCollaborativesearchService } from '../collaborative-search/arlas.collaborative-search.service';
+import { ArlasConfigurationUpdaterService } from '../configuration-updater/configurationUpdater.service';
+import { ArlasSettingsService } from '../settings/arlas.settings.service';
+import {
+  ArlasConfigService,
+  ArlasStartupService,
   CONFIG_UPDATER,
   FETCH_OPTIONS
 } from './startup.service';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import {
-  TranslateModule, TranslateService, TranslateLoader,
-  TranslateFakeLoader, TranslateStore
-} from '@ngx-translate/core';
-import { ArlasConfigurationUpdaterService } from '../configuration-updater/configurationUpdater.service';
-import { ArlasSettingsService } from '../settings/arlas.settings.service';
 
 describe('ArlasStartupService', () => {
   beforeEach(() => {

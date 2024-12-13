@@ -18,14 +18,14 @@
  */
 
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatMenu } from '@angular/material/menu';
 import { marker } from '@colsen1991/ngx-translate-extract-marker';
 import { Subject, takeUntil } from 'rxjs';
 import { ArlasBookmarkService } from '../../services/bookmark/bookmark.service';
-import { ArlasCollaborativesearchService } from '../../services/startup/startup.service';
+import { ArlasCollaborativesearchService } from '../../services/collaborative-search/arlas.collaborative-search.service';
 import { BookmarkAddDialogComponent } from '../bookmark/bookmark-add-dialog.component';
 import { BookmarkComponent } from '../bookmark/bookmark.component';
-import { MatMenu } from '@angular/material/menu';
-import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'arlas-bookmark-menu',

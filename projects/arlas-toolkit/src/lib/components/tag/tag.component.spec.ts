@@ -1,4 +1,4 @@
-import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -12,14 +12,14 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatStepperModule } from '@angular/material/stepper';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthentificationService } from '../../services/authentification/authentification.service';
+import { ArlasCollaborativesearchService } from '../../services/collaborative-search/arlas.collaborative-search.service';
 import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
 import {
-  ArlasCollaborativesearchService,
   ArlasConfigService,
   CONFIG_UPDATER, FETCH_OPTIONS
 } from '../../services/startup/startup.service';
 import { ArlasTagService } from '../../services/tag/tag.service';
-import { ArlasToolKitModule, getOptionsFactory } from '../../toolkit.module';
+import { ArlasToolKitModule } from '../../toolkit.module';
 import { GET_OPTIONS } from '../../tools/utils';
 import { TagComponent } from './tag.component';
 
@@ -35,7 +35,9 @@ describe('TagComponent', () => {
         MatInputModule, FormsModule, BrowserAnimationsModule,
         MatIconModule, MatDialogModule, MatStepperModule,
         MatRadioModule, MatSelectModule, MatProgressBarModule, MatSnackBarModule],
-      providers: [ArlasConfigService, ArlasCollaborativesearchService,
+      providers: [
+        ArlasConfigService,
+        ArlasCollaborativesearchService,
         ArlasTagService,
         AuthentificationService,
         {
@@ -46,9 +48,9 @@ describe('TagComponent', () => {
         { provide: CONFIG_UPDATER, useValue: {} },
         {
           provide: GET_OPTIONS,
-          useFactory: getOptionsFactory,
-          deps: [AuthentificationService]
-        }, HttpClient, provideHttpClient(withInterceptorsFromDi())]
+          useValue: () => {}
+        },
+        provideHttpClient(withInterceptorsFromDi())]
     })
       .compileComponents();
   }));

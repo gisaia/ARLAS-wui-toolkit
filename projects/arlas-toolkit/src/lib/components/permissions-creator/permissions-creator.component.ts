@@ -18,13 +18,13 @@
  */
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ArlasCollaborativesearchService } from '../../services/startup/startup.service';
-import { ArlasIamService } from '../../services/arlas-iam/arlas-iam.service';
-import { Filter } from 'arlas-api';
 import { MatDialog } from '@angular/material/dialog';
-import { PermissionsCreatorDialogComponent } from './permissions-creator-dialog/permissions-creator-dialog.component';
-import { PermissionDialogData } from './_interfaces';
+import { Filter } from 'arlas-api';
 import { Subscription } from 'rxjs';
+import { ArlasIamService } from '../../services/arlas-iam/arlas-iam.service';
+import { ArlasCollaborativesearchService } from '../../services/collaborative-search/arlas.collaborative-search.service';
+import { PermissionDialogData } from './_interfaces';
+import { PermissionsCreatorDialogComponent } from './permissions-creator-dialog/permissions-creator-dialog.component';
 
 /** Creates an IAM permission based on the current filter of the main collection. */
 @Component({

@@ -17,18 +17,18 @@
  * under the License.
  */
 
-// This file is required by karma.conf.js and loads recursively all the .spec and framework files
+export class MockArlasSettingsService {
+  public getAuthentSettings() {
+    return {
+      sign_up_enabled: true
+    };
+  }
 
-import 'zone.js';
-import 'zone.js/testing';
-import { getTestBed } from '@angular/core/testing';
-import {
-  BrowserDynamicTestingModule,
-  platformBrowserDynamicTesting
-} from '@angular/platform-browser-dynamic/testing';
+  public getPersistenceSettings() {
+    return {};
+  }
 
-// First, initialize the Angular testing environment.
-getTestBed().initTestEnvironment(
-  BrowserDynamicTestingModule,
-  platformBrowserDynamicTesting()
-);
+  public getPermissionSettings() {
+    return {};
+  }
+}

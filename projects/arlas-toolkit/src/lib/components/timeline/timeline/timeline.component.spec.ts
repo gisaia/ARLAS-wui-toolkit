@@ -17,8 +17,8 @@
  * under the License.
  */
 
-import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -35,10 +35,12 @@ import {
   DonutModule, HistogramModule, MetricModule, PowerbarsModule, ResultsModule
 } from 'arlas-web-components';
 import { GetTimeLabelPipe } from '../../../pipes/get-time-label.pipe';
+import { ArlasCollaborativesearchService } from '../../../services/collaborative-search/arlas.collaborative-search.service';
+import { ArlasCollectionService } from '../../../services/collection/arlas-collection.service';
 import { ArlasConfigurationUpdaterService } from '../../../services/configuration-updater/configurationUpdater.service';
 import { ArlasOverlayService } from '../../../services/overlays/overlay.service';
 import {
-  ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService, CONFIG_UPDATER,
+  ArlasConfigService, ArlasStartupService, CONFIG_UPDATER,
   FETCH_OPTIONS
 } from '../../../services/startup/startup.service';
 import { DatePickerComponent } from '../date-picker/date-picker.component';
@@ -73,7 +75,7 @@ describe('TimelineComponent', () => {
           useClass: ArlasStartupService,
           deps: [ArlasConfigurationUpdaterService]
         },
-        ArlasConfigService, TranslateService, HttpClient,
+        ArlasConfigService, TranslateService,
         { provide: CONFIG_UPDATER, useValue: {} },
         {
           provide: ArlasConfigurationUpdaterService,
@@ -81,6 +83,7 @@ describe('TimelineComponent', () => {
         },
         { provide: FETCH_OPTIONS, useValue: {} },
         provideHttpClient(withInterceptorsFromDi()),
+        ArlasCollectionService
       ]
     })
       .compileComponents();

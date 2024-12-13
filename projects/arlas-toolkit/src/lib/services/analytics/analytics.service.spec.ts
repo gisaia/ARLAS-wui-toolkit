@@ -1,9 +1,9 @@
 import { TestBed } from '@angular/core/testing';
-
-import { AnalyticsService } from './analytics.service';
-import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from '../startup/startup.service';
+import { RouterModule } from '@angular/router';
+import { ArlasCollaborativesearchService } from '../collaborative-search/arlas.collaborative-search.service';
 import { ArlasConfigurationUpdaterService } from '../configuration-updater/configurationUpdater.service';
-import { RouterTestingModule } from '@angular/router/testing';
+import { ArlasConfigService, ArlasStartupService } from '../startup/startup.service';
+import { AnalyticsService } from './analytics.service';
 
 describe('AnalyticsService', () => {
   let service: AnalyticsService;
@@ -11,7 +11,7 @@ describe('AnalyticsService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule
+        RouterModule.forRoot([])
       ],
       providers: [
         ArlasConfigService,

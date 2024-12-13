@@ -18,23 +18,24 @@
  */
 import { Component, Inject, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Aggregation } from 'arlas-api';
-import { projType } from 'arlas-web-core';
-import { ArlasSearchField } from './model/ArlasSearchField';
-import { ArlasCollaborativesearchService, ArlasConfigService } from '../../services/startup/startup.service';
 import { LayerSourceConfig, MapContributor } from 'arlas-web-contributors';
+import { projType } from 'arlas-web-core';
+import { ArlasCollaborativesearchService } from '../../services/collaborative-search/arlas.collaborative-search.service';
+import { ArlasConfigService } from '../../services/startup/startup.service';
+import { ArlasSearchField } from './model/ArlasSearchField';
 
-import { Search } from 'arlas-tagger-api';
-import * as FileSaver from 'file-saver';
-import { TranslateService } from '@ngx-translate/core';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { ARLAS_VSET } from 'arlas-web-components';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { marker } from '@colsen1991/ngx-translate-extract-marker';
-import { orderAlphabeticallyArlasSearchFields } from '../../tools/utils';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatListOption } from '@angular/material/list';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { marker } from '@colsen1991/ngx-translate-extract-marker';
+import { TranslateService } from '@ngx-translate/core';
+import { Search } from 'arlas-tagger-api';
+import { ARLAS_VSET } from 'arlas-web-components';
+import * as FileSaver from 'file-saver';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { orderAlphabeticallyArlasSearchFields } from '../../tools/utils';
 
 
 export interface ShareLayerSourceConfig extends LayerSourceConfig {

@@ -17,15 +17,15 @@
  * under the License.
  */
 
-import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TranslateFakeLoader, TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { ArlasCollaborativesearchService } from '../../services/collaborative-search/arlas.collaborative-search.service';
 import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
 import {
-  ArlasCollaborativesearchService,
   ArlasConfigService,
   ArlasStartupService,
   CONFIG_UPDATER, FETCH_OPTIONS
@@ -49,7 +49,7 @@ describe('BookmarkMenuComponent', () => {
           useClass: ArlasStartupService,
           deps: [ArlasConfigurationUpdaterService]
         },
-        HttpClient, TranslateService,
+        TranslateService,
         { provide: CONFIG_UPDATER, useValue: {} },
         {
           provide: ArlasConfigurationUpdaterService,

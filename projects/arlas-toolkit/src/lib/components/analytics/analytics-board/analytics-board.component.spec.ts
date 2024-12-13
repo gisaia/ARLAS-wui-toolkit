@@ -1,5 +1,5 @@
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
@@ -16,10 +16,10 @@ import {
   TranslateFakeLoader, TranslateLoader, TranslateModule, TranslateService, TranslateStore
 } from '@ngx-translate/core';
 import { DonutModule, HistogramModule, MetricModule, PowerbarsModule, ResultsModule } from 'arlas-web-components';
+import { ArlasCollaborativesearchService } from '../../../services/collaborative-search/arlas.collaborative-search.service';
 import { ArlasConfigurationUpdaterService } from '../../../services/configuration-updater/configurationUpdater.service';
 import {
-  ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService, CONFIG_UPDATER,
-  FETCH_OPTIONS
+  ArlasConfigService, ArlasStartupService, CONFIG_UPDATER, FETCH_OPTIONS
 } from '../../../services/startup/startup.service';
 import { HistogramWidgetComponent } from '../../histogram-widget/histogram-widget.component';
 import { ProgressSpinnerComponent } from '../../progress-spinner/progress-spinner.component';
@@ -38,13 +38,13 @@ describe('AnalyticsBoardComponent', () => {
       ],
       imports: [MatCardModule, MatIconModule, MatExpansionModule, MatSelectModule, MatButtonModule,
         MatTooltipModule, BrowserModule, HistogramModule, ResultsModule, PowerbarsModule,
-        DonutModule, RouterModule,
+        DonutModule, RouterModule.forRoot([]),
         TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }),
         MatBadgeModule, DragDropModule,
         MetricModule, MatProgressSpinnerModule, MatTabsModule],
       providers: [
         ArlasConfigService, ArlasCollaborativesearchService,
-        HttpClient, TranslateService, TranslateStore,
+        TranslateService, TranslateStore,
         {
           provide: ArlasStartupService,
           useClass: ArlasStartupService,

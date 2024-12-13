@@ -6,10 +6,12 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TranslateFakeLoader, TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { DonutModule, HistogramModule, MetricModule, PowerbarsModule, ResultsModule } from 'arlas-web-components';
+import { ArlasCollaborativesearchService } from '../../services/collaborative-search/arlas.collaborative-search.service';
+import { ArlasCollectionService } from '../../services/collection/arlas-collection.service';
 import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
 import { ArlasOverlayService } from '../../services/overlays/overlay.service';
 import {
-  ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService,
+  ArlasConfigService, ArlasStartupService,
   CONFIG_UPDATER,
   FETCH_OPTIONS
 } from '../../services/startup/startup.service';
@@ -36,7 +38,9 @@ describe('WidgetComponent', () => {
         TranslateModule.forRoot({
           loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
         })],
-      providers: [ArlasCollaborativesearchService, ArlasConfigService,
+      providers: [
+        ArlasCollaborativesearchService,
+        ArlasConfigService,
         {
           provide: ArlasStartupService,
           useClass: ArlasStartupService,
@@ -45,11 +49,11 @@ describe('WidgetComponent', () => {
         TranslateService,
         ArlasOverlayService,
         { provide: CONFIG_UPDATER, useValue: {} },
-        {
-          provide: ArlasConfigurationUpdaterService,
-          useClass: ArlasConfigurationUpdaterService
-        },
-        { provide: FETCH_OPTIONS, useValue: {} }, provideHttpClient(withInterceptorsFromDi()),]
+        ArlasConfigurationUpdaterService,
+        { provide: FETCH_OPTIONS, useValue: {} },
+        provideHttpClient(withInterceptorsFromDi()),
+        ArlasCollectionService
+      ]
     })
       .compileComponents();
   }));

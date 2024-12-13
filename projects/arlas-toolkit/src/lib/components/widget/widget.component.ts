@@ -25,9 +25,10 @@ import { CellBackgroundStyleEnum, ChartType, DataType, HistogramComponent } from
 import { ComputeConfig, MetricsTableContributor, TreeContributor } from 'arlas-web-contributors';
 import { CollaborationEvent, Contributor, OperationEnum } from 'arlas-web-core';
 import { Subject, takeUntil } from 'rxjs';
+import { ArlasCollaborativesearchService } from '../../services/collaborative-search/arlas.collaborative-search.service';
 import { ArlasExportCsvService } from '../../services/export-csv/export-csv.service';
 import { ArlasOverlayService } from '../../services/overlays/overlay.service';
-import { ArlasCollaborativesearchService, ArlasStartupService } from '../../services/startup/startup.service';
+import { ArlasStartupService } from '../../services/startup/startup.service';
 import { ArlasOverlayRef, SpinnerOptions } from '../../tools/utils';
 import { DEFAULT_SPINNER_OPTIONS } from '../progress-spinner/progress-spinner.component';
 

@@ -17,12 +17,13 @@
  * under the License.
  */
 
-import { BookMark, BookMarkType } from './model';
-import { ArlasBookmarkService } from './bookmark.service';
-import { Guid } from '../../tools/utils';
 import { Observable } from 'rxjs';
 import { ArlasLocalDatabase } from '../../tools/arlasLocalDatabase';
-import { ArlasStartupService, ArlasCollaborativesearchService } from '../startup/startup.service';
+import { Guid } from '../../tools/utils';
+import { ArlasCollaborativesearchService } from '../collaborative-search/arlas.collaborative-search.service';
+import { ArlasStartupService } from '../startup/startup.service';
+import { ArlasBookmarkService } from './bookmark.service';
+import { BookMark, BookMarkType } from './model';
 
 export class BookmarkLocalDatabase extends ArlasLocalDatabase<BookMark> {
 

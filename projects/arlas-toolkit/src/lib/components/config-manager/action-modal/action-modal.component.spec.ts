@@ -10,10 +10,11 @@ import { MatMenuModule } from '@angular/material/menu';
 import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { DateTimeProvider, OAuthLogger, OAuthService, UrlHelperService } from 'angular-oauth2-oidc';
 import { AuthentificationService } from '../../../services/authentification/authentification.service';
-import { getOptionsFactory } from '../../../toolkit.module';
+import { ArlasSettingsService } from '../../../services/settings/arlas.settings.service';
 import { GET_OPTIONS } from '../../../tools/utils';
 import { ShareConfigModule } from '../share-config/share-config.module';
 import { ActionModalComponent } from './action-modal.component';
+import { MockArlasSettingsService } from '../../../tools/tests/arlas-settings-service.mock';
 
 describe('ActionModalComponent', () => {
   let component: ActionModalComponent;
@@ -23,6 +24,7 @@ describe('ActionModalComponent', () => {
     const mockDialogRef = {
       close: jasmine.createSpy('close')
     };
+
     TestBed.configureTestingModule({
       declarations: [ActionModalComponent],
       imports: [TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }),
@@ -33,7 +35,8 @@ describe('ActionModalComponent', () => {
         MatInputModule,
         MatButtonModule,
         FormsModule,
-        ShareConfigModule],
+        ShareConfigModule
+      ],
       providers: [
         AuthentificationService,
         OAuthService,
@@ -50,10 +53,13 @@ describe('ActionModalComponent', () => {
         },
         {
           provide: GET_OPTIONS,
-          useFactory: getOptionsFactory,
-          deps: [AuthentificationService]
+          useValue: () => {}
         },
-        provideHttpClient(withInterceptorsFromDi())
+        provideHttpClient(withInterceptorsFromDi()),
+        {
+          provide: ArlasSettingsService,
+          useClass: MockArlasSettingsService
+        }
       ]
     })
       .compileComponents();

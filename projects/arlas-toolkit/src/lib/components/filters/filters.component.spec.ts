@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
@@ -25,9 +25,9 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TranslateFakeLoader, TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { FormatNumberModule } from 'arlas-web-components';
+import { ArlasCollaborativesearchService } from '../../services/collaborative-search/arlas.collaborative-search.service';
 import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
 import {
-  ArlasCollaborativesearchService,
   ArlasConfigService,
   ArlasStartupService,
   CONFIG_UPDATER, FETCH_OPTIONS
@@ -59,7 +59,7 @@ describe('FiltersChipsComponent', () => {
           deps: [ArlasConfigurationUpdaterService]
         },
         ArlasConfigService, ArlasCollaborativesearchService,
-        ArlasWalkthroughService, HttpClient, TranslateService,
+        ArlasWalkthroughService, TranslateService,
         { provide: CONFIG_UPDATER, useValue: {} },
         {
           provide: ArlasConfigurationUpdaterService,

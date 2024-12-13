@@ -18,14 +18,13 @@
  */
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { TestBed, inject } from '@angular/core/testing';
-import { ArlasTagService } from './tag.service';
-import { GET_OPTIONS } from '../../tools/utils';
-import { getOptionsFactory } from '../../toolkit.module';
-import { AuthentificationService } from '../authentification/authentification.service';
-import { DateTimeProvider, OAuthLogger, OAuthModule, OAuthService, UrlHelperService } from 'angular-oauth2-oidc';
-import { ArlasSettingsService } from '../settings/arlas.settings.service';
-import { ArlasCollaborativesearchService } from '../startup/startup.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { DateTimeProvider, OAuthLogger, OAuthModule, OAuthService, UrlHelperService } from 'angular-oauth2-oidc';
+import { GET_OPTIONS } from '../../tools/utils';
+import { AuthentificationService } from '../authentification/authentification.service';
+import { ArlasCollaborativesearchService } from '../collaborative-search/arlas.collaborative-search.service';
+import { ArlasSettingsService } from '../settings/arlas.settings.service';
+import { ArlasTagService } from './tag.service';
 
 describe('ArlasTagService', () => {
   beforeEach(() => {
@@ -42,8 +41,7 @@ describe('ArlasTagService', () => {
         AuthentificationService,
         {
           provide: GET_OPTIONS,
-          useFactory: getOptionsFactory,
-          deps: [AuthentificationService]
+          useValue: () => {}
         },
         provideHttpClient(withInterceptorsFromDi())
       ]

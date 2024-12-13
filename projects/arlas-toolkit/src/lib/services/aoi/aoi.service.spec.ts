@@ -17,20 +17,23 @@
  * under the License.
  */
 
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
-
-import { ArlasAoiService } from './aoi.service';
 import {
-  ArlasStartupService, ArlasConfigService, ArlasCollaborativesearchService,
+  TranslateFakeLoader,
+  TranslateLoader,
+  TranslateModule,
+  TranslateService, TranslateStore
+} from '@ngx-translate/core';
+import { ArlasCollaborativesearchService } from '../collaborative-search/arlas.collaborative-search.service';
+import { ArlasConfigurationUpdaterService } from '../configuration-updater/configurationUpdater.service';
+import {
+  ArlasConfigService,
+  ArlasStartupService,
   CONFIG_UPDATER,
   FETCH_OPTIONS
 } from '../startup/startup.service';
-import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import {
-  TranslateService, TranslateStore,
-  TranslateModule, TranslateLoader, TranslateFakeLoader
-} from '@ngx-translate/core';
-import { ArlasConfigurationUpdaterService } from '../configuration-updater/configurationUpdater.service';
+import { ArlasAoiService } from './aoi.service';
 
 describe('ArlasAoiService', () => {
   beforeEach(() => TestBed.configureTestingModule({
@@ -41,7 +44,7 @@ describe('ArlasAoiService', () => {
         useClass: ArlasStartupService,
         deps: [ArlasConfigurationUpdaterService]
       },
-      HttpClient, ArlasConfigService, TranslateService, TranslateStore,
+      ArlasConfigService, TranslateService, TranslateStore,
       ArlasCollaborativesearchService,
       { provide: CONFIG_UPDATER, useValue: {} },
       {

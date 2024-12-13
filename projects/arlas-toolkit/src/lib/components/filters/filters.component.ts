@@ -25,8 +25,9 @@ import { CollectionReferenceParameters } from 'arlas-api';
 import { ArlasColorService } from 'arlas-web-components';
 import { Collaboration, Contributor } from 'arlas-web-core';
 import { Subject, take, takeUntil } from 'rxjs';
+import { ArlasCollaborativesearchService } from '../../services/collaborative-search/arlas.collaborative-search.service';
 import { ArlasCollectionService } from '../../services/collection/arlas-collection.service';
-import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from '../../services/startup/startup.service';
+import { ArlasConfigService, ArlasStartupService } from '../../services/startup/startup.service';
 import { CollectionCount, ZoomToDataStrategy } from '../../tools/utils';
 import { isShortcutID } from '../filter-shortcut/filter-shortcut.utils';
 

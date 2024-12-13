@@ -18,7 +18,7 @@
  */
 
 import { Pipe, PipeTransform } from '@angular/core';
-import { ArlasCollaborativesearchService } from '../services/startup/startup.service';
+import { ArlasCollaborativesearchService } from '../services/collaborative-search/arlas.collaborative-search.service';
 
 /**
  * Checks whether the given contributor is currently updating its data.

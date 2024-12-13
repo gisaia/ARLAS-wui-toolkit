@@ -17,16 +17,15 @@
  * under the License.
  */
 import { APP_INITIALIZER, forwardRef, NgModule } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { OwlDateTimeIntl, OWL_DATE_TIME_LOCALE } from '@danielmoncada/angular-datetime-picker';
+import { OWL_DATE_TIME_LOCALE, OwlDateTimeIntl } from '@danielmoncada/angular-datetime-picker';
 import { TranslateService } from '@ngx-translate/core';
 import { OAuthModule, ValidationHandler } from 'angular-oauth2-oidc';
 import { JwksValidationHandler } from 'angular-oauth2-oidc-jwks';
 import { ShortenNumberPipe } from 'arlas-web-components';
-import { ToolkitComponent } from './toolkit.component';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { ArlasTranslateIntl } from './components/timeline/date-picker/ArlasTranslateIntl';
 import { ArlasAoiService } from './services/aoi/aoi.service';
@@ -34,6 +33,7 @@ import { ArlasIamService } from './services/arlas-iam/arlas-iam.service';
 import { AuthGuardIamService } from './services/arlas-iam/auth-guard-iam.service';
 import { AuthentificationService } from './services/authentification/authentification.service';
 import { ArlasBookmarkService } from './services/bookmark/bookmark.service';
+import { ArlasCollaborativesearchService } from './services/collaborative-search/arlas.collaborative-search.service';
 import { ArlasConfigurationDescriptor } from './services/configuration-descriptor/configurationDescriptor.service';
 import { ErrorService } from './services/error/error.service';
 import { ArlasExportCsvService } from './services/export-csv/export-csv.service';
@@ -43,14 +43,13 @@ import { ArlasMapService } from './services/map/map.service';
 import { PermissionService } from './services/permission/permission.service';
 import { PersistenceService } from './services/persistence/persistence.service';
 import { ArlasSettingsService } from './services/settings/arlas.settings.service';
-import {
-  ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService, CONFIG_UPDATER, FETCH_OPTIONS
-} from './services/startup/startup.service';
+import { ArlasConfigService, ArlasStartupService, CONFIG_UPDATER, FETCH_OPTIONS } from './services/startup/startup.service';
 import { ArlasWalkthroughService } from './services/walkthrough/walkthrough.service';
 import { ArlasToolkitSharedModule } from './shared.module';
 import { ToolkitRoutingModule } from './toolkit-routing.module';
-import { GET_OPTIONS } from './tools/utils';
+import { ToolkitComponent } from './toolkit.component';
 import { PaginatorI18n } from './tools/paginatori18n';
+import { GET_OPTIONS } from './tools/utils';
 
 
 export function startupServiceFactory(startupService: ArlasStartupService) {

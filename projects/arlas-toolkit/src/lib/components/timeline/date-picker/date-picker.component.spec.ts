@@ -1,4 +1,4 @@
-import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import {
@@ -8,15 +8,16 @@ import {
 } from '@danielmoncada/angular-datetime-picker';
 import { MomentDateTimeAdapter } from '@danielmoncada/angular-datetime-picker-moment-adapter';
 import { TranslateFakeLoader, TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { ArlasCollaborativesearchService } from '../../../services/collaborative-search/arlas.collaborative-search.service';
 import { ArlasConfigurationUpdaterService } from '../../../services/configuration-updater/configurationUpdater.service';
 import {
-  ArlasCollaborativesearchService,
   ArlasConfigService,
   ArlasStartupService,
   CONFIG_UPDATER,
   FETCH_OPTIONS
 } from '../../../services/startup/startup.service';
 import { DatePickerComponent } from './date-picker.component';
+
 export const MY_CUSTOM_FORMATS = {
   parseInput: 'lll',
   fullPickerInput: 'll LTS',
@@ -39,7 +40,7 @@ describe('DatePickerComponent', () => {
           loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
         })],
       providers: [
-        { provide: OWL_DATE_TIME_LOCALE, useValue: 'fr' }, HttpClient,
+        { provide: OWL_DATE_TIME_LOCALE, useValue: 'fr' },
         ArlasCollaborativesearchService,
         {
           provide: ArlasStartupService,

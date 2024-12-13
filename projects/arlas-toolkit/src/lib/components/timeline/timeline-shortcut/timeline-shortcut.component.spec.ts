@@ -1,4 +1,4 @@
-import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -12,9 +12,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { OWL_DATE_TIME_LOCALE, OwlDateTimeModule } from '@danielmoncada/angular-datetime-picker';
 import { TranslateFakeLoader, TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { GetTimeLabelPipe } from '../../../pipes/get-time-label.pipe';
+import { ArlasCollaborativesearchService } from '../../../services/collaborative-search/arlas.collaborative-search.service';
+import { ArlasCollectionService } from '../../../services/collection/arlas-collection.service';
 import { ArlasConfigurationUpdaterService } from '../../../services/configuration-updater/configurationUpdater.service';
 import {
-  ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService, CONFIG_UPDATER, FETCH_OPTIONS
+  ArlasConfigService, ArlasStartupService, CONFIG_UPDATER, FETCH_OPTIONS
 } from '../../../services/startup/startup.service';
 import { DatePickerComponent } from '../date-picker/date-picker.component';
 import { TimelineShortcutComponent } from './timeline-shortcut.component';
@@ -33,7 +35,7 @@ describe('TimelineShortcutComponent', () => {
           loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
         })],
       providers: [
-        { provide: OWL_DATE_TIME_LOCALE, useValue: 'fr' }, HttpClient,
+        { provide: OWL_DATE_TIME_LOCALE, useValue: 'fr' },
         ArlasCollaborativesearchService,
         {
           provide: ArlasStartupService,
@@ -47,7 +49,8 @@ describe('TimelineShortcutComponent', () => {
           useClass: ArlasConfigurationUpdaterService
         },
         { provide: FETCH_OPTIONS, useValue: {} },
-        provideHttpClient(withInterceptorsFromDi())
+        provideHttpClient(withInterceptorsFromDi()),
+        ArlasCollectionService
       ]
     })
       .compileComponents();
