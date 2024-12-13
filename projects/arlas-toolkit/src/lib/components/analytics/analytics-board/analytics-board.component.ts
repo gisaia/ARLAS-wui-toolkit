@@ -138,7 +138,6 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
 
   public drop(event: CdkDragDrop<string[]>) {
     this.analyticsService.dropGroup(event);
-    console.log(this.groups);
   }
 
   public changeMode(event) {
@@ -156,16 +155,11 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
 
   public closePanel(group: AnalyticGroupConfiguration) {
     this.analyticsService.closePanel(group);
-    console.log('closing');
   }
 
   public ngOnDestroy(): void {
     if (this.tabChangeSubscription) {
       this.tabChangeSubscription.unsubscribe();
     }
-  }
-
-  public test(e) {
-    console.log(e);
   }
 }

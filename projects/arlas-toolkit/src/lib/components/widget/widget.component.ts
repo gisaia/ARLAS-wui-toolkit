@@ -117,9 +117,7 @@ export class WidgetComponent implements OnInit {
     private arlasCollaborativesearchService: ArlasCollaborativesearchService,
     private arlasOverlayService: ArlasOverlayService,
     public translate: TranslateService, public arlasExportCsvService: ArlasExportCsvService
-  ) {
-    console.log('creating widget');
-  }
+  ) { }
 
   public showDonutTooltip(tooltip: ARLASDonutTooltip, e: ElementRef) {
     if (!!this.donutOverlayRef) {
