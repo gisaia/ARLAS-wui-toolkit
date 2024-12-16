@@ -21,8 +21,7 @@ import { Aggregation } from 'arlas-api';
 import { ColorGeneratorLoader } from 'arlas-web-components';
 import { projType } from 'arlas-web-core';
 import { Subject } from 'rxjs';
-import * as tinycolor from 'tinycolor2';
-import { mix } from 'tinycolor2';
+import tinycolor from 'tinycolor2';
 import { ArlasCollaborativesearchService } from '../services/collaborative-search/arlas.collaborative-search.service';
 import { ArlasConfigService } from '../services/startup/startup.service';
 
@@ -90,7 +89,7 @@ export class ArlasColorGeneratorLoader extends ColorGeneratorLoader {
   }
 
   public getTextColor(color: string): string {
-    return tinycolor.default(color).isDark() ? '#ffffff' : '#000000';
+    return tinycolor(color).isDark() ? '#ffffff' : '#000000';
   }
 
   /**
@@ -136,7 +135,7 @@ export class ArlasColorGeneratorLoader extends ColorGeneratorLoader {
     // int to rgb
     let hex = (hash & 0x00FFFFFF).toString(16).toUpperCase();
     hex = '00000'.substring(0, 6 - hex.length) + hex;
-    const color = mix(hex, hex);
+    const color = tinycolor.mix(hex, hex);
     color.lighten(5);
     const saturation = color.toHsv().s;
     if (saturation < (1 - saturationWeight) * 100) {

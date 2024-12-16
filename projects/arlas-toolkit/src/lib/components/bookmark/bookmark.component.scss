@@ -20,6 +20,7 @@
 .bookmark-table-items {
   max-height: 60vh;
   overflow-y: auto;
+  padding-top: 24px;
 
   .mat-column-checked {
     flex: 0 0 50px;
