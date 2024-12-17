@@ -61,7 +61,6 @@ import {
   GetFieldDisplayModule,
   GetCollectionUnitModule,
   HistogramModule,
-  MapglLegendModule,
   MetricModule,
   MetricsTableModule,
   PowerbarsModule,
@@ -135,7 +134,7 @@ import { AiasDownloadComponent } from './components/aias/aias-download/aias-down
 import { ArlasCollectionService } from './services/collection/arlas-collection.service';
 import { AiasEnrichComponent } from './components/aias/aias-enrich/aias-enrich.component';
 import { AiasResultComponent } from './components/aias/aias-result/aias-result.component';
-import { ArlasMapModule } from 'arlas-map';
+import { ArlasMapModule, } from 'arlas-map';
 
 import { MatMenuModule } from '@angular/material/menu';
 
@@ -216,7 +215,7 @@ export class CustomTranslateLoader implements TranslateLoader {
     ScrollingModule,
     FormatNumberModule,
     NgxSpinnerModule,
-    MapglLegendModule,
+    ArlasMapModule,
     CollectionModule.forRoot({loader:{
       deps:[
         ArlasCollaborativesearchService,
