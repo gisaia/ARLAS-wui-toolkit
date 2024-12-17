@@ -1,27 +1,44 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { TranslateModule, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
-
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { DeniedAccessDialogComponent } from './denied-access-dialog.component';
-import { MatDialogModule, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { HttpClientModule } from '@angular/common/http';
+import { OAuthModule } from 'angular-oauth2-oidc';
+import { of } from 'rxjs';
 
-describe('ReconnectDialogComponent', () => {
+describe('DeniedAccessDialogComponent', () => {
   let component: DeniedAccessDialogComponent;
   let fixture: ComponentFixture<DeniedAccessDialogComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
+    const mockDialogRef = {
+      close: jasmine.createSpy('close')
+    };
+
     TestBed.configureTestingModule({
       declarations: [DeniedAccessDialogComponent],
+      imports: [
+        TranslateModule.forRoot({
+          loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
+        }),
+        MatDialogModule,
+        OAuthModule.forRoot()
+      ],
       providers: [
         {
           provide: MAT_DIALOG_DATA,
-          useValue: {}
+          useValue: {
+            error: {
+              actionSeeker$: of()
+            }
+          }
         },
-      ],
-      imports: [
-        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }),
-        MatDialogModule,
-        HttpClientModule]
+        provideHttpClient(withInterceptorsFromDi()),
+        {
+          provide: MatDialogRef,
+          useValue: mockDialogRef
+        },
+      ]
     })
       .compileComponents();
   }));

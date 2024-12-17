@@ -17,30 +17,30 @@
  * under the License.
  */
 
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { inject, TestBed } from '@angular/core/testing';
+import {
+  TranslateFakeLoader,
+  TranslateLoader,
+  TranslateModule
+} from '@ngx-translate/core';
 import { OAuthLogger, OAuthModule, OAuthService, UrlHelperService } from 'angular-oauth2-oidc';
 import { AuthentificationService } from '../authentification/authentification.service';
-import { GET_OPTIONS } from '../../tools/utils';
-import { ArlasExtendService } from './extend.service';
+import { ArlasCollaborativesearchService } from '../collaborative-search/arlas.collaborative-search.service';
+import { ArlasConfigurationUpdaterService } from '../configuration-updater/configurationUpdater.service';
 import {
-  ArlasStartupService, ArlasConfigService, ArlasCollaborativesearchService,
+  ArlasConfigService,
+  ArlasStartupService,
   CONFIG_UPDATER,
   FETCH_OPTIONS
 } from '../startup/startup.service';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
-import {
-  TranslateModule, TranslateService, TranslateLoader,
-  TranslateFakeLoader, TranslateStore
-} from '@ngx-translate/core';
-import { ArlasConfigurationUpdaterService } from '../configuration-updater/configurationUpdater.service';
+import { ArlasExtendService } from './extend.service';
 
 describe('ArlasExtendService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientModule, OAuthModule,
-        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } })
-      ],
+      imports: [OAuthModule,
+        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } })],
       providers: [ArlasConfigService,
         OAuthService,
         OAuthLogger,
@@ -56,11 +56,9 @@ describe('ArlasExtendService', () => {
           provide: ArlasConfigurationUpdaterService,
           useClass: ArlasConfigurationUpdaterService
         },
-        {provide: FETCH_OPTIONS, useValue: {}},
+        { provide: FETCH_OPTIONS, useValue: {} },
         ArlasCollaborativesearchService,
-        { provide: GET_OPTIONS, useValue: {} },
-        { provide: CONFIG_UPDATER, useValue: {} }
-      ]
+        { provide: CONFIG_UPDATER, useValue: {} }, provideHttpClient(withInterceptorsFromDi())]
     });
   });
 

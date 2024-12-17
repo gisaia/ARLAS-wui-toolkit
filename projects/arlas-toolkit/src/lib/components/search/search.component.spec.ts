@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -25,9 +25,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateFakeLoader, TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { ArlasCollaborativesearchService } from '../../services/collaborative-search/arlas.collaborative-search.service';
 import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
 import {
-  ArlasCollaborativesearchService,
   ArlasConfigService,
   ArlasStartupService, CONFIG_UPDATER, FETCH_OPTIONS
 } from '../../services/startup/startup.service';
@@ -40,12 +40,10 @@ describe('SearchComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        ReactiveFormsModule, MatAutocompleteModule,
-        MatInputModule, FormsModule, BrowserAnimationsModule, HttpClientModule,
-        MatIconModule, TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } })
-      ],
       declarations: [SearchComponent],
+      imports: [ReactiveFormsModule, MatAutocompleteModule,
+        MatInputModule, FormsModule, BrowserAnimationsModule,
+        MatIconModule, TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } })],
       providers: [
         ArlasConfigService, ArlasCollaborativesearchService,
         {
@@ -53,13 +51,14 @@ describe('SearchComponent', () => {
           useClass: ArlasStartupService,
           deps: [ArlasConfigurationUpdaterService]
         },
-        HttpClient, TranslateService,
+        TranslateService,
         { provide: CONFIG_UPDATER, useValue: {} },
         {
           provide: ArlasConfigurationUpdaterService,
           useClass: ArlasConfigurationUpdaterService
         },
-        {provide: FETCH_OPTIONS, useValue: {}}
+        { provide: FETCH_OPTIONS, useValue: {} },
+        provideHttpClient(withInterceptorsFromDi())
       ]
     })
       .compileComponents();

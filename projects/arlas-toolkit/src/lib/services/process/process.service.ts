@@ -19,12 +19,12 @@
 
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
-import { ProcessInputs, ProcessOutput } from '../../tools/process.interface';
-import { ArlasSettingsService } from '../settings/arlas.settings.service';
 import { Expression, Filter, Search } from 'arlas-api';
 import { projType } from 'arlas-web-core';
-import { ArlasCollaborativesearchService } from '../startup/startup.service';
+import { map, Observable } from 'rxjs';
+import { ProcessInputs, ProcessOutput } from '../../tools/process.interface';
+import { ArlasCollaborativesearchService } from '../collaborative-search/arlas.collaborative-search.service';
+import { ArlasSettingsService } from '../settings/arlas.settings.service';
 
 @Injectable({
   providedIn: 'root'

@@ -18,11 +18,12 @@
  */
 
 import { Injectable } from '@angular/core';
-import { ArlasCollaborativesearchService } from '../startup/startup.service';
-import { projType } from 'arlas-web-core';
-import { ComputationRequest, ComputationResponse } from 'arlas-api';
 import bbox from '@turf/bbox';
+import { ComputationRequest, ComputationResponse } from 'arlas-api';
+import { projType } from 'arlas-web-core';
+import { LngLat, LngLatBounds, Map } from 'mapbox-gl';
 import { MapService } from '../../tools/utils';
+import { ArlasCollaborativesearchService } from '../collaborative-search/arlas.collaborative-search.service';
 import { AbstractArlasMapGL } from "arlas-map";
 
 /**

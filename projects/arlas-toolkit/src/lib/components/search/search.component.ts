@@ -19,17 +19,18 @@
 
 import { Component, Inject, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { marker } from '@biesbjerg/ngx-translate-extract-marker';
+import { marker } from '@colsen1991/ngx-translate-extract-marker';
 import { TranslateService } from '@ngx-translate/core';
 import { AggregationResponse } from 'arlas-api';
 import { ArlasColorService } from 'arlas-web-components';
+import { SearchContributor } from 'arlas-web-contributors';
 import { OperationEnum } from 'arlas-web-core';
 import { Observable, of, Subject, Subscription, zip } from 'rxjs';
 import { debounceTime, filter, map, mergeMap, mergeWith, startWith } from 'rxjs/operators';
-import { ArlasCollaborativesearchService, ArlasConfigService } from '../../services/startup/startup.service';
-import { SearchContributor } from 'arlas-web-contributors';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ArlasCollaborativesearchService } from '../../services/collaborative-search/arlas.collaborative-search.service';
+import { ArlasConfigService } from '../../services/startup/startup.service';
 
 @Component({
   selector: 'arlas-search',
@@ -154,8 +155,7 @@ export class SearchComponent implements OnInit, OnDestroy, OnChanges {
       const enabledContributors = this.searchContributors.filter(s => this.collectionsState.get(s.collection));
       for (let i = 0; i < enabledContributors.length; i++) {
         setTimeout(() => {
-          this.snackbar.open(this.translate.instant('Loading data of') + ' ' +
-            enabledContributors[i].collection);
+          this.snackbar.open(this.translate.instant('Loading data of', { collection: enabledContributors[i].collection }));
           enabledContributors[i].search(value);
           if (i === enabledContributors.length - 1) {
             setTimeout(() => this.snackbar.dismiss(), 1000);
@@ -188,7 +188,7 @@ export class SearchComponent implements OnInit, OnDestroy, OnChanges {
         this.collections = event.collections;
         this.collectionsState = event.collectionsState;
         this.search(event.searchValue);
-      } else if (event.searchValue === null || event.searchValue === '') {
+      } else if (!event || event.searchValue === null || event.searchValue === '') {
         // When nothing is in the search and no text was typed then it is null
         // If text was typed then removed, it is ''
         this.clearSearch();

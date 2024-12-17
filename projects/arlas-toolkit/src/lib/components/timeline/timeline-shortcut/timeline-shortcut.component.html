@@ -1,7 +1,7 @@
 <div class="arlas-time-shortcuts--container">
   <div *ngIf="showShortcuts" class="arlas-time-shortcuts__list--container">
-    <ul class="arlas-time-shortcuts__list" *ngFor="let shortcutType of getKeys(timeShortcutsMap)">
-      <li class="arlas-time-shortcut" *ngFor="let shortCut of timeShortcutsMap.get(shortcutType)" (click)="setShortcut(shortCut)">{{shortCut.label | translate}}</li>
+    <ul class="arlas-time-shortcuts__list" *ngFor="let shortcutType of timeShortcutsMap | keyValue">
+      <li class="arlas-time-shortcut" *ngFor="let shortCut of shortcutType.value" (click)="setShortcut(shortCut)">{{shortCut.label | translate}}</li>
     </ul>
   </div>
   <div class="arlas-time--tools">
@@ -27,8 +27,8 @@
       </div>
     </mat-basic-chip>
     <div class="arlas-timeline-toggle" (click)="toggleTimeline()">
-      <mat-icon *ngIf="!isDisplayHistogram">keyboard_arrow_up</mat-icon>
-      <mat-icon *ngIf="isDisplayHistogram">keyboard_arrow_down</mat-icon>
+      <mat-icon *ngIf="!isDisplayHistogram" [matTooltip]="'Show timeline' | translate" matTooltipPosition="above">keyboard_arrow_up</mat-icon>
+      <mat-icon *ngIf="isDisplayHistogram" [matTooltip]="'Hide timeline' | translate" matTooltipPosition="above">keyboard_arrow_down</mat-icon>
     </div>
   </div>
 </div>

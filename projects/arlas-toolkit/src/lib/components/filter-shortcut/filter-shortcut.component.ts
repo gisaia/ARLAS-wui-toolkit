@@ -18,11 +18,11 @@
  */
 
 import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { FilterShortcutConfiguration } from './filter-shortcut.utils';
-import { ArlasCollaborativesearchService } from '../../services/startup/startup.service';
-import { OperationEnum, Contributor } from 'arlas-web-core';
+import { Contributor, OperationEnum } from 'arlas-web-core';
+import { ArlasCollaborativesearchService } from '../../services/collaborative-search/arlas.collaborative-search.service';
 import { SpinnerOptions } from '../../tools/utils';
 import { DEFAULT_SPINNER_OPTIONS } from '../progress-spinner/progress-spinner.component';
+import { FilterShortcutConfiguration } from './filter-shortcut.utils';
 
 
 @Component({

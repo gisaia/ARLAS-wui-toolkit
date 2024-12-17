@@ -17,16 +17,17 @@
  * under the License.
  */
 
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { TranslateFakeLoader, TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { ArlasCollaborativesearchService } from '../../services/collaborative-search/arlas.collaborative-search.service';
 import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
 import {
-  ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService, CONFIG_UPDATER,
+  ArlasConfigService, ArlasStartupService, CONFIG_UPDATER,
   FETCH_OPTIONS
 } from '../../services/startup/startup.service';
 import { ExtendComponent } from './extend.component';
@@ -36,13 +37,11 @@ describe('ExtendComponent', () => {
   let fixture: ComponentFixture<ExtendComponent>;
   let arlasStartupService: ArlasStartupService;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        MatTableModule, MatCheckboxModule, MatIconModule, HttpClientModule, MatPaginatorModule,
-        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } })
-      ],
       declarations: [ExtendComponent],
+      imports: [MatTableModule, MatCheckboxModule, MatIconModule, MatPaginatorModule,
+        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } })],
       providers: [
         ArlasConfigService, ArlasCollaborativesearchService,
         {
@@ -50,13 +49,14 @@ describe('ExtendComponent', () => {
           useClass: ArlasStartupService,
           deps: [ArlasConfigurationUpdaterService]
         },
-        HttpClient, TranslateService,
+        TranslateService,
         { provide: CONFIG_UPDATER, useValue: {} },
         {
           provide: ArlasConfigurationUpdaterService,
           useClass: ArlasConfigurationUpdaterService
         },
-        { provide: FETCH_OPTIONS, useValue: {} }
+        { provide: FETCH_OPTIONS, useValue: {} },
+        provideHttpClient(withInterceptorsFromDi())
       ]
     })
       .compileComponents();

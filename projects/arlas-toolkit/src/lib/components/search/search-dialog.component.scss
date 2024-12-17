@@ -78,8 +78,6 @@ $search-width: 400px;
             border: 0;
             width: 100%;
             font-size: 14px;
-            margin-bottom: -2px;
-            margin-left: 4px;
 
             &:focus {
                 outline: none;
@@ -89,6 +87,8 @@ $search-width: 400px;
         .close {
             .icon {
                 font-size: 18px;
+                height: 18px;
+                width: 18px;
             }
         }
     }
@@ -129,7 +129,7 @@ $search-width: 400px;
 
 ::ng-deep #arlas-search-dialog .mat-mdc-dialog-content {
     padding: 0;
-    margin: -20px;
+    margin: -8px -16px;
 }
 
 ::ng-deep.mat-mdc-dialog-container {

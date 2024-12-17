@@ -18,18 +18,19 @@
  */
 
 import { APP_BASE_HREF } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { inject, TestBed } from '@angular/core/testing';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { RouterTestingModule } from '@angular/router/testing';
+import { RouterModule } from '@angular/router';
+import { ArlasCollaborativesearchService } from '../collaborative-search/arlas.collaborative-search.service';
 import { ArlasConfigurationUpdaterService } from '../configuration-updater/configurationUpdater.service';
-import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from '../startup/startup.service';
+import { ArlasConfigService, ArlasStartupService } from '../startup/startup.service';
 import { ArlasBookmarkService } from './bookmark.service';
 
 describe('ArlasBookmarkService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [MatSnackBarModule, RouterTestingModule, HttpClientModule],
+      imports: [MatSnackBarModule, RouterModule.forRoot([])],
       providers: [
         ArlasBookmarkService,
         {
@@ -42,9 +43,9 @@ describe('ArlasBookmarkService', () => {
           useClass: ArlasConfigurationUpdaterService
         },
         ArlasCollaborativesearchService, { provide: APP_BASE_HREF, useValue: '/' },
-        ArlasConfigService
+        ArlasConfigService,
+        provideHttpClient(withInterceptorsFromDi())
       ]
-
     });
   });
 

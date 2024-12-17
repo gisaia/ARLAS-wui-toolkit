@@ -10,7 +10,7 @@ describe('ContactComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ ContactComponent ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

@@ -16,18 +16,19 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+import { SelectionModel } from '@angular/cdk/collections';
 import { Component, Inject, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { AuthentificationService } from '../../services/authentification/authentification.service';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { MatListOption, MatSelectionList } from '@angular/material/list';
 import { CollectionReferenceDescription } from 'arlas-api';
 import { projType } from 'arlas-web-core';
-import { ArlasCollaborativesearchService, ArlasConfigService } from '../../services/startup/startup.service';
-import { ArlasSearchField } from '../share/model/ArlasSearchField';
 import { DeviceDetectorService, OS } from 'ngx-device-detector';
+import { AuthentificationService } from '../../services/authentification/authentification.service';
+import { ArlasCollaborativesearchService } from '../../services/collaborative-search/arlas.collaborative-search.service';
+import { ArlasConfigService } from '../../services/startup/startup.service';
 import { orderAlphabeticallyArlasSearchFields } from '../../tools/utils';
-import { SelectionModel } from '@angular/cdk/collections';
-import { MatListOption, MatSelectionList } from '@angular/material/list';
+import { ArlasSearchField } from '../share/model/ArlasSearchField';
 
 export const ARLAS_HITS_EXPORTER_VERSION = 2.2;
 
@@ -47,7 +48,7 @@ export class DownloadComponent {
   ) { }
 
   public openDialog() {
-    this.dialog.open(DownloadDialogComponent, { data: this.collections }
+    this.dialog.open(DownloadDialogComponent, { data: this.collections, width: '80vw' }
     );
   }
 }

@@ -17,14 +17,15 @@
  * under the License.
  */
 
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { EventEmitter, Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from '../startup/startup.service';
-import { AnalyticGroupConfiguration, AnalyticsTabs } from '../../components/analytics/analytics.utils';
-import { Contributor, OperationEnum } from 'arlas-web-core';
 import { HistogramContributor } from 'arlas-web-contributors';
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { Contributor, OperationEnum } from 'arlas-web-core';
+import { AnalyticGroupConfiguration, AnalyticsTabs } from '../../components/analytics/analytics.utils';
 import { hasContributorData } from '../../tools/utils';
+import { ArlasCollaborativesearchService } from '../collaborative-search/arlas.collaborative-search.service';
+import { ArlasConfigService } from '../startup/startup.service';
 
 
 @Injectable({

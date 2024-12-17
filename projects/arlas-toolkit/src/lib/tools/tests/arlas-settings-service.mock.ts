@@ -17,47 +17,18 @@
  * under the License.
  */
 
-
-$search-height: 30px;
-
-.arlas-search-container {
-  min-width: 150px;
-  display: flex;
-  align-items: center;
-  border: 1px solid #a1a1a1;
-  border-radius: 4px;
-  height: $search-height;
-  margin-left: -2px;
-  box-sizing: border-box;
-
-  .search {
-    margin: 0 4px;
-    color: grey;
+export class MockArlasSettingsService {
+  public getAuthentSettings() {
+    return {
+      sign_up_enabled: true
+    };
   }
 
-  .search-text {
-    color: black;
-    font-size: 14px;
-    margin-right: auto;
-    cursor: pointer;
-    width: 150px;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-    box-sizing: border-box;
+  public getPersistenceSettings() {
+    return {};
   }
 
-  .search-text-empty {
-    color: grey;
-  }
-
-  .close {
-    padding: 0;
-
-    .icon {
-      font-size: 16px;
-      height: 16px;
-      width: 16px;
-    }
+  public getPermissionSettings() {
+    return {};
   }
 }
