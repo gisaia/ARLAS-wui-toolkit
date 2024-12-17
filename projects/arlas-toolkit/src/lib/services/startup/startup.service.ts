@@ -28,7 +28,7 @@ import { CollectionReferenceDescription, CollectionReferenceParameters, Collecti
 import { DefaultApi, Configuration as IamConfiguration } from 'arlas-iam-api';
 import { DataWithLinks } from 'arlas-persistence-api';
 import {
-  DonutComponent, HistogramComponent, MapglComponent, MetricComponent,
+  DonutComponent, HistogramComponent, MetricComponent,
   MetricsTableComponent, PowerbarsComponent
 } from 'arlas-web-components';
 import {
@@ -70,6 +70,7 @@ import { ArlasSettingsService } from '../settings/arlas.settings.service';
 import * as arlasConfSchema from './arlasconfig.schema.json';
 import { ContributorBuilder } from './contributorBuilder';
 import * as arlasSettingsSchema from './settings.schema.json';
+import { ArlasMapComponent } from 'arlas-map';
 
 @Injectable({
   providedIn: 'root'
@@ -270,7 +271,7 @@ export class ArlasStartupService {
         .addSchema((<any>HistogramComponent.getHistogramJsonSchema()).default)
         .addSchema((<any>HistogramComponent.getSwimlaneJsonSchema()).default)
         .addSchema((<any>PowerbarsComponent.getPowerbarsJsonSchema()).default)
-        .addSchema((<any>MapglComponent.getMapglJsonSchema()).default)
+        .addSchema((<any>ArlasMapComponent.getMapJsonSchema()).default)
         .addSchema((<any>DonutComponent.getDonutJsonSchema()).default)
         .addSchema((<any>MetricComponent.getMetricJsonSchema()).default)
         .addSchema((<any>MetricsTableComponent.getJsonSchema()).default)

@@ -18,12 +18,11 @@
  */
 
 import { Injectable } from '@angular/core';
-import bbox from '@turf/bbox';
 import { ComputationRequest, ComputationResponse } from 'arlas-api';
 import { projType } from 'arlas-web-core';
-import { LngLat, LngLatBounds, Map } from 'mapbox-gl';
 import { MapService } from '../../tools/utils';
 import { ArlasCollaborativesearchService } from '../collaborative-search/arlas.collaborative-search.service';
+import { AbstractArlasMapGL } from 'arlas-map';
 
 /**
  * This service provides methods to apply on the mapboxgl Map object
@@ -31,7 +30,7 @@ import { ArlasCollaborativesearchService } from '../collaborative-search/arlas.c
 @Injectable()
 export class ArlasMapService implements MapService {
 
-  public map: Map;
+  public map: AbstractArlasMapGL;
 
   public constructor(private collaborativeSearchService: ArlasCollaborativesearchService) {
   }
@@ -43,7 +42,7 @@ export class ArlasMapService implements MapService {
    * @param paddingPercentage a percentage of the extent's height and width
    * that is added as a padding to bbox of data (between 0 and 1). It allows to have some context around data
    */
-  public zoomToData(collection: string, geoPointField: string, map: Map, paddingPercentage?: number) {
+  public zoomToData(collection: string, geoPointField: string, map: AbstractArlasMapGL, paddingPercentage?: number) {
     const computationRequest: ComputationRequest = {
       metric: ComputationRequest.MetricEnum.GEOBBOX,
       field: geoPointField
@@ -56,7 +55,7 @@ export class ArlasMapService implements MapService {
       this.collaborativeSearchService.collaborations, collection)
       .subscribe((cr: ComputationResponse) => {
         if (cr && cr.geometry) {
-          mapInstance.fitBounds(this.toMapboxBounds(cr.geometry, paddingPercentage));
+          mapInstance.fitBounds(mapInstance.geometryToBound(cr.geometry, paddingPercentage));
         }
       });
   }
@@ -65,41 +64,7 @@ export class ArlasMapService implements MapService {
    *
    * @param map mapbox map instance
    */
-  public setMap(map: Map) {
+  public setMap(map: AbstractArlasMapGL) {
     this.map = map;
-  }
-  /**
-   * @description transforms the geojson object to a mapbox bounds
-   * @param geometry geojson object
-   * @param paddingPercentage a percentage of the extent's height and width
-   * that is added as a padding to bbox of data (between 0 and 1). It allows to have some context around data
-   */
-  private toMapboxBounds(geometry: any, paddingPercentage?: number): LngLatBounds {
-    const boundingBox: any = bbox(geometry);
-    let west = boundingBox[0];
-    let south = boundingBox[1];
-    let east = boundingBox[2];
-    let north = boundingBox[3];
-    if (paddingPercentage !== undefined) {
-      let width = east - west;
-      let height = north - south;
-      /** if there is one hit, then west=east ===> we consider a width of 0.05°*/
-      if (width === 0) {
-        width = 0.05;
-      }
-      /** if there is one hit, then north=south ===> we consider a height of 0.05°*/
-      if (height === 0) {
-        height = 0.05;
-      }
-      west = west - paddingPercentage * width;
-      south = Math.max(-90, south - paddingPercentage * height);
-      east = east + paddingPercentage * width;
-      north = Math.min(90, north + paddingPercentage * height);
-    }
-    const mapboxBounds = new LngLatBounds(
-      new LngLat(west, south),
-      new LngLat(east, north)
-    );
-    return mapboxBounds;
   }
 }

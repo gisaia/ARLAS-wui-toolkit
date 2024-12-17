@@ -19,7 +19,7 @@
 
 import { Aggregation } from 'arlas-api';
 import { FieldsConfiguration, LayerSourceConfig } from 'arlas-web-contributors';
-import { VisualisationSetConfig } from 'arlas-web-components';
+import { VisualisationSetConfig } from 'arlas-map';
 
 export class ArlasConfigurationUpdaterService {
 

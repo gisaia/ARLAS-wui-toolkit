@@ -18,7 +18,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { MapSettingsService, GeometrySelectModel, OperationSelectModel, GeoQueryOperator } from 'arlas-web-components';
+import { MapSettingsService, GeometrySelectModel, OperationSelectModel, GeoQueryOperator } from 'arlas-map';
 import { ArlasStartupService, ArlasConfigService } from '../startup/startup.service';
 import { MapContributor } from 'arlas-web-contributors';
 import { Expression } from 'arlas-api';

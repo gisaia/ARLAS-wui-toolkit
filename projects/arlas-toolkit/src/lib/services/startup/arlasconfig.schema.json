@@ -452,7 +452,7 @@
                                         }
                                     }
                                 },
-                                "^(mapgl)$": {
+                                "^(arlas-map)$": {
                                     "description": "Mapgl component configuration",
                                     "type": "object",
                                     "properties": {
@@ -732,7 +732,6 @@
                         }
                     }
                 }
-
             }
         }
     },

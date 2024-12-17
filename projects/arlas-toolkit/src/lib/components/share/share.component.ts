@@ -32,7 +32,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { marker } from '@colsen1991/ngx-translate-extract-marker';
 import { TranslateService } from '@ngx-translate/core';
 import { Search } from 'arlas-tagger-api';
-import { ARLAS_VSET } from 'arlas-web-components';
+import { ARLAS_VSET } from 'arlas-map';
 import * as FileSaver from 'file-saver';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { orderAlphabeticallyArlasSearchFields } from '../../tools/utils';
