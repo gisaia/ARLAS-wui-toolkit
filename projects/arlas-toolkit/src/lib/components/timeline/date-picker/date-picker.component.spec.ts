@@ -1,18 +1,23 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ArlasCollaborativesearchService, ArlasStartupService, ArlasConfigService,
-  CONFIG_UPDATER,
-  FETCH_OPTIONS} from '../../../services/startup/startup.service';
-import { DatePickerComponent } from './date-picker.component';
-
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import {
-  OwlDateTimeModule, DateTimeAdapter, OWL_DATE_TIME_FORMATS,
-  OWL_DATE_TIME_LOCALE
+  DateTimeAdapter, OWL_DATE_TIME_FORMATS,
+  OWL_DATE_TIME_LOCALE,
+  OwlDateTimeModule
 } from '@danielmoncada/angular-datetime-picker';
 import { MomentDateTimeAdapter } from '@danielmoncada/angular-datetime-picker-moment-adapter';
-import { TranslateModule, TranslateLoader, TranslateFakeLoader, TranslateService } from '@ngx-translate/core';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { TranslateFakeLoader, TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { ArlasCollaborativesearchService } from '../../../services/collaborative-search/arlas.collaborative-search.service';
 import { ArlasConfigurationUpdaterService } from '../../../services/configuration-updater/configurationUpdater.service';
+import {
+  ArlasConfigService,
+  ArlasStartupService,
+  CONFIG_UPDATER,
+  FETCH_OPTIONS
+} from '../../../services/startup/startup.service';
+import { DatePickerComponent } from './date-picker.component';
+
 export const MY_CUSTOM_FORMATS = {
   parseInput: 'lll',
   fullPickerInput: 'll LTS',
@@ -22,22 +27,20 @@ export const MY_CUSTOM_FORMATS = {
   dateA11yLabel: 'lll',
   monthYearA11yLabel: 'MMMM YYYY',
 };
+
 describe('DatePickerComponent', () => {
   let component: DatePickerComponent;
   let fixture: ComponentFixture<DatePickerComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [DatePickerComponent],
-      imports: [
-        OwlDateTimeModule, FormsModule, HttpClientModule,
+      imports: [OwlDateTimeModule, FormsModule,
         TranslateModule.forRoot({
           loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
-        })
-      ],
+        })],
       providers: [
-        { provide: OWL_DATE_TIME_LOCALE, useValue: 'fr' }, HttpClient,
-
+        { provide: OWL_DATE_TIME_LOCALE, useValue: 'fr' },
         ArlasCollaborativesearchService,
         {
           provide: ArlasStartupService,
@@ -47,12 +50,13 @@ describe('DatePickerComponent', () => {
         ArlasConfigService, TranslateService,
         { provide: DateTimeAdapter, useClass: MomentDateTimeAdapter, deps: [OWL_DATE_TIME_LOCALE] },
         { provide: OWL_DATE_TIME_FORMATS, useValue: MY_CUSTOM_FORMATS },
-        {provide: CONFIG_UPDATER, useValue: {}},
+        { provide: CONFIG_UPDATER, useValue: {} },
         {
           provide: ArlasConfigurationUpdaterService,
           useClass: ArlasConfigurationUpdaterService
         },
-        {provide: FETCH_OPTIONS, useValue: {}},
+        { provide: FETCH_OPTIONS, useValue: {} },
+        provideHttpClient(withInterceptorsFromDi()),
       ]
     })
       .compileComponents();

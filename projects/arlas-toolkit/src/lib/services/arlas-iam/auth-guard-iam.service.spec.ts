@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { RouterModule } from '@angular/router';
 import { AuthGuardIamService } from './auth-guard-iam.service';
 
 describe('AuthGuardIamService', () => {
@@ -7,7 +7,7 @@ describe('AuthGuardIamService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule]
+      imports: [RouterModule.forRoot([])]
     });
     service = TestBed.inject(AuthGuardIamService);
   });

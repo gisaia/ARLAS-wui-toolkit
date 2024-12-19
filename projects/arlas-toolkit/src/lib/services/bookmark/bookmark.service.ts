@@ -20,20 +20,21 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { Expression, Filter } from 'arlas-api';
-import { Collaboration, projType, fromEntries } from 'arlas-web-core';
+import { Collaboration, fromEntries, projType } from 'arlas-web-core';
 import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { getKeyForColor } from '../../tools/utils';
+import { ArlasIamService } from '../arlas-iam/arlas-iam.service';
 import { AuthentificationService } from '../authentification/authentification.service';
+import { ArlasCollaborativesearchService } from '../collaborative-search/arlas.collaborative-search.service';
 import { PersistenceService } from '../persistence/persistence.service';
-import { ArlasCollaborativesearchService, ArlasStartupService } from '../startup/startup.service';
+import { ArlasSettingsService } from '../settings/arlas.settings.service';
+import { ArlasStartupService } from '../startup/startup.service';
 import { BookmarkLocalDatabase } from './bookmarkLocalDatabase';
 import { BookmarkPersistenceDatabase } from './bookmarkPersistenceDatabase';
 import { BookMark, BookMarkType } from './model';
-import { ArlasSettingsService } from '../settings/arlas.settings.service';
-import { ArlasIamService } from '../arlas-iam/arlas-iam.service';
-import { TranslateService } from '@ngx-translate/core';
 
 /** Constants used to fill up our data base. */
 @Injectable()

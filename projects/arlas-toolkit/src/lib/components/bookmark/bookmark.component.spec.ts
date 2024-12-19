@@ -17,33 +17,33 @@
  * under the License.
  */
 
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { BookmarkComponent } from './bookmark.component';
-
-import { ArlasStartupService, ArlasConfigService, ArlasCollaborativesearchService,
-  CONFIG_UPDATER,
-  FETCH_OPTIONS} from '../../services/startup/startup.service';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { TranslateService, TranslateModule, TranslateFakeLoader, TranslateLoader } from '@ngx-translate/core';
-import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
-import { MatTableModule } from '@angular/material/table';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
+import { TranslateFakeLoader, TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { ArlasCollaborativesearchService } from '../../services/collaborative-search/arlas.collaborative-search.service';
+import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
+import {
+  ArlasConfigService,
+  ArlasStartupService,
+  CONFIG_UPDATER,
+  FETCH_OPTIONS
+} from '../../services/startup/startup.service';
+import { BookmarkComponent } from './bookmark.component';
 
 describe('BookmarkComponent', () => {
   let component: BookmarkComponent;
   let fixture: ComponentFixture<BookmarkComponent>;
   let arlasStartupService: ArlasStartupService;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        MatTableModule, MatCheckboxModule, MatIconModule, HttpClientModule, MatPaginatorModule,
-        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } })
-      ],
       declarations: [BookmarkComponent],
+      imports: [MatTableModule, MatCheckboxModule, MatIconModule, MatPaginatorModule,
+        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } })],
       providers: [
         ArlasConfigService, ArlasCollaborativesearchService,
         {
@@ -51,13 +51,14 @@ describe('BookmarkComponent', () => {
           useClass: ArlasStartupService,
           deps: [ArlasConfigurationUpdaterService]
         },
-        HttpClient, TranslateService,
-        {provide: CONFIG_UPDATER, useValue: {}},
+        TranslateService,
+        { provide: CONFIG_UPDATER, useValue: {} },
         {
           provide: ArlasConfigurationUpdaterService,
           useClass: ArlasConfigurationUpdaterService
         },
-        {provide: FETCH_OPTIONS, useValue: {}}
+        { provide: FETCH_OPTIONS, useValue: {} },
+        provideHttpClient(withInterceptorsFromDi())
       ]
     })
       .compileComponents();

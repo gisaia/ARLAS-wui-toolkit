@@ -21,11 +21,10 @@ import { LOCATION_INITIALIZED } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable, InjectionToken, Injector } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-
 import Ajv from 'ajv';
 import ajvKeywords from 'ajv-keywords';
 import * as draftSchema from 'ajv/lib/refs/json-schema-draft-06.json';
-import { CollectionReferenceDescription, CollectionReferenceParameters, CollectionsApi, Configuration, ExploreApi, Filter } from 'arlas-api';
+import { CollectionReferenceDescription, CollectionReferenceParameters, CollectionsApi, Configuration, ExploreApi } from 'arlas-api';
 import { DefaultApi, Configuration as IamConfiguration } from 'arlas-iam-api';
 import { DataWithLinks } from 'arlas-persistence-api';
 import {
@@ -42,7 +41,7 @@ import {
 } from 'arlas-web-contributors';
 import { AnalyticsContributor } from 'arlas-web-contributors/contributors/AnalyticsContributor';
 import * as rootContributorConfSchema from 'arlas-web-contributors/jsonSchemas/rootContributorConf.schema.json';
-import { CollaborativesearchService, ConfigService, Contributor } from 'arlas-web-core';
+import { ConfigService, Contributor } from 'arlas-web-core';
 import { projType } from 'arlas-web-core/models/projections';
 import YAML from 'js-yaml';
 import { Subject, defer, throwError } from 'rxjs';
@@ -60,6 +59,7 @@ import {
 } from '../../tools/utils';
 import { ArlasIamService, IamHeader } from '../arlas-iam/arlas-iam.service';
 import { AuthentificationService, } from '../authentification/authentification.service';
+import { ArlasCollaborativesearchService } from '../collaborative-search/arlas.collaborative-search.service';
 import { ArlasConfigurationUpdaterService } from '../configuration-updater/configurationUpdater.service';
 import { ErrorService } from '../error/error.service';
 import { FetchInterceptorService } from '../interceptor/fetch-interceptor.service';
@@ -174,89 +174,6 @@ export class ArlasIamApi extends DefaultApi {
   }
 }
 
-@Injectable()
-export class ArlasCollaborativesearchService extends CollaborativesearchService {
-  public constructor() {
-    super();
-  }
-
-  public endOfUrlCollaboration = false;
-
-  /**
-   * @param filter The filter query parameter
-   * @param changeOperator Whether to change the operator of the filters applied for TreeContributors
-   * @returns A dictionnary of the current collaborations
-   */
-  public dataModelBuilder(filter, changeOperator = false) {
-    const dataModel = JSON.parse(filter);
-    const defaultCollection = this.defaultCollection;
-    const registry = this.registry;
-    /** transform "filters" object to Map */
-    Object.keys(dataModel).forEach(key => {
-      const collab = dataModel['' + key];
-      const contributor = registry.get(key);
-      if (!!collab && !!collab.filters) {
-        collab.filters = new Map(Object.entries(collab.filters));
-      } else if (!!collab && !collab.filters && !!collab.filter) {
-        /** retrocompatibility code to transform an pre-18 collaboration structure to 18 one */
-        collab.filters = new Map();
-        collab.filters.set(defaultCollection, [Object.assign({}, collab.filter)]);
-        delete collab.filter;
-      }
-      if (contributor && contributor instanceof TreeContributor && changeOperator) {
-        collab.filters.forEach((filters: any[], collection: string) => {
-          const exp = filters[0].f[0][0];
-          const op = exp.op;
-          const treecontributor = contributor as TreeContributor;
-          if (op !== treecontributor.getFilterOperator()) {
-            if (treecontributor.allowOperatorChange) {
-              treecontributor.setFilterOperator(op, true);
-            } else {
-              delete dataModel['' + key];
-              this.collaborations.delete(key);
-            }
-          }
-        });
-      }
-      if (contributor && contributor instanceof MetricsTableContributor && changeOperator) {
-        collab.filters.forEach((filters: any[], collection: string) => {
-          const exp = filters[0].f[0][0];
-          const op = exp.op;
-          const metrictablecontributor = contributor as MetricsTableContributor;
-          if (op !== metrictablecontributor.getFilterOperator()) {
-            metrictablecontributor.setFilterOperator(op, true);
-
-          }
-        });
-      }
-    });
-    return dataModel;
-  }
-
-  public getCollectionsFromFilters(dataModel): Set<string> {
-    const collections = new Set<string>();
-    Object.keys(dataModel).forEach(k => {
-      const collab = dataModel[k];
-      if (collab && collab.filters) {
-        const filters = collab.filters as Map<string, any>;
-        Array.from(filters.keys()).forEach(c => collections.add(c));
-      }
-    });
-    return collections;
-  }
-
-  public getFilters(collection: string): Array<Filter> {
-    const filters: Filter[] = [];
-    Array.from(this.collaborations.values()).forEach(c => {
-      if (!!c.filters.get(collection)) {
-        filters.push(...c.filters.get(collection));
-      }
-    });
-
-    return filters;
-  }
-}
-
 export const CONFIG_UPDATER = new InjectionToken<Function>('config_updater');
 export const FETCH_OPTIONS = new InjectionToken<any>('fetch_options');
 
@@ -296,7 +213,8 @@ export class ArlasStartupService {
     @Inject(CONFIG_UPDATER) private configUpdater,
     private persistenceService: PersistenceService,
     private permissionService: PermissionService,
-    private errorService: ErrorService, private fetchInterceptorService: FetchInterceptorService,
+    private errorService: ErrorService,
+    private fetchInterceptorService: FetchInterceptorService,
     private arlasIamService: ArlasIamService,
     private processService: ProcessService
   ) {

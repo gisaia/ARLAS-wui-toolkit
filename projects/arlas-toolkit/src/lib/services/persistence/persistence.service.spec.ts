@@ -1,19 +1,22 @@
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { TestBed, inject } from '@angular/core/testing';
-import { PersistenceService } from './persistence.service';
+import { DateTimeProvider, OAuthLogger, OAuthModule, OAuthService, UrlHelperService } from 'angular-oauth2-oidc';
 import { GET_OPTIONS } from '../../tools/utils';
-import { HttpClientModule } from '@angular/common/http';
-import { OAuthService, OAuthModule, OAuthLogger, UrlHelperService, DateTimeProvider } from 'angular-oauth2-oidc';
 import { AuthentificationService } from '../authentification/authentification.service';
-import { getOptionsFactory } from '../../toolkit.module';
 import { ArlasSettingsService } from '../settings/arlas.settings.service';
+import { PersistenceService } from './persistence.service';
+import { MockArlasSettingsService } from '../../tools/tests/arlas-settings-service.mock';
 
 
 describe('PersistenceService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientModule, OAuthModule],
+      imports: [OAuthModule],
       providers: [
-        ArlasSettingsService,
+        {
+          provide: ArlasSettingsService,
+          useClass: MockArlasSettingsService
+        },
         OAuthService,
         DateTimeProvider,
         OAuthLogger,
@@ -21,9 +24,9 @@ describe('PersistenceService', () => {
         AuthentificationService,
         {
           provide: GET_OPTIONS,
-          useFactory: getOptionsFactory,
-          deps: [AuthentificationService]
-        }
+          useValue: () => {}
+        },
+        provideHttpClient(withInterceptorsFromDi())
       ]
     });
   });

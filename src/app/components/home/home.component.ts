@@ -22,12 +22,16 @@ import { MatDialog } from '@angular/material/dialog';
 import { SearchContributor } from 'arlas-web-contributors';
 import { fromEvent } from 'rxjs';
 import packageJson from '../../../../package.json';
+import { AiasDownloadComponent } from '../../../../projects/arlas-toolkit/src/lib/components/aias/aias-download/aias-download.component';
+import { AiasEnrichComponent } from '../../../../projects/arlas-toolkit/src/lib/components/aias/aias-enrich/aias-enrich.component';
+import { DownloadComponent } from '../../../../projects/arlas-toolkit/src/lib/components/download/download.component';
 import {
   FilterShortcutConfiguration
 } from '../../../../projects/arlas-toolkit/src/lib/components/filter-shortcut/filter-shortcut.utils';
 import {
   DEFAULT_SPINNER_OPTIONS
 } from '../../../../projects/arlas-toolkit/src/lib/components/progress-spinner/progress-spinner.component';
+import { ShareComponent } from '../../../../projects/arlas-toolkit/src/lib/components/share/share.component';
 import {
   TimelineConfiguration
 } from '../../../../projects/arlas-toolkit/src/lib/components/timeline/timeline/timeline.utils';
@@ -36,22 +40,18 @@ import {
   ArlasAuthentificationService
 } from '../../../../projects/arlas-toolkit/src/lib/services/arlas-authentification/arlas-authentification.service';
 import { ArlasIamService } from '../../../../projects/arlas-toolkit/src/lib/services/arlas-iam/arlas-iam.service';
-import { AiasEnrichComponent } from '../../../../projects/arlas-toolkit/src/lib/components/aias/aias-enrich/aias-enrich.component';
 import {
-  ArlasCollaborativesearchService,
+  ArlasCollaborativesearchService
+} from '../../../../projects/arlas-toolkit/src/lib/services/collaborative-search/arlas.collaborative-search.service';
+import { ProcessService } from '../../../../projects/arlas-toolkit/src/lib/services/process/process.service';
+import {
   ArlasConfigService,
   ArlasStartupService
 } from '../../../../projects/arlas-toolkit/src/lib/services/startup/startup.service';
 import {
   AuthentSetting,
-  ConfigAction,
-  ConfigActionEnum,
   SpinnerOptions
 } from '../../../../projects/arlas-toolkit/src/lib/tools/utils';
-import { DownloadComponent } from '../../../../projects/arlas-toolkit/src/lib/components/download/download.component';
-import { ShareComponent } from '../../../../projects/arlas-toolkit/src/lib/components/share/share.component';
-import { ProcessService } from '../../../../projects/arlas-toolkit/src/lib/services/process/process.service';
-import { AiasDownloadComponent } from '../../../../projects/arlas-toolkit/src/lib/components/aias/aias-download/aias-download.component';
 
 @Component({
   selector: 'arlas-tool-home',

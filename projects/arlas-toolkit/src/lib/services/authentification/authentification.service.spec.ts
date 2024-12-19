@@ -4,14 +4,13 @@ import {
 } from 'angular-oauth2-oidc';
 
 import { AuthentificationService } from './authentification.service';
-import { HttpClient } from '@angular/common/http';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('AuthentificationService', () => {
   beforeEach(() =>
     TestBed.configureTestingModule({
-      providers: [OAuthService, HttpClient, UrlHelperService],
-      imports: [OAuthModule.forRoot(), HttpClientModule]
+      imports: [OAuthModule.forRoot()],
+      providers: [OAuthService, UrlHelperService, provideHttpClient(withInterceptorsFromDi())]
     }));
   it('should be created', () => {
     const service: AuthentificationService = TestBed.get(AuthentificationService);

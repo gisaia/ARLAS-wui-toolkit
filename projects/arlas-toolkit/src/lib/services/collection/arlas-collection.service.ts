@@ -17,10 +17,11 @@
  * under the License.
  */
 
-import { CollectionUnit, flattenData } from '../../tools/utils';
-import { BaseCollectionService } from 'arlas-web-components';
 import { Injectable } from '@angular/core';
-import { ArlasCollaborativesearchService, ArlasConfigService, ArlasStartupService } from '../startup/startup.service';
+import { BaseCollectionService } from 'arlas-web-components';
+import { CollectionUnit, flattenData } from '../../tools/utils';
+import { ArlasCollaborativesearchService } from '../collaborative-search/arlas.collaborative-search.service';
+import { ArlasConfigService, ArlasStartupService } from '../startup/startup.service';
 
 @Injectable()
 export class ArlasCollectionService extends BaseCollectionService {

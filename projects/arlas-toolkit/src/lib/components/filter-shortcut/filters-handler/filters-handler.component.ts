@@ -18,18 +18,19 @@
  */
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { ArlasCollaborativesearchService } from '../../../services/startup/startup.service';
-import { Filter, Expression } from 'arlas-api';
-import * as _moment from 'moment';
 import { DateTimeAdapter, OWL_DATE_TIME_LOCALE } from '@danielmoncada/angular-datetime-picker';
 import { MomentDateTimeAdapter } from '@danielmoncada/angular-datetime-picker-moment-adapter';
+import { TranslateService } from '@ngx-translate/core';
+import { Expression, Filter } from 'arlas-api';
+import { HistogramParams, HistogramUtils } from 'arlas-d3';
+import { ChartType, DataType } from 'arlas-web-components';
 import { HistogramContributor } from 'arlas-web-contributors';
 import { Collaboration } from 'arlas-web-core';
-import { TranslateService } from '@ngx-translate/core';
-import { HistogramUtils, HistogramParams } from 'arlas-d3';
-import { ChartType, DataType } from 'arlas-web-components';
-import { numberToShortString } from '../filter-shortcut.utils';
+import * as _moment from 'moment';
 import { Subject, takeUntil } from 'rxjs';
+import { ArlasCollaborativesearchService } from '../../../services/collaborative-search/arlas.collaborative-search.service';
+import { numberToShortString } from '../filter-shortcut.utils';
+
 const moment = (_moment as any).default ? (_moment as any).default : _moment;
 
 @Component({

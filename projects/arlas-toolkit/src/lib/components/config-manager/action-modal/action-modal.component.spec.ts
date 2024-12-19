@@ -1,33 +1,33 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { ActionModalComponent } from './action-modal.component';
-import { TranslateModule, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatIconModule } from '@angular/material/icon';
-import { MatDialogModule, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { AuthentificationService } from '../../../services/authentification/authentification.service';
-import { getOptionsFactory } from '../../../toolkit.module';
+import { MatButtonModule } from '@angular/material/button';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatMenuModule } from '@angular/material/menu';
+import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { DateTimeProvider, OAuthLogger, OAuthService, UrlHelperService } from 'angular-oauth2-oidc';
-import { HttpClientModule } from '@angular/common/http';
-import { ShareConfigModule } from '../share-config/share-config.module';
+import { AuthentificationService } from '../../../services/authentification/authentification.service';
+import { ArlasSettingsService } from '../../../services/settings/arlas.settings.service';
 import { GET_OPTIONS } from '../../../tools/utils';
+import { ShareConfigModule } from '../share-config/share-config.module';
+import { ActionModalComponent } from './action-modal.component';
+import { MockArlasSettingsService } from '../../../tools/tests/arlas-settings-service.mock';
 
 describe('ActionModalComponent', () => {
   let component: ActionModalComponent;
   let fixture: ComponentFixture<ActionModalComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     const mockDialogRef = {
       close: jasmine.createSpy('close')
     };
+
     TestBed.configureTestingModule({
       declarations: [ActionModalComponent],
-      imports: [
-        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }),
+      imports: [TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }),
         MatMenuModule,
         MatIconModule,
         MatDialogModule,
@@ -35,7 +35,6 @@ describe('ActionModalComponent', () => {
         MatInputModule,
         MatButtonModule,
         FormsModule,
-        HttpClientModule,
         ShareConfigModule
       ],
       providers: [
@@ -54,9 +53,14 @@ describe('ActionModalComponent', () => {
         },
         {
           provide: GET_OPTIONS,
-          useFactory: getOptionsFactory,
-          deps: [AuthentificationService]
-        }]
+          useValue: () => {}
+        },
+        provideHttpClient(withInterceptorsFromDi()),
+        {
+          provide: ArlasSettingsService,
+          useClass: MockArlasSettingsService
+        }
+      ]
     })
       .compileComponents();
   }));

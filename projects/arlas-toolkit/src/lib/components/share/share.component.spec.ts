@@ -1,5 +1,5 @@
-import { HttpClientModule } from '@angular/common/http';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -9,9 +9,9 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatStepperModule } from '@angular/material/stepper';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ArlasCollaborativesearchService } from '../../services/collaborative-search/arlas.collaborative-search.service';
 import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
 import {
-  ArlasCollaborativesearchService,
   ArlasConfigService, ArlasStartupService, CONFIG_UPDATER, FETCH_OPTIONS
 } from '../../services/startup/startup.service';
 import { ShareComponent } from './share.component';
@@ -20,15 +20,13 @@ describe('ShareComponent', () => {
   let component: ShareComponent;
   let fixture: ComponentFixture<ShareComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        ReactiveFormsModule, MatAutocompleteModule,
-        MatInputModule, FormsModule, BrowserAnimationsModule,
-        MatIconModule, HttpClientModule, MatDialogModule, MatStepperModule,
-        MatRadioModule, MatSelectModule
-      ],
       declarations: [ShareComponent],
+      imports: [ReactiveFormsModule, MatAutocompleteModule,
+        MatInputModule, FormsModule, BrowserAnimationsModule,
+        MatIconModule, MatDialogModule, MatStepperModule,
+        MatRadioModule, MatSelectModule],
       providers: [ArlasConfigService, ArlasCollaborativesearchService,
         {
           provide: ArlasStartupService,
@@ -39,9 +37,8 @@ describe('ShareComponent', () => {
           provide: ArlasConfigurationUpdaterService,
           useClass: ArlasConfigurationUpdaterService
         },
-        {provide: FETCH_OPTIONS, useValue: {}},
-        {provide: CONFIG_UPDATER, useValue: {}}
-      ]
+        { provide: FETCH_OPTIONS, useValue: {} },
+        { provide: CONFIG_UPDATER, useValue: {} }, provideHttpClient(withInterceptorsFromDi())]
     })
       .compileComponents();
   }));

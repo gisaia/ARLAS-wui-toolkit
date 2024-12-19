@@ -17,39 +17,41 @@
  * under the License.
  */
 
-import { ComponentFixture, TestBed, async, inject } from '@angular/core/testing';
-
-import {
-  ArlasStartupService,
-  ArlasCollaborativesearchService,
-  ArlasConfigService, CONFIG_UPDATER, FETCH_OPTIONS
-} from '../../services/startup/startup.service';
-import { FiltersComponent, GetColorFilterPipe, GetCollaborationIconPipe, ConcatCollectionPipe,
-  GetContributorLabelPipe } from './filters.component';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { TranslateService, TranslateModule, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
-import { ArlasWalkthroughService } from '../../services/walkthrough/walkthrough.service';
-import { FormatNumberModule } from 'arlas-web-components';
-import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { TranslateFakeLoader, TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { FormatNumberModule } from 'arlas-web-components';
+import { ArlasCollaborativesearchService } from '../../services/collaborative-search/arlas.collaborative-search.service';
+import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
+import {
+  ArlasConfigService,
+  ArlasStartupService,
+  CONFIG_UPDATER, FETCH_OPTIONS
+} from '../../services/startup/startup.service';
+import { ArlasWalkthroughService } from '../../services/walkthrough/walkthrough.service';
+import {
+  ConcatCollectionPipe,
+  FiltersComponent,
+  GetCollaborationIconPipe,
+  GetColorFilterPipe,
+  GetContributorLabelPipe
+} from './filters.component';
 
 describe('FiltersChipsComponent', () => {
   let component: FiltersComponent;
   let fixture: ComponentFixture<FiltersComponent>;
   let arlasStartupService: ArlasStartupService;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        MatChipsModule, MatIconModule, MatTooltipModule, MatMenuModule,
+      declarations: [FiltersComponent, GetColorFilterPipe, GetCollaborationIconPipe, ConcatCollectionPipe, GetContributorLabelPipe],
+      imports: [MatChipsModule, MatIconModule, MatTooltipModule, MatMenuModule,
         TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }),
-        FormatNumberModule,
-        HttpClientModule
-      ],
-      declarations: [FiltersComponent,  GetColorFilterPipe, GetCollaborationIconPipe, ConcatCollectionPipe, GetContributorLabelPipe],
+        FormatNumberModule],
       providers: [
         {
           provide: ArlasStartupService,
@@ -57,13 +59,14 @@ describe('FiltersChipsComponent', () => {
           deps: [ArlasConfigurationUpdaterService]
         },
         ArlasConfigService, ArlasCollaborativesearchService,
-        ArlasWalkthroughService, HttpClient, TranslateService,
+        ArlasWalkthroughService, TranslateService,
         { provide: CONFIG_UPDATER, useValue: {} },
         {
           provide: ArlasConfigurationUpdaterService,
           useClass: ArlasConfigurationUpdaterService
         },
-        {provide: FETCH_OPTIONS, useValue: {}}
+        { provide: FETCH_OPTIONS, useValue: {} },
+        provideHttpClient(withInterceptorsFromDi())
       ]
     })
       .compileComponents();

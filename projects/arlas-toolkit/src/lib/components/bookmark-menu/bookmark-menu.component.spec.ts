@@ -17,33 +17,31 @@
  * under the License.
  */
 
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { BookmarkMenuComponent } from './bookmark-menu.component';
-
-import {
-  ArlasStartupService, ArlasConfigService,
-  ArlasCollaborativesearchService, CONFIG_UPDATER, FETCH_OPTIONS
-} from '../../services/startup/startup.service';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { TranslateService, TranslateModule, TranslateFakeLoader, TranslateLoader } from '@ngx-translate/core';
-import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MatIconModule } from '@angular/material/icon';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { TranslateFakeLoader, TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { ArlasCollaborativesearchService } from '../../services/collaborative-search/arlas.collaborative-search.service';
+import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
+import {
+  ArlasConfigService,
+  ArlasStartupService,
+  CONFIG_UPDATER, FETCH_OPTIONS
+} from '../../services/startup/startup.service';
+import { BookmarkMenuComponent } from './bookmark-menu.component';
 
 describe('BookmarkMenuComponent', () => {
   let component: BookmarkMenuComponent;
   let fixture: ComponentFixture<BookmarkMenuComponent>;
   let arlasStartupService: ArlasStartupService;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [BookmarkMenuComponent],
-      imports: [
-        MatMenuModule, MatIconModule, MatTooltipModule, HttpClientModule,
-        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } })
-      ],
+      imports: [MatMenuModule, MatIconModule, MatTooltipModule,
+        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } })],
       providers: [
         ArlasConfigService, ArlasCollaborativesearchService,
         {
@@ -51,13 +49,14 @@ describe('BookmarkMenuComponent', () => {
           useClass: ArlasStartupService,
           deps: [ArlasConfigurationUpdaterService]
         },
-        HttpClient, TranslateService,
+        TranslateService,
         { provide: CONFIG_UPDATER, useValue: {} },
         {
           provide: ArlasConfigurationUpdaterService,
           useClass: ArlasConfigurationUpdaterService
         },
-        {provide: FETCH_OPTIONS, useValue: {}}
+        { provide: FETCH_OPTIONS, useValue: {} },
+        provideHttpClient(withInterceptorsFromDi())
       ]
     })
       .compileComponents();

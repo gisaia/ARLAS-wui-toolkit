@@ -17,16 +17,13 @@
  * under the License.
  */
 
-import {
-  Component, Input, Output, OnInit, AfterViewInit,
-  OnChanges, SimpleChanges, EventEmitter, OnDestroy
-} from '@angular/core';
-import { AnalyticGroupConfiguration } from '../analytics.utils';
-import { ArlasCollaborativesearchService } from '../../../services/startup/startup.service';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
-import { SpinnerOptions } from '../../../tools/utils';
-import { AnalyticsService } from '../../../services/analytics/analytics.service';
+import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { AnalyticsService } from '../../../services/analytics/analytics.service';
+import { ArlasCollaborativesearchService } from '../../../services/collaborative-search/arlas.collaborative-search.service';
+import { SpinnerOptions } from '../../../tools/utils';
+import { AnalyticGroupConfiguration } from '../analytics.utils';
 
 /**
  * This component organizes the `Widgets` in a board.

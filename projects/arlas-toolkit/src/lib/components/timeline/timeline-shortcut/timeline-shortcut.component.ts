@@ -17,13 +17,14 @@
  * under the License.
  */
 
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-import { HistogramContributor } from 'arlas-web-contributors';
-import { StringifiedTimeShortcut, SelectedOutputValues } from 'arlas-web-contributors/models/models';
-import { ArlasCollaborativesearchService, ArlasStartupService } from '../../../services/startup/startup.service';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { HistogramContributor } from 'arlas-web-contributors';
+import { SelectedOutputValues, StringifiedTimeShortcut } from 'arlas-web-contributors/models/models';
 import { OperationEnum } from 'arlas-web-core';
 import { filter } from 'rxjs/operators';
+import { ArlasCollaborativesearchService } from '../../../services/collaborative-search/arlas.collaborative-search.service';
+import { ArlasStartupService } from '../../../services/startup/startup.service';
 
 /**
  * This component contains shortcut labels that allow to apply predefined temporal filters on a timeline

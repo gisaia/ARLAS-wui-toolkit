@@ -25,10 +25,11 @@ import { SelectedOutputValues } from 'arlas-web-contributors/models/models';
 import { OperationEnum } from 'arlas-web-core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { ArlasCollaborativesearchService } from '../../../services/collaborative-search/arlas.collaborative-search.service';
 import { ArlasCollectionService } from '../../../services/collection/arlas-collection.service';
 import { ArlasOverlayService } from '../../../services/overlays/overlay.service';
-import { ArlasCollaborativesearchService, ArlasStartupService } from '../../../services/startup/startup.service';
-import { ArlasOverlayRef, CollectionUnit } from '../../../tools/utils';
+import { ArlasStartupService } from '../../../services/startup/startup.service';
+import { ArlasOverlayRef } from '../../../tools/utils';
 import { CollectionLegend, TimelineConfiguration } from './timeline.utils';
 
 

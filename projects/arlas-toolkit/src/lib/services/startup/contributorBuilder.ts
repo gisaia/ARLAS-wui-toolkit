@@ -17,21 +17,22 @@
  * under the License.
  */
 
-import {
-  HistogramContributor,
-  DetailedHistogramContributor,
-  AnalyticsContributor,
-  ResultListContributor,
-  SwimLaneContributor,
-  ComputeContributor,
-  TreeContributor,
-  SearchContributor,
-  MapContributor,
-  MetricsTableContributor
-} from 'arlas-web-contributors';
-import { ArlasConfigService, ArlasCollaborativesearchService } from './startup.service';
-import { ArlasSettingsService } from '../settings/arlas.settings.service';
 import { ArlasColorService } from 'arlas-web-components';
+import {
+  AnalyticsContributor,
+  ComputeContributor,
+  DetailedHistogramContributor,
+  HistogramContributor,
+  MapContributor,
+  MetricsTableContributor,
+  ResultListContributor,
+  SearchContributor,
+  SwimLaneContributor,
+  TreeContributor
+} from 'arlas-web-contributors';
+import { ArlasCollaborativesearchService } from '../collaborative-search/arlas.collaborative-search.service';
+import { ArlasSettingsService } from '../settings/arlas.settings.service';
+import { ArlasConfigService } from './startup.service';
 
 export class ContributorBuilder {
 

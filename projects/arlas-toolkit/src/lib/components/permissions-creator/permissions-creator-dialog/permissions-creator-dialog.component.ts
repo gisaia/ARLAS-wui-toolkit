@@ -25,7 +25,7 @@ import { ArlasIamService } from '../../../services/arlas-iam/arlas-iam.service';
 import { PermissionData, PermissionDef } from 'arlas-iam-api';
 import { Subscription, finalize } from 'rxjs';
 import { ArlasSettingsService } from '../../../services/settings/arlas.settings.service';
-import { marker } from '@biesbjerg/ngx-translate-extract-marker';
+import { marker } from '@colsen1991/ngx-translate-extract-marker';
 
 @Component({
   templateUrl: './permissions-creator-dialog.component.html',

@@ -1,8 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
-import { TranslateModule, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
-
+import { RouterModule } from '@angular/router';
+import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { ForgotComponent } from './forgot.component';
 
 describe('ForgotComponent', () => {
@@ -15,7 +14,7 @@ describe('ForgotComponent', () => {
       providers: [FormBuilder],
       imports: [
         TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }),
-        RouterTestingModule,
+        RouterModule.forRoot([]),
         FormsModule,
         ReactiveFormsModule
       ]

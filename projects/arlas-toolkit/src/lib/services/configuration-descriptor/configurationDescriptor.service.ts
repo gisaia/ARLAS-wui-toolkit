@@ -22,7 +22,8 @@ import { CollectionReferenceDescription, Configuration } from 'arlas-api';
 import { from, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { getFieldProperties } from '../../tools/utils';
-import { ArlasCollaborativesearchService, ArlasConfigService, ArlasExploreApi } from '../startup/startup.service';
+import { ArlasCollaborativesearchService } from '../collaborative-search/arlas.collaborative-search.service';
+import { ArlasConfigService, ArlasExploreApi } from '../startup/startup.service';
 
 
 @Injectable()

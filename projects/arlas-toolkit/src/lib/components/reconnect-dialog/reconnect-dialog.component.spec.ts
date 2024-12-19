@@ -1,21 +1,26 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { TranslateModule, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
-
-import { ReconnectDialogComponent } from './reconnect-dialog.component';
-import { MatDialogModule, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { GET_OPTIONS } from '../../tools/utils';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
+import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { DateTimeProvider, OAuthLogger, OAuthModule, OAuthService, UrlHelperService } from 'angular-oauth2-oidc';
 import { AuthentificationService } from '../../services/authentification/authentification.service';
-import { getOptionsFactory } from '../../toolkit.module';
-import { OAuthService, OAuthModule, OAuthLogger, UrlHelperService, DateTimeProvider } from 'angular-oauth2-oidc';
-import { HttpClientModule } from '@angular/common/http';
+import { GET_OPTIONS } from '../../tools/utils';
+import { ReconnectDialogComponent } from './reconnect-dialog.component';
 
 describe('ReconnectDialogComponent', () => {
   let component: ReconnectDialogComponent;
   let fixture: ComponentFixture<ReconnectDialogComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ReconnectDialogComponent],
+      imports: [
+        TranslateModule.forRoot({
+          loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
+        }),
+        MatDialogModule,
+        OAuthModule.forRoot()
+      ],
       providers: [
         AuthentificationService,
         OAuthService,
@@ -28,15 +33,10 @@ describe('ReconnectDialogComponent', () => {
         },
         {
           provide: GET_OPTIONS,
-          useFactory: getOptionsFactory,
-          deps: [AuthentificationService]
-        }
-      ],
-      imports: [
-        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }),
-        MatDialogModule,
-        OAuthModule,
-        HttpClientModule]
+          useValue: () => {}
+        },
+        provideHttpClient(withInterceptorsFromDi())
+      ]
     })
       .compileComponents();
   }));

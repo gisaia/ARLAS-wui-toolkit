@@ -26,9 +26,10 @@ import { getFieldValue } from 'arlas-web-contributors/utils/utils';
 import { Collaboration, Contributor, projType } from 'arlas-web-core';
 import { Observable } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
-import { ArlasSettingsService } from '../settings/arlas.settings.service';
-import { ArlasCollaborativesearchService, ArlasConfigService } from '../startup/startup.service';
+import { ArlasCollaborativesearchService } from '../collaborative-search/arlas.collaborative-search.service';
 import { ArlasCollectionService } from '../collection/arlas-collection.service';
+import { ArlasSettingsService } from '../settings/arlas.settings.service';
+import { ArlasConfigService } from '../startup/startup.service';
 
 @Injectable({
   providedIn: 'root'
