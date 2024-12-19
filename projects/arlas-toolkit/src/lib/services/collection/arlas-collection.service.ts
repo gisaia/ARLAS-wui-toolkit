@@ -61,7 +61,7 @@ export class ArlasCollectionService extends BaseCollectionService {
         const c = this.arlasStartupeService.collectionsMap.get(key);
         this.displayName.set(key, c?.display_names?.collection ?? key);
         const fields = c?.display_names?.fields;
-        if(fields){
+        if (fields) {
           for (const f of Object.keys(fields)) {
             this.displayFieldName.set(this.flatten(f), c?.display_names?.fields[f]);
           }
@@ -100,7 +100,14 @@ export class ArlasCollectionService extends BaseCollectionService {
     const flattenedConfig = flattenData(config);
     const collections = new Set<string>();
     Object.keys(flattenedConfig)
-      .filter(f => f.indexOf('collection') >= 0 || (f.indexOf('additionalCollections') >= 0 && f.indexOf('collectionName') >= 0))
+      .filter(k =>
+        (k.indexOf('collection') >= 0 || (k.indexOf('additionalCollections') >= 0 && k.indexOf('collectionName') >= 0))
+        &&
+        !k.includes('collection-display-name')
+        &&
+        !k.includes('collectionDisplayName')
+
+      )
       .forEach(k => collections.add(flattenedConfig[k]));
     return collections;
   }

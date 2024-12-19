@@ -1,7 +1,7 @@
 <div class="process-result">
     <mat-progress-bar *ngIf="isProcessing" [mode]="'indeterminate'"></mat-progress-bar>
     <div *ngIf="isProcessing && !!statusResult?.status" class="processing">
-      <div>{{ processAction | translate }}...</div>
+      <div>{{ processAction | translate }}</div>
       <div class="status status-{{statusResult?.status}}">{{ statusResult?.status | translate }}</div>
     </div>
     <div class="detail" *ngIf="!isProcessing && !hasError">
