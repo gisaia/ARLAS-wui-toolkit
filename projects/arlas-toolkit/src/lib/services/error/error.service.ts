@@ -92,8 +92,11 @@ export class ErrorService {
 
   public listenToArlasCollaborativeErrors() {
     this.arlasErrorsSubscription = this.arlasCollaborationService.collaborationErrorBus.subscribe((e: any) => {
-      if (e >= 400) {
+      if (e.status >= 400) {
         this.emitBackendError(e.status, e.message, marker('ARLAS-server'));
+      } else if (!e.status) {
+        // In case ARLAS-server got down during the use of the app
+        this.emitUnavailableService(marker('ARLAS-server'));
       }
     });
   }

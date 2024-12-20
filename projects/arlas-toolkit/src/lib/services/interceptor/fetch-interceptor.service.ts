@@ -85,15 +85,11 @@ export class FetchInterceptorService {
             }
           } else if (code >= 400) {
             let message: string = marker('An error occured.');
-            switch (code) {
-              case 400: {
-                message = marker('An error occured when requesting data.');
-                break;
-              };
-              case 404: {
-                message = marker('The requested data does not exist.');
-                break;
-              };
+
+            if (code === 400) {
+              message = marker('An error occured when requesting data.');
+            } else if (code === 404) {
+              message = marker('The requested data does not exist.');
             }
             this.errorService.emitBackendError(code, message, marker('ARLAS-server'));
           }

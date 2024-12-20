@@ -22,8 +22,8 @@ import { ArlasError } from './error';
 
 
 export class BackendError extends ArlasError {
-  private service: string = marker('ARLAS backend services');
-  private hubUrl: string;
+  private readonly service: string = marker('ARLAS backend services');
+  private readonly hubUrl: string;
 
   public constructor(status: number, message: string, hubUrl: string, service?: string) {
     super(status);
@@ -54,7 +54,7 @@ export class BackendError extends ArlasError {
   }
 
   private goToArlasHub() {
-    if (!!this.hubUrl) {
+    if (this.hubUrl) {
       window.open(this.hubUrl, '_self');
     }
   }
