@@ -35,10 +35,10 @@ import { ArlasSettingsService } from '../settings/arlas.settings.service';
 export class FetchInterceptorService {
 
   public constructor(
-    private arlasSettings: ArlasSettingsService,
-    private dialog: MatDialog,
-    private errorService: ErrorService,
-    private router: Router) { }
+    private readonly arlasSettings: ArlasSettingsService,
+    private readonly dialog: MatDialog,
+    private readonly errorService: ErrorService,
+    private readonly router: Router) { }
 
   public interceptLogout() {
     const settings = this.arlasSettings.settings;
@@ -64,7 +64,7 @@ export class FetchInterceptorService {
           let code = response.status;
           if (code === 401 || code === 403) {
             // Check if the response comes from a call to a non arlas public uri
-            if (!!response.headers.get('WWW-Authenticate')) {
+            if (response.headers.has('WWW-Authenticate')) {
               code = 403;
             }
             if (settings.authentication.auth_mode === 'iam') {
@@ -72,18 +72,16 @@ export class FetchInterceptorService {
               if (this.router.url !== '/login') {
                 this.errorService.emitAuthorisationError(new AuthorisationError(code));
               }
-            } else {
+            } else if (this.dialog.openDialogs?.length === undefined || this.dialog.openDialogs?.length === 0) {
               // Propose to reconnect or stay disconnected
-              if (!this.dialog.openDialogs || !this.dialog.openDialogs.length) {
-                this.dialog.open(
-                  ReconnectDialogComponent,
-                  {
-                    disableClose: true,
-                    data: { code },
-                    backdropClass: 'reconnect-dialog',
-                    panelClass: 'reconnect-dialog-panel'
-                  });
-              }
+              this.dialog.open(
+                ReconnectDialogComponent,
+                {
+                  disableClose: true,
+                  data: { code },
+                  backdropClass: 'reconnect-dialog',
+                  panelClass: 'reconnect-dialog-panel'
+                });
             }
           } else if (code >= 400) {
             let message: string = marker('An error occured.');

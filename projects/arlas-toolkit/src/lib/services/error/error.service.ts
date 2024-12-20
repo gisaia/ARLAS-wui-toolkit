@@ -36,9 +36,9 @@ export class ErrorService {
   private arlasErrorsSubscription: Subscription;
 
   public constructor(
-    private dialog: MatDialog,
-    private settingsService: ArlasSettingsService,
-    private arlasCollaborationService: ArlasCollaborativesearchService
+    private readonly dialog: MatDialog,
+    private readonly settingsService: ArlasSettingsService,
+    private readonly arlasCollaborationService: ArlasCollaborativesearchService
   ) { }
 
   public emitAuthorisationError(error: AuthorisationError, forceAction = true) {
@@ -91,9 +91,9 @@ export class ErrorService {
   }
 
   public listenToArlasCollaborativeErrors() {
-    this.arlasErrorsSubscription = this.arlasCollaborationService.collaborationErrorBus.subscribe(e => {
-      if ((e as any).status >= 400) {
-        this.emitBackendError((e as any).status, e.message, marker('ARLAS-server'));
+    this.arlasErrorsSubscription = this.arlasCollaborationService.collaborationErrorBus.subscribe((e: any) => {
+      if (e >= 400) {
+        this.emitBackendError(e.status, e.message, marker('ARLAS-server'));
       }
     });
   }

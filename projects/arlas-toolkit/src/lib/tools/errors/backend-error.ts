@@ -32,12 +32,7 @@ export class BackendError extends ArlasError {
     }
     this.hubUrl = hubUrl;
     this.title = marker('ARLAS encountered an error');
-    if (this.status === 404) {
-      this.message = message;
-      this.showAction = true;
-      this.actionMessage = marker('go to arlas hub');
-      this.actionType = 'link';
-    } else if (this.status === 400) {
+    if (this.status === 400 || this.status === 404) {
       this.message = message;
       this.showAction = true;
       this.actionMessage = marker('go to arlas hub');

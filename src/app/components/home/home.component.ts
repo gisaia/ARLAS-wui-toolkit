@@ -111,10 +111,7 @@ export class HomeComponent implements OnInit {
     private arlasOverlayService: ArlasOverlayService,
     private dialog: MatDialog,
     private errorService: ErrorService
-  ) {
-    this.errorService.listenToArlasCollaborativeErrors();
-
-  }
+  ) { }
 
   public ngOnInit(): void {
     this.processService.setOptions({});
