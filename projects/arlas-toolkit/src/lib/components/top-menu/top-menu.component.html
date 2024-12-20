@@ -10,11 +10,6 @@
   <!-- Insert on the right -->
   <ng-content select="[right-menu]"></ng-content>
 
-  <!-- Information -->
-  <button mat-icon-button *ngIf="showAboutButton" matTooltip="{{ 'About' | translate }} {{ wuiName }} {{ version }}"
-    (click)="displayAbout()">
-    <mat-icon class="icon">info_outline</mat-icon>
-  </button>
 
   <!-- Page Switcher-->
   <button *ngIf="linksEnabled" mat-icon-button matTooltip="{{ 'Go to' | translate }}"
@@ -54,5 +49,4 @@
 
 </mat-toolbar>
 
-<arlas-about #about [pathToMd]="aboutFile" [extraTextData]="extraAboutText"></arlas-about>
 <arlas-links *ngIf="linksEnabled && showLinks" (close$)="showLinks = false"></arlas-links>

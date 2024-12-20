@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { finalize } from 'rxjs';
@@ -27,7 +27,6 @@ import { FetchInterceptorService } from '../../services/interceptor/fetch-interc
 import { ArlasSettingsService } from '../../services/settings/arlas.settings.service';
 import { ChangePasswordComponent } from '../change-password/change-password.component';
 import { UserInfosComponent } from '../user-infos/user-infos.component';
-import { AboutComponent } from './about/about.component';
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({
@@ -44,8 +43,6 @@ export class TopMenuComponent implements OnInit {
   public name: string;
   public avatar: string;
   public initials: string;
-  public aboutFile: string;
-  public extraAboutText: string;
 
   /**
    * @Input : Angular
@@ -67,7 +64,6 @@ export class TopMenuComponent implements OnInit {
 
   public showLinks = false;
   public linksEnabled = false;
-  @ViewChild('about', { static: false }) private aboutcomponent: AboutComponent;
 
   public constructor(
     private authentService: AuthentificationService,
@@ -78,8 +74,6 @@ export class TopMenuComponent implements OnInit {
     private settingsService: ArlasSettingsService,
     private fetchInterceptor: FetchInterceptorService
   ) {
-    this.extraAboutText = this.translate.instant('extraAboutText') === 'extraAboutText' ? '' : this.translate.instant('extraAboutText');
-    this.aboutFile = 'assets/about/about_' + this.translate.currentLang + '.md?' + Date.now() + '.md';
   }
 
   public ngOnInit(): void {
@@ -161,10 +155,6 @@ export class TopMenuComponent implements OnInit {
 
   public changePassword() {
     this.dialog.open(ChangePasswordComponent, { panelClass: 'change-dialog' });
-  }
-
-  public displayAbout() {
-    this.aboutcomponent.openDialog();
   }
 
   public getUserInfos() {
