@@ -93,20 +93,19 @@ export class HomeComponent implements OnInit {
   public collections: Array<string>;
 
   @ViewChild('tooltip') public tooltip;
-  @ViewChild('download', { static: false }) private downloadComponent: DownloadComponent;
-  @ViewChild('share', { static: false }) private shareComponent: ShareComponent;
+  @ViewChild('download', { static: false }) private readonly downloadComponent: DownloadComponent;
+  @ViewChild('share', { static: false }) private readonly shareComponent: ShareComponent;
 
   public constructor(
-    private arlasStartupService: ArlasStartupService,
-    private arlasConfigService: ArlasConfigService,
-    private arlasIamService: ArlasIamService,
-    private processService: ProcessService,
-    private arlasAuthentService: ArlasAuthentificationService,
-    private analyticsService: AnalyticsService,
-    private collaborativeService: ArlasCollaborativesearchService,
-    private dialog: MatDialog
-  ) {
-  }
+    private readonly arlasStartupService: ArlasStartupService,
+    private readonly arlasConfigService: ArlasConfigService,
+    private readonly arlasIamService: ArlasIamService,
+    private readonly processService: ProcessService,
+    private readonly arlasAuthentService: ArlasAuthentificationService,
+    private readonly analyticsService: AnalyticsService,
+    private readonly collaborativeService: ArlasCollaborativesearchService,
+    private readonly dialog: MatDialog
+  ) { }
 
   public ngOnInit(): void {
     this.processService.setOptions({});
@@ -233,7 +232,7 @@ export class HomeComponent implements OnInit {
     item.set('properties.main_asset_format', this.selectedAssetFormat);
     item.set('properties.item_format', this.selectedItemFormat);
 
-    const downloadDialogRef = this.dialog.open(
+    this.dialog.open(
       AiasDownloadComponent,
       {
         minWidth: '520px',

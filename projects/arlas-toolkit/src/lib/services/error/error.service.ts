@@ -19,22 +19,27 @@
 
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { marker } from '@colsen1991/ngx-translate-extract-marker';
+import { Subscription } from 'rxjs';
 import { DeniedAccessDialogComponent } from '../../components/denied-access-dialog/denied-access-dialog.component';
 import { ArlasSettingsService } from '../../services/settings/arlas.settings.service';
 import { AuthorisationError } from '../../tools/errors/authorisation-error';
 import { BackendError } from '../../tools/errors/backend-error';
 import { SettingsError } from '../../tools/errors/settings-error';
+import { ArlasCollaborativesearchService } from '../collaborative-search/arlas.collaborative-search.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ErrorService {
 
-  public constructor(
-    private dialog: MatDialog,
-    private settingsService: ArlasSettingsService) {
+  private arlasErrorsSubscription: Subscription;
 
-  }
+  public constructor(
+    private readonly dialog: MatDialog,
+    private readonly settingsService: ArlasSettingsService,
+    private readonly arlasCollaborationService: ArlasCollaborativesearchService
+  ) { }
 
   public emitAuthorisationError(error: AuthorisationError, forceAction = true) {
     if (!this.dialog.openDialogs || this.dialog.openDialogs.length === 0) {
@@ -83,5 +88,20 @@ export class ErrorService {
   public closeAll() {
     this.dialog.closeAll();
     return this.dialog;
+  }
+
+  public listenToArlasCollaborativeErrors() {
+    this.arlasErrorsSubscription = this.arlasCollaborationService.collaborationErrorBus.subscribe((e: any) => {
+      if (e.status >= 400) {
+        this.emitBackendError(e.status, e.message, marker('ARLAS-server'));
+      } else if (!e.status) {
+        // In case ARLAS-server got down during the use of the app
+        this.emitUnavailableService(marker('ARLAS-server'));
+      }
+    });
+  }
+
+  public unlistenToArlasCollaborativeErrors() {
+    this.arlasErrorsSubscription.unsubscribe();
   }
 }

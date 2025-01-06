@@ -18,15 +18,16 @@
  */
 
 import { Injectable } from '@angular/core';
-import fetchIntercept from 'fetch-intercept';
-import { ReconnectDialogComponent } from '../../components/reconnect-dialog/reconnect-dialog.component';
-import { ArlasSettingsService } from '../settings/arlas.settings.service';
-import { DeniedAccessDialogComponent } from '../../components/denied-access-dialog/denied-access-dialog.component';
-import { DeniedAccessData } from '../../tools/utils';
-import { AuthorisationError } from '../../tools/errors/authorisation-error';
-import { ErrorService } from '../../services/error/error.service';
-import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { marker } from '@colsen1991/ngx-translate-extract-marker';
+import fetchIntercept from 'fetch-intercept';
+import { DeniedAccessDialogComponent } from '../../components/denied-access-dialog/denied-access-dialog.component';
+import { ReconnectDialogComponent } from '../../components/reconnect-dialog/reconnect-dialog.component';
+import { ErrorService } from '../../services/error/error.service';
+import { AuthorisationError } from '../../tools/errors/authorisation-error';
+import { DeniedAccessData } from '../../tools/utils';
+import { ArlasSettingsService } from '../settings/arlas.settings.service';
 
 @Injectable({
   providedIn: 'root'
@@ -34,10 +35,10 @@ import { MatDialog } from '@angular/material/dialog';
 export class FetchInterceptorService {
 
   public constructor(
-    private arlasSettings: ArlasSettingsService,
-    private dialog: MatDialog,
-    private errorService: ErrorService,
-    private router: Router) { }
+    private readonly arlasSettings: ArlasSettingsService,
+    private readonly dialog: MatDialog,
+    private readonly errorService: ErrorService,
+    private readonly router: Router) { }
 
   public interceptLogout() {
     const settings = this.arlasSettings.settings;
@@ -63,7 +64,7 @@ export class FetchInterceptorService {
           let code = response.status;
           if (code === 401 || code === 403) {
             // Check if the response comes from a call to a non arlas public uri
-            if (!!response.headers.get('WWW-Authenticate')) {
+            if (response.headers.has('WWW-Authenticate')) {
               code = 403;
             }
             if (settings.authentication.auth_mode === 'iam') {
@@ -71,19 +72,26 @@ export class FetchInterceptorService {
               if (this.router.url !== '/login') {
                 this.errorService.emitAuthorisationError(new AuthorisationError(code));
               }
-            } else {
+            } else if (this.dialog.openDialogs?.length === undefined || this.dialog.openDialogs?.length === 0) {
               // Propose to reconnect or stay disconnected
-              if (!this.dialog.openDialogs || !this.dialog.openDialogs.length) {
-                this.dialog.open(
-                  ReconnectDialogComponent,
-                  {
-                    disableClose: true,
-                    data: { code },
-                    backdropClass: 'reconnect-dialog',
-                    panelClass: 'reconnect-dialog-panel'
-                  });
-              }
+              this.dialog.open(
+                ReconnectDialogComponent,
+                {
+                  disableClose: true,
+                  data: { code },
+                  backdropClass: 'reconnect-dialog',
+                  panelClass: 'reconnect-dialog-panel'
+                });
             }
+          } else if (code >= 400) {
+            let message: string = marker('An error occured.');
+
+            if (code === 400) {
+              message = marker('An error occured when requesting data.');
+            } else if (code === 404) {
+              message = marker('The requested data does not exist.');
+            }
+            this.errorService.emitBackendError(code, message, marker('ARLAS-server'));
           }
           return response;
         },

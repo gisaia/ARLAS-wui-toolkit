@@ -30,6 +30,9 @@ $error-color: #ce3d38;
 .title {
     font-size: $default-font-size;
     font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .content {

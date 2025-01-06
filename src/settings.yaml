@@ -3,10 +3,10 @@
 ########################################################
 authentication:
   use_authent: false
-  auth_mode: 'openid'
+  auth_mode: 'iam'
   force_connect: false
   threshold: 5000
-  url: http://localhost:9997/arlas_iam_server
+  url: https://localhost/arlas_iam_server
   sign_up_enabled: true
 process:
   - name: download
