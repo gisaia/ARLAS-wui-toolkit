@@ -18,7 +18,7 @@
  */
 
 import { Location } from '@angular/common';
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { interval } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -34,7 +34,7 @@ import { ErrorService } from './services/error/error.service';
   providers: [Location],
   styleUrls: ['./toolkit.component.css']
 })
-export class ToolkitComponent implements AfterViewInit, OnInit {
+export class ToolkitComponent implements AfterViewInit, OnInit, OnDestroy {
 
   public analytics: Array<any>;
   public languages: string[];
@@ -52,7 +52,7 @@ export class ToolkitComponent implements AfterViewInit, OnInit {
     private readonly errorService: ErrorService
   ) {
     // update url when filter are set
-    const queryParams: Params = Object.assign({}, this.activatedRoute.snapshot.queryParams);
+    const queryParams: Params = {...this.activatedRoute.snapshot.queryParams};
     if (!this.arlasStartupService.emptyMode) {
       this.collaborativeService.collaborationBus.subscribe(collaborationEvent => {
         queryParams['filter'] = this.collaborativeService.urlBuilder().split('filter=')[1];
@@ -131,6 +131,10 @@ export class ToolkitComponent implements AfterViewInit, OnInit {
       });
     }
     this.walkthroughService.load();
+  }
+
+  public ngOnDestroy(): void {
+    this.errorService.unlistenToArlasCollaborativeErrors();
   }
 
   public openAnalytics(event) {
