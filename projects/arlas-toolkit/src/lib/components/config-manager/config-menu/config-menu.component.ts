@@ -17,16 +17,14 @@
  * under the License.
  */
 
-import { Component, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Resource } from 'arlas-permissions-api';
-import { catchError, filter, map, take, tap } from 'rxjs/operators';
-import { PermissionService } from '../../../services/permission/permission.service';
+import { catchError, filter, map, take } from 'rxjs/operators';
 import { PersistenceService } from '../../../services/persistence/persistence.service';
 import { Subject, from, of } from 'rxjs';
 import { ConfigAction, ConfigActionEnum } from '../../../tools/utils';
 import { ActionModalComponent } from '../action-modal/action-modal.component';
-import { ArlasConfigService, ArlasExploreApi } from '../../../services/startup/startup.service';
+import { ArlasConfigService } from '../../../services/startup/startup.service';
 import { DataWithLinks } from 'arlas-persistence-api';
 import { AuthorisationOnActionError } from '../../../tools/errors/authorisation-on-action-error';
 import { ErrorService } from '../../../services/error/error.service';
@@ -42,7 +40,7 @@ import { AuthentificationService } from '../../../services/authentification/auth
   templateUrl: './config-menu.component.html',
   styleUrls: ['./config-menu.component.css']
 })
-export class ConfigMenuComponent implements OnInit {
+export class ConfigMenuComponent {
   @Input() public actions: Array<ConfigAction>;
 
   @Input() public zone: string;
@@ -63,9 +61,6 @@ export class ConfigMenuComponent implements OnInit {
   ) {
 
   }
-  public ngOnInit() {
-
-  }
 
   public onActionClick(action: ConfigAction): void {
     switch (action.type) {
@@ -78,6 +73,7 @@ export class ConfigMenuComponent implements OnInit {
           if (!!action.config.org && action.config.org !== NO_ORGANISATION) {
             url = url.concat('&org=' + action.config.org);
           }
+          url = url.concat('&dt=' + Date.now());
           this.openUrl(url);
         }
         this.actionExecutedEmitter.next(action);
