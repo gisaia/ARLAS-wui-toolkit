@@ -46,7 +46,7 @@
     "arlas-persistence-api": "26.0.0",
     "arlas-tagger-api": "26.0.0",
     "arlas-web-components": "~26.0.12",
-    "arlas-web-contributors": "~26.0.5",
+    "arlas-web-contributors": "~26.0.6",
     "cli-color": "^1.2.0",
     "fetch-intercept": "^2.3.1",
     "hopscotch": "0.3.1",
