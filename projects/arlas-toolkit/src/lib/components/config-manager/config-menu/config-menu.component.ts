@@ -68,6 +68,7 @@ export class ConfigMenuComponent implements OnInit {
           if (!!action.config.org && action.config.org !== NO_ORGANISATION) {
             url = url.concat('&org=' + action.config.org);
           }
+          url = url.concat('&dt=' + Date.now());
           this.openUrl(url);
         }
         this.actionExecutedEmitter.next(action);
