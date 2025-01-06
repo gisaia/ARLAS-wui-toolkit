@@ -14,7 +14,7 @@
                     <section class="field">
                         <mat-form-field class="field" appearance="outline">
                           <mat-label>{{ 'Enrichment type' | translate }}</mat-label>
-                          <mat-select [formControlName]="'process'">
+                          <mat-select [formControlName]="'asset_type'">
                             <mat-option *ngFor="let e of enrichments" [value]="e">
                                 {{ e | translate }}</mat-option>
                           </mat-select>
@@ -43,7 +43,7 @@
 
                     <div class="params">
                         <span class="label">{{ 'Enrichment type' | translate }} :</span>
-                        <span class="value">{{ formGroup.get('process').value | translate }}</span>
+                        <span class="value">{{ formGroup.get('asset_type').value | translate }}</span>
                     </div>
                 </div>
                 <div class="buttons" *ngIf="!isProcessing && !processStarted">
@@ -68,8 +68,7 @@
         </ng-template>
     </mat-stepper>
 
-    <!-- TODO: migration Angular15 use marker pipe -->
   <arlas-aias-result *ngIf="processStarted" [isProcessing]="isProcessing"
-  [statusResult]="statusResult" [hasError]="hasError"
-  [processName]="'Enrich'" [processAction]="'Enriching...'"></arlas-aias-result>
+    [statusResult]="statusResult" [hasError]="hasError"
+    [processName]="'Enrich' | marker" [processAction]="'Enriching...' | marker"></arlas-aias-result>
 </div>
