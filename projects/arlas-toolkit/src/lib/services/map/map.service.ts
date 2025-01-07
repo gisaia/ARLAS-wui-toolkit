@@ -22,7 +22,7 @@ import { ComputationRequest, ComputationResponse } from 'arlas-api';
 import { projType } from 'arlas-web-core';
 import { MapService } from '../../tools/utils';
 import { ArlasCollaborativesearchService } from '../collaborative-search/arlas.collaborative-search.service';
-import { AbstractArlasMapGL } from 'arlas-map';
+import { AbstractArlasMapGL, ArlasLngLatBounds } from 'arlas-map';
 
 /**
  * This service provides methods to apply on the mapboxgl Map object
@@ -55,7 +55,7 @@ export class ArlasMapService implements MapService {
       this.collaborativeSearchService.collaborations, collection)
       .subscribe((cr: ComputationResponse) => {
         if (cr && cr.geometry) {
-          mapInstance.fitBounds(mapInstance.geometryToBound(cr.geometry, paddingPercentage));
+          mapInstance.fitBounds(mapInstance.geometryToBounds(cr.geometry, paddingPercentage) as ArlasLngLatBounds);
         }
       });
   }
