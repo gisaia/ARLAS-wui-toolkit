@@ -18,7 +18,7 @@
  */
 
 import { Location } from '@angular/common';
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { interval } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -26,6 +26,7 @@ import { ArlasCollaborativesearchService } from './services/collaborative-search
 import { ArlasConfigService, ArlasStartupService } from './services/startup/startup.service';
 import { ArlasWalkthroughService } from './services/walkthrough/walkthrough.service';
 import { CONFIG_ID_QUERY_PARAM } from './tools/utils';
+import { ErrorService } from './services/error/error.service';
 
 @Component({
   selector: 'arlas-tool-root',
@@ -33,7 +34,7 @@ import { CONFIG_ID_QUERY_PARAM } from './tools/utils';
   providers: [Location],
   styleUrls: ['./toolkit.component.css']
 })
-export class ToolkitComponent implements AfterViewInit, OnInit {
+export class ToolkitComponent implements AfterViewInit, OnInit, OnDestroy {
 
   public analytics: Array<any>;
   public languages: string[];
@@ -41,16 +42,17 @@ export class ToolkitComponent implements AfterViewInit, OnInit {
   public target: string;
 
   public constructor(
-    private configService: ArlasConfigService,
-    private arlasStartupService: ArlasStartupService,
-    private collaborativeService: ArlasCollaborativesearchService,
-    private activatedRoute: ActivatedRoute,
-    private router: Router,
-    private location: Location,
-    private walkthroughService: ArlasWalkthroughService
+    private readonly configService: ArlasConfigService,
+    private readonly arlasStartupService: ArlasStartupService,
+    private readonly collaborativeService: ArlasCollaborativesearchService,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly router: Router,
+    private readonly location: Location,
+    private readonly walkthroughService: ArlasWalkthroughService,
+    private readonly errorService: ErrorService
   ) {
     // update url when filter are set
-    const queryParams: Params = Object.assign({}, this.activatedRoute.snapshot.queryParams);
+    const queryParams: Params = {...this.activatedRoute.snapshot.queryParams};
     if (!this.arlasStartupService.emptyMode) {
       this.collaborativeService.collaborationBus.subscribe(collaborationEvent => {
         queryParams['filter'] = this.collaborativeService.urlBuilder().split('filter=')[1];
@@ -96,6 +98,7 @@ export class ToolkitComponent implements AfterViewInit, OnInit {
       });
     }
 
+    this.errorService.listenToArlasCollaborativeErrors();
   }
 
   public ngOnInit(): void {
@@ -111,9 +114,6 @@ export class ToolkitComponent implements AfterViewInit, OnInit {
         this.collaborativeService.setCollaborations(dataModel);
       }
     });
-    // this.collaborativeService.setCollaborations({});
-    // this.analytics = this.arlasStartupService.analytics;
-    // this.languages = ['en', 'fr', 'it', 'es', 'de', 'us', 'cn'];
   }
 
   public ngAfterViewInit(): void {
@@ -131,6 +131,10 @@ export class ToolkitComponent implements AfterViewInit, OnInit {
       });
     }
     this.walkthroughService.load();
+  }
+
+  public ngOnDestroy(): void {
+    this.errorService.unlistenToArlasCollaborativeErrors();
   }
 
   public openAnalytics(event) {

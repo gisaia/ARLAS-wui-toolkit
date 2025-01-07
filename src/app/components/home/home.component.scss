@@ -34,18 +34,19 @@
 .shortcut {
   padding: 0 8px;
   height: fit-content;
-}
 
-::ng-deep.title {
-  height: 28px;
-}
 
-::ng-deep.open_title {
-  margin-bottom: 0;
-}
+  ::ng-deep.title {
+    height: 28px;
+  }
 
-::ng-deep.content {
-  top: 52px !important;
+  ::ng-deep.open_title {
+    margin-bottom: 0;
+  }
+
+  ::ng-deep.content {
+    top: 52px !important;
+  }
 }
 
 ::ng-deep.arlas-timeline--tools {

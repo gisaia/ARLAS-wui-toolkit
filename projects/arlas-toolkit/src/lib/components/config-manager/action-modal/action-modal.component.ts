@@ -19,14 +19,14 @@
 
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { PersistenceService } from '../../../services/persistence/persistence.service';
-import { Config, ConfigAction, ConfigActionEnum } from '../../../tools/utils';
 import { marker } from '@colsen1991/ngx-translate-extract-marker';
-import { ArlasConfigService } from '../../../services/startup/startup.service';
-import { DataWithLinks, Exists } from 'arlas-persistence-api';
-import { Observable, catchError, combineLatest, concatAll, finalize, forkJoin, from, map, mergeAll, mergeMap, of, take, tap } from 'rxjs';
+import { DataWithLinks } from 'arlas-persistence-api';
+import { Observable, catchError, forkJoin, map, mergeMap, of, take, tap } from 'rxjs';
 import { ErrorService } from '../../../services/error/error.service';
+import { PersistenceService } from '../../../services/persistence/persistence.service';
+import { ArlasConfigService } from '../../../services/startup/startup.service';
 import { AuthorisationOnActionError } from '../../../tools/errors/authorisation-on-action-error';
+import { Config, ConfigAction, ConfigActionEnum } from '../../../tools/utils';
 
 @Component({
   selector: 'arlas-action-modal',

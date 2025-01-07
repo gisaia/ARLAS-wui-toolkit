@@ -31,8 +31,10 @@ export class PaginatorI18n implements MatPaginatorIntl {
   public lastPageLabel: string;
 
   public constructor(
-    private readonly translate: TranslateService) {
+    private translate: TranslateService
+  ) {
     this.changes = new Subject();
+    this.initLabels();
     this.translate.onLangChange.subscribe({
       next: () => {
         this.initLabels();
@@ -46,6 +48,7 @@ export class PaginatorI18n implements MatPaginatorIntl {
     this.previousPageLabel = this.translate.instant('PREVIOUS_PAGE_LABEL');
     this.firstPageLabel = this.translate.instant('FIRST_PAGE_LABEL');
     this.lastPageLabel = this.translate.instant('LAST_PAGE_LABEL');
+    this.changes.next();
   }
 
   public getRangeLabel(page: number, pageSize: number, length: number): string {

@@ -133,53 +133,6 @@
               "type": "term"
             }
           ]
-        },
-        {
-          "identifier": "courses-track.duration_s-numeric-bucket-Count--50",
-          "name": "Duration",
-          "title": "Duration",
-          "collection": "courses",
-          "icon": "hourglass_bottom",
-          "charttype": "bars",
-          "isOneDimension": false,
-          "type": "histogram",
-          "numberOfBuckets": 50,
-          "jsonpath": "$.count",
-          "aggregationmodels": [
-            {
-              "type": "histogram",
-              "field": "track.duration_s"
-            }
-          ]
-        },
-        {
-          "identifier": "courses-arrival.address.country-count-undefined-avg-track.duration_s",
-          "name": "Table",
-          "title": "Table",
-          "icon": "flag",
-          "type": "metricstable",
-          "numberOfBuckets": 10,
-          "sort": {
-            "collection": "courses",
-            "termfield": "arrival.address.country",
-            "order": "desc",
-            "on": "count"
-          },
-          "configuration": [
-            {
-              "termfield": "arrival.address.country",
-              "collection": "courses",
-              "metrics": [
-                {
-                  "metric": "count"
-                },
-                {
-                  "metric": "avg",
-                  "field": "track.duration_s"
-                }
-              ]
-            }
-          ]
         }
       ],
       "components": {
@@ -372,7 +325,7 @@
             },
             {
               "componentType": "donut",
-              "showExportCsv": true,
+              "showExportCsv": "",
               "input": {
                 "id": "courses-object.ship_type-10-",
                 "customizedCssClass": "arlas-donuts-analytics",
@@ -383,120 +336,6 @@
               },
               "contributorId": "courses-object.ship_type-10-",
               "uuid": "5d490a4d-a6d7-4431-abd1-9cbdf8f7472e",
-              "usage": "analytics"
-            }
-          ]
-        },
-        {
-          "groupId": "Boat-1",
-          "title": "Duration",
-          "tab": "Boat",
-          "icon": "hourglass_bottom",
-          "components": [
-            {
-              "input": {
-                "id": "courses-track.duration_s-numeric-bucket-Count--50",
-                "isHistogramSelectable": true,
-                "multiselectable": true,
-                "topOffsetRemoveInterval": 40,
-                "leftOffsetRemoveInterval": 18,
-                "brushHandlesHeightWeight": 0.8,
-                "yAxisStartsFromZero": true,
-                "chartType": "bars",
-                "chartTitle": "Duration",
-                "chartHeight": 100,
-                "chartWidth": 445,
-                "xAxisPosition": "bottom",
-                "descriptionPosition": "bottom",
-                "xTicks": 4,
-                "yTicks": 1,
-                "xLabels": 4,
-                "yLabels": 4,
-                "xUnit": "s",
-                "yUnit": "courses",
-                "chartXLabel": "Duration",
-                "chartYLabel": "Count",
-                "shortYLabels": false,
-                "showXTicks": true,
-                "showYTicks": true,
-                "showXLabels": true,
-                "showYLabels": true,
-                "showHorizontalLines": true,
-                "barWeight": 0.8,
-                "dataType": "numeric",
-                "customizedCssClass": "arlas-histogram-analytics",
-                "isSmoothedCurve": false
-              },
-              "componentType": "histogram",
-              "showExportCsv": true,
-              "contributorId": "courses-track.duration_s-numeric-bucket-Count--50",
-              "uuid": "6b4e34d9-a785-40e0-a2bd-c6df150efdac",
-              "usage": "analytics"
-            },
-            {
-              "input": {
-                "id": "courses-track.duration_s-numeric-bucket-Count--50",
-                "isHistogramSelectable": true,
-                "multiselectable": true,
-                "topOffsetRemoveInterval": 40,
-                "leftOffsetRemoveInterval": 18,
-                "brushHandlesHeightWeight": 0.8,
-                "yAxisStartsFromZero": true,
-                "chartType": "bars",
-                "chartTitle": "Duration",
-                "chartHeight": 100,
-                "chartWidth": 445,
-                "xAxisPosition": "bottom",
-                "descriptionPosition": "bottom",
-                "xTicks": 4,
-                "yTicks": 1,
-                "xLabels": 4,
-                "yLabels": 4,
-                "xUnit": "s",
-                "yUnit": "courses",
-                "chartXLabel": "Duration",
-                "chartYLabel": "Count",
-                "shortYLabels": false,
-                "showXTicks": true,
-                "showYTicks": true,
-                "showXLabels": true,
-                "showYLabels": true,
-                "showHorizontalLines": true,
-                "barWeight": 0.8,
-                "dataType": "numeric",
-                "customizedCssClass": "arlas-histogram-analytics",
-                "isSmoothedCurve": false
-              },
-              "componentType": "histogram",
-              "showExportCsv": true,
-              "contributorId": "courses-track.duration_s-numeric-bucket-Count--50",
-              "uuid": "6b4e34d9-a785-40e0-a2bd-c6df150ffdac",
-              "usage": "analytics"
-            }
-          ]
-        },
-        {
-          "groupId": "Boat-2",
-          "title": "Country statistics",
-          "tab": "Boat",
-          "icon": "flag",
-          "components": [
-            {
-              "componentType": "metricstable",
-              "input": {
-                "filterOperator": {
-                  "value": "Eq",
-                  "display": false
-                },
-                "useColorService": false,
-                "normaliseBy": "column",
-                "showRowField": false,
-                "applyColorTo": "row",
-                "headerDisplayMode": "title",
-                "selectWithCheckbox": false
-              },
-              "contributorId": "courses-arrival.address.country-count-undefined-avg-track.duration_s",
-              "uuid": "7e5a5e3e-fff5-434a-9d4d-054f144d389e",
               "usage": "analytics"
             }
           ]
@@ -572,7 +411,7 @@
       "externalNode": {}
     },
     "server": {
-      "url": "http://localhost/arlas",
+      "url": "http://merolla/arlas",
       "max_age_cache": 120,
       "collection": {
         "name": "courses"
