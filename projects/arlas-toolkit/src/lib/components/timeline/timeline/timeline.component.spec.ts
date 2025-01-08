@@ -54,38 +54,37 @@ describe('TimelineComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [TimelineComponent, DatePickerComponent, TimelineShortcutComponent, GetTimeLabelPipe],
-      imports: [MatCardModule, MatIconModule, MatExpansionModule, MatSelectModule, MatButtonModule, MatChipsModule,
+    imports: [MatCardModule, MatIconModule, MatExpansionModule, MatSelectModule, MatButtonModule, MatChipsModule,
         OwlDateTimeModule, OwlNativeDateTimeModule, FormsModule,
         MatTooltipModule, BrowserModule, HistogramModule, ResultsModule, PowerbarsModule, DonutModule, MetricModule,
         TranslateModule.forRoot({
-          loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
+            loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
         }),
         ColorGeneratorModule.forRoot({
-          loader: {
-            provide: ColorGeneratorLoader,
-            useClass: AwcColorGeneratorLoader
-          }
-        })],
-      providers: [
+            loader: {
+                provide: ColorGeneratorLoader,
+                useClass: AwcColorGeneratorLoader
+            }
+        }), TimelineComponent, DatePickerComponent, TimelineShortcutComponent, GetTimeLabelPipe],
+    providers: [
         ArlasCollaborativesearchService,
         ArlasOverlayService,
         {
-          provide: ArlasStartupService,
-          useClass: ArlasStartupService,
-          deps: [ArlasConfigurationUpdaterService]
+            provide: ArlasStartupService,
+            useClass: ArlasStartupService,
+            deps: [ArlasConfigurationUpdaterService]
         },
         ArlasConfigService, TranslateService,
         { provide: CONFIG_UPDATER, useValue: {} },
         {
-          provide: ArlasConfigurationUpdaterService,
-          useClass: ArlasConfigurationUpdaterService
+            provide: ArlasConfigurationUpdaterService,
+            useClass: ArlasConfigurationUpdaterService
         },
         { provide: FETCH_OPTIONS, useValue: {} },
         provideHttpClient(withInterceptorsFromDi()),
         ArlasCollectionService
-      ]
-    })
+    ]
+})
       .compileComponents();
   }));
 

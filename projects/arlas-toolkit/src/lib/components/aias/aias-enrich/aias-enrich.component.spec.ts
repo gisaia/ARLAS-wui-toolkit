@@ -11,28 +11,28 @@ describe('AiasEnrichComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AiasEnrichComponent ],
-      providers: [
+    providers: [
         provideHttpClient(withInterceptorsFromDi()),
         ArlasCollaborativesearchService,
         {
-          provide: MAT_DIALOG_DATA,
-          useValue: {
-            data : {
-              nbProducts: 2,
-              itemDetail: new Map(),
-              ids: ['1', '2'],
-              collection: 'test',
+            provide: MAT_DIALOG_DATA,
+            useValue: {
+                data: {
+                    nbProducts: 2,
+                    itemDetail: new Map(),
+                    ids: ['1', '2'],
+                    collection: 'test',
+                }
             }
-          }
         }
-      ],
-      imports: [
+    ],
+    imports: [
         TranslateModule.forRoot({
-          loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
+            loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
         }),
-      ]
-    })
+        AiasEnrichComponent,
+    ]
+})
       .compileComponents();
 
     fixture = TestBed.createComponent(AiasEnrichComponent);

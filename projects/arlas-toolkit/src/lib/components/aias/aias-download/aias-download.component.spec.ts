@@ -12,29 +12,29 @@ describe('AiasDownloadComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AiasDownloadComponent],
-      providers: [
+    providers: [
         {
-          provide: MAT_DIALOG_DATA,
-          useValue: {
-            data : {
-              nbProducts: 2,
-              itemDetail: new Map(),
-              wktAoi: null,
-              ids: ['1', '2'],
-              collection: 'test',
+            provide: MAT_DIALOG_DATA,
+            useValue: {
+                data: {
+                    nbProducts: 2,
+                    itemDetail: new Map(),
+                    wktAoi: null,
+                    ids: ['1', '2'],
+                    collection: 'test',
+                }
             }
-          }
         },
         provideHttpClient(withInterceptorsFromDi()),
         ArlasCollaborativesearchService
-      ],
-      imports: [
+    ],
+    imports: [
         TranslateModule.forRoot({
-          loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
+            loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
         }),
-      ]
-    })
+        AiasDownloadComponent,
+    ]
+})
       .compileComponents();
 
     fixture = TestBed.createComponent(AiasDownloadComponent);

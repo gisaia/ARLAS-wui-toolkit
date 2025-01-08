@@ -19,23 +19,23 @@ describe('LoginComponent', () => {
     mockIamService.notifyTokenRefresh.and.returnValue();
 
     await TestBed.configureTestingModule({
-      declarations: [LoginComponent],
-      providers: [
+    providers: [
         FormBuilder,
         {
-          provide: ArlasSettingsService,
-          useClass: MockArlasSettingsService
+            provide: ArlasSettingsService,
+            useClass: MockArlasSettingsService
         },
         {
-          provide: ArlasIamService,
-          useValue: mockIamService
+            provide: ArlasIamService,
+            useValue: mockIamService
         }
-      ],
-      imports: [
+    ],
+    imports: [
         TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }),
-        RouterModule.forRoot([])
-      ]
-    })
+        RouterModule.forRoot([]),
+        LoginComponent
+    ]
+})
       .compileComponents();
   });
 

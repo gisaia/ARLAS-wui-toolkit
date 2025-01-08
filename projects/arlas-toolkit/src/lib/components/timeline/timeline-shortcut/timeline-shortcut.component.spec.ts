@@ -27,32 +27,31 @@ describe('TimelineShortcutComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [TimelineShortcutComponent, DatePickerComponent, GetTimeLabelPipe],
-      imports: [MatCardModule, MatIconModule, MatExpansionModule, MatSelectModule, MatButtonModule, MatChipsModule,
+    imports: [MatCardModule, MatIconModule, MatExpansionModule, MatSelectModule, MatButtonModule, MatChipsModule,
         OwlDateTimeModule, FormsModule,
         MatTooltipModule, BrowserModule,
         TranslateModule.forRoot({
-          loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
-        })],
-      providers: [
+            loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
+        }), TimelineShortcutComponent, DatePickerComponent, GetTimeLabelPipe],
+    providers: [
         { provide: OWL_DATE_TIME_LOCALE, useValue: 'fr' },
         ArlasCollaborativesearchService,
         {
-          provide: ArlasStartupService,
-          useClass: ArlasStartupService,
-          deps: [ArlasConfigurationUpdaterService]
+            provide: ArlasStartupService,
+            useClass: ArlasStartupService,
+            deps: [ArlasConfigurationUpdaterService]
         },
         ArlasConfigService, TranslateService,
         { provide: CONFIG_UPDATER, useValue: {} },
         {
-          provide: ArlasConfigurationUpdaterService,
-          useClass: ArlasConfigurationUpdaterService
+            provide: ArlasConfigurationUpdaterService,
+            useClass: ArlasConfigurationUpdaterService
         },
         { provide: FETCH_OPTIONS, useValue: {} },
         provideHttpClient(withInterceptorsFromDi()),
         ArlasCollectionService
-      ]
-    })
+    ]
+})
       .compileComponents();
   }));
 

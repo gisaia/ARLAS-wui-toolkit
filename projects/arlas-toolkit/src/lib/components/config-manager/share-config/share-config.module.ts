@@ -29,20 +29,18 @@ import { ErrorService } from '../../../services/error/error.service';
 import { ShareConfigComponent } from './share-config.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    TranslateModule,
-    MatMenuModule,
-    MatIconModule,
-    MatButtonModule,
-    MatTableModule,
-    MatCheckboxModule
-  ],
-  exports: [
-    ShareConfigComponent
-  ],
-  declarations: [
-    ShareConfigComponent
-  ]
+    imports: [
+        CommonModule,
+        TranslateModule,
+        MatMenuModule,
+        MatIconModule,
+        MatButtonModule,
+        MatTableModule,
+        MatCheckboxModule,
+        ShareConfigComponent
+    ],
+    exports: [
+        ShareConfigComponent
+    ]
 })
 export class ShareConfigModule { }

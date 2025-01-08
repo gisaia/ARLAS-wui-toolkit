@@ -33,26 +33,24 @@ import { ShareConfigModule } from '../share-config/share-config.module';
 import { ErrorService } from '../../../services/error/error.service';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    TranslateModule,
-    MatMenuModule,
-    MatIconModule,
-    MatDialogModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    ShareConfigModule,
-    FormsModule
-  ],
-  exports: [
-    ActionModalComponent
-  ],
-  declarations: [
-    ActionModalComponent
-  ],
-  providers: [
-    ErrorService
-  ]
+    imports: [
+        CommonModule,
+        TranslateModule,
+        MatMenuModule,
+        MatIconModule,
+        MatDialogModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatButtonModule,
+        ShareConfigModule,
+        FormsModule,
+        ActionModalComponent
+    ],
+    exports: [
+        ActionModalComponent
+    ],
+    providers: [
+        ErrorService
+    ]
 })
 export class ActionModalModule { }

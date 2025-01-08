@@ -22,14 +22,21 @@ import { ArlasExtendService } from '../../services/extend/extend.service';
 import { Subject } from 'rxjs';
 import { Extend } from '../../services/extend/model';
 import { ArlasDataSource } from '../../tools/arlasDataSource';
-import { PageEvent } from '@angular/material/paginator';
+import { PageEvent, MatPaginator } from '@angular/material/paginator';
 import { ExtendPersistenceDatabase } from '../../services/extend/extendPersistenceDatabase';
 import { ExtendLocalDatabase } from '../../services/extend/extendLocalDatabase';
+import { MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow } from '@angular/material/table';
+import { MatCheckbox } from '@angular/material/checkbox';
+import { MatIcon } from '@angular/material/icon';
+import { NgIf, DatePipe } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-  selector: 'arlas-extend',
-  templateUrl: './extend.component.html',
-  styleUrls: ['./extend.component.css']
+    selector: 'arlas-extend',
+    templateUrl: './extend.component.html',
+    styleUrls: ['./extend.component.css'],
+    standalone: true,
+    imports: [MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatCheckbox, MatIcon, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, NgIf, MatPaginator, DatePipe, TranslateModule]
 })
 export class ExtendComponent {
 

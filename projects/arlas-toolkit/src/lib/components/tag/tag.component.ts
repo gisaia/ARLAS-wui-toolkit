@@ -17,8 +17,8 @@
  * under the License.
  */
 import { Component, ElementRef, Input, OnInit, Output, Renderer2, ViewEncapsulation } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatCheckboxChange } from '@angular/material/checkbox';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatCheckboxChange, MatCheckbox } from '@angular/material/checkbox';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Aggregation, AggregationResponse, AggregationsRequest } from 'arlas-api';
 import { TagRefRequest } from 'arlas-tagger-api';
@@ -28,6 +28,18 @@ import { ArlasCollaborativesearchService } from '../../services/collaborative-se
 import { ArlasConfigService } from '../../services/startup/startup.service';
 import { ArlasTagService } from '../../services/tag/tag.service';
 import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
+import { NgFor, NgIf, DecimalPipe, KeyValuePipe, DatePipe } from '@angular/common';
+import { MatIcon } from '@angular/material/icon';
+import { MatProgressBar } from '@angular/material/progress-bar';
+import { MatFormField } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/core';
+import { MatAutocompleteTrigger, MatAutocomplete } from '@angular/material/autocomplete';
+import { MatButton } from '@angular/material/button';
+import { TranslateModule } from '@ngx-translate/core';
+import { MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow } from '@angular/material/table';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 /**
  * This component allows to tag your selected data (documents). The tag value is set on taggable fields.
@@ -35,10 +47,12 @@ import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component'
  * Note : This component is binded to ARLAS-wui configuration.
  */
 @Component({
-  selector: 'arlas-tag',
-  templateUrl: './tag.component.html',
-  styleUrls: ['./tag.component.css'],
-  encapsulation: ViewEncapsulation.None
+    selector: 'arlas-tag',
+    templateUrl: './tag.component.html',
+    styleUrls: ['./tag.component.css'],
+    encapsulation: ViewEncapsulation.None,
+    standalone: true,
+    imports: [NgFor, NgIf, MatIcon, MatProgressBar, DecimalPipe, KeyValuePipe]
 })
 export class TagComponent {
   /**
@@ -77,10 +91,12 @@ export class TagComponent {
 }
 
 @Component({
-  selector: 'arlas-tag-dialog',
-  templateUrl: './tag-dialog.component.html',
-  styleUrls: ['./tag-dialog.component.css'],
-  encapsulation: ViewEncapsulation.None
+    selector: 'arlas-tag-dialog',
+    templateUrl: './tag-dialog.component.html',
+    styleUrls: ['./tag-dialog.component.css'],
+    encapsulation: ViewEncapsulation.None,
+    standalone: true,
+    imports: [FormsModule, ReactiveFormsModule, MatFormField, MatInput, MatSelect, NgFor, MatOption, MatAutocompleteTrigger, MatAutocomplete, MatCheckbox, NgIf, MatButton, MatProgressBar, TranslateModule]
 })
 export class TagDialogComponent implements OnInit {
   /**
@@ -241,10 +257,12 @@ export class TagDialogComponent implements OnInit {
 }
 
 @Component({
-  selector: 'arlas-management-tag-dialog',
-  templateUrl: './tag-management-dialog.component.html',
-  styleUrls: ['./tag-management-dialog.component.css'],
-  encapsulation: ViewEncapsulation.None
+    selector: 'arlas-management-tag-dialog',
+    templateUrl: './tag-management-dialog.component.html',
+    styleUrls: ['./tag-management-dialog.component.css'],
+    encapsulation: ViewEncapsulation.None,
+    standalone: true,
+    imports: [MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatCheckbox, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, NgIf, MatProgressSpinner, MatButton, DatePipe, TranslateModule]
 })
 export class TagManagementDialogComponent {
   public tagsRef: TagRefRequest[] = new Array<TagRefRequest>();

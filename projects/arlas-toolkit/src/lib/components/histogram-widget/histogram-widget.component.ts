@@ -21,8 +21,8 @@ import {
   AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter,
   Input, OnDestroy, OnInit, Output, ViewChild
 } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-import { DataType, HistogramComponent, HistogramTooltip } from 'arlas-web-components';
+import { TranslateService, TranslateModule } from '@ngx-translate/core';
+import { DataType, HistogramComponent, HistogramTooltip, HistogramModule } from 'arlas-web-components';
 import { DetailedHistogramContributor, HistogramContributor } from 'arlas-web-contributors';
 import { SelectedOutputValues } from 'arlas-web-contributors/models/models';
 import { OperationEnum } from 'arlas-web-core';
@@ -33,7 +33,11 @@ import { ArlasOverlayService } from '../../services/overlays/overlay.service';
 import { ArlasConfigService } from '../../services/startup/startup.service';
 import { ArlasOverlayRef, SpinnerOptions } from '../../tools/utils';
 import { isShortcutID } from '../filter-shortcut/filter-shortcut.utils';
-import { DEFAULT_SPINNER_OPTIONS } from '../progress-spinner/progress-spinner.component';
+import { DEFAULT_SPINNER_OPTIONS, ProgressSpinnerComponent } from '../progress-spinner/progress-spinner.component';
+import { NgIf } from '@angular/common';
+import { MatTooltip } from '@angular/material/tooltip';
+import { MatIcon } from '@angular/material/icon';
+import { ContributorUpdatingPipe } from '../../pipes/contributor-updating.pipe';
 
 
 /**
@@ -41,9 +45,11 @@ import { DEFAULT_SPINNER_OPTIONS } from '../progress-spinner/progress-spinner.co
  * Note: This component is binded to ARLAS-wui configuration
  */
 @Component({
-  selector: 'arlas-tool-histogram-widget',
-  templateUrl: './histogram-widget.component.html',
-  styleUrls: ['./histogram-widget.component.css']
+    selector: 'arlas-tool-histogram-widget',
+    templateUrl: './histogram-widget.component.html',
+    styleUrls: ['./histogram-widget.component.css'],
+    standalone: true,
+    imports: [ProgressSpinnerComponent, NgIf, MatTooltip, MatIcon, HistogramModule, TranslateModule, ContributorUpdatingPipe]
 })
 export class HistogramWidgetComponent implements OnInit, OnDestroy, AfterViewInit {
 

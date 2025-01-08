@@ -21,12 +21,16 @@ import { Component, OnInit } from '@angular/core';
 import { AuthentificationService } from '../../services/authentification/authentification.service';
 import { ArlasIamService } from '../../services/arlas-iam/arlas-iam.service';
 import { ArlasSettingsService } from '../../services/settings/arlas.settings.service';
+import { NgIf, NgFor } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @Component({
-  selector: 'arlas-user-infos',
-  templateUrl: './user-infos.component.html',
-  styleUrls: ['./user-infos.component.scss']
+    selector: 'arlas-user-infos',
+    templateUrl: './user-infos.component.html',
+    styleUrls: ['./user-infos.component.scss'],
+    standalone: true,
+    imports: [NgIf, NgFor, TranslateModule]
 })
 export class UserInfosComponent implements OnInit {
 

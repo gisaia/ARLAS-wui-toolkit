@@ -18,10 +18,10 @@
  */
 
 import { Component, ElementRef, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslateModule } from '@ngx-translate/core';
 import { Expression } from 'arlas-api';
 import { ARLASDonutTooltip, Position, SwimlaneMode, SwimlaneRepresentation } from 'arlas-d3';
-import { CellBackgroundStyleEnum, ChartType, DataType, HistogramComponent } from 'arlas-web-components';
+import { CellBackgroundStyleEnum, ChartType, DataType, HistogramComponent, HistogramModule, PowerbarsModule, DonutModule, ResultsModule, MetricModule, MetricsTableModule } from 'arlas-web-components';
 import { ComputeConfig, MetricsTableContributor, TreeContributor } from 'arlas-web-contributors';
 import { CollaborationEvent, Contributor, OperationEnum } from 'arlas-web-core';
 import { Subject, takeUntil } from 'rxjs';
@@ -31,15 +31,24 @@ import { ArlasOverlayService } from '../../services/overlays/overlay.service';
 import { ArlasStartupService } from '../../services/startup/startup.service';
 import { ArlasOverlayRef, SpinnerOptions } from '../../tools/utils';
 import { DEFAULT_SPINNER_OPTIONS } from '../progress-spinner/progress-spinner.component';
+import { NgIf, NgFor } from '@angular/common';
+import { HistogramWidgetComponent } from '../histogram-widget/histogram-widget.component';
+import { MatFormField } from '@angular/material/form-field';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/core';
+import { MatTooltip } from '@angular/material/tooltip';
+import { MatIcon } from '@angular/material/icon';
 
 /**
  * A Widget wraps a component from ARLAS-web-components and bind it to its contributor. The component has thus input data to plot.
  * Note: This component is binded to ARLAS-wui configuration
  */
 @Component({
-  selector: 'arlas-tool-widget',
-  templateUrl: './widget.component.html',
-  styleUrls: ['./widget.component.scss']
+    selector: 'arlas-tool-widget',
+    templateUrl: './widget.component.html',
+    styleUrls: ['./widget.component.scss'],
+    standalone: true,
+    imports: [NgIf, HistogramWidgetComponent, MatFormField, MatSelect, NgFor, MatOption, HistogramModule, MatTooltip, MatIcon, PowerbarsModule, DonutModule, ResultsModule, MetricModule, MetricsTableModule, TranslateModule]
 })
 export class WidgetComponent implements OnInit {
 

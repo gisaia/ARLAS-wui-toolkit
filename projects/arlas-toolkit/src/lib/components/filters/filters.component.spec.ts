@@ -48,27 +48,26 @@ describe('FiltersChipsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [FiltersComponent, GetColorFilterPipe, GetCollaborationIconPipe, ConcatCollectionPipe, GetContributorLabelPipe],
-      imports: [MatChipsModule, MatIconModule, MatTooltipModule, MatMenuModule,
+    imports: [MatChipsModule, MatIconModule, MatTooltipModule, MatMenuModule,
         TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }),
-        FormatNumberModule],
-      providers: [
+        FormatNumberModule, FiltersComponent, GetColorFilterPipe, GetCollaborationIconPipe, ConcatCollectionPipe, GetContributorLabelPipe],
+    providers: [
         {
-          provide: ArlasStartupService,
-          useClass: ArlasStartupService,
-          deps: [ArlasConfigurationUpdaterService]
+            provide: ArlasStartupService,
+            useClass: ArlasStartupService,
+            deps: [ArlasConfigurationUpdaterService]
         },
         ArlasConfigService, ArlasCollaborativesearchService,
         ArlasWalkthroughService, TranslateService,
         { provide: CONFIG_UPDATER, useValue: {} },
         {
-          provide: ArlasConfigurationUpdaterService,
-          useClass: ArlasConfigurationUpdaterService
+            provide: ArlasConfigurationUpdaterService,
+            useClass: ArlasConfigurationUpdaterService
         },
         { provide: FETCH_OPTIONS, useValue: {} },
         provideHttpClient(withInterceptorsFromDi())
-      ]
-    })
+    ]
+})
       .compileComponents();
   }));
 

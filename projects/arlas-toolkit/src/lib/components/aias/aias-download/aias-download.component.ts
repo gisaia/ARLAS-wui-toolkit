@@ -19,8 +19,8 @@
 
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogTitle, MatDialogContent, MatDialogClose } from '@angular/material/dialog';
 import { marker } from '@colsen1991/ngx-translate-extract-marker';
 import bboxPolygon from '@turf/bbox-polygon';
 import booleanIntersects from '@turf/boolean-intersects';
@@ -28,16 +28,30 @@ import { Subject, takeUntil } from 'rxjs';
 import { ProcessService } from '../../../services/process/process.service';
 import { ProcessInputs, ProcessProjection } from '../../../tools/process.interface';
 import { AiasDownloadDialogData, AiasProcess } from '../aias-process';
+import { TranslateModule } from '@ngx-translate/core';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatStepper, MatStep, MatStepperNext, MatStepperPrevious, MatStepperIcon } from '@angular/material/stepper';
+import { MatFormField, MatLabel, MatHint } from '@angular/material/form-field';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/core';
+import { NgIf, NgFor } from '@angular/common';
+import { MatIcon } from '@angular/material/icon';
+import { MatCheckbox } from '@angular/material/checkbox';
+import { MatTooltip } from '@angular/material/tooltip';
+import { MatButton } from '@angular/material/button';
+import { AiasResultComponent } from '../aias-result/aias-result.component';
 
 export const DOWNLOAD_PROCESS_NAME = marker('download');
 
 @Component({
-  selector: 'arlas-aias-download',
-  templateUrl: './aias-download.component.html',
-  styleUrls: ['./aias-download.component.scss', '../aias-process.scss'],
-  providers: [{
-    provide: STEPPER_GLOBAL_OPTIONS, useValue: { displayDefaultIndicatorType: false }
-  }]
+    selector: 'arlas-aias-download',
+    templateUrl: './aias-download.component.html',
+    styleUrls: ['./aias-download.component.scss', '../aias-process.scss'],
+    providers: [{
+            provide: STEPPER_GLOBAL_OPTIONS, useValue: { displayDefaultIndicatorType: false }
+        }],
+    standalone: true,
+    imports: [MatDialogTitle, TranslateModule, CdkScrollable, MatDialogContent, MatStepper, MatStep, FormsModule, ReactiveFormsModule, MatFormField, MatLabel, MatSelect, MatOption, NgIf, MatHint, MatIcon, MatCheckbox, MatTooltip, NgFor, MatButton, MatDialogClose, MatStepperNext, MatStepperPrevious, MatStepperIcon, AiasResultComponent]
 })
 export class AiasDownloadComponent extends AiasProcess implements OnInit, OnDestroy {
 

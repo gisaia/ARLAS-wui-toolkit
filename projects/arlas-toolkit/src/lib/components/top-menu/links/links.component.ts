@@ -20,11 +20,17 @@
 import { Component, EventEmitter, HostListener, OnInit, Output } from '@angular/core';
 import { ArlasSettingsService } from '../../../services/settings/arlas.settings.service';
 import { LinkSettings } from '../../../services/startup/startup.service';
+import { NgFor, NgIf } from '@angular/common';
+import { LinkComponent } from './link/link.component';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-  selector: 'arlas-links',
-  templateUrl: './links.component.html',
-  styleUrls: ['./links.component.scss']
+    selector: 'arlas-links',
+    templateUrl: './links.component.html',
+    styleUrls: ['./links.component.scss'],
+    standalone: true,
+    imports: [NgFor, LinkComponent, NgIf, MatProgressSpinner, TranslateModule]
 })
 export class LinksComponent implements OnInit {
 

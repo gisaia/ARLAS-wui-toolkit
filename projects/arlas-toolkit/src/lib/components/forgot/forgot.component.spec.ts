@@ -10,15 +10,15 @@ describe('ForgotComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ForgotComponent],
-      providers: [FormBuilder],
-      imports: [
+    providers: [FormBuilder],
+    imports: [
         TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }),
         RouterModule.forRoot([]),
         FormsModule,
-        ReactiveFormsModule
-      ]
-    })
+        ReactiveFormsModule,
+        ForgotComponent
+    ]
+})
       .compileComponents();
   });
 

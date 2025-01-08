@@ -26,8 +26,7 @@ describe('ActionModalComponent', () => {
     };
 
     TestBed.configureTestingModule({
-      declarations: [ActionModalComponent],
-      imports: [TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }),
+    imports: [TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }),
         MatMenuModule,
         MatIconModule,
         MatDialogModule,
@@ -35,33 +34,32 @@ describe('ActionModalComponent', () => {
         MatInputModule,
         MatButtonModule,
         FormsModule,
-        ShareConfigModule
-      ],
-      providers: [
+        ShareConfigModule, ActionModalComponent],
+    providers: [
         AuthentificationService,
         OAuthService,
         OAuthLogger,
         DateTimeProvider,
         UrlHelperService,
         {
-          provide: MAT_DIALOG_DATA,
-          useValue: {}
+            provide: MAT_DIALOG_DATA,
+            useValue: {}
         },
         {
-          provide: MatDialogRef,
-          useValue: mockDialogRef
+            provide: MatDialogRef,
+            useValue: mockDialogRef
         },
         {
-          provide: GET_OPTIONS,
-          useValue: () => {}
+            provide: GET_OPTIONS,
+            useValue: () => { }
         },
         provideHttpClient(withInterceptorsFromDi()),
         {
-          provide: ArlasSettingsService,
-          useClass: MockArlasSettingsService
+            provide: ArlasSettingsService,
+            useClass: MockArlasSettingsService
         }
-      ]
-    })
+    ]
+})
       .compileComponents();
   }));
 

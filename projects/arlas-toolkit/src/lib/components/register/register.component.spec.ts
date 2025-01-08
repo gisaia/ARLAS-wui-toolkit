@@ -13,21 +13,21 @@ describe('RegisterComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [RegisterComponent],
-      providers: [
+    providers: [
         FormBuilder,
         {
-          provide: ArlasSettingsService,
-          useClass: MockArlasSettingsService
+            provide: ArlasSettingsService,
+            useClass: MockArlasSettingsService
         }
-      ],
-      imports: [
+    ],
+    imports: [
         TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }),
         RouterModule.forRoot([]),
         FormsModule,
-        ReactiveFormsModule
-      ]
-    })
+        ReactiveFormsModule,
+        RegisterComponent
+    ]
+})
       .compileComponents();
   });
 

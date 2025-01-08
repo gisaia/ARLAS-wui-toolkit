@@ -34,12 +34,19 @@ import { NO_ORGANISATION } from '../../../tools/consts';
 import { ConfigAction, ConfigActionEnum } from '../../../tools/utils';
 import { ActionModalComponent } from '../action-modal/action-modal.component';
 import { AuthorisationOnActionError } from '../../../tools/errors/authorisation-on-action-error';
+import { MatIconButton } from '@angular/material/button';
+import { MatMenuTrigger, MatMenu, MatMenuItem } from '@angular/material/menu';
+import { MatIcon } from '@angular/material/icon';
+import { NgFor, NgIf } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-  selector: 'arlas-config-menu',
-  templateUrl: './config-menu.component.html',
-  styleUrls: ['./config-menu.component.scss'],
-  encapsulation: ViewEncapsulation.None
+    selector: 'arlas-config-menu',
+    templateUrl: './config-menu.component.html',
+    styleUrls: ['./config-menu.component.scss'],
+    encapsulation: ViewEncapsulation.None,
+    standalone: true,
+    imports: [MatIconButton, MatMenuTrigger, MatIcon, MatMenu, NgFor, NgIf, MatMenuItem, TranslateModule]
 })
 export class ConfigMenuComponent implements OnInit {
   @Input() public actions: Array<ConfigAction>;

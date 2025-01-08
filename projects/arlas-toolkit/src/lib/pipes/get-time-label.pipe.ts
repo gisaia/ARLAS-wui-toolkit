@@ -22,7 +22,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { utcFormat, timeFormat } from 'd3-time-format';
 
 @Pipe({
-  name: 'getTimeLabel'
+    name: 'getTimeLabel',
+    standalone: true
 })
 export class GetTimeLabelPipe implements PipeTransform {
 

@@ -25,12 +25,18 @@ import { ArlasIamService } from '../../services/arlas-iam/arlas-iam.service';
 import { ArlasCollaborativesearchService } from '../../services/collaborative-search/arlas.collaborative-search.service';
 import { PermissionDialogData } from './_interfaces';
 import { PermissionsCreatorDialogComponent } from './permissions-creator-dialog/permissions-creator-dialog.component';
+import { NgIf } from '@angular/common';
+import { MatButton } from '@angular/material/button';
+import { MatTooltip } from '@angular/material/tooltip';
+import { TranslateModule } from '@ngx-translate/core';
 
 /** Creates an IAM permission based on the current filter of the main collection. */
 @Component({
-  selector: 'arlas-permissions-creator',
-  templateUrl: './permissions-creator.component.html',
-  styleUrls: ['./permissions-creator.component.scss']
+    selector: 'arlas-permissions-creator',
+    templateUrl: './permissions-creator.component.html',
+    styleUrls: ['./permissions-creator.component.scss'],
+    standalone: true,
+    imports: [NgIf, MatButton, MatTooltip, TranslateModule]
 })
 export class PermissionsCreatorComponent implements OnInit, OnDestroy {
 

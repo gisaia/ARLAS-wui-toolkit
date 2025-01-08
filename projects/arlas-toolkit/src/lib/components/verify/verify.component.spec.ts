@@ -10,15 +10,15 @@ describe('VerifyComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [VerifyComponent],
-      providers: [FormBuilder],
-      imports: [
+    providers: [FormBuilder],
+    imports: [
         TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }),
         RouterModule.forRoot([]),
         FormsModule,
-        ReactiveFormsModule
-      ]
-    })
+        ReactiveFormsModule,
+        VerifyComponent
+    ]
+})
       .compileComponents();
   });
 

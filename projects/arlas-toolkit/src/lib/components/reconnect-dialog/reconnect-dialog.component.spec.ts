@@ -13,31 +13,31 @@ describe('ReconnectDialogComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ReconnectDialogComponent],
-      imports: [
+    imports: [
         TranslateModule.forRoot({
-          loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
+            loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
         }),
         MatDialogModule,
-        OAuthModule.forRoot()
-      ],
-      providers: [
+        OAuthModule.forRoot(),
+        ReconnectDialogComponent
+    ],
+    providers: [
         AuthentificationService,
         OAuthService,
         OAuthLogger,
         DateTimeProvider,
         UrlHelperService,
         {
-          provide: MAT_DIALOG_DATA,
-          useValue: {}
+            provide: MAT_DIALOG_DATA,
+            useValue: {}
         },
         {
-          provide: GET_OPTIONS,
-          useValue: () => {}
+            provide: GET_OPTIONS,
+            useValue: () => { }
         },
         provideHttpClient(withInterceptorsFromDi())
-      ]
-    })
+    ]
+})
       .compileComponents();
   }));
 

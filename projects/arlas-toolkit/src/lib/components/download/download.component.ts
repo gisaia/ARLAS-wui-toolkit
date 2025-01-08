@@ -18,9 +18,9 @@
  */
 import { SelectionModel } from '@angular/cdk/collections';
 import { Component, Inject, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
-import { MatListOption, MatSelectionList } from '@angular/material/list';
+import { MatListOption, MatSelectionList, MatList, MatListItem } from '@angular/material/list';
 import { CollectionReferenceDescription } from 'arlas-api';
 import { projType } from 'arlas-web-core';
 import { DeviceDetectorService, OS } from 'ngx-device-detector';
@@ -29,13 +29,27 @@ import { ArlasCollaborativesearchService } from '../../services/collaborative-se
 import { ArlasConfigService } from '../../services/startup/startup.service';
 import { orderAlphabeticallyArlasSearchFields } from '../../tools/utils';
 import { ArlasSearchField } from '../share/model/ArlasSearchField';
+import { MatMiniFabButton, MatButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { MatStepper, MatStep, MatStepLabel, MatStepperNext, MatStepperPrevious } from '@angular/material/stepper';
+import { MatRadioGroup, MatRadioButton } from '@angular/material/radio';
+import { MatDivider } from '@angular/material/divider';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatSelect } from '@angular/material/select';
+import { NgFor, NgIf } from '@angular/common';
+import { MatOption } from '@angular/material/core';
+import { MatTooltip } from '@angular/material/tooltip';
+import { TranslateModule } from '@ngx-translate/core';
+import { GetCollectionDisplayModule } from 'arlas-web-components';
 
 export const ARLAS_HITS_EXPORTER_VERSION = 2.2;
 
 @Component({
-  selector: 'arlas-download',
-  templateUrl: './download.component.html',
-  styleUrls: ['./download.component.css']
+    selector: 'arlas-download',
+    templateUrl: './download.component.html',
+    styleUrls: ['./download.component.css'],
+    standalone: true,
+    imports: [MatMiniFabButton, MatIcon]
 })
 export class DownloadComponent {
 
@@ -54,10 +68,12 @@ export class DownloadComponent {
 }
 
 @Component({
-  selector: 'arlas-download-dialog',
-  templateUrl: './download-dialog.component.html',
-  styleUrls: ['./download-dialog.component.scss'],
-  encapsulation: ViewEncapsulation.None
+    selector: 'arlas-download-dialog',
+    templateUrl: './download-dialog.component.html',
+    styleUrls: ['./download-dialog.component.scss'],
+    encapsulation: ViewEncapsulation.None,
+    standalone: true,
+    imports: [MatStepper, MatStep, FormsModule, ReactiveFormsModule, MatStepLabel, MatRadioGroup, MatRadioButton, MatDivider, MatButton, MatStepperNext, MatFormField, MatLabel, MatSelect, NgFor, MatOption, MatSelectionList, MatListOption, MatTooltip, MatList, NgIf, MatListItem, MatStepperPrevious, MatIcon, TranslateModule, GetCollectionDisplayModule]
 })
 export class DownloadDialogComponent implements OnInit {
 

@@ -18,14 +18,21 @@
  */
 
 import { Component, Inject } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { marker } from '@colsen1991/ngx-translate-extract-marker';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslateModule } from '@ngx-translate/core';
 import { ArlasBookmarkService } from '../../services/bookmark/bookmark.service';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialogContent, MatDialogTitle, MatDialogActions } from '@angular/material/dialog';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatFormField, MatError } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import { NgIf } from '@angular/common';
+import { MatButton } from '@angular/material/button';
 @Component({
-  templateUrl: './bookmark-add-dialog.component.html',
-  styleUrls: ['./bookmark-add-dialog.component.scss']
+    templateUrl: './bookmark-add-dialog.component.html',
+    styleUrls: ['./bookmark-add-dialog.component.scss'],
+    standalone: true,
+    imports: [CdkScrollable, MatDialogContent, MatDialogTitle, MatFormField, MatInput, FormsModule, ReactiveFormsModule, NgIf, MatError, MatDialogActions, MatButton, TranslateModule]
 })
 export class BookmarkAddDialogComponent {
   public bookmarkName = new FormControl('', [Validators.required]);

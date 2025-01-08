@@ -16,30 +16,30 @@ describe('DeniedAccessDialogComponent', () => {
     };
 
     TestBed.configureTestingModule({
-      declarations: [DeniedAccessDialogComponent],
-      imports: [
+    imports: [
         TranslateModule.forRoot({
-          loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
+            loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
         }),
         MatDialogModule,
-        OAuthModule.forRoot()
-      ],
-      providers: [
+        OAuthModule.forRoot(),
+        DeniedAccessDialogComponent
+    ],
+    providers: [
         {
-          provide: MAT_DIALOG_DATA,
-          useValue: {
-            error: {
-              actionSeeker$: of()
+            provide: MAT_DIALOG_DATA,
+            useValue: {
+                error: {
+                    actionSeeker$: of()
+                }
             }
-          }
         },
         provideHttpClient(withInterceptorsFromDi()),
         {
-          provide: MatDialogRef,
-          useValue: mockDialogRef
+            provide: MatDialogRef,
+            useValue: mockDialogRef
         },
-      ]
-    })
+    ]
+})
       .compileComponents();
   }));
 

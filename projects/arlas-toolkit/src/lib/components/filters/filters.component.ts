@@ -22,7 +22,7 @@ import {
   OnInit, Output, Pipe, PipeTransform, SimpleChanges, ViewEncapsulation
 } from '@angular/core';
 import { CollectionReferenceParameters } from 'arlas-api';
-import { ArlasColorService } from 'arlas-web-components';
+import { ArlasColorService, FormatNumberModule } from 'arlas-web-components';
 import { Collaboration, Contributor } from 'arlas-web-core';
 import { Subject, take, takeUntil } from 'rxjs';
 import { ArlasCollaborativesearchService } from '../../services/collaborative-search/arlas.collaborative-search.service';
@@ -30,8 +30,16 @@ import { ArlasCollectionService } from '../../services/collection/arlas-collecti
 import { ArlasConfigService, ArlasStartupService } from '../../services/startup/startup.service';
 import { CollectionCount, ZoomToDataStrategy } from '../../tools/utils';
 import { isShortcutID } from '../filter-shortcut/filter-shortcut.utils';
+import { MatChipListbox, MatChip } from '@angular/material/chips';
+import { NgFor, NgIf } from '@angular/common';
+import { MatTooltip } from '@angular/material/tooltip';
+import { MatIcon } from '@angular/material/icon';
+import { TranslateModule } from '@ngx-translate/core';
 
-@Pipe({ name: 'getContributorLabel' })
+@Pipe({
+    name: 'getContributorLabel',
+    standalone: true
+})
 export class GetContributorLabelPipe implements PipeTransform {
   public transform(value: string, registry?: Map<string, Contributor>): string {
     let label = registry.get(value).getFilterDisplayName();
@@ -47,7 +55,10 @@ export class GetContributorLabelPipe implements PipeTransform {
   }
 }
 
-@Pipe({ name: 'concatCollection' })
+@Pipe({
+    name: 'concatCollection',
+    standalone: true
+})
 export class ConcatCollectionPipe implements PipeTransform {
   public transform(value: string, id: string, registry?: Map<string, Contributor>): string {
     const collection = registry.get(id).collection;
@@ -56,7 +67,10 @@ export class ConcatCollectionPipe implements PipeTransform {
   }
 }
 
-@Pipe({ name: 'getColorFilter' })
+@Pipe({
+    name: 'getColorFilter',
+    standalone: true
+})
 export class GetColorFilterPipe implements PipeTransform {
   public transform(value: string, type: string, collaborationsMap: Map<string, Collaboration>): string {
     const collaboration = collaborationsMap.get(value);
@@ -68,7 +82,10 @@ export class GetColorFilterPipe implements PipeTransform {
   }
 }
 
-@Pipe({ name: 'getGlobalColorFilter' })
+@Pipe({
+    name: 'getGlobalColorFilter',
+    standalone: true
+})
 export class GetGlobalColorFilterPipe implements PipeTransform {
   public transform(value: string, type: string, color, backgroundColor, collaborationsMap: Map<string, Collaboration>): string {
     const collaboration = collaborationsMap.get(value);
@@ -80,7 +97,10 @@ export class GetGlobalColorFilterPipe implements PipeTransform {
   }
 }
 
-@Pipe({ name: 'getCollaborationIcon' })
+@Pipe({
+    name: 'getCollaborationIcon',
+    standalone: true
+})
 export class GetCollaborationIconPipe implements PipeTransform {
   public transform(value: string, contributorsIcons: Map<string, string>): string {
     return contributorsIcons.get(value);
@@ -89,19 +109,21 @@ export class GetCollaborationIconPipe implements PipeTransform {
 }
 
 @Component({
-  selector: 'arlas-filter',
-  templateUrl: './filters.component.html',
-  styleUrls: ['./filters.component.scss'],
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [
-    trigger('fadeInOut', [
-      state('void', style({ opacity: 0 })), // Initial state when element is not present
-      state('*', style({ opacity: 1 })), // Final state when element is present
-      transition(':enter', animate('500ms ease-in-out')), // Animation duration and easing
-      transition(':leave', animate('500ms ease-in-out'))
-    ])
-  ]
+    selector: 'arlas-filter',
+    templateUrl: './filters.component.html',
+    styleUrls: ['./filters.component.scss'],
+    encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    animations: [
+        trigger('fadeInOut', [
+            state('void', style({ opacity: 0 })), // Initial state when element is not present
+            state('*', style({ opacity: 1 })), // Final state when element is present
+            transition(':enter', animate('500ms ease-in-out')), // Animation duration and easing
+            transition(':leave', animate('500ms ease-in-out'))
+        ])
+    ],
+    standalone: true,
+    imports: [MatChipListbox, NgFor, NgIf, MatChip, MatTooltip, MatIcon, FormatNumberModule, TranslateModule, GetGlobalColorFilterPipe, GetCollaborationIconPipe, GetContributorLabelPipe]
 })
 export class FiltersComponent implements OnInit, OnChanges {
 

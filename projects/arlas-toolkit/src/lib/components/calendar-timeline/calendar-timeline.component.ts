@@ -20,9 +20,10 @@
 import { Component, OnInit, Input, Output, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 import { Granularity, TimelineData, TimelineTooltip } from 'arlas-d3';
 import { Subject } from 'rxjs';
-import { CalendarTimelineComponent, TranslationDirection } from 'arlas-web-components';
+import { CalendarTimelineComponent, TranslationDirection, CalendarTimelineModule } from 'arlas-web-components';
 import { ArlasOverlayRef } from '../../tools/utils';
 import { ArlasOverlayService } from '../../services/overlays/overlay.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 /**
@@ -30,9 +31,11 @@ import { ArlasOverlayService } from '../../services/overlays/overlay.service';
  * Note: This component is binded to ARLAS-wui configuration
  */
 @Component({
-  selector: 'arlas-tool-calendar-timeline',
-  templateUrl: './calendar-timeline.component.html',
-  styleUrls: ['./calendar-timeline.component.css']
+    selector: 'arlas-tool-calendar-timeline',
+    templateUrl: './calendar-timeline.component.html',
+    styleUrls: ['./calendar-timeline.component.css'],
+    standalone: true,
+    imports: [CalendarTimelineModule, TranslateModule]
 })
 export class CalendarTimelineToolComponent implements OnInit, OnDestroy {
 

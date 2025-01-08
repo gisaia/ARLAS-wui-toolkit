@@ -18,12 +18,17 @@
  */
 
 import { Component } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose } from '@angular/material/dialog';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatButton } from '@angular/material/button';
 
 @Component({
-  selector: 'arlas-tool-confirm-modal-msg',
-  templateUrl: './confirm-modal.component.html',
-  styleUrls: ['./confirm-modal.component.css']
+    selector: 'arlas-tool-confirm-modal-msg',
+    templateUrl: './confirm-modal.component.html',
+    styleUrls: ['./confirm-modal.component.css'],
+    standalone: true,
+    imports: [MatDialogTitle, MatIcon, CdkScrollable, MatDialogContent, MatDialogActions, MatButton, MatDialogClose]
 })
 export class ConfirmModalComponent {
   public confirmMessage: string;

@@ -33,32 +33,29 @@ describe('AnalyticsBoardComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        AnalyticsBoardComponent, WidgetComponent, ProgressSpinnerComponent, HistogramWidgetComponent
-      ],
-      imports: [MatCardModule, MatIconModule, MatExpansionModule, MatSelectModule, MatButtonModule,
+    imports: [MatCardModule, MatIconModule, MatExpansionModule, MatSelectModule, MatButtonModule,
         MatTooltipModule, BrowserModule, HistogramModule, ResultsModule, PowerbarsModule,
         DonutModule, RouterModule.forRoot([]),
         TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }),
         MatBadgeModule, DragDropModule,
-        MetricModule, MatProgressSpinnerModule, MatTabsModule],
-      providers: [
+        MetricModule, MatProgressSpinnerModule, MatTabsModule, AnalyticsBoardComponent, WidgetComponent, ProgressSpinnerComponent, HistogramWidgetComponent],
+    providers: [
         ArlasConfigService, ArlasCollaborativesearchService,
         TranslateService, TranslateStore,
         {
-          provide: ArlasStartupService,
-          useClass: ArlasStartupService,
-          deps: [ArlasConfigurationUpdaterService]
+            provide: ArlasStartupService,
+            useClass: ArlasStartupService,
+            deps: [ArlasConfigurationUpdaterService]
         },
         {
-          provide: ArlasConfigurationUpdaterService,
-          useClass: ArlasConfigurationUpdaterService
+            provide: ArlasConfigurationUpdaterService,
+            useClass: ArlasConfigurationUpdaterService
         },
         { provide: CONFIG_UPDATER, useValue: {} },
         { provide: FETCH_OPTIONS, useValue: {} },
         provideHttpClient(withInterceptorsFromDi())
-      ]
-    }).compileComponents();
+    ]
+}).compileComponents();
   }));
 
   beforeEach(() => {

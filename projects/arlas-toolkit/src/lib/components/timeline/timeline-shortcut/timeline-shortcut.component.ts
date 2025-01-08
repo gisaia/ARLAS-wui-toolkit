@@ -18,13 +18,19 @@
  */
 
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslateModule } from '@ngx-translate/core';
 import { HistogramContributor } from 'arlas-web-contributors';
 import { SelectedOutputValues, StringifiedTimeShortcut } from 'arlas-web-contributors/models/models';
 import { OperationEnum } from 'arlas-web-core';
 import { filter } from 'rxjs/operators';
 import { ArlasCollaborativesearchService } from '../../../services/collaborative-search/arlas.collaborative-search.service';
 import { ArlasStartupService } from '../../../services/startup/startup.service';
+import { NgIf, NgFor } from '@angular/common';
+import { MatChip } from '@angular/material/chips';
+import { MatIcon } from '@angular/material/icon';
+import { MatTooltip } from '@angular/material/tooltip';
+import { DatePickerComponent } from '../date-picker/date-picker.component';
+import { GetTimeLabelPipe } from '../../../pipes/get-time-label.pipe';
 
 /**
  * This component contains shortcut labels that allow to apply predefined temporal filters on a timeline
@@ -34,9 +40,11 @@ import { ArlasStartupService } from '../../../services/startup/startup.service';
  * This component is used internally in `TimelineComponent`
  */
 @Component({
-  selector: 'arlas-timeline-shortcut',
-  templateUrl: './timeline-shortcut.component.html',
-  styleUrls: ['./timeline-shortcut.component.scss']
+    selector: 'arlas-timeline-shortcut',
+    templateUrl: './timeline-shortcut.component.html',
+    styleUrls: ['./timeline-shortcut.component.scss'],
+    standalone: true,
+    imports: [NgIf, NgFor, MatChip, MatIcon, MatTooltip, DatePickerComponent, TranslateModule, GetTimeLabelPipe]
 })
 export class TimelineShortcutComponent implements OnInit {
   /**
