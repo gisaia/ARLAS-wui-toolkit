@@ -18,16 +18,22 @@
  */
 
 import { Component, Inject, OnDestroy } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogActions,
+  MatDialogClose,
+  MatDialogContent,
+  MatDialogTitle
+} from '@angular/material/dialog';
 import { PermissionDialogData } from '../_interfaces';
-import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ArlasIamService } from '../../../services/arlas-iam/arlas-iam.service';
 import { PermissionData, PermissionDef } from 'arlas-iam-api';
-import { Subscription, finalize } from 'rxjs';
+import { finalize, Subscription } from 'rxjs';
 import { ArlasSettingsService } from '../../../services/settings/arlas.settings.service';
 import { marker } from '@colsen1991/ngx-translate-extract-marker';
 import { CdkScrollable } from '@angular/cdk/scrolling';
-import { NgIf, JsonPipe } from '@angular/common';
+import { JsonPipe, NgIf } from '@angular/common';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { MatIcon } from '@angular/material/icon';
@@ -37,10 +43,15 @@ import { TranslateModule } from '@ngx-translate/core';
 import { GetCollectionDisplayModule } from 'arlas-web-components';
 
 @Component({
-    templateUrl: './permissions-creator-dialog.component.html',
-    styleUrls: ['./permissions-creator-dialog.component.scss'],
-    standalone: true,
-    imports: [MatDialogTitle, CdkScrollable, MatDialogContent, NgIf, FormsModule, ReactiveFormsModule, MatFormField, MatLabel, MatInput, MatIcon, MatDialogActions, MatButton, MatDialogClose, MatProgressSpinner, JsonPipe, TranslateModule, GetCollectionDisplayModule]
+  templateUrl: './permissions-creator-dialog.component.html',
+  styleUrls: ['./permissions-creator-dialog.component.scss'],
+  standalone: true,
+  imports: [
+    MatDialogTitle, CdkScrollable, MatDialogContent, NgIf,
+    FormsModule, ReactiveFormsModule, MatFormField, MatLabel,
+    MatInput, MatIcon, MatDialogActions, MatButton, MatDialogClose, MatProgressSpinner,
+    JsonPipe, TranslateModule, GetCollectionDisplayModule
+  ]
 })
 export class PermissionsCreatorDialogComponent implements OnDestroy {
 

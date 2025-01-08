@@ -31,11 +31,11 @@ import { TranslateModule } from '@ngx-translate/core';
 
 
 @Component({
-    selector: 'arlas-filter-shortcut',
-    templateUrl: './filter-shortcut.component.html',
-    styleUrls: ['./filter-shortcut.component.scss'],
-    standalone: true,
-    imports: [NgIf, ShortcutFiltersHandlerComponent, MatIcon, WidgetComponent, TranslateModule]
+  selector: 'arlas-filter-shortcut',
+  templateUrl: './filter-shortcut.component.html',
+  styleUrls: ['./filter-shortcut.component.scss'],
+  standalone: true,
+  imports: [NgIf, ShortcutFiltersHandlerComponent, MatIcon, WidgetComponent, TranslateModule]
 })
 export class FilterShortcutComponent implements OnInit {
 

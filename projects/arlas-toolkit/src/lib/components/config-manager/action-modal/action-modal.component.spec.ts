@@ -15,6 +15,9 @@ import { GET_OPTIONS } from '../../../tools/utils';
 import { ShareConfigModule } from '../share-config/share-config.module';
 import { ActionModalComponent } from './action-modal.component';
 import { MockArlasSettingsService } from '../../../tools/tests/arlas-settings-service.mock';
+import {
+  ArlasCollaborativesearchService
+} from '../../../services/collaborative-search/arlas.collaborative-search.service';
 
 describe('ActionModalComponent', () => {
   let component: ActionModalComponent;
@@ -26,7 +29,7 @@ describe('ActionModalComponent', () => {
     };
 
     TestBed.configureTestingModule({
-    imports: [TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }),
+      imports: [TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }),
         MatMenuModule,
         MatIconModule,
         MatDialogModule,
@@ -35,31 +38,32 @@ describe('ActionModalComponent', () => {
         MatButtonModule,
         FormsModule,
         ShareConfigModule, ActionModalComponent],
-    providers: [
+      providers: [
+        ArlasCollaborativesearchService,
         AuthentificationService,
         OAuthService,
         OAuthLogger,
         DateTimeProvider,
         UrlHelperService,
         {
-            provide: MAT_DIALOG_DATA,
-            useValue: {}
+          provide: MAT_DIALOG_DATA,
+          useValue: {}
         },
         {
-            provide: MatDialogRef,
-            useValue: mockDialogRef
+          provide: MatDialogRef,
+          useValue: mockDialogRef
         },
         {
-            provide: GET_OPTIONS,
-            useValue: () => { }
+          provide: GET_OPTIONS,
+          useValue: () => { }
         },
         provideHttpClient(withInterceptorsFromDi()),
         {
-            provide: ArlasSettingsService,
-            useClass: MockArlasSettingsService
+          provide: ArlasSettingsService,
+          useClass: MockArlasSettingsService
         }
-    ]
-})
+      ]
+    })
       .compileComponents();
   }));
 

@@ -33,11 +33,11 @@ import { MatButton } from '@angular/material/button';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-    selector: 'arlas-denied-access-dialog',
-    templateUrl: './denied-access-dialog.component.html',
-    styleUrls: ['./denied-access-dialog.component.scss'],
-    standalone: true,
-    imports: [MatDialogTitle, CdkScrollable, MatDialogContent, MatIcon, NgIf, MatButton, MatDialogActions, MatDialogClose, TranslateModule]
+  selector: 'arlas-denied-access-dialog',
+  templateUrl: './denied-access-dialog.component.html',
+  styleUrls: ['./denied-access-dialog.component.scss'],
+  standalone: true,
+  imports: [MatDialogTitle, CdkScrollable, MatDialogContent, MatIcon, NgIf, MatButton, MatDialogActions, MatDialogClose, TranslateModule]
 })
 export class DeniedAccessDialogComponent implements OnInit, OnDestroy {
 

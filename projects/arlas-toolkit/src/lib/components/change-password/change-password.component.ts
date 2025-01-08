@@ -19,22 +19,26 @@
 
 import { Component, OnInit } from '@angular/core';
 import { ConfirmedValidator } from '../../tools/utils';
-import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ArlasIamService } from '../../services/arlas-iam/arlas-iam.service';
-import { MatDialogTitle, MatDialogContent, MatDialogClose } from '@angular/material/dialog';
+import { MatDialogClose, MatDialogContent, MatDialogTitle } from '@angular/material/dialog';
 import { CdkScrollable } from '@angular/cdk/scrolling';
 import { NgIf } from '@angular/common';
-import { MatFormField, MatLabel, MatError } from '@angular/material/form-field';
+import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { MatButton } from '@angular/material/button';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-    selector: 'arlas-tool-change-password',
-    templateUrl: './change-password.component.html',
-    styleUrls: ['./change-password.component.scss'],
-    standalone: true,
-    imports: [MatDialogTitle, CdkScrollable, MatDialogContent, FormsModule, ReactiveFormsModule, NgIf, MatFormField, MatLabel, MatInput, MatError, MatButton, MatDialogClose, TranslateModule]
+  selector: 'arlas-tool-change-password',
+  templateUrl: './change-password.component.html',
+  styleUrls: ['./change-password.component.scss'],
+  standalone: true,
+  imports: [
+    MatDialogTitle, CdkScrollable, MatDialogContent, FormsModule,
+    ReactiveFormsModule, NgIf, MatFormField, MatLabel, MatInput, MatError,
+    MatButton, MatDialogClose, TranslateModule
+  ]
 })
 export class ChangePasswordComponent implements OnInit {
 

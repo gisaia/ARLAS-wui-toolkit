@@ -17,32 +17,34 @@
  * under the License.
  */
 import { Component, Inject, Input, OnInit, ViewEncapsulation } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Aggregation } from 'arlas-api';
 import { LayerSourceConfig, MapContributor } from 'arlas-web-contributors';
 import { projType } from 'arlas-web-core';
-import { ArlasCollaborativesearchService } from '../../services/collaborative-search/arlas.collaborative-search.service';
+import {
+  ArlasCollaborativesearchService
+} from '../../services/collaborative-search/arlas.collaborative-search.service';
 import { ArlasConfigService } from '../../services/startup/startup.service';
 import { ArlasSearchField } from './model/ArlasSearchField';
 
 import { SelectionModel } from '@angular/cdk/collections';
-import { MatListOption, MatSelectionList, MatList, MatListItem } from '@angular/material/list';
+import { MatList, MatListItem, MatListOption, MatSelectionList } from '@angular/material/list';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { marker } from '@colsen1991/ngx-translate-extract-marker';
-import { TranslateService, TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Search } from 'arlas-tagger-api';
 import { ARLAS_VSET, MapglLegendModule } from 'arlas-web-components';
 import * as FileSaver from 'file-saver';
-import { NgxSpinnerService, NgxSpinnerComponent } from 'ngx-spinner';
+import { NgxSpinnerComponent, NgxSpinnerService } from 'ngx-spinner';
 import { orderAlphabeticallyArlasSearchFields } from '../../tools/utils';
-import { MatMiniFabButton, MatButton } from '@angular/material/button';
+import { MatButton, MatMiniFabButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
-import { MatStepper, MatStep, MatStepLabel, MatStepperNext, MatStepperPrevious } from '@angular/material/stepper';
-import { MatRadioGroup, MatRadioButton } from '@angular/material/radio';
+import { MatStep, MatStepLabel, MatStepper, MatStepperNext, MatStepperPrevious } from '@angular/material/stepper';
+import { MatRadioButton, MatRadioGroup } from '@angular/material/radio';
 import { NgFor, NgIf } from '@angular/common';
 import { MatDivider } from '@angular/material/divider';
-import { MatFormField, MatLabel, MatHint } from '@angular/material/form-field';
+import { MatFormField, MatHint, MatLabel } from '@angular/material/form-field';
 import { MatSelect } from '@angular/material/select';
 import { MatOption } from '@angular/material/core';
 import { MatTooltip } from '@angular/material/tooltip';
@@ -59,12 +61,12 @@ export interface ShareLayerSourceConfig extends LayerSourceConfig {
  * Note: This component is binded to ARLAS-wui configuration.
  */
 @Component({
-    selector: 'arlas-share',
-    templateUrl: './share.component.html',
-    styleUrls: ['./share.component.css'],
-    encapsulation: ViewEncapsulation.None,
-    standalone: true,
-    imports: [MatMiniFabButton, MatIcon]
+  selector: 'arlas-share',
+  templateUrl: './share.component.html',
+  styleUrls: ['./share.component.css'],
+  encapsulation: ViewEncapsulation.None,
+  standalone: true,
+  imports: [MatMiniFabButton, MatIcon]
 })
 export class ShareComponent {
 
@@ -81,12 +83,18 @@ export class ShareComponent {
 
 
 @Component({
-    selector: 'arlas-share-dialog',
-    templateUrl: './share-dialog.component.html',
-    styleUrls: ['./share-dialog.component.scss'],
-    encapsulation: ViewEncapsulation.None,
-    standalone: true,
-    imports: [MatStepper, MatStep, FormsModule, ReactiveFormsModule, MatStepLabel, MatRadioGroup, NgFor, MatRadioButton, MatDivider, MatButton, MatStepperNext, NgIf, MatFormField, MatSelect, MatOption, MatLabel, MatSelectionList, MatListOption, MatTooltip, MatList, MatListItem, MatHint, MatStepperPrevious, NgxSpinnerComponent, MatIcon, MapglLegendModule, TranslateModule, ExcludeTypePipe]
+  selector: 'arlas-share-dialog',
+  templateUrl: './share-dialog.component.html',
+  styleUrls: ['./share-dialog.component.scss'],
+  encapsulation: ViewEncapsulation.None,
+  standalone: true,
+  imports: [
+    MatStepper, MatStep, FormsModule,
+    ReactiveFormsModule, MatStepLabel, MatRadioGroup,
+    NgFor, MatRadioButton, MatDivider, MatButton, MatStepperNext, NgIf, MatFormField,
+    MatSelect, MatOption, MatLabel, MatSelectionList, MatListOption, MatTooltip, MatList,
+    MatListItem, MatHint, MatStepperPrevious, NgxSpinnerComponent, MatIcon, MapglLegendModule,
+    TranslateModule, ExcludeTypePipe]
 })
 export class ShareDialogComponent implements OnInit {
 

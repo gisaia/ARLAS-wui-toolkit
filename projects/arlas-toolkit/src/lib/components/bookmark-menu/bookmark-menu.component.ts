@@ -32,11 +32,11 @@ import { MatTooltip } from '@angular/material/tooltip';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-    selector: 'arlas-bookmark-menu',
-    templateUrl: './bookmark-menu.component.html',
-    styleUrls: ['./bookmark-menu.component.scss'],
-    standalone: true,
-    imports: [MatMenu, MatMenuItem, MatIcon, NgIf, MatTooltip, TranslateModule]
+  selector: 'arlas-bookmark-menu',
+  templateUrl: './bookmark-menu.component.html',
+  styleUrls: ['./bookmark-menu.component.scss'],
+  standalone: true,
+  imports: [MatMenu, MatMenuItem, MatIcon, NgIf, MatTooltip, TranslateModule]
 })
 export class BookmarkMenuComponent implements OnInit, OnDestroy {
 

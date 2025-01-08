@@ -40,11 +40,11 @@ import { GetTimeLabelPipe } from '../../../pipes/get-time-label.pipe';
  * This component is used internally in `TimelineComponent`
  */
 @Component({
-    selector: 'arlas-timeline-shortcut',
-    templateUrl: './timeline-shortcut.component.html',
-    styleUrls: ['./timeline-shortcut.component.scss'],
-    standalone: true,
-    imports: [NgIf, NgFor, MatChip, MatIcon, MatTooltip, DatePickerComponent, TranslateModule, GetTimeLabelPipe]
+  selector: 'arlas-timeline-shortcut',
+  templateUrl: './timeline-shortcut.component.html',
+  styleUrls: ['./timeline-shortcut.component.scss'],
+  standalone: true,
+  imports: [NgIf, NgFor, MatChip, MatIcon, MatTooltip, DatePickerComponent, TranslateModule, GetTimeLabelPipe]
 })
 export class TimelineShortcutComponent implements OnInit {
   /**

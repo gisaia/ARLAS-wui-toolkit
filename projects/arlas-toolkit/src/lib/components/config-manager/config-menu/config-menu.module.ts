@@ -27,17 +27,17 @@ import { MatButtonModule } from '@angular/material/button';
 import { ActionModalModule } from '../action-modal/action-modal.module';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        TranslateModule,
-        MatMenuModule,
-        MatIconModule,
-        ActionModalModule,
-        MatButtonModule,
-        ConfigMenuComponent
-    ],
-    exports: [
-        ConfigMenuComponent
-    ]
+  imports: [
+    CommonModule,
+    TranslateModule,
+    MatMenuModule,
+    MatIconModule,
+    ActionModalModule,
+    MatButtonModule,
+    ConfigMenuComponent
+  ],
+  exports: [
+    ConfigMenuComponent
+  ]
 })
 export class ConfigMenuModule { }

@@ -29,11 +29,11 @@ import { MatButton } from '@angular/material/button';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-    selector: 'arlas-tool-reset',
-    templateUrl: './reset.component.html',
-    styleUrls: ['./reset.component.css'],
-    standalone: true,
-    imports: [FormsModule, ReactiveFormsModule, NgIf, MatFormField, MatLabel, MatInput, MatButton, RouterLink, TranslateModule]
+  selector: 'arlas-tool-reset',
+  templateUrl: './reset.component.html',
+  styleUrls: ['./reset.component.css'],
+  standalone: true,
+  imports: [FormsModule, ReactiveFormsModule, NgIf, MatFormField, MatLabel, MatInput, MatButton, RouterLink, TranslateModule]
 })
 export class ResetComponent implements OnInit {
 

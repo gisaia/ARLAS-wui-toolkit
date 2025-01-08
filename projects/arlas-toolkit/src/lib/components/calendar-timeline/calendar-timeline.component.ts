@@ -31,11 +31,11 @@ import { TranslateModule } from '@ngx-translate/core';
  * Note: This component is binded to ARLAS-wui configuration
  */
 @Component({
-    selector: 'arlas-tool-calendar-timeline',
-    templateUrl: './calendar-timeline.component.html',
-    styleUrls: ['./calendar-timeline.component.css'],
-    standalone: true,
-    imports: [CalendarTimelineModule, TranslateModule]
+  selector: 'arlas-tool-calendar-timeline',
+  templateUrl: './calendar-timeline.component.html',
+  styleUrls: ['./calendar-timeline.component.css'],
+  standalone: true,
+  imports: [CalendarTimelineModule, TranslateModule]
 })
 export class CalendarTimelineToolComponent implements OnInit, OnDestroy {
 

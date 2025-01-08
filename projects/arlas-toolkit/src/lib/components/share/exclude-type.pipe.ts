@@ -21,8 +21,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { ArlasSearchField } from './model/ArlasSearchField';
 
 @Pipe({
-    name: 'excludeType',
-    standalone: true
+  name: 'excludeType',
+  standalone: true
 })
 export class ExcludeTypePipe implements PipeTransform {
 

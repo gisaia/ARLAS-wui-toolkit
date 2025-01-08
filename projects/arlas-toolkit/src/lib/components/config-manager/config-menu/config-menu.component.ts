@@ -41,12 +41,12 @@ import { NgFor, NgIf } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-    selector: 'arlas-config-menu',
-    templateUrl: './config-menu.component.html',
-    styleUrls: ['./config-menu.component.scss'],
-    encapsulation: ViewEncapsulation.None,
-    standalone: true,
-    imports: [MatIconButton, MatMenuTrigger, MatIcon, MatMenu, NgFor, NgIf, MatMenuItem, TranslateModule]
+  selector: 'arlas-config-menu',
+  templateUrl: './config-menu.component.html',
+  styleUrls: ['./config-menu.component.scss'],
+  encapsulation: ViewEncapsulation.None,
+  standalone: true,
+  imports: [MatIconButton, MatMenuTrigger, MatIcon, MatMenu, NgFor, NgIf, MatMenuItem, TranslateModule]
 })
 export class ConfigMenuComponent implements OnInit {
   @Input() public actions: Array<ConfigAction>;

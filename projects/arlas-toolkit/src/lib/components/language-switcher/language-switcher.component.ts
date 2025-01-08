@@ -27,12 +27,12 @@ import { MatOption } from '@angular/material/core';
  * This component changes the `lg` parameter of ARLAS-wui url.
  */
 @Component({
-    selector: 'arlas-language-switcher',
-    templateUrl: './language-switcher.component.html',
-    styleUrls: ['./language-switcher.component.scss'],
-    encapsulation: ViewEncapsulation.None,
-    standalone: true,
-    imports: [MatSelect, MatSelectTrigger, NgFor, MatOption]
+  selector: 'arlas-language-switcher',
+  templateUrl: './language-switcher.component.html',
+  styleUrls: ['./language-switcher.component.scss'],
+  encapsulation: ViewEncapsulation.None,
+  standalone: true,
+  imports: [MatSelect, MatSelectTrigger, NgFor, MatOption]
 })
 export class LanguageSwitcherComponent implements OnInit {
   /**

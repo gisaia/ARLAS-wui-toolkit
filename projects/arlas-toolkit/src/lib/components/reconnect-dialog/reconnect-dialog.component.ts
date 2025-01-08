@@ -25,11 +25,11 @@ import { CdkScrollable } from '@angular/cdk/scrolling';
 import { MatButton } from '@angular/material/button';
 import { TranslateModule } from '@ngx-translate/core';
 @Component({
-    selector: 'arlas-tool-reconnect-dialog',
-    templateUrl: './reconnect-dialog.component.html',
-    styleUrls: ['./reconnect-dialog.component.css'],
-    standalone: true,
-    imports: [NgIf, MatDialogTitle, CdkScrollable, MatDialogContent, MatDialogActions, MatButton, MatDialogClose, TranslateModule]
+  selector: 'arlas-tool-reconnect-dialog',
+  templateUrl: './reconnect-dialog.component.html',
+  styleUrls: ['./reconnect-dialog.component.css'],
+  standalone: true,
+  imports: [NgIf, MatDialogTitle, CdkScrollable, MatDialogContent, MatDialogActions, MatButton, MatDialogClose, TranslateModule]
 })
 export class ReconnectDialogComponent implements OnInit {
 

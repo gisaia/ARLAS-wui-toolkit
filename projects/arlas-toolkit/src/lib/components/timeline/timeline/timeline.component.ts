@@ -47,11 +47,11 @@ import { ContributorUpdatingPipe } from '../../../pipes/contributor-updating.pip
  * - Shortcut labels that allow to apply predefined temporal filters (Last year, Last month, Today, etc ...)
  */
 @Component({
-    selector: 'arlas-timeline',
-    templateUrl: './timeline.component.html',
-    styleUrls: ['./timeline.component.scss'],
-    standalone: true,
-    imports: [TimelineShortcutComponent, NgIf, NgFor, HistogramModule, MatIcon, ProgressSpinnerComponent, TranslateModule, ContributorUpdatingPipe]
+  selector: 'arlas-timeline',
+  templateUrl: './timeline.component.html',
+  styleUrls: ['./timeline.component.scss'],
+  standalone: true,
+  imports: [TimelineShortcutComponent, NgIf, NgFor, HistogramModule, MatIcon, ProgressSpinnerComponent, TranslateModule, ContributorUpdatingPipe]
 })
 export class TimelineComponent implements OnInit, OnDestroy {
 

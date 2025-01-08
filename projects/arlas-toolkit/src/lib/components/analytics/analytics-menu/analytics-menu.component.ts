@@ -28,11 +28,11 @@ import { MatTooltip } from '@angular/material/tooltip';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-    selector: 'arlas-analytics-menu',
-    templateUrl: './analytics-menu.component.html',
-    styleUrls: ['./analytics-menu.component.scss'],
-    standalone: true,
-    imports: [MatActionList, NgFor, MatListItem, NgIf, MatIcon, MatTooltip, TranslateModule]
+  selector: 'arlas-analytics-menu',
+  templateUrl: './analytics-menu.component.html',
+  styleUrls: ['./analytics-menu.component.scss'],
+  standalone: true,
+  imports: [MatActionList, NgFor, MatListItem, NgIf, MatIcon, MatTooltip, TranslateModule]
 })
 export class AnalyticsMenuComponent implements OnInit {
 

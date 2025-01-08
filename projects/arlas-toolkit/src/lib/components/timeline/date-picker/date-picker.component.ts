@@ -33,14 +33,14 @@ const moment = (_moment as any).default ? (_moment as any).default : _moment;
  * The component allows to set start/end values of a temporal selection on the timeline
  */
 @Component({
-    selector: 'arlas-tool-date-picker',
-    templateUrl: './date-picker.component.html',
-    styleUrls: ['./date-picker.component.scss'],
-    providers: [
-        { provide: DateTimeAdapter, useClass: MomentDateTimeAdapter, deps: [OWL_DATE_TIME_LOCALE] }
-    ],
-    standalone: true,
-    imports: [FormsModule, OwlDateTimeModule, TranslateModule]
+  selector: 'arlas-tool-date-picker',
+  templateUrl: './date-picker.component.html',
+  styleUrls: ['./date-picker.component.scss'],
+  providers: [
+    { provide: DateTimeAdapter, useClass: MomentDateTimeAdapter, deps: [OWL_DATE_TIME_LOCALE] }
+  ],
+  standalone: true,
+  imports: [FormsModule, OwlDateTimeModule, TranslateModule]
 })
 export class DatePickerComponent implements OnInit, OnChanges {
 

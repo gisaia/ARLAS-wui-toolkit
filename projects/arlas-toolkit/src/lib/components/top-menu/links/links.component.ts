@@ -26,11 +26,11 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-    selector: 'arlas-links',
-    templateUrl: './links.component.html',
-    styleUrls: ['./links.component.scss'],
-    standalone: true,
-    imports: [NgFor, LinkComponent, NgIf, MatProgressSpinner, TranslateModule]
+  selector: 'arlas-links',
+  templateUrl: './links.component.html',
+  styleUrls: ['./links.component.scss'],
+  standalone: true,
+  imports: [NgFor, LinkComponent, NgIf, MatProgressSpinner, TranslateModule]
 })
 export class LinksComponent implements OnInit {
 

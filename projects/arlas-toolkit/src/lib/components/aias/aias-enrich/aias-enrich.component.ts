@@ -20,12 +20,12 @@
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogTitle, MatDialogContent, MatDialogClose } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogClose, MatDialogContent, MatDialogTitle } from '@angular/material/dialog';
 import { marker } from '@colsen1991/ngx-translate-extract-marker';
 import { ProcessService } from '../../../services/process/process.service';
 import { AiasEnrichDialogData, AiasProcess } from '../aias-process';
 import { CdkScrollable } from '@angular/cdk/scrolling';
-import { MatStepper, MatStep, MatStepperNext, MatStepperPrevious, MatStepperIcon } from '@angular/material/stepper';
+import { MatStep, MatStepper, MatStepperIcon, MatStepperNext, MatStepperPrevious } from '@angular/material/stepper';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatSelect } from '@angular/material/select';
 import { NgFor, NgIf } from '@angular/common';
@@ -38,14 +38,17 @@ import { TranslateModule } from '@ngx-translate/core';
 export const ENRICH_PROCESS_NAME = marker('enrich');
 
 @Component({
-    selector: 'arlas-aias-enrich',
-    templateUrl: './aias-enrich.component.html',
-    styleUrls: ['./aias-enrich.component.scss', '../aias-process.scss'],
-    providers: [{
-            provide: STEPPER_GLOBAL_OPTIONS, useValue: { displayDefaultIndicatorType: false }
-        }],
-    standalone: true,
-    imports: [MatDialogTitle, CdkScrollable, MatDialogContent, MatStepper, MatStep, FormsModule, ReactiveFormsModule, MatFormField, MatLabel, MatSelect, NgFor, MatOption, MatButton, MatDialogClose, MatStepperNext, NgIf, MatStepperPrevious, MatStepperIcon, MatIcon, AiasResultComponent, TranslateModule]
+  selector: 'arlas-aias-enrich',
+  templateUrl: './aias-enrich.component.html',
+  styleUrls: ['./aias-enrich.component.scss', '../aias-process.scss'],
+  providers: [{
+    provide: STEPPER_GLOBAL_OPTIONS, useValue: { displayDefaultIndicatorType: false }
+  }],
+  standalone: true,
+  imports: [MatDialogTitle, CdkScrollable, MatDialogContent, MatStepper, MatStep,
+    FormsModule, ReactiveFormsModule, MatFormField, MatLabel, MatSelect, NgFor, MatOption,
+    MatButton, MatDialogClose, MatStepperNext, NgIf, MatStepperPrevious, MatStepperIcon, MatIcon,
+    AiasResultComponent, TranslateModule]
 })
 export class AiasEnrichComponent extends AiasProcess implements OnInit {
 

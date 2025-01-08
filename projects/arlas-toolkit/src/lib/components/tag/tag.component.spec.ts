@@ -29,29 +29,29 @@ describe('TagComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [ArlasToolKitModule,
+      imports: [ArlasToolKitModule,
         ReactiveFormsModule, MatAutocompleteModule,
         MatInputModule, FormsModule, BrowserAnimationsModule,
         MatIconModule, MatDialogModule, MatStepperModule,
         MatRadioModule, MatSelectModule, MatProgressBarModule, MatSnackBarModule, TagComponent],
-    providers: [
+      providers: [
         ArlasConfigService,
         ArlasCollaborativesearchService,
         ArlasTagService,
         AuthentificationService,
         {
-            provide: ArlasConfigurationUpdaterService,
-            useClass: ArlasConfigurationUpdaterService
+          provide: ArlasConfigurationUpdaterService,
+          useClass: ArlasConfigurationUpdaterService
         },
         { provide: FETCH_OPTIONS, useValue: {} },
         { provide: CONFIG_UPDATER, useValue: {} },
         {
-            provide: GET_OPTIONS,
-            useValue: () => { }
+          provide: GET_OPTIONS,
+          useValue: () => { }
         },
         provideHttpClient(withInterceptorsFromDi())
-    ]
-})
+      ]
+    })
       .compileComponents();
   }));
 

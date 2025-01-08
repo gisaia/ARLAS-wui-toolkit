@@ -24,23 +24,40 @@ import { ArlasBookmarkService } from '../../services/bookmark/bookmark.service';
 import { BookmarkDataSource } from '../../services/bookmark/bookmarkDataSource';
 import { BookmarkPersistenceDatabase } from '../../services/bookmark/bookmarkPersistenceDatabase';
 import { BookMark } from '../../services/bookmark/model';
-import { ArlasCollaborativesearchService } from '../../services/collaborative-search/arlas.collaborative-search.service';
+import {
+  ArlasCollaborativesearchService
+} from '../../services/collaborative-search/arlas.collaborative-search.service';
 import { BookmarkAddDialogComponent } from './bookmark-add-dialog.component';
-import { MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow } from '@angular/material/table';
+import {
+  MatCell,
+  MatCellDef,
+  MatColumnDef,
+  MatHeaderCell,
+  MatHeaderCellDef,
+  MatHeaderRow,
+  MatHeaderRowDef,
+  MatRow,
+  MatRowDef,
+  MatTable
+} from '@angular/material/table';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { MatIcon } from '@angular/material/icon';
-import { MatMenuTrigger, MatMenu, MatMenuItem } from '@angular/material/menu';
+import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
 import { MatTooltip } from '@angular/material/tooltip';
-import { NgIf, AsyncPipe, DatePipe } from '@angular/common';
+import { AsyncPipe, DatePipe, NgIf } from '@angular/common';
 import { MatButton } from '@angular/material/button';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-    selector: 'arlas-bookmark',
-    templateUrl: './bookmark.component.html',
-    styleUrls: ['./bookmark.component.scss'],
-    standalone: true,
-    imports: [MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatCheckbox, MatIcon, MatMenuTrigger, MatMenu, MatMenuItem, MatTooltip, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, NgIf, MatButton, MatDialogActions, MatDialogClose, AsyncPipe, DatePipe, TranslateModule]
+  selector: 'arlas-bookmark',
+  templateUrl: './bookmark.component.html',
+  styleUrls: ['./bookmark.component.scss'],
+  standalone: true,
+  imports: [
+    MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef,
+    MatCell, MatCheckbox, MatIcon, MatMenuTrigger, MatMenu, MatMenuItem, MatTooltip,
+    MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, NgIf, MatButton, MatDialogActions,
+    MatDialogClose, AsyncPipe, DatePipe, TranslateModule]
 })
 export class BookmarkComponent {
 

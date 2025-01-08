@@ -45,11 +45,11 @@ import { ContributorUpdatingPipe } from '../../pipes/contributor-updating.pipe';
  * Note: This component is binded to ARLAS-wui configuration
  */
 @Component({
-    selector: 'arlas-tool-histogram-widget',
-    templateUrl: './histogram-widget.component.html',
-    styleUrls: ['./histogram-widget.component.css'],
-    standalone: true,
-    imports: [ProgressSpinnerComponent, NgIf, MatTooltip, MatIcon, HistogramModule, TranslateModule, ContributorUpdatingPipe]
+  selector: 'arlas-tool-histogram-widget',
+  templateUrl: './histogram-widget.component.html',
+  styleUrls: ['./histogram-widget.component.css'],
+  standalone: true,
+  imports: [ProgressSpinnerComponent, NgIf, MatTooltip, MatIcon, HistogramModule, TranslateModule, ContributorUpdatingPipe]
 })
 export class HistogramWidgetComponent implements OnInit, OnDestroy, AfterViewInit {
 

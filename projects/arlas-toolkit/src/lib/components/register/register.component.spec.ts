@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { RegisterComponent } from './register.component';
 import { ArlasSettingsService } from '../../services/settings/arlas.settings.service';
 import { MockArlasSettingsService } from '../../tools/tests/arlas-settings-service.mock';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 describe('RegisterComponent', () => {
   let component: RegisterComponent;
@@ -13,21 +14,22 @@ describe('RegisterComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    providers: [
+      providers: [
+        provideAnimations(),
         FormBuilder,
         {
-            provide: ArlasSettingsService,
-            useClass: MockArlasSettingsService
+          provide: ArlasSettingsService,
+          useClass: MockArlasSettingsService
         }
-    ],
-    imports: [
+      ],
+      imports: [
         TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }),
         RouterModule.forRoot([]),
         FormsModule,
         ReactiveFormsModule,
         RegisterComponent
-    ]
-})
+      ]
+    })
       .compileComponents();
   });
 

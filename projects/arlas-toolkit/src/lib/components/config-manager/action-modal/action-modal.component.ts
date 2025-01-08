@@ -18,10 +18,17 @@
  */
 
 import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogActions,
+  MatDialogClose,
+  MatDialogContent,
+  MatDialogRef,
+  MatDialogTitle
+} from '@angular/material/dialog';
 import { marker } from '@colsen1991/ngx-translate-extract-marker';
 import { DataWithLinks } from 'arlas-persistence-api';
-import { Observable, catchError, forkJoin, map, mergeMap, of, take, tap } from 'rxjs';
+import { catchError, forkJoin, map, mergeMap, Observable, of, take, tap } from 'rxjs';
 import { ErrorService } from '../../../services/error/error.service';
 import { PersistenceService } from '../../../services/persistence/persistence.service';
 import { ArlasConfigService } from '../../../services/startup/startup.service';
@@ -38,11 +45,14 @@ import { ShareConfigComponent } from '../share-config/share-config.component';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-    selector: 'arlas-action-modal',
-    templateUrl: './action-modal.component.html',
-    styleUrls: ['./action-modal.component.css'],
-    standalone: true,
-    imports: [NgIf, MatDialogTitle, CdkScrollable, MatDialogContent, MatDialogActions, MatButton, MatDialogClose, MatFormField, MatLabel, MatInput, FormsModule, MatIconButton, MatSuffix, MatIcon, ShareConfigComponent, TranslateModule]
+  selector: 'arlas-action-modal',
+  templateUrl: './action-modal.component.html',
+  styleUrls: ['./action-modal.component.css'],
+  standalone: true,
+  imports: [
+    NgIf, MatDialogTitle, CdkScrollable, MatDialogContent, MatDialogActions, MatButton,
+    MatDialogClose, MatFormField, MatLabel, MatInput, FormsModule, MatIconButton, MatSuffix,
+    MatIcon, ShareConfigComponent, TranslateModule]
 })
 export class ActionModalComponent {
 

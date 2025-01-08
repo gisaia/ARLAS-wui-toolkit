@@ -26,11 +26,11 @@ import { MatDialogClose } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-    selector: 'arlas-aias-result',
-    templateUrl: './aias-result.component.html',
-    styleUrls: ['./aias-result.component.scss'],
-    standalone: true,
-    imports: [NgIf, MatProgressBar, MatButton, MatDialogClose, DatePipe, TranslateModule]
+  selector: 'arlas-aias-result',
+  templateUrl: './aias-result.component.html',
+  styleUrls: ['./aias-result.component.scss'],
+  standalone: true,
+  imports: [NgIf, MatProgressBar, MatButton, MatDialogClose, DatePipe, TranslateModule]
 })
 export class AiasResultComponent implements OnInit {
 

@@ -27,11 +27,11 @@ import { MatTooltip } from '@angular/material/tooltip';
 import { MatIcon } from '@angular/material/icon';
 
 @Component({
-    selector: 'arlas-link',
-    templateUrl: './link.component.html',
-    styleUrls: ['./link.component.scss'],
-    standalone: true,
-    imports: [NgIf, MatTooltip, MatIcon]
+  selector: 'arlas-link',
+  templateUrl: './link.component.html',
+  styleUrls: ['./link.component.scss'],
+  standalone: true,
+  imports: [NgIf, MatTooltip, MatIcon]
 })
 export class LinkComponent implements OnInit {
 

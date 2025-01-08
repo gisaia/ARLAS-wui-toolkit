@@ -3,6 +3,7 @@ import { FormBuilder } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { ResetComponent } from './reset.component';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 describe('ResetComponent', () => {
   let component: ResetComponent;
@@ -10,17 +11,18 @@ describe('ResetComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    providers: [
+      providers: [
+        provideAnimations(),
         FormBuilder
-    ],
-    imports: [
+      ],
+      imports: [
         TranslateModule.forRoot({
-            loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
+          loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
         }),
         RouterModule.forRoot([]),
         ResetComponent
-    ]
-})
+      ]
+    })
       .compileComponents();
   });
 

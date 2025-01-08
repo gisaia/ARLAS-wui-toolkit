@@ -33,7 +33,7 @@ describe('HistogramWidgetComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [HistogramModule,
+      imports: [HistogramModule,
         PowerbarsModule,
         ResultsModule,
         DonutModule,
@@ -43,36 +43,36 @@ describe('HistogramWidgetComponent', () => {
         MatIconModule,
         MatProgressSpinnerModule,
         TranslateModule.forRoot({
-            loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
+          loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
         }),
         ColorGeneratorModule.forRoot({
-            loader: {
-                provide: ColorGeneratorLoader,
-                useClass: AwcColorGeneratorLoader
-            }
+          loader: {
+            provide: ColorGeneratorLoader,
+            useClass: AwcColorGeneratorLoader
+          }
         }), HistogramWidgetComponent, ProgressSpinnerComponent, ContributorUpdatingPipe],
-    providers: [
+      providers: [
         ArlasCollaborativesearchService,
         ArlasConfigService,
         ArlasColorService,
         {
-            provide: ArlasStartupService,
-            useClass: ArlasStartupService,
-            deps: [ArlasConfigurationUpdaterService]
+          provide: ArlasStartupService,
+          useClass: ArlasStartupService,
+          deps: [ArlasConfigurationUpdaterService]
         },
         TranslateService,
         ArlasOverlayService,
         { provide: CONFIG_UPDATER, useValue: {} },
         {
-            provide: ArlasConfigurationUpdaterService,
-            useClass: ArlasConfigurationUpdaterService
+          provide: ArlasConfigurationUpdaterService,
+          useClass: ArlasConfigurationUpdaterService
         },
         { provide: FETCH_OPTIONS, useValue: {} },
         provideHttpClient(withInterceptorsFromDi()),
         ArlasExportCsvService,
         ArlasCollectionService,
-    ]
-})
+      ]
+    })
       .compileComponents();
   }));
 

@@ -32,11 +32,11 @@ import { TranslateModule } from '@ngx-translate/core';
 
 /** Creates an IAM permission based on the current filter of the main collection. */
 @Component({
-    selector: 'arlas-permissions-creator',
-    templateUrl: './permissions-creator.component.html',
-    styleUrls: ['./permissions-creator.component.scss'],
-    standalone: true,
-    imports: [NgIf, MatButton, MatTooltip, TranslateModule]
+  selector: 'arlas-permissions-creator',
+  templateUrl: './permissions-creator.component.html',
+  styleUrls: ['./permissions-creator.component.scss'],
+  standalone: true,
+  imports: [NgIf, MatButton, MatTooltip, TranslateModule]
 })
 export class PermissionsCreatorComponent implements OnInit, OnDestroy {
 

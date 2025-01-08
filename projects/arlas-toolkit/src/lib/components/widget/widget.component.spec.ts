@@ -25,7 +25,7 @@ describe('WidgetComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [HistogramModule,
+      imports: [HistogramModule,
         PowerbarsModule,
         ResultsModule,
         DonutModule,
@@ -35,15 +35,15 @@ describe('WidgetComponent', () => {
         MatIconModule,
         MatProgressSpinnerModule,
         TranslateModule.forRoot({
-            loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
+          loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
         }), WidgetComponent, HistogramWidgetComponent, ProgressSpinnerComponent],
-    providers: [
+      providers: [
         ArlasCollaborativesearchService,
         ArlasConfigService,
         {
-            provide: ArlasStartupService,
-            useClass: ArlasStartupService,
-            deps: [ArlasConfigurationUpdaterService]
+          provide: ArlasStartupService,
+          useClass: ArlasStartupService,
+          deps: [ArlasConfigurationUpdaterService]
         },
         TranslateService,
         ArlasOverlayService,
@@ -52,8 +52,8 @@ describe('WidgetComponent', () => {
         { provide: FETCH_OPTIONS, useValue: {} },
         provideHttpClient(withInterceptorsFromDi()),
         ArlasCollectionService
-    ]
-})
+      ]
+    })
       .compileComponents();
   }));
 

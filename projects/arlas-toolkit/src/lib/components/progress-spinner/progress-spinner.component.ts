@@ -28,11 +28,11 @@ export const DEFAULT_SPINNER_OPTIONS: SpinnerOptions = {
 };
 
 @Component({
-    selector: 'arlas-tool-progress-spinner',
-    templateUrl: './progress-spinner.component.html',
-    styleUrls: ['./progress-spinner.component.css'],
-    standalone: true,
-    imports: [MatProgressSpinner]
+  selector: 'arlas-tool-progress-spinner',
+  templateUrl: './progress-spinner.component.html',
+  styleUrls: ['./progress-spinner.component.css'],
+  standalone: true,
+  imports: [MatProgressSpinner]
 })
 export class ProgressSpinnerComponent implements OnInit {
 

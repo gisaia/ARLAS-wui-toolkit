@@ -24,11 +24,11 @@ import { NgTemplateOutlet, NgIf, NgFor } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-    selector: 'arlas-histogram-tooltip-overlay',
-    templateUrl: './histogram-tooltip-overlay.component.html',
-    styleUrls: ['./histogram-tooltip-overlay.component.scss'],
-    standalone: true,
-    imports: [NgTemplateOutlet, NgIf, NgFor, TranslateModule, GetCollectionUnitModule]
+  selector: 'arlas-histogram-tooltip-overlay',
+  templateUrl: './histogram-tooltip-overlay.component.html',
+  styleUrls: ['./histogram-tooltip-overlay.component.scss'],
+  standalone: true,
+  imports: [NgTemplateOutlet, NgIf, NgFor, TranslateModule, GetCollectionUnitModule]
 })
 export class HistogramTooltipOverlayComponent {
   public interval: {

@@ -19,7 +19,7 @@
 
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { TranslateService, TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { finalize } from 'rxjs';
 import { ArlasIamService } from '../../services/arlas-iam/arlas-iam.service';
 import { AuthentificationService } from '../../services/authentification/authentification.service';
@@ -34,15 +34,20 @@ import { NgIf, UpperCasePipe } from '@angular/common';
 import { MatIconButton } from '@angular/material/button';
 import { MatTooltip } from '@angular/material/tooltip';
 import { MatIcon } from '@angular/material/icon';
-import { MatMenuTrigger, MatMenu, MatMenuItem } from '@angular/material/menu';
+import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
 import { LinksComponent } from './links/links.component';
 
 @Component({
-    selector: 'arlas-top-menu',
-    templateUrl: './top-menu.component.html',
-    styleUrls: ['./top-menu.component.scss'],
-    standalone: true,
-    imports: [MatToolbar, NgIf, MatIconButton, MatTooltip, MatIcon, MatMenuTrigger, MatMenu, MatMenuItem, AboutComponent, LinksComponent, UpperCasePipe, TranslateModule]
+  selector: 'arlas-top-menu',
+  templateUrl: './top-menu.component.html',
+  styleUrls: ['./top-menu.component.scss'],
+  standalone: true,
+  imports: [
+    MatToolbar, NgIf, MatIconButton,
+    MatTooltip, MatIcon, MatMenuTrigger,
+    MatMenu, MatMenuItem, AboutComponent,
+    LinksComponent, UpperCasePipe, TranslateModule
+  ]
 })
 export class TopMenuComponent implements OnInit {
 

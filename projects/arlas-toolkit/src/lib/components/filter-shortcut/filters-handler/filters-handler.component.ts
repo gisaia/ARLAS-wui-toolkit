@@ -37,21 +37,21 @@ import { MatIcon } from '@angular/material/icon';
 const moment = (_moment as any).default ? (_moment as any).default : _moment;
 
 @Component({
-    selector: 'arlas-shortcut-filters-handler',
-    templateUrl: './filters-handler.component.html',
-    styleUrls: ['./filters-handler.component.scss'],
-    animations: [
-        trigger('fadeInOut', [
-            state('void', style({ opacity: 0 })), // Initial state when element is not present
-            state('*', style({ opacity: 1 })), // Final state when element is present
-            transition(':enter', animate('500ms ease-in-out')), // Animation duration and easing
-        ])
-    ],
-    providers: [
-        { provide: DateTimeAdapter, useClass: MomentDateTimeAdapter, deps: [OWL_DATE_TIME_LOCALE] }
-    ],
-    standalone: true,
-    imports: [NgIf, FilterShortcutChipComponent, MatIcon, NgFor]
+  selector: 'arlas-shortcut-filters-handler',
+  templateUrl: './filters-handler.component.html',
+  styleUrls: ['./filters-handler.component.scss'],
+  animations: [
+    trigger('fadeInOut', [
+      state('void', style({ opacity: 0 })), // Initial state when element is not present
+      state('*', style({ opacity: 1 })), // Final state when element is present
+      transition(':enter', animate('500ms ease-in-out')), // Animation duration and easing
+    ])
+  ],
+  providers: [
+    { provide: DateTimeAdapter, useClass: MomentDateTimeAdapter, deps: [OWL_DATE_TIME_LOCALE] }
+  ],
+  standalone: true,
+  imports: [NgIf, FilterShortcutChipComponent, MatIcon, NgFor]
 })
 export class ShortcutFiltersHandlerComponent implements OnInit, OnDestroy {
   /**

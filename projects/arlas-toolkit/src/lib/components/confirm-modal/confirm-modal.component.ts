@@ -24,11 +24,11 @@ import { CdkScrollable } from '@angular/cdk/scrolling';
 import { MatButton } from '@angular/material/button';
 
 @Component({
-    selector: 'arlas-tool-confirm-modal-msg',
-    templateUrl: './confirm-modal.component.html',
-    styleUrls: ['./confirm-modal.component.css'],
-    standalone: true,
-    imports: [MatDialogTitle, MatIcon, CdkScrollable, MatDialogContent, MatDialogActions, MatButton, MatDialogClose]
+  selector: 'arlas-tool-confirm-modal-msg',
+  templateUrl: './confirm-modal.component.html',
+  styleUrls: ['./confirm-modal.component.css'],
+  standalone: true,
+  imports: [MatDialogTitle, MatIcon, CdkScrollable, MatDialogContent, MatDialogActions, MatButton, MatDialogClose]
 })
 export class ConfirmModalComponent {
   public confirmMessage: string;

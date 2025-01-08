@@ -26,31 +26,30 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ActionModalComponent } from './action-modal.component';
-import { PersistenceService } from '../../../services/persistence/persistence.service';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { ShareConfigModule } from '../share-config/share-config.module';
 import { ErrorService } from '../../../services/error/error.service';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        TranslateModule,
-        MatMenuModule,
-        MatIconModule,
-        MatDialogModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatButtonModule,
-        ShareConfigModule,
-        FormsModule,
-        ActionModalComponent
-    ],
-    exports: [
-        ActionModalComponent
-    ],
-    providers: [
-        ErrorService
-    ]
+  imports: [
+    CommonModule,
+    TranslateModule,
+    MatMenuModule,
+    MatIconModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    ShareConfigModule,
+    FormsModule,
+    ActionModalComponent
+  ],
+  exports: [
+    ActionModalComponent
+  ],
+  providers: [
+    ErrorService
+  ]
 })
 export class ActionModalModule { }

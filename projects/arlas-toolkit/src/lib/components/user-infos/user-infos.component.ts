@@ -26,11 +26,11 @@ import { TranslateModule } from '@ngx-translate/core';
 
 
 @Component({
-    selector: 'arlas-user-infos',
-    templateUrl: './user-infos.component.html',
-    styleUrls: ['./user-infos.component.scss'],
-    standalone: true,
-    imports: [NgIf, NgFor, TranslateModule]
+  selector: 'arlas-user-infos',
+  templateUrl: './user-infos.component.html',
+  styleUrls: ['./user-infos.component.scss'],
+  standalone: true,
+  imports: [NgIf, NgFor, TranslateModule]
 })
 export class UserInfosComponent implements OnInit {
 

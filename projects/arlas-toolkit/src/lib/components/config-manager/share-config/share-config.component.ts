@@ -17,14 +17,25 @@
  * under the License.
  */
 
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { PersistenceService } from '../../../services/persistence/persistence.service';
 import { Config } from '../../../tools/utils';
 import { ArlasConfigService } from '../../../services/startup/startup.service';
 import { catchError, of, take } from 'rxjs';
 import { AuthorisationOnActionError } from '../../../tools/errors/authorisation-on-action-error';
 import { ErrorService } from '../../../services/error/error.service';
-import { MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow } from '@angular/material/table';
+import {
+  MatCell,
+  MatCellDef,
+  MatColumnDef,
+  MatHeaderCell,
+  MatHeaderCellDef,
+  MatHeaderRow,
+  MatHeaderRowDef,
+  MatRow,
+  MatRowDef,
+  MatTable
+} from '@angular/material/table';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { NgIf } from '@angular/common';
 import { MatButton } from '@angular/material/button';
@@ -37,11 +48,14 @@ export interface PersistenceGroup {
   writer: boolean;
 }
 @Component({
-    selector: 'arlas-share-config',
-    templateUrl: './share-config.component.html',
-    styleUrls: ['./share-config.component.css'],
-    standalone: true,
-    imports: [MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatCheckbox, NgIf, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, MatButton, TranslateModule]
+  selector: 'arlas-share-config',
+  templateUrl: './share-config.component.html',
+  styleUrls: ['./share-config.component.css'],
+  standalone: true,
+  imports: [
+    MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell,
+    MatCheckbox, NgIf, MatHeaderRowDef, MatHeaderRow, MatRowDef,
+    MatRow, MatButton, TranslateModule]
 })
 export class ShareConfigComponent implements OnInit {
 

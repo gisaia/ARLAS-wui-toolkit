@@ -26,8 +26,8 @@ import { ArlasCollaborativesearchService } from '../services/collaborative-searc
  * use the CollaborativeSearchService's totalSubscribe.
  */
 @Pipe({
-    name: 'contributorUpdating',
-    standalone: true
+  name: 'contributorUpdating',
+  standalone: true
 })
 export class ContributorUpdatingPipe implements PipeTransform {
 
