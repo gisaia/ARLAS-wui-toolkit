@@ -22,11 +22,16 @@ import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular
 import { finalize } from 'rxjs';
 import { LinkSettings } from '../../../../services/startup/startup.service';
 import { GET_OPTIONS } from '../../../../tools/utils';
+import { NgIf } from '@angular/common';
+import { MatTooltip } from '@angular/material/tooltip';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'arlas-link',
   templateUrl: './link.component.html',
-  styleUrls: ['./link.component.scss']
+  styleUrls: ['./link.component.scss'],
+  standalone: true,
+  imports: [NgIf, MatTooltip, MatIcon]
 })
 export class LinkComponent implements OnInit {
 

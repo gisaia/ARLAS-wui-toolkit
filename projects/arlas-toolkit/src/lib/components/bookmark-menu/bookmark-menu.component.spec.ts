@@ -39,9 +39,8 @@ describe('BookmarkMenuComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [BookmarkMenuComponent],
       imports: [MatMenuModule, MatIconModule, MatTooltipModule,
-        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } })],
+        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }), BookmarkMenuComponent],
       providers: [
         ArlasConfigService, ArlasCollaborativesearchService,
         {

@@ -39,9 +39,8 @@ describe('ExtendComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ExtendComponent],
       imports: [MatTableModule, MatCheckboxModule, MatIconModule, MatPaginatorModule,
-        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } })],
+        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }), ExtendComponent],
       providers: [
         ArlasConfigService, ArlasCollaborativesearchService,
         {

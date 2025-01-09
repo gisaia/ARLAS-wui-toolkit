@@ -54,7 +54,6 @@ describe('TimelineComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [TimelineComponent, DatePickerComponent, TimelineShortcutComponent, GetTimeLabelPipe],
       imports: [MatCardModule, MatIconModule, MatExpansionModule, MatSelectModule, MatButtonModule, MatChipsModule,
         OwlDateTimeModule, OwlNativeDateTimeModule, FormsModule,
         MatTooltipModule, BrowserModule, HistogramModule, ResultsModule, PowerbarsModule, DonutModule, MetricModule,
@@ -66,7 +65,7 @@ describe('TimelineComponent', () => {
             provide: ColorGeneratorLoader,
             useClass: AwcColorGeneratorLoader
           }
-        })],
+        }), TimelineComponent, DatePickerComponent, TimelineShortcutComponent, GetTimeLabelPipe],
       providers: [
         ArlasCollaborativesearchService,
         ArlasOverlayService,

@@ -21,11 +21,14 @@
 import { Component, Inject } from '@angular/core';
 import { TimelineTooltip } from 'arlas-d3';
 import { ArlasOverlayRef, CALENDAR_TIMELINE_TOOLTIP_DATA } from '../../tools/utils';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'arlas-calendar-timeline-tooltip-overlay',
   templateUrl: './calendar-timeline-tooltip-overlay.component.html',
-  styleUrls: ['./calendar-timeline-tooltip-overlay.component.css']
+  styleUrls: ['./calendar-timeline-tooltip-overlay.component.css'],
+  standalone: true,
+  imports: [NgIf]
 })
 export class CalendarTimelineTooltipOverlayComponent {
 

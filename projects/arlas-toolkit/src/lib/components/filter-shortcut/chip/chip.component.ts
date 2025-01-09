@@ -17,11 +17,15 @@
  * under the License.
  */
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'arlas-filter-shortcut-chip',
   templateUrl: './chip.component.html',
-  styleUrls: ['./chip.component.scss']
+  styleUrls: ['./chip.component.scss'],
+  standalone: true,
+  imports: [MatIcon, TranslateModule]
 })
 export class FilterShortcutChipComponent {
   @Input() public label: string;

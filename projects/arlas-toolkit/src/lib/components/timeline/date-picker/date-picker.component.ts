@@ -19,12 +19,13 @@
 
 import { Component, OnInit, Input, SimpleChanges, OnChanges } from '@angular/core';
 import * as _moment from 'moment';
-import { DateTimeAdapter, OWL_DATE_TIME_LOCALE } from '@danielmoncada/angular-datetime-picker';
+import { DateTimeAdapter, OWL_DATE_TIME_LOCALE, OwlDateTimeModule } from '@danielmoncada/angular-datetime-picker';
 import { MomentDateTimeAdapter } from '@danielmoncada/angular-datetime-picker-moment-adapter';
 
 import { HistogramContributor } from 'arlas-web-contributors';
 import { ArlasStartupService } from '../../../services/startup/startup.service';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslateModule } from '@ngx-translate/core';
+import { FormsModule } from '@angular/forms';
 
 const moment = (_moment as any).default ? (_moment as any).default : _moment;
 
@@ -37,7 +38,9 @@ const moment = (_moment as any).default ? (_moment as any).default : _moment;
   styleUrls: ['./date-picker.component.scss'],
   providers: [
     { provide: DateTimeAdapter, useClass: MomentDateTimeAdapter, deps: [OWL_DATE_TIME_LOCALE] }
-  ]
+  ],
+  standalone: true,
+  imports: [FormsModule, OwlDateTimeModule, TranslateModule]
 })
 export class DatePickerComponent implements OnInit, OnChanges {
 

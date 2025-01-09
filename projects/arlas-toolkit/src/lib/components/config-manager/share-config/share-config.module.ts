@@ -36,12 +36,10 @@ import { ShareConfigComponent } from './share-config.component';
     MatIconModule,
     MatButtonModule,
     MatTableModule,
-    MatCheckboxModule
-  ],
-  exports: [
+    MatCheckboxModule,
     ShareConfigComponent
   ],
-  declarations: [
+  exports: [
     ShareConfigComponent
   ]
 })

@@ -17,13 +17,34 @@
  * under the License.
  */
 
-import { CdkDragDrop } from '@angular/cdk/drag-drop';
-import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
+import { CdkDrag, CdkDragDrop, CdkDragHandle, CdkDropList } from '@angular/cdk/drag-drop';
+import {
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Output,
+  SimpleChanges
+} from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AnalyticsService } from '../../../services/analytics/analytics.service';
-import { ArlasCollaborativesearchService } from '../../../services/collaborative-search/arlas.collaborative-search.service';
+import {
+  ArlasCollaborativesearchService
+} from '../../../services/collaborative-search/arlas.collaborative-search.service';
 import { SpinnerOptions } from '../../../tools/utils';
 import { AnalyticGroupConfiguration } from '../analytics.utils';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { NgClass, NgFor, NgIf } from '@angular/common';
+import { MatExpansionPanel, MatExpansionPanelHeader, MatExpansionPanelTitle } from '@angular/material/expansion';
+import { MatIcon } from '@angular/material/icon';
+import { MatTooltip } from '@angular/material/tooltip';
+import { WidgetComponent } from '../../widget/widget.component';
+import { ProgressSpinnerComponent } from '../../progress-spinner/progress-spinner.component';
+import { TranslateModule } from '@ngx-translate/core';
+import { ContributorUpdatingPipe } from '../../../pipes/contributor-updating.pipe';
 
 /**
  * This component organizes the `Widgets` in a board.
@@ -32,7 +53,15 @@ import { AnalyticGroupConfiguration } from '../analytics.utils';
 @Component({
   selector: 'arlas-analytics-board',
   templateUrl: './analytics-board.component.html',
-  styleUrls: ['./analytics-board.component.scss']
+  styleUrls: ['./analytics-board.component.scss'],
+  standalone: true,
+  imports: [
+    CdkDropList, CdkScrollable, NgIf,
+    MatExpansionPanel, CdkDrag, MatExpansionPanelHeader,
+    CdkDragHandle, MatExpansionPanelTitle, MatIcon, MatTooltip, NgFor,
+    NgClass, WidgetComponent, ProgressSpinnerComponent, TranslateModule,
+    ContributorUpdatingPipe
+  ]
 })
 export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
 

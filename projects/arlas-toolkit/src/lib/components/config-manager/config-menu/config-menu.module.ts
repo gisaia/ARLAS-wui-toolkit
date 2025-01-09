@@ -33,12 +33,10 @@ import { ActionModalModule } from '../action-modal/action-modal.module';
     MatMenuModule,
     MatIconModule,
     ActionModalModule,
-    MatButtonModule
-  ],
-  exports: [
+    MatButtonModule,
     ConfigMenuComponent
   ],
-  declarations: [
+  exports: [
     ConfigMenuComponent
   ]
 })

@@ -19,11 +19,15 @@
 
 import { Component, Input } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { NgIf } from '@angular/common';
+import { MarkdownComponent } from 'ngx-markdown';
 
 @Component({
   selector: 'arlas-about',
   templateUrl: './about.component.html',
-  styleUrls: ['./about.component.css']
+  styleUrls: ['./about.component.css'],
+  standalone: true,
+  imports: [NgIf]
 })
 export class AboutComponent {
 
@@ -64,7 +68,9 @@ export class AboutComponent {
 @Component({
   selector: 'arlas-about-dialog',
   templateUrl: './about-dialog.component.html',
-  styleUrls: ['./about-dialog.component.css']
+  styleUrls: ['./about-dialog.component.css'],
+  standalone: true,
+  imports: [MarkdownComponent]
 })
 export class AboutDialogComponent {
 

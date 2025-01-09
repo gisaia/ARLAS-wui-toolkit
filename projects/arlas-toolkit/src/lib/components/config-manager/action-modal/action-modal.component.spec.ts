@@ -15,6 +15,9 @@ import { GET_OPTIONS } from '../../../tools/utils';
 import { ShareConfigModule } from '../share-config/share-config.module';
 import { ActionModalComponent } from './action-modal.component';
 import { MockArlasSettingsService } from '../../../tools/tests/arlas-settings-service.mock';
+import {
+  ArlasCollaborativesearchService
+} from '../../../services/collaborative-search/arlas.collaborative-search.service';
 
 describe('ActionModalComponent', () => {
   let component: ActionModalComponent;
@@ -26,7 +29,6 @@ describe('ActionModalComponent', () => {
     };
 
     TestBed.configureTestingModule({
-      declarations: [ActionModalComponent],
       imports: [TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }),
         MatMenuModule,
         MatIconModule,
@@ -35,9 +37,9 @@ describe('ActionModalComponent', () => {
         MatInputModule,
         MatButtonModule,
         FormsModule,
-        ShareConfigModule
-      ],
+        ShareConfigModule, ActionModalComponent],
       providers: [
+        ArlasCollaborativesearchService,
         AuthentificationService,
         OAuthService,
         OAuthLogger,
@@ -53,7 +55,7 @@ describe('ActionModalComponent', () => {
         },
         {
           provide: GET_OPTIONS,
-          useValue: () => {}
+          useValue: () => { }
         },
         provideHttpClient(withInterceptorsFromDi()),
         {

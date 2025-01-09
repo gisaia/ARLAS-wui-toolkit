@@ -7,6 +7,10 @@ import { LoginComponent } from './login.component';
 import { of } from 'rxjs';
 import { ArlasIamService } from '../../services/arlas-iam/arlas-iam.service';
 import { MockArlasSettingsService } from '../../tools/tests/arlas-settings-service.mock';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import {
+  ArlasCollaborativesearchService
+} from '../../services/collaborative-search/arlas.collaborative-search.service';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -19,8 +23,9 @@ describe('LoginComponent', () => {
     mockIamService.notifyTokenRefresh.and.returnValue();
 
     await TestBed.configureTestingModule({
-      declarations: [LoginComponent],
       providers: [
+        provideAnimations(),
+        ArlasCollaborativesearchService,
         FormBuilder,
         {
           provide: ArlasSettingsService,
@@ -33,7 +38,8 @@ describe('LoginComponent', () => {
       ],
       imports: [
         TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }),
-        RouterModule.forRoot([])
+        RouterModule.forRoot([]),
+        LoginComponent
       ]
     })
       .compileComponents();

@@ -11,7 +11,7 @@ describe('AnalyticsMenuComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AnalyticsMenuComponent ],
+      imports: [AnalyticsMenuComponent],
       providers: [
         {
           provide: ArlasStartupService,

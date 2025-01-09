@@ -33,7 +33,6 @@ describe('HistogramWidgetComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [HistogramWidgetComponent, ProgressSpinnerComponent, ContributorUpdatingPipe],
       imports: [HistogramModule,
         PowerbarsModule,
         ResultsModule,
@@ -51,7 +50,7 @@ describe('HistogramWidgetComponent', () => {
             provide: ColorGeneratorLoader,
             useClass: AwcColorGeneratorLoader
           }
-        })],
+        }), HistogramWidgetComponent, ProgressSpinnerComponent, ContributorUpdatingPipe],
       providers: [
         ArlasCollaborativesearchService,
         ArlasConfigService,

@@ -48,10 +48,9 @@ describe('FiltersChipsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [FiltersComponent, GetColorFilterPipe, GetCollaborationIconPipe, ConcatCollectionPipe, GetContributorLabelPipe],
       imports: [MatChipsModule, MatIconModule, MatTooltipModule, MatMenuModule,
         TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }),
-        FormatNumberModule],
+        FormatNumberModule, FiltersComponent, GetColorFilterPipe, GetCollaborationIconPipe, ConcatCollectionPipe, GetContributorLabelPipe],
       providers: [
         {
           provide: ArlasStartupService,

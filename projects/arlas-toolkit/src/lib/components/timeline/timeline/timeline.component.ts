@@ -19,7 +19,7 @@
 
 import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { ChartType, DataType, HistogramTooltip, Position } from 'arlas-d3';
-import { ArlasColorService, HistogramComponent } from 'arlas-web-components';
+import { ArlasColorService, HistogramComponent, HistogramModule } from 'arlas-web-components';
 import { DetailedHistogramContributor, HistogramContributor } from 'arlas-web-contributors';
 import { SelectedOutputValues } from 'arlas-web-contributors/models/models';
 import { OperationEnum } from 'arlas-web-core';
@@ -31,6 +31,12 @@ import { ArlasOverlayService } from '../../../services/overlays/overlay.service'
 import { ArlasStartupService } from '../../../services/startup/startup.service';
 import { ArlasOverlayRef } from '../../../tools/utils';
 import { CollectionLegend, TimelineConfiguration } from './timeline.utils';
+import { TimelineShortcutComponent } from '../timeline-shortcut/timeline-shortcut.component';
+import { NgIf, NgFor } from '@angular/common';
+import { MatIcon } from '@angular/material/icon';
+import { ProgressSpinnerComponent } from '../../progress-spinner/progress-spinner.component';
+import { TranslateModule } from '@ngx-translate/core';
+import { ContributorUpdatingPipe } from '../../../pipes/contributor-updating.pipe';
 
 
 /**
@@ -43,7 +49,9 @@ import { CollectionLegend, TimelineConfiguration } from './timeline.utils';
 @Component({
   selector: 'arlas-timeline',
   templateUrl: './timeline.component.html',
-  styleUrls: ['./timeline.component.scss']
+  styleUrls: ['./timeline.component.scss'],
+  standalone: true,
+  imports: [TimelineShortcutComponent, NgIf, NgFor, HistogramModule, MatIcon, ProgressSpinnerComponent, TranslateModule, ContributorUpdatingPipe]
 })
 export class TimelineComponent implements OnInit, OnDestroy {
 

@@ -41,9 +41,8 @@ describe('BookmarkComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [BookmarkComponent],
       imports: [MatTableModule, MatCheckboxModule, MatIconModule, MatPaginatorModule,
-        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } })],
+        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }), BookmarkComponent],
       providers: [
         ArlasConfigService, ArlasCollaborativesearchService,
         {

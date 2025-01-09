@@ -25,7 +25,6 @@ describe('WidgetComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [WidgetComponent, HistogramWidgetComponent, ProgressSpinnerComponent],
       imports: [HistogramModule,
         PowerbarsModule,
         ResultsModule,
@@ -37,7 +36,7 @@ describe('WidgetComponent', () => {
         MatProgressSpinnerModule,
         TranslateModule.forRoot({
           loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
-        })],
+        }), WidgetComponent, HistogramWidgetComponent, ProgressSpinnerComponent],
       providers: [
         ArlasCollaborativesearchService,
         ArlasConfigService,

@@ -19,8 +19,8 @@
 
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogClose, MatDialogContent, MatDialogTitle } from '@angular/material/dialog';
 import { marker } from '@colsen1991/ngx-translate-extract-marker';
 import bboxPolygon from '@turf/bbox-polygon';
 import booleanIntersects from '@turf/boolean-intersects';
@@ -28,6 +28,18 @@ import { Subject, takeUntil } from 'rxjs';
 import { ProcessService } from '../../../services/process/process.service';
 import { ProcessInputs, ProcessProjection } from '../../../tools/process.interface';
 import { AiasDownloadDialogData, AiasProcess } from '../aias-process';
+import { TranslateModule } from '@ngx-translate/core';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatStep, MatStepper, MatStepperIcon, MatStepperNext, MatStepperPrevious } from '@angular/material/stepper';
+import { MatFormField, MatHint, MatLabel } from '@angular/material/form-field';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/core';
+import { NgFor, NgIf } from '@angular/common';
+import { MatIcon } from '@angular/material/icon';
+import { MatCheckbox } from '@angular/material/checkbox';
+import { MatTooltip } from '@angular/material/tooltip';
+import { MatButton } from '@angular/material/button';
+import { AiasResultComponent } from '../aias-result/aias-result.component';
 
 export const DOWNLOAD_PROCESS_NAME = marker('download');
 
@@ -36,8 +48,14 @@ export const DOWNLOAD_PROCESS_NAME = marker('download');
   templateUrl: './aias-download.component.html',
   styleUrls: ['./aias-download.component.scss', '../aias-process.scss'],
   providers: [{
-    provide: STEPPER_GLOBAL_OPTIONS, useValue: { displayDefaultIndicatorType: false }
-  }]
+    provide: STEPPER_GLOBAL_OPTIONS, useValue: {displayDefaultIndicatorType: false}
+  }],
+  standalone: true,
+  imports: [MatDialogTitle, TranslateModule, CdkScrollable, MatDialogContent,
+    MatStepper, MatStep, FormsModule, ReactiveFormsModule, MatFormField, MatLabel,
+    MatSelect, MatOption, NgIf, MatHint, MatIcon, MatCheckbox, MatTooltip, NgFor,
+    MatButton, MatDialogClose, MatStepperNext, MatStepperPrevious, MatStepperIcon,
+    AiasResultComponent]
 })
 export class AiasDownloadComponent extends AiasProcess implements OnInit, OnDestroy {
 
@@ -72,7 +90,7 @@ export class AiasDownloadComponent extends AiasProcess implements OnInit, OnDest
   }
 
   public ngOnInit(): void {
-    if (this.data.nbProducts === 1){
+    if (this.data.nbProducts === 1) {
       const processConfigFileInput = this.processService.getProcessInputs();
       this._initPictureFormatList();
       this._initProjectionList(processConfigFileInput);
@@ -89,7 +107,7 @@ export class AiasDownloadComponent extends AiasProcess implements OnInit, OnDest
     this._onDestroy$.complete();
   }
 
-  private _initPictureFormatList(): void{
+  private _initPictureFormatList(): void {
     const assetFormatKey = 'properties.main_asset_format';
     const assetFormatIsValid = this.data.itemDetail && this.data.itemDetail.has(assetFormatKey)
       && !!this.data.itemDetail.get(assetFormatKey);
@@ -119,7 +137,7 @@ export class AiasDownloadComponent extends AiasProcess implements OnInit, OnDest
     if (projection[inputKey]) {
       this.projections = (<ProcessProjection[]>projection[inputKey].schema.enum).filter(projection => {
         const geoJson = this.data.itemDetail.get('geometry');
-        if(!projection.bbox || !geoJson) {
+        if (!projection.bbox || !geoJson) {
           return false;
         }
         const feature1 = bboxPolygon(projection.bbox);
@@ -130,16 +148,16 @@ export class AiasDownloadComponent extends AiasProcess implements OnInit, OnDest
     this.projections.unshift(native);
   }
 
-  private _listenFormsChanges(): void{
+  private _listenFormsChanges(): void {
     this.formGroup.get('raw_archive')
       .valueChanges
       .pipe(takeUntil(this._onDestroy$))
       .subscribe(checked => {
         this.displayAoiForms = !checked && this.hasAoi;
-        this.displayFormatFrom = !checked &&  this.hasOneItemToDownload();
-        this.displayProjectionFrom = !checked &&  this.hasOneItemToDownload();
+        this.displayFormatFrom = !checked && this.hasOneItemToDownload();
+        this.displayProjectionFrom = !checked && this.hasOneItemToDownload();
         this.formGroup.get('crop_wkt').setValue(false);
-        if(checked){
+        if (checked) {
           this.formGroup.get('target_format').setValue('native');
           this.formGroup.get('target_projection').setValue('native');
         }
@@ -149,15 +167,15 @@ export class AiasDownloadComponent extends AiasProcess implements OnInit, OnDest
       .valueChanges
       .pipe(takeUntil(this._onDestroy$))
       .subscribe(checked => {
-        this.displayFormatFrom = !this.downloadAllElements() &&  this.hasOneItemToDownload();
-        this.displayProjectionFrom =  !this.downloadAllElements() && !checked &&  this.hasOneItemToDownload();
-        if(checked){
+        this.displayFormatFrom = !this.downloadAllElements() && this.hasOneItemToDownload();
+        this.displayProjectionFrom = !this.downloadAllElements() && !checked && this.hasOneItemToDownload();
+        if (checked) {
           this.formGroup.get('target_projection').setValue('native');
         }
       });
   }
 
-  public hasOneItemToDownload(): boolean{
+  public hasOneItemToDownload(): boolean {
     return this.data.nbProducts === 1;
   }
 
@@ -168,7 +186,7 @@ export class AiasDownloadComponent extends AiasProcess implements OnInit, OnDest
   protected preparePayload() {
     const payload = this.formGroup.value;
     payload['crop_wkt'] = '';
-    if(this.formGroup.get('crop_wkt').value === true && this.hasAoi){
+    if (this.formGroup.get('crop_wkt').value === true && this.hasAoi) {
       payload['crop_wkt'] = this.data.wktAoi;
     }
 

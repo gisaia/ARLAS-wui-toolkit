@@ -27,13 +27,12 @@ describe('TimelineShortcutComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [TimelineShortcutComponent, DatePickerComponent, GetTimeLabelPipe],
       imports: [MatCardModule, MatIconModule, MatExpansionModule, MatSelectModule, MatButtonModule, MatChipsModule,
         OwlDateTimeModule, FormsModule,
         MatTooltipModule, BrowserModule,
         TranslateModule.forRoot({
           loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
-        })],
+        }), TimelineShortcutComponent, DatePickerComponent, GetTimeLabelPipe],
       providers: [
         { provide: OWL_DATE_TIME_LOCALE, useValue: 'fr' },
         ArlasCollaborativesearchService,

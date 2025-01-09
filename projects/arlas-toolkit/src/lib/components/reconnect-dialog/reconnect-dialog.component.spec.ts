@@ -13,13 +13,13 @@ describe('ReconnectDialogComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ReconnectDialogComponent],
       imports: [
         TranslateModule.forRoot({
           loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
         }),
         MatDialogModule,
-        OAuthModule.forRoot()
+        OAuthModule.forRoot(),
+        ReconnectDialogComponent
       ],
       providers: [
         AuthentificationService,
@@ -33,7 +33,7 @@ describe('ReconnectDialogComponent', () => {
         },
         {
           provide: GET_OPTIONS,
-          useValue: () => {}
+          useValue: () => { }
         },
         provideHttpClient(withInterceptorsFromDi())
       ]

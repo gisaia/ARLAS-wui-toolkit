@@ -23,12 +23,19 @@ import { ArlasCollaborativesearchService } from '../../services/collaborative-se
 import { SpinnerOptions } from '../../tools/utils';
 import { DEFAULT_SPINNER_OPTIONS } from '../progress-spinner/progress-spinner.component';
 import { FilterShortcutConfiguration } from './filter-shortcut.utils';
+import { NgIf } from '@angular/common';
+import { ShortcutFiltersHandlerComponent } from './filters-handler/filters-handler.component';
+import { MatIcon } from '@angular/material/icon';
+import { WidgetComponent } from '../widget/widget.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @Component({
   selector: 'arlas-filter-shortcut',
   templateUrl: './filter-shortcut.component.html',
-  styleUrls: ['./filter-shortcut.component.scss']
+  styleUrls: ['./filter-shortcut.component.scss'],
+  standalone: true,
+  imports: [NgIf, ShortcutFiltersHandlerComponent, MatIcon, WidgetComponent, TranslateModule]
 })
 export class FilterShortcutComponent implements OnInit {
 

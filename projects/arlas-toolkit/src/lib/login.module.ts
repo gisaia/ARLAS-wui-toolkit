@@ -72,14 +72,6 @@ export class CustomTranslateLoader implements TranslateLoader {
 }
 
 @NgModule({
-  declarations: [
-    LoginComponent,
-    RegisterComponent,
-    VerifyComponent,
-    ResetComponent,
-    ForgotComponent,
-    ChangePasswordComponent
-  ],
   imports: [
     CommonModule,
     FormsModule,
@@ -98,7 +90,13 @@ export class CustomTranslateLoader implements TranslateLoader {
         useClass: CustomTranslateLoader,
         deps: [HttpClient]
       }
-    })
+    }),
+    LoginComponent,
+    RegisterComponent,
+    VerifyComponent,
+    ResetComponent,
+    ForgotComponent,
+    ChangePasswordComponent
   ],
   exports: [
     LoginComponent

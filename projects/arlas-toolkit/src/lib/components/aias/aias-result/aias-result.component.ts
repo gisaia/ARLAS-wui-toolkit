@@ -19,11 +19,18 @@
 
 import { Component, Input, OnInit } from '@angular/core';
 import { ProcessOutput } from '../../../tools/process.interface';
+import { NgIf, DatePipe } from '@angular/common';
+import { MatProgressBar } from '@angular/material/progress-bar';
+import { MatButton } from '@angular/material/button';
+import { MatDialogClose } from '@angular/material/dialog';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'arlas-aias-result',
   templateUrl: './aias-result.component.html',
-  styleUrls: ['./aias-result.component.scss']
+  styleUrls: ['./aias-result.component.scss'],
+  standalone: true,
+  imports: [NgIf, MatProgressBar, MatButton, MatDialogClose, DatePipe, TranslateModule]
 })
 export class AiasResultComponent implements OnInit {
 

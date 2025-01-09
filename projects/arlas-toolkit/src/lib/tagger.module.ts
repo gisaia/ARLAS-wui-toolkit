@@ -68,11 +68,6 @@ export class CustomTranslateLoader implements TranslateLoader {
 }
 
 @NgModule({
-  declarations: [
-    TagComponent,
-    TagDialogComponent,
-    TagManagementDialogComponent
-  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -100,7 +95,10 @@ export class CustomTranslateLoader implements TranslateLoader {
         useClass: CustomTranslateLoader,
         deps: [HttpClient]
       }
-    })
+    }),
+    TagComponent,
+    TagDialogComponent,
+    TagManagementDialogComponent
   ],
   exports: [
     TagComponent

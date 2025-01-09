@@ -1,9 +1,12 @@
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ArlasCollaborativesearchService } from '../../../services/collaborative-search/arlas.collaborative-search.service';
+import {
+  ArlasCollaborativesearchService
+} from '../../../services/collaborative-search/arlas.collaborative-search.service';
 import { AiasEnrichComponent } from './aias-enrich.component';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { TranslateModule, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
+import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 describe('AiasEnrichComponent', () => {
   let component: AiasEnrichComponent;
@@ -11,14 +14,14 @@ describe('AiasEnrichComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AiasEnrichComponent ],
       providers: [
+        provideAnimations(),
         provideHttpClient(withInterceptorsFromDi()),
         ArlasCollaborativesearchService,
         {
           provide: MAT_DIALOG_DATA,
           useValue: {
-            data : {
+            data: {
               nbProducts: 2,
               itemDetail: new Map(),
               ids: ['1', '2'],
@@ -31,6 +34,7 @@ describe('AiasEnrichComponent', () => {
         TranslateModule.forRoot({
           loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
         }),
+        AiasEnrichComponent,
       ]
     })
       .compileComponents();

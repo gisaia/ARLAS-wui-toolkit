@@ -3,6 +3,7 @@ import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { ForgotComponent } from './forgot.component';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 describe('ForgotComponent', () => {
   let component: ForgotComponent;
@@ -10,13 +11,13 @@ describe('ForgotComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ForgotComponent],
-      providers: [FormBuilder],
+      providers: [provideAnimations(),FormBuilder],
       imports: [
         TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }),
         RouterModule.forRoot([]),
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        ForgotComponent
       ]
     })
       .compileComponents();

@@ -9,11 +9,11 @@ describe('AiasResultComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AiasResultComponent ],
       imports: [
         TranslateModule.forRoot({
           loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
         }),
+        AiasResultComponent,
       ]
     })
       .compileComponents();

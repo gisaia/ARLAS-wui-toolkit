@@ -35,9 +35,8 @@ describe('AoiComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [AoiComponent],
       imports: [MatTableModule, MatCheckboxModule, MatIconModule,
-        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } })],
+        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }), AoiComponent],
       providers: [
         ArlasConfigService, ArlasCollaborativesearchService,
         {

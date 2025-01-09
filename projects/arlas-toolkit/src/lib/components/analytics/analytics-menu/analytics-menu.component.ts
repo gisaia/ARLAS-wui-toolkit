@@ -21,11 +21,18 @@ import { Component, Input, OnInit } from '@angular/core';
 import { AnalyticGroupConfiguration } from '../analytics.utils';
 import { AnalyticsService } from '../../../services/analytics/analytics.service';
 import { getParamValue } from '../../../tools/utils';
+import { MatActionList, MatListItem } from '@angular/material/list';
+import { NgFor, NgIf } from '@angular/common';
+import { MatIcon } from '@angular/material/icon';
+import { MatTooltip } from '@angular/material/tooltip';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'arlas-analytics-menu',
   templateUrl: './analytics-menu.component.html',
-  styleUrls: ['./analytics-menu.component.scss']
+  styleUrls: ['./analytics-menu.component.scss'],
+  standalone: true,
+  imports: [MatActionList, NgFor, MatListItem, NgIf, MatIcon, MatTooltip, TranslateModule]
 })
 export class AnalyticsMenuComponent implements OnInit {
 

@@ -18,19 +18,31 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
 import { LoginData } from 'arlas-iam-api';
 import { ArlasIamService } from '../../services/arlas-iam/arlas-iam.service';
 import { ArlasSettingsService } from '../../services/settings/arlas.settings.service';
 import { finalize } from 'rxjs';
 import { NOT_CONFIGURED } from '../../tools/utils';
 import { ErrorService } from '../../services/error/error.service';
+import { NgIf } from '@angular/common';
+import { MatError, MatFormField, MatLabel, MatPrefix, MatSuffix } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import { MatIcon } from '@angular/material/icon';
+import { MatButton } from '@angular/material/button';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'arlas-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
+  standalone: true,
+  imports: [
+    NgIf, FormsModule, ReactiveFormsModule, MatFormField,
+    MatLabel, MatInput, MatIcon, MatPrefix, MatError, MatSuffix,
+    RouterLink, MatButton, TranslateModule
+  ]
 })
 export class LoginComponent implements OnInit {
 

@@ -18,24 +18,36 @@
  */
 
 import { Component, Inject, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogContent, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { marker } from '@colsen1991/ngx-translate-extract-marker';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { AggregationResponse } from 'arlas-api';
-import { ArlasColorService } from 'arlas-web-components';
+import { ArlasColorService, GetCollectionDisplayModule } from 'arlas-web-components';
 import { SearchContributor } from 'arlas-web-contributors';
 import { OperationEnum } from 'arlas-web-core';
 import { Observable, of, Subject, Subscription, zip } from 'rxjs';
 import { debounceTime, filter, map, mergeMap, mergeWith, startWith } from 'rxjs/operators';
-import { ArlasCollaborativesearchService } from '../../services/collaborative-search/arlas.collaborative-search.service';
+import {
+  ArlasCollaborativesearchService
+} from '../../services/collaborative-search/arlas.collaborative-search.service';
 import { ArlasConfigService } from '../../services/startup/startup.service';
+import { MatIcon } from '@angular/material/icon';
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { MatIconButton } from '@angular/material/button';
+import { MatTooltip } from '@angular/material/tooltip';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatMenu, MatMenuTrigger } from '@angular/material/menu';
+import { MatCheckbox } from '@angular/material/checkbox';
+import { MatInput } from '@angular/material/input';
 
 @Component({
   selector: 'arlas-search',
   templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss']
+  styleUrls: ['./search.component.scss'],
+  standalone: true,
+  imports: [MatIcon, NgIf, MatIconButton, MatTooltip, TranslateModule]
 })
 export class SearchComponent implements OnInit, OnDestroy, OnChanges {
   /**
@@ -210,7 +222,12 @@ export class SearchComponent implements OnInit, OnDestroy, OnChanges {
 
 @Component({
   templateUrl: './search-dialog.component.html',
-  styleUrls: ['./search-dialog.component.scss']
+  styleUrls: ['./search-dialog.component.scss'],
+  standalone: true,
+  imports: [
+    FormsModule, CdkScrollable, MatDialogContent, MatIcon, NgIf,
+    MatIconButton, MatMenuTrigger, MatMenu, NgFor, MatCheckbox, MatInput,
+    ReactiveFormsModule, MatTooltip, AsyncPipe, TranslateModule, GetCollectionDisplayModule]
 })
 export class SearchDialogComponent {
 

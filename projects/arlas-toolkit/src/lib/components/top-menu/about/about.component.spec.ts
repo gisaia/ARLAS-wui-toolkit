@@ -38,9 +38,9 @@ describe('AboutComponent', () => {
         ReactiveFormsModule, MatAutocompleteModule,
         MatInputModule, FormsModule, BrowserAnimationsModule,
         MatIconModule, MatDialogModule,
-        MarkdownModule
-      ],
-      declarations: [AboutComponent]
+        MarkdownModule,
+        AboutComponent
+      ]
     }).compileComponents();
   });
 

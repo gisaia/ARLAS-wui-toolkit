@@ -31,7 +31,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSelectModule } from '@angular/material/select';
 import { ArlasTaggerModule } from '../../projects/arlas-toolkit/src/lib/tagger.module';
-import { ConfigMenuModule } from '../../projects/arlas-toolkit/src/lib/components/config-manager/config-menu/config-menu.module';
+import {
+  ConfigMenuModule
+} from '../../projects/arlas-toolkit/src/lib/components/config-manager/config-menu/config-menu.module';
+import { provideAnimations } from "@angular/platform-browser/animations";
 
 @NgModule({
   imports: [
@@ -47,6 +50,9 @@ import { ConfigMenuModule } from '../../projects/arlas-toolkit/src/lib/component
     MatSelectModule,
     ArlasTaggerModule,
     ConfigMenuModule
+  ],
+  providers: [
+    provideAnimations()
   ],
   exports: [AppComponent],
   declarations: [AppComponent, HomeComponent, ContactComponent],

@@ -30,10 +30,10 @@ describe('DownloadComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [DownloadComponent],
       imports: [
         MatIconModule, MatSelectModule, MatButtonModule,
-        BrowserModule, MatDialogModule
+        BrowserModule, MatDialogModule,
+        DownloadComponent
       ]
     })
       .compileComponents();

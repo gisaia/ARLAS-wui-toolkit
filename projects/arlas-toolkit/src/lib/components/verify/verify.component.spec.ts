@@ -3,6 +3,7 @@ import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { VerifyComponent } from './verify.component';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 describe('VerifyComponent', () => {
   let component: VerifyComponent;
@@ -10,13 +11,13 @@ describe('VerifyComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [VerifyComponent],
-      providers: [FormBuilder],
+      providers: [FormBuilder, provideAnimations()],
       imports: [
         TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }),
         RouterModule.forRoot([]),
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        VerifyComponent
       ]
     })
       .compileComponents();

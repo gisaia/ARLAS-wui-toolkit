@@ -18,7 +18,7 @@
  */
 
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ArlasIamService } from '../../services/arlas-iam/arlas-iam.service';
@@ -26,11 +26,18 @@ import { AuthentificationService } from '../../services/authentification/authent
 import { ArlasSettingsService } from '../../services/settings/arlas.settings.service';
 import { ArlasError } from '../../tools/errors/error';
 import { DeniedAccessData } from '../../tools/utils';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatIcon } from '@angular/material/icon';
+import { NgIf } from '@angular/common';
+import { MatButton } from '@angular/material/button';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'arlas-denied-access-dialog',
   templateUrl: './denied-access-dialog.component.html',
-  styleUrls: ['./denied-access-dialog.component.scss']
+  styleUrls: ['./denied-access-dialog.component.scss'],
+  standalone: true,
+  imports: [MatDialogTitle, CdkScrollable, MatDialogContent, MatIcon, NgIf, MatButton, MatDialogActions, MatDialogClose, TranslateModule]
 })
 export class DeniedAccessDialogComponent implements OnInit, OnDestroy {
 

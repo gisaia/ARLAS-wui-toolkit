@@ -19,11 +19,21 @@
 
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogClose, MatDialogContent, MatDialogTitle } from '@angular/material/dialog';
 import { marker } from '@colsen1991/ngx-translate-extract-marker';
 import { ProcessService } from '../../../services/process/process.service';
 import { AiasEnrichDialogData, AiasProcess } from '../aias-process';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatStep, MatStepper, MatStepperIcon, MatStepperNext, MatStepperPrevious } from '@angular/material/stepper';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatSelect } from '@angular/material/select';
+import { NgFor, NgIf } from '@angular/common';
+import { MatOption } from '@angular/material/core';
+import { MatButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { AiasResultComponent } from '../aias-result/aias-result.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 export const ENRICH_PROCESS_NAME = marker('enrich');
 
@@ -33,7 +43,12 @@ export const ENRICH_PROCESS_NAME = marker('enrich');
   styleUrls: ['./aias-enrich.component.scss', '../aias-process.scss'],
   providers: [{
     provide: STEPPER_GLOBAL_OPTIONS, useValue: { displayDefaultIndicatorType: false }
-  }]
+  }],
+  standalone: true,
+  imports: [MatDialogTitle, CdkScrollable, MatDialogContent, MatStepper, MatStep,
+    FormsModule, ReactiveFormsModule, MatFormField, MatLabel, MatSelect, NgFor, MatOption,
+    MatButton, MatDialogClose, MatStepperNext, NgIf, MatStepperPrevious, MatStepperIcon, MatIcon,
+    AiasResultComponent, TranslateModule]
 })
 export class AiasEnrichComponent extends AiasProcess implements OnInit {
 

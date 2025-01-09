@@ -22,11 +22,10 @@ describe('ShareComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ShareComponent],
       imports: [ReactiveFormsModule, MatAutocompleteModule,
         MatInputModule, FormsModule, BrowserAnimationsModule,
         MatIconModule, MatDialogModule, MatStepperModule,
-        MatRadioModule, MatSelectModule],
+        MatRadioModule, MatSelectModule, ShareComponent],
       providers: [ArlasConfigService, ArlasCollaborativesearchService,
         {
           provide: ArlasStartupService,

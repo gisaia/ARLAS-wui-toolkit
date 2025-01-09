@@ -22,11 +22,33 @@ import { ArlasAoiService } from '../../services/aoi/aoi.service';
 import { Subject } from 'rxjs';
 import { Aoi } from '../../services/aoi/model';
 import { ArlasDataSource } from '../../tools/arlasDataSource';
+import {
+  MatCell,
+  MatCellDef,
+  MatColumnDef,
+  MatHeaderCell,
+  MatHeaderCellDef,
+  MatHeaderRow,
+  MatHeaderRowDef,
+  MatRow,
+  MatRowDef,
+  MatTable
+} from '@angular/material/table';
+import { MatCheckbox } from '@angular/material/checkbox';
+import { MatIcon } from '@angular/material/icon';
+import { DatePipe } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'arlas-aoi',
   templateUrl: './aoi.component.html',
-  styleUrls: ['./aoi.component.css']
+  styleUrls: ['./aoi.component.css'],
+  standalone: true,
+  imports: [MatTable, MatColumnDef, MatHeaderCellDef,
+    MatHeaderCell, MatCellDef, MatCell, MatCheckbox, MatIcon,
+    MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, DatePipe,
+    TranslateModule
+  ]
 })
 export class AoiComponent {
 

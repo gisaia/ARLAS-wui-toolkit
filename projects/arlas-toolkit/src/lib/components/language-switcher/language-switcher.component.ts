@@ -19,6 +19,9 @@
 
 import { OnInit, Component, Input, ViewEncapsulation } from '@angular/core';
 import { getParamValue } from '../../tools/utils';
+import { MatSelect, MatSelectTrigger } from '@angular/material/select';
+import { NgFor } from '@angular/common';
+import { MatOption } from '@angular/material/core';
 
 /**
  * This component changes the `lg` parameter of ARLAS-wui url.
@@ -27,7 +30,9 @@ import { getParamValue } from '../../tools/utils';
   selector: 'arlas-language-switcher',
   templateUrl: './language-switcher.component.html',
   styleUrls: ['./language-switcher.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  standalone: true,
+  imports: [MatSelect, MatSelectTrigger, NgFor, MatOption]
 })
 export class LanguageSwitcherComponent implements OnInit {
   /**

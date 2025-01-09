@@ -8,6 +8,9 @@ import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-tran
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { ArlasSettingsService } from '../../services/settings/arlas.settings.service';
 import { MatMenuModule } from '@angular/material/menu';
+import {
+  ArlasCollaborativesearchService
+} from '../../services/collaborative-search/arlas.collaborative-search.service';
 
 describe('TopMenuComponent', () => {
   let component: TopMenuComponent;
@@ -18,11 +21,11 @@ describe('TopMenuComponent', () => {
       close: jasmine.createSpy('close')
     };
     await TestBed.configureTestingModule({
-      declarations: [TopMenuComponent],
       imports: [TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }),
         MatDialogModule,
-        MatMenuModule],
+        MatMenuModule, TopMenuComponent],
       providers: [
+        ArlasCollaborativesearchService,
         AuthentificationService,
         OAuthService,
         OAuthLogger,

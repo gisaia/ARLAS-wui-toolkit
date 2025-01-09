@@ -21,11 +21,15 @@
 import { Component, Inject } from '@angular/core';
 import { ArlasOverlayRef, DONUT_TOOLTIP_DATA } from '../../tools/utils';
 import { ARLASDonutTooltip } from 'arlas-d3';
+import { NgFor } from '@angular/common';
+import { FormatNumberModule } from 'arlas-web-components';
 
 @Component({
   selector: 'arlas-donut-tooltip-overlay',
   templateUrl: './donut-tooltip-overlay.component.html',
-  styleUrls: ['./donut-tooltip-overlay.component.css']
+  styleUrls: ['./donut-tooltip-overlay.component.css'],
+  standalone: true,
+  imports: [NgFor, FormatNumberModule]
 })
 export class DonutTooltipOverlayComponent {
 

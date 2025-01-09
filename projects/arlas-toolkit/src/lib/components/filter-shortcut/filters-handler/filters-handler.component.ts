@@ -30,6 +30,9 @@ import * as _moment from 'moment';
 import { Subject, takeUntil } from 'rxjs';
 import { ArlasCollaborativesearchService } from '../../../services/collaborative-search/arlas.collaborative-search.service';
 import { numberToShortString } from '../filter-shortcut.utils';
+import { NgIf, NgFor } from '@angular/common';
+import { FilterShortcutChipComponent } from '../chip/chip.component';
+import { MatIcon } from '@angular/material/icon';
 
 const moment = (_moment as any).default ? (_moment as any).default : _moment;
 
@@ -46,7 +49,9 @@ const moment = (_moment as any).default ? (_moment as any).default : _moment;
   ],
   providers: [
     { provide: DateTimeAdapter, useClass: MomentDateTimeAdapter, deps: [OWL_DATE_TIME_LOCALE] }
-  ]
+  ],
+  standalone: true,
+  imports: [NgIf, FilterShortcutChipComponent, MatIcon, NgFor]
 })
 export class ShortcutFiltersHandlerComponent implements OnInit, OnDestroy {
   /**

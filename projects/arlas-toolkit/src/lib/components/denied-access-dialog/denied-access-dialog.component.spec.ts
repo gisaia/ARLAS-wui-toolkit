@@ -16,13 +16,13 @@ describe('DeniedAccessDialogComponent', () => {
     };
 
     TestBed.configureTestingModule({
-      declarations: [DeniedAccessDialogComponent],
       imports: [
         TranslateModule.forRoot({
           loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
         }),
         MatDialogModule,
-        OAuthModule.forRoot()
+        OAuthModule.forRoot(),
+        DeniedAccessDialogComponent
       ],
       providers: [
         {
