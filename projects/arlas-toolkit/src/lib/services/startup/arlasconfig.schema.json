@@ -457,11 +457,11 @@
                                     "type": "object",
                                     "properties": {
                                         "input": {
-                                            "description": "Mapgl component inputs",
+                                            "description": "Map component inputs",
                                             "type": "object",
                                             "allOf": [
                                                 {
-                                                    "$ref": "mapgl.schema.json#"
+                                                    "$ref": "arlas-map.schema.json#"
                                                 }
                                             ]
                                         },
