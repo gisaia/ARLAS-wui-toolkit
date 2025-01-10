@@ -21,7 +21,9 @@ import { Filter } from 'arlas-api';
 import { MetricsTableContributor, TreeContributor } from 'arlas-web-contributors';
 import { CollaborativesearchService } from 'arlas-web-core';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class ArlasCollaborativesearchService extends CollaborativesearchService {
   public constructor() {
     super();
@@ -47,14 +49,14 @@ export class ArlasCollaborativesearchService extends CollaborativesearchService 
       } else if (!!collab && !collab.filters && !!collab.filter) {
         /** retrocompatibility code to transform an pre-18 collaboration structure to 18 one */
         collab.filters = new Map();
-        collab.filters.set(defaultCollection, [Object.assign({}, collab.filter)]);
+        collab.filters.set(defaultCollection, [{...collab.filter}]);
         delete collab.filter;
       }
       if (contributor && contributor instanceof TreeContributor && changeOperator) {
         collab.filters.forEach((filters: any[], collection: string) => {
           const exp = filters[0].f[0][0];
           const op = exp.op;
-          const treecontributor = contributor as TreeContributor;
+          const treecontributor = contributor;
           if (op !== treecontributor.getFilterOperator()) {
             if (treecontributor.allowOperatorChange) {
               treecontributor.setFilterOperator(op, true);
@@ -69,7 +71,7 @@ export class ArlasCollaborativesearchService extends CollaborativesearchService 
         collab.filters.forEach((filters: any[], collection: string) => {
           const exp = filters[0].f[0][0];
           const op = exp.op;
-          const metrictablecontributor = contributor as MetricsTableContributor;
+          const metrictablecontributor = contributor;
           if (op !== metrictablecontributor.getFilterOperator()) {
             metrictablecontributor.setFilterOperator(op, true);
 
@@ -84,7 +86,7 @@ export class ArlasCollaborativesearchService extends CollaborativesearchService 
     const collections = new Set<string>();
     Object.keys(dataModel).forEach(k => {
       const collab = dataModel[k];
-      if (collab && collab.filters) {
+      if (collab?.filters) {
         const filters = collab.filters as Map<string, any>;
         Array.from(filters.keys()).forEach(c => collections.add(c));
       }
@@ -95,7 +97,7 @@ export class ArlasCollaborativesearchService extends CollaborativesearchService 
   public getFilters(collection: string): Array<Filter> {
     const filters: Filter[] = [];
     Array.from(this.collaborations.values()).forEach(c => {
-      if (!!c.filters.get(collection)) {
+      if (c.filters.get(collection)) {
         filters.push(...c.filters.get(collection));
       }
     });
