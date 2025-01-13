@@ -21,7 +21,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { CommonModule } from '@angular/common';
 import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { forwardRef, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
@@ -140,11 +140,11 @@ import { ArlasColorGeneratorLoader } from './tools/color-generator-loader';
 
 export class CustomTranslateLoader implements TranslateLoader {
 
-  public constructor(private http: HttpClient) { }
+  public constructor(private readonly http: HttpClient) { }
 
   public getTranslation(lang: string): Observable<any> {
     const apiAddress = 'assets/i18n/' + lang + '.json?' + Date.now();
-    return Observable.create(observer => {
+    return new Observable(observer => {
       this.http.get(apiAddress).subscribe(
         res => {
           let merged = res;
@@ -345,7 +345,6 @@ export class CustomTranslateLoader implements TranslateLoader {
   providers: [
     ArlasOverlayService,
     ArlasCollectionService,
-    provideHttpClient(withInterceptorsFromDi()),
-    forwardRef(() => ArlasCollaborativesearchService)
+    provideHttpClient(withInterceptorsFromDi())
   ]})
 export class ArlasToolkitSharedModule { }
