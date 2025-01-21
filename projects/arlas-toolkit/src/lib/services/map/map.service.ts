@@ -32,13 +32,13 @@ export class ArlasMapService implements MapService {
 
   public map: AbstractArlasMapGL;
 
-  public constructor(private collaborativeSearchService: ArlasCollaborativesearchService) {
+  public constructor(private readonly collaborativeSearchService: ArlasCollaborativesearchService) {
   }
 
   /**
    * @description zooms to the data extent. If 'map' parameter is not defined, then this function uses the 'map' attribute
    * @param geoPointField geo-point field used to get the bounding box of the data
-   * @param map Map object of mapboxgl
+   * @param map Map instance
    * @param paddingPercentage a percentage of the extent's height and width
    * that is added as a padding to bbox of data (between 0 and 1). It allows to have some context around data
    */
@@ -54,7 +54,7 @@ export class ArlasMapService implements MapService {
     this.collaborativeSearchService.resolveButNotComputation([projType.compute, computationRequest],
       this.collaborativeSearchService.collaborations, collection)
       .subscribe((cr: ComputationResponse) => {
-        if (cr && cr.geometry) {
+        if (cr?.geometry) {
           mapInstance.fitBounds(mapInstance.geometryToBounds(cr.geometry, paddingPercentage) as ArlasLngLatBounds);
         }
       });
@@ -62,7 +62,7 @@ export class ArlasMapService implements MapService {
 
   /**
    *
-   * @param map mapbox map instance
+   * @param map Map instance
    */
   public setMap(map: AbstractArlasMapGL) {
     this.map = map;
