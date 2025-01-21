@@ -45,8 +45,9 @@
     "arlas-permissions-api": "26.0.0",
     "arlas-persistence-api": "26.0.0",
     "arlas-tagger-api": "26.0.0",
-    "arlas-web-components": "27.0.0-rc.2",
-    "arlas-web-contributors": "27.0.0-rc.2",
+    "arlas-web-components": "27.0.0-rc.3",
+    "arlas-web-contributors": "27.0.0-rc.3",
+    "arlas-map": "27.0.0-rc.3",
     "cli-color": "^1.2.0",
     "fetch-intercept": "^2.3.1",
     "hopscotch": "0.3.1",
@@ -68,17 +69,5 @@
     "./assets/i18n/es.json": {
       "default": "./assets/i18n/es.json"
     }
-  },
-  "overrides": {
-    "angular-oauth2-oidc-jwks": {
-      "jsrsasign": "^11.0.0"
-    },
-    "@angular-devkit/build-angular": {
-      "webpack-dev-middleware": "~5.3.4"
-    },
-    "dompurify": "2.5.6",
-    "http-proxy-middleware": "2.0.7",
-    "mermaid": "10.9.3",
-    "cross-spawn": "~7.0.5"
   }
 }

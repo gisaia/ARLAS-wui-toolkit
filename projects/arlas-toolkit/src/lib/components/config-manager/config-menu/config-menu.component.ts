@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { Component, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
+import { Component, Input, Output, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Configuration, ExploreApi } from 'arlas-api';
 import { DataWithLinks } from 'arlas-persistence-api';
@@ -41,7 +41,7 @@ import { AuthorisationOnActionError } from '../../../tools/errors/authorisation-
   styleUrls: ['./config-menu.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class ConfigMenuComponent implements OnInit {
+export class ConfigMenuComponent {
   @Input() public actions: Array<ConfigAction>;
 
   @Input() public zone: string;
@@ -51,18 +51,15 @@ export class ConfigMenuComponent implements OnInit {
   public ConfigAction = ConfigActionEnum;
 
   public constructor(
-    private dialog: MatDialog,
-    private persistenceService: PersistenceService,
-    private configService: ArlasConfigService,
-    private collectionService: ArlasCollectionService,
-    private errorService: ErrorService,
-    private arlasIamService: ArlasIamService,
-    private arlasSettings: ArlasSettingsService,
-    private authenService: AuthentificationService
+    private readonly dialog: MatDialog,
+    private readonly persistenceService: PersistenceService,
+    private readonly configService: ArlasConfigService,
+    private readonly collectionService: ArlasCollectionService,
+    private readonly errorService: ErrorService,
+    private readonly arlasIamService: ArlasIamService,
+    private readonly arlasSettings: ArlasSettingsService,
+    private readonly authenService: AuthentificationService
   ) {
-
-  }
-  public ngOnInit() {
 
   }
 

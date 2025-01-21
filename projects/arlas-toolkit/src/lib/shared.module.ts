@@ -62,7 +62,6 @@ import {
   GetCollectionUnitModule,
   GetFieldDisplayModule,
   HistogramModule,
-  MapglLegendModule,
   MetricModule,
   MetricsTableModule,
   PowerbarsModule,
@@ -136,6 +135,7 @@ import { ArlasOverlayService } from './services/overlays/overlay.service';
 import { ArlasConfigService, ArlasStartupService } from './services/startup/startup.service';
 import { ArlasWalkthroughModule } from './services/walkthrough/walkthrough.module';
 import { ArlasColorGeneratorLoader } from './tools/color-generator-loader';
+import { ArlasMapModule, } from 'arlas-map';
 
 
 export class CustomTranslateLoader implements TranslateLoader {
@@ -311,7 +311,7 @@ export class CustomTranslateLoader implements TranslateLoader {
     ScrollingModule,
     FormatNumberModule,
     NgxSpinnerModule,
-    MapglLegendModule,
+    ArlasMapModule,
     CollectionModule.forRoot({ loader: {
       deps: [
         ArlasCollaborativesearchService,
