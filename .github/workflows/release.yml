@@ -40,5 +40,6 @@ jobs:
         NPM_EMAIL: ${{ secrets.NPM_EMAIL }}
         NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
         GITHUB_CHANGELOG_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GOOGLE_CHAT_RELEASE_CHANEL: ${{ secrets.GOOGLE_CHAT_RELEASE_CHANEL }}
       run: |
         bash release-actions.sh -version=${{inputs.version}} -s=${{inputs.stage}} -i=${{inputs.stage_iteration}} -ref_branch=${{ steps.extract_branch.outputs.branch }}

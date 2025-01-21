@@ -12,6 +12,16 @@ usage(){
 	exit 1
 }
 
+send_chat_message(){
+    MESSAGE=$1
+    if [ -z "$GOOGLE_CHAT_RELEASE_CHANEL" ] ; then
+        echo "Environement variable GOOGLE_CHAT_RELEASE_CHANEL is not definied ... skipping message publishing"
+    else
+        DATA='{"text":"'${MESSAGE}'"}'
+        echo $DATA
+        curl -X POST --header "Content-Type:application/json" $GOOGLE_CHAT_RELEASE_CHANEL -d "${DATA}"
+    fi
+}
 
 # ARGUMENTS $1 = VERSION  $2 = ref_branch $3 stage $4 stage iteration (for beta & rc)
 releaseProd(){
@@ -103,6 +113,10 @@ releaseProd(){
     git commit -m "$commit_message" --allow-empty
     git push origin "$BRANCH"
     echo "Well done :)"
+    if [ "$STAGE_LOCAL" == "stable" ] || [ "$STAGE_LOCAL" == "rc" ];
+        then
+        send_chat_message "Release of arlas-wui-toolkit, version ${VERSION}"
+    fi
 
 }
 
