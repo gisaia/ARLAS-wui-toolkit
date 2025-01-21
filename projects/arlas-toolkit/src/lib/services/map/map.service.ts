@@ -19,13 +19,13 @@
 
 import { Injectable } from '@angular/core';
 import { ComputationRequest, ComputationResponse } from 'arlas-api';
+import { AbstractArlasMapGL, ArlasLngLatBounds } from 'arlas-map';
 import { projType } from 'arlas-web-core';
 import { MapService } from '../../tools/utils';
 import { ArlasCollaborativesearchService } from '../collaborative-search/arlas.collaborative-search.service';
-import { AbstractArlasMapGL, ArlasLngLatBounds } from 'arlas-map';
 
 /**
- * This service provides methods to apply on the mapboxgl Map object
+ * This service provides map methods on ARLAS data
  */
 @Injectable()
 export class ArlasMapService implements MapService {
