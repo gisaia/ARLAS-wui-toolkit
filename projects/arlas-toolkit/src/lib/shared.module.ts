@@ -50,6 +50,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from '@danielmoncada/angular-datetime-picker';
 import { OwlMomentDateTimeModule } from '@danielmoncada/angular-datetime-picker-moment-adapter';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { ArlasMapModule, } from 'arlas-map';
 import {
   BaseCollectionService,
   CalendarTimelineModule,
@@ -67,12 +68,8 @@ import {
   PowerbarsModule,
   ResultsModule
 } from 'arlas-web-components';
-import en from 'arlas-web-components/assets/i18n/en.json';
-import es from 'arlas-web-components/assets/i18n/es.json';
-import fr from 'arlas-web-components/assets/i18n/fr.json';
 import { MarkdownModule } from 'ngx-markdown';
 import { NgxSpinnerModule } from 'ngx-spinner';
-import { Observable } from 'rxjs';
 import { AiasDownloadComponent } from './components/aias/aias-download/aias-download.component';
 import { AiasEnrichComponent } from './components/aias/aias-enrich/aias-enrich.component';
 import { AiasResultComponent } from './components/aias/aias-result/aias-result.component';
@@ -135,38 +132,8 @@ import { ArlasOverlayService } from './services/overlays/overlay.service';
 import { ArlasConfigService, ArlasStartupService } from './services/startup/startup.service';
 import { ArlasWalkthroughModule } from './services/walkthrough/walkthrough.module';
 import { ArlasColorGeneratorLoader } from './tools/color-generator-loader';
-import { ArlasMapModule, } from 'arlas-map';
+import { CustomTranslateLoader } from './tools/Translation/custom-translate-loader';
 
-
-export class CustomTranslateLoader implements TranslateLoader {
-
-  public constructor(private readonly http: HttpClient) { }
-
-  public getTranslation(lang: string): Observable<any> {
-    const apiAddress = 'assets/i18n/' + lang + '.json?' + Date.now();
-    return new Observable(observer => {
-      this.http.get(apiAddress).subscribe(
-        res => {
-          let merged = res;
-          // Properties in res will overwrite those in fr.
-          if (lang === 'fr') {
-            merged = { ...fr, ...res };
-          } else if (lang === 'en') {
-            merged = { ...en, ...res };
-          } else if (lang === 'es') {
-            merged = { ...es, ...res };
-          }
-          observer.next(merged);
-          observer.complete();
-        },
-        error => {
-          // failed to retrieve requested language file, use default
-          observer.complete(); // => Default language is already loaded
-        }
-      );
-    });
-  }
-}
 
 @NgModule({
   exports: [
