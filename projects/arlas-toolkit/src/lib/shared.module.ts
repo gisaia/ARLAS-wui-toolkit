@@ -70,6 +70,9 @@ import {
 import en from 'arlas-web-components/assets/i18n/en.json';
 import es from 'arlas-web-components/assets/i18n/es.json';
 import fr from 'arlas-web-components/assets/i18n/fr.json';
+import enMap from 'arlas-map/assets/i18n/en.json';
+import esMap from 'arlas-map/assets/i18n/es.json';
+import frMap from 'arlas-map/assets/i18n/fr.json';
 import { MarkdownModule } from 'ngx-markdown';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { Observable } from 'rxjs';
@@ -150,11 +153,11 @@ export class CustomTranslateLoader implements TranslateLoader {
           let merged = res;
           // Properties in res will overwrite those in fr.
           if (lang === 'fr') {
-            merged = { ...fr, ...res };
+            merged = { ...fr, ...frMap, ...res };
           } else if (lang === 'en') {
-            merged = { ...en, ...res };
+            merged = { ...en, ...enMap, ...res };
           } else if (lang === 'es') {
-            merged = { ...es, ...res };
+            merged = { ...es, ...esMap, ...res };
           }
           observer.next(merged);
           observer.complete();
