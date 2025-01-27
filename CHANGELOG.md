@@ -1,5 +1,13 @@
 # Change Log
 
+## [v27.0.0-rc.9](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.0.0-rc.9) (2025-01-27)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v27.0.0-rc.8...v27.0.0-rc.9)
+
+**Miscellaneous:**
+
+- Add send message on chat when release [\#900](https://github.com/gisaia/ARLAS-wui-toolkit/issues/900)
+
 ## [v27.0.0-rc.8](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.0.0-rc.8) (2025-01-22)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v27.0.0-rc.7...v27.0.0-rc.8)
