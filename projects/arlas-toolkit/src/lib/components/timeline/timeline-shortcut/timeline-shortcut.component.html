@@ -1,6 +1,6 @@
 <div class="arlas-time-shortcuts--container">
   <div *ngIf="showShortcuts" class="arlas-time-shortcuts__list--container">
-    <ul class="arlas-time-shortcuts__list" *ngFor="let shortcutType of timeShortcutsMap | keyValue">
+    <ul class="arlas-time-shortcuts__list" *ngFor="let shortcutType of timeShortcutsMap | keyvalue">
       <li class="arlas-time-shortcut" *ngFor="let shortCut of shortcutType.value" (click)="setShortcut(shortCut)">{{shortCut.label | translate}}</li>
     </ul>
   </div>
