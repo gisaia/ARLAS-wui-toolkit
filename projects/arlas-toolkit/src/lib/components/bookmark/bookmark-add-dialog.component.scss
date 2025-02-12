@@ -17,19 +17,21 @@
  * under the License.
  */
 
-// TODO: To override globally
-::ng-deep.mdc-dialog__surface {
-  padding: 24px;
+ ::ng-deep #add-bookmark-dialog .mat-mdc-dialog-surface {
+  padding: 12px;
 }
 
 .bookmark__add {
   padding: 0;
 
   &--title {
-    margin: 0 0 20px;
     padding: 0;
 
-    .mdc-dialog__title::before {
+    --mdc-dialog-subhead-weight: 700;
+    --mdc-dialog-subhead-tracking: 0;
+    --mdc-dialog-subhead-size: 20px;
+
+    .mat-mdc-dialog-title::before {
       height: 0;
       display: block;
     }
