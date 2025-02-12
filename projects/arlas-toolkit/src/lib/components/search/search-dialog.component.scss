@@ -17,16 +17,19 @@
  * under the License.
  */
 
-$search-height: 30px;
-$search-width: 400px;
-
 @mixin search-text {
     font-size: 14px;
     padding: 6px 4px;
 }
 
 .flex-span {
-    display: flex
+    display: flex;
+    align-items: center;
+
+    ::ng-deep.mat-mdc-icon-button.mat-mdc-button-base {
+        padding: 0;
+        --mdc-icon-button-state-layer-size: 24px;
+    }
 }
 
 .scale-down {
@@ -40,30 +43,25 @@ $search-width: 400px;
 }
 
 .search-dialog {
-    // Search width + padding width
-    width: calc($search-width + 8px);
+    --arlas-search-width: 400px;
+    --arlas-search-height: 30px;
+
     display: flex;
     flex-direction: column;
-    padding: 0 4px;
+    padding: 4px;
 
     .arlas-search-container {
-        ::ng-deep .mat-icon-button {
-            width: 24px;
-            height: 24px;
-            line-height: 22px;
-        }
-
-        .mat-icon-button ::ng-deep .mat-button-focus-overlay {
-            display: none;
-        }
+        // .mat-icon-button ::ng-deep .mat-button-focus-overlay {
+        //     display: none;
+        // }
 
         min-width: 150px;
         display: flex;
         align-items: center;
         border: 2px solid #0969da;
         border-radius: 4px;
-        height: $search-height;
-        width: $search-width;
+        height: var(--arlas-search-height);
+        width: var(--arlas-search-width);
 
         .search {
             margin: 2px 4px 0;
@@ -127,12 +125,7 @@ $search-width: 400px;
     }
 }
 
-::ng-deep #arlas-search-dialog .mat-mdc-dialog-content {
-    padding: 0;
-    margin: -8px -16px;
-}
-
-::ng-deep.mat-mdc-dialog-container {
+::ng-deep #arlas-search-dialog .mat-mdc-dialog-container {
     border: 1px solid #a1a1a1;
     border-radius: 8px !important;
     box-shadow: none;
