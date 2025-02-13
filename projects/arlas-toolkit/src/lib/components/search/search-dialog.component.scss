@@ -51,11 +51,6 @@
     padding: 4px;
 
     .arlas-search-container {
-        // .mat-icon-button ::ng-deep .mat-button-focus-overlay {
-        //     display: none;
-        // }
-
-        min-width: 150px;
         display: flex;
         align-items: center;
         border: 2px solid #0969da;
@@ -94,6 +89,7 @@
     .autocomplete {
         margin: 4px 2px;
         padding: 0;
+        width: var(--arlas-search-width);
 
         li:last {
             padding-bottom: 0;
