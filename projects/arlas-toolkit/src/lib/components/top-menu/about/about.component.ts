@@ -55,7 +55,7 @@ export class AboutComponent {
   public constructor(public dialog: MatDialog) { }
 
   public openDialog() {
-    this.dialogRef = this.dialog.open(AboutDialogComponent);
+    this.dialogRef = this.dialog.open(AboutDialogComponent, { panelClass: 'arlas-about-dialog' });
     this.dialogRef.componentInstance.pathToMd = this.pathToMd;
     this.dialogRef.componentInstance.extraTextData = this.extraTextData;
   }

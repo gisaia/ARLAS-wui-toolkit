@@ -20,3 +20,7 @@
 .tag-progress{
   margin: 5px 0;
 }
+
+::ng-deep.arlas-tag-dialog .mdc-dialog__surface {
+  padding: 0 15px;
+}

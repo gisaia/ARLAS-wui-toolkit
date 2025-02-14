@@ -168,7 +168,7 @@ export class TopMenuComponent implements OnInit {
   }
 
   public getUserInfos() {
-    this.dialog.open(UserInfosComponent);
+    this.dialog.open(UserInfosComponent, { panelClass: 'arlas-user-info-dialog' });
   }
 
   public getInitials(name) {

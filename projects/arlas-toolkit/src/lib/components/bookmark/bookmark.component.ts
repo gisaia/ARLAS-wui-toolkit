@@ -140,7 +140,7 @@ export class BookmarkComponent {
   }
 
   public combine() {
-    const dialogRef = this.dialog.open(BookmarkAddDialogComponent, { data: { name: null } });
+    const dialogRef = this.dialog.open(BookmarkAddDialogComponent, { data: { name: null }, id: 'add-bookmark-dialog' });
     dialogRef.afterClosed().subscribe(bookmarkName => {
       if (bookmarkName) {
         this.bookmarkService.createCombineBookmark(bookmarkName, new Set(this.itemsCheck));
@@ -156,7 +156,7 @@ export class BookmarkComponent {
   }
 
   public updateBookMarkName(id, name){
-    const dialogRef = this.dialog.open(BookmarkAddDialogComponent, { data: { name: name } });
+    const dialogRef = this.dialog.open(BookmarkAddDialogComponent, { data: { name: name }, id: 'add-bookmark-dialog' });
     dialogRef.afterClosed().subscribe(bookmarkName => {
       if (bookmarkName) {
         this.bookmarkService.updateBookmarkName(bookmarkName, id);

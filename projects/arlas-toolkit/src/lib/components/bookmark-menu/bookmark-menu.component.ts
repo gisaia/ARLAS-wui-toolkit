@@ -92,7 +92,7 @@ export class BookmarkMenuComponent implements OnInit, OnDestroy {
 
   public openDialogAdd() {
     if (!this.addBookmarkDisabled) {
-      this.dialog.open(BookmarkAddDialogComponent, { data: { name: null } });
+      this.dialog.open(BookmarkAddDialogComponent, { data: { name: null }, id: 'add-bookmark-dialog' });
     }
   }
 
@@ -104,7 +104,4 @@ export class BookmarkMenuComponent implements OnInit, OnDestroy {
     this._onDestroy$.next(true);
     this._onDestroy$.complete();
   }
-
-
-
 }

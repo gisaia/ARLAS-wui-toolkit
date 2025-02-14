@@ -105,6 +105,9 @@ export class FetchInterceptorService {
   }
 
   public interceptInvalidConfig(dahsboardDeniedData: DeniedAccessData) {
-    this.dialog.open(DeniedAccessDialogComponent, { disableClose: true, data: dahsboardDeniedData });
+    this.dialog.open(DeniedAccessDialogComponent, {
+      disableClose: true, data: dahsboardDeniedData,
+      panelClass: 'arlas-error-dialog'
+    });
   }
 }
