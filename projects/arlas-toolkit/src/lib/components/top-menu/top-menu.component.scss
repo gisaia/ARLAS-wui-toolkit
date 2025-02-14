@@ -68,3 +68,8 @@ $avatar-color: #999;
         }
     }
 }
+
+::ng-deep.change-dialog .mdc-dialog__surface,
+::ng-deep.arlas-user-info-dialog .mdc-dialog__surface {
+    padding: 12px 24px;
+}

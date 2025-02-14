@@ -47,7 +47,8 @@ export class ErrorService {
         disableClose: true, data: {
           error,
           forceAction
-        }
+        },
+        panelClass: 'arlas-error-dialog'
       });
     }
   }
@@ -58,7 +59,8 @@ export class ErrorService {
         disableClose: true, data: {
           error: new BackendError(502, '', this.settingsService.getArlasHubUrl(),  service),
           forceAction: true
-        }
+        },
+        panelClass: 'arlas-error-dialog'
       });
     }
   }
@@ -69,7 +71,8 @@ export class ErrorService {
         disableClose: true, data: {
           error: new SettingsError(),
           forceAction: true
-        }
+        },
+        panelClass: 'arlas-error-dialog'
       });
     }
   }
@@ -80,7 +83,8 @@ export class ErrorService {
         disableClose: true, data: {
           error: new BackendError(status, message, this.settingsService.getArlasHubUrl(), service),
           forceAction: true
-        }
+        },
+        panelClass: 'arlas-error-dialog'
       });
     }
   }

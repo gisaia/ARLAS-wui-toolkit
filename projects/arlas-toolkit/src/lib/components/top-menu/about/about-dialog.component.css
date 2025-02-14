@@ -16,3 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
+::ng-deep.arlas-about-dialog .mdc-dialog__surface {
+    padding: 12px 24px;
+}

@@ -81,7 +81,8 @@ export class PermissionsCreatorComponent implements OnInit, OnDestroy {
       // - open a dialog for description
       this.createPermissionDialog.open(PermissionsCreatorDialogComponent, {
         data: permissionData,
-        disableClose: true
+        disableClose: true,
+        panelClass: 'arlas-permission-dialog'
       });
     } else {
       this.show = false;

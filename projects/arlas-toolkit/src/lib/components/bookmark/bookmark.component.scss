@@ -17,10 +17,13 @@
  * under the License.
  */
 
+::ng-deep.bookmark-manager .mdc-dialog__surface {
+  padding: 12px 24px;
+}
+
 .bookmark-table-items {
   max-height: 60vh;
   overflow-y: auto;
-  padding: 24px;
   min-width: unset;
 
   .mat-column-checked {
