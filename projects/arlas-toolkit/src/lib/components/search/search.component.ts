@@ -142,7 +142,9 @@ export class SearchComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   public ngOnDestroy(): void {
-    this.retrieveSearchValueSubs.forEach(r => r.unsubscribe());
+    if (this.retrieveSearchValueSubs) {
+      this.retrieveSearchValueSubs.forEach(r => r.unsubscribe());
+    }
   }
 
   public search(value: string) {

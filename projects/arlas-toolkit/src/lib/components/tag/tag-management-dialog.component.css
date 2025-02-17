@@ -65,3 +65,7 @@
 .inactive-tag .mat-mdc-cell{
   color : #cccccc;
 }
+
+::ng-deep.arlas-tag-dialog .mdc-dialog__surface {
+  padding: 0 15px;
+}

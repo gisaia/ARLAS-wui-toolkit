@@ -62,12 +62,12 @@ export class TagComponent {
   ) { }
 
   public openDialog() {
-    this.dialogRef = this.dialog.open(TagDialogComponent, { data: null });
+    this.dialogRef = this.dialog.open(TagDialogComponent, { data: null, panelClass: 'arlas-tag-dialog' });
     this.dialogRef.componentInstance.tagEvent.subscribe(value => this.tagEvent.next(value));
   }
 
   public openManagement() {
-    this.dialogManagementRef = this.dialog.open(TagManagementDialogComponent, { data: null });
+    this.dialogManagementRef = this.dialog.open(TagManagementDialogComponent, { data: null, panelClass: 'arlas-tag-dialog' });
   }
 
   public removeProgress(itemId) {
