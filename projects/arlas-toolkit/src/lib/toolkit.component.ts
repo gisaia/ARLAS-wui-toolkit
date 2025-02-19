@@ -32,7 +32,7 @@ import { ErrorService } from './services/error/error.service';
   selector: 'arlas-tool-root',
   templateUrl: './toolkit.component.html',
   providers: [Location],
-  styleUrls: ['./toolkit.component.css']
+  styleUrls: ['./toolkit.component.scss']
 })
 export class ToolkitComponent implements AfterViewInit, OnInit, OnDestroy {
 

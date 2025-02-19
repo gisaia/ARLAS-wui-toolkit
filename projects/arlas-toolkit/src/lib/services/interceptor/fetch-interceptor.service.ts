@@ -91,7 +91,7 @@ export class FetchInterceptorService {
             } else if (code === 404) {
               message = marker('The requested data does not exist.');
             }
-            this.errorService.emitBackendError(code, message, marker('ARLAS-server'));
+            this.errorService.emitBackendError(code, message, marker('ARLAS-server'), 'snackbar');
           }
           return response;
         },
