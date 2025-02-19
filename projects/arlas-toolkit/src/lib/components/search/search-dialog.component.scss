@@ -49,6 +49,7 @@
     display: flex;
     flex-direction: column;
     padding: 4px;
+    overflow-x: clip;
 
     .arlas-search-container {
         display: flex;
@@ -78,6 +79,9 @@
         }
 
         .close {
+            padding: 0;
+            --mdc-icon-button-state-layer-size: 24px;
+
             .icon {
                 font-size: 18px;
                 height: 18px;
@@ -111,11 +115,13 @@
 
             span {
                 padding: 0 4px;
+                text-overflow: ellipsis;
+                overflow: hidden;
             }
             .count {
                 color: #5a5555;
                 position: relative;
-                top: 10px;
+                top: 5px;
             }
         }
     }
@@ -127,33 +133,32 @@
     box-shadow: none;
 }
 
-::ng-deep .settings-list .mat-menu-content {
-    display: flex;
-    flex-direction: column;
-    margin: 5px;
-    padding: 2px;
-    font-size: smaller;
-}
+::ng-deep .settings-list {
+    .mat-mdc-menu-content {
+        display: flex;
+        flex-direction: column;
+        margin: 5px;
+        padding: 2px;
+        font-size: 12px;
 
+        .mat-mdc-checkbox .mdc-checkbox {
+            --mdc-checkbox-state-layer-size: 18px;
+            --mdc-checkbox-selected-icon-color: var(--arlas-search-checkbox-color, grey);
+            --mdc-checkbox-selected-focus-icon-color: var(--arlas-search-checkbox-color, grey);
+            --mdc-checkbox-selected-hover-icon-color: var(--arlas-search-checkbox-color, grey);
+            --mdc-checkbox-selected-pressed-icon-color: var(--arlas-search-checkbox-color, grey);
+            --mdc-checkbox-selected-checkmark-color: var(--arlas-search-checkbox-color, grey);
+            --mdc-checkbox-unselected-focus-icon-color: var(--arlas-search-checkbox-color, grey);
+            --mdc-checkbox-selected-focus-state-layer-color: var(--arlas-search-checkbox-color, grey);
+            transform: scale(0.8);
 
+            &__ripple {
+                display: none;
+            }
 
-::ng-deep .settings-list .mat-checkbox .mat-checkbox-frame {
-    transform: scale(0.8);
-    border-width: 2px;
-    border-style: solid;
-    border-radius: 3px;
-}
-
-::ng-deep .settings-list .mat-checkbox-checked .mat-checkbox-background {
-    transform: scale(0.8);
-    background-color: transparent;
-}
-
-::ng-deep .settings-list .mat-checkbox-inner-container {
-    margin-right: 0px;
-
-}
-
-::ng-deep .settings-list mat-checkbox .mat-checkbox-checkmark-path {
-    stroke: grey !important;
+            &__background {
+                background-color: transparent !important;
+            }
+        }
+    }
 }

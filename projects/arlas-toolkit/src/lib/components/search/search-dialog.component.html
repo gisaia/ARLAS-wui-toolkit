@@ -23,7 +23,7 @@
     </div>
     <ul class="autocomplete" *ngIf="searchContributors.length === 1">
         <li *ngFor="let search of filteredSearch | async" class="search-option"
-            (click)="clickItemSearch(search.key_as_string)">
+            (click)="clickItemSearch(search.key_as_string)" [matTooltip]="search.key_as_string" matTooltipPosition="after">
             <span class="key">{{ search.key_as_string }}</span>
             <span class="count">{{ search.count }}</span>
         </li>
@@ -37,12 +37,12 @@
 
     <ul class="autocomplete" *ngIf="searchContributors.length > 1">
         <li *ngFor="let search of filteredSearch | async" class="search-option"
-            (click)="clickItemSearch(search.key_as_string)">
+            (click)="clickItemSearch(search.key_as_string)" [matTooltip]="search.key_as_string" matTooltipPosition="after">
             <span class="key">{{ search.key_as_string }}</span>
             <div class="flex-span collections-count" >
             <div *ngFor="let s of search.collections" class="flex-span">
                 <span class="flex-span">
-                    <mat-icon [matTooltip]="s.collection | getCollectionDisplayName | translate" 
+                    <mat-icon [matTooltip]="s.collection | getCollectionDisplayName | translate"
                     [style.color]="s.color"
                         class="chip-collection">fiber_manual_record</mat-icon>
                     <span class="count">{{ s.count }}</span>
