@@ -16,3 +16,9 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
+::ng-deep .arlas-error-snackbar {
+    --mdc-snackbar-supporting-text-color: white;
+    --mat-snack-bar-button-color: white;
+    --mdc-snackbar-container-color: rgb(212, 17, 17);
+}

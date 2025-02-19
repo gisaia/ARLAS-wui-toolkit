@@ -27,6 +27,8 @@ import { AuthorisationError } from '../../tools/errors/authorisation-error';
 import { BackendError } from '../../tools/errors/backend-error';
 import { SettingsError } from '../../tools/errors/settings-error';
 import { ArlasCollaborativesearchService } from '../collaborative-search/arlas.collaborative-search.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable({
   providedIn: 'root'
@@ -38,7 +40,9 @@ export class ErrorService {
   public constructor(
     private readonly dialog: MatDialog,
     private readonly settingsService: ArlasSettingsService,
-    private readonly arlasCollaborationService: ArlasCollaborativesearchService
+    private readonly arlasCollaborationService: ArlasCollaborativesearchService,
+    private readonly snackBar: MatSnackBar,
+    private readonly translate: TranslateService
   ) { }
 
   public emitAuthorisationError(error: AuthorisationError, forceAction = true) {
@@ -77,15 +81,19 @@ export class ErrorService {
     }
   }
 
-  public emitBackendError(status: number, message: string, service: string) {
-    if (!this.dialog.openDialogs || this.dialog.openDialogs.length === 0) {
-      this.dialog.open(DeniedAccessDialogComponent, {
-        disableClose: true, data: {
-          error: new BackendError(status, message, this.settingsService.getArlasHubUrl(), service),
-          forceAction: true
-        },
-        panelClass: 'arlas-error-dialog'
-      });
+  public emitBackendError(status: number, message: string, service: string, mode: 'snackbar' | 'dialog' = 'dialog') {
+    if (mode === 'dialog') {
+      if (!this.dialog.openDialogs || this.dialog.openDialogs.length === 0) {
+        this.dialog.open(DeniedAccessDialogComponent, {
+          disableClose: true, data: {
+            error: new BackendError(status, message, this.settingsService.getArlasHubUrl(), service),
+            forceAction: true
+          },
+          panelClass: 'arlas-error-dialog'
+        });
+      }
+    } else if (mode === 'snackbar') {
+      this.snackBar.open(message, this.translate.instant('Close'), { panelClass: 'arlas-error-snackbar' });
     }
   }
 
