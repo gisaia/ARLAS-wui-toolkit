@@ -90,8 +90,10 @@ $border-color: #a1a1a1;
         top: 90px;
 
         // POWERBARS
-        ::ng-deep.powerbar__powerbar--top-group {
-            height: 20px;
+        ::ng-deep.powerbars__powerbar--top-group,
+        ::ng-deep.powerbars__powerbar--term,
+        ::ng-deep.powerbars__powerbar--count {
+            line-height: 20px;
         }
         ::ng-deep .powerbars--title {
             display: none;

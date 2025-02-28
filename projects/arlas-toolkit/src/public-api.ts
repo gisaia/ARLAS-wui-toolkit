@@ -56,7 +56,7 @@ export { ExtendPersistenceDatabase } from './lib/services/extend/extendPersisten
 export { Extend } from './lib/services/extend/model';
 export { ExtendLocalDatabase } from './lib/services/extend/extendLocalDatabase';
 export {
-  ConcatCollectionPipe, FiltersComponent, GetCollaborationIconPipe, GetColorFilterPipe,
+  FiltersComponent, GetCollaborationIconPipe, GetColorFilterPipe,
   GetContributorLabelPipe, GetGlobalColorFilterPipe
 } from './lib/components/filters/filters.component';
 export { PermissionsCreatorComponent } from './lib/components/permissions-creator/permissions-creator.component';

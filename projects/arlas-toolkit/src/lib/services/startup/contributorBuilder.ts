@@ -46,7 +46,7 @@ export class ContributorBuilder {
     const config = configService.getValue('arlas.web.contributors').find(contrib =>
       contrib.type === contributorType && contrib.identifier === identifier
     );
-    const collection = !!config['collection'] ? config['collection'] : collaborativesearchService.defaultCollection;
+    let collection = !!config['collection'] ? config['collection'] : collaborativesearchService.defaultCollection;
     let contributor;
     let isOneDimension: boolean;
     let additionalCollections: Array<any>;
@@ -113,7 +113,11 @@ export class ContributorBuilder {
         );
         break;
       case 'metricstable':
-        contributor = new MetricsTableContributor(identifier, collaborativesearchService, configService);
+        // For the MetricsTable, choose the collection of the first MetricsVector as the main collection
+        if (config['configuration']?.[0]?.collection) {
+          collection = config['configuration'][0].collection;
+        }
+        contributor = new MetricsTableContributor(identifier, collaborativesearchService, configService, collection);
         break;
     }
     contributor.updateData = false;
