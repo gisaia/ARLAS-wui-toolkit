@@ -96,12 +96,12 @@ import {
   ShortcutFiltersHandlerComponent
 } from './components/filter-shortcut/filters-handler/filters-handler.component';
 import {
-  ConcatCollectionPipe,
   FiltersComponent,
   GetCollaborationIconPipe,
   GetColorFilterPipe,
   GetContributorLabelPipe,
-  GetGlobalColorFilterPipe
+  GetGlobalColorFilterPipe,
+  IsCollabOnCollectionPipe
 } from './components/filters/filters.component';
 import { HistogramTooltipOverlayComponent } from './components/histogram-tooltip-overlay/histogram-tooltip-overlay.component';
 import { HistogramWidgetComponent } from './components/histogram-widget/histogram-widget.component';
@@ -200,7 +200,7 @@ import { CustomTranslateLoader } from './tools/Translation/custom-translate-load
     GetColorFilterPipe,
     GetGlobalColorFilterPipe,
     GetCollaborationIconPipe,
-    ConcatCollectionPipe,
+    IsCollabOnCollectionPipe,
     GetContributorLabelPipe,
     LinkComponent,
     LanguageSwitcherComponent,

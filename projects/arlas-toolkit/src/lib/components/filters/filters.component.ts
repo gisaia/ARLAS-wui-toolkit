@@ -47,15 +47,6 @@ export class GetContributorLabelPipe implements PipeTransform {
   }
 }
 
-@Pipe({ name: 'concatCollection' })
-export class ConcatCollectionPipe implements PipeTransform {
-  public transform(value: string, id: string, registry?: Map<string, Contributor>): string {
-    const collection = registry.get(id).collection;
-    return value.concat(' : ').concat(collection);
-
-  }
-}
-
 @Pipe({ name: 'getColorFilter' })
 export class GetColorFilterPipe implements PipeTransform {
   public transform(value: string, type: string, collaborationsMap: Map<string, Collaboration>): string {
@@ -85,6 +76,14 @@ export class GetCollaborationIconPipe implements PipeTransform {
   public transform(value: string, contributorsIcons: Map<string, string>): string {
     return contributorsIcons.get(value);
 
+  }
+}
+
+@Pipe({ name: 'isCollabOnCollection' })
+export class IsCollabOnCollectionPipe implements PipeTransform {
+  public transform(value: string, collection: string, contributors: Map<string, Contributor>) {
+    const contributor = contributors.get(value);
+    return contributor.collections.map(c => c.collectionName).indexOf(collection) >= 0 && value !== 'timeline';
   }
 }
 

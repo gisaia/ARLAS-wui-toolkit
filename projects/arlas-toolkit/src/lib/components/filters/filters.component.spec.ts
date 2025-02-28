@@ -34,7 +34,6 @@ import {
 } from '../../services/startup/startup.service';
 import { ArlasWalkthroughService } from '../../services/walkthrough/walkthrough.service';
 import {
-  ConcatCollectionPipe,
   FiltersComponent,
   GetCollaborationIconPipe,
   GetColorFilterPipe,
@@ -48,7 +47,7 @@ describe('FiltersChipsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [FiltersComponent, GetColorFilterPipe, GetCollaborationIconPipe, ConcatCollectionPipe, GetContributorLabelPipe],
+      declarations: [FiltersComponent, GetColorFilterPipe, GetCollaborationIconPipe, GetContributorLabelPipe],
       imports: [MatChipsModule, MatIconModule, MatTooltipModule, MatMenuModule,
         TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }),
         FormatNumberModule],

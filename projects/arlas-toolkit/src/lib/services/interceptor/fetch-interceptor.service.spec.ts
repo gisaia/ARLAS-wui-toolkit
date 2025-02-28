@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ArlasSettingsService } from '../settings/arlas.settings.service';
 import { FetchInterceptorService } from './fetch-interceptor.service';
+import { TranslateModule, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
 
 describe('FetchInterceptorService', () => {
   beforeEach(() => TestBed.configureTestingModule({
@@ -9,7 +10,9 @@ describe('FetchInterceptorService', () => {
       ArlasSettingsService
     ],
     imports: [
-      MatDialogModule
+      MatDialogModule,
+      TranslateModule.forRoot(
+        { loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } })
     ]
   }));
 
