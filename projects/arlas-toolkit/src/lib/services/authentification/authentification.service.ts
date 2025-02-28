@@ -35,8 +35,8 @@ export class CustomMemoryStorage implements OAuthStorage {
     this.storage = storage;
   }
   private needsExternalStorage(key: string) {
-    // Those two keys must be in external storage because a bug in the lib, but it's not sensible data
-    return key === 'nonce' || key === 'PKCE_verifier';
+    // Those three keys must be in external storage to stay logged at refresh with KC, but it's not sensible data
+    return key === 'nonce' || key === 'PKCE_verifier' || key === 'refresh_token';
   }
   public getItem(key: string) {
     if (this.needsExternalStorage(key)) {
@@ -136,7 +136,7 @@ export class AuthentificationService extends ArlasAuthentificationService {
         if (this.oauthService.hasValidAccessToken()) {
           return Promise.resolve();
         }
-        return this.oauthService.silentRefresh()
+        return this.oauthService.refreshToken()
           .then(() => Promise.resolve())
           .catch(result => {
             if (forceConnect) {
@@ -161,7 +161,7 @@ export class AuthentificationService extends ArlasAuthentificationService {
     this.oauthService.logOut();
   }
   public refresh() {
-    this.oauthService.silentRefresh();
+    this.oauthService.refreshToken();
   }
   public hasValidAccessToken() {
     return this.oauthService.hasValidAccessToken();
@@ -247,8 +247,8 @@ export class AuthentificationService extends ArlasAuthentificationService {
       });
     }
 
-    this.oauthService.events
-      .subscribe(_ => {
+    this.oauthService.events.pipe(filter(e => e.type !== 'session_unchanged'))
+      .subscribe(e => {
         this.isAuthenticatedSubject.next(this.oauthService.hasValidAccessToken());
       });
     this.oauthService.setupAutomaticSilentRefresh();
