@@ -63,11 +63,10 @@ export class UserInfosComponent implements OnInit {
       } else {
         this.authentService.loadUserInfo().subscribe(user => {
           const data = user.info;
-          this.name = data['nickname'];
-          this.email = data['name'];
-          this.organisations = data['http://arlas.io/roles'].filter(r => r.startsWith('org/'))
-            .map(r => this.computeName(r));
-          this.avatar = data['picture'];
+          this.name = data['name'];
+          this.email = data['email'];
+          this.organisations = [];
+          this.avatar = '';
         });
       }
     }
