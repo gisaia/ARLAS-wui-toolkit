@@ -1,5 +1,13 @@
 # Change Log
 
+## [v27.0.6](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.0.6) (2025-03-10)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v27.0.5...v27.0.6)
+
+**Fixed bugs:**
+
+- openid: token refresh doesn't work in case of ARLAS\_AUTHENT\_FORCE\_CONNECT=false [\#915](https://github.com/gisaia/ARLAS-wui-toolkit/issues/915)
+
 ## [v27.0.5](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.0.5) (2025-02-28)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v27.0.4...v27.0.5)
@@ -662,15 +670,15 @@
 
 ## [v24.2.0-beta-iam.5](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.2.0-beta-iam.5) (2023-09-04)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.2.0-beta-iam.3...v24.2.0-beta-iam.5)
-
-## [v24.2.0-beta-iam.3](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.2.0-beta-iam.3) (2023-08-28)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.2.0-beta-iam.4...v24.2.0-beta-iam.3)
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.2.0-beta-iam.4...v24.2.0-beta-iam.5)
 
 ## [v24.2.0-beta-iam.4](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.2.0-beta-iam.4) (2023-08-28)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.1.6...v24.2.0-beta-iam.4)
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.2.0-beta-iam.3...v24.2.0-beta-iam.4)
+
+## [v24.2.0-beta-iam.3](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.2.0-beta-iam.3) (2023-08-28)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.1.6...v24.2.0-beta-iam.3)
 
 ## [v24.1.6](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.1.6) (2023-08-09)
 
