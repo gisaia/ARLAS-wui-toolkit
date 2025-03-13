@@ -96,7 +96,7 @@ export class TopMenuComponent implements OnInit {
       this.authentService.canActivateProtectedRoutes.subscribe(isConnected => {
         this.connected = isConnected;
         if (isConnected) {
-          this.name = claims.nickname;
+          this.name = claims.preferred_username;
           this.avatar = claims.picture;
           this.initials = this.getInitials(this.name);
         } else {
