@@ -17,4 +17,4 @@
  * under the License.
  */
 
-export const NO_ORGANISATION = 'no_organisation';
+export const NO_ORGANISATION = '';
