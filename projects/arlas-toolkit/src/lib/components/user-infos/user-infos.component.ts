@@ -63,7 +63,7 @@ export class UserInfosComponent implements OnInit {
       } else {
         this.authentService.loadUserInfo().subscribe(user => {
           const data = user.info;
-          this.name = data['name'];
+          this.name = data['preferred_username'];
           this.email = data['email'];
           this.organisations = [];
           this.avatar = '';

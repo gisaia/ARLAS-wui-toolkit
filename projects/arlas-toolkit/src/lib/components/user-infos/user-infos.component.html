@@ -1,21 +1,31 @@
 <div class="user_info-title">
     {{ 'User informations' | translate }}
-    <img *ngIf="avatar" src="{{avatar}}" class="user_info-img">
+    @if (avatar) {
+    <img src="{{avatar}}" class="user_info-img">
+    }
 </div>
 
 <div class="user_info-list">
-    <div *ngIf="name" class="user_info">
+    @if (name) {
+    <div class="user_info">
         <i class="info">{{ 'Name' | translate }}</i>
         <div>{{ name }}</div>
     </div>
+    }
+    @if (email) {
     <div class="user_info">
         <i class="info">{{ 'Email' | translate }}</i>
         <div>{{ email }}</div>
     </div>
-    <div class="user_info" *ngIf="authentMode === 'iam' ">
+    }
+    @if (authentMode === 'iam') {
+    <div class="user_info">
         <i class="info">{{ 'Organisations' | translate }}</i>
         <div class="organisations">
-            <div *ngFor="let o of organisations"> {{organisations.length > 1 ? '-' : ''}} {{ o }}</div>
+            @for (o of organisations; track o) {
+            <div> {{organisations.length > 1 ? '-' : ''}} {{ o }}</div>
+            }
         </div>
     </div>
+    }
 </div>
