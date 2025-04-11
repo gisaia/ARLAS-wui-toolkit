@@ -330,5 +330,7 @@
 	"running": "running",
 	"successful": "successful",
 	"failed": "failed",
-	"dissmissed": "dissmissed"
+	"dissmissed": "dissmissed",
+  "Downloads geographical data of the chosen layer": "Downloads geographical data of the chosen layer.",
+  "According to the chosen layer, the downloaded data is either aggregated in a geohash grid or a fetch of 10 000 of actual data records": "According to the chosen layer, the downloaded data is either aggregated in a geohash grid or a fetch of 10 000 of actual data records."
 }

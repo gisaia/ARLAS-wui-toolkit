@@ -340,5 +340,7 @@
 	"successful": "terminé",
 	"failed": "en erreur",
 	"dissmissed": "annulé",
-	"You are about to create a new permission on data, based on the current filters applied to": "Vous êtes sur le point de créer une nouvelle permission sur les données, basée sur les filtres actuels appliqués à"
+	"You are about to create a new permission on data, based on the current filters applied to": "Vous êtes sur le point de créer une nouvelle permission sur les données, basée sur les filtres actuels appliqués à",
+  "Downloads geographical data of the chosen layer": "Télécharge les données géographiques de la couche choisie.",
+  "According to the chosen layer, the downloaded data is either aggregated in a geohash grid or a fetch of 10 000 of actual data records": "En fonction de la couche choisie, les données téléchargées sont soit agrégées dans une grille geohash, soit une récupération de 10 000 enregistrements de données réelles."
 }

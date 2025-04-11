@@ -5,6 +5,11 @@
       <mat-radio-group class="share-radio-group" formControlName="geojsonType">
         <mat-radio-button *ngFor="let layer of sharableLayers" [value]="{source: layer.source, id: layer.id}" class="share-radio-button">{{ layer?.visualisationName | translate}} - {{ layer.id | layerIdToName | translate}}</mat-radio-button>
       </mat-radio-group>
+
+      <arlas-admonition-card title="Important">
+        {{'Downloads geographical data of the chosen layer' | translate}} <br>
+        {{'According to the chosen layer, the downloaded data is either aggregated in a geohash grid or a fetch of 10 000 of actual data records'  | translate}}
+      </arlas-admonition-card>
       <mat-divider class="share-stepper__divider"></mat-divider>
       <button mat-button matStepperNext class="share-stepper-button">{{ 'Next' | translate}}</button>
     </form>
