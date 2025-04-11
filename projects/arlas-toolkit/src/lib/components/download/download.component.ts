@@ -24,8 +24,12 @@ import { MatListOption, MatSelectionList } from '@angular/material/list';
 import { CollectionReferenceDescription } from 'arlas-api';
 import { projType } from 'arlas-web-core';
 import { DeviceDetectorService, OS } from 'ngx-device-detector';
+import { ArlasIamService } from '../../services/arlas-iam/arlas-iam.service';
 import { AuthentificationService } from '../../services/authentification/authentification.service';
-import { ArlasCollaborativesearchService } from '../../services/collaborative-search/arlas.collaborative-search.service';
+import {
+  ArlasCollaborativesearchService
+} from '../../services/collaborative-search/arlas.collaborative-search.service';
+import { ArlasSettingsService } from '../../services/settings/arlas.settings.service';
 import { ArlasConfigService } from '../../services/startup/startup.service';
 import { orderAlphabeticallyArlasSearchFields } from '../../tools/utils';
 import { ArlasSearchField } from '../share/model/ArlasSearchField';
@@ -94,6 +98,8 @@ export class DownloadDialogComponent implements OnInit {
     private collaborativeService: ArlasCollaborativesearchService,
     private configService: ArlasConfigService,
     private authService: AuthentificationService,
+    private iamService: ArlasIamService,
+    private settingsService: ArlasSettingsService,
     private deviceService: DeviceDetectorService,
   ) {
     this.collections = data;
@@ -161,9 +167,30 @@ export class DownloadDialogComponent implements OnInit {
         !!element.filters.get(this.selectedCollection) && element.filters.get(this.selectedCollection).length > 0)
         .map(element => element.filters.get(this.selectedCollection)[0]);
       this.filterUrl = this.collaborativeService.getUrl([projType.search, []], filters);
-      if (!!this.authService.accessToken) {
-        this.authTypeCommand = '--auth=token --token=' + this.authService.accessToken;
+      const token = this.getToken();
+      if (!!token) {
+        this.authTypeCommand = '--auth=token --token=' + token;
       }
+    }
+  }
+
+  /**
+   * Get the good token according to user connection mode
+   * @returns {string | null}
+   * @protected
+   */
+  protected getToken() {
+    const authSettings = this.settingsService.getAuthentSettings();
+    const authMode = authSettings?.auth_mode ?? undefined;
+    const isAuthActivated = !!authSettings && !!authSettings.use_authent;
+    if(!isAuthActivated) {
+      return null;
+    }
+
+    if (authMode === 'iam') {
+      return this.iamService.getAccessToken();
+    } else {
+      return this.authService.accessToken;
     }
   }
 
