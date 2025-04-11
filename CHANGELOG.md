@@ -1,5 +1,21 @@
 # Change Log
 
+## [v27.0.8](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.0.8) (2025-04-11)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v27.0.8-beta.2...v27.0.8)
+
+## [v27.0.8-beta.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.0.8-beta.2) (2025-04-09)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v27.0.8-beta.1...v27.0.8-beta.2)
+
+## [v27.0.8-beta.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.0.8-beta.1) (2025-04-09)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v27.0.7...v27.0.8-beta.1)
+
+**Fixed bugs:**
+
+- Fix user name in openid mode [\#922](https://github.com/gisaia/ARLAS-wui-toolkit/issues/922)
+
 ## [v27.0.7](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.0.7) (2025-03-19)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v27.0.6...v27.0.7)
