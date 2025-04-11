@@ -147,3 +147,4 @@ export { AuthorisationError } from './lib/tools/errors/authorisation-error';
 export { BackendError } from './lib/tools/errors/backend-error';
 export { DashboardError } from './lib/tools/errors/dashboard-error';
 export { NO_ORGANISATION } from './lib/tools/consts';
+export { AdmonitionCardComponent } from './lib/components/admonition-card/admonition-card.component';
