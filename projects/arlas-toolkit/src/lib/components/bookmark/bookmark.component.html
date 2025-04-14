@@ -47,7 +47,11 @@
 <ng-container *ngIf="showCombine">
   <div class="bookmark-actions__description">
     <mat-icon>info</mat-icon>
-    <span>{{ 'Bookmarks can be combined to create a new one containing the filters of all selected bookmarks.' | translate}}</span>
+    <span>
+      {{ 'Bookmarks can be combined to create a new one containing the filters of all selected bookmarks.' | translate }}
+      {{ 'The color next to the name matches the combination of fields and operations of the filters.' | translate }}
+      {{ 'Filters on the same field are combined with an OR, whereas for different fields it is with an AND.' | translate }}
+    </span>
   </div>
   <div class="bookmark-actions">
     <button class="bookmark-action-button" mat-raised-button [disabled]="disableCombine"(click)="viewCombine()">{{ 'View Combine' | translate }}</button>
