@@ -70,6 +70,7 @@ import {
 } from 'arlas-web-components';
 import { MarkdownModule } from 'ngx-markdown';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { AdmonitionCardComponent } from './components/admonition-card/admonition-card.component';
 import { AiasDownloadComponent } from './components/aias/aias-download/aias-download.component';
 import { AiasEnrichComponent } from './components/aias/aias-enrich/aias-enrich.component';
 import { AiasResultComponent } from './components/aias/aias-result/aias-result.component';
@@ -103,7 +104,9 @@ import {
   GetGlobalColorFilterPipe,
   IsCollabOnCollectionPipe
 } from './components/filters/filters.component';
-import { HistogramTooltipOverlayComponent } from './components/histogram-tooltip-overlay/histogram-tooltip-overlay.component';
+import {
+  HistogramTooltipOverlayComponent
+} from './components/histogram-tooltip-overlay/histogram-tooltip-overlay.component';
 import { HistogramWidgetComponent } from './components/histogram-widget/histogram-widget.component';
 import { LanguageSwitcherComponent } from './components/language-switcher/language-switcher.component';
 import {
@@ -279,15 +282,16 @@ import { CustomTranslateLoader } from './tools/Translation/custom-translate-load
     FormatNumberModule,
     NgxSpinnerModule,
     ArlasMapModule,
-    CollectionModule.forRoot({ loader: {
-      deps: [
-        ArlasCollaborativesearchService,
-        ArlasConfigService,
-        ArlasStartupService
-      ],
-      provide: BaseCollectionService,
-      useClass: ArlasCollectionService
-    }
+    CollectionModule.forRoot({
+      loader: {
+        deps: [
+          ArlasCollaborativesearchService,
+          ArlasConfigService,
+          ArlasStartupService
+        ],
+        provide: BaseCollectionService,
+        useClass: ArlasCollectionService
+      }
     }),
     ColorGeneratorModule.forRoot({
       loader: {
@@ -307,7 +311,8 @@ import { CustomTranslateLoader } from './tools/Translation/custom-translate-load
     MarkdownModule.forRoot(),
     GetCollectionUnitModule,
     GetCollectionDisplayModule,
-    GetFieldDisplayModule
+    GetFieldDisplayModule,
+    AdmonitionCardComponent
   ],
   providers: [
     ArlasOverlayService,
