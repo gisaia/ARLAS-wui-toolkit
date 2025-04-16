@@ -153,7 +153,7 @@
 	"Count": "Recuento de elementos",
 	"Bookmarks can be combined to create a new one containing the filters of all selected bookmarks.": "Los marcadores se pueden combinar para crear uno nuevo que contenga los filtros de todos los seleccionados.",
 	"The color next to the name matches the combination of fields and operations of the filters.": "El color junto al nombre coincide con la combinación de campos y operaciones de los filtros.",
-	"Filters on the same field are combined with an OR, whereas for different fields it is with an AND.": "Los filtros sobre el mismo campo se combinan con un OR, mientras que para campos diferentes se hace con un AND.",
+	"Filters on the same field are combined with an OR, whereas for different fields it is with an AND.": "Los filtros que comparten exactamente el mismo campo y operador se combinan con un OR, de lo contrario se combinan con un AND.",
 	"View Combine": "Simular la combinación",
 	"Combine": "Combinar filtros",
 	"Dataset name": "Nombre del marcador",
