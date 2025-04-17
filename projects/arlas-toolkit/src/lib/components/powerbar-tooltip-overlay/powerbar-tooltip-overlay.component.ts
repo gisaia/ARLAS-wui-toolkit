@@ -25,12 +25,12 @@ export interface ARLASPowerbarTooltip {
   key: string;
   value: any;
   progression: number;
-  color: any;
+  color: string;
 }
 @Component({
   selector: 'arlas-powerbar-tooltip-overlay',
   templateUrl: './powerbar-tooltip-overlay.component.html',
-  styleUrls: ['./powerbar-tooltip-overlay.component.css']
+  styleUrls: ['./powerbar-tooltip-overlay.component.scss']
 })
 export class PowerbarTooltipOverlayComponent {
 
