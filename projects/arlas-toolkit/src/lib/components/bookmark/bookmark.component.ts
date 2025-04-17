@@ -120,12 +120,7 @@ export class BookmarkComponent {
         this.itemsCheck.splice(index, 1);
       }
     }
-    if (this.itemsCheck.length < 2) {
-      this.disableCombine = true;
-    } else {
-      const sameColor = this.itemsCheck.map(i => this.bookmarkService.bookMarkMap.get(i).color).reduce((a, b) => (a === b) ? a : 'false');
-      this.disableCombine = (sameColor === 'false');
-    }
+    this.disableCombine = this.itemsCheck.length < 2;
   }
 
   public viewBookmark(id: string) {
@@ -150,9 +145,7 @@ export class BookmarkComponent {
 
   public viewCombine() {
     this.bookmarkService.viewCombineBookmark(new Set(this.itemsCheck));
-    this.disableCombine = true;
     this.actions.next({ action: 'view-combine', id: this.itemsCheck.join('#') });
-    this.itemsCheck = new Array<string>();
   }
 
   public updateBookMarkName(id, name){

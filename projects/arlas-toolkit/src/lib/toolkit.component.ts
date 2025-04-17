@@ -136,10 +136,4 @@ export class ToolkitComponent implements AfterViewInit, OnInit, OnDestroy {
   public ngOnDestroy(): void {
     this.errorService.unlistenToArlasCollaborativeErrors();
   }
-
-  public openAnalytics(event) {
-    this.target = 'analytics-panel-' + event;
-    this.analyticsOpen = true;
-  }
-
 }
