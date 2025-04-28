@@ -46,7 +46,7 @@
 	"Remove Tag": "Supprimer un tag",
 	"Geometry": "Géométrie",
 	"Important": "Important",
-	"Downloads geographical data of the chosen layer": "Télécharge les données géographiques de la couche choisie.",
+	"Downloads geographical data of the chosen layer": "Télécharger les données géographiques de la couche choisie.",
 	"According to the chosen layer, the downloaded data is either aggregated in a geohash grid or a fetch of 10 000 of actual data records": "En fonction de la couche choisie, les données téléchargées sont soit agrégées dans une grille geohash, soit une récupération de 10 000 enregistrements de données réelles.",
 	"Next": "Suivant",
 	"Parameters": "Paramètres",
