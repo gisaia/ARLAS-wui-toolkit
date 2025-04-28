@@ -45,6 +45,9 @@
 	"Add Tag": "Añadir una etiqueta",
 	"Remove Tag": "Borrar una etiqueta",
 	"Geometry": "Geometría",
+	"Important": "Importante",
+	"Downloads geographical data of the chosen layer": "Descarga los datos geográficos de la capa elegida.",
+	"According to the chosen layer, the downloaded data is either aggregated in a geohash grid or a fetch of 10 000 of actual data records": "En función de la capa elegida, los datos descargados se agregan en una cuadrícula geohash o se obtienen 10 000 registros de datos reales.",
 	"Next": "Siguiente",
 	"Parameters": "Parámetros",
 	"Desired precision": "Precisión",
@@ -118,12 +121,11 @@
 	"View": "Ver",
 	"Remove": "Quitar",
 	"Type": "Tipo",
-	"CSV": "CSV",
-	"Json": "Json",
-	"Important": "Importante",
 	"This tool allows you to get a docker command line to download your data": "Esta herramienta le permite recuperar una línea de comandos usando docker para descargar datos",
 	"Make sure you have": "Asegúrese de tener",
 	"installed before continuing": "instalado antes de continuar.",
+	"CSV": "CSV",
+	"Json": "Json",
 	"Collection": "Colección",
 	"Command line": "Línea de comandos",
 	"Target OS": "Sistema operativo de destino",
@@ -343,7 +345,5 @@
 	"successful": "completado",
 	"failed": "fallido",
 	"dissmissed": "cancelado",
-	"You are about to create a new permission on data, based on the current filters applied to": "Está a punto de crear un nuevo permiso sobre los datos, basado en los filtros actuales aplicados a",
-  "Downloads geographical data of the chosen layer": "Descarga los datos geográficos de la capa elegida.",
-  "According to the chosen layer, the downloaded data is either aggregated in a geohash grid or a fetch of 10 000 of actual data records": "En función de la capa elegida, los datos descargados se agregan en una cuadrícula geohash o se obtienen 10 000 registros de datos reales."
+	"You are about to create a new permission on data, based on the current filters applied to": "Está a punto de crear un nuevo permiso sobre los datos, basado en los filtros actuales aplicados a"
 }

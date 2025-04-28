@@ -22,7 +22,7 @@
   position: relative;
   margin: 1.5625em 0;
   padding: 0 1.2rem;
-  border-left: .4rem solid #673ab7;
+  border-left: .4rem solid #ff4081;
   border-radius: .2rem;
   font-size: 0.9rem;
   overflow: auto;
@@ -30,8 +30,8 @@
 
 .admonition-title {
   margin: 0 -1.2rem;
-  padding: .8rem 1.2rem .8rem 2rem;
-  border-bottom: .1rem solid rgba(103, 58, 183, .1);
-  background-color: rgba(103, 58, 183, .1);
+  padding: .8rem 1.2rem;
+  border-bottom: .1rem solid rgba(255, 64, 129, 0.1);
+  background-color: rgba(255, 64, 129, 0.1);
   font-weight: 700;
 }
