@@ -59,7 +59,7 @@ releaseProd(){
 
     echo "=> Generate CHANGELOG"
     docker run --rm -v "$(pwd)":/usr/local/src/your-app gisaia/github-changelog-generator:latest github_changelog_generator \
-      -u gisaia -p ARLAS-wui-toolkit --token ${GITHUB_CHANGELOG_TOKEN} ---no-pr-wo-labels --no-issues-wo-labels --no-compare-link --no-unreleased \
+      -u gisaia -p ARLAS-wui-toolkit --token ${GITHUB_CHANGELOG_TOKEN} --no-pr-wo-labels --no-issues-wo-labels --no-compare-link --no-unreleased \
       --issue-line-labels conf,documentation,CI,ALL,DONUT,RESULTLIST,POWERBARS,HISTOGRAM,MAP \
       --exclude-labels type:duplicate,type:question,type:wontfix,type:invalid \
       --bug-labels type:bug --enhancement-labels type:enhancement --breaking-labels type:breaking \
