@@ -1,5 +1,11 @@
 # Change Log
 
+## [v27.0.10](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.0.10) (2025-04-28)
+
+**Fixed bugs:**
+
+- Typo in french translation of Download layer component [\#933](https://github.com/gisaia/ARLAS-wui-toolkit/issues/933)
+
 ## [v27.0.9](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.0.9) (2025-04-28)
 
 **New stuff:**
