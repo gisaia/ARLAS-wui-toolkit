@@ -59,12 +59,13 @@ releaseProd(){
 
     echo "=> Generate CHANGELOG"
     docker run --rm -v "$(pwd)":/usr/local/src/your-app gisaia/github-changelog-generator:latest github_changelog_generator \
-      -u gisaia -p ARLAS-wui-toolkit --token ${GITHUB_CHANGELOG_TOKEN} --no-pr-wo-labels --no-issues-wo-labels --no-unreleased \
+      -u gisaia -p ARLAS-wui-toolkit --token ${GITHUB_CHANGELOG_TOKEN} ---no-pr-wo-labels --no-issues-wo-labels --no-compare-link --no-unreleased \
       --issue-line-labels conf,documentation,CI,ALL,DONUT,RESULTLIST,POWERBARS,HISTOGRAM,MAP \
       --exclude-labels type:duplicate,type:question,type:wontfix,type:invalid \
       --bug-labels type:bug --enhancement-labels type:enhancement --breaking-labels type:breaking \
       --enhancement-label "**New stuff:**" --issues-label "**Miscellaneous:**" \
-      --exclude-tags v3.1.2 --since-tag v4.0.0
+      --exclude-tags-regex 'rc|beta' \
+      --since-tag v4.0.0
 
     echo "  -- Remove tag to add generated CHANGELOG"
     git tag -d v"$VERSION"

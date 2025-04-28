@@ -2,19 +2,16 @@
   <mat-step [stepControl]="exportTypeGroup">
     <form [formGroup]="exportTypeGroup">
       <ng-template matStepLabel>{{'Type' | translate}}</ng-template>
+      <arlas-admonition-card [title]="'Important' | translate">
+        {{'This tool allows you to get a docker command line to download your data' | translate}}.<br>
+        {{'Make sure you have' | translate}} <strong>docker</strong> {{'installed before continuing' | translate}}.
+      </arlas-admonition-card>
       <mat-radio-group class="download-radio-group" formControlName="exportType">
         <mat-radio-button [value]="'csv'" class="download-radio-button">{{ 'CSV' | translate}}
         </mat-radio-button>
         <mat-radio-button [value]="'json'" class="download-radio-button">{{ 'Json' | translate}}
         </mat-radio-button>
       </mat-radio-group>
-      <div class="admonition note">
-        <p class="admonition-title">{{'Important' | translate}}</p>
-        <p>
-          {{'This tool allows you to get a docker command line to download your data' | translate}}.<br>
-          {{'Make sure you have' | translate}} <strong>docker</strong> {{'installed before continuing' | translate}}.
-        </p>
-      </div>
       <mat-divider class="download__divider"></mat-divider>
       <button mat-button matStepperNext class="download-stepper-button">{{ 'Next' | translate}}</button>
     </form>
