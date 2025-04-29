@@ -23,13 +23,12 @@ import { MomentDateTimeAdapter } from '@danielmoncada/angular-datetime-picker-mo
 import { TranslateService } from '@ngx-translate/core';
 import { Expression, Filter } from 'arlas-api';
 import { HistogramParams, HistogramUtils } from 'arlas-d3';
-import { ChartType, DataType } from 'arlas-web-components';
+import { ChartType, DataType, numberToShortValue } from 'arlas-web-components';
 import { HistogramContributor } from 'arlas-web-contributors';
 import { Collaboration } from 'arlas-web-core';
 import * as _moment from 'moment';
 import { Subject, takeUntil } from 'rxjs';
 import { ArlasCollaborativesearchService } from '../../../services/collaborative-search/arlas.collaborative-search.service';
-import { numberToShortString } from '../filter-shortcut.utils';
 
 const moment = (_moment as any).default ? (_moment as any).default : _moment;
 
@@ -232,8 +231,8 @@ export class ShortcutFiltersHandlerComponent implements OnInit, OnDestroy {
       label = `${start} - ${end}`;
     } else {
       // If the number is small, truncate it to only have the first two digits
-      const start = numberToShortString(+startEnd[0]);
-      const end = numberToShortString(+startEnd[1]);
+      const start = numberToShortValue(+startEnd[0], 2);
+      const end = numberToShortValue(+startEnd[1], 2);
 
       label = `${start} ${this.translate.instant('to')} ${end}`;
       if (this.histogramUnit) {
