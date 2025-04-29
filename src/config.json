@@ -508,6 +508,25 @@
           "allowOperatorChange": true
         },
         {
+          "identifier": "3a9af5fa-ba7c-4336-8c5e-09e5f2f456a5",
+          "name": "Cloud coverage",
+          "title": "Cloud coverage",
+          "collection": "demo_eo",
+          "icon": "cloud_queue",
+          "charttype": "bars",
+          "isOneDimension": false,
+          "type": "histogram",
+          "numberOfBuckets": 20,
+          "jsonpath": "$.count",
+          "aggregationmodels": [
+            {
+              "type": "histogram",
+              "field": "metadata.ObservationContext.eo.opt.cloudCoverPercentage"
+            }
+          ],
+          "linked_contributor_id": "demo_eo-metadata.ObservationContext.eo.opt.cloudCoverPercentage-numeric-bucket-Count--50"
+        },
+        {
           "identifier": "demo_eo-metadata.ObservationContext.eo.opt.cloudCoverPercentage-numeric-bucket-Count--50",
           "name": "Cloud coverage",
           "title": "Cloud coverage",
@@ -523,7 +542,8 @@
               "type": "histogram",
               "field": "metadata.ObservationContext.eo.opt.cloudCoverPercentage"
             }
-          ]
+          ],
+          "linked_contributor_id": "3a9af5fa-ba7c-4336-8c5e-09e5f2f456a5"
         },
         {
           "identifier": "demo_eo-metadata.core.temporalCoverage.begin-time-bucket-AVG-metadata.ObservationContext.eo.opt.snowCoverPercentage-50",
@@ -1108,7 +1128,7 @@
               "showExportCsv": true,
               "contributorId": "demo_eo-metadata.ObservationContext.eo.opt.cloudCoverPercentage-numeric-bucket-Count--50",
               "uuid": "3a9af5fa-ba7c-4336-8c5e-09e5f2f456a5",
-              "usage": "analytics"
+              "usage": "both"
             },
             {
               "input": {
@@ -1386,6 +1406,11 @@
           "uuid": "5ce752d9-6636-402d-b388-b409302d6c5a",
           "title": "Collections",
           "order": 1
+        },
+        {
+          "uuid": "3a9af5fa-ba7c-4336-8c5e-09e5f2f456a5",
+          "title": "Cloud coverage",
+          "order": 2
         }
       ],
       "colorGenerator": {
