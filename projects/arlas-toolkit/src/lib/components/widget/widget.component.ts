@@ -277,7 +277,9 @@ export class WidgetComponent implements OnInit {
         data: {
           key: powerbar.term,
           value: powerbar.count,
-          progression: powerbar.progression,
+          // eslint-disable-next-line max-len
+          // Minus one to be iso with donuts value, we add in powerbar progression cf https://github.com/gisaia/ARLAS-web-components/blob/develop/projects/arlas-components/src/lib/components/powerbars/powerbars.component.ts#L453
+          progression:  (Math.round((powerbar.progression - 1) * 100) / 100),
           color: powerbar.color
         }
       }, e, xOffset, 0, false);
