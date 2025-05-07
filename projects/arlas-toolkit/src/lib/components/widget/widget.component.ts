@@ -277,7 +277,7 @@ export class WidgetComponent implements OnInit {
         data: {
           key: powerbar.term,
           value: powerbar.count,
-          progression: powerbar.progression,
+          progression:  (Math.round((powerbar.progression) * 100) / 100),
           color: powerbar.color
         }
       }, e, xOffset, 0, false);
