@@ -49,6 +49,7 @@ export { CalendarTimelineToolComponent } from './lib/components/calendar-timelin
 export { ActionModalComponent } from './lib/components/config-manager/action-modal/action-modal.component';
 export { ActionModalModule } from './lib/components/config-manager/action-modal/action-modal.module';
 export { DonutTooltipOverlayComponent } from './lib/components/donut-tooltip-overlay/donut-tooltip-overlay.component';
+export { PowerbarTooltipOverlayComponent } from './lib/components/powerbar-tooltip-overlay/powerbar-tooltip-overlay.component';
 export { DownloadComponent, DownloadDialogComponent } from './lib/components/download/download.component';
 export { ExtendComponent } from './lib/components/extend/extend.component';
 export { ArlasExtendService } from './lib/services/extend/extend.service';
@@ -123,7 +124,7 @@ export {
 } from './lib/tools/utils';
 export { JwtInterceptor } from './lib/tools/jwt.interceptor';
 export { FetchInterceptorService } from './lib/services/interceptor/fetch-interceptor.service';
-export { ArlasOverlayService, HistogramTooltipConfig, DonutTooltipConfig } from './lib/services/overlays/overlay.service';
+export { ArlasOverlayService, ToolTipConfig } from './lib/services/overlays/overlay.service';
 export { PermissionService, PermissionSetting } from './lib/services/permission/permission.service';
 export { ArlasExportCsvService } from './lib/services/export-csv/export-csv.service';
 export { ArlasTagService } from './lib/services/tag/tag.service';
