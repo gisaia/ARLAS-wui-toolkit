@@ -21,7 +21,7 @@ import { Component, ElementRef, Input, OnInit, Output, ViewChild } from '@angula
 import { TranslateService } from '@ngx-translate/core';
 import { Expression } from 'arlas-api';
 import { ARLASDonutTooltip, Position, SwimlaneMode, SwimlaneRepresentation } from 'arlas-d3';
-import { CellBackgroundStyleEnum, ChartType, DataType, HistogramComponent } from 'arlas-web-components';
+import { CellBackgroundStyleEnum, ChartType, DataType, HistogramComponent, PowerBar } from 'arlas-web-components';
 import { ComputeConfig, MetricsTableContributor, TreeContributor } from 'arlas-web-contributors';
 import { CollaborationEvent, Contributor, OperationEnum } from 'arlas-web-core';
 import { Subject, takeUntil } from 'rxjs';
@@ -54,6 +54,7 @@ export class WidgetComponent implements OnInit {
   public graphParam: any = {};
   public metricApproximate = false;
   public donutOverlayRef: ArlasOverlayRef;
+  public powerbarOverlayRef: ArlasOverlayRef;
 
 
   @Input() public componentType: string;
@@ -247,6 +248,47 @@ export class WidgetComponent implements OnInit {
       .onRowSelect(new Set((this.contributor as MetricsTableContributor).selectedTerms));
   }
 
+  public showPowerbarTooltip(powerbar: PowerBar, e: ElementRef) {
+    if (!!this.powerbarOverlayRef) {
+      this.powerbarOverlayRef.close();
+    }
+    let xOffset = 470;
+    if (this.groupLength = 2) {
+      if (this.position === 0) {
+        xOffset = 470;
+      } else {
+        xOffset = 244;
+      }
+    } else if (this.groupLength = 3) {
+      if (this.position === 0) {
+        xOffset = 470;
+      } else if (this.position === 1) {
+        xOffset = 320;
+      } else {
+        xOffset = 169;
+      }
+    }
+    // Shortcut case
+    if (this.position === undefined) {
+      xOffset = 270;
+    }
+    if(!this.graphParam.hideTooltip){
+      this.powerbarOverlayRef = this.arlasOverlayService.openPowerbarTooltip({
+        data: {
+          key: powerbar.term,
+          value: powerbar.count,
+          progression:  (Math.round((powerbar.progression) * 100) / 100),
+          color: powerbar.color
+        }
+      }, e, xOffset, 0, false);
+    }
+  }
+
+  public hidePowerbarTooltip(powerbar: PowerBar) {
+    if (!!this.powerbarOverlayRef) {
+      this.powerbarOverlayRef.close();
+    }
+  }
 
   private getContirbutorType() {
     const contributor = this.arlasStartupService.contributorRegistry.get(this.contributorId);

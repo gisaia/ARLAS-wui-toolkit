@@ -38,7 +38,7 @@
     [colorsSaturationWeight]="graphParam?.colorsSaturationWeight" (selectedPowerBarEvent)="contributor?.selectedNodesListChanged($event)" [scrollable]="graphParam?.scrollable"
     [selectedPaths]="contributor?.selectedNodesPathsList" (searchedTerm)="contributor?.updateTreeDataSearch($event)"
     [groupSelections]="graphParam?.groupSelections"  [selectWithCheckbox]="graphParam?.selectWithCheckbox"
-    (filterOperatorEvent)="changePowerbarsOperator($event)"
+    (filterOperatorEvent)="changePowerbarsOperator($event)" (overPowerBarEvent)="showPowerbarTooltip($event, arlas_tooltip_anchor)" (outPowerBarEvent)="hidePowerbarTooltip($event)"
     [chartWidth]="graphParam?.chartWidth">
   </arlas-powerbars>
 </div>

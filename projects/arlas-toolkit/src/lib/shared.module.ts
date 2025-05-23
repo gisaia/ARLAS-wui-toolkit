@@ -136,6 +136,7 @@ import { ArlasConfigService, ArlasStartupService } from './services/startup/star
 import { ArlasWalkthroughModule } from './services/walkthrough/walkthrough.module';
 import { ArlasColorGeneratorLoader } from './tools/color-generator-loader';
 import { CustomTranslateLoader } from './tools/Translation/custom-translate-loader';
+import { PowerbarTooltipOverlayComponent } from './components/powerbar-tooltip-overlay/powerbar-tooltip-overlay.component';
 
 
 @NgModule({
@@ -173,6 +174,7 @@ import { CustomTranslateLoader } from './tools/Translation/custom-translate-load
     HistogramTooltipOverlayComponent,
     CalendarTimelineTooltipOverlayComponent,
     DonutTooltipOverlayComponent,
+    PowerbarTooltipOverlayComponent,
     WidgetComponent,
     FilterShortcutComponent,
     FilterShortcutChipComponent,
@@ -224,6 +226,7 @@ import { CustomTranslateLoader } from './tools/Translation/custom-translate-load
     HistogramTooltipOverlayComponent,
     CalendarTimelineTooltipOverlayComponent,
     DonutTooltipOverlayComponent,
+    PowerbarTooltipOverlayComponent,
     WidgetComponent,
     FilterShortcutComponent,
     FilterShortcutChipComponent,
