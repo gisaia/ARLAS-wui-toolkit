@@ -136,6 +136,7 @@ import { ArlasConfigService, ArlasStartupService } from './services/startup/star
 import { ArlasWalkthroughModule } from './services/walkthrough/walkthrough.module';
 import { ArlasColorGeneratorLoader } from './tools/color-generator-loader';
 import { CustomTranslateLoader } from './tools/Translation/custom-translate-loader';
+import { MarkerModule } from '@colsen1991/ngx-translate-extract-marker/extras';
 
 
 @NgModule({
@@ -312,7 +313,8 @@ import { CustomTranslateLoader } from './tools/Translation/custom-translate-load
     GetCollectionUnitModule,
     GetCollectionDisplayModule,
     GetFieldDisplayModule,
-    AdmonitionCardComponent
+    AdmonitionCardComponent,
+    MarkerModule
   ],
   providers: [
     ArlasOverlayService,
