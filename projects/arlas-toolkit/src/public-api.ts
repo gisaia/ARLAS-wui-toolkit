@@ -142,6 +142,7 @@ export { ArlasIamApi } from './lib/services/startup/startup.service';
 export { ArlasAuthentificationService } from './lib/services/arlas-authentification/arlas-authentification.service';
 export { AiasDownloadComponent, DOWNLOAD_PROCESS_NAME } from './lib/components/aias/aias-download/aias-download.component';
 export { AiasEnrichComponent, ENRICH_PROCESS_NAME } from './lib/components/aias/aias-enrich/aias-enrich.component';
+export { AiasResultComponent } from './lib/components/aias/aias-result/aias-result.component';
 export { ProcessService } from './lib/services/process/process.service';
 export { ProcessOutput, ProcessStatus } from './lib/tools/process.interface';
 export { ArlasError, ActionType } from './lib/tools/errors/error';
