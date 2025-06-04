@@ -8,11 +8,11 @@
       <div>
         <div class="prop">
           <div class="label">{{ 'Start date' | translate }}:</div>
-          <div class="value">{{ statusResult?.started ? (statusResult.started * 1000 | date:'medium') : '--' }}</div>
+          <div class="value">{{ (statusResult?.started ?? '--') | date:'medium' }}</div>
         </div>
         <div class="prop">
           <div class="label">{{ 'End date' | translate }}:</div>
-          <div class="value">{{ statusResult?.finished ? (statusResult.finished * 1000 | date:'medium') : '--' }}</div>
+          <div class="value">{{ (statusResult?.finished ?? '--') | date:'medium' }}</div>
         </div>
       </div>
       <div class="status status-{{statusResult?.status}}">{{ statusResult?.status | translate }}</div>
