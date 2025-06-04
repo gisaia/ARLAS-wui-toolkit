@@ -47,6 +47,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MarkerModule } from '@colsen1991/ngx-translate-extract-marker/extras';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from '@danielmoncada/angular-datetime-picker';
 import { OwlMomentDateTimeModule } from '@danielmoncada/angular-datetime-picker-moment-adapter';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
@@ -113,6 +114,7 @@ import {
   PermissionsCreatorDialogComponent
 } from './components/permissions-creator/permissions-creator-dialog/permissions-creator-dialog.component';
 import { PermissionsCreatorComponent } from './components/permissions-creator/permissions-creator.component';
+import { PowerbarTooltipOverlayComponent } from './components/powerbar-tooltip-overlay/powerbar-tooltip-overlay.component';
 import { ProgressSpinnerComponent } from './components/progress-spinner/progress-spinner.component';
 import { ReconnectDialogComponent } from './components/reconnect-dialog/reconnect-dialog.component';
 import { SearchComponent, SearchDialogComponent } from './components/search/search.component';
@@ -136,7 +138,6 @@ import { ArlasConfigService, ArlasStartupService } from './services/startup/star
 import { ArlasWalkthroughModule } from './services/walkthrough/walkthrough.module';
 import { ArlasColorGeneratorLoader } from './tools/color-generator-loader';
 import { CustomTranslateLoader } from './tools/Translation/custom-translate-loader';
-import { MarkerModule } from '@colsen1991/ngx-translate-extract-marker/extras';
 
 
 @NgModule({
@@ -234,8 +235,7 @@ import { MarkerModule } from '@colsen1991/ngx-translate-extract-marker/extras';
     AboutDialogComponent,
     AiasDownloadComponent,
     ContributorUpdatingPipe,
-    AiasEnrichComponent,
-    AiasResultComponent
+    AiasEnrichComponent
   ],
   imports: [
     ActionModalModule,
@@ -314,7 +314,8 @@ import { MarkerModule } from '@colsen1991/ngx-translate-extract-marker/extras';
     GetCollectionDisplayModule,
     GetFieldDisplayModule,
     AdmonitionCardComponent,
-    MarkerModule
+    MarkerModule,
+    AiasResultComponent
   ],
   providers: [
     ArlasOverlayService,

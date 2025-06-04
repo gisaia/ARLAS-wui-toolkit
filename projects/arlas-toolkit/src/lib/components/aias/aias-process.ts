@@ -64,6 +64,13 @@ export abstract class AiasProcess {
     this.processService.process(this.processName, this.data.ids, payload, this.data.collection).subscribe({
       next: (result) => {
         this.statusResult = result;
+
+        // Convert time to milliseconds
+        result.created *= 1000;
+        result.started *= 1000;
+        result.finished *= 1000;
+        result.updated *= 1000;
+
         const executionObservable = timer(0, 5000);
         this.statusSub = executionObservable.pipe(takeUntil(this.unsubscribeStatus)).subscribe(() => {
           this.getStatus(result.jobID);
