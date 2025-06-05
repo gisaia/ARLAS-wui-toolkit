@@ -50,6 +50,7 @@ import { ToolkitRoutingModule } from './toolkit-routing.module';
 import { ToolkitComponent } from './toolkit.component';
 import { PaginatorI18n } from './tools/paginatori18n';
 import { GET_OPTIONS } from './tools/utils';
+import { WidgetNotifierService } from './services/widget/widget.notifier.service';
 
 
 export function startupServiceFactory(startupService: ArlasStartupService) {
@@ -158,6 +159,7 @@ export const MY_CUSTOM_FORMATS = {
     forwardRef(() => ArlasCollaborativesearchService),
     forwardRef(() => AuthentificationService),
     forwardRef(() => ArlasIamService),
+    forwardRef(() => WidgetNotifierService),
     forwardRef(() => ArlasStartupService),
     forwardRef(() => ArlasMapSettings),
     forwardRef(() => ArlasMapService),

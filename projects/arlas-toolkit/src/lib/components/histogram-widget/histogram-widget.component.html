@@ -32,6 +32,7 @@
       [yAxisStartsFromZero]="componentInputs?.yAxisStartsFromZero" [showStripes]="componentInputs?.showStripes"
       [chartXLabel]="componentInputs?.chartXLabel" [shortYLabels]="componentInputs?.shortYLabels"
       [useUtc]="detailedContributor?.useUtc"
+      (hoveredBucketEvent)="widgetNotifier.notifyBucketHover($event)"
       (tooltipEvent)="emitTooltip($event,detailed, true)"
       [xUnit]="componentInputs?.xUnit" [yUnit]="componentInputs?.yUnit"></arlas-histogram>
   </div>

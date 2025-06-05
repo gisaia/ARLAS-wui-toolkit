@@ -47,9 +47,9 @@
     "arlas-permissions-api": "27.0.0",
     "arlas-persistence-api": "27.0.0",
     "arlas-tagger-api": "27.0.0",
-    "arlas-web-components": "~27.0.12",
+    "arlas-web-components": "~27.1.0-beta.3",
     "arlas-web-contributors": "~27.0.3",
-    "arlas-map": "~27.0.12",
+    "arlas-map": "~27.1.0-beta.3",
     "cli-color": "^1.2.0",
     "core-js": "~3.26.1",
     "fetch-intercept": "^2.3.1",
@@ -101,6 +101,7 @@
     "jsonpath": false
   },
   "overrides": {
-    "esbuild": "0.25.0"
+    "esbuild": "~0.25.0",
+    "webpack-dev-server": "~5.2.2"
   }
 }
