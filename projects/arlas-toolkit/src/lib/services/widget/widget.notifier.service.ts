@@ -16,9 +16,6 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-/*
- * Hopscotch is used under Apache License 2.0 : https://github.com/linkedin/hopscotch/blob/master/LICENSE
- */
 
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
@@ -29,12 +26,13 @@ import { XBucket } from 'arlas-d3';
  * This service is a notifier of events occuring on a widget, so that any other component can intercept it and consume it if needed
  * for its own behaviour.
  */
+
 @Injectable({
   providedIn: 'root',
 })
 export class WidgetNotifierService {
 
-  private hoveredBucketSource = new Subject<XBucket>();
+  private readonly hoveredBucketSource = new Subject<XBucket>();
   public hoveredBucket$ = this.hoveredBucketSource.asObservable();
 
   /**

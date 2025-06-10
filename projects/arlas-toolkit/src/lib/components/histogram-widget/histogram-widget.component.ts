@@ -113,11 +113,11 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy, AfterViewIni
 
   public constructor(
     protected arlasCollaborativesearchService: ArlasCollaborativesearchService,
-    private arlasConfigurationService: ArlasConfigService,
-    private cdr: ChangeDetectorRef,
+    private readonly arlasConfigurationService: ArlasConfigService,
+    private readonly cdr: ChangeDetectorRef,
     public translate: TranslateService,
     public arlasExportCsvService: ArlasExportCsvService,
-    private arlasOverlayService: ArlasOverlayService,
+    private readonly arlasOverlayService: ArlasOverlayService,
     public widgetNotifier: WidgetNotifierService
   ) { }
 
