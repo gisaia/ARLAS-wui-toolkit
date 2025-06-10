@@ -34,6 +34,7 @@ import { ArlasConfigService } from '../../services/startup/startup.service';
 import { ArlasOverlayRef, SpinnerOptions } from '../../tools/utils';
 import { isShortcutID } from '../filter-shortcut/filter-shortcut.utils';
 import { DEFAULT_SPINNER_OPTIONS } from '../progress-spinner/progress-spinner.component';
+import { WidgetNotifierService } from '../../services/widget/widget.notifier.service';
 
 
 /**
@@ -112,11 +113,12 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy, AfterViewIni
 
   public constructor(
     protected arlasCollaborativesearchService: ArlasCollaborativesearchService,
-    private arlasConfigurationService: ArlasConfigService,
-    private cdr: ChangeDetectorRef,
+    private readonly arlasConfigurationService: ArlasConfigService,
+    private readonly cdr: ChangeDetectorRef,
     public translate: TranslateService,
     public arlasExportCsvService: ArlasExportCsvService,
-    private arlasOverlayService: ArlasOverlayService
+    private readonly arlasOverlayService: ArlasOverlayService,
+    public widgetNotifier: WidgetNotifierService
   ) { }
 
   public initDetailedContributor() {

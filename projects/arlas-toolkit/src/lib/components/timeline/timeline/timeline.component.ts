@@ -31,6 +31,7 @@ import { ArlasOverlayService } from '../../../services/overlays/overlay.service'
 import { ArlasStartupService } from '../../../services/startup/startup.service';
 import { ArlasOverlayRef } from '../../../tools/utils';
 import { CollectionLegend, TimelineConfiguration } from './timeline.utils';
+import { WidgetNotifierService } from '../../../services/widget/widget.notifier.service';
 
 
 /**
@@ -127,6 +128,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
     private arlasStartupService: ArlasStartupService,
     private arlasOverlayService: ArlasOverlayService,
     private arlasColorService: ArlasColorService,
+    public widgetNotifier: WidgetNotifierService,
     private collectionService: ArlasCollectionService) {
   }
 
