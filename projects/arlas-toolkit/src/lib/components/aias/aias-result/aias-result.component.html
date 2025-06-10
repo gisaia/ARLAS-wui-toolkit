@@ -4,6 +4,7 @@
       <div>{{ processAction | translate }}</div>
       <div class="status status-{{statusResult?.status}}">{{ statusResult?.status | translate }}</div>
     </div>
+
     <div class="detail" *ngIf="!isProcessing && !hasError">
       <div>
         <div class="prop">
@@ -17,9 +18,15 @@
       </div>
       <div class="status status-{{statusResult?.status}}">{{ statusResult?.status | translate }}</div>
     </div>
+
     <div class="error" *ngIf="hasError">
       {{ 'processing error occured' | translate:{processingName: (processName | translate)} }}
     </div>
+
+    <div *ngIf="statusResult.message" class="message" [class.error]="hasError">
+      {{ statusResult.message | translate }}
+    </div>
+
     <div class="close">
       <button mat-dialog-close="true" mat-button>{{ 'Close dialog' | translate }}</button>
     </div>
