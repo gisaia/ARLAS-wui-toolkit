@@ -114,7 +114,6 @@ import {
   PermissionsCreatorDialogComponent
 } from './components/permissions-creator/permissions-creator-dialog/permissions-creator-dialog.component';
 import { PermissionsCreatorComponent } from './components/permissions-creator/permissions-creator.component';
-import { PowerbarTooltipOverlayComponent } from './components/powerbar-tooltip-overlay/powerbar-tooltip-overlay.component';
 import { ProgressSpinnerComponent } from './components/progress-spinner/progress-spinner.component';
 import { ReconnectDialogComponent } from './components/reconnect-dialog/reconnect-dialog.component';
 import { SearchComponent, SearchDialogComponent } from './components/search/search.component';

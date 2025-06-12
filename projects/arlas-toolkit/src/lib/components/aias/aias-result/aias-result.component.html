@@ -23,7 +23,7 @@
       {{ 'processing error occured' | translate:{processingName: (processName | translate)} }}
     </div>
 
-    <div *ngIf="statusResult.message" class="message" [class.error]="hasError">
+    <div *ngIf="statusResult?.message" class="message" [class.error]="hasError">
       {{ statusResult.message | translate }}
     </div>
 
