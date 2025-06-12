@@ -55,7 +55,7 @@ export interface ProcessInput {
 }
 
 export interface ProcessOutput {
-  processID: 'download' | 'ingest' | 'directory_ingest' | 'enrich';
+  processID: 'download' | 'ingest' | 'directory_ingest' | 'enrich' | 'dc3build';
   type: string;
   jobID: string;
   status: ProcessStatus;
