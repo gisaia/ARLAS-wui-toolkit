@@ -26,6 +26,7 @@ import ajvKeywords from 'ajv-keywords';
 import * as draftSchema from 'ajv/lib/refs/json-schema-draft-06.json';
 import { CollectionReferenceDescription, CollectionReferenceParameters, CollectionsApi, Configuration, ExploreApi } from 'arlas-api';
 import { DefaultApi, Configuration as IamConfiguration } from 'arlas-iam-api';
+import { ArlasMapComponent } from 'arlas-map';
 import { DataWithLinks } from 'arlas-persistence-api';
 import {
   DonutComponent, HistogramComponent, MetricComponent,
@@ -70,7 +71,6 @@ import { ArlasSettingsService } from '../settings/arlas.settings.service';
 import * as arlasConfSchema from './arlasconfig.schema.json';
 import { ContributorBuilder } from './contributorBuilder';
 import * as arlasSettingsSchema from './settings.schema.json';
-import { ArlasMapComponent } from 'arlas-map';
 
 @Injectable({
   providedIn: 'root'
@@ -670,22 +670,26 @@ export class ArlasStartupService {
     }
   }
 
+  /**
+   * Fetches from ARLAS-Server all of the available collections and initialises the map of CollectionReferenceParameters
+   */
   public getCollections(data) {
     if (!this.emptyMode) {
       return new Promise<any>((resolve, reject) => {
-        const collectionName = data.collection;
         this.collaborativesearchService.list()
-          .subscribe(
-            allCollections => {
+          .subscribe({
+            next: (allCollections) => {
               // mainCollection is included in allCollections
               allCollections.forEach(c => this.collectionsMap.set(c.collection_name, c.params));
-
-              this.collectionId = allCollections.find(c => c.collection_name === collectionName).params.id_path;
+              if (data.collection) {
+                this.collectionId = allCollections.find(c => c.collection_name === data.collection).params.id_path;
+              }
               resolve(allCollections);
             },
-            error => {
-              reject(error);
-            });
+            error: (err) => {
+              reject(new Error('Failed getting collections'));
+            }
+          });
       });
     } else {
       return Promise.resolve(data);
