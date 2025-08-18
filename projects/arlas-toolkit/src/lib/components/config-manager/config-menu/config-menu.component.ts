@@ -33,7 +33,6 @@ import { ArlasConfigService } from '../../../services/startup/startup.service';
 import { NO_ORGANISATION } from '../../../tools/consts';
 import { ConfigAction, ConfigActionEnum } from '../../../tools/utils';
 import { ActionModalComponent } from '../action-modal/action-modal.component';
-import { AuthorisationOnActionError } from '../../../tools/errors/authorisation-on-action-error';
 
 @Component({
   selector: 'arlas-config-menu',
@@ -87,7 +86,7 @@ export class ConfigMenuComponent {
             catchError((err) => {
               this.errorService.closeAll().afterAllClosed.pipe(take(1))
                 .subscribe(() =>
-                  this.errorService.emitAuthorisationError(new AuthorisationOnActionError(err.status, 'delete_dashboard'), false));
+                  this.errorService.emitUnauthorizedActionError(err.status, 'delete_dashboard', false));
               return of(err);
             })
           ).pipe(

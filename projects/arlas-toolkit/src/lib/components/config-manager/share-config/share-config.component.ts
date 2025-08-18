@@ -17,13 +17,12 @@
  * under the License.
  */
 
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { PersistenceService } from '../../../services/persistence/persistence.service';
-import { Config } from '../../../tools/utils';
-import { ArlasConfigService } from '../../../services/startup/startup.service';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { catchError, of, take } from 'rxjs';
-import { AuthorisationOnActionError } from '../../../tools/errors/authorisation-on-action-error';
 import { ErrorService } from '../../../services/error/error.service';
+import { PersistenceService } from '../../../services/persistence/persistence.service';
+import { ArlasConfigService } from '../../../services/startup/startup.service';
+import { Config } from '../../../tools/utils';
 
 export interface PersistenceGroup {
   name: string;
@@ -93,7 +92,7 @@ export class ShareConfigComponent implements OnInit {
         catchError((err) => {
           this.errorService.closeAll().afterAllClosed.pipe(take(1))
             .subscribe(() =>
-              this.errorService.emitAuthorisationError(new AuthorisationOnActionError(err.status, 'share_dashboard'), false));
+              this.errorService.emitUnauthorizedActionError(err.status, 'share_dashboard', false));
           return of(err);
         })
       )

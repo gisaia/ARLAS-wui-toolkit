@@ -20,26 +20,22 @@
 import { marker } from '@colsen1991/ngx-translate-extract-marker';
 import { ArlasError } from './error';
 
-
+/** Error sent when failing to access dashboards */
 export class DashboardError extends ArlasError {
-
-  private hubUrl: string;
-
-  public constructor(status: number, hubUrl: string) {
+  public constructor(status: number, private readonly hubUrl: string) {
     super(status);
-    this.hubUrl = hubUrl;
+
     this.title = marker('Could not access the dashboard');
     this.actionType = 'link';
+    this.showAction = !!this.hubUrl;
+
     if (this.status === 403) {
-      this.showAction = !!this.hubUrl;
       this.actionMessage = marker('go to arlas hub');
       this.message = marker('dashboard access forbidden');
     } else if (this.status === 401) {
-      this.showAction = !!this.hubUrl;
       this.actionMessage = marker('go to arlas hub');
       this.message = marker('dashboard access not authorized');
     } else if (this.status === 404) {
-      this.showAction = !!this.hubUrl;
       this.actionMessage = marker('go to arlas hub');
       this.message = marker('dashboard does not exist');
     } else {

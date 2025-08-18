@@ -593,20 +593,15 @@ export class ArlasStartupService {
                 return Promise.resolve(config);
               }
               return Promise.resolve(null);
-
             }).catch((err) => {
               if (!(err instanceof Response)) {
                 this.shouldRunApp = false;
-                console.error(err);
-                this.errorService.emitUnavailableService('ARLAS-persistence');
+                this.errorService.emitInvalidDashboardError(false);
               } else {
                 this.emptyMode = true;
                 err.json().then(r => {
                   console.error(r);
-                  this.fetchInterceptorService.interceptInvalidConfig({
-                    error: new DashboardError(err.status, this.settingsService.getArlasHubUrl()),
-                    forceAction: false,
-                  });
+                  this.errorService.emitUnavailableService('ARLAS-persistence');
                 });
                 return Promise.resolve(null);
               }
