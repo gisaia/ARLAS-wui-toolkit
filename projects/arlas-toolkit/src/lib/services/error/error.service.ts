@@ -19,16 +19,19 @@
 
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { marker } from '@colsen1991/ngx-translate-extract-marker';
+import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { DeniedAccessDialogComponent } from '../../components/denied-access-dialog/denied-access-dialog.component';
 import { ArlasSettingsService } from '../../services/settings/arlas.settings.service';
 import { AuthorisationError } from '../../tools/errors/authorisation-error';
 import { BackendError } from '../../tools/errors/backend-error';
+import { DashboardError } from '../../tools/errors/dashboard-error';
 import { SettingsError } from '../../tools/errors/settings-error';
 import { ArlasCollaborativesearchService } from '../collaborative-search/arlas.collaborative-search.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { TranslateService } from '@ngx-translate/core';
+import { InvalidDashboardError } from '../../tools/errors/invalid-dashboard-error';
+import { AuthorisationOnActionError } from '../../tools/errors/authorisation-on-action-error';
 
 @Injectable({
   providedIn: 'root'
@@ -58,43 +61,27 @@ export class ErrorService {
   }
 
   public emitUnavailableService(service: string) {
-    if (!this.dialog.openDialogs || this.dialog.openDialogs.length === 0) {
-      this.dialog.open(DeniedAccessDialogComponent, {
-        disableClose: true, data: {
-          error: new BackendError(502, '', this.settingsService.getArlasHubUrl(),  service),
-          forceAction: true
-        },
-        panelClass: 'arlas-error-dialog'
-      });
-    }
+    this.emitAuthorisationError(new BackendError(502, '', this.settingsService.getArlasHubUrl(), this.translate, service), true);
   }
 
   public emitSettingsError() {
-    if (!this.dialog.openDialogs || this.dialog.openDialogs.length === 0) {
-      this.dialog.open(DeniedAccessDialogComponent, {
-        disableClose: true, data: {
-          error: new SettingsError(),
-          forceAction: true
-        },
-        panelClass: 'arlas-error-dialog'
-      });
-    }
+    this.emitAuthorisationError(new SettingsError(), true);
   }
 
   public emitBackendError(status: number, message: string, service: string, mode: 'snackbar' | 'dialog' = 'dialog') {
     if (mode === 'dialog') {
-      if (!this.dialog.openDialogs || this.dialog.openDialogs.length === 0) {
-        this.dialog.open(DeniedAccessDialogComponent, {
-          disableClose: true, data: {
-            error: new BackendError(status, message, this.settingsService.getArlasHubUrl(), service),
-            forceAction: true
-          },
-          panelClass: 'arlas-error-dialog'
-        });
-      }
+      this.emitAuthorisationError(new BackendError(status, message, this.settingsService.getArlasHubUrl(), this.translate, service), true);
     } else if (mode === 'snackbar') {
       this.snackBar.open(message, this.translate.instant('Close'), { panelClass: 'arlas-error-snackbar' });
     }
+  }
+
+  public emitInvalidDashboardError(forceAction: boolean) {
+    this.emitAuthorisationError(new InvalidDashboardError(this.settingsService.getArlasHubUrl()), forceAction);
+  }
+
+  public emitUnauthorizedActionError(status: number, action: string, forceAction: boolean) {
+    this.emitAuthorisationError(new AuthorisationOnActionError(status, action), forceAction);
   }
 
   public closeAll() {

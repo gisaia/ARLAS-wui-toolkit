@@ -20,6 +20,7 @@
 import { marker } from '@colsen1991/ngx-translate-extract-marker';
 import { ArlasError } from './error';
 
+/** Error sent when the settings.yaml file is invalid */
 export class SettingsError extends ArlasError {
   public constructor() {
     super(0);

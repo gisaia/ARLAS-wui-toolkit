@@ -25,7 +25,6 @@ import { Observable, catchError, forkJoin, map, mergeMap, of, take, tap } from '
 import { ErrorService } from '../../../services/error/error.service';
 import { PersistenceService } from '../../../services/persistence/persistence.service';
 import { ArlasConfigService } from '../../../services/startup/startup.service';
-import { AuthorisationOnActionError } from '../../../tools/errors/authorisation-on-action-error';
 import { Config, ConfigAction, ConfigActionEnum } from '../../../tools/utils';
 
 @Component({
@@ -80,7 +79,7 @@ export class ActionModalComponent {
       .pipe(
         catchError((err) => {
           this.errorService.closeAll().afterAllClosed.pipe(take(1))
-            .subscribe(() => this.errorService.emitAuthorisationError(new AuthorisationOnActionError(err.status, 'duplicate_dashboard'), false));
+            .subscribe(() => this.errorService.emitUnauthorizedActionError(err.status, 'duplicate_dashboard', false));
           return of(err);
         }));
   }
@@ -94,7 +93,7 @@ export class ActionModalComponent {
       ).pipe(
         catchError((err) => {
           this.errorService.closeAll().afterAllClosed.pipe(take(1))
-            .subscribe(() => this.errorService.emitAuthorisationError(new AuthorisationOnActionError(err.status, 'duplicate_dashboard'), false));
+            .subscribe(() => this.errorService.emitUnauthorizedActionError(err.status, 'duplicate_dashboard', false));
           return of();
         })
       );
@@ -181,7 +180,7 @@ export class ActionModalComponent {
         catchError((err) => {
           this.errorService.closeAll().afterAllClosed.pipe(take(1))
             .subscribe(() =>
-              this.errorService.emitAuthorisationError(new AuthorisationOnActionError(err.status, 'rename_dashboard'), false));
+              this.errorService.emitUnauthorizedActionError(err.status, 'rename_dashboard', false));
           return of(err);
         })
       )

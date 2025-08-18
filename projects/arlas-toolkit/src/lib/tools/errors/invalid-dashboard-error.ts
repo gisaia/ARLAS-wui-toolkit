@@ -18,34 +18,17 @@
  */
 
 import { marker } from '@colsen1991/ngx-translate-extract-marker';
-import { TranslateService } from '@ngx-translate/core';
 import { ArlasError } from './error';
 
+/** Error sent when the dashboard is invalid */
+export class InvalidDashboardError extends ArlasError {
+  public constructor(private readonly hubUrl: string) {
+    super(0);
 
-export class BackendError extends ArlasError {
-  public constructor(
-    status: number, message: string,
-    private readonly hubUrl: string,
-    translate: TranslateService, service?: string
-  ) {
-    super(status);
-
-    this.title = marker('ARLAS encountered an error');
-    if (this.status === 400 || this.status === 404) {
-      this.message = message;
-      this.showAction = true;
-      this.actionMessage = marker('go to arlas hub');
-      this.actionType = 'link';
-    } else if (this.status === 502) {
-      this.message = marker('The connection is lost');
-      this.showAction = false;
-    } else if (this.status === 503) {
-      this.message = translate.instant('The service is unavailable', { service });
-      this.showAction = false;
-    } else {
-      this.message = translate.instant('An error occured in the service', { service });
-      this.showAction = false;
-    }
+    this.title = marker('Dashboard is invalid');
+    this.actionType = 'link';
+    this.showAction = true;
+    this.actionMessage = marker('go to arlas hub');
   }
 
   public executeAction() {
@@ -53,7 +36,7 @@ export class BackendError extends ArlasError {
   }
 
   private goToArlasHub() {
-    if (this.hubUrl) {
+    if (!!this.hubUrl) {
       window.open(this.hubUrl, '_self');
     }
   }
