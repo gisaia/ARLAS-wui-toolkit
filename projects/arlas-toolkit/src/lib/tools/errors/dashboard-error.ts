@@ -49,9 +49,8 @@ export class DashboardError extends ArlasError {
   }
 
   private goToArlasHub() {
-    if (!!this.hubUrl) {
+    if (this.hubUrl) {
       window.open(this.hubUrl, '_self');
     }
   }
 }
-

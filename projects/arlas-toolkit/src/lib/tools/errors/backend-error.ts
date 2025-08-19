@@ -18,7 +18,6 @@
  */
 
 import { marker } from '@colsen1991/ngx-translate-extract-marker';
-import { TranslateService } from '@ngx-translate/core';
 import { ArlasError } from './error';
 
 
@@ -26,7 +25,7 @@ export class BackendError extends ArlasError {
   public constructor(
     status: number, message: string,
     private readonly hubUrl: string,
-    translate: TranslateService, service?: string
+    public service?: string
   ) {
     super(status);
 
@@ -40,10 +39,10 @@ export class BackendError extends ArlasError {
       this.message = marker('The connection is lost');
       this.showAction = false;
     } else if (this.status === 503) {
-      this.message = translate.instant('The service is unavailable', { service });
+      this.message = marker('The service is unavailable');
       this.showAction = false;
     } else {
-      this.message = translate.instant('An error occured in the service', { service });
+      this.message = marker('An error occured in the service');
       this.showAction = false;
     }
   }

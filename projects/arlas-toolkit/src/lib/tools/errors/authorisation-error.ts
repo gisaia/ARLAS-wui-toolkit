@@ -44,6 +44,4 @@ export class AuthorisationError extends ArlasError {
   public executeAction() {
     this.actionSeekerSource.next('login');
   }
-
 }
-
