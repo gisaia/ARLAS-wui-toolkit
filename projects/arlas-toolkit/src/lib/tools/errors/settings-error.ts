@@ -31,7 +31,6 @@ export class SettingsError extends ArlasError {
   }
 
   public executeAction() {
+    return;
   }
-
 }
-
