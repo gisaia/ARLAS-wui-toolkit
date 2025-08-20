@@ -20,7 +20,7 @@
 import { marker } from '@colsen1991/ngx-translate-extract-marker';
 import { ArlasError } from './error';
 
-
+/** Error sent when the user lacks authorization to view something */
 export class AuthorisationError extends ArlasError {
   public constructor(status: number) {
     super(status);
@@ -44,6 +44,4 @@ export class AuthorisationError extends ArlasError {
   public executeAction() {
     this.actionSeekerSource.next('login');
   }
-
 }
-

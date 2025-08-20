@@ -49,7 +49,6 @@ import { Subject, defer, throwError } from 'rxjs';
 import { catchError, mergeMap, retry } from 'rxjs/operators';
 import { AnalyticGroupConfiguration } from '../../components/analytics/analytics.utils';
 import { FilterShortcutConfiguration } from '../../components/filter-shortcut/filter-shortcut.utils';
-import { DashboardError } from '../../tools/errors/dashboard-error';
 import {
   AuthentSetting,
   CONFIG_ID_QUERY_PARAM, GET_OPTIONS,
@@ -196,7 +195,7 @@ export class ArlasStartupService {
   public collectionId: string;
   public selectorById: string;
   public temporalContributor: Array<string> = new Array<string>();
-  private errorMessagesList = new Array<string>();
+  private readonly errorMessagesList = new Array<string>();
   public errorStartUpServiceBus: Subject<any> = new Subject<any>();
   public arlasIsUp: Subject<boolean> = new Subject<boolean>();
   public arlasExploreApi: ArlasExploreApi;
@@ -204,20 +203,21 @@ export class ArlasStartupService {
   public arlasIamApi: ArlasIamApi;
 
   public constructor(
-    private settingsService: ArlasSettingsService,
-    private configService: ArlasConfigService,
-    private collaborativesearchService: ArlasCollaborativesearchService,
-    private injector: Injector,
-    @Inject(FETCH_OPTIONS) private fetchOptions,
-    @Inject(GET_OPTIONS) private getOptions,
-    private http: HttpClient, private translateService: TranslateService,
-    @Inject(CONFIG_UPDATER) private configUpdater,
-    private persistenceService: PersistenceService,
-    private permissionService: PermissionService,
-    private errorService: ErrorService,
-    private fetchInterceptorService: FetchInterceptorService,
-    private arlasIamService: ArlasIamService,
-    private processService: ProcessService
+    private readonly settingsService: ArlasSettingsService,
+    private readonly configService: ArlasConfigService,
+    private readonly collaborativesearchService: ArlasCollaborativesearchService,
+    private readonly injector: Injector,
+    @Inject(FETCH_OPTIONS) private readonly fetchOptions,
+    @Inject(GET_OPTIONS) private readonly getOptions,
+    private readonly http: HttpClient,
+    private readonly translateService: TranslateService,
+    @Inject(CONFIG_UPDATER) private readonly configUpdater,
+    private readonly persistenceService: PersistenceService,
+    private readonly permissionService: PermissionService,
+    private readonly errorService: ErrorService,
+    private readonly fetchInterceptorService: FetchInterceptorService,
+    private readonly arlasIamService: ArlasIamService,
+    private readonly processService: ProcessService
   ) {
     this.configurationUpdaterService = new ArlasConfigurationUpdaterService;
   }
@@ -345,8 +345,8 @@ export class ArlasStartupService {
   public updateConfiguration(data, availableFields: Map<string, Set<string>>): any {
     if (!this.emptyMode) {
       let updatedConfig = this.configurationUpdaterService.addCollectionIfMissing(data);
-      const contributorsToRemove: Set<string> = this.configurationUpdaterService.getContributorsToRemove(data, availableFields);
-      updatedConfig = this.configurationUpdaterService.removeContributors(data, contributorsToRemove);
+      const contributorsToRemove = this.configurationUpdaterService.getContributorsToRemove(updatedConfig, availableFields);
+      updatedConfig = this.configurationUpdaterService.removeContributors(updatedConfig, contributorsToRemove);
       updatedConfig = this.configurationUpdaterService.updateContributors(updatedConfig, availableFields);
       updatedConfig = this.configurationUpdaterService.updateMapComponent(updatedConfig, availableFields);
       updatedConfig = this.configurationUpdaterService.removeWidgets(updatedConfig, contributorsToRemove);
@@ -434,7 +434,7 @@ export class ArlasStartupService {
       // redirects to login page if it's the first time and fetches the appropriate token
       if (settings) {
         const authent: AuthentSetting = settings.authentication;
-        if (authent && authent.use_authent && authent.auth_mode === 'iam') { // Authentication activated with IAM mode
+        if (authent?.use_authent && authent.auth_mode === 'iam') { // Authentication activated with IAM mode
           if (!this.arlasIamService.areSettingsValid(authent)[0]) {
             const err = 'Authentication is set while ' + this.arlasIamService.areSettingsValid(authent)[1] + ' are not configured';
             return reject(err);
@@ -443,7 +443,7 @@ export class ArlasStartupService {
           this.arlasIamService.setArlasIamApi(this.arlasIamApi);
 
           return resolve(this.arlasIamService.initAuthService().then(() => settings));
-        } else if (authent && authent.use_authent) { // Authentication activated with OPENID mode
+        } else if (authent?.use_authent) { // Authentication activated with OPENID mode
           const authService: AuthentificationService = this.injector.get('AuthentificationService')[0];
           authService.authConfigValue = authent;
           if (!authService.areSettingsValid(authent)[0]) {
@@ -530,7 +530,7 @@ export class ArlasStartupService {
           }
           this.arlasIamService.tokenRefreshed$.subscribe({
             next: (loginData) => {
-              if (!!loginData) {
+              if (loginData) {
                 const org = this.arlasIamService.getOrganisation();
                 const iamHeader = {
                   Authorization: 'Bearer ' + loginData.access_token,
@@ -570,8 +570,7 @@ export class ArlasStartupService {
    */
   public getAppConfigurationObject(settings: ArlasSettings): Promise<any> {
     const url = new URL(window.location.href);
-    const usePersistence = (!!settings && !!settings.persistence && !!settings.persistence.url
-      && settings.persistence.url !== '' && settings.persistence.url !== NOT_CONFIGURED && !settings.persistence.use_local_config);
+    const usePersistence = !!settings?.persistence?.url && settings.persistence.url !== NOT_CONFIGURED && !settings.persistence.use_local_config;
     const configurationId = url.searchParams.get(CONFIG_ID_QUERY_PARAM);
     return new Promise<any>((resolve, reject) => {
       let configDataPromise = Promise.resolve(null);
@@ -593,20 +592,15 @@ export class ArlasStartupService {
                 return Promise.resolve(config);
               }
               return Promise.resolve(null);
-
             }).catch((err) => {
               if (!(err instanceof Response)) {
                 this.shouldRunApp = false;
-                console.error(err);
-                this.errorService.emitUnavailableService('ARLAS-persistence');
+                this.errorService.emitInvalidDashboardError(false);
               } else {
                 this.emptyMode = true;
                 err.json().then(r => {
                   console.error(r);
-                  this.fetchInterceptorService.interceptInvalidConfig({
-                    error: new DashboardError(err.status, this.settingsService.getArlasHubUrl()),
-                    forceAction: false,
-                  });
+                  this.errorService.emitUnavailableService('ARLAS-persistence');
                 });
                 return Promise.resolve(null);
               }
@@ -867,9 +861,9 @@ export class ArlasStartupService {
     for (const g of this.analytics) {
       let clonedComponent: WidgetConfiguration;
       component = g.components.find(c => c.uuid === uuid);
-      if (!!component) {
+      if (component) {
         if (component.componentType === 'histogram') {
-          clonedComponent = Object.assign({}, component);
+          clonedComponent = {...component};
           clonedComponent.contributorId = uuid;
           return clonedComponent;
         }
@@ -889,9 +883,9 @@ export class ArlasStartupService {
           layer.filter.forEach(expression => {
             if (Array.isArray(expression) && expression.length === 3) {
               if (expression[0] === '!=' && expression[2] === 'Infinity') {
-                expression = ['<=', (expression[1] as any).replace(/\./g, '_'), Number.MAX_VALUE];
+                expression = ['<=', expression[1].replace(/\./g, '_'), Number.MAX_VALUE];
               } else if (expression[0] === '!=' && expression[2] === '-Infinity') {
-                expression = ['>=', (expression[1] as any).replace(/\./g, '_'), -Number.MAX_VALUE];
+                expression = ['>=', expression[1].replace(/\./g, '_'), -Number.MAX_VALUE];
               }
             }
             filters.push(expression);

@@ -22,11 +22,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { marker } from '@colsen1991/ngx-translate-extract-marker';
 import fetchIntercept from 'fetch-intercept';
-import { DeniedAccessDialogComponent } from '../../components/denied-access-dialog/denied-access-dialog.component';
 import { ReconnectDialogComponent } from '../../components/reconnect-dialog/reconnect-dialog.component';
 import { ErrorService } from '../../services/error/error.service';
 import { AuthorisationError } from '../../tools/errors/authorisation-error';
-import { DeniedAccessData } from '../../tools/utils';
 import { ArlasSettingsService } from '../settings/arlas.settings.service';
 
 @Injectable({
@@ -102,12 +100,5 @@ export class FetchInterceptorService {
         }
       });
     }
-  }
-
-  public interceptInvalidConfig(dahsboardDeniedData: DeniedAccessData) {
-    this.dialog.open(DeniedAccessDialogComponent, {
-      disableClose: true, data: dahsboardDeniedData,
-      panelClass: 'arlas-error-dialog'
-    });
   }
 }

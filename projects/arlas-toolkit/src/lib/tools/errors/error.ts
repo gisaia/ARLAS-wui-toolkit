@@ -19,7 +19,7 @@
 
 import { Observable, Subject } from 'rxjs';
 
-
+/** Generic error for Arlas */
 export abstract class ArlasError {
 
   protected actionSeekerSource: Subject<any> = new Subject();
