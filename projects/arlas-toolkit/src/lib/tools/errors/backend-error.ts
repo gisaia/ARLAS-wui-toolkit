@@ -22,15 +22,13 @@ import { ArlasError } from './error';
 
 
 export class BackendError extends ArlasError {
-  private readonly service: string = marker('ARLAS backend services');
-  private readonly hubUrl: string;
-
-  public constructor(status: number, message: string, hubUrl: string, service?: string) {
+  public constructor(
+    status: number, message: string,
+    private readonly hubUrl: string,
+    public service?: string
+  ) {
     super(status);
-    if (service && service !== '') {
-      this.service = service;
-    }
-    this.hubUrl = hubUrl;
+
     this.title = marker('ARLAS encountered an error');
     if (this.status === 400 || this.status === 404) {
       this.message = message;

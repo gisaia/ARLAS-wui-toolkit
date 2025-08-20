@@ -20,9 +20,9 @@
 import { marker } from '@colsen1991/ngx-translate-extract-marker';
 import { AuthorisationError } from './authorisation-error';
 
+/** Error sent when the user lacks authorization to do something */
 export class AuthorisationOnActionError extends AuthorisationError {
 
-  public action: string;
   public constructor(status: number, action: string) {
     super(status);
     if (this.status === 403) {
@@ -35,4 +35,3 @@ export class AuthorisationOnActionError extends AuthorisationError {
     }
   }
 }
-
