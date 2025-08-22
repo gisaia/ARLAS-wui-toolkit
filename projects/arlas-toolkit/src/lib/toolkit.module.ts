@@ -21,11 +21,14 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { OWL_DATE_TIME_LOCALE, OwlDateTimeIntl } from '@danielmoncada/angular-datetime-picker';
+import { OWL_DATE_TIME_FORMATS, OWL_DATE_TIME_LOCALE, OwlDateTimeFormats, OwlDateTimeIntl } from '@danielmoncada/angular-datetime-picker';
 import { TranslateService } from '@ngx-translate/core';
 import { OAuthModule, ValidationHandler } from 'angular-oauth2-oidc';
 import { JwksValidationHandler } from 'angular-oauth2-oidc-jwks';
 import { ShortenNumberPipe } from 'arlas-web-components';
+import moment from 'moment';
+import 'moment/locale/es';
+import 'moment/locale/fr';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { ArlasTranslateIntl } from './components/timeline/date-picker/ArlasTranslateIntl';
 import { ArlasAoiService } from './services/aoi/aoi.service';
@@ -45,12 +48,12 @@ import { PersistenceService } from './services/persistence/persistence.service';
 import { ArlasSettingsService } from './services/settings/arlas.settings.service';
 import { ArlasConfigService, ArlasStartupService, CONFIG_UPDATER, FETCH_OPTIONS } from './services/startup/startup.service';
 import { ArlasWalkthroughService } from './services/walkthrough/walkthrough.service';
+import { WidgetNotifierService } from './services/widget/widget.notifier.service';
 import { ArlasToolkitSharedModule } from './shared.module';
 import { ToolkitRoutingModule } from './toolkit-routing.module';
 import { ToolkitComponent } from './toolkit.component';
 import { PaginatorI18n } from './tools/paginatori18n';
 import { GET_OPTIONS } from './tools/utils';
-import { WidgetNotifierService } from './services/widget/widget.notifier.service';
 
 
 export function startupServiceFactory(startupService: ArlasStartupService) {
@@ -75,6 +78,7 @@ export function iamServiceFactory(service: ArlasIamService) {
 }
 
 export function localDatePickerFactory(translate: TranslateService) {
+  moment.locale(translate.currentLang);
   return translate.currentLang;
 }
 
@@ -119,9 +123,10 @@ export function getOptionsFactory(settingsService: ArlasSettingsService, arlasAu
   return getOptions;
 }
 
-export const MY_CUSTOM_FORMATS = {
+export const CUSTOM_DATEPICKER_FORMATS: OwlDateTimeFormats = {
   parseInput: 'lll',
-  fullPickerInput: 'll LTS',
+  /** Time displayed on the input of the datepicker */
+  fullPickerInput: 'l LTS',
   datePickerInput: 'lll',
   timePickerInput: 'lll',
   monthYearLabel: 'MMM YYYY',
@@ -199,7 +204,14 @@ export const MY_CUSTOM_FORMATS = {
       useFactory: localDatePickerFactory,
       deps: [TranslateService]
     },
-    { provide: OwlDateTimeIntl, useClass: ArlasTranslateIntl, deps: [TranslateService] },
+    {
+      provide: OWL_DATE_TIME_FORMATS,
+      useValue: CUSTOM_DATEPICKER_FORMATS
+    },
+    { provide: OwlDateTimeIntl,
+      useClass: ArlasTranslateIntl,
+      deps: [TranslateService]
+    },
     {
       provide: ValidationHandler,
       useClass: JwksValidationHandler
