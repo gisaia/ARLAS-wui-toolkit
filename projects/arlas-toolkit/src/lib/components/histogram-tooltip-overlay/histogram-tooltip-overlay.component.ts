@@ -39,7 +39,7 @@ import { WidgetTooltipComponent } from '../widget-tooltip/widget-tooltip.compone
 export class HistogramTooltipOverlayComponent {
   public interval: {
     start: Date | number | string;
-    end?: Date | number;
+    end?: Date | number | string;
   };
 
   public displayText = true;

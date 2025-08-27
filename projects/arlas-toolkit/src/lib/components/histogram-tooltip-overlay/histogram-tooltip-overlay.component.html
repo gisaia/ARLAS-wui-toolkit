@@ -25,44 +25,54 @@
 
   <ng-container yValue>
     <table class="values">
-      <tr *ngFor="let y of tooltip.y">
-        <td>
-          <div class="chip" [style.backgroundColor]="y.color"></div>
-        </td>
-        <td class="count">
-          <div>{{ y.value }}</div>
-        </td>
-        <td *ngIf="tooltip?.dataType === 'time'">
-          <div class="value-unit">
-            {{ ((tooltip.yUnit && tooltip.yUnit.length > 0) ? tooltip.yUnit : y.chartId | getCollectionUnit) | translate }}
-          </div>
-        </td>
-        <td *ngIf="tooltip?.dataType !== 'time' && tooltip.yUnit !== undefined && tooltip.yUnit !== ''">
-          <div class="value-unit">{{ tooltip.yUnit | translate }}</div>
-        </td>
-      </tr>
+      @for (y of tooltip.y; track y) {
+        <tr>
+          <td>
+            <div class="chip" [style.backgroundColor]="y.color"></div>
+          </td>
+          <td class="count">
+            <div>{{ y.value }}</div>
+          </td>
+
+          @if (tooltip?.dataType === 'time') {
+            <td>
+              <div class="value-unit">
+                {{ ((tooltip.yUnit && tooltip.yUnit.length > 0) ? tooltip.yUnit : y.chartId | getCollectionUnit) | translate }}
+              </div>
+            </td>
+          } @else if (tooltip.yUnit !== undefined && tooltip.yUnit !== '') {
+            <td>
+              <div class="value-unit">{{ tooltip.yUnit | translate }}</div>
+            </td>
+          }
+        </tr>
+      }
     </table>
   </ng-container>
 </arlas-widget-tooltip>
 
 <!-- template for x and y values -->
 <ng-template #intervalTemplate let-value="value" let-isTime="isTime">
-  <ng-container *ngIf="value !== undefined && value !== null">
+  @if (value !== undefined && value !== null) {
     <span class="interval-value">
       {{ value }}
     </span>
-  </ng-container>
+  }
 </ng-template>
 
 <!-- display the text after the interval -->
 <ng-template #intervalTextTemplate let-interval="interval" let-intervalValue="intervalValue"
              let-unit="unit" let-isTypeTime="isTime">
-  <span class="interval-text" *ngIf="isTypeTime">{{ intervalValue }}</span>
-  <span class="interval-text" *ngIf="!isTypeTime && unit">{{ unit | translate }}</span>
-  <span class="interval-text" *ngIf="interval && isTypeTime">
-    {{ interval | translate }}
-  </span>
-  <span class="interval-text" *ngIf="intervalValue && !isTypeTime">
-    ({{ 'interval' | translate }} : {{ intervalValue }})
-  </span>
+  @if (isTypeTime) {
+    <span class="interval-text">{{ intervalValue }}</span>
+  } @else if (unit) {
+    <span class="interval-text">{{ unit | translate }}</span>
+  }
+
+  @if (isTypeTime && interval) {
+    <span class="interval-text">{{ interval | translate }}</span>
+  }
+  @if (!isTypeTime && intervalValue) {
+    <span class="interval-text">({{ 'interval' | translate }} : {{ intervalValue }})</span>
+  }
 </ng-template>
