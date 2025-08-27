@@ -1,0 +1,21 @@
+<div class="tooltip" [class.tooltip--flat]="isFlat()">
+  <div class="tooltip__header">
+    {{ title() | translate }}
+  </div>
+
+  <div class="tooltip__xLabel tooltip__label">
+    <ng-content select="[xLabel]"></ng-content>
+  </div>
+
+  <div class="tooltip__xValue tooltip__value">
+    <ng-content select="[xValue]"></ng-content>
+  </div>
+
+  <div class="tooltip__yLabel tooltip__label">
+    <ng-content select="[yLabel]"></ng-content>
+  </div>
+
+  <div class="tooltip__yValue tooltip__value">
+    <ng-content select="[yValue]"></ng-content>
+  </div>
+</div>

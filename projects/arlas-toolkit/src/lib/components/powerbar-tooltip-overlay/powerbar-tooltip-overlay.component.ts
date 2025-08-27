@@ -18,10 +18,15 @@
  * under the License.
  */
 
+import { CommonModule } from '@angular/common';
 import { Component, Inject } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
+import { FormatNumberModule } from 'arlas-web-components';
 import { ArlasOverlayRef, POWERBAR_TOOLTIP_DATA } from '../../tools/utils';
+import { WidgetTooltipComponent } from '../widget-tooltip/widget-tooltip.component';
 
 export interface ARLASPowerbarTooltip {
+  title: string;
   key: string;
   value: any;
   progression: number;
@@ -30,7 +35,14 @@ export interface ARLASPowerbarTooltip {
 @Component({
   selector: 'arlas-powerbar-tooltip-overlay',
   templateUrl: './powerbar-tooltip-overlay.component.html',
-  styleUrls: ['./powerbar-tooltip-overlay.component.scss']
+  styleUrls: ['./powerbar-tooltip-overlay.component.scss'],
+  standalone: true,
+  imports: [
+    TranslateModule,
+    WidgetTooltipComponent,
+    CommonModule,
+    FormatNumberModule
+  ]
 })
 export class PowerbarTooltipOverlayComponent {
 

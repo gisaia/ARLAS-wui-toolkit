@@ -18,17 +18,29 @@
  * under the License.
  */
 
-import { Component, Inject } from '@angular/core';
-import { ArlasOverlayRef, DONUT_TOOLTIP_DATA } from '../../tools/utils';
+import { CommonModule } from '@angular/common';
+import { Component, inject } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
 import { ARLASDonutTooltip } from 'arlas-d3';
+import { FormatNumberModule } from 'arlas-web-components';
+import { DONUT_TOOLTIP_DATA } from '../../tools/utils';
+import { WidgetTooltipComponent } from '../widget-tooltip/widget-tooltip.component';
 
 @Component({
   selector: 'arlas-donut-tooltip-overlay',
   templateUrl: './donut-tooltip-overlay.component.html',
-  styleUrls: ['./donut-tooltip-overlay.component.css']
+  styleUrls: ['./donut-tooltip-overlay.component.scss'],
+  standalone: true,
+  imports: [
+    TranslateModule,
+    WidgetTooltipComponent,
+    CommonModule,
+    FormatNumberModule
+  ]
 })
 export class DonutTooltipOverlayComponent {
+  public tooltip = inject<ARLASDonutTooltip>(DONUT_TOOLTIP_DATA);
 
-  public constructor(public overlayRef: ArlasOverlayRef, @Inject(DONUT_TOOLTIP_DATA) public tooltip: ARLASDonutTooltip) {}
-
+  /** Computes the style for the columns of the x and y values based on the number of data in the tooltip */
+  protected valueStyle = this.tooltip.content.map(c => '1fr').join(' ');
 }

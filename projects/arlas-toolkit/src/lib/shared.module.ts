@@ -89,7 +89,6 @@ import { ActionModalModule } from './components/config-manager/action-modal/acti
 import { ConfigMenuModule } from './components/config-manager/config-menu/config-menu.module';
 import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.component';
 import { DeniedAccessDialogComponent } from './components/denied-access-dialog/denied-access-dialog.component';
-import { DonutTooltipOverlayComponent } from './components/donut-tooltip-overlay/donut-tooltip-overlay.component';
 import { DownloadComponent, DownloadDialogComponent } from './components/download/download.component';
 import { ExtendComponent } from './components/extend/extend.component';
 import { FilterShortcutChipComponent } from './components/filter-shortcut/chip/chip.component';
@@ -105,16 +104,12 @@ import {
   GetGlobalColorFilterPipe,
   IsCollabOnCollectionPipe
 } from './components/filters/filters.component';
-import {
-  HistogramTooltipOverlayComponent
-} from './components/histogram-tooltip-overlay/histogram-tooltip-overlay.component';
 import { HistogramWidgetComponent } from './components/histogram-widget/histogram-widget.component';
 import { LanguageSwitcherComponent } from './components/language-switcher/language-switcher.component';
 import {
   PermissionsCreatorDialogComponent
 } from './components/permissions-creator/permissions-creator-dialog/permissions-creator-dialog.component';
 import { PermissionsCreatorComponent } from './components/permissions-creator/permissions-creator.component';
-import { PowerbarTooltipOverlayComponent } from './components/powerbar-tooltip-overlay/powerbar-tooltip-overlay.component';
 import { ProgressSpinnerComponent } from './components/progress-spinner/progress-spinner.component';
 import { ReconnectDialogComponent } from './components/reconnect-dialog/reconnect-dialog.component';
 import { SearchComponent, SearchDialogComponent } from './components/search/search.component';
@@ -172,10 +167,7 @@ import { CustomTranslateLoader } from './tools/Translation/custom-translate-load
     UserInfosComponent,
     ReconnectDialogComponent,
     DeniedAccessDialogComponent,
-    HistogramTooltipOverlayComponent,
     CalendarTimelineTooltipOverlayComponent,
-    DonutTooltipOverlayComponent,
-    PowerbarTooltipOverlayComponent,
     WidgetComponent,
     FilterShortcutComponent,
     FilterShortcutChipComponent,
@@ -224,10 +216,7 @@ import { CustomTranslateLoader } from './tools/Translation/custom-translate-load
     UserInfosComponent,
     ReconnectDialogComponent,
     DeniedAccessDialogComponent,
-    HistogramTooltipOverlayComponent,
     CalendarTimelineTooltipOverlayComponent,
-    DonutTooltipOverlayComponent,
-    PowerbarTooltipOverlayComponent,
     WidgetComponent,
     FilterShortcutComponent,
     FilterShortcutChipComponent,
