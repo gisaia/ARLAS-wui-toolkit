@@ -42,5 +42,5 @@ export class DonutTooltipOverlayComponent {
   public tooltip = inject<ARLASDonutTooltip>(DONUT_TOOLTIP_DATA);
 
   /** Computes the style for the columns of the x and y values based on the number of data in the tooltip */
-  protected valueStyle = this.tooltip.content.map(c => '1fr').join(' ');
+  protected valueStyle = (this.tooltip.content ?? []).map(c => '1fr').join(' ');
 }
