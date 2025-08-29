@@ -9,11 +9,11 @@
       <div>
         <div class="prop">
           <div class="label">{{ 'Start date' | translate }}:</div>
-          <div class="value">{{ (statusResult?.started ?? '--') | date:'medium' }}</div>
+          <div class="value">{{ (statusResult?.started | date:'medium' ?? '--') }}</div>
         </div>
         <div class="prop">
           <div class="label">{{ 'End date' | translate }}:</div>
-          <div class="value">{{ (statusResult?.finished ?? '--') | date:'medium' }}</div>
+          <div class="value">{{ (statusResult?.finished | date:'medium' ?? '--') }}</div>
         </div>
       </div>
       <div class="status status-{{statusResult?.status}}">{{ statusResult?.status | translate }}</div>
@@ -23,7 +23,7 @@
       {{ 'processing error occured' | translate:{processingName: (processName | translate)} }}
     </div>
 
-    <div *ngIf="statusResult.message" class="message" [class.error]="hasError">
+    <div *ngIf="statusResult?.message" class="message" [class.error]="hasError">
       {{ statusResult.message | translate }}
     </div>
 

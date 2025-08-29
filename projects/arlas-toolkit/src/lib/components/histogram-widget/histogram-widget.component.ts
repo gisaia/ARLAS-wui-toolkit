@@ -229,16 +229,16 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy, AfterViewIni
   }
 
   public showHistogramTooltip(tooltip: HistogramTooltip, e: ElementRef, xOffset: number, yOffset: number) {
-    if (!!this.histogramOverlayRef) {
+    if (this.histogramOverlayRef) {
       this.histogramOverlayRef.close();
     }
-    if (!!tooltip && tooltip.shown) {
+    if (tooltip?.shown) {
       this.histogramOverlayRef = this.arlasOverlayService.openHistogramTooltip({ data: tooltip }, e, xOffset, yOffset, false);
     }
   }
 
   public hideHistogramTooltip() {
-    if (!!this.histogramOverlayRef) {
+    if (this.histogramOverlayRef) {
       this.histogramOverlayRef.close();
     }
   }

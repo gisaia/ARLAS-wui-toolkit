@@ -1,12 +1,27 @@
-<div class="wrapper">
-  <div class="node_content" *ngFor="let c of tooltip.content">
-    <div class="category" [style.borderLeftColor]="c.color">
-      <div class="chip" [style.backgroundColor]="c.color"></div>
-      <div class="type">{{c.value}}</div>
-    </div>
-    <div class="value_container">
-      <div class="value">{{c.metric | formatNumber}}</div>
-      <div class="percentage">{{"(" +c.percentage +" %)"}}</div>
-    </div>
+<arlas-widget-tooltip [title]="tooltip.title" [isFlat]="true">
+  <ng-container xLabel>
+    ({{ 'key' | translate }})
+  </ng-container>
+
+  <div class="grid" xValue [style.grid-template-columns]="valueStyle">
+    @for (c of tooltip.content; track c) {
+      <div class="xValue">
+        <div class="chip" [style.backgroundColor]="c.color"></div>
+        {{ c.value }}
+      </div>
+    }
   </div>
-</div>
+
+  <ng-container yLabel>
+    ({{ 'value' | translate }})
+  </ng-container>
+
+  <div yValue class="grid" [style.grid-template-columns]="valueStyle">
+    @for (c of tooltip.content; track c) {
+      <div class="yValue">
+        <div class="metric">{{c.metric | formatNumber}}</div>
+        <div class="percentage">{{"(" +c.percentage +" %)"}}</div>
+      </div>
+    }
+  </div>
+</arlas-widget-tooltip>

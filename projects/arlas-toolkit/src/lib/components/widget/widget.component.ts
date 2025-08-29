@@ -22,7 +22,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Expression } from 'arlas-api';
 import { ARLASDonutTooltip, Position, SwimlaneMode, SwimlaneRepresentation } from 'arlas-d3';
 import { CellBackgroundStyleEnum, ChartType, DataType, HistogramComponent, PowerBar } from 'arlas-web-components';
-import { ComputeConfig, MetricsTableContributor, TreeContributor } from 'arlas-web-contributors';
+import { ComputeContributor, MetricsTableContributor, SwimLaneContributor, TreeContributor } from 'arlas-web-contributors';
 import { CollaborationEvent, Contributor, OperationEnum } from 'arlas-web-core';
 import { Subject, takeUntil } from 'rxjs';
 import { ArlasCollaborativesearchService } from '../../services/collaborative-search/arlas.collaborative-search.service';
@@ -45,11 +45,11 @@ export class WidgetComponent implements OnInit {
 
   public chartType = ChartType;
   public contributorType: string;
-  public contributor;
+  public contributor: Contributor;
   public swimSelected;
   public swimlanes = [];
-  public indeterminatedItems: Set<string> = new Set<string>();
-  public highlightItems: Set<string> = new Set<string>();
+  public indeterminatedItems = new Set<string>();
+  public highlightItems = new Set<string>();
   public showSwimlaneDropDown: boolean;
   public graphParam: any = {};
   public metricApproximate = false;
@@ -144,6 +144,7 @@ export class WidgetComponent implements OnInit {
       }
     }
     if (!!tooltip && tooltip.isShown) {
+      tooltip.title = this.contributor.getFilterDisplayName();
       this.donutOverlayRef = this.arlasOverlayService.openDonutTooltip({ data: tooltip }, e, xOffset, 0, false);
     }
   }
@@ -158,7 +159,7 @@ export class WidgetComponent implements OnInit {
         this.swimSelected = this.swimlanes[0];
       }
     } else if (this.contributorType === 'compute') {
-      this.metricApproximate = (this.contributor.metrics as Array<ComputeConfig>).filter(c => c.metric === 'cardinality').length > 0;
+      this.metricApproximate = (this.contributor as ComputeContributor).metrics.filter(c => c.metric === 'cardinality').length > 0;
     }
 
     this.setComponentInput(this.graphParam);
@@ -187,11 +188,9 @@ export class WidgetComponent implements OnInit {
    */
   public changeSwimlane(swimlaneName) {
     const swimConf = this.swimlanes.filter(f => f.name === swimlaneName.value)[0];
-    this.contributor.aggregations = swimConf.aggregationmodels;
-    this.contributor.xAxisField = swimConf.xAxisField;
-    this.contributor.termField = swimConf.termField;
+    (this.contributor as SwimLaneContributor).aggregations = swimConf.aggregationmodels;
     if (swimConf.jsonpath) {
-      this.contributor.json_path = swimConf.jsonpath;
+      (this.contributor as SwimLaneContributor).json_path = swimConf.jsonpath;
     }
     const collaborationEvent: CollaborationEvent = {
       id: 'changeSwimlane',
@@ -275,6 +274,7 @@ export class WidgetComponent implements OnInit {
     if(!this.graphParam.hideTooltip){
       this.powerbarOverlayRef = this.arlasOverlayService.openPowerbarTooltip({
         data: {
+          title: this.contributor.getFilterDisplayName(),
           key: powerbar.term,
           value: powerbar.count,
           progression:  (Math.round((powerbar.progression) * 100) / 100),

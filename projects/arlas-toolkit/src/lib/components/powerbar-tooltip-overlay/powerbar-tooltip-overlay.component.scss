@@ -17,54 +17,29 @@
  * under the License.
  */
 
-.wrapper {
-  padding: 0 5px;
+.xValue {
   display: flex;
-  flex-direction: column;
-  background-color: white;
-  border-radius: 2px;
-  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14);
 
-  .node_content {
-    display: flex;
-    flex-direction: column;
+  .chip {
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    margin-right: 5px;
+  }
+}
+
+.yValue {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  padding-left: calc(/** Width of the chip */ 10px + /** Gap between elements */ 5px);
+
+  .value {
+    color: black;
   }
 
-  .category {
-    display: flex;
-    align-items: baseline;
-
-    .chip {
-      width: 10px;
-      height: 10px;
-      border-radius: 5px;
-    }
-
-    .type {
-      color: black;
-      padding-left: 3px;
-      font-size: 0.95em;
-      font-weight: bold;
-    }
-  }
-
-  .value_container {
-    display: flex;
-    border-left: 1px solid #999;
-    align-items: baseline;
-    margin-left: 5px;
-
-    .value {
-      color: black;
-      padding-left: 3px;
-      font-size: 0.95em;
-    }
-
-    .percentage {
-      color: #555;
-      padding-left: 3px;
-      font-style: italic;
-      font-size: 0.75em;
-    }
+  .percentage {
+    font-style: italic;
+    font-size: 10px;
   }
 }

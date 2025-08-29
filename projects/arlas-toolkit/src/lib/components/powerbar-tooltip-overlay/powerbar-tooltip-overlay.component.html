@@ -1,12 +1,23 @@
-<div class="wrapper">
-  <div class="node_content">
-    <div class="category" [style.borderLeftColor]="tooltip.color">
+<arlas-widget-tooltip [title]="tooltip.title">
+  <ng-container xLabel>
+    ({{ 'key' | translate }})
+  </ng-container>
+
+  <ng-container xValue>
+    <div class="xValue">
       <div class="chip" [style.backgroundColor]="tooltip.color"></div>
-      <div class="type">{{tooltip.key | translate}}</div>
+      {{ tooltip.key }}
     </div>
-    <div class="value_container">
+  </ng-container>
+
+  <ng-container yLabel>
+    ({{ 'value' | translate }})
+  </ng-container>
+
+  <ng-container yValue>
+    <div class="yValue">
       <div class="value">{{tooltip.value | formatNumber}}</div>
       <div class="percentage">{{"(" +tooltip.progression +" %)"}}</div>
     </div>
-  </div>
-</div>
+  </ng-container>
+</arlas-widget-tooltip>

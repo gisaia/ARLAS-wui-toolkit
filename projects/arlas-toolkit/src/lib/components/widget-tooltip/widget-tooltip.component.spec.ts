@@ -1,15 +1,15 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { AdmonitionCardComponent } from './admonition-card.component';
+import { WidgetTooltipComponent } from './widget-tooltip.component';
 
-describe('AdmonitionCardComponent', () => {
-  let component: AdmonitionCardComponent;
-  let fixture: ComponentFixture<AdmonitionCardComponent>;
+describe('WidgetTooltipComponent', () => {
+  let component: WidgetTooltipComponent;
+  let fixture: ComponentFixture<WidgetTooltipComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        AdmonitionCardComponent,
+        WidgetTooltipComponent,
         TranslateModule.forRoot({
           loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
         })
@@ -17,8 +17,9 @@ describe('AdmonitionCardComponent', () => {
     })
       .compileComponents();
 
-    fixture = TestBed.createComponent(AdmonitionCardComponent);
+    fixture = TestBed.createComponent(WidgetTooltipComponent);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput('title', 'Test');
     fixture.detectChanges();
   });
 

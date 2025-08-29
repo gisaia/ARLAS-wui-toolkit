@@ -17,36 +17,30 @@
  * under the License.
  */
 
-.interval-text {
-  font-size: 12px;
-  line-height: 12px;
-  color: #999;
+import { Component, input } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
+
+export interface WidgetTooltip<T> {
+  title: string;
+  dataType: 'numeric' | 'date' | 'keyword';
+  shown: boolean;
+  xPosition: number;
+  yPosition: number;
+  data: T;
 }
 
-.interval-value {
-  font-size: 12px;
-  line-height: 12px;
-}
+@Component({
+  selector: 'arlas-widget-tooltip',
+  standalone: true,
+  imports: [
+    TranslateModule
+  ],
+  templateUrl: './widget-tooltip.component.html',
+  styleUrl: './widget-tooltip.component.scss'
+})
+export class WidgetTooltipComponent {
+  public title = input.required<string>();
 
-.axis-label {
-  display: inline-block;
-}
-
-.values {
-  border-spacing: 0;
-}
-
-.chip {
-  width: 10px;
-  height: 10px;
-  border-radius: 5px;
-  margin-right: 5px;
-}
-
-.count {
-  text-align: right;
-}
-
-.value-unit {
-  margin-left: 5px;
+  /** Whether to hide the box-shadow */
+  public isFlat = input<boolean>(false);
 }

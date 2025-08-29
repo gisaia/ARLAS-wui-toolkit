@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { AiasResultComponent } from './aias-result.component';
 import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { AiasResultComponent } from './aias-result.component';
 
 describe('AiasResultComponent', () => {
   let component: AiasResultComponent;
@@ -9,8 +8,8 @@ describe('AiasResultComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AiasResultComponent ],
       imports: [
+        AiasResultComponent,
         TranslateModule.forRoot({
           loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
         }),
