@@ -1,8 +1,270 @@
 # Change Log
 
+## [v26.0.12](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.0.12) (2025-09-05)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v27.1.0-rc.4...v26.0.12)
+
+## [v27.1.0-rc.4](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.1.0-rc.4) (2025-09-02)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v27.1.0-rc.3...v27.1.0-rc.4)
+
+## [v27.1.0-rc.3](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.1.0-rc.3) (2025-08-29)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v27.0.16...v27.1.0-rc.3)
+
+## [v27.0.16](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.0.16) (2025-08-20)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v27.1.0-rc.2...v27.0.16)
+
+## [v27.1.0-rc.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.1.0-rc.2) (2025-06-19)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v27.0.15...v27.1.0-rc.2)
+
+## [v27.0.15](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.0.15) (2025-06-12)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v27.1.0-rc.1...v27.0.15)
+
+## [v27.1.0-rc.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.1.0-rc.1) (2025-06-10)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v27.1.0-beta.1...v27.1.0-rc.1)
+
+**New stuff:**
+
+- Expose a service for widget to send their events [\#945](https://github.com/gisaia/ARLAS-wui-toolkit/issues/945)
+
+## [v27.1.0-beta.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.1.0-beta.1) (2025-06-05)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v27.0.14...v27.1.0-beta.1)
+
+## [v27.0.14](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.0.14) (2025-05-23)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v27.0.13...v27.0.14)
+
+## [v27.0.13](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.0.13) (2025-05-22)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v27.0.12...v27.0.13)
+
+## [v27.0.12](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.0.12) (2025-04-29)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v27.0.11...v27.0.12)
+
+## [v27.0.11](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.0.11) (2025-04-29)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v27.0.10...v27.0.11)
+
+## [v27.0.10](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.0.10) (2025-04-28)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v27.0.9...v27.0.10)
+
+**Fixed bugs:**
+
+- Typo in french translation of Download layer component [\#933](https://github.com/gisaia/ARLAS-wui-toolkit/issues/933)
+
+## [v27.0.9](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.0.9) (2025-04-28)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v27.0.8...v27.0.9)
+
+**New stuff:**
+
+- add new description for download dialog component [\#932](https://github.com/gisaia/ARLAS-wui-toolkit/issues/932)
+
+**Fixed bugs:**
+
+- \[Bookmarks\] the buttons are greyed out after click on simulate combinaison [\#930](https://github.com/gisaia/ARLAS-wui-toolkit/issues/930)
+- Authent token not present when downloading data [\#929](https://github.com/gisaia/ARLAS-wui-toolkit/issues/929)
+
+## [v27.0.8](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.0.8) (2025-04-11)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v27.0.8-beta.2...v27.0.8)
+
+## [v27.0.8-beta.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.0.8-beta.2) (2025-04-09)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v27.0.8-beta.1...v27.0.8-beta.2)
+
+## [v27.0.8-beta.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.0.8-beta.1) (2025-04-09)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v27.0.7...v27.0.8-beta.1)
+
+## [v27.0.7](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.0.7) (2025-03-19)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v27.0.6...v27.0.7)
+
+**Fixed bugs:**
+
+- Fix user name in openid mode [\#922](https://github.com/gisaia/ARLAS-wui-toolkit/issues/922)
+
+## [v27.0.6](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.0.6) (2025-03-10)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v27.0.5...v27.0.6)
+
+**Fixed bugs:**
+
+- openid: token refresh doesn't work in case of ARLAS\_AUTHENT\_FORCE\_CONNECT=false [\#915](https://github.com/gisaia/ARLAS-wui-toolkit/issues/915)
+
+## [v27.0.5](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.0.5) (2025-02-28)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v27.0.4...v27.0.5)
+
+## [v27.0.4](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.0.4) (2025-02-25)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v27.0.3...v27.0.4)
+
+## [v27.0.3](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.0.3) (2025-02-19)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v27.0.2...v27.0.3)
+
+## [v27.0.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.0.2) (2025-02-17)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v27.0.1...v27.0.2)
+
+## [v27.0.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.0.1) (2025-02-05)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v27.0.0...v27.0.1)
+
+## [v27.0.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.0.0) (2025-02-05)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v27.0.0-rc.11...v27.0.0)
+
+**New stuff:**
+
+- Check Browser version and redirect on error page if not supported [\#84](https://github.com/gisaia/ARLAS-wui-toolkit/issues/84)
+
+**Miscellaneous:**
+
+- Add send message on chat when release [\#900](https://github.com/gisaia/ARLAS-wui-toolkit/issues/900)
+
+## [v27.0.0-rc.11](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.0.0-rc.11) (2025-01-28)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v27.0.0-rc.10...v27.0.0-rc.11)
+
+## [v27.0.0-rc.10](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.0.0-rc.10) (2025-01-27)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v27.0.0-rc.9...v27.0.0-rc.10)
+
+## [v27.0.0-rc.9](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.0.0-rc.9) (2025-01-27)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v27.0.0-rc.8...v27.0.0-rc.9)
+
+## [v27.0.0-rc.8](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.0.0-rc.8) (2025-01-22)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v27.0.0-rc.7...v27.0.0-rc.8)
+
+## [v27.0.0-rc.7](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.0.0-rc.7) (2025-01-21)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v27.0.0-rc.6...v27.0.0-rc.7)
+
+## [v27.0.0-rc.6](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.0.0-rc.6) (2025-01-09)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v27.0.0-rc.5...v27.0.0-rc.6)
+
+## [v27.0.0-rc.5](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.0.0-rc.5) (2025-01-07)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v27.0.0-rc.4...v27.0.0-rc.5)
+
+## [v27.0.0-rc.4](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.0.0-rc.4) (2025-01-07)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v27.0.0-rc.3...v27.0.0-rc.4)
+
+## [v27.0.0-rc.3](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.0.0-rc.3) (2025-01-07)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v26.1.3...v27.0.0-rc.3)
+
+**Fixed bugs:**
+
+- Configurations having collectionDisplayName are not considered public [\#891](https://github.com/gisaia/ARLAS-wui-toolkit/issues/891)
+
+## [v26.1.3](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.1.3) (2025-01-06)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v26.1.2...v26.1.3)
+
+## [v26.1.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.1.2) (2025-01-06)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v26.0.7-1...v26.1.2)
+
+## [v26.0.7-1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.0.7-1) (2025-01-06)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v27.0.0-rc.2...v26.0.7-1)
+
+## [v27.0.0-rc.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.0.0-rc.2) (2024-12-19)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v27.0.0-test-rc.1...v27.0.0-rc.2)
+
+## [v27.0.0-test-rc.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.0.0-test-rc.1) (2024-12-17)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v27.0.0-beta.7...v27.0.0-test-rc.1)
+
+## [v27.0.0-beta.7](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.0.0-beta.7) (2024-12-16)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v27.0.0-beta.6...v27.0.0-beta.7)
+
+## [v27.0.0-beta.6](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.0.0-beta.6) (2024-12-16)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v27.0.0-beta.5...v27.0.0-beta.6)
+
+## [v27.0.0-beta.5](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.0.0-beta.5) (2024-12-13)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v26.1.1...v27.0.0-beta.5)
+
+## [v26.1.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.1.1) (2024-12-10)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v27.0.0-rc.1...v26.1.1)
+
+## [v27.0.0-rc.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.0.0-rc.1) (2024-12-03)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v26.1.0...v27.0.0-rc.1)
+
+## [v26.1.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.1.0) (2024-12-02)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v27.0.0-beta.4...v26.1.0)
+
+## [v27.0.0-beta.4](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.0.0-beta.4) (2024-11-29)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v27.0.0-beta.3...v27.0.0-beta.4)
+
+## [v27.0.0-beta.3](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.0.0-beta.3) (2024-11-29)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v26.1.0-beta.3...v27.0.0-beta.3)
+
+## [v26.1.0-beta.3](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.1.0-beta.3) (2024-11-27)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v26.1.0-beta.2...v26.1.0-beta.3)
+
+## [v26.1.0-beta.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.1.0-beta.2) (2024-11-26)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v26.1.0-beta.1...v26.1.0-beta.2)
+
+## [v26.1.0-beta.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.1.0-beta.1) (2024-11-26)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v26.0.12-beta.3...v26.1.0-beta.1)
+
+**Fixed bugs:**
+
+- When loading again histogram, detailed one is not drawn [\#885](https://github.com/gisaia/ARLAS-wui-toolkit/issues/885)
+- Detailed histograms send infinite collaboration events [\#883](https://github.com/gisaia/ARLAS-wui-toolkit/issues/883)
+
+## [v26.0.12-beta.3](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.0.12-beta.3) (2024-11-25)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v26.0.12-beta.2...v26.0.12-beta.3)
+
+## [v26.0.12-beta.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.0.12-beta.2) (2024-11-22)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v26.0.12-beta.1...v26.0.12-beta.2)
+
+## [v26.0.12-beta.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.0.12-beta.1) (2024-11-22)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v27.0.0-beta.2...v26.0.12-beta.1)
+
+## [v27.0.0-beta.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.0.0-beta.2) (2024-11-15)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v26.0.11...v27.0.0-beta.2)
+
 ## [v26.0.11](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.0.11) (2024-11-12)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v26.0.10...v26.0.11)
+
+**Fixed bugs:**
+
+- Add missing css class names for actions [\#882](https://github.com/gisaia/ARLAS-wui-toolkit/issues/882)
 
 ## [v26.0.10](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.0.10) (2024-11-12)
 
@@ -501,15 +763,15 @@
 
 ## [v24.2.0-beta-iam.5](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.2.0-beta-iam.5) (2023-09-04)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.2.0-beta-iam.4...v24.2.0-beta-iam.5)
-
-## [v24.2.0-beta-iam.4](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.2.0-beta-iam.4) (2023-08-28)
-
-[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.2.0-beta-iam.3...v24.2.0-beta-iam.4)
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.2.0-beta-iam.3...v24.2.0-beta-iam.5)
 
 ## [v24.2.0-beta-iam.3](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.2.0-beta-iam.3) (2023-08-28)
 
-[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.1.6...v24.2.0-beta-iam.3)
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.2.0-beta-iam.4...v24.2.0-beta-iam.3)
+
+## [v24.2.0-beta-iam.4](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.2.0-beta-iam.4) (2023-08-28)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-wui-toolkit/compare/v24.1.6...v24.2.0-beta-iam.4)
 
 ## [v24.1.6](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v24.1.6) (2023-08-09)
 
