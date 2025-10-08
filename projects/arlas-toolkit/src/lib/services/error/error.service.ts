@@ -75,8 +75,8 @@ export class ErrorService {
     }
   }
 
-  public emitInvalidDashboardError(forceAction: boolean) {
-    this.emitAuthorisationError(new InvalidDashboardError(this.settingsService.getArlasHubUrl()), forceAction);
+  public emitInvalidDashboardError(forceAction: boolean, message?: string) {
+    this.emitAuthorisationError(new InvalidDashboardError(this.settingsService.getArlasHubUrl(), message), forceAction);
   }
 
   public emitUnauthorizedActionError(status: number, action: string, forceAction: boolean) {
