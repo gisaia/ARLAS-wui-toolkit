@@ -140,18 +140,18 @@ $count-chip-height: 30px;
 .value-unit {
   display: flex;
   align-items: center;
-}
 
-.value {
-  font-weight: 600;
-  margin: 0 $sm-margin;
-  white-space: nowrap;
-}
+  .value {
+    font-weight: 600;
+    margin: 0 $sm-margin;
+    white-space: nowrap;
+  }
 
-.unit {
-  font-weight: 100;
-  font-size: $xs-font-size;
-  color: #555;
+  .unit {
+    font-weight: 100;
+    font-size: $xs-font-size;
+    color: #555;
+  }
 }
 
 .extra {

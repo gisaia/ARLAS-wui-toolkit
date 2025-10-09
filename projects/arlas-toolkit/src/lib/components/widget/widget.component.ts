@@ -143,7 +143,7 @@ export class WidgetComponent implements OnInit {
         xOffset = 170;
       }
     }
-    if (!!tooltip && tooltip.isShown) {
+    if (!!tooltip && tooltip.isShown && tooltip.content) {
       tooltip.title = this.contributor.getFilterDisplayName();
       this.donutOverlayRef = this.arlasOverlayService.openDonutTooltip({ data: tooltip }, e, xOffset, 0, false);
     }
