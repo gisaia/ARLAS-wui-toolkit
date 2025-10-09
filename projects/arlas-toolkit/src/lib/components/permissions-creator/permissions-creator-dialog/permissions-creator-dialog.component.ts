@@ -17,23 +17,26 @@
  * under the License.
  */
 
-import { Component, Inject, OnDestroy } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { PermissionDialogData } from '../_interfaces';
+import { Component, DestroyRef, inject, Inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ArlasIamService } from '../../../services/arlas-iam/arlas-iam.service';
-import { PermissionData, PermissionDef } from 'arlas-iam-api';
-import { Subscription, finalize } from 'rxjs';
-import { ArlasSettingsService } from '../../../services/settings/arlas.settings.service';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { marker } from '@colsen1991/ngx-translate-extract-marker';
+import { PermissionData, PermissionDef } from 'arlas-iam-api';
+import { finalize } from 'rxjs';
+import { ArlasIamService } from '../../../services/arlas-iam/arlas-iam.service';
+import { ArlasSettingsService } from '../../../services/settings/arlas.settings.service';
+import { PermissionDialogData } from '../_interfaces';
 
 @Component({
   templateUrl: './permissions-creator-dialog.component.html',
   styleUrls: ['./permissions-creator-dialog.component.scss']
 })
-export class PermissionsCreatorDialogComponent implements OnDestroy {
+export class PermissionsCreatorDialogComponent {
 
-  public createPermissionForm: FormGroup;
+  public createPermissionForm = new FormGroup({
+    description: new FormControl<string>('', [Validators.required])
+  });
 
   public CREATE_TEXT: string = marker('Create the permission');
   public CLOSE_TEXT = marker('Close');
@@ -50,16 +53,14 @@ export class PermissionsCreatorDialogComponent implements OnDestroy {
   public showErrorDetails = false;
   public showSpinner = false;
   public showAction = true;
-  private subscription: Subscription;
+
+  private readonly destroyRef = inject(DestroyRef);
 
   public constructor(
-    private iamService: ArlasIamService,
+    private readonly iamService: ArlasIamService,
     @Inject(MAT_DIALOG_DATA) public data: PermissionDialogData,
-    private settingsService: ArlasSettingsService) {
-    this.createPermissionForm = new FormGroup({
-      description: new FormControl<string>('', [Validators.required])
-    });
-  }
+    private readonly settingsService: ArlasSettingsService
+  ) { }
 
   public createPermission() {
     this.CREATE_TEXT = marker('Creating');
@@ -68,15 +69,16 @@ export class PermissionsCreatorDialogComponent implements OnDestroy {
     this.descriptionInputDisabled = false;
     const permissionDef: PermissionDef = {
       value: this.data.partitionFilterHeader,
-      description: this.createPermissionForm.get('description').value
+      description: this.createPermissionForm.value.description
     };
-    this.subscription = this.iamService.createPermission(this.data.oid, permissionDef).pipe(
+    this.iamService.createPermission(this.data.oid, permissionDef).pipe(
       finalize(() => {
         this.showSpinner = false;
         this.creationButtonDisabled = false;
         this.creationButtonHidden = true;
         this.descriptionInputHidden = true;
-      })
+      }),
+      takeUntilDestroyed(this.destroyRef)
     ).subscribe({
       next: (permissionData: PermissionData) => {
         this.creationStatus = 'successful';
@@ -88,12 +90,6 @@ export class PermissionsCreatorDialogComponent implements OnDestroy {
         console.log(err);
       }
     });
-  }
-
-  public ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
   }
 
   public goToArlasIAMWui() {

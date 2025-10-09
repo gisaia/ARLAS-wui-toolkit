@@ -17,10 +17,10 @@
  * under the License.
  */
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatDialog } from '@angular/material/dialog';
 import { Filter } from 'arlas-api';
-import { Subscription } from 'rxjs';
 import { ArlasIamService } from '../../services/arlas-iam/arlas-iam.service';
 import { ArlasCollaborativesearchService } from '../../services/collaborative-search/arlas.collaborative-search.service';
 import { PermissionDialogData } from './_interfaces';
@@ -32,31 +32,27 @@ import { PermissionsCreatorDialogComponent } from './permissions-creator-dialog/
   templateUrl: './permissions-creator.component.html',
   styleUrls: ['./permissions-creator.component.scss']
 })
-export class PermissionsCreatorComponent implements OnInit, OnDestroy {
+export class PermissionsCreatorComponent implements OnInit {
 
   public show = false;
 
-  private subscription: Subscription;
+  private readonly destroyRef = inject(DestroyRef);
 
   public constructor(
-    private collaborativeSearchService: ArlasCollaborativesearchService,
-    private iamService: ArlasIamService,
-    private createPermissionDialog: MatDialog
+    private readonly collaborativeSearchService: ArlasCollaborativesearchService,
+    private readonly iamService: ArlasIamService,
+    private readonly createPermissionDialog: MatDialog
   ) { }
 
   public ngOnInit(): void {
-    this.show = this.hasCreationRight() && this.hasMainCollectionFilters();
-    this.subscription = this.collaborativeSearchService.ongoingSubscribe.subscribe(() => {
-      if (this.collaborativeSearchService.totalSubscribe === 0) {
-        this.show = this.hasCreationRight() && this.hasMainCollectionFilters();
-      }
-    });
-  }
-
-  public ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
+    this.show = this.hasCreationRight() && this.hasMainCollection();
+    this.collaborativeSearchService.ongoingSubscribe
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        if (this.collaborativeSearchService.totalSubscribe === 0) {
+          this.show = this.hasCreationRight() && this.hasMainCollection();
+        }
+      });
   }
 
   public createPermission() {
@@ -107,10 +103,8 @@ export class PermissionsCreatorComponent implements OnInit, OnDestroy {
     return false;
   }
 
-  private hasMainCollectionFilters() {
-    const mainCollection = this.collaborativeSearchService.defaultCollection;
-    const filters: Filter[] = this.collaborativeSearchService.getFilters(mainCollection);
-    return filters.length > 0;
+  private hasMainCollection(): boolean {
+    return !!this.collaborativeSearchService.defaultCollection;
   }
 
   private getOrganisationId(orgName: string) {
