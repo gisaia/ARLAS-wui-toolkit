@@ -95,7 +95,11 @@ export class FetchInterceptorService {
         },
         // Handle a fetch error
         responseError: (error) =>  {
-          console.log(error);
+          if (typeof error === 'object' && error['request'] instanceof Request && error['request'].signal.aborted) {
+            // Signal was aborted, for supposedly good reasons (COG tile rendering, old pending request, ...)
+          } else {
+            console.log(error);
+          }
           return Promise.reject(error);
         }
       });
