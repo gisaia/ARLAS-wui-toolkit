@@ -29,7 +29,7 @@
             (outEvents)="listenOutput($event)">
           </arlas-tool-widget>
           <arlas-tool-progress-spinner *ngIf="showSpinner" [strokeWidth]="strokeWidthSpinner" [color]="colorSpinner"
-            [diameter]="diameterSpinner" [hidden]="!(component?.contributorId | contributorUpdating:collaborativeService.totalSubscribe)"></arlas-tool-progress-spinner>
+            [diameter]="diameterSpinner" [hidden]="!(component?.contributorId | getContributor)?.isDataUpdating"></arlas-tool-progress-spinner>
         </div>
       </div>
     </mat-expansion-panel>

@@ -91,7 +91,7 @@
   </div>
   <arlas-tool-progress-spinner *ngIf="showSpinner" [strokeWidth]="strokeWidthSpinner"
     [color]="colorSpinner" [diameter]="diameterSpinner"
-    [hidden]="!((timelineComponent?.contributorId | contributorUpdating:arlasCollaborativesearchService.totalSubscribe)
-      || (showDetailedTimeline && detailedTimelineComponent?.contributorId | contributorUpdating:arlasCollaborativesearchService.totalSubscribe))">
+    [hidden]="!((timelineComponent?.contributorId | getContributor)?.isDataUpdating
+      || (showDetailedTimeline && (detailedTimelineComponent?.contributorId | getContributor)?.isDataUpdating))">
   </arlas-tool-progress-spinner>
 </div>

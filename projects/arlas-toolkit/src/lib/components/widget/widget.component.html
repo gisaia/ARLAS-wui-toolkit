@@ -4,6 +4,7 @@
     [spinnerOptions]="spinnerOptions" [position]="position" [groupLength]="groupLength" [noDetail]="noDetail"
     (exportCsvEvent)="exportCsv($event.contributor, $event.firstLevel, $event.type, 'histogram')"></arlas-tool-histogram-widget>
 </div>
+
 <div *ngIf="componentType === 'swimlane'">
   <div *ngIf="showSwimlaneDropDown" class="dropdownSwimlane">
     <mat-form-field>

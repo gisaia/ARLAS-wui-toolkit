@@ -114,10 +114,12 @@ export class WidgetComponent implements OnInit {
 
   private _onDestroy$ = new Subject<boolean>();
 
-  public constructor(private arlasStartupService: ArlasStartupService,
-    private arlasCollaborativesearchService: ArlasCollaborativesearchService,
-    private arlasOverlayService: ArlasOverlayService,
-    public translate: TranslateService, public arlasExportCsvService: ArlasExportCsvService
+  public constructor(
+    private readonly arlasStartupService: ArlasStartupService,
+    private readonly arlasCollaborativesearchService: ArlasCollaborativesearchService,
+    private readonly arlasOverlayService: ArlasOverlayService,
+    private readonly translate: TranslateService,
+    private readonly arlasExportCsvService: ArlasExportCsvService
   ) { }
 
   public showDonutTooltip(tooltip: ARLASDonutTooltip, e: ElementRef) {
