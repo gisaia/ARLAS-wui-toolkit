@@ -25,25 +25,38 @@
 
   <ng-container yValue>
     <table class="values">
+      @let isSwimlane = tooltip.chartType === 'swimlane';
+      @let isHistogram = tooltip.chartType === 'histogram';
       @for (y of tooltip.y; track y) {
         <tr>
-          <td>
-            <div class="chip" [style.backgroundColor]="y.color"></div>
-          </td>
-          <td class="count">
-            <div>{{ y.value }}</div>
-          </td>
-
-          @if (tooltip?.dataType === 'time') {
+          @if (isSwimlane && y.chartId) {
             <td>
-              <div class="value-unit">
-                {{ ((tooltip.yUnit && tooltip.yUnit.length > 0) ? tooltip.yUnit : y.chartId | getCollectionUnit) | translate }}
+              <div class="value-lane">
+                {{ y.chartId | translate }}
               </div>
             </td>
-          } @else if (tooltip.yUnit !== undefined && tooltip.yUnit !== '') {
+          } @else if (isHistogram) {
             <td>
-              <div class="value-unit">{{ tooltip.yUnit | translate }}</div>
+              <div class="chip" [style.backgroundColor]="y.color"></div>
             </td>
+          }
+
+          <td>
+            <div class="count" [class.count--bold]="isSwimlane">{{ y.value }}</div>
+          </td>
+
+          @if (isHistogram) {
+            @if (tooltip?.dataType === 'time') {
+              <td>
+                <div class="value-unit">
+                  {{ ((tooltip.yUnit && tooltip.yUnit.length > 0) ? tooltip.yUnit : y.chartId | getCollectionUnit) | translate }}
+                </div>
+              </td>
+            } @else if (tooltip.yUnit !== undefined && tooltip.yUnit !== '') {
+              <td>
+                <div class="value-unit">{{ tooltip.yUnit | translate }}</div>
+              </td>
+            }
           }
         </tr>
       }

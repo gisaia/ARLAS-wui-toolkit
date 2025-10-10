@@ -31,10 +31,10 @@ import { ArlasCollaborativesearchService } from '../../services/collaborative-se
 import { ArlasExportCsvService } from '../../services/export-csv/export-csv.service';
 import { ArlasOverlayService } from '../../services/overlays/overlay.service';
 import { ArlasConfigService } from '../../services/startup/startup.service';
-import { ArlasOverlayRef, SpinnerOptions } from '../../tools/utils';
-import { isShortcutID } from '../filter-shortcut/filter-shortcut.utils';
-import { DEFAULT_SPINNER_OPTIONS } from '../progress-spinner/progress-spinner.component';
 import { WidgetNotifierService } from '../../services/widget/widget.notifier.service';
+import { ArlasOverlayRef, SpinnerOptions } from '../../tools/utils';
+import { DEFAULT_SPINNER_OPTIONS } from '../progress-spinner/progress-spinner.component';
+import { computeChartTooltipOffset } from './utils';
 
 
 /**
@@ -243,35 +243,9 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy, AfterViewIni
     }
   }
 
-  public emitTooltip(tooltip, e: ElementRef, detailed: boolean) {
-    let yOffset = 20;
-    if (detailed) {
-      yOffset = 20;
-    }
-    const analyticsBoardWidth = 445;
-    let itemPerLine = 1;
-    let xOffset = 470;
-    if (this.componentInputs.chartWidth === Math.ceil(analyticsBoardWidth / 2) - 6 ||
-      this.componentInputs.chartWidth === Math.ceil(analyticsBoardWidth / 2) - 12) {
-      itemPerLine = 2;
-      if (this.position % itemPerLine === 1) {
-        xOffset = 240;
-      }
-    } else if (this.componentInputs.chartWidth === Math.ceil(analyticsBoardWidth / 3) - 6 ||
-      this.componentInputs.chartWidth === Math.ceil(analyticsBoardWidth / 3) - 12) {
-      itemPerLine = 3;
-      if (this.position % itemPerLine === 1) {
-        xOffset = 320;
-        if (this.position === this.groupLength - 1) {
-          xOffset = 245;
-        }
-      } else if (this.position % itemPerLine === 2) {
-        xOffset = 170;
-      }
-    } else if (isShortcutID(this.contributor.identifier)) {
-      xOffset = 20;
-      yOffset = 120;
-    }
+  public emitTooltip(tooltip: HistogramTooltip, e: ElementRef, detailed: boolean) {
+    const { xOffset, yOffset } = computeChartTooltipOffset(
+      this.componentInputs.chartWidth, this.groupLength, this.position, this.contributor.identifier, detailed);
     this.showHistogramTooltip(tooltip, e, xOffset, yOffset);
   }
 

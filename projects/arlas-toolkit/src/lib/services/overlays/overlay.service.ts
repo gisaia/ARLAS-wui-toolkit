@@ -17,22 +17,22 @@
  * under the License.
  */
 
-import { Injectable, ElementRef, Injector, ComponentRef, InjectionToken } from '@angular/core';
-import { Overlay, OverlayConfig, OriginConnectionPosition, OverlayConnectionPosition, OverlayRef } from '@angular/cdk/overlay';
+import { OriginConnectionPosition, Overlay, OverlayConfig, OverlayConnectionPosition, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal, ComponentType } from '@angular/cdk/portal';
-
+import { ComponentRef, ElementRef, inject, Injectable, InjectionToken, Injector } from '@angular/core';
+import { ARLASDonutTooltip, TimelineTooltip } from 'arlas-d3';
+import { HistogramTooltip } from 'arlas-web-components';
+import {
+  CalendarTimelineTooltipOverlayComponent
+} from '../../components/calendar-timeline-tooltip-overlay/calendar-timeline-tooltip-overlay.component';
+import { DonutTooltipOverlayComponent } from '../../components/donut-tooltip-overlay/donut-tooltip-overlay.component';
 import { HistogramTooltipOverlayComponent } from '../../components/histogram-tooltip-overlay/histogram-tooltip-overlay.component';
 import {
-  ArlasOverlayRef, HISTOGRAM_TOOLTIP_DATA, DONUT_TOOLTIP_DATA,
-  CALENDAR_TIMELINE_TOOLTIP_DATA, POWERBAR_TOOLTIP_DATA
+  ARLASPowerbarTooltip, PowerbarTooltipOverlayComponent
+} from '../../components/powerbar-tooltip-overlay/powerbar-tooltip-overlay.component';
+import {
+  ArlasOverlayRef, CALENDAR_TIMELINE_TOOLTIP_DATA, DONUT_TOOLTIP_DATA, HISTOGRAM_TOOLTIP_DATA, HistogramTooltipExtended, POWERBAR_TOOLTIP_DATA
 } from '../../tools/utils';
-import { HistogramTooltip } from 'arlas-web-components';
-import { ARLASDonutTooltip, TimelineTooltip } from 'arlas-d3';
-import { DonutTooltipOverlayComponent } from '../../components/donut-tooltip-overlay/donut-tooltip-overlay.component';
-import { CalendarTimelineTooltipOverlayComponent } from
-  '../../components/calendar-timeline-tooltip-overlay/calendar-timeline-tooltip-overlay.component';
-import { ARLASPowerbarTooltip, PowerbarTooltipOverlayComponent } from
-  '../../components/powerbar-tooltip-overlay/powerbar-tooltip-overlay.component';
 
 
 export interface ToolTipConfig<T> {
@@ -49,12 +49,11 @@ const DEFAULT_TOOLTIP_CONFIG: ToolTipConfig<any> = {
 
 @Injectable()
 export class ArlasOverlayService {
+  private readonly overlay = inject(Overlay);
+  private readonly injector = inject(Injector);
 
-  public constructor(private overlay: Overlay, private parentOverlay: Overlay, private injector: Injector) { }
-
-  public openHistogramTooltip(config: ToolTipConfig<HistogramTooltip>, elementRef: ElementRef, xOffset: number,
-    yOffset: number, right: boolean) {
-    return this.openTooltip(config, elementRef, xOffset, yOffset, right, HistogramTooltipOverlayComponent, HISTOGRAM_TOOLTIP_DATA);
+  public openHistogramTooltip(config: ToolTipConfig<HistogramTooltip>, elementRef: ElementRef, xOffset: number, yOffset: number, right: boolean) {
+    return this.openChartTooltip(config, 'histogram', elementRef, xOffset, yOffset, right);
   }
 
   public openCalendarTimelineTooltip(config: ToolTipConfig<TimelineTooltip>, elementRef: ElementRef, xOffset: number,
@@ -71,8 +70,28 @@ export class ArlasOverlayService {
     return this.openTooltip(config, elementRef, xOffset, yOffset, right, PowerbarTooltipOverlayComponent, POWERBAR_TOOLTIP_DATA);
   }
 
+  public openSwimlaneTooltip(config: ToolTipConfig<HistogramTooltip>, elementRef: ElementRef, xOffset: number, yOffset: number, right: boolean) {
+    return this.openChartTooltip(config, 'swimlane', elementRef, xOffset, yOffset, right);
+  }
+
+  /**
+   * For a Histogram or Swimlane chart, opens the tooltip
+   */
+  private openChartTooltip(config: ToolTipConfig<HistogramTooltip>, chartType: 'histogram' | 'swimlane',
+    elementRef: ElementRef, xOffset: number, yOffset: number, right: boolean) {
+
+    const specificConfig: ToolTipConfig<HistogramTooltipExtended> = {
+      ...config,
+      data: {
+        ...config.data,
+        chartType
+      }
+    };
+    return this.openTooltip(specificConfig, elementRef, xOffset, yOffset, right, HistogramTooltipOverlayComponent, HISTOGRAM_TOOLTIP_DATA);
+  }
+
   private openTooltip<T, U>(config: ToolTipConfig<T>, elementRef: ElementRef, xOffset: number,
-    yOffset: number, right: boolean, componentType: ComponentType<U>, token: InjectionToken<any>) {
+    yOffset: number, right: boolean, componentType: ComponentType<U>, token: InjectionToken<T>) {
     const dialogConfig = { ...DEFAULT_TOOLTIP_CONFIG, ...config };
 
     const overlayRef = this.createTooltipOverlay(dialogConfig, elementRef, xOffset, yOffset, right);

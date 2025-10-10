@@ -20,8 +20,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, Inject } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
-import { GetCollectionUnitModule, HistogramTooltip } from 'arlas-web-components';
-import { ArlasOverlayRef, HISTOGRAM_TOOLTIP_DATA } from '../../tools/utils';
+import { GetCollectionUnitModule } from 'arlas-web-components';
+import { ArlasOverlayRef, HISTOGRAM_TOOLTIP_DATA, HistogramTooltipExtended } from '../../tools/utils';
 import { WidgetTooltipComponent } from '../widget-tooltip/widget-tooltip.component';
 
 @Component({
@@ -46,7 +46,7 @@ export class HistogramTooltipOverlayComponent {
 
   public constructor(
     public overlayRef: ArlasOverlayRef,
-    @Inject(HISTOGRAM_TOOLTIP_DATA) public tooltip: HistogramTooltip
+    @Inject(HISTOGRAM_TOOLTIP_DATA) public tooltip: HistogramTooltipExtended
   ) {
     this.calculateDate();
   }

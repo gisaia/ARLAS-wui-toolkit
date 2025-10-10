@@ -4,7 +4,7 @@
     [spinnerOptions]="spinnerOptions" [position]="position" [groupLength]="groupLength" [noDetail]="noDetail"
     (exportCsvEvent)="exportCsv($event.contributor, $event.firstLevel, $event.type, 'histogram')"></arlas-tool-histogram-widget>
 </div>
-<div *ngIf="componentType === 'swimlane'">
+<div *ngIf="componentType === 'swimlane'" (mouseleave)="hideSwimlaneTooltip()">
   <div *ngIf="showSwimlaneDropDown" class="dropdownSwimlane">
     <mat-form-field>
       <mat-select panelClass="panelSwimlane" [value]="swimSelected.name" (change)="changeSwimlane($event)">
@@ -23,8 +23,8 @@
     [showYLabels]="graphParam?.showYLabels" [ticksDateFormat]="graphParam?.ticksDateFormat" [isSmoothedCurve]="graphParam?.isSmoothedCurve"
     [barWeight]="graphParam?.barWeight" [paletteColors]="graphParam?.paletteColors" [swimlaneMode]="graphParam?.swimlaneMode"
     [swimLaneLabelsWidth]="graphParam?.swimLaneLabelsWidth" [swimlaneBorderRadius]="graphParam?.swimlaneBorderRadius" [swimlaneHeight]="graphParam?.swimlaneHeight"
-    [displayOnlyIntervalsWithData]="graphParam?.displayOnlyIntervalsWithData"
-    [swimlaneRepresentation]="graphParam?.swimlane_representation" [swimlaneOptions]="graphParam?.swimlane_options" [useUtc]="contributor?.useUtc"></arlas-histogram>
+    [displayOnlyIntervalsWithData]="graphParam?.displayOnlyIntervalsWithData" [swimlaneRepresentation]="graphParam?.swimlane_representation"
+    [swimlaneOptions]="graphParam?.swimlane_options" [useUtc]="contributor?.useUtc" (tooltipEvent)="showSwimlaneTooltip($event, arlas_tooltip_anchor)"></arlas-histogram>
 </div>
 
 <!-- TODO: Passer l'export dans web components ? -->
@@ -38,7 +38,7 @@
     [colorsSaturationWeight]="graphParam?.colorsSaturationWeight" (selectedPowerBarEvent)="contributor?.selectedNodesListChanged($event)" [scrollable]="graphParam?.scrollable"
     [selectedPaths]="contributor?.selectedNodesPathsList" (searchedTerm)="contributor?.updateTreeDataSearch($event)"
     [groupSelections]="graphParam?.groupSelections"  [selectWithCheckbox]="graphParam?.selectWithCheckbox"
-    (filterOperatorEvent)="changePowerbarsOperator($event)" (overPowerBarEvent)="showPowerbarTooltip($event, arlas_tooltip_anchor)" (outPowerBarEvent)="hidePowerbarTooltip($event)"
+    (filterOperatorEvent)="changePowerbarsOperator($event)" (overPowerBarEvent)="showPowerbarTooltip($event, arlas_tooltip_anchor)" (outPowerBarEvent)="hidePowerbarTooltip()"
     [chartWidth]="graphParam?.chartWidth">
   </arlas-powerbars>
 </div>

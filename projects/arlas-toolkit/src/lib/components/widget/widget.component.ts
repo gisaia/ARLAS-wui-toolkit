@@ -20,7 +20,7 @@
 import { Component, ElementRef, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Expression } from 'arlas-api';
-import { ARLASDonutTooltip, Position, SwimlaneMode, SwimlaneRepresentation } from 'arlas-d3';
+import { ARLASDonutTooltip, HistogramTooltip, Position, SwimlaneMode, SwimlaneRepresentation } from 'arlas-d3';
 import { CellBackgroundStyleEnum, ChartType, DataType, HistogramComponent, PowerBar } from 'arlas-web-components';
 import { ComputeContributor, MetricsTableContributor, SwimLaneContributor, TreeContributor } from 'arlas-web-contributors';
 import { CollaborationEvent, Contributor, OperationEnum } from 'arlas-web-core';
@@ -30,6 +30,7 @@ import { ArlasExportCsvService } from '../../services/export-csv/export-csv.serv
 import { ArlasOverlayService } from '../../services/overlays/overlay.service';
 import { ArlasStartupService } from '../../services/startup/startup.service';
 import { ArlasOverlayRef, SpinnerOptions } from '../../tools/utils';
+import { computeChartTooltipOffset } from '../histogram-widget/utils';
 import { DEFAULT_SPINNER_OPTIONS } from '../progress-spinner/progress-spinner.component';
 
 /**
@@ -53,8 +54,9 @@ export class WidgetComponent implements OnInit {
   public showSwimlaneDropDown: boolean;
   public graphParam: any = {};
   public metricApproximate = false;
-  public donutOverlayRef: ArlasOverlayRef;
-  public powerbarOverlayRef: ArlasOverlayRef;
+  private donutOverlayRef: ArlasOverlayRef;
+  private powerbarOverlayRef: ArlasOverlayRef;
+  private swimlaneOverlayRef: ArlasOverlayRef;
 
 
   @Input() public componentType: string;
@@ -248,9 +250,8 @@ export class WidgetComponent implements OnInit {
   }
 
   public showPowerbarTooltip(powerbar: PowerBar, e: ElementRef) {
-    if (!!this.powerbarOverlayRef) {
-      this.powerbarOverlayRef.close();
-    }
+    this.hidePowerbarTooltip();
+
     let xOffset = 470;
     if (this.groupLength = 2) {
       if (this.position === 0) {
@@ -284,9 +285,25 @@ export class WidgetComponent implements OnInit {
     }
   }
 
-  public hidePowerbarTooltip(powerbar: PowerBar) {
-    if (!!this.powerbarOverlayRef) {
+  public hidePowerbarTooltip() {
+    if (this.powerbarOverlayRef) {
       this.powerbarOverlayRef.close();
+    }
+  }
+
+  public showSwimlaneTooltip(tooltip: HistogramTooltip, e: ElementRef) {
+    const { xOffset, yOffset } = computeChartTooltipOffset(
+      this.graphParam.chartWidth, this.groupLength, this.position, this.contributor.identifier, false);
+
+    this.hideSwimlaneTooltip();
+    if (tooltip?.shown) {
+      this.swimlaneOverlayRef = this.arlasOverlayService.openSwimlaneTooltip({ data: tooltip }, e, xOffset, yOffset, false);
+    }
+  }
+
+  public hideSwimlaneTooltip() {
+    if (this.swimlaneOverlayRef) {
+      this.swimlaneOverlayRef.close();
     }
   }
 
