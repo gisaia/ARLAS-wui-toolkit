@@ -34,19 +34,28 @@
 
 .values {
   border-spacing: 0;
-}
 
-.chip {
-  width: 10px;
-  height: 10px;
-  border-radius: 5px;
-  margin-right: 5px;
-}
+  .value-lane {
+    text-align: right;
+    margin-right: 10px;
+  }
 
-.count {
-  text-align: right;
-}
+  .chip {
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    margin-right: 5px;
+  }
 
-.value-unit {
-  margin-left: 5px;
+  .count {
+    text-align: right;
+
+    &--bold {
+      font-weight: bold;
+    }
+  }
+
+  .value-unit {
+    margin-left: 5px;
+  }
 }

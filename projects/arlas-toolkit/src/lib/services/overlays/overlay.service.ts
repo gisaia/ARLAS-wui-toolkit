@@ -19,7 +19,7 @@
 
 import { OriginConnectionPosition, Overlay, OverlayConfig, OverlayConnectionPosition, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal, ComponentType } from '@angular/cdk/portal';
-import { ComponentRef, Injectable, InjectionToken, Injector } from '@angular/core';
+import { ComponentRef, inject, Injectable, InjectionToken, Injector } from '@angular/core';
 import { ARLASDonutTooltip, TimelineTooltip } from 'arlas-d3';
 import { HistogramTooltip } from 'arlas-web-components';
 import {
@@ -31,7 +31,7 @@ import {
   ARLASPowerbarTooltip, PowerbarTooltipOverlayComponent
 } from '../../components/powerbar-tooltip-overlay/powerbar-tooltip-overlay.component';
 import {
-  ArlasOverlayRef, CALENDAR_TIMELINE_TOOLTIP_DATA, DONUT_TOOLTIP_DATA, HISTOGRAM_TOOLTIP_DATA, POWERBAR_TOOLTIP_DATA
+  ArlasOverlayRef, CALENDAR_TIMELINE_TOOLTIP_DATA, DONUT_TOOLTIP_DATA, HISTOGRAM_TOOLTIP_DATA, HistogramTooltipExtended, POWERBAR_TOOLTIP_DATA
 } from '../../tools/utils';
 
 
@@ -49,12 +49,12 @@ const DEFAULT_TOOLTIP_CONFIG: ToolTipConfig<any> = {
 
 @Injectable()
 export class ArlasOverlayService {
+  private readonly overlay = inject(Overlay);
+  private readonly injector = inject(Injector);
 
-  public constructor(private overlay: Overlay, private parentOverlay: Overlay, private injector: Injector) { }
-
-  public openHistogramTooltip(config: ToolTipConfig<HistogramTooltip>, element: HTMLDivElement, xOffset: number,
-    yOffset: number, right: boolean) {
-    return this.openTooltip(config, element, xOffset, yOffset, right, HistogramTooltipOverlayComponent, HISTOGRAM_TOOLTIP_DATA);
+  public openHistogramTooltip(config: ToolTipConfig<HistogramTooltip>, elementRef: HTMLDivElement,
+      xOffset: number, yOffset: number, right: boolean) {
+    return this.openChartTooltip(config, 'histogram', elementRef, xOffset, yOffset, right);
   }
 
   public openCalendarTimelineTooltip(config: ToolTipConfig<TimelineTooltip>, element: HTMLDivElement, xOffset: number,
@@ -71,8 +71,29 @@ export class ArlasOverlayService {
     return this.openTooltip(config, element, xOffset, yOffset, right, PowerbarTooltipOverlayComponent, POWERBAR_TOOLTIP_DATA);
   }
 
+  public openSwimlaneTooltip(config: ToolTipConfig<HistogramTooltip>, elementRef: HTMLDivElement,
+      xOffset: number, yOffset: number, right: boolean) {
+    return this.openChartTooltip(config, 'swimlane', elementRef, xOffset, yOffset, right);
+  }
+
+  /**
+   * For a Histogram or Swimlane chart, opens the tooltip
+   */
+  private openChartTooltip(config: ToolTipConfig<HistogramTooltip>, chartType: 'histogram' | 'swimlane',
+    elementRef: HTMLDivElement, xOffset: number, yOffset: number, right: boolean) {
+
+    const specificConfig: ToolTipConfig<HistogramTooltipExtended> = {
+      ...config,
+      data: {
+        ...config.data,
+        chartType
+      }
+    };
+    return this.openTooltip(specificConfig, elementRef, xOffset, yOffset, right, HistogramTooltipOverlayComponent, HISTOGRAM_TOOLTIP_DATA);
+  }
+
   private openTooltip<T, U>(config: ToolTipConfig<T>, element: HTMLDivElement, xOffset: number,
-    yOffset: number, right: boolean, componentType: ComponentType<U>, token: InjectionToken<any>) {
+    yOffset: number, right: boolean, componentType: ComponentType<U>, token: InjectionToken<T>) {
     const dialogConfig = { ...DEFAULT_TOOLTIP_CONFIG, ...config };
 
     const overlayRef = this.createTooltipOverlay(dialogConfig, element, xOffset, yOffset, right);
@@ -83,8 +104,7 @@ export class ArlasOverlayService {
     return componentActionsRef;
   }
 
-  private createTooltipOverlay<T>(config: ToolTipConfig<T>, element: HTMLDivElement, xOffset: number, yOffset: number,
-    right: boolean) {
+  private createTooltipOverlay<T>(config: ToolTipConfig<T>, element: HTMLDivElement, xOffset: number, yOffset: number, right: boolean) {
     // Returns an OverlayConfig
     const overlayConfig = this.getOverlayConfig(config, element, xOffset, yOffset, right, /** bottom */ false);
     // Returns an OverlayRef
