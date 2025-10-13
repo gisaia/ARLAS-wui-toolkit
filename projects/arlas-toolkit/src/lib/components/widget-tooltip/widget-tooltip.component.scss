@@ -36,7 +36,7 @@
   min-width: 100px;
   grid-template-columns: minmax(60px, auto) 1fr;
   grid-template-rows: repeat(3, minmax(10px, auto));
-  gap: 5px 10px;
+  gap: 0 10px;
 
   &--flat {
     box-shadow: none;
