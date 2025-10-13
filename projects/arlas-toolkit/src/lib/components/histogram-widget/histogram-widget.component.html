@@ -1,8 +1,7 @@
 <div [class.detail-status]="showDetailedHistogram">
   <arlas-tool-progress-spinner [strokeWidth]="spinnerOptions?.strokeWidth" [color]="spinnerOptions?.color"
     [diameter]="spinnerOptions?.diameter"
-    [hidden]="!(showSpinner || (!!detailedContributor && (detailedContributor.identifier | contributorUpdating:arlasCollaborativesearchService.totalSubscribe))
-      || (!!contributor && (contributor.identifier | contributorUpdating:arlasCollaborativesearchService.totalSubscribe)))"></arlas-tool-progress-spinner>
+    [hidden]="!(showSpinner || (detailedContributor?.isDataUpdating || contributor?.isDataUpdating))"></arlas-tool-progress-spinner>
   <div (mouseleave)="hideHistogramTooltip()" #detailed class="detailed-histogram" [class.displayed-detail]="showDetailedHistogram" *ngIf="showDetailedHistogram">
     <button *ngIf="showExportCsv" id="export-csv" matTooltip="{{'Export' | translate }}" class="export-csv-button"
       (click)="exportCsv(detailedContributor)">

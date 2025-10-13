@@ -25,7 +25,6 @@ import {
 } from '../../services/startup/startup.service';
 import { ProgressSpinnerComponent } from '../progress-spinner/progress-spinner.component';
 import { HistogramWidgetComponent } from './histogram-widget.component';
-import { ContributorUpdatingPipe } from '../../pipes/contributor-updating.pipe';
 
 describe('HistogramWidgetComponent', () => {
   let component: HistogramWidgetComponent;
@@ -33,7 +32,7 @@ describe('HistogramWidgetComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [HistogramWidgetComponent, ProgressSpinnerComponent, ContributorUpdatingPipe],
+      declarations: [HistogramWidgetComponent, ProgressSpinnerComponent],
       imports: [HistogramModule,
         PowerbarsModule,
         ResultsModule,

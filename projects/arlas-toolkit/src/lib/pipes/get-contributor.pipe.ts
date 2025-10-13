@@ -17,22 +17,24 @@
  * under the License.
  */
 
-import { Pipe, PipeTransform } from '@angular/core';
+import { inject, Pipe, PipeTransform } from '@angular/core';
+import { Contributor } from 'arlas-web-core';
 import { ArlasCollaborativesearchService } from '../services/collaborative-search/arlas.collaborative-search.service';
 
 /**
- * Checks whether the given contributor is currently updating its data.
- * To check whenever a collaboration happens whether the contributor is updating,
- * use the CollaborativeSearchService's totalSubscribe.
+ * Returns the contributor that has the given contributorId
  */
 @Pipe({
-  name: 'contributorUpdating'
+  name: 'getContributor',
+  standalone: true
 })
-export class ContributorUpdatingPipe implements PipeTransform {
+export class GetContributorPipe implements PipeTransform {
+  private readonly collaborativeService = inject(ArlasCollaborativesearchService);
 
-  public constructor(private collaborativeService: ArlasCollaborativesearchService) {}
-
-  public transform(contributorId: string, onGoingSubs: number): boolean {
-    return this.collaborativeService.registry.get(contributorId)?.isDataUpdating === true;
+  public transform(contributorId: string | undefined): Contributor | undefined {
+    if (contributorId) {
+      return this.collaborativeService.registry.get(contributorId);
+    }
+    return undefined;
   }
 }

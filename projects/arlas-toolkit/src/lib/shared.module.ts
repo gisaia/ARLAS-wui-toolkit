@@ -124,7 +124,7 @@ import { LinksComponent } from './components/top-menu/links/links.component';
 import { TopMenuComponent } from './components/top-menu/top-menu.component';
 import { UserInfosComponent } from './components/user-infos/user-infos.component';
 import { WidgetComponent } from './components/widget/widget.component';
-import { ContributorUpdatingPipe } from './pipes/contributor-updating.pipe';
+import { GetContributorPipe } from './pipes/get-contributor.pipe';
 import { GetTimeLabelPipe } from './pipes/get-time-label.pipe';
 import { ArlasCollaborativesearchService } from './services/collaborative-search/arlas.collaborative-search.service';
 import { ArlasCollectionService } from './services/collection/arlas-collection.service';
@@ -225,7 +225,6 @@ import { CustomTranslateLoader } from './tools/Translation/custom-translate-load
     AboutComponent,
     AboutDialogComponent,
     AiasDownloadComponent,
-    ContributorUpdatingPipe,
     AiasEnrichComponent
   ],
   imports: [
@@ -306,7 +305,8 @@ import { CustomTranslateLoader } from './tools/Translation/custom-translate-load
     GetFieldDisplayModule,
     AdmonitionCardComponent,
     MarkerModule,
-    AiasResultComponent
+    AiasResultComponent,
+    GetContributorPipe
   ],
   providers: [
     ArlasOverlayService,
