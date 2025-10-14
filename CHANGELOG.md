@@ -1,5 +1,15 @@
 # Change Log
 
+## [v27.0.17](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.0.17) (2025-10-14)
+
+## [v27.1.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.1.0) (2025-09-08)
+
+**New stuff:**
+
+- Expose a service for widget to send their events [\#945](https://github.com/gisaia/ARLAS-wui-toolkit/issues/945)
+
+## [v26.0.12](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v26.0.12) (2025-09-05)
+
 ## [v27.0.16](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.0.16) (2025-08-20)
 
 ## [v27.0.15](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.0.15) (2025-06-12)
