@@ -70,6 +70,7 @@ import { ArlasSettingsService } from '../settings/arlas.settings.service';
 import * as arlasConfSchema from './arlasconfig.schema.json';
 import { ContributorBuilder } from './contributorBuilder';
 import * as arlasSettingsSchema from './settings.schema.json';
+import { marker } from '@colsen1991/ngx-translate-extract-marker';
 
 @Injectable({
   providedIn: 'root'
@@ -629,6 +630,12 @@ export class ArlasStartupService {
         } else {
           return Promise.resolve({});
         }
+      }).catch((err: Error) => {
+        // Block the app from running
+        this.emptyMode = true;
+        this.shouldRunApp = false;
+        console.error(err);
+        this.errorService.emitInvalidDashboardError(true, marker('An error was detected in the dashboard while loading it.'));
       }));
     });
   }
