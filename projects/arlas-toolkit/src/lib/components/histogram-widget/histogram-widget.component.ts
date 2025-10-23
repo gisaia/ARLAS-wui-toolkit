@@ -31,10 +31,10 @@ import { ArlasCollaborativesearchService } from '../../services/collaborative-se
 import { ArlasExportCsvService } from '../../services/export-csv/export-csv.service';
 import { ArlasOverlayService } from '../../services/overlays/overlay.service';
 import { ArlasConfigService } from '../../services/startup/startup.service';
+import { WidgetNotifierService } from '../../services/widget/widget.notifier.service';
 import { ArlasOverlayRef, SpinnerOptions } from '../../tools/utils';
 import { isShortcutID } from '../filter-shortcut/filter-shortcut.utils';
 import { DEFAULT_SPINNER_OPTIONS } from '../progress-spinner/progress-spinner.component';
-import { WidgetNotifierService } from '../../services/widget/widget.notifier.service';
 
 
 /**
@@ -44,7 +44,7 @@ import { WidgetNotifierService } from '../../services/widget/widget.notifier.ser
 @Component({
   selector: 'arlas-tool-histogram-widget',
   templateUrl: './histogram-widget.component.html',
-  styleUrls: ['./histogram-widget.component.css']
+  styleUrls: ['./histogram-widget.component.scss']
 })
 export class HistogramWidgetComponent implements OnInit, OnDestroy, AfterViewInit {
 
