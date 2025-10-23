@@ -17,26 +17,8 @@
  * under the License.
  */
 
-.export-csv-button{
-  background-color: transparent;
-  border: none;
-  position: absolute;
-  right: -3px;
-  cursor: pointer;
-  z-index: 2;
-  padding: 0;
-}
-
-.export-csv{
-    color: dimgrey;
-    font-size: 20px;
-    width: 20px;
-    height: 20px;
-}
-
 .detailed-histogram {
   visibility: hidden;
-  position: relative;
 }
 
 .displayed-detail {
@@ -48,7 +30,21 @@
   border-radius: 2px;
 }
 
-.histogram-container {
+.histogram {
   position: relative;
-  right: 10px;
+
+  &-container {
+    position: relative;
+    right: 10px;
+
+    ::ng-deep .histogram__export {
+      // Leave space for the download button by accounting for the right position
+      right: calc(-1 * 24px - 5px - 10px);
+
+      .mat-mdc-button-touch-target {
+        width: 24px;
+      }
+    }
+  }
 }
+
