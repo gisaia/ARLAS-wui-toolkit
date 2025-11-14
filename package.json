@@ -54,7 +54,7 @@
     "core-js": "~3.26.1",
     "fetch-intercept": "^2.3.1",
     "hopscotch": "0.3.1",
-    "js-yaml": "^3.14.0",
+    "js-yaml": "^4.1.1",
     "ngx-device-detector": "^8.0.0",
     "ngx-markdown": "^18.0.0",
     "ngx-spinner": "^17.0.0",
