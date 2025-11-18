@@ -19,16 +19,13 @@
 
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AuthConfig, OAuthErrorEvent, OAuthEvent, OAuthService, OAuthStorage, UserInfo } from 'angular-oauth2-oidc';
+import { AuthConfig, OAuthErrorEvent, OAuthService, OAuthStorage, UserInfo } from 'angular-oauth2-oidc';
 import { BehaviorSubject, Observable, ReplaySubject, combineLatest } from 'rxjs';
 import { from } from 'rxjs/internal/observable/from';
 import { filter } from 'rxjs/internal/operators/filter';
 import { map } from 'rxjs/internal/operators/map';
 import { AuthentSetting, CONFIG_ID_QUERY_PARAM, NOT_CONFIGURED } from '../../tools/utils';
 import { ArlasAuthentificationService } from '../arlas-authentification/arlas-authentification.service';
-import { ErrorService } from '../error/error.service';
-import { ReconnectDialogComponent } from '../../components/reconnect-dialog/reconnect-dialog.component';
-import { MatDialog } from '@angular/material/dialog';
 
 
 export class CustomMemoryStorage implements OAuthStorage {
@@ -90,27 +87,17 @@ export class AuthentificationService extends ArlasAuthentificationService {
 
   public constructor(
     private readonly oauthService: OAuthService,
-    private readonly http: HttpClient,
-    private readonly dialog: MatDialog
+    private readonly http: HttpClient
   ) {
     super();
   }
 
-  public listenRefreshErrors() {
+  public refreshErrors$() {
     const refreshErrors = new Set(['silent_refresh_error', 'silent_refresh_timeout', 'token_refresh_error']);
-    this.oauthService.events.pipe(
+    return this.oauthService.events.pipe(
       filter(e => e instanceof OAuthErrorEvent),
       filter(e => refreshErrors.has(e.type))
-    ).subscribe(e => {
-      if (!this.dialog.openDialogs || this.dialog.openDialogs.length === 0) {
-        this.dialog.open(ReconnectDialogComponent, {
-          disableClose: true,
-          data: { code: 401 },
-          backdropClass: 'reconnect-dialog',
-          panelClass: 'reconnect-dialog-panel'
-        });
-      }
-    });
+    );
   }
 
   public initAuthService(): Promise<void> {

@@ -20,6 +20,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AuthentificationService } from '../../services/authentification/authentification.service';
+
 @Component({
   selector: 'arlas-tool-reconnect-dialog',
   templateUrl: './reconnect-dialog.component.html',
@@ -30,7 +31,7 @@ export class ReconnectDialogComponent {
 
   public constructor(
     private readonly authentService: AuthentificationService,
-    @Inject(MAT_DIALOG_DATA) data
+    @Inject(MAT_DIALOG_DATA) data: { code: number; }
   ) {
     this.code = data.code;
   }

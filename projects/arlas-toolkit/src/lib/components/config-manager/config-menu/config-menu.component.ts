@@ -146,12 +146,12 @@ export class ConfigMenuComponent {
           );
           let headers = {};
           const authentConfig = this.arlasSettings.getAuthentSettings();
-          if (authentConfig && authentConfig.auth_mode === 'iam') {
+          if (authentConfig?.auth_mode === 'iam') {
             headers = {
               Authorization: 'Bearer ' + this.arlasIamService.getAccessToken(),
               'arlas-org-filter': action.config.org
             };
-          } else if (authentConfig && authentConfig.auth_mode === 'openid') {
+          } else if (authentConfig?.auth_mode === 'openid') {
             headers = {
               Authorization: 'Bearer ' + this.authenService.accessToken,
             };
