@@ -2,23 +2,36 @@
 ############   AUTHENTICATION SETTINGS   ###############
 ########################################################
 authentication:
-  use_authent: false
-  auth_mode: 'iam'
+  use_authent: true
+  auth_mode: 'openid'
   force_connect: false
   threshold: 5000
   url: https://localhost/arlas_iam_server
   sign_up_enabled: true
-process:
-  - name: download
-    settings:
-      url: http://localhost:34489/assets/processes/download.json
-    status:
-      url: ''
-  - name: enrich
-    settings:
-      url: http://localhost:34489/assets/processes/enrich.json
-    status:
-      url: ''
+
+  use_discovery: true
+  issuer: https://localhost:9443/auth/realms/arlas
+  client_id: arlas-front
+  redirect_uri: http://localhost:4200/callback
+  silent_refresh_redirect_uri: http://localhost:4200/silent-refresh.html
+  scope: profile
+  login_url: https://localhost:9443/auth/realms/arlas
+  show_debug_information: true
+  require_https: false
+  response_type: code
+  silent_refresh_timeout: 10000
+  timeout_factor: 0.75
+  session_checks_enabled: true
+  clear_hash_after_login: true
+  storage: memorystorage
+  disable_at_hash_check: true
+
+tab_name: "ARLAS Wui"
+
+persistence:
+  url: https://localhost/persist
+  use_local_config: false
+
 links:
   - name: Explorer
     icon: landscape
