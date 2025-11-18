@@ -27,5 +27,7 @@ export class ArlasAuthentificationService {
 
   public authConfigValue: AuthentSetting;
 
-  public constructor() { }
+  protected emitSessionEnd() {
+    localStorage.setItem('arlas-logout-event', 'logout' + Date.now());
+  }
 }

@@ -177,6 +177,7 @@ export class AuthentificationService extends ArlasAuthentificationService {
   }
   public logout() {
     this.oauthService.logOut();
+    this.emitSessionEnd();
   }
   public refresh() {
     this.oauthService.refreshToken();

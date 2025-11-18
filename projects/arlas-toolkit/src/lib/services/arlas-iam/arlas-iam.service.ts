@@ -255,7 +255,7 @@ export class ArlasIamService extends ArlasAuthentificationService {
         this.clearStore();
         this.stopRefreshTokenTimer();
         this.notifyTokenRefresh(null);
-        localStorage.setItem('arlas-logout-event', 'logout' + Date.now());
+        this.emitSessionEnd();
       })
     );
 
