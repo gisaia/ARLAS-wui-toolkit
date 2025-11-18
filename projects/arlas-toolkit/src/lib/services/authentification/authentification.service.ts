@@ -26,6 +26,9 @@ import { filter } from 'rxjs/internal/operators/filter';
 import { map } from 'rxjs/internal/operators/map';
 import { AuthentSetting, CONFIG_ID_QUERY_PARAM, NOT_CONFIGURED } from '../../tools/utils';
 import { ArlasAuthentificationService } from '../arlas-authentification/arlas-authentification.service';
+import { ErrorService } from '../error/error.service';
+import { ReconnectDialogComponent } from '../../components/reconnect-dialog/reconnect-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 
 export class CustomMemoryStorage implements OAuthStorage {
@@ -70,7 +73,6 @@ export class AuthentificationService extends ArlasAuthentificationService {
   private isDoneLoadingSubject = new ReplaySubject<boolean>();
   public isDoneLoading = this.isDoneLoadingSubject.asObservable();
 
-  public silentRefreshErrorSubject: Observable<OAuthEvent>;
   /**
    * Publishes `true` if and only if (a) all the asynchronous initial
    * login calls have completed or errorred, and (b) the user ended up
@@ -87,12 +89,28 @@ export class AuthentificationService extends ArlasAuthentificationService {
   ).pipe(map(values => values.every(b => b)));
 
   public constructor(
-    private oauthService: OAuthService,
-    private http: HttpClient
+    private readonly oauthService: OAuthService,
+    private readonly http: HttpClient,
+    private readonly dialog: MatDialog
   ) {
     super();
-    this.silentRefreshErrorSubject = this.oauthService.events.pipe(filter(e => e instanceof OAuthErrorEvent),
-      filter((e: OAuthErrorEvent) => e.type === 'silent_refresh_error' || e.type === 'silent_refresh_timeout'));
+  }
+
+  public listenRefreshErrors() {
+    const refreshErrors = new Set(['silent_refresh_error', 'silent_refresh_timeout', 'token_refresh_error']);
+    this.oauthService.events.pipe(
+      filter(e => e instanceof OAuthErrorEvent),
+      filter(e => refreshErrors.has(e.type))
+    ).subscribe(e => {
+      if (!this.dialog.openDialogs || this.dialog.openDialogs.length === 0) {
+        this.dialog.open(ReconnectDialogComponent, {
+          disableClose: true,
+          data: { code: 401 },
+          backdropClass: 'reconnect-dialog',
+          panelClass: 'reconnect-dialog-panel'
+        });
+      }
+    });
   }
 
   public initAuthService(): Promise<void> {

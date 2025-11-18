@@ -79,7 +79,8 @@ export class ActionModalComponent {
       .pipe(
         catchError((err) => {
           this.errorService.closeAll().afterAllClosed.pipe(take(1))
-            .subscribe(() => this.errorService.emitUnauthorizedActionError(err.status, 'duplicate_dashboard', false));
+            .subscribe(() => this.errorService.emitUnauthorizedActionError(
+              err.status, marker('You are not allowed to duplicate the dashboard'), false));
           return of(err);
         }));
   }
@@ -93,7 +94,8 @@ export class ActionModalComponent {
       ).pipe(
         catchError((err) => {
           this.errorService.closeAll().afterAllClosed.pipe(take(1))
-            .subscribe(() => this.errorService.emitUnauthorizedActionError(err.status, 'duplicate_dashboard', false));
+            .subscribe(() => this.errorService.emitUnauthorizedActionError(
+              err.status, marker('You are not allowed to duplicate the dashboard'), false));
           return of();
         })
       );
@@ -180,7 +182,7 @@ export class ActionModalComponent {
         catchError((err) => {
           this.errorService.closeAll().afterAllClosed.pipe(take(1))
             .subscribe(() =>
-              this.errorService.emitUnauthorizedActionError(err.status, 'rename_dashboard', false));
+              this.errorService.emitUnauthorizedActionError(err.status, marker('You are not allowed to rename the dashboard'), false));
           return of(err);
         })
       )

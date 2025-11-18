@@ -24,6 +24,7 @@ import { marker } from '@colsen1991/ngx-translate-extract-marker';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { DeniedAccessDialogComponent } from '../../components/denied-access-dialog/denied-access-dialog.component';
+import { ReconnectDialogComponent } from '../../components/reconnect-dialog/reconnect-dialog.component';
 import { ArlasSettingsService } from '../../services/settings/arlas.settings.service';
 import { AuthorisationError } from '../../tools/errors/authorisation-error';
 import { AuthorisationOnActionError } from '../../tools/errors/authorisation-on-action-error';
@@ -59,6 +60,21 @@ export class ErrorService {
     }
   }
 
+  /**
+   * Displays a dialog asking the user to login again after their session expired
+   * @param code 401 or 403
+   */
+  public emitSessionExpiredError(code: number) {
+    if (!this.dialog.openDialogs || this.dialog.openDialogs.length === 0) {
+      this.dialog.open(ReconnectDialogComponent, {
+        disableClose: true,
+        data: { code },
+        backdropClass: 'reconnect-dialog',
+        panelClass: 'reconnect-dialog-panel'
+      });
+    }
+  }
+
   public emitUnavailableService(service: string) {
     this.emitAuthorisationError(new BackendError(502, '', this.settingsService.getArlasHubUrl(), service), true);
   }
@@ -79,8 +95,8 @@ export class ErrorService {
     this.emitAuthorisationError(new InvalidDashboardError(this.settingsService.getArlasHubUrl(), message), forceAction);
   }
 
-  public emitUnauthorizedActionError(status: number, action: string, forceAction: boolean) {
-    this.emitAuthorisationError(new AuthorisationOnActionError(status, action), forceAction);
+  public emitUnauthorizedActionError(status: number, message: string, forceAction: boolean) {
+    this.emitAuthorisationError(new AuthorisationOnActionError(status, message, forceAction), forceAction);
   }
 
   public closeAll() {

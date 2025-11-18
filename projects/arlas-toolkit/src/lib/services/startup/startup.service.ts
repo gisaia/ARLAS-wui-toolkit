@@ -46,7 +46,7 @@ import { ConfigService, Contributor } from 'arlas-web-core';
 import { projType } from 'arlas-web-core/models/projections';
 import YAML from 'js-yaml';
 import { Subject, defer, throwError } from 'rxjs';
-import { catchError, mergeMap, retry } from 'rxjs/operators';
+import { catchError, first, mergeMap, retry } from 'rxjs/operators';
 import { AnalyticGroupConfiguration } from '../../components/analytics/analytics.utils';
 import { FilterShortcutConfiguration } from '../../components/filter-shortcut/filter-shortcut.utils';
 import {
@@ -476,20 +476,9 @@ export class ArlasStartupService {
       const useAuthentOpenID = useAuthent && settings.authentication.auth_mode !== 'iam';
       const useAuthentIam = useAuthent && settings.authentication.auth_mode === 'iam';
       if (useAuthent) {
-        const usePersistence = (!!settings && !!settings.persistence && !!settings.persistence.url
-          && settings.persistence.url !== '' && settings.persistence.url !== NOT_CONFIGURED);
-
         this.fetchInterceptorService.applyInterceptor();
         if (useAuthentOpenID) {
           const authService: AuthentificationService = this.injector.get('AuthentificationService')[0];
-          if (usePersistence) {
-            // To open reconnect dialog on silent refresh failed
-            authService.silentRefreshErrorSubject.subscribe(error =>
-              // eslint-disable-next-line arrow-body-style
-              this.persistenceService.list('config.json', 10, 1, 'asc').subscribe(data => {
-                return;
-              }));
-          }
           authService.canActivateProtectedRoutes.subscribe(isActivable => {
             if (isActivable) {
               // ARLAS-persistence
@@ -579,8 +568,15 @@ export class ArlasStartupService {
       if (usePersistence) {
         if (!!configurationId) {
           configDataPromise = defer(() => this.persistenceService.get(configurationId)).pipe(
-            catchError(err => {
-              this.errorService.closeAll();
+            catchError((err: Response) => {
+              this.errorService.closeAll().afterAllClosed.pipe(first()).subscribe(() => {
+                if (err.status === 401 || err.status === 403) {
+                  this.errorService.emitUnauthorizedActionError(err.status, marker('You are not allowed to view the dashboard'), true);
+                } else {
+                  this.errorService.emitUnavailableService('ARLAS-persistence');
+                }
+              });
+
               return throwError(() => err);
             }),
             retry({ count: 1, delay: 2000 })

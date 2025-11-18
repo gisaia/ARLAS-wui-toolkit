@@ -136,6 +136,9 @@ export class TopMenuComponent implements OnInit {
         }
       }
     });
+
+    // Start listening to refresh errors after the initialization of ARLAS to avoid parasite errors
+    this.authentService.listenRefreshErrors();
   }
 
   public connect() {

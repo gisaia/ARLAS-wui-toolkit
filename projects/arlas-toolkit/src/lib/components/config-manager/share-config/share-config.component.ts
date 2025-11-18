@@ -18,6 +18,7 @@
  */
 
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { marker } from '@colsen1991/ngx-translate-extract-marker';
 import { catchError, of, take } from 'rxjs';
 import { ErrorService } from '../../../services/error/error.service';
 import { PersistenceService } from '../../../services/persistence/persistence.service';
@@ -92,7 +93,7 @@ export class ShareConfigComponent implements OnInit {
         catchError((err) => {
           this.errorService.closeAll().afterAllClosed.pipe(take(1))
             .subscribe(() =>
-              this.errorService.emitUnauthorizedActionError(err.status, 'share_dashboard', false));
+              this.errorService.emitUnauthorizedActionError(err.status, marker('You are not allowed to share the dashboard'), false));
           return of(err);
         })
       )
