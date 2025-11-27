@@ -570,7 +570,9 @@ export class ArlasStartupService {
           configDataPromise = defer(() => this.persistenceService.get(configurationId)).pipe(
             catchError((err: Response) => {
               this.errorService.closeAll().afterAllClosed.pipe(first()).subscribe(() => {
-                if (err.status === 401 || err.status === 403) {
+                if (err.status === 401) {
+                  this.errorService.emitSessionExpiredError(err.status);
+                } else if (err.status === 403) {
                   this.errorService.emitUnauthorizedActionError(err.status, marker('You are not allowed to view the dashboard'), true);
                 } else {
                   this.errorService.emitUnavailableService('ARLAS-persistence');
