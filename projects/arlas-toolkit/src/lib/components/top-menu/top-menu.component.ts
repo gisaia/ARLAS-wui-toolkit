@@ -18,17 +18,18 @@
  */
 
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { finalize } from 'rxjs';
 import { ArlasIamService } from '../../services/arlas-iam/arlas-iam.service';
 import { AuthentificationService } from '../../services/authentification/authentification.service';
+import { ErrorService } from '../../services/error/error.service';
 import { FetchInterceptorService } from '../../services/interceptor/fetch-interceptor.service';
 import { ArlasSettingsService } from '../../services/settings/arlas.settings.service';
 import { ChangePasswordComponent } from '../change-password/change-password.component';
 import { UserInfosComponent } from '../user-infos/user-infos.component';
 import { AboutComponent } from './about/about.component';
-import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'arlas-top-menu',
@@ -70,13 +71,14 @@ export class TopMenuComponent implements OnInit {
   @ViewChild('about', { static: false }) private aboutcomponent: AboutComponent;
 
   public constructor(
-    private authentService: AuthentificationService,
-    private arlasIamService: ArlasIamService,
-    private translate: TranslateService,
-    private router: Router,
-    private dialog: MatDialog,
-    private settingsService: ArlasSettingsService,
-    private fetchInterceptor: FetchInterceptorService
+    private readonly authentService: AuthentificationService,
+    private readonly arlasIamService: ArlasIamService,
+    private readonly translate: TranslateService,
+    private readonly router: Router,
+    private readonly dialog: MatDialog,
+    private readonly settingsService: ArlasSettingsService,
+    private readonly fetchInterceptor: FetchInterceptorService,
+    private readonly errorService: ErrorService
   ) {
     this.extraAboutText = this.translate.instant('extraAboutText') === 'extraAboutText' ? '' : this.translate.instant('extraAboutText');
     this.aboutFile = 'assets/about/about_' + this.translate.currentLang + '.md?' + Date.now() + '.md';
@@ -136,6 +138,10 @@ export class TopMenuComponent implements OnInit {
         }
       }
     });
+
+    // Start listening to refresh errors after the initialization of ARLAS to avoid parasite errors
+    this.authentService.refreshErrors$()
+      .subscribe(e => this.errorService.emitSessionExpiredError(401));
   }
 
   public connect() {

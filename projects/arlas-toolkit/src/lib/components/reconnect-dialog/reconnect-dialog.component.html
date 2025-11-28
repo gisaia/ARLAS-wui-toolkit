@@ -1,10 +1,10 @@
 <div *ngIf="code === 401" class="code-401">
-    <h2 mat-dialog-title>{{'Session Expired' | translate}}</h2>
-    <mat-dialog-content>{{'You are no more connected or your session has expired. Would you like to log in again?'| translate}}</mat-dialog-content>
+    <h2 mat-dialog-title>{{'Disconnected' | translate}}</h2>
+    <mat-dialog-content>{{'You are no longer logged in. Would you like to log in again?'| translate}}</mat-dialog-content>
     <mat-dialog-actions>
         <!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->
-        <button mat-raised-button class="modal_button" color="primary" (click)="login()" [mat-dialog-close]="true">{{'Connection' | translate}}</button>
-        <button mat-raised-button class="modal_button" (click)="logout()" [mat-dialog-close]="true">{{'Continue' | translate}}</button>
+        <button mat-raised-button class="modal_button" color="primary" (click)="login()" [mat-dialog-close]="true">{{'Log in' | translate}}</button>
+        <button mat-raised-button class="modal_button" (click)="logout()" [mat-dialog-close]="true">{{'No' | translate}}</button>
     </mat-dialog-actions>
 </div>
 

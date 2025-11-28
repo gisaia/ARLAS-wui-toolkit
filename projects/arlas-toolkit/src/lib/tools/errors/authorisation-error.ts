@@ -25,15 +25,15 @@ export class AuthorisationError extends ArlasError {
   public constructor(status: number) {
     super(status);
     this.title = marker('Could not access the service');
+    this.actionMessage = marker('Log in');
+
     if (this.status === 403) {
       this.showAction = false;
-      this.actionMessage = '';
       this.message = marker('acces forbidden');
     } else if (this.status === 401) {
       this.message = marker('access not authorized');
       this.actionType = 'button';
       this.showAction = true;
-      this.actionMessage = 'login';
     } else {
       // could never happen because this error should be thrown only for the statuses 401 & 403
       this.message = marker('Unknown error');

@@ -19,6 +19,7 @@
 
 import { Component, Input, Output, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { marker } from '@colsen1991/ngx-translate-extract-marker';
 import { Configuration, ExploreApi } from 'arlas-api';
 import { DataWithLinks } from 'arlas-persistence-api';
 import { Subject, from, of } from 'rxjs';
@@ -86,7 +87,7 @@ export class ConfigMenuComponent {
             catchError((err) => {
               this.errorService.closeAll().afterAllClosed.pipe(take(1))
                 .subscribe(() =>
-                  this.errorService.emitUnauthorizedActionError(err.status, 'delete_dashboard', false));
+                  this.errorService.emitUnauthorizedActionError(err.status, marker('You are not allowed to delete the dashboard'), false));
               return of(err);
             })
           ).pipe(
@@ -145,12 +146,12 @@ export class ConfigMenuComponent {
           );
           let headers = {};
           const authentConfig = this.arlasSettings.getAuthentSettings();
-          if (authentConfig && authentConfig.auth_mode === 'iam') {
+          if (authentConfig?.auth_mode === 'iam') {
             headers = {
               Authorization: 'Bearer ' + this.arlasIamService.getAccessToken(),
               'arlas-org-filter': action.config.org
             };
-          } else if (authentConfig && authentConfig.auth_mode === 'openid') {
+          } else if (authentConfig?.auth_mode === 'openid') {
             headers = {
               Authorization: 'Bearer ' + this.authenService.accessToken,
             };

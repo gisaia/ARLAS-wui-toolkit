@@ -23,15 +23,14 @@ import { AuthorisationError } from './authorisation-error';
 /** Error sent when the user lacks authorization to do something */
 export class AuthorisationOnActionError extends AuthorisationError {
 
-  public constructor(status: number, action: string) {
+  public constructor(status: number, message: string, forceAction?: boolean) {
     super(status);
-    if (this.status === 403) {
-      this.message = 'access forbidden to ' + action;
-    } else if (this.status === 401) {
-      this.message = marker('access not authorized anymore');
-    } else {
-      // could never happen because this error should be thrown only for the statuses 401 & 403
-      this.message = marker('Unknown error');
+
+    this.title = marker('Action unauthorized');
+    this.message = message;
+
+    if (forceAction) {
+      this.showAction = true;
     }
   }
 }

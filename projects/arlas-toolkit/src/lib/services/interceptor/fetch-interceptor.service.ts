@@ -18,11 +18,9 @@
  */
 
 import { Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { marker } from '@colsen1991/ngx-translate-extract-marker';
 import fetchIntercept from 'fetch-intercept';
-import { ReconnectDialogComponent } from '../../components/reconnect-dialog/reconnect-dialog.component';
 import { ErrorService } from '../../services/error/error.service';
 import { AuthorisationError } from '../../tools/errors/authorisation-error';
 import { ArlasSettingsService } from '../settings/arlas.settings.service';
@@ -34,7 +32,6 @@ export class FetchInterceptorService {
 
   public constructor(
     private readonly arlasSettings: ArlasSettingsService,
-    private readonly dialog: MatDialog,
     private readonly errorService: ErrorService,
     private readonly router: Router) { }
 
@@ -70,16 +67,8 @@ export class FetchInterceptorService {
               if (this.router.url !== '/login') {
                 this.errorService.emitAuthorisationError(new AuthorisationError(code));
               }
-            } else if (this.dialog.openDialogs?.length === undefined || this.dialog.openDialogs?.length === 0) {
-              // Propose to reconnect or stay disconnected
-              this.dialog.open(
-                ReconnectDialogComponent,
-                {
-                  disableClose: true,
-                  data: { code },
-                  backdropClass: 'reconnect-dialog',
-                  panelClass: 'reconnect-dialog-panel'
-                });
+            } else {
+              this.errorService.emitSessionExpiredError(code);
             }
           } else if (code >= 400) {
             let message: string = marker('An error occured.');

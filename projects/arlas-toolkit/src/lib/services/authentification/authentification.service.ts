@@ -19,7 +19,7 @@
 
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AuthConfig, OAuthErrorEvent, OAuthEvent, OAuthService, OAuthStorage, UserInfo } from 'angular-oauth2-oidc';
+import { AuthConfig, OAuthErrorEvent, OAuthService, OAuthStorage, UserInfo } from 'angular-oauth2-oidc';
 import { BehaviorSubject, Observable, ReplaySubject, combineLatest } from 'rxjs';
 import { from } from 'rxjs/internal/observable/from';
 import { filter } from 'rxjs/internal/operators/filter';
@@ -70,7 +70,6 @@ export class AuthentificationService extends ArlasAuthentificationService {
   private isDoneLoadingSubject = new ReplaySubject<boolean>();
   public isDoneLoading = this.isDoneLoadingSubject.asObservable();
 
-  public silentRefreshErrorSubject: Observable<OAuthEvent>;
   /**
    * Publishes `true` if and only if (a) all the asynchronous initial
    * login calls have completed or errorred, and (b) the user ended up
@@ -87,12 +86,18 @@ export class AuthentificationService extends ArlasAuthentificationService {
   ).pipe(map(values => values.every(b => b)));
 
   public constructor(
-    private oauthService: OAuthService,
-    private http: HttpClient
+    private readonly oauthService: OAuthService,
+    private readonly http: HttpClient
   ) {
     super();
-    this.silentRefreshErrorSubject = this.oauthService.events.pipe(filter(e => e instanceof OAuthErrorEvent),
-      filter((e: OAuthErrorEvent) => e.type === 'silent_refresh_error' || e.type === 'silent_refresh_timeout'));
+  }
+
+  public refreshErrors$() {
+    const refreshErrors = new Set(['silent_refresh_error', 'silent_refresh_timeout', 'token_refresh_error']);
+    return this.oauthService.events.pipe(
+      filter(e => e instanceof OAuthErrorEvent),
+      filter(e => refreshErrors.has(e.type))
+    );
   }
 
   public initAuthService(): Promise<void> {
@@ -159,6 +164,7 @@ export class AuthentificationService extends ArlasAuthentificationService {
   }
   public logout() {
     this.oauthService.logOut();
+    this.emitSessionEnd();
   }
   public refresh() {
     this.oauthService.refreshToken();

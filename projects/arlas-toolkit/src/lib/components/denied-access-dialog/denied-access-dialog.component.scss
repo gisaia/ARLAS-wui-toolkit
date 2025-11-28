@@ -40,8 +40,7 @@ $error-color: #ce3d38;
 }
 
 .content {
-    font-size: $sm-font-size;
-    padding-top: 24px;
+    overflow: unset;
 
     .errored {
         display: flex;
