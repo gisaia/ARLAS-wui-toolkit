@@ -23,7 +23,8 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 @Component({
   selector: 'arlas-about',
   templateUrl: './about.component.html',
-  styleUrls: ['./about.component.css']
+  styleUrls: ['./about.component.css'],
+  standalone: false
 })
 export class AboutComponent {
 
@@ -64,7 +65,8 @@ export class AboutComponent {
 @Component({
   selector: 'arlas-about-dialog',
   templateUrl: './about-dialog.component.html',
-  styleUrls: ['./about-dialog.component.css']
+  styleUrls: ['./about-dialog.component.css'],
+  standalone: false
 })
 export class AboutDialogComponent {
 

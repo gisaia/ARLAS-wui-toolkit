@@ -44,7 +44,8 @@ import { WidgetNotifierService } from '../../../services/widget/widget.notifier.
 @Component({
   selector: 'arlas-timeline',
   templateUrl: './timeline.component.html',
-  styleUrls: ['./timeline.component.scss']
+  styleUrls: ['./timeline.component.scss'],
+  standalone: false
 })
 export class TimelineComponent implements OnInit, OnDestroy {
 

@@ -38,7 +38,8 @@ import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component'
   selector: 'arlas-tag',
   templateUrl: './tag.component.html',
   styleUrls: ['./tag.component.css'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  standalone: false
 })
 export class TagComponent {
   /**
@@ -80,7 +81,8 @@ export class TagComponent {
   selector: 'arlas-tag-dialog',
   templateUrl: './tag-dialog.component.html',
   styleUrls: ['./tag-dialog.component.css'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  standalone: false
 })
 export class TagDialogComponent implements OnInit {
   /**
@@ -244,7 +246,8 @@ export class TagDialogComponent implements OnInit {
   selector: 'arlas-management-tag-dialog',
   templateUrl: './tag-management-dialog.component.html',
   styleUrls: ['./tag-management-dialog.component.css'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  standalone: false
 })
 export class TagManagementDialogComponent {
   public tagsRef: TagRefRequest[] = new Array<TagRefRequest>();

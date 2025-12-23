@@ -29,7 +29,8 @@ import { ExtendLocalDatabase } from '../../services/extend/extendLocalDatabase';
 @Component({
   selector: 'arlas-extend',
   templateUrl: './extend.component.html',
-  styleUrls: ['./extend.component.css']
+  styleUrls: ['./extend.component.css'],
+  standalone: false
 })
 export class ExtendComponent {
 

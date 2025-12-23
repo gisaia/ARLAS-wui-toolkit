@@ -59,10 +59,10 @@ import {
   ColorGeneratorLoader,
   ColorGeneratorModule,
   DonutModule,
-  FormatNumberModule,
-  GetCollectionDisplayModule,
-  GetCollectionUnitModule,
-  GetFieldDisplayModule,
+  FormatNumberPipe,
+  GetCollectionDisplayNamePipe,
+  GetCollectionUnitPipe,
+  GetFieldDisplayNamePipe,
   HistogramModule,
   MetricModule,
   MetricsTableModule,
@@ -97,12 +97,7 @@ import {
   ShortcutFiltersHandlerComponent
 } from './components/filter-shortcut/filters-handler/filters-handler.component';
 import {
-  FiltersComponent,
-  GetCollaborationIconPipe,
-  GetColorFilterPipe,
-  GetContributorLabelPipe,
-  GetGlobalColorFilterPipe,
-  IsCollabOnCollectionPipe
+  FiltersComponent
 } from './components/filters/filters.component';
 import { HistogramWidgetComponent } from './components/histogram-widget/histogram-widget.component';
 import { LanguageSwitcherComponent } from './components/language-switcher/language-switcher.component';
@@ -125,7 +120,6 @@ import { TopMenuComponent } from './components/top-menu/top-menu.component';
 import { UserInfosComponent } from './components/user-infos/user-infos.component';
 import { WidgetComponent } from './components/widget/widget.component';
 import { GetContributorPipe } from './pipes/get-contributor.pipe';
-import { GetTimeLabelPipe } from './pipes/get-time-label.pipe';
 import { ArlasCollaborativesearchService } from './services/collaborative-search/arlas.collaborative-search.service';
 import { ArlasCollectionService } from './services/collection/arlas-collection.service';
 import { ArlasOverlayService } from './services/overlays/overlay.service';
@@ -136,48 +130,6 @@ import { CustomTranslateLoader } from './tools/Translation/custom-translate-load
 
 
 @NgModule({
-  exports: [
-    AnalyticsBoardComponent,
-    AnalyticsMenuComponent,
-    AoiComponent,
-    BookmarkComponent,
-    BookmarkAddDialogComponent,
-    BookmarkMenuComponent,
-    CalendarTimelineToolComponent,
-    ConfirmModalComponent,
-    DatePickerComponent,
-    DownloadComponent,
-    DownloadDialogComponent,
-    ExcludeTypePipe,
-    ExtendComponent,
-    FiltersComponent,
-    GetTimeLabelPipe,
-    LanguageSwitcherComponent,
-    LinkComponent,
-    PermissionsCreatorComponent,
-    PermissionsCreatorDialogComponent,
-    SearchComponent,
-    SearchDialogComponent,
-    ShareComponent,
-    ShareDialogComponent,
-    TimelineComponent,
-    TimelineShortcutComponent,
-    HistogramWidgetComponent,
-    ProgressSpinnerComponent,
-    UserInfosComponent,
-    ReconnectDialogComponent,
-    DeniedAccessDialogComponent,
-    CalendarTimelineTooltipOverlayComponent,
-    WidgetComponent,
-    FilterShortcutComponent,
-    FilterShortcutChipComponent,
-    ShortcutFiltersHandlerComponent,
-    TopMenuComponent,
-    AboutComponent,
-    AboutDialogComponent,
-    LinksComponent,
-    LinkComponent
-  ],
   declarations: [
     AnalyticsBoardComponent,
     AnalyticsMenuComponent,
@@ -191,15 +143,8 @@ import { CustomTranslateLoader } from './tools/Translation/custom-translate-load
     DatePickerComponent,
     DownloadComponent,
     DownloadDialogComponent,
-    ExcludeTypePipe,
     ExtendComponent,
     FiltersComponent,
-    GetTimeLabelPipe,
-    GetColorFilterPipe,
-    GetGlobalColorFilterPipe,
-    GetCollaborationIconPipe,
-    IsCollabOnCollectionPipe,
-    GetContributorLabelPipe,
     LinkComponent,
     LanguageSwitcherComponent,
     LinkComponent,
@@ -270,8 +215,9 @@ import { CustomTranslateLoader } from './tools/Translation/custom-translate-load
     ResultsModule,
     ConfigMenuModule,
     ScrollingModule,
-    FormatNumberModule,
+    FormatNumberPipe,
     NgxSpinnerModule,
+    ExcludeTypePipe,
     ArlasMapModule,
     CollectionModule.forRoot({
       loader: {
@@ -300,17 +246,58 @@ import { CustomTranslateLoader } from './tools/Translation/custom-translate-load
     }),
     ArlasWalkthroughModule.forRoot(),
     MarkdownModule.forRoot(),
-    GetCollectionUnitModule,
-    GetCollectionDisplayModule,
-    GetFieldDisplayModule,
+    GetCollectionUnitPipe,
+    GetCollectionDisplayNamePipe,
+    GetFieldDisplayNamePipe,
     AdmonitionCardComponent,
     MarkerModule,
     AiasResultComponent,
     GetContributorPipe
   ],
+  exports: [
+    AnalyticsBoardComponent,
+    AnalyticsMenuComponent,
+    AoiComponent,
+    BookmarkComponent,
+    BookmarkAddDialogComponent,
+    BookmarkMenuComponent,
+    CalendarTimelineToolComponent,
+    ConfirmModalComponent,
+    DatePickerComponent,
+    DownloadComponent,
+    DownloadDialogComponent,
+    ExtendComponent,
+    FiltersComponent,
+    LanguageSwitcherComponent,
+    LinkComponent,
+    PermissionsCreatorComponent,
+    PermissionsCreatorDialogComponent,
+    SearchComponent,
+    SearchDialogComponent,
+    ShareComponent,
+    ShareDialogComponent,
+    TimelineComponent,
+    TimelineShortcutComponent,
+    HistogramWidgetComponent,
+    ProgressSpinnerComponent,
+    UserInfosComponent,
+    ReconnectDialogComponent,
+    DeniedAccessDialogComponent,
+    CalendarTimelineTooltipOverlayComponent,
+    WidgetComponent,
+    FilterShortcutComponent,
+    FilterShortcutChipComponent,
+    ShortcutFiltersHandlerComponent,
+    TopMenuComponent,
+    AboutComponent,
+    AboutDialogComponent,
+    LinksComponent,
+    LinkComponent
+  ],
   providers: [
     ArlasOverlayService,
     ArlasCollectionService,
     provideHttpClient(withInterceptorsFromDi())
-  ]})
+  ]
+})
 export class ArlasToolkitSharedModule { }

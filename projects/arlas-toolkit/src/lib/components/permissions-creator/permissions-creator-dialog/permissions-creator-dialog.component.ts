@@ -30,7 +30,8 @@ import { PermissionDialogData } from '../_interfaces';
 
 @Component({
   templateUrl: './permissions-creator-dialog.component.html',
-  styleUrls: ['./permissions-creator-dialog.component.scss']
+  styleUrls: ['./permissions-creator-dialog.component.scss'],
+  standalone: false
 })
 export class PermissionsCreatorDialogComponent {
 

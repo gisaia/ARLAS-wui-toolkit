@@ -30,7 +30,8 @@ import { Config, ConfigAction, ConfigActionEnum } from '../../../tools/utils';
 @Component({
   selector: 'arlas-action-modal',
   templateUrl: './action-modal.component.html',
-  styleUrls: ['./action-modal.component.css']
+  styleUrls: ['./action-modal.component.css'],
+  standalone: false
 })
 export class ActionModalComponent {
 

@@ -39,7 +39,8 @@ export const ARLAS_HITS_EXPORTER_VERSION = 2.2;
 @Component({
   selector: 'arlas-download',
   templateUrl: './download.component.html',
-  styleUrls: ['./download.component.css']
+  styleUrls: ['./download.component.css'],
+  standalone: false
 })
 export class DownloadComponent {
 
@@ -61,7 +62,8 @@ export class DownloadComponent {
   selector: 'arlas-download-dialog',
   templateUrl: './download-dialog.component.html',
   styleUrls: ['./download-dialog.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  standalone: false
 })
 export class DownloadDialogComponent implements OnInit {
 

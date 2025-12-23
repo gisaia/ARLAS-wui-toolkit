@@ -25,7 +25,8 @@ import { ArlasSettingsService } from '../../services/settings/arlas.settings.ser
 @Component({
   selector: 'arlas-tool-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
+  styleUrls: ['./register.component.css'],
+  standalone: false
 })
 export class RegisterComponent implements OnInit {
 

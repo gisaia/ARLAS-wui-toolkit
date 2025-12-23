@@ -35,7 +35,8 @@ import { ArlasConfigService } from '../../services/startup/startup.service';
 @Component({
   selector: 'arlas-search',
   templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss']
+  styleUrls: ['./search.component.scss'],
+  standalone: false
 })
 export class SearchComponent implements OnInit, OnDestroy, OnChanges {
   /**
@@ -212,7 +213,8 @@ export class SearchComponent implements OnInit, OnDestroy, OnChanges {
 
 @Component({
   templateUrl: './search-dialog.component.html',
-  styleUrls: ['./search-dialog.component.scss']
+  styleUrls: ['./search-dialog.component.scss'],
+  standalone: false
 })
 export class SearchDialogComponent {
 

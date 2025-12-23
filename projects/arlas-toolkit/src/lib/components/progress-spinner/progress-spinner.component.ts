@@ -29,7 +29,8 @@ export const DEFAULT_SPINNER_OPTIONS: SpinnerOptions = {
 @Component({
   selector: 'arlas-tool-progress-spinner',
   templateUrl: './progress-spinner.component.html',
-  styleUrls: ['./progress-spinner.component.css']
+  styleUrls: ['./progress-spinner.component.css'],
+  standalone: false
 })
 export class ProgressSpinnerComponent implements OnInit {
 

@@ -28,7 +28,8 @@ import { FilterShortcutConfiguration } from './filter-shortcut.utils';
 @Component({
   selector: 'arlas-filter-shortcut',
   templateUrl: './filter-shortcut.component.html',
-  styleUrls: ['./filter-shortcut.component.scss']
+  styleUrls: ['./filter-shortcut.component.scss'],
+  standalone: false
 })
 export class FilterShortcutComponent implements OnInit {
 

@@ -23,8 +23,8 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { TranslateFakeLoader, TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
-import { FormatNumberModule } from 'arlas-web-components';
+import { TranslateNoOpLoader, TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { FormatNumberPipe } from 'arlas-web-components';
 import { ArlasCollaborativesearchService } from '../../services/collaborative-search/arlas.collaborative-search.service';
 import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
 import {
@@ -49,8 +49,8 @@ describe('FiltersChipsComponent', () => {
     TestBed.configureTestingModule({
       declarations: [FiltersComponent, GetColorFilterPipe, GetCollaborationIconPipe, GetContributorLabelPipe],
       imports: [MatChipsModule, MatIconModule, MatTooltipModule, MatMenuModule,
-        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }),
-        FormatNumberModule],
+        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader } }),
+        FormatNumberPipe],
       providers: [
         {
           provide: ArlasStartupService,

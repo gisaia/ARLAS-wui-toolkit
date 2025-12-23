@@ -113,7 +113,7 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "eslintConfig": ".eslintrc.json",
+            "eslintConfig": "eslint.config.mjs",
             "lintFilePatterns": [
               "src/**/*.spec.ts",
               "src/**/*.d.ts",
@@ -176,7 +176,7 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "eslintConfig": ".eslintrc.json",
+            "eslintConfig": "eslint.config.mjs",
             "lintFilePatterns": [
               "projects/**/*.spec.ts",
               "projects/**/*.d.ts",

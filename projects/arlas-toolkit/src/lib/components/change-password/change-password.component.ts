@@ -25,7 +25,8 @@ import { ArlasIamService } from '../../services/arlas-iam/arlas-iam.service';
 @Component({
   selector: 'arlas-tool-change-password',
   templateUrl: './change-password.component.html',
-  styleUrls: ['./change-password.component.scss']
+  styleUrls: ['./change-password.component.scss'],
+  standalone: false
 })
 export class ChangePasswordComponent implements OnInit {
 

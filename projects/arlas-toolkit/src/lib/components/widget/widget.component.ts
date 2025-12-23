@@ -39,7 +39,8 @@ import { DEFAULT_SPINNER_OPTIONS } from '../progress-spinner/progress-spinner.co
 @Component({
   selector: 'arlas-tool-widget',
   templateUrl: './widget.component.html',
-  styleUrls: ['./widget.component.scss']
+  styleUrls: ['./widget.component.scss'],
+  standalone: false
 })
 export class WidgetComponent implements OnInit {
 

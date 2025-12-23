@@ -29,13 +29,15 @@
     "src/app/index.ts"
   ],
   "include": [
-    "src/app/**/*"
+    "src/app/**/*",
+    "eslint.config.mjs"
   ],
   "exclude": [
     "node_modules",
     "dist",
     "src/app/**/*.spec.*",
-    "e2e/"
+    "e2e/",
+    "eslint.config.mjs"
   ],
   "angularCompilerOptions": {
     "genDir": "dist",

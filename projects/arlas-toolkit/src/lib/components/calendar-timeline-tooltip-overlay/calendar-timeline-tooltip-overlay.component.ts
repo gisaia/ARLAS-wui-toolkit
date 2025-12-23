@@ -25,7 +25,8 @@ import { ArlasOverlayRef, CALENDAR_TIMELINE_TOOLTIP_DATA } from '../../tools/uti
 @Component({
   selector: 'arlas-calendar-timeline-tooltip-overlay',
   templateUrl: './calendar-timeline-tooltip-overlay.component.html',
-  styleUrls: ['./calendar-timeline-tooltip-overlay.component.css']
+  styleUrls: ['./calendar-timeline-tooltip-overlay.component.css'],
+  standalone: false
 })
 export class CalendarTimelineTooltipOverlayComponent {
 

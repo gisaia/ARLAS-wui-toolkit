@@ -100,7 +100,8 @@ export class IsCollabOnCollectionPipe implements PipeTransform {
       transition(':enter', animate('500ms ease-in-out')), // Animation duration and easing
       transition(':leave', animate('500ms ease-in-out'))
     ])
-  ]
+  ],
+  standalone: false
 })
 export class FiltersComponent implements OnInit, OnChanges {
 

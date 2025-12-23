@@ -26,7 +26,8 @@ import { ArlasSettingsService } from '../../services/settings/arlas.settings.ser
 @Component({
   selector: 'arlas-user-infos',
   templateUrl: './user-infos.component.html',
-  styleUrls: ['./user-infos.component.scss']
+  styleUrls: ['./user-infos.component.scss'],
+  standalone: false
 })
 export class UserInfosComponent implements OnInit {
 

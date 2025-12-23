@@ -25,7 +25,8 @@ import { getParamValue } from '../../../tools/utils';
 @Component({
   selector: 'arlas-analytics-menu',
   templateUrl: './analytics-menu.component.html',
-  styleUrls: ['./analytics-menu.component.scss']
+  styleUrls: ['./analytics-menu.component.scss'],
+  standalone: false
 })
 export class AnalyticsMenuComponent implements OnInit {
 

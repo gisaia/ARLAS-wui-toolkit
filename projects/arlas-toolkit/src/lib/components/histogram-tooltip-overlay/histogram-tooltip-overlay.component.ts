@@ -20,7 +20,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Inject } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
-import { GetCollectionUnitModule, HistogramTooltip } from 'arlas-web-components';
+import { GetCollectionUnitPipe, HistogramTooltip } from 'arlas-web-components';
 import { ArlasOverlayRef, HISTOGRAM_TOOLTIP_DATA } from '../../tools/utils';
 import { WidgetTooltipComponent } from '../widget-tooltip/widget-tooltip.component';
 
@@ -33,7 +33,7 @@ import { WidgetTooltipComponent } from '../widget-tooltip/widget-tooltip.compone
     TranslateModule,
     WidgetTooltipComponent,
     CommonModule,
-    GetCollectionUnitModule
+    GetCollectionUnitPipe
   ]
 })
 export class HistogramTooltipOverlayComponent {

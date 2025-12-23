@@ -30,7 +30,8 @@ import { BookmarkAddDialogComponent } from './bookmark-add-dialog.component';
 @Component({
   selector: 'arlas-bookmark',
   templateUrl: './bookmark.component.html',
-  styleUrls: ['./bookmark.component.scss']
+  styleUrls: ['./bookmark.component.scss'],
+  standalone: false
 })
 export class BookmarkComponent {
 

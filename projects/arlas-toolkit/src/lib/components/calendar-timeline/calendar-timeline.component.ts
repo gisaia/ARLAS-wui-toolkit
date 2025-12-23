@@ -32,7 +32,8 @@ import { ArlasOverlayService } from '../../services/overlays/overlay.service';
 @Component({
   selector: 'arlas-tool-calendar-timeline',
   templateUrl: './calendar-timeline.component.html',
-  styleUrls: ['./calendar-timeline.component.css']
+  styleUrls: ['./calendar-timeline.component.css'],
+  standalone: false
 })
 export class CalendarTimelineToolComponent implements OnInit, OnDestroy {
 

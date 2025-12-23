@@ -34,7 +34,8 @@ export interface PersistenceGroup {
 @Component({
   selector: 'arlas-share-config',
   templateUrl: './share-config.component.html',
-  styleUrls: ['./share-config.component.css']
+  styleUrls: ['./share-config.component.css'],
+  standalone: false
 })
 export class ShareConfigComponent implements OnInit {
 

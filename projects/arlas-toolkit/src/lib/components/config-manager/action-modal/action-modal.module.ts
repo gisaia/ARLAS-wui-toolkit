@@ -17,20 +17,19 @@
  * under the License.
  */
 
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TranslateModule } from '@ngx-translate/core';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatIconModule } from '@angular/material/icon';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { ActionModalComponent } from './action-modal.component';
-import { PersistenceService } from '../../../services/persistence/persistence.service';
+import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { ShareConfigModule } from '../share-config/share-config.module';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatMenuModule } from '@angular/material/menu';
+import { TranslateModule } from '@ngx-translate/core';
 import { ErrorService } from '../../../services/error/error.service';
+import { ShareConfigModule } from '../share-config/share-config.module';
+import { ActionModalComponent } from './action-modal.component';
 
 @NgModule({
   imports: [

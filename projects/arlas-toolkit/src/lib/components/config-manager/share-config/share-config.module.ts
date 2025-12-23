@@ -25,7 +25,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTableModule } from '@angular/material/table';
 import { TranslateModule } from '@ngx-translate/core';
-import { ErrorService } from '../../../services/error/error.service';
 import { ShareConfigComponent } from './share-config.component';
 
 @NgModule({

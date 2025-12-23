@@ -22,7 +22,8 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'arlas-tool-contact',
   templateUrl: './contact.component.html',
-  styleUrls: ['./contact.component.css']
+  styleUrls: ['./contact.component.css'],
+  standalone: false
 })
 export class ContactComponent implements OnInit {
 

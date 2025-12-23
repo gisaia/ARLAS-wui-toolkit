@@ -24,7 +24,8 @@ import { AuthentificationService } from '../../services/authentification/authent
 @Component({
   selector: 'arlas-tool-reconnect-dialog',
   templateUrl: './reconnect-dialog.component.html',
-  styleUrls: ['./reconnect-dialog.component.css']
+  styleUrls: ['./reconnect-dialog.component.css'],
+  standalone: false
 })
 export class ReconnectDialogComponent {
   public code: number;

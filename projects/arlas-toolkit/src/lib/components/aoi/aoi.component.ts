@@ -26,7 +26,8 @@ import { ArlasDataSource } from '../../tools/arlasDataSource';
 @Component({
   selector: 'arlas-aoi',
   templateUrl: './aoi.component.html',
-  styleUrls: ['./aoi.component.css']
+  styleUrls: ['./aoi.component.css'],
+  standalone: false
 })
 export class AoiComponent {
 

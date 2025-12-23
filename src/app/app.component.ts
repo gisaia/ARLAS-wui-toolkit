@@ -24,7 +24,8 @@ import { Component } from '@angular/core';
   selector: 'arlas-tool-app',
   templateUrl: './app.component.html',
   providers: [Location],
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  standalone: false
 })
 export class AppComponent{
 

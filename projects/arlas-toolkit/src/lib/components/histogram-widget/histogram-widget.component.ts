@@ -44,7 +44,8 @@ import { WidgetNotifierService } from '../../services/widget/widget.notifier.ser
 @Component({
   selector: 'arlas-tool-histogram-widget',
   templateUrl: './histogram-widget.component.html',
-  styleUrls: ['./histogram-widget.component.css']
+  styleUrls: ['./histogram-widget.component.css'],
+  standalone: false
 })
 export class HistogramWidgetComponent implements OnInit, OnDestroy, AfterViewInit {
 

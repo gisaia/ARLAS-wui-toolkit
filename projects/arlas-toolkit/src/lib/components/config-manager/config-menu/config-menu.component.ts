@@ -39,7 +39,8 @@ import { ActionModalComponent } from '../action-modal/action-modal.component';
   selector: 'arlas-config-menu',
   templateUrl: './config-menu.component.html',
   styleUrls: ['./config-menu.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  standalone: false
 })
 export class ConfigMenuComponent {
   @Input() public actions: Array<ConfigAction>;

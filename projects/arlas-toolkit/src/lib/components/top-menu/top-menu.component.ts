@@ -34,7 +34,8 @@ import { AboutComponent } from './about/about.component';
 @Component({
   selector: 'arlas-top-menu',
   templateUrl: './top-menu.component.html',
-  styleUrls: ['./top-menu.component.scss']
+  styleUrls: ['./top-menu.component.scss'],
+  standalone: false
 })
 export class TopMenuComponent implements OnInit {
 

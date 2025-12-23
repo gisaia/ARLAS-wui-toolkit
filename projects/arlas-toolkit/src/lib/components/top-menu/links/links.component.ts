@@ -24,7 +24,8 @@ import { LinkSettings } from '../../../services/startup/startup.service';
 @Component({
   selector: 'arlas-links',
   templateUrl: './links.component.html',
-  styleUrls: ['./links.component.scss']
+  styleUrls: ['./links.component.scss'],
+  standalone: false
 })
 export class LinksComponent implements OnInit {
 
