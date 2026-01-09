@@ -9,7 +9,7 @@
     "url": "https://github.com/gisaia/ARLAS-wui-toolkit.git"
   },
   "peerDependencies": {
-    "@angular/animations": "20.3.15",
+    "@angular/animations": "^20.3.15",
     "@angular/cdk": "^20.2.14",
     "@angular/common": "^20.3.15",
     "@angular/compiler": "^20.3.15",
@@ -45,9 +45,9 @@
     "arlas-permissions-api": "27.0.0",
     "arlas-persistence-api": "27.0.0",
     "arlas-tagger-api": "27.0.0",
-    "arlas-web-components": "28.0.0-beta.2",
+    "arlas-web-components": "28.0.0-beta.3",
     "arlas-web-contributors": "28.0.0-beta.1",
-    "arlas-map": "28.0.0-beta.2",
+    "arlas-map": "28.0.0-beta.3",
     "cli-color": "^1.2.0",
     "fetch-intercept": "^2.3.1",
     "hopscotch": "0.3.1",

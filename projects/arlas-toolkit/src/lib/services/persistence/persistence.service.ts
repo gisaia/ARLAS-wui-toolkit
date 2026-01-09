@@ -19,9 +19,7 @@
 
 import { Inject, Injectable } from '@angular/core';
 import { Configuration, DataResource, DataWithLinks, Exists, PersistApi } from 'arlas-persistence-api';
-import { Observable } from 'rxjs/internal/Observable';
-import { from } from 'rxjs/internal/observable/from';
-import { map, mergeMap } from 'rxjs/operators';
+import { from, map, mergeMap, Observable } from 'rxjs';
 import { GET_OPTIONS } from '../../tools/utils';
 import { ArlasSettingsService } from '../settings/arlas.settings.service';
 
