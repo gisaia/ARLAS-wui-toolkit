@@ -97,7 +97,12 @@ import {
   ShortcutFiltersHandlerComponent
 } from './components/filter-shortcut/filters-handler/filters-handler.component';
 import {
-  FiltersComponent
+  FiltersComponent,
+  GetCollaborationIconPipe,
+  GetColorFilterPipe,
+  GetContributorLabelPipe,
+  GetGlobalColorFilterPipe,
+  IsCollabOnCollectionPipe
 } from './components/filters/filters.component';
 import { HistogramWidgetComponent } from './components/histogram-widget/histogram-widget.component';
 import { LanguageSwitcherComponent } from './components/language-switcher/language-switcher.component';
@@ -252,7 +257,12 @@ import { CustomTranslateLoader } from './tools/Translation/custom-translate-load
     AdmonitionCardComponent,
     MarkerModule,
     AiasResultComponent,
-    GetContributorPipe
+    GetContributorPipe,
+    IsCollabOnCollectionPipe,
+    GetContributorLabelPipe,
+    GetColorFilterPipe,
+    GetGlobalColorFilterPipe,
+    GetCollaborationIconPipe
   ],
   exports: [
     AnalyticsBoardComponent,
