@@ -79,6 +79,10 @@ $count-chip-height: 30px;
   .mdc-evolution-chip__text-label {
     display: flex;
   }
+
+  mat-icon {
+    cursor: pointer;
+  }
 }
 
 .timeline-chip,

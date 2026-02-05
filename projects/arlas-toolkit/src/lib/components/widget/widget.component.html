@@ -28,11 +28,7 @@
     [swimlaneRepresentation]="graphParam?.swimlane_representation" [swimlaneOptions]="graphParam?.swimlane_options" [useUtc]="contributor?.useUtc"></arlas-histogram>
 </div>
 
-<!-- TODO: Passer l'export dans web components ? -->
 <div class="powerbars-widget" *ngIf="componentType === 'powerbars'">
-  <button *ngIf="showExportCsv" id="export-csv" matTooltip="{{'Export' | translate }}" class="export-csv-button" [class.export-csv-button-powerbars]="graphParam?.displayFilter" (click)="exportCsv(contributor,true,componentType)">
-    <mat-icon class="analytics-board-panel-icon export-csv">get_app</mat-icon>
-  </button>
   <arlas-powerbars [customizedCssClass]="graphParam?.customizedCssClass" [powerbarTitle]="graphParam?.powerbarTitle" [displayFilterField]="graphParam?.displayFilter"
     [inputData]="contributor?.treeData" [unit]="graphParam?.unit" [missingLeafEvent]="contributor?.emitMissingLeaf"
     [filterOperator]="graphParam?.filterOperator" [useColorService]="graphParam?.useColorService" [useColorFromData]="graphParam?.useColorFromData" [keysToColors]="graphParam?.keysToColors"
@@ -40,18 +36,17 @@
     [selectedPaths]="contributor?.selectedNodesPathsList" (searchedTerm)="contributor?.updateTreeDataSearch($event)"
     [groupSelections]="graphParam?.groupSelections"  [selectWithCheckbox]="graphParam?.selectWithCheckbox"
     (filterOperatorEvent)="changePowerbarsOperator($event)" (overPowerBarEvent)="showPowerbarTooltip($event, arlas_tooltip_anchor)" (outPowerBarEvent)="hidePowerbarTooltip($event)"
-    [chartWidth]="graphParam?.chartWidth">
+    [chartWidth]="graphParam?.chartWidth" [displayExportButton]="showExportCsv" (exportEvent)="exportCsv(contributor, true, componentType)">
   </arlas-powerbars>
 </div>
 
-<div *ngIf="componentType==='donut'" class="donut-container" >
+<div *ngIf="componentType === 'donut'" class="donut-container">
   <div class="donut">{{contributor?.getFilterDisplayName() | translate}}</div>
-  <button *ngIf="showExportCsv" id="export-csv" matTooltip="{{'Export' | translate }}" class="export-csv-button" (click)="exportCsv(contributor,false,componentType)">
-    <mat-icon class="analytics-board-panel-icon export-csv">get_app</mat-icon>
-  </button>
+
   <arlas-donut [id]="graphParam?.id" [donutData]="contributor?.treeData" [opacity]="graphParam.opacity" [multiselectable]="graphParam?.multiselectable"
     [selectedArcsList]="contributor?.selectedNodesPathsList" [unit]="graphParam?.unit" [diameter]="graphParam?.diameter" (hoveredNodeTooltipEvent)="showDonutTooltip($event, arlas_tooltip_anchor)" [containerWidth]="graphParam?.containerWidth" [keysToColors]="graphParam?.keysToColors" [colorsSaturationWeight]="graphParam?.colorsSaturationWeight"
-    (selectedNodesEvent)="contributor?.selectedNodesListChanged($event)" [customizedCssClass]="graphParam?.customizedCssClass">
+    (selectedNodesEvent)="contributor?.selectedNodesListChanged($event)" [customizedCssClass]="graphParam?.customizedCssClass"
+    [displayExportButton]="showExportCsv" (exportEvent)="exportCsv(contributor, false, componentType)">
   </arlas-donut>
 </div>
 
