@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { APP_INITIALIZER, forwardRef, NgModule } from '@angular/core';
+import { forwardRef, inject, NgModule, provideAppInitializer } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { BrowserModule } from '@angular/platform-browser';
@@ -45,18 +45,12 @@ import { PersistenceService } from './services/persistence/persistence.service';
 import { ArlasSettingsService } from './services/settings/arlas.settings.service';
 import { ArlasConfigService, ArlasStartupService, CONFIG_UPDATER, FETCH_OPTIONS } from './services/startup/startup.service';
 import { ArlasWalkthroughService } from './services/walkthrough/walkthrough.service';
+import { WidgetNotifierService } from './services/widget/widget.notifier.service';
 import { ArlasToolkitSharedModule } from './shared.module';
 import { ToolkitRoutingModule } from './toolkit-routing.module';
 import { ToolkitComponent } from './toolkit.component';
 import { PaginatorI18n } from './tools/paginatori18n';
 import { GET_OPTIONS } from './tools/utils';
-import { WidgetNotifierService } from './services/widget/widget.notifier.service';
-
-
-export function startupServiceFactory(startupService: ArlasStartupService) {
-  const load = () => startupService.load();
-  return load;
-}
 
 export function settingsServiceFactory(settings: ArlasSettingsService) {
   return settings;
@@ -170,12 +164,7 @@ export const MY_CUSTOM_FORMATS = {
     forwardRef(() => PersistenceService),
     forwardRef(() => PermissionService),
     forwardRef(() => ErrorService),
-    {
-      provide: APP_INITIALIZER,
-      useFactory: startupServiceFactory,
-      deps: [ArlasStartupService],
-      multi: true
-    },
+    provideAppInitializer(() => inject(ArlasStartupService).load()),
     {
       provide: 'ArlasSettingsService',
       useFactory: settingsServiceFactory,
