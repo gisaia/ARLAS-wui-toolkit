@@ -1,13 +1,15 @@
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 import { DateTimeProvider, OAuthLogger, OAuthModule, OAuthService, UrlHelperService } from 'angular-oauth2-oidc';
+import { MockArlasSettingsService } from '../../tools/tests/arlas-settings-service.mock';
 import { GET_OPTIONS } from '../../tools/utils';
 import { AuthentificationService } from '../authentification/authentification.service';
 import { ArlasSettingsService } from '../settings/arlas.settings.service';
 import { PermissionService } from './permission.service';
-import { MockArlasSettingsService } from '../../tools/tests/arlas-settings-service.mock';
 
 describe('PermissionService', () => {
+  let service: PermissionService;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [OAuthModule],
@@ -28,10 +30,11 @@ describe('PermissionService', () => {
         provideHttpClient(withInterceptorsFromDi())
       ]
     });
+
+    service = TestBed.inject(PermissionService);
   });
 
   it('should be created', () => {
-    const service: PermissionService = TestBed.get(PermissionService);
     expect(service).toBeTruthy();
   });
 });

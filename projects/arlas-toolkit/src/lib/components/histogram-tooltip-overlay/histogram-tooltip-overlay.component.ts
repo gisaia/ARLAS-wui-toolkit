@@ -28,7 +28,6 @@ import { WidgetTooltipComponent } from '../widget-tooltip/widget-tooltip.compone
   selector: 'arlas-histogram-tooltip-overlay',
   templateUrl: './histogram-tooltip-overlay.component.html',
   styleUrls: ['./histogram-tooltip-overlay.component.scss'],
-  standalone: true,
   imports: [
     TranslateModule,
     WidgetTooltipComponent,

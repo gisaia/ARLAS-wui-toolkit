@@ -43,7 +43,7 @@ export class SearchComponent implements OnInit, OnDestroy, OnChanges {
    * @Input : Angular
    * @description Search contributor
    */
-  @Input() public searchContributors: SearchContributor[];
+  @Input({ required: true }) public searchContributors: SearchContributor[];
 
   /**
    * @Input : Angular
@@ -80,12 +80,12 @@ export class SearchComponent implements OnInit, OnDestroy, OnChanges {
   public collections: { label: string; checked: boolean; }[];
 
   public constructor(
-    private arlasColorService: ArlasColorService,
-    private collaborativeService: ArlasCollaborativesearchService,
-    public translate: TranslateService,
-    private dialog: MatDialog,
-    private configService: ArlasConfigService,
-    private snackbar: MatSnackBar
+    private readonly arlasColorService: ArlasColorService,
+    private readonly collaborativeService: ArlasCollaborativesearchService,
+    private readonly translate: TranslateService,
+    private readonly dialog: MatDialog,
+    private readonly configService: ArlasConfigService,
+    private readonly snackbar: MatSnackBar
   ) { }
 
   public ngOnInit(): void {

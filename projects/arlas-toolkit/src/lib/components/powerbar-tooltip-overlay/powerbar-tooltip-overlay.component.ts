@@ -36,7 +36,6 @@ export interface ARLASPowerbarTooltip {
   selector: 'arlas-powerbar-tooltip-overlay',
   templateUrl: './powerbar-tooltip-overlay.component.html',
   styleUrls: ['./powerbar-tooltip-overlay.component.scss'],
-  standalone: true,
   imports: [
     TranslateModule,
     WidgetTooltipComponent,

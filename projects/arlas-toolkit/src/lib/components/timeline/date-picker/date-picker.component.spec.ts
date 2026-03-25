@@ -7,7 +7,7 @@ import {
   OwlDateTimeModule
 } from '@danielmoncada/angular-datetime-picker';
 import { MomentDateTimeAdapter } from '@danielmoncada/angular-datetime-picker-moment-adapter';
-import { TranslateFakeLoader, TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateLoader, TranslateModule, TranslateNoOpLoader } from '@ngx-translate/core';
 import { ArlasCollaborativesearchService } from '../../../services/collaborative-search/arlas.collaborative-search.service';
 import { ArlasConfigurationUpdaterService } from '../../../services/configuration-updater/configurationUpdater.service';
 import {
@@ -37,7 +37,7 @@ describe('DatePickerComponent', () => {
       declarations: [DatePickerComponent],
       imports: [OwlDateTimeModule, FormsModule,
         TranslateModule.forRoot({
-          loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
+          loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader }
         })],
       providers: [
         { provide: OWL_DATE_TIME_LOCALE, useValue: 'fr' },
@@ -47,7 +47,7 @@ describe('DatePickerComponent', () => {
           useClass: ArlasStartupService,
           deps: [ArlasConfigurationUpdaterService]
         },
-        ArlasConfigService, TranslateService,
+        ArlasConfigService,
         { provide: DateTimeAdapter, useClass: MomentDateTimeAdapter, deps: [OWL_DATE_TIME_LOCALE] },
         { provide: OWL_DATE_TIME_FORMATS, useValue: MY_CUSTOM_FORMATS },
         { provide: CONFIG_UPDATER, useValue: {} },

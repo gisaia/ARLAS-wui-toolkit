@@ -1,26 +1,22 @@
-import { TestBed } from '@angular/core/testing';
-
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { TestBed } from '@angular/core/testing';
 import {
-  TranslateFakeLoader,
-  TranslateLoader,
-  TranslateModule, TranslateService,
-  TranslateStore
+  TranslateLoader, TranslateModule, TranslateNoOpLoader
 } from '@ngx-translate/core';
 import { ArlasCollaborativesearchService } from '../collaborative-search/arlas.collaborative-search.service';
 import { ArlasConfigurationUpdaterService } from '../configuration-updater/configurationUpdater.service';
 import { ArlasSettingsService } from '../settings/arlas.settings.service';
-import {
-  ArlasConfigService,
-  ArlasStartupService,
-  CONFIG_UPDATER,
-  FETCH_OPTIONS
-} from './startup.service';
+import { ArlasConfigService, ArlasStartupService, CONFIG_UPDATER, FETCH_OPTIONS } from './startup.service';
 
 describe('ArlasStartupService', () => {
+  let service: ArlasStartupService;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } })],
+      imports: [
+        TranslateModule.forRoot({
+          loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader } })
+      ],
       providers: [
         {
           provide: ArlasStartupService,
@@ -34,16 +30,16 @@ describe('ArlasStartupService', () => {
         ArlasConfigService,
         ArlasCollaborativesearchService,
         ArlasSettingsService,
-        TranslateService, TranslateStore,
         { provide: CONFIG_UPDATER, useValue: {} },
         { provide: FETCH_OPTIONS, useValue: {} },
         provideHttpClient(withInterceptorsFromDi()),
       ]
     });
+
+    service = TestBed.inject(ArlasStartupService);
   });
 
   it('should be created', (() => {
-    const service: ArlasStartupService = TestBed.get(ArlasStartupService);
     expect(service).toBeTruthy();
   }));
 });

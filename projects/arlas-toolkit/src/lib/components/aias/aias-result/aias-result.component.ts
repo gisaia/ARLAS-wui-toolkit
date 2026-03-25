@@ -17,29 +17,27 @@
  * under the License.
  */
 
-import { Component, Input, OnInit } from '@angular/core';
-import { ProcessOutput } from '../../../tools/process.interface';
-import { TranslateModule } from '@ngx-translate/core';
-import { DatePipe, NgIf } from '@angular/common';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { MatDialogModule } from '@angular/material/dialog';
+import { DatePipe } from '@angular/common';
+import { Component, Input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { TranslateModule } from '@ngx-translate/core';
+import { ProcessOutput } from '../../../tools/process.interface';
 
 @Component({
   selector: 'arlas-aias-result',
   templateUrl: './aias-result.component.html',
   styleUrls: ['./aias-result.component.scss'],
-  standalone: true,
   imports: [
     TranslateModule,
     DatePipe,
     MatProgressBarModule,
     MatDialogModule,
-    MatButtonModule,
-    NgIf
+    MatButtonModule
   ]
 })
-export class AiasResultComponent implements OnInit {
+export class AiasResultComponent {
 
   @Input() public isProcessing = false;
 
@@ -50,10 +48,4 @@ export class AiasResultComponent implements OnInit {
   @Input() public processName = '';
 
   @Input() public processAction = '';
-
-  public constructor() { }
-
-  public ngOnInit(): void {
-  }
-
 }

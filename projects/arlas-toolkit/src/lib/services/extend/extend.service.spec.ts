@@ -18,29 +18,27 @@
  */
 
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { inject, TestBed } from '@angular/core/testing';
-import {
-  TranslateFakeLoader,
-  TranslateLoader,
-  TranslateModule
-} from '@ngx-translate/core';
+import { TestBed } from '@angular/core/testing';
+import { TranslateLoader, TranslateModule, TranslateNoOpLoader } from '@ngx-translate/core';
 import { OAuthLogger, OAuthModule, OAuthService, UrlHelperService } from 'angular-oauth2-oidc';
+import { GET_OPTIONS } from '../../tools/utils';
 import { AuthentificationService } from '../authentification/authentification.service';
 import { ArlasCollaborativesearchService } from '../collaborative-search/arlas.collaborative-search.service';
 import { ArlasConfigurationUpdaterService } from '../configuration-updater/configurationUpdater.service';
 import {
-  ArlasConfigService,
-  ArlasStartupService,
-  CONFIG_UPDATER,
-  FETCH_OPTIONS
+  ArlasConfigService, ArlasStartupService, CONFIG_UPDATER, FETCH_OPTIONS
 } from '../startup/startup.service';
 import { ArlasExtendService } from './extend.service';
 
 describe('ArlasExtendService', () => {
+  let service: ArlasExtendService;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [OAuthModule,
-        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } })],
+      imports: [
+        OAuthModule.forRoot(),
+        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader } })
+      ],
       providers: [ArlasConfigService,
         OAuthService,
         OAuthLogger,
@@ -58,20 +56,18 @@ describe('ArlasExtendService', () => {
         },
         { provide: FETCH_OPTIONS, useValue: {} },
         ArlasCollaborativesearchService,
-        { provide: CONFIG_UPDATER, useValue: {} }, provideHttpClient(withInterceptorsFromDi())]
+        { provide: CONFIG_UPDATER, useValue: {} }, provideHttpClient(withInterceptorsFromDi()),
+        {
+          provide: GET_OPTIONS,
+          useValue: () => {}
+        }
+      ]
     });
+
+    service = TestBed.inject(ArlasExtendService);
   });
 
-  it('should be created', inject([ArlasConfigService],
-    (arlasConfigService: ArlasConfigService) => {
-      const arlasStartupService = TestBed.get(ArlasStartupService);
-      arlasStartupService.arlasIsUp.subscribe(isUp => {
-        if (isUp) {
-          const service: ArlasExtendService = TestBed.get(ArlasExtendService);
-          expect(service).toBeTruthy();
-          expect(arlasConfigService).toBeTruthy();
-        }
-
-      });
-    }));
+  it('should be created', () => {
+    expect(service).toBeTruthy();
+  });
 });

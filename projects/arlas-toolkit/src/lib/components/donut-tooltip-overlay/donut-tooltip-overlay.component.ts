@@ -30,7 +30,6 @@ import { WidgetTooltipComponent } from '../widget-tooltip/widget-tooltip.compone
   selector: 'arlas-donut-tooltip-overlay',
   templateUrl: './donut-tooltip-overlay.component.html',
   styleUrls: ['./donut-tooltip-overlay.component.scss'],
-  standalone: true,
   imports: [
     TranslateModule,
     WidgetTooltipComponent,

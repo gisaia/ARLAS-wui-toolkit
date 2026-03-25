@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { Component, Inject, Output } from '@angular/core';
+import { Component, Inject, OnDestroy, Output } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { Subject, takeUntil } from 'rxjs';
 import { ArlasBookmarkService } from '../../services/bookmark/bookmark.service';
@@ -33,7 +33,7 @@ import { BookmarkAddDialogComponent } from './bookmark-add-dialog.component';
   styleUrls: ['./bookmark.component.scss'],
   standalone: false
 })
-export class BookmarkComponent {
+export class BookmarkComponent implements OnDestroy {
 
   public bookmarks: BookmarkDataSource | BookMark[];
   public columnsToDisplay = ['checked', 'name', 'date', 'count', 'actions'];
@@ -47,12 +47,12 @@ export class BookmarkComponent {
 
   @Output() public actions: Subject<{ action: string; id: string; geometry?: any; }> = new Subject<any>();
 
-  private _onDestroy$ = new Subject<boolean>();
+  private readonly _onDestroy$ = new Subject<boolean>();
 
   public constructor(
-    private bookmarkService: ArlasBookmarkService,
-    private dialog: MatDialog,
-    private arlasCollaborativesearchService: ArlasCollaborativesearchService,
+    private readonly bookmarkService: ArlasBookmarkService,
+    private readonly dialog: MatDialog,
+    private readonly arlasCollaborativesearchService: ArlasCollaborativesearchService,
     @Inject(MAT_DIALOG_DATA) public data: { isSelect: boolean; }
   ) {
     if (!!data && !data.isSelect) {
@@ -67,14 +67,14 @@ export class BookmarkComponent {
       this.isPersistenceActive = true;
       this.bookmarkService.setPage(this.bookmarkService.maxSize, this.bookmarkService.pageNumber);
       this.getBookmarksList();
-      (this.bookmarkService.dataBase as BookmarkPersistenceDatabase).dataChange
+      this.bookmarkService.dataBase.dataChange
         .pipe(takeUntil(this._onDestroy$))
         .subscribe((data: { total: number; items: BookMark[]; }) => {
           this.bookmarkService.count = data.total;
           this.bookmarks = this.getDisplayableBookmarks(data.items);
         });
     } else {
-      (this.bookmarkService.dataBase).dataChange
+      this.bookmarkService.dataBase.dataChange
         .pipe(takeUntil(this._onDestroy$))
         .subscribe((data: BookMark[]) => {
           this.bookmarkService.count = data.length;

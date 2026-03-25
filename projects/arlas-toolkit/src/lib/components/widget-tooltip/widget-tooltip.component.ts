@@ -31,7 +31,6 @@ export interface WidgetTooltip<T> {
 
 @Component({
   selector: 'arlas-widget-tooltip',
-  standalone: true,
   imports: [
     TranslateModule
   ],

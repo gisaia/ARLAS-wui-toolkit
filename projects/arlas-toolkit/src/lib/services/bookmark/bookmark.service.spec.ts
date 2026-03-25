@@ -19,18 +19,28 @@
 
 import { APP_BASE_HREF } from '@angular/common';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { inject, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterModule } from '@angular/router';
+import { TranslateLoader, TranslateModule, TranslateNoOpLoader } from '@ngx-translate/core';
+import { OAuthModule } from 'angular-oauth2-oidc';
+import { GET_OPTIONS } from '../../tools/utils';
 import { ArlasCollaborativesearchService } from '../collaborative-search/arlas.collaborative-search.service';
 import { ArlasConfigurationUpdaterService } from '../configuration-updater/configurationUpdater.service';
 import { ArlasConfigService, ArlasStartupService } from '../startup/startup.service';
 import { ArlasBookmarkService } from './bookmark.service';
 
 describe('ArlasBookmarkService', () => {
+  let service: ArlasBookmarkService;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [MatSnackBarModule, RouterModule.forRoot([])],
+      imports: [
+        MatSnackBarModule,
+        RouterModule.forRoot([]),
+        OAuthModule.forRoot(),
+        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader } })
+      ],
       providers: [
         ArlasBookmarkService,
         {
@@ -44,21 +54,18 @@ describe('ArlasBookmarkService', () => {
         },
         ArlasCollaborativesearchService, { provide: APP_BASE_HREF, useValue: '/' },
         ArlasConfigService,
-        provideHttpClient(withInterceptorsFromDi())
+        provideHttpClient(withInterceptorsFromDi()),
+        {
+          provide: GET_OPTIONS,
+          useValue: () => {}
+        }
       ]
     });
+
+    service = TestBed.inject(ArlasBookmarkService);
   });
 
-  it('should be created', inject([ArlasConfigService],
-    (arlasConfigService: ArlasConfigService) => {
-      const arlasStartupService = TestBed.get(ArlasStartupService);
-      arlasStartupService.arlasIsUp.subscribe(isUp => {
-        if (isUp) {
-          const service: ArlasBookmarkService = TestBed.get(ArlasBookmarkService);
-          expect(service).toBeTruthy();
-          expect(arlasConfigService).toBeTruthy();
-        }
-
-      });
-    }));
+  it('should be created', () => {
+    expect(service).toBeTruthy();
+  });
 });

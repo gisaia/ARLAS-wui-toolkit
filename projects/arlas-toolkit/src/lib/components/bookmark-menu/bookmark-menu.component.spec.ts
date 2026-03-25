@@ -22,7 +22,10 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { TranslateFakeLoader, TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { RouterModule } from '@angular/router';
+import { TranslateLoader, TranslateModule, TranslateNoOpLoader } from '@ngx-translate/core';
+import { OAuthModule } from 'angular-oauth2-oidc';
+import { ArlasBookmarkService } from '../../services/bookmark/bookmark.service';
 import { ArlasCollaborativesearchService } from '../../services/collaborative-search/arlas.collaborative-search.service';
 import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
 import {
@@ -30,54 +33,54 @@ import {
   ArlasStartupService,
   CONFIG_UPDATER, FETCH_OPTIONS
 } from '../../services/startup/startup.service';
+import { GET_OPTIONS } from '../../tools/utils';
 import { BookmarkMenuComponent } from './bookmark-menu.component';
 
 describe('BookmarkMenuComponent', () => {
   let component: BookmarkMenuComponent;
   let fixture: ComponentFixture<BookmarkMenuComponent>;
-  let arlasStartupService: ArlasStartupService;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [BookmarkMenuComponent],
-      imports: [MatMenuModule, MatIconModule, MatTooltipModule,
-        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } })],
+      imports: [
+        MatMenuModule,
+        MatIconModule,
+        MatTooltipModule,
+        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader } }),
+        RouterModule.forRoot([]),
+        OAuthModule.forRoot()
+      ],
       providers: [
-        ArlasConfigService, ArlasCollaborativesearchService,
+        ArlasConfigService,
+        ArlasCollaborativesearchService,
         {
           provide: ArlasStartupService,
           useClass: ArlasStartupService,
           deps: [ArlasConfigurationUpdaterService]
         },
-        TranslateService,
         { provide: CONFIG_UPDATER, useValue: {} },
         {
           provide: ArlasConfigurationUpdaterService,
           useClass: ArlasConfigurationUpdaterService
         },
         { provide: FETCH_OPTIONS, useValue: {} },
-        provideHttpClient(withInterceptorsFromDi())
+        provideHttpClient(withInterceptorsFromDi()),
+        ArlasBookmarkService,
+        {
+          provide: GET_OPTIONS,
+          useValue: () => {}
+        }
       ]
     })
       .compileComponents();
+
+    fixture = TestBed.createComponent(BookmarkMenuComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
   }));
 
-  beforeEach(() => {
-    arlasStartupService = TestBed.get(ArlasStartupService);
-    arlasStartupService.arlasIsUp.subscribe(isUp => {
-      if (isUp) {
-        fixture = TestBed.createComponent(BookmarkMenuComponent);
-        component = fixture.componentInstance;
-        fixture.detectChanges();
-      }
-    });
-  });
-
   it('should create', () => {
-    arlasStartupService.arlasIsUp.subscribe(isUp => {
-      if (isUp) {
-        expect(component).toBeTruthy();
-      }
-    });
+    expect(component).toBeTruthy();
   });
 });

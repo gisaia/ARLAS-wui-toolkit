@@ -20,44 +20,43 @@
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 import {
-  TranslateFakeLoader,
-  TranslateLoader,
-  TranslateModule,
-  TranslateService, TranslateStore
+  TranslateLoader, TranslateModule, TranslateNoOpLoader
 } from '@ngx-translate/core';
 import { ArlasCollaborativesearchService } from '../collaborative-search/arlas.collaborative-search.service';
 import { ArlasConfigurationUpdaterService } from '../configuration-updater/configurationUpdater.service';
 import {
-  ArlasConfigService,
-  ArlasStartupService,
-  CONFIG_UPDATER,
-  FETCH_OPTIONS
+  ArlasConfigService, ArlasStartupService, CONFIG_UPDATER, FETCH_OPTIONS
 } from '../startup/startup.service';
 import { ArlasAoiService } from './aoi.service';
 
 describe('ArlasAoiService', () => {
-  beforeEach(() => TestBed.configureTestingModule({
-    imports: [TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } })],
-    providers: [
-      {
-        provide: ArlasStartupService,
-        useClass: ArlasStartupService,
-        deps: [ArlasConfigurationUpdaterService]
-      },
-      ArlasConfigService, TranslateService, TranslateStore,
-      ArlasCollaborativesearchService,
-      { provide: CONFIG_UPDATER, useValue: {} },
-      {
-        provide: ArlasConfigurationUpdaterService,
-        useClass: ArlasConfigurationUpdaterService
-      },
-      { provide: FETCH_OPTIONS, useValue: {} },
-      provideHttpClient(withInterceptorsFromDi()),
-    ]
-  }));
+  let service: ArlasAoiService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader } })],
+      providers: [
+        {
+          provide: ArlasStartupService,
+          useClass: ArlasStartupService,
+          deps: [ArlasConfigurationUpdaterService]
+        },
+        ArlasConfigService,
+        ArlasCollaborativesearchService,
+        { provide: CONFIG_UPDATER, useValue: {} },
+        {
+          provide: ArlasConfigurationUpdaterService,
+          useClass: ArlasConfigurationUpdaterService
+        },
+        { provide: FETCH_OPTIONS, useValue: {} },
+        provideHttpClient(withInterceptorsFromDi()),
+      ]
+    });
+
+    service = TestBed.inject(ArlasAoiService);
+  });
 
   it('should be created', () => {
-    const service: ArlasAoiService = TestBed.get(ArlasAoiService);
     expect(service).toBeTruthy();
   });
 });

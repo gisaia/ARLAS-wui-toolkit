@@ -23,9 +23,10 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { TranslateNoOpLoader, TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
-import { FormatNumberPipe } from 'arlas-web-components';
+import { TranslateLoader, TranslateModule, TranslateNoOpLoader } from '@ngx-translate/core';
+import { AwcColorGeneratorLoader, ColorGeneratorLoader, ColorGeneratorModule, FormatNumberPipe } from 'arlas-web-components';
 import { ArlasCollaborativesearchService } from '../../services/collaborative-search/arlas.collaborative-search.service';
+import { ArlasCollectionService } from '../../services/collection/arlas-collection.service';
 import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
 import {
   ArlasConfigService,
@@ -33,60 +34,53 @@ import {
   CONFIG_UPDATER, FETCH_OPTIONS
 } from '../../services/startup/startup.service';
 import { ArlasWalkthroughService } from '../../services/walkthrough/walkthrough.service';
-import {
-  FiltersComponent,
-  GetCollaborationIconPipe,
-  GetColorFilterPipe,
-  GetContributorLabelPipe
-} from './filters.component';
+import { FiltersComponent } from './filters.component';
 
-describe('FiltersChipsComponent', () => {
+describe('FiltersComponent', () => {
   let component: FiltersComponent;
   let fixture: ComponentFixture<FiltersComponent>;
-  let arlasStartupService: ArlasStartupService;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [FiltersComponent, GetColorFilterPipe, GetCollaborationIconPipe, GetContributorLabelPipe],
-      imports: [MatChipsModule, MatIconModule, MatTooltipModule, MatMenuModule,
+      declarations: [FiltersComponent],
+      imports: [
+        MatChipsModule,
+        MatIconModule,
+        MatTooltipModule,
+        MatMenuModule,
         TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader } }),
-        FormatNumberPipe],
+        FormatNumberPipe,
+        ColorGeneratorModule.forRoot({
+          loader: {
+            provide: ColorGeneratorLoader,
+            useClass: AwcColorGeneratorLoader
+          }
+        })
+      ],
       providers: [
         {
           provide: ArlasStartupService,
           useClass: ArlasStartupService,
           deps: [ArlasConfigurationUpdaterService]
         },
-        ArlasConfigService, ArlasCollaborativesearchService,
-        ArlasWalkthroughService, TranslateService,
+        ArlasConfigService,
+        ArlasCollaborativesearchService,
+        ArlasWalkthroughService,
         { provide: CONFIG_UPDATER, useValue: {} },
-        {
-          provide: ArlasConfigurationUpdaterService,
-          useClass: ArlasConfigurationUpdaterService
-        },
+        ArlasConfigurationUpdaterService,
         { provide: FETCH_OPTIONS, useValue: {} },
-        provideHttpClient(withInterceptorsFromDi())
+        provideHttpClient(withInterceptorsFromDi()),
+        ArlasCollectionService
       ]
     })
       .compileComponents();
+
+    fixture = TestBed.createComponent(FiltersComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
   }));
 
-  beforeEach(() => {
-    arlasStartupService = TestBed.get(ArlasStartupService);
-    arlasStartupService.arlasIsUp.subscribe(isUp => {
-      if (isUp) {
-        fixture = TestBed.createComponent(FiltersComponent);
-        component = fixture.componentInstance;
-        fixture.detectChanges();
-      }
-    });
+  it('should create', () => {
+    expect(component).toBeTruthy();
   });
-
-  it('should create', (() => {
-    arlasStartupService.arlasIsUp.subscribe(isUp => {
-      if (isUp) {
-        expect(component).toBeTruthy();
-      }
-    });
-  }));
 });

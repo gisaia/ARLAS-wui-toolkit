@@ -1,10 +1,10 @@
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { DeniedAccessDialogComponent } from './denied-access-dialog.component';
+import { TranslateLoader, TranslateModule, TranslateNoOpLoader } from '@ngx-translate/core';
 import { OAuthModule } from 'angular-oauth2-oidc';
 import { of } from 'rxjs';
+import { DeniedAccessDialogComponent } from './denied-access-dialog.component';
 
 describe('DeniedAccessDialogComponent', () => {
   let component: DeniedAccessDialogComponent;
@@ -19,7 +19,7 @@ describe('DeniedAccessDialogComponent', () => {
       declarations: [DeniedAccessDialogComponent],
       imports: [
         TranslateModule.forRoot({
-          loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
+          loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader }
         }),
         MatDialogModule,
         OAuthModule.forRoot()

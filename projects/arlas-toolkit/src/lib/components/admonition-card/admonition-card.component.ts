@@ -22,7 +22,6 @@ import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'arlas-admonition-card',
-  standalone: true,
   imports: [
     TranslateModule
   ],

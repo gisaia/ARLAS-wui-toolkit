@@ -134,7 +134,7 @@ export { ToolkitComponent } from './lib/toolkit.component';
 export {
   ArlasToolKitModule, auhtentServiceFactory, configServiceFactory, configUpdaterFactory,
   getOptionsFactory, iamServiceFactory, localDatePickerFactory, MY_CUSTOM_FORMATS,
-  settingsServiceFactory, startupServiceFactory
+  settingsServiceFactory
 } from './lib/toolkit.module';
 export { ArlasDataSource } from './lib/tools/arlasDataSource';
 export { ArlasLocalDatabase } from './lib/tools/arlasLocalDatabase';
@@ -153,3 +153,4 @@ export {
   ConfigAction, ConfigActionEnum, DONUT_TOOLTIP_DATA, GET_OPTIONS, getFieldProperties, getKeyForColor, getParamValue, hashCode,
   HISTOGRAM_TOOLTIP_DATA, intToRGB, MapService, NOT_CONFIGURED, sortOnDate, SpinnerOptions, WidgetConfiguration, ZoomToDataStrategy
 } from './lib/tools/utils';
+
