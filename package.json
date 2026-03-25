@@ -104,6 +104,7 @@
   "overrides": {
     "license-check-and-add": {
       "globby": "^11.0.0"
-    }
+    },
+    "underscore": "^1.13.8"
   }
 }

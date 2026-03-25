@@ -2,11 +2,7 @@
   <arlas-tool-progress-spinner [strokeWidth]="spinnerOptions?.strokeWidth" [color]="spinnerOptions?.color"
     [diameter]="spinnerOptions?.diameter"
     [hidden]="!(showSpinner || (detailedContributor?.isDataUpdating || contributor?.isDataUpdating))"></arlas-tool-progress-spinner>
-  <div (mouseleave)="hideHistogramTooltip()" #detailed class="detailed-histogram" [class.displayed-detail]="showDetailedHistogram" *ngIf="showDetailedHistogram">
-    <button *ngIf="showExportCsv" id="export-csv" matTooltip="{{'Export' | translate }}" class="export-csv-button"
-      (click)="exportCsv(detailedContributor)">
-      <mat-icon class="analytics-board-panel-icon export-csv">get_app</mat-icon>
-    </button>
+  <div (mouseleave)="hideHistogramTooltip()" #detailed class="histogram detailed-histogram" [class.displayed-detail]="showDetailedHistogram" *ngIf="showDetailedHistogram">
     <arlas-histogram class="histogram-container" #detailedhistogram [intervalListSelection]="detailedContributor?.intervalListSelection"
       [intervalSelection]="detailedTimelineIntervalSelection" (dataPlottedEvent)="afterDetailedDataPlotted($event)"
       [data]="detailedContributor?.chartData" (valuesListChangedEvent)="onDetailedIntervalBrushed($event)"
@@ -33,14 +29,11 @@
       [useUtc]="detailedContributor?.useUtc"
       (hoveredBucketEvent)="widgetNotifier.notifyBucketHover($event)"
       (tooltipEvent)="emitTooltip($event,detailed, true)"
-      [xUnit]="componentInputs?.xUnit" [yUnit]="componentInputs?.yUnit"></arlas-histogram>
+      [xUnit]="componentInputs?.xUnit" [yUnit]="componentInputs?.yUnit"
+      [displayExportButton]="showExportCsv" (exportEvent)="exportCsv(detailedContributor)"></arlas-histogram>
   </div>
 
-  <div style="position: relative;" (mouseleave)="hideHistogramTooltip()" #main>
-    <button *ngIf="showExportCsv" id="export-csv" matTooltip="{{'Export' | translate }}" class="export-csv-button"
-      (click)="exportCsv(contributor)">
-      <mat-icon class="analytics-board-panel-icon export-csv">get_app</mat-icon>
-    </button>
+  <div class="histogram" (mouseleave)="hideHistogramTooltip()" #main>
     <arlas-histogram class="histogram-container" #histogram [intervalListSelection]="contributor?.intervalListSelection"
       [intervalSelection]="contributor?.intervalSelection" [data]="contributor?.chartData"
       (valuesListChangedEvent)="onMainIntervalBrushed($event)"
@@ -66,6 +59,7 @@
       [chartYLabel]="componentInputs?.chartYLabel" [shortYLabels]="componentInputs?.shortYLabels"
       [useUtc]="contributor?.useUtc"
       (tooltipEvent)="emitTooltip($event, main, false)"
-      [xUnit]="componentInputs?.xUnit" [yUnit]="componentInputs?.yUnit"></arlas-histogram>
+      [xUnit]="componentInputs?.xUnit" [yUnit]="componentInputs?.yUnit"
+      [displayExportButton]="showExportCsv" (exportEvent)="exportCsv(contributor)"></arlas-histogram>
   </div>
 </div>
