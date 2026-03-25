@@ -4,7 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { TranslateFakeLoader, TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateLoader, TranslateModule, TranslateNoOpLoader } from '@ngx-translate/core';
 import {
   ArlasColorService,
   AwcColorGeneratorLoader, ColorGeneratorLoader, ColorGeneratorModule,
@@ -43,7 +43,7 @@ describe('HistogramWidgetComponent', () => {
         MatIconModule,
         MatProgressSpinnerModule,
         TranslateModule.forRoot({
-          loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
+          loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader }
         }),
         ColorGeneratorModule.forRoot({
           loader: {
@@ -60,7 +60,6 @@ describe('HistogramWidgetComponent', () => {
           useClass: ArlasStartupService,
           deps: [ArlasConfigurationUpdaterService]
         },
-        TranslateService,
         ArlasOverlayService,
         { provide: CONFIG_UPDATER, useValue: {} },
         {

@@ -26,7 +26,8 @@ import { GET_OPTIONS } from '../../../../tools/utils';
 @Component({
   selector: 'arlas-link',
   templateUrl: './link.component.html',
-  styleUrls: ['./link.component.scss']
+  styleUrls: ['./link.component.scss'],
+  standalone: false
 })
 export class LinkComponent implements OnInit {
 

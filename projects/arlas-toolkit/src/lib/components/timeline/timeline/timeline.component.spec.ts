@@ -29,7 +29,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserModule } from '@angular/platform-browser';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from '@danielmoncada/angular-datetime-picker';
-import { TranslateFakeLoader, TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateLoader, TranslateModule, TranslateNoOpLoader } from '@ngx-translate/core';
 import {
   AwcColorGeneratorLoader, ColorGeneratorLoader, ColorGeneratorModule,
   DonutModule, HistogramModule, MetricModule, PowerbarsModule, ResultsModule
@@ -54,19 +54,21 @@ describe('TimelineComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [TimelineComponent, DatePickerComponent, TimelineShortcutComponent, GetTimeLabelPipe],
+      declarations: [TimelineComponent, DatePickerComponent, TimelineShortcutComponent],
       imports: [MatCardModule, MatIconModule, MatExpansionModule, MatSelectModule, MatButtonModule, MatChipsModule,
         OwlDateTimeModule, OwlNativeDateTimeModule, FormsModule,
         MatTooltipModule, BrowserModule, HistogramModule, ResultsModule, PowerbarsModule, DonutModule, MetricModule,
         TranslateModule.forRoot({
-          loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
+          loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader }
         }),
         ColorGeneratorModule.forRoot({
           loader: {
             provide: ColorGeneratorLoader,
             useClass: AwcColorGeneratorLoader
           }
-        })],
+        }),
+        GetTimeLabelPipe
+      ],
       providers: [
         ArlasCollaborativesearchService,
         ArlasOverlayService,
@@ -75,7 +77,7 @@ describe('TimelineComponent', () => {
           useClass: ArlasStartupService,
           deps: [ArlasConfigurationUpdaterService]
         },
-        ArlasConfigService, TranslateService,
+        ArlasConfigService,
         { provide: CONFIG_UPDATER, useValue: {} },
         {
           provide: ArlasConfigurationUpdaterService,

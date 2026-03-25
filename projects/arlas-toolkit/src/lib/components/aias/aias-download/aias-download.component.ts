@@ -37,7 +37,8 @@ export const DOWNLOAD_PROCESS_NAME = marker('download');
   styleUrls: ['./aias-download.component.scss', '../aias-process.scss'],
   providers: [{
     provide: STEPPER_GLOBAL_OPTIONS, useValue: { displayDefaultIndicatorType: false }
-  }]
+  }],
+  standalone: false
 })
 export class AiasDownloadComponent extends AiasProcess implements OnInit, OnDestroy {
 

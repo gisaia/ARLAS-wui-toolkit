@@ -30,7 +30,8 @@ import { PermissionsCreatorDialogComponent } from './permissions-creator-dialog/
 @Component({
   selector: 'arlas-permissions-creator',
   templateUrl: './permissions-creator.component.html',
-  styleUrls: ['./permissions-creator.component.scss']
+  styleUrls: ['./permissions-creator.component.scss'],
+  standalone: false
 })
 export class PermissionsCreatorComponent implements OnInit {
 

@@ -37,7 +37,8 @@ const moment = (_moment as any).default ? (_moment as any).default : _moment;
   styleUrls: ['./date-picker.component.scss'],
   providers: [
     { provide: DateTimeAdapter, useClass: MomentDateTimeAdapter, deps: [OWL_DATE_TIME_LOCALE] }
-  ]
+  ],
+  standalone: false
 })
 export class DatePickerComponent implements OnInit, OnChanges {
 

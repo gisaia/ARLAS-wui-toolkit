@@ -1,12 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { ArlasSettingsService } from '../../services/settings/arlas.settings.service';
-import { LoginComponent } from './login.component';
+import { TranslateLoader, TranslateModule, TranslateNoOpLoader } from '@ngx-translate/core';
 import { of } from 'rxjs';
 import { ArlasIamService } from '../../services/arlas-iam/arlas-iam.service';
+import { ArlasSettingsService } from '../../services/settings/arlas.settings.service';
 import { MockArlasSettingsService } from '../../tools/tests/arlas-settings-service.mock';
+import { LoginComponent } from './login.component';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -32,7 +32,7 @@ describe('LoginComponent', () => {
         }
       ],
       imports: [
-        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }),
+        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader } }),
         RouterModule.forRoot([])
       ]
     })

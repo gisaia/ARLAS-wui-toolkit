@@ -30,7 +30,8 @@ import { BookmarkComponent } from '../bookmark/bookmark.component';
 @Component({
   selector: 'arlas-bookmark-menu',
   templateUrl: './bookmark-menu.component.html',
-  styleUrls: ['./bookmark-menu.component.scss']
+  styleUrls: ['./bookmark-menu.component.scss'],
+  standalone: false
 })
 export class BookmarkMenuComponent implements OnInit, OnDestroy {
 

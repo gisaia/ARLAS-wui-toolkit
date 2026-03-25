@@ -22,7 +22,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
-import { TranslateFakeLoader, TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateLoader, TranslateModule, TranslateNoOpLoader } from '@ngx-translate/core';
 import { ArlasCollaborativesearchService } from '../../services/collaborative-search/arlas.collaborative-search.service';
 import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
 import { ArlasConfigService, ArlasStartupService, CONFIG_UPDATER, FETCH_OPTIONS } from '../../services/startup/startup.service';
@@ -31,20 +31,19 @@ import { AoiComponent } from './aoi.component';
 describe('AoiComponent', () => {
   let component: AoiComponent;
   let fixture: ComponentFixture<AoiComponent>;
-  let arlasStartupService: ArlasStartupService;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [AoiComponent],
       imports: [MatTableModule, MatCheckboxModule, MatIconModule,
-        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } })],
+        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader } })],
       providers: [
         ArlasConfigService, ArlasCollaborativesearchService,
         {
           provide: ArlasStartupService,
           useClass: ArlasStartupService,
           deps: [ArlasConfigurationUpdaterService]
-        }, TranslateService,
+        },
         { provide: CONFIG_UPDATER, useValue: {} },
         {
           provide: ArlasConfigurationUpdaterService,
@@ -55,24 +54,13 @@ describe('AoiComponent', () => {
       ]
     })
       .compileComponents();
+
+    fixture = TestBed.createComponent(AoiComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
   }));
 
-  beforeEach(() => {
-    arlasStartupService = TestBed.get(ArlasStartupService);
-    arlasStartupService.arlasIsUp.subscribe(isUp => {
-      if (isUp) {
-        fixture = TestBed.createComponent(AoiComponent);
-        component = fixture.componentInstance;
-        fixture.detectChanges();
-      }
-    });
-  });
-
   it('should create', () => {
-    arlasStartupService.arlasIsUp.subscribe(isUp => {
-      if (isUp) {
-        expect(component).toBeTruthy();
-      }
-    });
+    expect(component).toBeTruthy();
   });
 });

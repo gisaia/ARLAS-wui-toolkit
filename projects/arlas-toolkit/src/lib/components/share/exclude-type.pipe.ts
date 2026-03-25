@@ -20,7 +20,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { ArlasSearchField } from './model/ArlasSearchField';
 
-@Pipe({ name: 'excludeType' })
+@Pipe({
+  name: 'excludeType'
+})
 export class ExcludeTypePipe implements PipeTransform {
 
   public transform(allField: ArlasSearchField[], type: Set<string>) {

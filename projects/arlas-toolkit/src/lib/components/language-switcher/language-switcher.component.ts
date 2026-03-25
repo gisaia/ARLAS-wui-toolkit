@@ -27,7 +27,8 @@ import { getParamValue } from '../../tools/utils';
   selector: 'arlas-language-switcher',
   templateUrl: './language-switcher.component.html',
   styleUrls: ['./language-switcher.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  standalone: false
 })
 export class LanguageSwitcherComponent implements OnInit {
   /**

@@ -44,7 +44,8 @@ import { DEFAULT_SPINNER_OPTIONS } from '../progress-spinner/progress-spinner.co
 @Component({
   selector: 'arlas-tool-histogram-widget',
   templateUrl: './histogram-widget.component.html',
-  styleUrls: ['./histogram-widget.component.scss']
+  styleUrls: ['./histogram-widget.component.scss'],
+  standalone: false
 })
 export class HistogramWidgetComponent implements OnInit, OnDestroy, AfterViewInit {
 

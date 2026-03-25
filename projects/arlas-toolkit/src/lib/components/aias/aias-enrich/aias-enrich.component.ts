@@ -33,7 +33,8 @@ export const ENRICH_PROCESS_NAME = marker('enrich');
   styleUrls: ['./aias-enrich.component.scss', '../aias-process.scss'],
   providers: [{
     provide: STEPPER_GLOBAL_OPTIONS, useValue: { displayDefaultIndicatorType: false }
-  }]
+  }],
+  standalone: false
 })
 export class AiasEnrichComponent extends AiasProcess implements OnInit {
 

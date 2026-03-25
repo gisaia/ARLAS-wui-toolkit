@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateLoader, TranslateModule, TranslateNoOpLoader } from '@ngx-translate/core';
 import { WidgetTooltipComponent } from './widget-tooltip.component';
 
 describe('WidgetTooltipComponent', () => {
@@ -11,7 +11,7 @@ describe('WidgetTooltipComponent', () => {
       imports: [
         WidgetTooltipComponent,
         TranslateModule.forRoot({
-          loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
+          loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader }
         })
       ]
     })

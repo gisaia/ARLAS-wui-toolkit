@@ -28,7 +28,8 @@ import { NOT_CONFIGURED } from '../../tools/utils';
 @Component({
   selector: 'arlas-verify',
   templateUrl: './verify.component.html',
-  styleUrls: ['./verify.component.css']
+  styleUrls: ['./verify.component.css'],
+  standalone: false
 })
 export class VerifyComponent implements OnInit {
 

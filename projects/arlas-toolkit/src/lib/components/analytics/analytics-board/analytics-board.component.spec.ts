@@ -13,7 +13,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import {
-  TranslateFakeLoader, TranslateLoader, TranslateModule, TranslateService, TranslateStore
+  TranslateLoader, TranslateModule,
+  TranslateNoOpLoader
 } from '@ngx-translate/core';
 import { DonutModule, HistogramModule, MetricModule, PowerbarsModule, ResultsModule } from 'arlas-web-components';
 import { ArlasCollaborativesearchService } from '../../../services/collaborative-search/arlas.collaborative-search.service';
@@ -29,7 +30,6 @@ import { AnalyticsBoardComponent } from './analytics-board.component';
 describe('AnalyticsBoardComponent', () => {
   let component: AnalyticsBoardComponent;
   let fixture: ComponentFixture<AnalyticsBoardComponent>;
-  let arlasStartupService: ArlasStartupService;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -39,12 +39,11 @@ describe('AnalyticsBoardComponent', () => {
       imports: [MatCardModule, MatIconModule, MatExpansionModule, MatSelectModule, MatButtonModule,
         MatTooltipModule, BrowserModule, HistogramModule, ResultsModule, PowerbarsModule,
         DonutModule, RouterModule.forRoot([]),
-        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }),
+        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader } }),
         MatBadgeModule, DragDropModule,
         MetricModule, MatProgressSpinnerModule, MatTabsModule],
       providers: [
         ArlasConfigService, ArlasCollaborativesearchService,
-        TranslateService, TranslateStore,
         {
           provide: ArlasStartupService,
           useClass: ArlasStartupService,
@@ -59,23 +58,13 @@ describe('AnalyticsBoardComponent', () => {
         provideHttpClient(withInterceptorsFromDi())
       ]
     }).compileComponents();
+
+    fixture = TestBed.createComponent(AnalyticsBoardComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
   }));
 
-  beforeEach(() => {
-    arlasStartupService = TestBed.get(ArlasStartupService);
-    arlasStartupService.arlasIsUp.subscribe(isUp => {
-      if (isUp) {
-        fixture = TestBed.createComponent(AnalyticsBoardComponent);
-        component = fixture.componentInstance;
-        fixture.detectChanges();
-      }
-    });
-  });
   it('should create', () => {
-    arlasStartupService.arlasIsUp.subscribe(isUp => {
-      if (isUp) {
-        expect(component).toBeTruthy();
-      }
-    });
+    expect(component).toBeTruthy();
   });
 });

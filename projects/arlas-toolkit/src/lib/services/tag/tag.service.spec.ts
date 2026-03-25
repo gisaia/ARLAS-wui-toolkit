@@ -17,7 +17,7 @@
  * under the License.
  */
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { TestBed, inject } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { DateTimeProvider, OAuthLogger, OAuthModule, OAuthService, UrlHelperService } from 'angular-oauth2-oidc';
 import { GET_OPTIONS } from '../../tools/utils';
@@ -27,6 +27,8 @@ import { ArlasSettingsService } from '../settings/arlas.settings.service';
 import { ArlasTagService } from './tag.service';
 
 describe('ArlasTagService', () => {
+  let service: ArlasTagService;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [OAuthModule, MatSnackBarModule],
@@ -46,12 +48,11 @@ describe('ArlasTagService', () => {
         provideHttpClient(withInterceptorsFromDi())
       ]
     });
+
+    service = TestBed.inject(ArlasTagService);
   });
 
-  it('should be created', inject([ArlasSettingsService],
-    (arlasSettingsSerivce: ArlasSettingsService) => {
-      const service: ArlasTagService = TestBed.get(ArlasTagService);
-      expect(service).toBeTruthy();
-      expect(arlasSettingsSerivce).toBeTruthy();
-    }));
+  it('should be created', () => {
+    expect(service).toBeTruthy();
+  });
 });

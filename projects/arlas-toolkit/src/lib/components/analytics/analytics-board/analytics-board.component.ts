@@ -32,7 +32,8 @@ import { AnalyticGroupConfiguration } from '../analytics.utils';
 @Component({
   selector: 'arlas-analytics-board',
   templateUrl: './analytics-board.component.html',
-  styleUrls: ['./analytics-board.component.scss']
+  styleUrls: ['./analytics-board.component.scss'],
+  standalone: false
 })
 export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
 

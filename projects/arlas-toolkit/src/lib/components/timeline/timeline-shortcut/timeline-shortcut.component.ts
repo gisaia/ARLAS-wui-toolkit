@@ -36,7 +36,8 @@ import { ArlasStartupService } from '../../../services/startup/startup.service';
 @Component({
   selector: 'arlas-timeline-shortcut',
   templateUrl: './timeline-shortcut.component.html',
-  styleUrls: ['./timeline-shortcut.component.scss']
+  styleUrls: ['./timeline-shortcut.component.scss'],
+  standalone: false
 })
 export class TimelineShortcutComponent implements OnInit {
   /**

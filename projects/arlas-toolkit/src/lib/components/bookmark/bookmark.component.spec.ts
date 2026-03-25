@@ -20,66 +20,71 @@
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
-import { TranslateFakeLoader, TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { RouterModule } from '@angular/router';
+import { TranslateLoader, TranslateModule, TranslateNoOpLoader } from '@ngx-translate/core';
+import { OAuthModule } from 'angular-oauth2-oidc';
+import { ArlasBookmarkService } from '../../services/bookmark/bookmark.service';
 import { ArlasCollaborativesearchService } from '../../services/collaborative-search/arlas.collaborative-search.service';
 import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
 import {
-  ArlasConfigService,
-  ArlasStartupService,
-  CONFIG_UPDATER,
-  FETCH_OPTIONS
+  ArlasConfigService, ArlasStartupService, CONFIG_UPDATER, FETCH_OPTIONS
 } from '../../services/startup/startup.service';
+import { GET_OPTIONS } from '../../tools/utils';
 import { BookmarkComponent } from './bookmark.component';
 
 describe('BookmarkComponent', () => {
   let component: BookmarkComponent;
   let fixture: ComponentFixture<BookmarkComponent>;
-  let arlasStartupService: ArlasStartupService;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [BookmarkComponent],
-      imports: [MatTableModule, MatCheckboxModule, MatIconModule, MatPaginatorModule,
-        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } })],
+      imports: [
+        MatTableModule,
+        MatCheckboxModule,
+        MatIconModule,
+        MatPaginatorModule,
+        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader } }),
+        RouterModule.forRoot([]),
+        OAuthModule.forRoot()
+      ],
       providers: [
-        ArlasConfigService, ArlasCollaborativesearchService,
+        ArlasConfigService,
+        ArlasCollaborativesearchService,
         {
           provide: ArlasStartupService,
           useClass: ArlasStartupService,
           deps: [ArlasConfigurationUpdaterService]
         },
-        TranslateService,
         { provide: CONFIG_UPDATER, useValue: {} },
-        {
-          provide: ArlasConfigurationUpdaterService,
-          useClass: ArlasConfigurationUpdaterService
-        },
+        ArlasConfigurationUpdaterService,
         { provide: FETCH_OPTIONS, useValue: {} },
-        provideHttpClient(withInterceptorsFromDi())
+        provideHttpClient(withInterceptorsFromDi()),
+        ArlasBookmarkService,
+        {
+          provide: GET_OPTIONS,
+          useValue: () => {}
+        },
+        {
+          provide: MAT_DIALOG_DATA,
+          useValue: {
+            isSelect: true
+          }
+        }
       ]
     })
       .compileComponents();
+
+    fixture = TestBed.createComponent(BookmarkComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
   }));
 
-  beforeEach(() => {
-    arlasStartupService = TestBed.get(ArlasStartupService);
-    arlasStartupService.arlasIsUp.subscribe(isUp => {
-      if (isUp) {
-        fixture = TestBed.createComponent(BookmarkComponent);
-        component = fixture.componentInstance;
-        fixture.detectChanges();
-      }
-    });
-  });
-
   it('should create', () => {
-    arlasStartupService.arlasIsUp.subscribe(isUp => {
-      if (isUp) {
-        expect(component).toBeTruthy();
-      }
-    });
+    expect(component).toBeTruthy();
   });
 });

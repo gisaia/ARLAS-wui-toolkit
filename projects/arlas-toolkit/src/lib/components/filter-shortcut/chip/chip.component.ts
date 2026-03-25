@@ -21,7 +21,8 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 @Component({
   selector: 'arlas-filter-shortcut-chip',
   templateUrl: './chip.component.html',
-  styleUrls: ['./chip.component.scss']
+  styleUrls: ['./chip.component.scss'],
+  standalone: false
 })
 export class FilterShortcutChipComponent {
   @Input() public label: string;

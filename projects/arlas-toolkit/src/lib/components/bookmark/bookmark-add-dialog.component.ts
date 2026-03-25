@@ -25,7 +25,8 @@ import { ArlasBookmarkService } from '../../services/bookmark/bookmark.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 @Component({
   templateUrl: './bookmark-add-dialog.component.html',
-  styleUrls: ['./bookmark-add-dialog.component.scss']
+  styleUrls: ['./bookmark-add-dialog.component.scss'],
+  standalone: false
 })
 export class BookmarkAddDialogComponent {
   public bookmarkName = new FormControl('', [Validators.required]);

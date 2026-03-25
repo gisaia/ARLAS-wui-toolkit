@@ -24,34 +24,45 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { TranslateFakeLoader, TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateLoader, TranslateModule, TranslateNoOpLoader } from '@ngx-translate/core';
+import { AwcColorGeneratorLoader, ColorGeneratorLoader, ColorGeneratorModule } from 'arlas-web-components';
 import { ArlasCollaborativesearchService } from '../../services/collaborative-search/arlas.collaborative-search.service';
 import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
 import {
-  ArlasConfigService,
-  ArlasStartupService, CONFIG_UPDATER, FETCH_OPTIONS
+  ArlasConfigService, ArlasStartupService, CONFIG_UPDATER, FETCH_OPTIONS
 } from '../../services/startup/startup.service';
 import { SearchComponent } from './search.component';
 
 describe('SearchComponent', () => {
   let component: SearchComponent;
   let fixture: ComponentFixture<SearchComponent>;
-  let arlasStartupService: ArlasStartupService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [SearchComponent],
-      imports: [ReactiveFormsModule, MatAutocompleteModule,
-        MatInputModule, FormsModule, BrowserAnimationsModule,
-        MatIconModule, TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } })],
+      imports: [
+        ReactiveFormsModule,
+        MatAutocompleteModule,
+        MatInputModule,
+        FormsModule,
+        BrowserAnimationsModule,
+        MatIconModule,
+        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader } }),
+        ColorGeneratorModule.forRoot({
+          loader: {
+            provide: ColorGeneratorLoader,
+            useClass: AwcColorGeneratorLoader
+          }
+        })
+      ],
       providers: [
-        ArlasConfigService, ArlasCollaborativesearchService,
+        ArlasConfigService,
+        ArlasCollaborativesearchService,
         {
           provide: ArlasStartupService,
           useClass: ArlasStartupService,
           deps: [ArlasConfigurationUpdaterService]
         },
-        TranslateService,
         { provide: CONFIG_UPDATER, useValue: {} },
         {
           provide: ArlasConfigurationUpdaterService,
@@ -62,24 +73,14 @@ describe('SearchComponent', () => {
       ]
     })
       .compileComponents();
-  });
 
-  beforeEach(() => {
-    arlasStartupService = TestBed.get(ArlasStartupService);
-    arlasStartupService.arlasIsUp.subscribe(isUp => {
-      if (isUp) {
-        fixture = TestBed.createComponent(SearchComponent);
-        component = fixture.componentInstance;
-        fixture.detectChanges();
-      }
-    });
+    fixture = TestBed.createComponent(SearchComponent);
+    component = fixture.componentInstance;
+    fixture.componentRef.setInput('searchContributors', []);
+    fixture.detectChanges();
   });
 
   it('should create', (() => {
-    arlasStartupService.arlasIsUp.subscribe(isUp => {
-      if (isUp) {
-        expect(component).toBeTruthy();
-      }
-    });
+    expect(component).toBeTruthy();
   }));
 });

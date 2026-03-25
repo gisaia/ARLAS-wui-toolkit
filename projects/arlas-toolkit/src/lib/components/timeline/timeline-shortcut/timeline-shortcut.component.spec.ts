@@ -10,7 +10,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserModule } from '@angular/platform-browser';
 import { OWL_DATE_TIME_LOCALE, OwlDateTimeModule } from '@danielmoncada/angular-datetime-picker';
-import { TranslateFakeLoader, TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateLoader, TranslateModule, TranslateNoOpLoader } from '@ngx-translate/core';
 import { GetTimeLabelPipe } from '../../../pipes/get-time-label.pipe';
 import { ArlasCollaborativesearchService } from '../../../services/collaborative-search/arlas.collaborative-search.service';
 import { ArlasCollectionService } from '../../../services/collection/arlas-collection.service';
@@ -27,13 +27,23 @@ describe('TimelineShortcutComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [TimelineShortcutComponent, DatePickerComponent, GetTimeLabelPipe],
-      imports: [MatCardModule, MatIconModule, MatExpansionModule, MatSelectModule, MatButtonModule, MatChipsModule,
-        OwlDateTimeModule, FormsModule,
-        MatTooltipModule, BrowserModule,
+      declarations: [TimelineShortcutComponent, DatePickerComponent],
+      imports: [
+        MatCardModule,
+        MatIconModule,
+        MatExpansionModule,
+        MatSelectModule,
+        MatButtonModule,
+        MatChipsModule,
+        OwlDateTimeModule,
+        FormsModule,
+        MatTooltipModule,
+        BrowserModule,
         TranslateModule.forRoot({
-          loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
-        })],
+          loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader }
+        }),
+        GetTimeLabelPipe
+      ],
       providers: [
         { provide: OWL_DATE_TIME_LOCALE, useValue: 'fr' },
         ArlasCollaborativesearchService,
@@ -42,7 +52,7 @@ describe('TimelineShortcutComponent', () => {
           useClass: ArlasStartupService,
           deps: [ArlasConfigurationUpdaterService]
         },
-        ArlasConfigService, TranslateService,
+        ArlasConfigService,
         { provide: CONFIG_UPDATER, useValue: {} },
         {
           provide: ArlasConfigurationUpdaterService,

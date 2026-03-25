@@ -1,17 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { AnalyticsMenuComponent } from './analytics-menu.component';
-import { ArlasStartupService } from '../../../services/startup/startup.service';
+import { RouterModule } from '@angular/router';
 import { ArlasConfigurationUpdaterService } from '../../../services/configuration-updater/configurationUpdater.service';
+import { ArlasStartupService } from '../../../services/startup/startup.service';
+import { AnalyticsMenuComponent } from './analytics-menu.component';
 
 describe('AnalyticsMenuComponent', () => {
   let component: AnalyticsMenuComponent;
   let fixture: ComponentFixture<AnalyticsMenuComponent>;
-  let arlasStartupService: ArlasStartupService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ AnalyticsMenuComponent ],
+      imports: [
+        RouterModule.forRoot([])
+      ],
       providers: [
         {
           provide: ArlasStartupService,
@@ -25,24 +27,13 @@ describe('AnalyticsMenuComponent', () => {
       ]
     })
       .compileComponents();
-  });
 
-  beforeEach(() => {
-    arlasStartupService = TestBed.get(ArlasStartupService);
-    arlasStartupService.arlasIsUp.subscribe(isUp => {
-      if (isUp) {
-        fixture = TestBed.createComponent(AnalyticsMenuComponent);
-        component = fixture.componentInstance;
-        fixture.detectChanges();
-      }
-    });
+    fixture = TestBed.createComponent(AnalyticsMenuComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
   it('should create', () => {
-    arlasStartupService.arlasIsUp.subscribe(isUp => {
-      if (isUp) {
-        expect(component).toBeTruthy();
-      }
-    });
+    expect(component).toBeTruthy();
   });
 });

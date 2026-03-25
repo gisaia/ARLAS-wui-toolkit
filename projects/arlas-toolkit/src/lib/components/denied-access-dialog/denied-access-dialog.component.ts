@@ -30,7 +30,8 @@ import { DeniedAccessData } from '../../tools/utils';
 @Component({
   selector: 'arlas-denied-access-dialog',
   templateUrl: './denied-access-dialog.component.html',
-  styleUrls: ['./denied-access-dialog.component.scss']
+  styleUrls: ['./denied-access-dialog.component.scss'],
+  standalone: false
 })
 export class DeniedAccessDialogComponent implements OnInit, OnDestroy {
 

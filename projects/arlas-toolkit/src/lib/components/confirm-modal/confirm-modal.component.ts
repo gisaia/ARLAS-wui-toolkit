@@ -23,7 +23,8 @@ import { MatDialogRef } from '@angular/material/dialog';
 @Component({
   selector: 'arlas-tool-confirm-modal-msg',
   templateUrl: './confirm-modal.component.html',
-  styleUrls: ['./confirm-modal.component.css']
+  styleUrls: ['./confirm-modal.component.css'],
+  standalone: false
 })
 export class ConfirmModalComponent {
   public confirmMessage: string;

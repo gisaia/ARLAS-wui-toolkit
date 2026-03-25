@@ -25,8 +25,7 @@ import { ArlasCollaborativesearchService } from '../services/collaborative-searc
  * Returns the contributor that has the given contributorId
  */
 @Pipe({
-  name: 'getContributor',
-  standalone: true
+  name: 'getContributor'
 })
 export class GetContributorPipe implements PipeTransform {
   private readonly collaborativeService = inject(ArlasCollaborativesearchService);

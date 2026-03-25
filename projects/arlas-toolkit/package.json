@@ -1,6 +1,6 @@
 {
   "name": "arlas-wui-toolkit",
-  "version": "27.2.0-rc.1",
+  "version": "28.0.0-beta.3",
   "description": "Tool Kit Library for ARLAS wui web App",
   "author": "gisaia",
   "license": "Apache-2.0",
@@ -9,20 +9,19 @@
     "url": "https://github.com/gisaia/ARLAS-wui-toolkit.git"
   },
   "peerDependencies": {
-    "@angular/animations": "^18.2.13",
-    "@angular/cdk": "^18.2.14",
-    "@angular/common": "^18.2.13",
-    "@angular/compiler": "^18.2.13",
-    "@angular/core": "^18.2.13",
-    "@angular/forms": "^18.2.13",
-    "@angular/material": "^18.2.14",
-    "@angular/platform-browser": "^18.2.13",
-    "@angular/platform-browser-dynamic": "^18.2.13",
-    "@angular/router": "^18.2.13",
-    "@vendure/ngx-translate-extract": "^9.3.0",
+    "@angular/animations": "^20.3.15",
+    "@angular/cdk": "^20.2.14",
+    "@angular/common": "^20.3.15",
+    "@angular/compiler": "^20.3.15",
+    "@angular/core": "^20.3.15",
+    "@angular/forms": "^20.3.15",
+    "@angular/material": "^20.2.14",
+    "@angular/platform-browser": "^20.3.15",
+    "@angular/platform-browser-dynamic": "^20.3.15",
+    "@angular/router": "^20.3.15",
     "@colsen1991/ngx-translate-extract-marker": "^3.0.1",
-    "@ngx-translate/core": "^15.0.0",
-    "@ngx-translate/http-loader": "^8.0.0",
+    "@ngx-translate/core": "^17.0.0",
+    "@ngx-translate/http-loader": "^17.0.0",
     "core-js": "~3.26.1",
     "moment": "^2.24.0",
     "stream": "0.0.2",
@@ -32,28 +31,28 @@
     "@turf/bbox-polygon": "^7.0.0",
     "wellknown": "^0.5.0",
     "rxjs": "^7.4.0",
-    "zone.js": "^0.14.0"
+    "zone.js": "^0.15.0"
   },
   "dependencies": {
-    "@danielmoncada/angular-datetime-picker": "^18.0.0",
-    "@danielmoncada/angular-datetime-picker-moment-adapter": "^5.0.0",
+    "@danielmoncada/angular-datetime-picker": "^20.0.1",
+    "@danielmoncada/angular-datetime-picker-moment-adapter": "^7.0.1",
     "ajv": "8.8.2",
     "ajv-keywords": "5.1.0",
-    "angular-oauth2-oidc": "^18.0.0",
-    "angular-oauth2-oidc-jwks": "^17.0.0",
+    "angular-oauth2-oidc": "^20.0.2",
+    "angular-oauth2-oidc-jwks": "^20.0.0",
     "arlas-iam-api": "27.0.0",
     "arlas-permissions-api": "27.0.0",
     "arlas-persistence-api": "27.0.0",
     "arlas-tagger-api": "27.0.0",
-    "arlas-web-components": "27.2.0-rc.1",
-    "arlas-web-contributors": "27.2.0-rc.1",
-    "arlas-map": "27.2.0-rc.1",
+    "arlas-web-components": "28.0.0-rc.1",
+    "arlas-web-contributors": "28.0.0-rc.1",
+    "arlas-map": "28.0.0-rc.1",
     "cli-color": "^1.2.0",
     "fetch-intercept": "^2.3.1",
     "hopscotch": "0.3.1",
     "js-yaml": "^3.14.0",
-    "ngx-device-detector": "^8.0.0",
-    "ngx-markdown": "^18.0.0",
+    "ngx-device-detector": "10.0.0",
+    "ngx-markdown": "^20.1.0",
     "ngx-spinner": "^17.0.0"
   },
   "browser": {
@@ -69,10 +68,5 @@
     "./assets/i18n/es.json": {
       "default": "./assets/i18n/es.json"
     }
-  },
-  "overrides": {
-    "esbuild": "~0.25.0",
-    "webpack-dev-server": "~5.2.2",
-    "tmp": "~0.2.5"
   }
 }

@@ -24,7 +24,8 @@ import { ArlasIamService } from '../../services/arlas-iam/arlas-iam.service';
 @Component({
   selector: 'arlas-tool-forgot',
   templateUrl: './forgot.component.html',
-  styleUrls: ['./forgot.component.css']
+  styleUrls: ['./forgot.component.css'],
+  standalone: false
 })
 export class ForgotComponent implements OnInit {
 

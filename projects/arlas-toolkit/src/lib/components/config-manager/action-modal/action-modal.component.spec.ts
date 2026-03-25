@@ -7,14 +7,14 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
-import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateLoader, TranslateModule, TranslateNoOpLoader } from '@ngx-translate/core';
 import { DateTimeProvider, OAuthLogger, OAuthService, UrlHelperService } from 'angular-oauth2-oidc';
 import { AuthentificationService } from '../../../services/authentification/authentification.service';
 import { ArlasSettingsService } from '../../../services/settings/arlas.settings.service';
+import { MockArlasSettingsService } from '../../../tools/tests/arlas-settings-service.mock';
 import { GET_OPTIONS } from '../../../tools/utils';
 import { ShareConfigModule } from '../share-config/share-config.module';
 import { ActionModalComponent } from './action-modal.component';
-import { MockArlasSettingsService } from '../../../tools/tests/arlas-settings-service.mock';
 
 describe('ActionModalComponent', () => {
   let component: ActionModalComponent;
@@ -27,7 +27,7 @@ describe('ActionModalComponent', () => {
 
     TestBed.configureTestingModule({
       declarations: [ActionModalComponent],
-      imports: [TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }),
+      imports: [TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader } }),
         MatMenuModule,
         MatIconModule,
         MatDialogModule,

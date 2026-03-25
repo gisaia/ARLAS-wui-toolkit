@@ -45,7 +45,8 @@ const moment = (_moment as any).default ? (_moment as any).default : _moment;
   ],
   providers: [
     { provide: DateTimeAdapter, useClass: MomentDateTimeAdapter, deps: [OWL_DATE_TIME_LOCALE] }
-  ]
+  ],
+  standalone: false
 })
 export class ShortcutFiltersHandlerComponent implements OnInit, OnDestroy {
   /**

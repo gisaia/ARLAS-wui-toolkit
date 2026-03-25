@@ -51,7 +51,8 @@ export interface ShareLayerSourceConfig extends LayerSourceConfig {
   selector: 'arlas-share',
   templateUrl: './share.component.html',
   styleUrls: ['./share.component.css'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  standalone: false
 })
 export class ShareComponent {
 
@@ -71,7 +72,8 @@ export class ShareComponent {
   selector: 'arlas-share-dialog',
   templateUrl: './share-dialog.component.html',
   styleUrls: ['./share-dialog.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  standalone: false
 })
 export class ShareDialogComponent implements OnInit {
 
