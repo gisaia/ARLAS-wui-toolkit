@@ -111,9 +111,10 @@ $border-color: #a1a1a1;
         ::ng-deep.include_exclude {
             align-items: center;
             height: 15px;
-        }
-        ::ng-deep.operation {
-            padding-bottom: 0;
+
+            .operation {
+                padding-bottom: 0 !important;
+            }
         }
         ::ng-deep.powerbars--container {
             padding-bottom: 0;
