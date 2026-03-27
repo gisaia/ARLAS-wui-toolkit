@@ -334,7 +334,7 @@ export class SearchDialogComponent {
     this.dialogRef.close({
       collections: this.collections,
       collectionsState: this.collectionsState,
-      searchValue: keyAsString
+      searchValue: keyAsString.replace(/\+/g, '\\+') // escape '+' char if present in the key
     });
   }
 
