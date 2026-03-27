@@ -53,7 +53,7 @@
     "js-yaml": "^3.14.0",
     "ngx-device-detector": "10.0.0",
     "ngx-markdown": "^20.1.0",
-    "ngx-spinner": "^17.0.0"
+    "ngx-spinner": "^19.0.0"
   },
   "browser": {
     "jsonpath": false
