@@ -23,9 +23,11 @@
       <mat-form-field>
         <mat-label>{{ "Collection" | translate}}</mat-label>
         <mat-select (selectionChange)="collectionChange($event)" [(value)]="selectedCollection">
-          <mat-option *ngFor="let option of collections" [value]="option" >
+          @for (option of collections; track option) {
+            <mat-option [value]="option" >
               {{ option | getCollectionDisplayName | translate }}
             </mat-option>
+          }
         </mat-select>
       </mat-form-field>
 
@@ -44,11 +46,13 @@
         <div style="max-height: 40vh;overflow:auto;flex:3">
           <mat-selection-list role="listbox" formControlName="availableFields" #selectedList
             (selectionChange)="onSelectionChange(selectedList.selectedOptions)">
-            <mat-list-option *ngFor="let field of allFields">
-              <p matLine title="{{ field.label }} - {{field.type}}">
-                {{ field.label }} - <span class="download-description">{{field.type}}</span>
-              </p>
-            </mat-list-option>
+            @for (field of allFields; track field) {
+              <mat-list-option>
+                <p matLine title="{{ field.label }} - {{field.type}}">
+                  {{ field.label }} - <span class="download-description">{{field.type}}</span>
+                </p>
+              </mat-list-option>
+            }
           </mat-selection-list>
         </div>
         <div class="download-feature-button">
@@ -67,12 +71,15 @@
 
         <div style="max-height:40vh;overflow:auto;flex:3">
           <mat-list role="list">
-            <mat-list-item *ngIf="selectedFields.length == 0">{{'No item selected' | translate}}</mat-list-item>
-            <mat-list-item role="listitem" *ngFor="let field of selectedFields">
-              <p matLine title="{{ field.label }} - {{field.type}}">
-                {{ field.label }} - <span class="download-description">{{field.type}}</span>
-              </p>
-            </mat-list-item>
+            @for (field of selectedFields; track field) {
+              <mat-list-item role="listitem">
+                <p matLine title="{{ field.label }} - {{field.type}}">
+                  {{ field.label }} - <span class="download-description">{{field.type}}</span>
+                </p>
+              </mat-list-item>
+            } @empty {
+              <mat-list-item>{{'No item selected' | translate}}</mat-list-item>
+            }
           </mat-list>
         </div>
       </div>
@@ -87,19 +94,21 @@
       <mat-form-field appearance="outline">
         <mat-label>{{ 'Target OS' | translate}}</mat-label>
         <mat-select [(value)]="detectedOs" #osselection (selectionChange)="isCopied = false">
-          <mat-option *ngFor="let opt of operatingSystems" [value]="opt">
-            {{opt}}
-          </mat-option>
+          @for (opt of operatingSystems; track opt) {
+            <mat-option [value]="opt">
+              {{opt}}
+            </mat-option>
+          }
         </mat-select>
       </mat-form-field>
       <textarea [hidden]="osselection.value === 'Windows'" class="download-box" #downloadCommand>docker run \
-      -it \
-      --mount dst=/output,src="$PWD",type=bind \
-      --rm \
-      gisaia/arlas-hits-exporter:{{arlasHitsExporterVersion}} \
+        -it \
+        --mount dst=/output,src="$PWD",type=bind \
+        --rm \
+        gisaia/arlas-hits-exporter:{{arlasHitsExporterVersion}} \
         --search_url="{{serverUrl}}/explore/{{selectedCollection}}/_search?size=9999&sort={{collectionRef?.params.id_path}}&{{filterUrl}}" \
         --include={{selectedFieldString}} \
-        --format={{this.exportedTypeCommand}} \
+        --format={{exportedTypeCommand}} \
         {{authTypeCommand}}
       </textarea>
       <textarea [hidden]="osselection.value !== 'Windows'" class="download-box" #downloadCommandWindows>docker run -it --mount dst=/output,src="%cd%",type=bind --rm gisaia/arlas-hits-exporter:{{arlasHitsExporterVersion}} --search_url="{{serverUrl}}/explore/{{selectedCollection}}/_search?size=9999&sort={{collectionRef?.params.id_path}}&{{filterUrl}}" --include={{selectedFieldString}} --format={{exportedTypeCommand}} {{authTypeCommand}}
@@ -111,8 +120,7 @@
       <button mat-raised-button color="accent" class="download-stepper-button"
         [class.btn-success]="isCopied" (click)="copyCommand(downloadCommand, downloadCommandWindows)">
         <mat-icon [class.hide-icon]="!isCopied">check</mat-icon>
-        <span *ngIf="!isCopied">{{ 'Copy' | translate}}</span>
-        <span *ngIf="isCopied">{{ 'Copied' | translate}}</span>
+        <span>{{ (isCopied ? 'Copied' : 'Copy') | translate}}</span>
       </button>
     </div>
   </mat-step>

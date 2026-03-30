@@ -42,8 +42,7 @@ describe('FiltersComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [FiltersComponent],
-      imports: [
+    imports: [
         MatChipsModule,
         MatIconModule,
         MatTooltipModule,
@@ -51,17 +50,18 @@ describe('FiltersComponent', () => {
         TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader } }),
         FormatNumberPipe,
         ColorGeneratorModule.forRoot({
-          loader: {
-            provide: ColorGeneratorLoader,
-            useClass: AwcColorGeneratorLoader
-          }
-        })
-      ],
-      providers: [
+            loader: {
+                provide: ColorGeneratorLoader,
+                useClass: AwcColorGeneratorLoader
+            }
+        }),
+        FiltersComponent
+    ],
+    providers: [
         {
-          provide: ArlasStartupService,
-          useClass: ArlasStartupService,
-          deps: [ArlasConfigurationUpdaterService]
+            provide: ArlasStartupService,
+            useClass: ArlasStartupService,
+            deps: [ArlasConfigurationUpdaterService]
         },
         ArlasConfigService,
         ArlasCollaborativesearchService,
@@ -71,8 +71,8 @@ describe('FiltersComponent', () => {
         { provide: FETCH_OPTIONS, useValue: {} },
         provideHttpClient(withInterceptorsFromDi()),
         ArlasCollectionService
-      ]
-    })
+    ]
+})
       .compileComponents();
 
     fixture = TestBed.createComponent(FiltersComponent);

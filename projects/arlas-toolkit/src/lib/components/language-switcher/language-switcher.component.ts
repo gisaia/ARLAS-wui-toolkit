@@ -17,7 +17,8 @@
  * under the License.
  */
 
-import { OnInit, Component, Input, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { MatSelectModule } from '@angular/material/select';
 import { getParamValue } from '../../tools/utils';
 
 /**
@@ -28,7 +29,9 @@ import { getParamValue } from '../../tools/utils';
   templateUrl: './language-switcher.component.html',
   styleUrls: ['./language-switcher.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  standalone: false
+  imports: [
+    MatSelectModule
+  ]
 })
 export class LanguageSwitcherComponent implements OnInit {
   /**

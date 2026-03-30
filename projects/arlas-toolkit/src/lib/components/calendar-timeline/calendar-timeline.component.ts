@@ -17,12 +17,12 @@
  * under the License.
  */
 
-import { Component, OnInit, Input, Output, ElementRef, OnDestroy, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { Granularity, TimelineData, TimelineTooltip } from 'arlas-d3';
-import { Subject } from 'rxjs';
 import { CalendarTimelineComponent, TranslationDirection } from 'arlas-web-components';
-import { ArlasOverlayRef } from '../../tools/utils';
+import { Subject } from 'rxjs';
 import { ArlasOverlayService } from '../../services/overlays/overlay.service';
+import { ArlasOverlayRef } from '../../tools/utils';
 
 
 /**
@@ -32,8 +32,10 @@ import { ArlasOverlayService } from '../../services/overlays/overlay.service';
 @Component({
   selector: 'arlas-tool-calendar-timeline',
   templateUrl: './calendar-timeline.component.html',
-  styleUrls: ['./calendar-timeline.component.css'],
-  standalone: false
+  styleUrls: ['./calendar-timeline.component.scss'],
+  imports: [
+    CalendarTimelineComponent
+  ]
 })
 export class CalendarTimelineToolComponent implements OnInit, OnDestroy {
 
@@ -68,7 +70,7 @@ export class CalendarTimelineToolComponent implements OnInit, OnDestroy {
   }
 
 
-  public showCalendarTimelineooltip(tooltip: TimelineTooltip, e: ElementRef, xOffset: number, yOffset: number, right: boolean) {
+  public showCalendarTimelineooltip(tooltip: TimelineTooltip, e: HTMLDivElement, xOffset: number, yOffset: number, right: boolean) {
     if (!!this.timelineOverlayRef) {
       this.timelineOverlayRef.close();
     }
@@ -83,7 +85,7 @@ export class CalendarTimelineToolComponent implements OnInit, OnDestroy {
     }
   }
 
-  public emitTooltip(tooltip: TimelineTooltip, e: ElementRef) {
+  public emitTooltip(tooltip: TimelineTooltip, e: HTMLDivElement) {
 
     const yOffset = -110;
     let xOffset = tooltip.position;

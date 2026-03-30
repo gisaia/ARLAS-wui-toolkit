@@ -18,24 +18,23 @@ describe('TopMenuComponent', () => {
       close: jasmine.createSpy('close')
     };
     await TestBed.configureTestingModule({
-      declarations: [TopMenuComponent],
-      imports: [TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader } }),
+    imports: [TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader } }),
         MatDialogModule,
-        MatMenuModule],
-      providers: [
+        MatMenuModule, TopMenuComponent],
+    providers: [
         AuthentificationService,
         OAuthService,
         OAuthLogger,
         UrlHelperService,
         DateTimeProvider,
         {
-          provide: MatDialogRef,
-          useValue: mockDialogRef
+            provide: MatDialogRef,
+            useValue: mockDialogRef
         },
         ArlasSettingsService,
         provideHttpClient(withInterceptorsFromDi())
-      ]
-    })
+    ]
+})
       .compileComponents();
 
     fixture = TestBed.createComponent(TopMenuComponent);

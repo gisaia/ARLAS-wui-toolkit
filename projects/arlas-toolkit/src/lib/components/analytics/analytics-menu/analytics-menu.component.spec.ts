@@ -10,22 +10,22 @@ describe('AnalyticsMenuComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AnalyticsMenuComponent ],
-      imports: [
-        RouterModule.forRoot([])
-      ],
-      providers: [
+    imports: [
+        RouterModule.forRoot([]),
+        AnalyticsMenuComponent
+    ],
+    providers: [
         {
-          provide: ArlasStartupService,
-          useClass: ArlasStartupService,
-          deps: [ArlasConfigurationUpdaterService]
+            provide: ArlasStartupService,
+            useClass: ArlasStartupService,
+            deps: [ArlasConfigurationUpdaterService]
         },
         {
-          provide: ArlasConfigurationUpdaterService,
-          useClass: ArlasConfigurationUpdaterService
+            provide: ArlasConfigurationUpdaterService,
+            useClass: ArlasConfigurationUpdaterService
         },
-      ]
-    })
+    ]
+})
       .compileComponents();
 
     fixture = TestBed.createComponent(AnalyticsMenuComponent);

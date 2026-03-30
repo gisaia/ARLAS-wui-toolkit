@@ -27,8 +27,7 @@ describe('TimelineShortcutComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [TimelineShortcutComponent, DatePickerComponent],
-      imports: [
+    imports: [
         MatCardModule,
         MatIconModule,
         MatExpansionModule,
@@ -40,29 +39,30 @@ describe('TimelineShortcutComponent', () => {
         MatTooltipModule,
         BrowserModule,
         TranslateModule.forRoot({
-          loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader }
+            loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader }
         }),
-        GetTimeLabelPipe
-      ],
-      providers: [
+        GetTimeLabelPipe,
+        TimelineShortcutComponent, DatePickerComponent
+    ],
+    providers: [
         { provide: OWL_DATE_TIME_LOCALE, useValue: 'fr' },
         ArlasCollaborativesearchService,
         {
-          provide: ArlasStartupService,
-          useClass: ArlasStartupService,
-          deps: [ArlasConfigurationUpdaterService]
+            provide: ArlasStartupService,
+            useClass: ArlasStartupService,
+            deps: [ArlasConfigurationUpdaterService]
         },
         ArlasConfigService,
         { provide: CONFIG_UPDATER, useValue: {} },
         {
-          provide: ArlasConfigurationUpdaterService,
-          useClass: ArlasConfigurationUpdaterService
+            provide: ArlasConfigurationUpdaterService,
+            useClass: ArlasConfigurationUpdaterService
         },
         { provide: FETCH_OPTIONS, useValue: {} },
         provideHttpClient(withInterceptorsFromDi()),
         ArlasCollectionService
-      ]
-    })
+    ]
+})
       .compileComponents();
   }));
 

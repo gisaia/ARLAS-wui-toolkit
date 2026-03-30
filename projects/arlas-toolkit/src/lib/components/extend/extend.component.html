@@ -28,10 +28,13 @@
   <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
   <mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></mat-row>
 </mat-table>
-<mat-paginator *ngIf="isPersistenceActive" [pageIndex]="this.pageNumber"
-  [pageSize]="this.pageSize"
-  [length]="resultsLength"
-  [pageSizeOptions]="[5, 10, 15, 20]"
-  [showFirstLastButtons]=true
-  (page)="pageChange($event)"
-></mat-paginator>
+
+@if (isPersistenceActive) {
+  <mat-paginator [pageIndex]="pageNumber"
+    [pageSize]="pageSize"
+    [length]="resultsLength"
+    [pageSizeOptions]="[5, 10, 15, 20]"
+    [showFirstLastButtons]=true
+    (page)="pageChange($event)"
+  ></mat-paginator>
+}

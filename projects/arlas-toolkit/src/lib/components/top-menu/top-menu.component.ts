@@ -17,10 +17,16 @@
  * under the License.
  */
 
+import { UpperCasePipe } from '@angular/common';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { finalize } from 'rxjs';
 import { ArlasIamService } from '../../services/arlas-iam/arlas-iam.service';
 import { AuthentificationService } from '../../services/authentification/authentification.service';
@@ -30,12 +36,23 @@ import { ArlasSettingsService } from '../../services/settings/arlas.settings.ser
 import { ChangePasswordComponent } from '../change-password/change-password.component';
 import { UserInfosComponent } from '../user-infos/user-infos.component';
 import { AboutComponent } from './about/about.component';
+import { LinksComponent } from './links/links.component';
 
 @Component({
   selector: 'arlas-top-menu',
   templateUrl: './top-menu.component.html',
   styleUrls: ['./top-menu.component.scss'],
-  standalone: false
+  imports: [
+    MatToolbarModule,
+    MatMenuModule,
+    MatIconModule,
+    TranslatePipe,
+    AboutComponent,
+    MatButtonModule,
+    LinksComponent,
+    MatTooltipModule,
+    UpperCasePipe
+  ]
 })
 export class TopMenuComponent implements OnInit {
 

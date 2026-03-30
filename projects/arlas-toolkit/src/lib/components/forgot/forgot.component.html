@@ -6,28 +6,36 @@
       </div>
       <div>
         <form [formGroup]="forgotForm" (ngSubmit)="onSubmit(formDirective)" #formDirective="ngForm">
-          <div class="form-content" *ngIf="displayForm">
-            <mat-form-field appearance="outline">
-              <mat-label>{{'Email' | translate}}</mat-label>
-              <input matInput type="email" formControlName="email">
-              <mat-icon matPrefix>mail_outline</mat-icon>
-              <mat-error *ngIf="forgotForm.hasError('required', 'email')">
-                {{'Email is required' | translate}}
-              </mat-error>
-              <mat-error *ngIf="forgotForm.hasError('pattern', 'email')">
-                {{'Email must be a valid email address' | translate}}
-              </mat-error>
-            </mat-form-field>
-
-          </div>
-          <div class="validate" *ngIf="validated">
-            {{'If you have an account, you will receive an email shortly' | translate}}
-          </div>
-          <div class="buttons" *ngIf="displayForm">
-            <button type="submit" class="sign-up-button" [disabled]="this.forgotForm.invalid" mat-flat-button
+          @if (displayForm) {
+            <div class="form-content">
+              <mat-form-field appearance="outline">
+                <mat-label>{{'Email' | translate}}</mat-label>
+                <input matInput type="email" formControlName="email">
+                <mat-icon matPrefix>mail_outline</mat-icon>
+                @if (forgotForm.hasError('required', 'email')) {
+                  <mat-error>
+                    {{'Email is required' | translate}}
+                  </mat-error>
+                }
+                @if (forgotForm.hasError('pattern', 'email')) {
+                  <mat-error>
+                    {{'Email must be a valid email address' | translate}}
+                  </mat-error>
+                }
+              </mat-form-field>
+            </div>
+          }
+          @if (validated) {
+            <div class="validate">
+              {{'If you have an account, you will receive an email shortly' | translate}}
+            </div>
+          }
+          @if (displayForm) {
+            <div class="buttons">
+              <button type="submit" class="sign-up-button" [disabled]="forgotForm.invalid" mat-flat-button
               color="primary">{{ 'Send password reset email' | translate}}</button>
-
-          </div>
+            </div>
+          }
           <div class="account">
             {{'Already have an account?' | translate}}
             <button mat-button type="button" [routerLink]="'/login'">{{ 'Log In' | translate}}</button>

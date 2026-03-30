@@ -17,12 +17,18 @@
  * under the License.
  */
 
+import { JsonPipe } from '@angular/common';
 import { Component, DestroyRef, inject, Inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { marker } from '@colsen1991/ngx-translate-extract-marker';
+import { TranslatePipe } from '@ngx-translate/core';
 import { PermissionData, PermissionDef } from 'arlas-iam-api';
+import { GetCollectionDisplayNamePipe } from 'arlas-web-components';
 import { finalize } from 'rxjs';
 import { ArlasIamService } from '../../../services/arlas-iam/arlas-iam.service';
 import { ArlasSettingsService } from '../../../services/settings/arlas.settings.service';
@@ -31,7 +37,16 @@ import { PermissionDialogData } from '../_interfaces';
 @Component({
   templateUrl: './permissions-creator-dialog.component.html',
   styleUrls: ['./permissions-creator-dialog.component.scss'],
-  standalone: false
+  imports: [
+    MatDialogModule,
+    TranslatePipe,
+    MatProgressSpinner,
+    JsonPipe,
+    MatIconModule,
+    MatFormFieldModule,
+    ReactiveFormsModule,
+    GetCollectionDisplayNamePipe
+  ]
 })
 export class PermissionsCreatorDialogComponent {
 

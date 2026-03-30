@@ -16,3 +16,14 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
+.confirm {
+    &__icon {
+        vertical-align: text-bottom;
+        color:red;
+    }
+
+    &__content {
+        font-family: Roboto, 'Helvetica Neue', sans-serif;
+    }
+}

@@ -42,23 +42,23 @@ describe('BookmarkComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [BookmarkComponent],
-      imports: [
+    imports: [
         MatTableModule,
         MatCheckboxModule,
         MatIconModule,
         MatPaginatorModule,
         TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader } }),
         RouterModule.forRoot([]),
-        OAuthModule.forRoot()
-      ],
-      providers: [
+        OAuthModule.forRoot(),
+        BookmarkComponent
+    ],
+    providers: [
         ArlasConfigService,
         ArlasCollaborativesearchService,
         {
-          provide: ArlasStartupService,
-          useClass: ArlasStartupService,
-          deps: [ArlasConfigurationUpdaterService]
+            provide: ArlasStartupService,
+            useClass: ArlasStartupService,
+            deps: [ArlasConfigurationUpdaterService]
         },
         { provide: CONFIG_UPDATER, useValue: {} },
         ArlasConfigurationUpdaterService,
@@ -66,17 +66,17 @@ describe('BookmarkComponent', () => {
         provideHttpClient(withInterceptorsFromDi()),
         ArlasBookmarkService,
         {
-          provide: GET_OPTIONS,
-          useValue: () => {}
+            provide: GET_OPTIONS,
+            useValue: () => { }
         },
         {
-          provide: MAT_DIALOG_DATA,
-          useValue: {
-            isSelect: true
-          }
+            provide: MAT_DIALOG_DATA,
+            useValue: {
+                isSelect: true
+            }
         }
-      ]
-    })
+    ]
+})
       .compileComponents();
 
     fixture = TestBed.createComponent(BookmarkComponent);

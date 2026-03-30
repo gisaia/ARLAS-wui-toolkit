@@ -9,13 +9,13 @@ describe('ChangePasswordComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ChangePasswordComponent],
-      imports: [
+    imports: [
         TranslateModule.forRoot({
-          loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader }
+            loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader }
         }),
-      ]
-    })
+        ChangePasswordComponent,
+    ]
+})
       .compileComponents();
 
     fixture = TestBed.createComponent(ChangePasswordComponent);

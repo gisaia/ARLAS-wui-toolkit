@@ -32,8 +32,7 @@ describe('HistogramWidgetComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [HistogramWidgetComponent, ProgressSpinnerComponent],
-      imports: [HistogramModule,
+    imports: [HistogramModule,
         PowerbarsModule,
         ResultsModule,
         DonutModule,
@@ -43,35 +42,35 @@ describe('HistogramWidgetComponent', () => {
         MatIconModule,
         MatProgressSpinnerModule,
         TranslateModule.forRoot({
-          loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader }
+            loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader }
         }),
         ColorGeneratorModule.forRoot({
-          loader: {
-            provide: ColorGeneratorLoader,
-            useClass: AwcColorGeneratorLoader
-          }
-        })],
-      providers: [
+            loader: {
+                provide: ColorGeneratorLoader,
+                useClass: AwcColorGeneratorLoader
+            }
+        }), HistogramWidgetComponent, ProgressSpinnerComponent],
+    providers: [
         ArlasCollaborativesearchService,
         ArlasConfigService,
         ArlasColorService,
         {
-          provide: ArlasStartupService,
-          useClass: ArlasStartupService,
-          deps: [ArlasConfigurationUpdaterService]
+            provide: ArlasStartupService,
+            useClass: ArlasStartupService,
+            deps: [ArlasConfigurationUpdaterService]
         },
         ArlasOverlayService,
         { provide: CONFIG_UPDATER, useValue: {} },
         {
-          provide: ArlasConfigurationUpdaterService,
-          useClass: ArlasConfigurationUpdaterService
+            provide: ArlasConfigurationUpdaterService,
+            useClass: ArlasConfigurationUpdaterService
         },
         { provide: FETCH_OPTIONS, useValue: {} },
         provideHttpClient(withInterceptorsFromDi()),
         ArlasExportCsvService,
         ArlasCollectionService,
-      ]
-    })
+    ]
+})
       .compileComponents();
   }));
 

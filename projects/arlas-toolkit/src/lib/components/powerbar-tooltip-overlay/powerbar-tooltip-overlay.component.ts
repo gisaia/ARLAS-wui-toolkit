@@ -18,7 +18,7 @@
  * under the License.
  */
 
-import { CommonModule } from '@angular/common';
+
 import { Component, Inject } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormatNumberPipe } from 'arlas-web-components';
@@ -39,9 +39,8 @@ export interface ARLASPowerbarTooltip {
   imports: [
     TranslateModule,
     WidgetTooltipComponent,
-    CommonModule,
     FormatNumberPipe
-  ]
+]
 })
 export class PowerbarTooltipOverlayComponent {
 

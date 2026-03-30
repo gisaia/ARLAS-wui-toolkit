@@ -44,10 +44,9 @@
     "src/**/*"
   ],
   "exclude": [
-        "node_modules",
-        "dist",
-        "src/**/*.spec.*",
-        "e2e/"
+    "node_modules",
+    "dist",
+    "src/**/*.spec.*"
   ],
   "angularCompilerOptions": {
     "genDir": "dist",

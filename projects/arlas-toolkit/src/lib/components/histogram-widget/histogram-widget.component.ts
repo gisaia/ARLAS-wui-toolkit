@@ -18,7 +18,8 @@
  */
 
 import {
-  AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter,
+  AfterViewInit, ChangeDetectorRef, Component,
+  EventEmitter,
   Input, OnDestroy, OnInit, Output, ViewChild
 } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
@@ -34,7 +35,7 @@ import { ArlasConfigService } from '../../services/startup/startup.service';
 import { WidgetNotifierService } from '../../services/widget/widget.notifier.service';
 import { ArlasOverlayRef, SpinnerOptions } from '../../tools/utils';
 import { isShortcutID } from '../filter-shortcut/filter-shortcut.utils';
-import { DEFAULT_SPINNER_OPTIONS } from '../progress-spinner/progress-spinner.component';
+import { DEFAULT_SPINNER_OPTIONS, ProgressSpinnerComponent } from '../progress-spinner/progress-spinner.component';
 
 
 /**
@@ -45,7 +46,10 @@ import { DEFAULT_SPINNER_OPTIONS } from '../progress-spinner/progress-spinner.co
   selector: 'arlas-tool-histogram-widget',
   templateUrl: './histogram-widget.component.html',
   styleUrls: ['./histogram-widget.component.scss'],
-  standalone: false
+  imports: [
+    ProgressSpinnerComponent,
+    HistogramComponent
+  ]
 })
 export class HistogramWidgetComponent implements OnInit, OnDestroy, AfterViewInit {
 
@@ -229,7 +233,7 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy, AfterViewIni
     }
   }
 
-  public showHistogramTooltip(tooltip: HistogramTooltip, e: ElementRef, xOffset: number, yOffset: number) {
+  public showHistogramTooltip(tooltip: HistogramTooltip, e: HTMLDivElement, xOffset: number, yOffset: number) {
     if (this.histogramOverlayRef) {
       this.histogramOverlayRef.close();
     }
@@ -244,7 +248,7 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy, AfterViewIni
     }
   }
 
-  public emitTooltip(tooltip, e: ElementRef, detailed: boolean) {
+  public emitTooltip(tooltip, e: HTMLDivElement, detailed: boolean) {
     let yOffset = 20;
     if (detailed) {
       yOffset = 20;

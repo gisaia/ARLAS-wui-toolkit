@@ -17,19 +17,27 @@
  * under the License.
  */
 
-import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
+import { TranslatePipe } from '@ngx-translate/core';
 import { Contributor, OperationEnum } from 'arlas-web-core';
 import { ArlasCollaborativesearchService } from '../../services/collaborative-search/arlas.collaborative-search.service';
 import { SpinnerOptions } from '../../tools/utils';
 import { DEFAULT_SPINNER_OPTIONS } from '../progress-spinner/progress-spinner.component';
+import { WidgetComponent } from '../widget/widget.component';
 import { FilterShortcutConfiguration } from './filter-shortcut.utils';
-
+import { ShortcutFiltersHandlerComponent } from './filters-handler/filters-handler.component';
 
 @Component({
   selector: 'arlas-filter-shortcut',
   templateUrl: './filter-shortcut.component.html',
   styleUrls: ['./filter-shortcut.component.scss'],
-  standalone: false
+  imports: [
+    WidgetComponent,
+    ShortcutFiltersHandlerComponent,
+    TranslatePipe,
+    MatIconModule
+  ]
 })
 export class FilterShortcutComponent implements OnInit {
 
@@ -83,8 +91,6 @@ export class FilterShortcutComponent implements OnInit {
   public inputs;
   public histogramUnit: string;
   public histogramDatatype: string;
-
-  @ViewChild('title') public titleElement: ElementRef;
 
   public constructor(
     private collaborativeSearchService: ArlasCollaborativesearchService,

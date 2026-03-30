@@ -18,15 +18,26 @@
  */
 
 import { Component, Inject } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { marker } from '@colsen1991/ngx-translate-extract-marker';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { ArlasBookmarkService } from '../../services/bookmark/bookmark.service';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+
 @Component({
   templateUrl: './bookmark-add-dialog.component.html',
   styleUrls: ['./bookmark-add-dialog.component.scss'],
-  standalone: false
+  imports: [
+    TranslatePipe,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    ReactiveFormsModule,
+    MatDialogModule
+  ]
 })
 export class BookmarkAddDialogComponent {
   public bookmarkName = new FormControl('', [Validators.required]);

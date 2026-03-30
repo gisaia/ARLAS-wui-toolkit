@@ -21,8 +21,13 @@ import {
   ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges,
   OnInit, Output, Pipe, PipeTransform, SimpleChanges, ViewEncapsulation
 } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { TranslatePipe } from '@ngx-translate/core';
 import { CollectionReferenceParameters } from 'arlas-api';
-import { ArlasColorService } from 'arlas-web-components';
+import { ArlasColorService, FormatNumberPipe } from 'arlas-web-components';
 import { Collaboration, Contributor } from 'arlas-web-core';
 import { Subject, take, takeUntil } from 'rxjs';
 import { ArlasCollaborativesearchService } from '../../services/collaborative-search/arlas.collaborative-search.service';
@@ -101,7 +106,18 @@ export class IsCollabOnCollectionPipe implements PipeTransform {
       transition(':leave', animate('500ms ease-in-out'))
     ])
   ],
-  standalone: false
+  imports: [
+    MatChipsModule,
+    FormatNumberPipe,
+    MatTooltipModule,
+    MatIconModule,
+    MatButtonModule,
+    IsCollabOnCollectionPipe,
+    GetGlobalColorFilterPipe,
+    GetContributorLabelPipe,
+    TranslatePipe,
+    GetCollaborationIconPipe
+  ]
 })
 export class FiltersComponent implements OnInit, OnChanges {
 

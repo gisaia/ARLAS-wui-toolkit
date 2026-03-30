@@ -2,7 +2,7 @@
 ############   AUTHENTICATION SETTINGS   ###############
 ########################################################
 authentication:
-  use_authent: true
+  use_authent: false
   auth_mode: 'openid'
   force_connect: false
   threshold: 5000
@@ -30,7 +30,7 @@ tab_name: "ARLAS Wui"
 
 persistence:
   url: https://localhost/persist
-  use_local_config: false
+  use_local_config: true
 
 links:
   - name: Explorer

@@ -10,17 +10,17 @@ describe('ResetComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ResetComponent],
-      providers: [
+    providers: [
         FormBuilder
-      ],
-      imports: [
+    ],
+    imports: [
         TranslateModule.forRoot({
-          loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader }
+            loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader }
         }),
-        RouterModule.forRoot([])
-      ]
-    })
+        RouterModule.forRoot([]),
+        ResetComponent
+    ]
+})
       .compileComponents();
   });
 

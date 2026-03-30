@@ -1,1 +1,3 @@
-<span *ngIf="displayLink" (click)="openDialog()">About {{ wuiName }}</span>
+@if (displayLink) {
+  <span (click)="openDialog()">{{ 'About ##wui##' | translate:{ wui: wuiName } }}</span>
+}

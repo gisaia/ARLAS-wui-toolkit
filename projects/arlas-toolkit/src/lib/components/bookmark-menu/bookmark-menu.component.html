@@ -4,8 +4,10 @@
       <mat-icon>bookmark_add</mat-icon>
       <span>{{ "Add a dataset" | translate }}</span>
     </mat-button>
-    <mat-icon class="info" *ngIf="addBookmarkDisabled" [matTooltip]="infoMessage | translate: { maxBookmarks: bookmarkService.maxSize}"
+    @if (addBookmarkDisabled) {
+      <mat-icon class="info" [matTooltip]="infoMessage | translate: { maxBookmarks: bookmarkService.maxSize}"
       matTooltipClass="allow-breakline" >info_outlined</mat-icon>
+    }
   </div>
   <mat-button mat-menu-item (click)="openDatasetListDialog()">
     <mat-icon>{{icon}}</mat-icon>

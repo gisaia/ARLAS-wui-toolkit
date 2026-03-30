@@ -1,30 +1,33 @@
-<ng-container *ngIf="shortcut && shortcut.component">
-    <div class="container" id="{{'shortcut-' +  shortcut.uuid}}">
-        <section #title class="title" [class.open_title]="isOpen" (click)="toggle()"
-            [style.min-width.px]="shortcutWidth / 2">
-            <div class="text">{{shortcut.title | translate}}</div>
-            <div class="actions">
-                <arlas-shortcut-filters-handler
-                    [histogramInterval]="histogramInterval"
-                    [contributorId]="shortcut.component?.contributorId"
-                    [widgetType]="shortcut.component.componentType"
-                    [histogramDatatype]="histogramDatatype"
-                    [histogramUnit]="histogramUnit"
-                    [displayFilterFirstValue]="displayFilterFirstValue"
-                    ></arlas-shortcut-filters-handler>
-                <mat-icon class="chevron">{{isOpen ? 'expand_less' : 'expand_more'}}</mat-icon>
-            </div>
-        </section>
-        <div *ngIf="isOpen" class="separator"></div>
-        <section *ngIf="isOpen" class="content" [style.width.px]="titleWidth > shortcutWidth + 10 ? titleWidth - 10 : shortcutWidth">
-            <arlas-tool-widget style="width:100%"
-                id="{{'shortcut-widget-' +  shortcut.uuid}}"
-                [componentType]="shortcut.component.componentType"
-                [contributorId]="shortcut.component?.contributorId"
-                [componentParams]="inputs" [groupLength]="1"
-                [noDetail]="true" [spinnerOptions]="spinnerOptions"
-            ></arlas-tool-widget>
-        </section>
-    </div>
+@if (shortcut && shortcut.component) {
+  <div class="container" id="{{'shortcut-' +  shortcut.uuid}}">
+    <section #title class="title" [class.open_title]="isOpen" (click)="toggle()"
+      [style.min-width.px]="shortcutWidth / 2">
+      <div class="text">{{shortcut.title | translate}}</div>
+      <div class="actions">
+        <arlas-shortcut-filters-handler
+          [contributorId]="shortcut.component?.contributorId"
+          [widgetType]="shortcut.component.componentType"
+          [histogramDatatype]="histogramDatatype"
+          [histogramUnit]="histogramUnit"
+          [displayFilterFirstValue]="displayFilterFirstValue"
+        ></arlas-shortcut-filters-handler>
+        <mat-icon class="chevron">{{isOpen ? 'expand_less' : 'expand_more'}}</mat-icon>
+      </div>
+    </section>
 
-</ng-container>
+    @if (isOpen) {
+      <div class="separator"></div>
+
+      @let titleWidth = title.getBoundingClientRect().width;
+      <section class="content" [style.width.px]="titleWidth > shortcutWidth + 10 ? titleWidth - 10 : shortcutWidth">
+        <arlas-tool-widget style="width:100%"
+          id="{{'shortcut-widget-' +  shortcut.uuid}}"
+          [componentType]="shortcut.component.componentType"
+          [contributorId]="shortcut.component?.contributorId"
+          [componentParams]="inputs" [groupLength]="1"
+          [noDetail]="true" [spinnerOptions]="spinnerOptions"
+        ></arlas-tool-widget>
+      </section>
+    }
+  </div>
+}

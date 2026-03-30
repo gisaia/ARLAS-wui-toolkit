@@ -17,17 +17,28 @@
  * under the License.
  */
 
+import { DatePipe } from '@angular/common';
 import { Component, Output } from '@angular/core';
-import { ArlasAoiService } from '../../services/aoi/aoi.service';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTableModule } from '@angular/material/table';
+import { TranslatePipe } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
+import { ArlasAoiService } from '../../services/aoi/aoi.service';
 import { Aoi } from '../../services/aoi/model';
 import { ArlasDataSource } from '../../tools/arlasDataSource';
 
 @Component({
   selector: 'arlas-aoi',
   templateUrl: './aoi.component.html',
-  styleUrls: ['./aoi.component.css'],
-  standalone: false
+  styleUrls: ['./aoi.component.scss'],
+  imports: [
+    MatTableModule,
+    TranslatePipe,
+    DatePipe,
+    MatIconModule,
+    MatCheckboxModule
+  ]
 })
 export class AoiComponent {
 

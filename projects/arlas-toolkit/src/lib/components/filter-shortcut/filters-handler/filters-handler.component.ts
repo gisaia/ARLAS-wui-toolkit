@@ -18,6 +18,7 @@
  */
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
 import { DateTimeAdapter, OWL_DATE_TIME_LOCALE } from '@danielmoncada/angular-datetime-picker';
 import { MomentDateTimeAdapter } from '@danielmoncada/angular-datetime-picker-moment-adapter';
 import { TranslateService } from '@ngx-translate/core';
@@ -26,11 +27,9 @@ import { HistogramParams, HistogramUtils } from 'arlas-d3';
 import { ChartType, DataType, numberToShortValue } from 'arlas-web-components';
 import { HistogramContributor } from 'arlas-web-contributors';
 import { Collaboration } from 'arlas-web-core';
-import * as _moment from 'moment';
 import { Subject, takeUntil } from 'rxjs';
 import { ArlasCollaborativesearchService } from '../../../services/collaborative-search/arlas.collaborative-search.service';
-
-const moment = (_moment as any).default ? (_moment as any).default : _moment;
+import { FilterShortcutChipComponent } from '../chip/chip.component';
 
 @Component({
   selector: 'arlas-shortcut-filters-handler',
@@ -46,7 +45,10 @@ const moment = (_moment as any).default ? (_moment as any).default : _moment;
   providers: [
     { provide: DateTimeAdapter, useClass: MomentDateTimeAdapter, deps: [OWL_DATE_TIME_LOCALE] }
   ],
-  standalone: false
+  imports: [
+    MatIcon,
+    FilterShortcutChipComponent
+  ]
 })
 export class ShortcutFiltersHandlerComponent implements OnInit, OnDestroy {
   /**

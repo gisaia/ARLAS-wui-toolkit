@@ -1,107 +1,121 @@
 <mat-chip-listbox class="chips--container">
-  <ng-container *ngFor="let c of countAll">
-    <mat-basic-chip class="collection-chip" id="arlas-count-{{c.collection}}" [style.borderColor]="c.color"
-      *ngIf="!c.ignored">
-      <div class="count-container">
-        <div *ngIf="showZoomToData &&
-              (((zoomToStrategy === ZoomToDataStrategy.CENTROID || !zoomToStrategy)  && c.hasCentroidPath)
-              || (zoomToStrategy === ZoomToDataStrategy.GEOMETRY && c.hasGeometryPath))" class="zoom"
-          (click)="zoomToData(c.collection)" matTooltip="{{ 'Zoom to data' | translate }}" matTooltipPosition="below">
-          <mat-icon>filter_center_focus</mat-icon>
-        </div>
-
-        <div class="value-unit">
-          <div class="value">
-            {{c.count | formatNumber:NUMBER_FORMAT_CHAR}}
-          </div>
-          <div class="unit">
-            {{c.unit | translate}}
-          </div>
-        </div>
-        <ng-container *ngFor="let contributorId of collaborations; let index = index">
-          <mat-basic-chip id="filter-chip-{{contributorId}}" class="filter-chip"
-            *ngIf="contributorId | isCollabOnCollection:c.collection:contributors"
-            [style.color]="contributorId | getGlobalColorFilter:'color':colorFilter:backgroundColorFilter:collaborationsMap "
-            [style.background-color]="contributorId | getGlobalColorFilter:'background':colorFilter:backgroundColorFilter:collaborationsMap "
-            (click)="changeCollaborationState(contributorId)"
-            [matTooltip]="contributorId | getContributorLabel:contributors | translate">
-            <mat-icon class="icon">{{contributorId | getCollaborationIcon:contributorsIcons }}
-            </mat-icon>
-            <mat-icon (click)="removeCollaboration(contributorId)" class="icon_close mat-icon material-icons">
-              clear</mat-icon>
-          </mat-basic-chip>
-        </ng-container>
-      </div>
-    </mat-basic-chip>
-  </ng-container>
-
-  <div *ngIf="showExtraCollections || (extraCountAll && extraCountAll.length > 0)" class="extra"
-    [class.extra-open]="isExtraOpen" id="extra-collections">
-    <section class="title" (click)="toggleExtraCounts()">
-      <div class="text">{{ 'See more' | translate }}</div>
-      <div class="info">
-        <div class="extra-count-number">{{ extraCountAll ? extraCountAll.length : 0 }}</div>
-        <mat-icon class="chevron">
-          {{isExtraOpen ? 'expand_less' : 'expand_more'}}
-        </mat-icon>
-      </div>
-    </section>
-    <div *ngIf="isExtraOpen" class="separator"></div>
-    <section [class.hidden]="!isExtraOpen" class="extra-counts">
-      <ng-container *ngFor="let c of extraCountAll">
-        <mat-basic-chip class="collection-chip" id="arlas-count-{{c.collection}}" [style.borderColor]="c.color"
-          *ngIf="!c.ignored">
-          <div class="count-container">
-            <div *ngIf="showZoomToData &&
-              (((zoomToStrategy === ZoomToDataStrategy.CENTROID || !zoomToStrategy)  && c.hasCentroidPath)
-              || (zoomToStrategy === ZoomToDataStrategy.GEOMETRY && c.hasGeometryPath))" class="zoom"
-              (click)="zoomToData(c.collection)" matTooltip="{{ 'Zoom to data' | translate }}"
-              matTooltipPosition="left">
+  @for (c of countAll; track c) {
+    @if (!c.ignored) {
+      <mat-basic-chip class="collection-chip" id="arlas-count-{{c.collection}}" [style.borderColor]="c.color"
+        >
+        <div class="count-container">
+          @if (showZoomToData &&
+            (((zoomToStrategy === ZoomToDataStrategy.CENTROID || !zoomToStrategy)  && c.hasCentroidPath)
+            || (zoomToStrategy === ZoomToDataStrategy.GEOMETRY && c.hasGeometryPath))) {
+            <div class="zoom"
+              (click)="zoomToData(c.collection)" [matTooltip]="'Zoom to data' | translate" matTooltipPosition="below">
               <mat-icon>filter_center_focus</mat-icon>
             </div>
-
-            <div class="value-unit">
-              <div class="value">
-                {{c.count | formatNumber:NUMBER_FORMAT_CHAR}}
-              </div>
-              <div class="unit">
-                {{c.unit | translate}}
-              </div>
+          }
+          <div class="value-unit">
+            <div class="value">
+              {{c.count | formatNumber:NUMBER_FORMAT_CHAR}}
             </div>
-            <ng-container *ngFor="let contributorId of collaborations; let index = index">
+            <div class="unit">
+              {{c.unit | translate}}
+            </div>
+          </div>
+          @for (contributorId of collaborations; track contributorId; let index = $index) {
+            @if (contributorId | isCollabOnCollection:c.collection:contributors) {
               <mat-basic-chip id="filter-chip-{{contributorId}}" class="filter-chip"
-                *ngIf="contributorId | isCollabOnCollection:c.collection:contributors"
                 [style.color]="contributorId | getGlobalColorFilter:'color':colorFilter:backgroundColorFilter:collaborationsMap "
                 [style.background-color]="contributorId | getGlobalColorFilter:'background':colorFilter:backgroundColorFilter:collaborationsMap "
                 (click)="changeCollaborationState(contributorId)"
                 [matTooltip]="contributorId | getContributorLabel:contributors | translate">
-                <mat-icon class="icon">{{contributorId | getCollaborationIcon :contributorsIcons }}
+                <mat-icon class="icon">{{contributorId | getCollaborationIcon:contributorsIcons }}
                 </mat-icon>
                 <mat-icon (click)="removeCollaboration(contributorId)" class="icon_close mat-icon material-icons">
-                  clear</mat-icon>
+                clear</mat-icon>
               </mat-basic-chip>
-            </ng-container>
-          </div>
-        </mat-basic-chip>
-      </ng-container>
-    </section>
-  </div>
+            }
+          }
+        </div>
+      </mat-basic-chip>
+    }
+  }
 
-  <ng-container *ngFor="let contributorId of collaborations; let index = index">
-    <ng-container *ngIf="contributorId === 'timeline'">
+  @if (showExtraCollections || (extraCountAll && extraCountAll.length > 0)) {
+    <div class="extra"
+      [class.extra-open]="isExtraOpen" id="extra-collections">
+      <section class="title" (click)="toggleExtraCounts()">
+        <div class="text">{{ 'See more' | translate }}</div>
+        <div class="info">
+          <div class="extra-count-number">{{ extraCountAll ? extraCountAll.length : 0 }}</div>
+          <mat-icon class="chevron">
+            {{isExtraOpen ? 'expand_less' : 'expand_more'}}
+          </mat-icon>
+        </div>
+      </section>
+      @if (isExtraOpen) {
+        <div class="separator"></div>
+      }
+      <section [class.hidden]="!isExtraOpen" class="extra-counts">
+        @for (c of extraCountAll; track c) {
+          @if (!c.ignored) {
+            <mat-basic-chip class="collection-chip" id="arlas-count-{{c.collection}}" [style.borderColor]="c.color"
+              >
+              <div class="count-container">
+                @if (showZoomToData &&
+                  (((zoomToStrategy === ZoomToDataStrategy.CENTROID || !zoomToStrategy)  && c.hasCentroidPath)
+                  || (zoomToStrategy === ZoomToDataStrategy.GEOMETRY && c.hasGeometryPath))) {
+                  <div class="zoom"
+                    (click)="zoomToData(c.collection)" matTooltip="{{ 'Zoom to data' | translate }}"
+                    matTooltipPosition="left">
+                    <mat-icon>filter_center_focus</mat-icon>
+                  </div>
+                }
+                <div class="value-unit">
+                  <div class="value">
+                    {{c.count | formatNumber:NUMBER_FORMAT_CHAR}}
+                  </div>
+                  <div class="unit">
+                    {{c.unit | translate}}
+                  </div>
+                </div>
+                @for (contributorId of collaborations; track contributorId; let index = $index) {
+                  @if (contributorId | isCollabOnCollection:c.collection:contributors) {
+                    <mat-basic-chip id="filter-chip-{{contributorId}}" class="filter-chip"
+                      [style.color]="contributorId | getGlobalColorFilter:'color':colorFilter:backgroundColorFilter:collaborationsMap "
+                      [style.background-color]="contributorId | getGlobalColorFilter:'background':colorFilter:backgroundColorFilter:collaborationsMap "
+                      (click)="changeCollaborationState(contributorId)"
+                      [matTooltip]="contributorId | getContributorLabel:contributors | translate">
+                      <mat-icon class="icon">{{contributorId | getCollaborationIcon :contributorsIcons }}
+                      </mat-icon>
+                      <mat-icon (click)="removeCollaboration(contributorId)" class="icon_close mat-icon material-icons">
+                      clear</mat-icon>
+                    </mat-basic-chip>
+                  }
+                }
+              </div>
+            </mat-basic-chip>
+          }
+        }
+      </section>
+    </div>
+  }
+
+  @for (contributorId of collaborations; track contributorId; let index = $index) {
+    @if (contributorId === 'timeline') {
       <mat-basic-chip class="timeline-chip" [@fadeInOut] id="filter-chip-{{contributorId}}"
         [style.color]="contributorId | getGlobalColorFilter:'color':colorFilter:backgroundColorFilter:collaborationsMap "
         (click)="changeCollaborationState(contributorId)"
         [matTooltip]="contributorId | getContributorLabel:contributors | translate">
         <mat-icon class="icon">{{contributorId | getCollaborationIcon :contributorsIcons }}</mat-icon>
         <mat-icon (click)="removeCollaboration(contributorId)" class="icon_close mat-icon material-icons">
-          clear</mat-icon>
+        clear</mat-icon>
       </mat-basic-chip>
-    </ng-container>
-  </ng-container>
+    }
+  }
 
-  <mat-basic-chip id="clear-all" class="clear-chip" *ngIf="collaborations.size > 0" [@fadeInOut]
-    (click)="removeAllFilters()" [matTooltip]="'Clear all filters' | translate">
-    <mat-icon>filter_alt_off</mat-icon>
-  </mat-basic-chip>
+  @if (collaborations.size > 0) {
+    <mat-basic-chip id="clear-all" class="clear-chip" [@fadeInOut]
+      (click)="removeAllFilters()" [matTooltip]="'Clear all filters' | translate">
+      <mat-icon>filter_alt_off</mat-icon>
+    </mat-basic-chip>
+  }
 </mat-chip-listbox>

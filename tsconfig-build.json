@@ -36,7 +36,6 @@
     "node_modules",
     "dist",
     "src/app/**/*.spec.*",
-    "e2e/",
     "eslint.config.mjs"
   ],
   "angularCompilerOptions": {

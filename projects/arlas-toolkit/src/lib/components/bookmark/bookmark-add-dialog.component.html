@@ -5,7 +5,9 @@
   </h1>
   <mat-form-field class="bookmark__add--input">
     <input matInput tabindex="1" [formControl]="bookmarkName" (keypress)="pressEvent($event)">
-    <mat-error *ngIf="bookmarkName.invalid">{{errorMessage | translate}}</mat-error>
+    @if (bookmarkName.invalid) {
+      <mat-error>{{errorMessage | translate}}</mat-error>
+    }
   </mat-form-field>
 </div>
 <div mat-dialog-actions class="bookmark__add--actions">

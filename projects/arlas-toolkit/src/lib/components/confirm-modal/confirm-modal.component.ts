@@ -18,13 +18,19 @@
  */
 
 import { Component } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatIcon } from '@angular/material/icon';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'arlas-tool-confirm-modal-msg',
   templateUrl: './confirm-modal.component.html',
-  styleUrls: ['./confirm-modal.component.css'],
-  standalone: false
+  styleUrls: ['./confirm-modal.component.scss'],
+  imports: [
+    MatDialogModule,
+    TranslatePipe,
+    MatIcon
+  ]
 })
 export class ConfirmModalComponent {
   public confirmMessage: string;

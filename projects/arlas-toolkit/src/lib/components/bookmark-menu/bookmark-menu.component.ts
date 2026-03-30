@@ -19,8 +19,11 @@
 
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatMenu } from '@angular/material/menu';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenu, MatMenuModule } from '@angular/material/menu';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { marker } from '@colsen1991/ngx-translate-extract-marker';
+import { TranslatePipe } from '@ngx-translate/core';
 import { Subject, takeUntil } from 'rxjs';
 import { ArlasBookmarkService } from '../../services/bookmark/bookmark.service';
 import { ArlasCollaborativesearchService } from '../../services/collaborative-search/arlas.collaborative-search.service';
@@ -31,7 +34,12 @@ import { BookmarkComponent } from '../bookmark/bookmark.component';
   selector: 'arlas-bookmark-menu',
   templateUrl: './bookmark-menu.component.html',
   styleUrls: ['./bookmark-menu.component.scss'],
-  standalone: false
+  imports: [
+    MatMenuModule,
+    MatIconModule,
+    TranslatePipe,
+    MatTooltipModule
+  ]
 })
 export class BookmarkMenuComponent implements OnInit, OnDestroy {
 

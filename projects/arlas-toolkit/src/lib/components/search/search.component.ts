@@ -17,14 +17,20 @@
  * under the License.
  */
 
+import { AsyncPipe } from '@angular/common';
 import { Component, Inject, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { marker } from '@colsen1991/ngx-translate-extract-marker';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { AggregationResponse } from 'arlas-api';
-import { ArlasColorService } from 'arlas-web-components';
+import { ArlasColorService, GetCollectionDisplayNamePipe } from 'arlas-web-components';
 import { SearchContributor } from 'arlas-web-contributors';
 import { OperationEnum } from 'arlas-web-core';
 import { Observable, of, Subject, Subscription, zip } from 'rxjs';
@@ -36,7 +42,12 @@ import { ArlasConfigService } from '../../services/startup/startup.service';
   selector: 'arlas-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss'],
-  standalone: false
+  imports: [
+    MatIconModule,
+    MatButtonModule,
+    TranslatePipe,
+    MatTooltipModule
+  ]
 })
 export class SearchComponent implements OnInit, OnDestroy, OnChanges {
   /**
@@ -214,7 +225,18 @@ export class SearchComponent implements OnInit, OnDestroy, OnChanges {
 @Component({
   templateUrl: './search-dialog.component.html',
   styleUrls: ['./search-dialog.component.scss'],
-  standalone: false
+  imports: [
+    MatIconModule,
+    MatButtonModule,
+    MatMenuModule,
+    ReactiveFormsModule,
+    TranslatePipe,
+    AsyncPipe,
+    GetCollectionDisplayNamePipe,
+    MatTooltipModule,
+    MatCheckboxModule,
+    FormsModule
+  ]
 })
 export class SearchDialogComponent {
 

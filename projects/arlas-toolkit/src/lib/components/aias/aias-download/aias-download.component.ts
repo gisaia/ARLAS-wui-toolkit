@@ -19,15 +19,24 @@
 
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSelectModule } from '@angular/material/select';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { marker } from '@colsen1991/ngx-translate-extract-marker';
+import { MarkerModule } from '@colsen1991/ngx-translate-extract-marker/extras';
+import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 import bboxPolygon from '@turf/bbox-polygon';
 import booleanIntersects from '@turf/boolean-intersects';
 import { Subject, takeUntil } from 'rxjs';
 import { ProcessService } from '../../../services/process/process.service';
 import { ProcessInputs, ProcessProjection } from '../../../tools/process.interface';
 import { AiasDownloadDialogData, AiasProcess } from '../aias-process';
+import { AiasResultComponent } from '../aias-result/aias-result.component';
 
 export const DOWNLOAD_PROCESS_NAME = marker('download');
 
@@ -38,7 +47,20 @@ export const DOWNLOAD_PROCESS_NAME = marker('download');
   providers: [{
     provide: STEPPER_GLOBAL_OPTIONS, useValue: { displayDefaultIndicatorType: false }
   }],
-  standalone: false
+  imports: [
+    TranslatePipe,
+    MatStepperModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatButtonModule,
+    TranslateDirective,
+    ReactiveFormsModule,
+    MarkerModule,
+    AiasResultComponent,
+    MatIconModule,
+    MatTooltipModule,
+    MatDialogModule
+  ]
 })
 export class AiasDownloadComponent extends AiasProcess implements OnInit, OnDestroy {
 

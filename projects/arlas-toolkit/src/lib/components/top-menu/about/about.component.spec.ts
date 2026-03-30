@@ -34,14 +34,14 @@ describe('AboutComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
+    imports: [
         ReactiveFormsModule, MatAutocompleteModule,
         MatInputModule, FormsModule, BrowserAnimationsModule,
         MatIconModule, MatDialogModule,
-        MarkdownModule
-      ],
-      declarations: [AboutComponent]
-    }).compileComponents();
+        MarkdownModule,
+        AboutComponent
+    ]
+}).compileComponents();
   });
 
   beforeEach(() => {

@@ -123,16 +123,17 @@ export const MY_CUSTOM_FORMATS = {
   monthYearA11yLabel: 'MMMM YYYY',
 };
 
+// TODO: Have providers being exported for default easy configuration
 @NgModule({
   imports: [
     ToolkitRoutingModule,
     ArlasToolkitSharedModule,
     BrowserModule,
     BrowserAnimationsModule,
-    OAuthModule.forRoot()
+    OAuthModule.forRoot(),
+    ToolkitComponent
   ],
   exports: [ToolkitComponent],
-  declarations: [ToolkitComponent],
   providers: [
     DeviceDetectorService,
     {
@@ -206,7 +207,6 @@ export const MY_CUSTOM_FORMATS = {
     ShortenNumberPipe,
     AuthGuardIamService,
     ArlasIamService
-  ],
-  bootstrap: [ToolkitComponent]
+  ]
 })
 export class ArlasToolKitModule { }

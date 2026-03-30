@@ -11,48 +11,61 @@
   <ng-content select="[right-menu]"></ng-content>
 
   <!-- Information -->
-  <button mat-icon-button *ngIf="showAboutButton" matTooltip="{{ 'About' | translate }} {{ wuiName }} {{ version }}"
-    (click)="displayAbout()">
-    <mat-icon class="icon">info_outline</mat-icon>
-  </button>
+  @if (showAboutButton) {
+    <button mat-icon-button matTooltip="{{ 'About' | translate }} {{ wuiName }} {{ version }}"
+      (click)="displayAbout()">
+      <mat-icon class="icon">info_outline</mat-icon>
+    </button>
+  }
 
   <!-- Page Switcher-->
-  <button *ngIf="linksEnabled" mat-icon-button matTooltip="{{ 'Go to' | translate }}"
-    (click)="showLinks = !showLinks; $event.stopPropagation()">
-    <mat-icon class="icon">apps</mat-icon>
-  </button>
+  @if (linksEnabled) {
+    <button mat-icon-button matTooltip="{{ 'Go to' | translate }}"
+      (click)="showLinks = !showLinks; $event.stopPropagation()">
+      <mat-icon class="icon">apps</mat-icon>
+    </button>
+  }
 
   <!-- User info and login -->
-  <button mat-icon-button matTooltip="{{'My account' | translate}}" *ngIf="connected && isAuthentActivated"
-    [matMenuTriggerFor]="actionMenu" class="action-menu-button">
-    <img *ngIf="authentMode !== 'iam' && !!avatar; else withoutAvatar" src="{{avatar}}" class="user_avatar">
-    <ng-template #withoutAvatar>
-      <div class="avatar">
-        {{initials | uppercase}}
-      </div>
-    </ng-template>
-  </button>
+  @if (connected && isAuthentActivated) {
+    <button mat-icon-button matTooltip="{{'My account' | translate}}"
+      [matMenuTriggerFor]="actionMenu" class="action-menu-button">
+      @if (authentMode !== 'iam' && !!avatar) {
+        <img src="{{avatar}}" class="user_avatar">
+      } @else {
+        <div class="avatar">
+          {{initials | uppercase}}
+        </div>
+      }
+    </button>
+  }
   <mat-menu #actionMenu="matMenu">
     <button mat-menu-item (click)="getUserInfos()">
       <mat-icon>person</mat-icon>
       <span>{{ 'Your profile' | translate }}</span>
     </button>
-    <button mat-menu-item *ngIf="authentMode === 'iam'" (click)="changePassword()">
-      <mat-icon>password</mat-icon>
-      <span>{{ 'Change my password' | translate }}</span>
-    </button>
+    @if (authentMode === 'iam') {
+      <button mat-menu-item (click)="changePassword()">
+        <mat-icon>password</mat-icon>
+        <span>{{ 'Change my password' | translate }}</span>
+      </button>
+    }
     <button mat-menu-item (click)="connect()">
       <mat-icon>logout</mat-icon>
       <span>{{ 'Logout' | translate }}</span>
     </button>
   </mat-menu>
 
-  <button mat-icon-button *ngIf="!connected && isAuthentActivated" matTooltip="{{'Log In' | translate}}"
-    (click)="connect()">
-    <mat-icon class="icon">account_circle</mat-icon>
-  </button>
+  @if (!connected && isAuthentActivated) {
+    <button mat-icon-button [matTooltip]="'Log In' | translate"
+      (click)="connect()">
+      <mat-icon class="icon">account_circle</mat-icon>
+    </button>
+  }
 
 </mat-toolbar>
 
 <arlas-about #about [pathToMd]="aboutFile" [extraTextData]="extraAboutText"></arlas-about>
-<arlas-links *ngIf="linksEnabled && showLinks" (close$)="showLinks = false"></arlas-links>
+@if (linksEnabled && showLinks) {
+  <arlas-links (close$)="showLinks = false"></arlas-links>
+}

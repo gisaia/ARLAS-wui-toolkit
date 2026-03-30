@@ -1,41 +1,61 @@
 <div mat-dialog-title class="title">{{'Create permission' | translate}}</div>
 <mat-dialog-content class="content">
-    <div class="announcement"  *ngIf="!descriptionInputHidden">
-        <span>{{'The current filters applied to' | translate}} </span>
-        <span class="collection">{{ data.mainCollection | getCollectionDisplayName | translate }}, </span>
-        <span>{{'will be associated to a new permission' | translate}} </span>
+  @if (!descriptionInputHidden) {
+    <div class="announcement" >
+      <span>{{'The current filters applied to' | translate}} </span>
+      <span class="collection">{{ data.mainCollection | getCollectionDisplayName | translate }}, </span>
+      <span>{{'will be associated to a new permission' | translate}} </span>
     </div>
-    <div class="call_to_action"  *ngIf="!descriptionInputHidden">{{'Add permission description' | translate}}</div>
-    <div class="create-content" [formGroup]="createPermissionForm" *ngIf="!descriptionInputHidden">
-        <mat-form-field>
-            <mat-label>{{'Description' | translate}}</mat-label>
-            <input [disabled]="descriptionInputDisabled" formControlName="description" matInput type="text" required >
-        </mat-form-field>
+
+    <div class="call_to_action" >{{'Add permission description' | translate}}</div>
+
+    <div class="create-content" [formGroup]="createPermissionForm">
+      <mat-form-field>
+        <mat-label>{{'Description' | translate}}</mat-label>
+        <input [disabled]="descriptionInputDisabled" formControlName="description" matInput type="text" required >
+      </mat-form-field>
     </div>
-    <div class="successful" *ngIf="creationStatus === 'successful'">
-        <div><mat-icon class="icon">check_circle</mat-icon></div>
-        <div class="state">{{'The permission was created successfully' | translate}}</div>
-        <div class="action" *ngIf="showAction" (click)="goToArlasIAMWui()">{{'go to iam' | translate}}</div>
+  }
+  @if (creationStatus === 'successful') {
+    <div class="successful">
+      <div><mat-icon class="icon">check_circle</mat-icon></div>
+      <div class="state">{{'The permission was created successfully' | translate}}</div>
+      @if (showAction) {
+        <div class="action" (click)="goToArlasIAMWui()">{{'go to iam' | translate}}</div>
+      }
     </div>
-    <div class="errored" *ngIf="creationStatus === 'errored'">
-        <div><mat-icon class="icon">error</mat-icon></div>
-        <div class="state">{{'The permission creation failed' | translate}}</div>
-        <div class="action" (click)="showErrorDetails = !showErrorDetails">
-            <span>{{'See details' | translate}}</span>
-            <mat-icon *ngIf="!showErrorDetails">chevron_right</mat-icon>
-            <mat-icon *ngIf="showErrorDetails">expand_more</mat-icon>
+  } @else if (creationStatus === 'errored') {
+    <div class="errored">
+      <div><mat-icon class="icon">error</mat-icon></div>
+      <div class="state">{{'The permission creation failed' | translate}}</div>
+      <div class="action" (click)="showErrorDetails = !showErrorDetails">
+        <span>{{'See details' | translate}}</span>
+        @if (!showErrorDetails) {
+          <mat-icon>chevron_right</mat-icon>
+        }
+        @if (showErrorDetails) {
+          <mat-icon>expand_more</mat-icon>
+        }
+      </div>
+      @if (showErrorDetails) {
+        <div class="detail">
+          {{creationError | json}}
         </div>
-        <div class="detail" *ngIf="showErrorDetails">
-            {{creationError | json}}
-        </div>
+      }
     </div>
+  }
 </mat-dialog-content>
+
 <mat-dialog-actions class="actions">
-    <button mat-button [disabled]="creationButtonDisabled" [mat-dialog-close]="null">{{CLOSE_TEXT | translate}}
+  <button mat-button [disabled]="creationButtonDisabled" [mat-dialog-close]="null">{{CLOSE_TEXT | translate}}
+  </button>
+  @if (!creationButtonHidden) {
+    <button class="create-action" mat-button (click)="createPermission()"
+      [disabled]="createPermissionForm.invalid || creationButtonDisabled">
+      <span class="label">{{CREATE_TEXT | translate}}</span>
+      @if (showSpinner) {
+        <mat-spinner diameter="20"></mat-spinner>
+      }
     </button>
-    <button class="create-action" *ngIf="!creationButtonHidden" mat-button (click)="createPermission()"
-        [disabled]="createPermissionForm.invalid || creationButtonDisabled">
-        <span class="label">{{CREATE_TEXT | translate}}</span>
-        <mat-spinner *ngIf="showSpinner" diameter="20"></mat-spinner>
-    </button>
+  }
 </mat-dialog-actions>

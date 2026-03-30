@@ -18,14 +18,22 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormGroupDirective } from '@angular/forms';
+import { FormBuilder, FormGroup, FormGroupDirective, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButton } from '@angular/material/button';
+import { MatError, MatFormField, MatLabel, MatPrefix } from '@angular/material/form-field';
+import { MatIcon } from '@angular/material/icon';
+import { MatInput } from '@angular/material/input';
+import { RouterLink } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
 import { ArlasIamService } from '../../services/arlas-iam/arlas-iam.service';
 
 @Component({
   selector: 'arlas-tool-forgot',
   templateUrl: './forgot.component.html',
-  styleUrls: ['./forgot.component.css'],
-  standalone: false
+  styleUrls: ['./forgot.component.scss'],
+  imports: [
+    FormsModule, ReactiveFormsModule, MatFormField, MatLabel, MatInput,
+    MatIcon, MatPrefix, MatError, MatButton, RouterLink, TranslatePipe]
 })
 export class ForgotComponent implements OnInit {
 

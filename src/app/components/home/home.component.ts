@@ -18,7 +18,12 @@
  */
 
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatSelectModule } from '@angular/material/select';
 import { SearchContributor } from 'arlas-web-contributors';
 import { fromEvent } from 'rxjs';
 import packageJson from '../../../../package.json';
@@ -52,12 +57,32 @@ import {
   AuthentSetting,
   SpinnerOptions
 } from '../../../../projects/arlas-toolkit/src/lib/tools/utils';
+import { AnalyticsBoardComponent, AnalyticsMenuComponent, BookmarkMenuComponent, FiltersComponent, FilterShortcutComponent, LanguageSwitcherComponent, PermissionsCreatorComponent, SearchComponent, TimelineComponent, ToolkitComponent, TopMenuComponent } from '../../../../projects/arlas-toolkit/src/public-api';
 
 @Component({
   selector: 'arlas-tool-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
-  standalone: false
+  imports: [
+    TopMenuComponent,
+    SearchComponent,
+    PermissionsCreatorComponent,
+    LanguageSwitcherComponent,
+    MatMenuModule,
+    MatIconModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    FiltersComponent,
+    AnalyticsMenuComponent,
+    AnalyticsBoardComponent,
+    ToolkitComponent,
+    BookmarkMenuComponent,
+    DownloadComponent,
+    ShareComponent,
+    TimelineComponent,
+    FilterShortcutComponent
+  ]
 })
 export class HomeComponent implements OnInit {
 
@@ -73,7 +98,7 @@ export class HomeComponent implements OnInit {
 
   public version: string;
 
-  public searchContributors: SearchContributor[];
+  public searchContributors = new Array<SearchContributor>();
 
   public connected = false;
 

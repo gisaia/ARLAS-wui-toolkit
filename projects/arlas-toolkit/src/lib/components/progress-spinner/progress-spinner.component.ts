@@ -17,7 +17,8 @@
  * under the License.
  */
 
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { SpinnerOptions } from '../../tools/utils';
 
 export const DEFAULT_SPINNER_OPTIONS: SpinnerOptions = {
@@ -29,8 +30,10 @@ export const DEFAULT_SPINNER_OPTIONS: SpinnerOptions = {
 @Component({
   selector: 'arlas-tool-progress-spinner',
   templateUrl: './progress-spinner.component.html',
-  styleUrls: ['./progress-spinner.component.css'],
-  standalone: false
+  styleUrls: ['./progress-spinner.component.scss'],
+  imports: [
+    MatProgressSpinnerModule
+  ]
 })
 export class ProgressSpinnerComponent implements OnInit {
 
