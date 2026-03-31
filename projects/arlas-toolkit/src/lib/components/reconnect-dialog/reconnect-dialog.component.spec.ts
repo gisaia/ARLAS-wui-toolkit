@@ -1,8 +1,9 @@
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateLoader, TranslateModule, TranslateNoOpLoader } from '@ngx-translate/core';
 import { DateTimeProvider, OAuthLogger, OAuthModule, OAuthService, UrlHelperService } from 'angular-oauth2-oidc';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { AuthentificationService } from '../../services/authentification/authentification.service';
 import { GET_OPTIONS } from '../../tools/utils';
 import { ReconnectDialogComponent } from './reconnect-dialog.component';
@@ -11,35 +12,34 @@ describe('ReconnectDialogComponent', () => {
   let component: ReconnectDialogComponent;
   let fixture: ComponentFixture<ReconnectDialogComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [
-        TranslateModule.forRoot({
-            loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader }
-        }),
-        MatDialogModule,
-        OAuthModule.forRoot(),
-        ReconnectDialogComponent
-    ],
-    providers: [
-        AuthentificationService,
-        OAuthService,
-        OAuthLogger,
-        DateTimeProvider,
-        UrlHelperService,
-        {
-            provide: MAT_DIALOG_DATA,
-            useValue: {}
-        },
-        {
-            provide: GET_OPTIONS,
-            useValue: () => { }
-        },
-        provideHttpClient(withInterceptorsFromDi())
-    ]
-})
+        imports: [
+            TranslateModule.forRoot({
+                loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader }
+            }),
+            OAuthModule.forRoot(),
+            ReconnectDialogComponent
+        ],
+        providers: [
+            AuthentificationService,
+            OAuthService,
+            OAuthLogger,
+            DateTimeProvider,
+            UrlHelperService,
+            {
+                provide: MAT_DIALOG_DATA,
+                useValue: {}
+            },
+            {
+                provide: GET_OPTIONS,
+                useValue: () => { }
+            },
+            provideHttpClient(withInterceptorsFromDi())
+        ]
+    })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ReconnectDialogComponent);

@@ -20,10 +20,10 @@
 import { APP_BASE_HREF } from '@angular/common';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule, TranslateNoOpLoader } from '@ngx-translate/core';
 import { OAuthModule } from 'angular-oauth2-oidc';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { GET_OPTIONS } from '../../tools/utils';
 import { ArlasCollaborativesearchService } from '../collaborative-search/arlas.collaborative-search.service';
 import { ArlasConfigurationUpdaterService } from '../configuration-updater/configurationUpdater.service';
@@ -36,7 +36,6 @@ describe('ArlasBookmarkService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        MatSnackBarModule,
         RouterModule.forRoot([]),
         OAuthModule.forRoot(),
         TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader } })

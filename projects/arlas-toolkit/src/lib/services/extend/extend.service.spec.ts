@@ -21,6 +21,7 @@ import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
 import { TestBed } from '@angular/core/testing';
 import { TranslateLoader, TranslateModule, TranslateNoOpLoader } from '@ngx-translate/core';
 import { OAuthLogger, OAuthModule, OAuthService, UrlHelperService } from 'angular-oauth2-oidc';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { GET_OPTIONS } from '../../tools/utils';
 import { AuthentificationService } from '../authentification/authentification.service';
 import { ArlasCollaborativesearchService } from '../collaborative-search/arlas.collaborative-search.service';

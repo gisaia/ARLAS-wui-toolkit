@@ -2,7 +2,7 @@
 ############   AUTHENTICATION SETTINGS   ###############
 ########################################################
 authentication:
-  use_authent: true
+  use_authent: false
   auth_mode: 'iam'
   force_connect: false
   threshold: 5000

@@ -18,11 +18,9 @@
  */
 
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatIconModule } from '@angular/material/icon';
-import { MatTableModule } from '@angular/material/table';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateLoader, TranslateModule, TranslateNoOpLoader } from '@ngx-translate/core';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { ArlasCollaborativesearchService } from '../../services/collaborative-search/arlas.collaborative-search.service';
 import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
 import { ArlasConfigService, ArlasStartupService, CONFIG_UPDATER, FETCH_OPTIONS } from '../../services/startup/startup.service';
@@ -32,12 +30,15 @@ describe('AoiComponent', () => {
   let component: AoiComponent;
   let fixture: ComponentFixture<AoiComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [MatTableModule, MatCheckboxModule, MatIconModule,
-        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader } }), AoiComponent],
-    providers: [
-        ArlasConfigService, ArlasCollaborativesearchService,
+      imports: [
+        AoiComponent,
+        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader } })
+      ],
+      providers: [
+        ArlasConfigService,
+        ArlasCollaborativesearchService,
         {
             provide: ArlasStartupService,
             useClass: ArlasStartupService,
@@ -50,14 +51,13 @@ describe('AoiComponent', () => {
         },
         { provide: FETCH_OPTIONS, useValue: {} },
         provideHttpClient(withInterceptorsFromDi())
-    ]
-})
-      .compileComponents();
+      ]
+    }).compileComponents();
 
     fixture = TestBed.createComponent(AoiComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  }));
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();

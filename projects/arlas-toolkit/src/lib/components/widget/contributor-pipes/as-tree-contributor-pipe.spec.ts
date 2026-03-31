@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest';
 import { AsTreeContributorPipe } from './as-tree-contributor-pipe';
 
 describe('AsTreeContributorPipe', () => {

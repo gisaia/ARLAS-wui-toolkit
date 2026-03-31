@@ -16,28 +16,22 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatIconModule } from '@angular/material/icon';
-import { MatSelectModule } from '@angular/material/select';
-import { BrowserModule } from '@angular/platform-browser';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { DownloadComponent } from './download.component';
 
 describe('DownloadComponent', () => {
   let component: DownloadComponent;
   let fixture: ComponentFixture<DownloadComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [
-        MatIconModule, MatSelectModule, MatButtonModule,
-        BrowserModule, MatDialogModule,
+      imports: [
         DownloadComponent
-    ]
-})
+      ]
+    })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(DownloadComponent);

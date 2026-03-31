@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { ArlasConfigurationUpdaterService } from '../../../services/configuration-updater/configurationUpdater.service';
 import { ArlasStartupService } from '../../../services/startup/startup.service';
 import { AnalyticsMenuComponent } from './analytics-menu.component';

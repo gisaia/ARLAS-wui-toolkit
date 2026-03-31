@@ -17,20 +17,20 @@
  * under the License.
  */
 
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { ProgressSpinnerComponent } from './progress-spinner.component';
 
 describe('ProgressSpinnerComponent', () => {
   let component: ProgressSpinnerComponent;
   let fixture: ComponentFixture<ProgressSpinnerComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [MatProgressSpinnerModule, ProgressSpinnerComponent]
-})
+      imports: [ProgressSpinnerComponent]
+    })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProgressSpinnerComponent);

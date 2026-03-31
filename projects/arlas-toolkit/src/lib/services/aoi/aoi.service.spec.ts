@@ -22,6 +22,7 @@ import { TestBed } from '@angular/core/testing';
 import {
   TranslateLoader, TranslateModule, TranslateNoOpLoader
 } from '@ngx-translate/core';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { ArlasCollaborativesearchService } from '../collaborative-search/arlas.collaborative-search.service';
 import { ArlasConfigurationUpdaterService } from '../configuration-updater/configurationUpdater.service';
 import {

@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule, TranslateNoOpLoader } from '@ngx-translate/core';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { ResetComponent } from './reset.component';
 
 describe('ResetComponent', () => {
@@ -10,17 +11,17 @@ describe('ResetComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    providers: [
+      providers: [
         FormBuilder
-    ],
-    imports: [
+      ],
+      imports: [
         TranslateModule.forRoot({
             loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader }
         }),
         RouterModule.forRoot([]),
         ResetComponent
-    ]
-})
+      ]
+    })
       .compileComponents();
   });
 

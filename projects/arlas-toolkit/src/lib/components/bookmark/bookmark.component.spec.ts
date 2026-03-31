@@ -18,15 +18,12 @@
  */
 
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { MatCheckboxModule } from '@angular/material/checkbox';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatIconModule } from '@angular/material/icon';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatTableModule } from '@angular/material/table';
 import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule, TranslateNoOpLoader } from '@ngx-translate/core';
 import { OAuthModule } from 'angular-oauth2-oidc';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { ArlasBookmarkService } from '../../services/bookmark/bookmark.service';
 import { ArlasCollaborativesearchService } from '../../services/collaborative-search/arlas.collaborative-search.service';
 import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
@@ -40,19 +37,15 @@ describe('BookmarkComponent', () => {
   let component: BookmarkComponent;
   let fixture: ComponentFixture<BookmarkComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [
-        MatTableModule,
-        MatCheckboxModule,
-        MatIconModule,
-        MatPaginatorModule,
+      imports: [
         TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader } }),
         RouterModule.forRoot([]),
         OAuthModule.forRoot(),
         BookmarkComponent
-    ],
-    providers: [
+      ],
+      providers: [
         ArlasConfigService,
         ArlasCollaborativesearchService,
         {
@@ -75,14 +68,14 @@ describe('BookmarkComponent', () => {
                 isSelect: true
             }
         }
-    ]
-})
+      ]
+    })
       .compileComponents();
 
     fixture = TestBed.createComponent(BookmarkComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  }));
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();

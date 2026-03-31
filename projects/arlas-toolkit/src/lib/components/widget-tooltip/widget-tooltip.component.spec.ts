@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateLoader, TranslateModule, TranslateNoOpLoader } from '@ngx-translate/core';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { WidgetTooltipComponent } from './widget-tooltip.component';
 
 describe('WidgetTooltipComponent', () => {

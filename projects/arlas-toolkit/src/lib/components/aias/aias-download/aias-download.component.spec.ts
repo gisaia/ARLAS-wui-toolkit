@@ -1,8 +1,8 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateLoader, TranslateModule, TranslateNoOpLoader } from '@ngx-translate/core';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { ArlasCollaborativesearchService } from '../../../services/collaborative-search/arlas.collaborative-search.service';
 import { AiasDownloadComponent } from './aias-download.component';
 

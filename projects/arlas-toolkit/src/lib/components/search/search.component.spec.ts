@@ -19,13 +19,9 @@
 
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateLoader, TranslateModule, TranslateNoOpLoader } from '@ngx-translate/core';
 import { AwcColorGeneratorLoader, ColorGeneratorLoader, ColorGeneratorModule } from 'arlas-web-components';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { ArlasCollaborativesearchService } from '../../services/collaborative-search/arlas.collaborative-search.service';
 import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
 import {
@@ -39,13 +35,7 @@ describe('SearchComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [
-        ReactiveFormsModule,
-        MatAutocompleteModule,
-        MatInputModule,
-        FormsModule,
-        BrowserAnimationsModule,
-        MatIconModule,
+      imports: [
         TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader } }),
         ColorGeneratorModule.forRoot({
             loader: {
@@ -54,8 +44,8 @@ describe('SearchComponent', () => {
             }
         }),
         SearchComponent
-    ],
-    providers: [
+      ],
+      providers: [
         ArlasConfigService,
         ArlasCollaborativesearchService,
         {
@@ -70,8 +60,8 @@ describe('SearchComponent', () => {
         },
         { provide: FETCH_OPTIONS, useValue: {} },
         provideHttpClient(withInterceptorsFromDi())
-    ]
-})
+      ]
+    })
       .compileComponents();
 
     fixture = TestBed.createComponent(SearchComponent);

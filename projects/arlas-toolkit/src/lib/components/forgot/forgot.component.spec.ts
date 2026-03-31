@@ -1,7 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule, TranslateNoOpLoader } from '@ngx-translate/core';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { ForgotComponent } from './forgot.component';
 
 describe('ForgotComponent', () => {
@@ -10,15 +11,13 @@ describe('ForgotComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    providers: [FormBuilder],
-    imports: [
-        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader } }),
-        RouterModule.forRoot([]),
-        FormsModule,
-        ReactiveFormsModule,
-        ForgotComponent
-    ]
-})
+      providers: [FormBuilder],
+      imports: [
+          TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader } }),
+          RouterModule.forRoot([]),
+          ForgotComponent
+      ]
+    })
       .compileComponents();
   });
 

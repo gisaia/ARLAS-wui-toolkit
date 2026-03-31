@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest';
 import { AsSwimlaneContributorPipe } from './as-swimlane-contributor-pipe';
 
 describe('AsSwimlaneContributorPipe', () => {

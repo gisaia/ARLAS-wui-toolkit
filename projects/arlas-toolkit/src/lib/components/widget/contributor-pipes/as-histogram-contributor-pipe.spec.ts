@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest';
 import { AsHistogramContributorPipe } from './as-histogram-contributor-pipe';
 
 describe('AsHistogramContributorPipe', () => {

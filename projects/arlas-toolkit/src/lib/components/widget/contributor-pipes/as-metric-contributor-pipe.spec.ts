@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest';
 import { AsMetricContributorPipe } from './as-metric-contributor-pipe';
 
 describe('AsMetricContributorPipe', () => {

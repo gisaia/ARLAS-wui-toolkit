@@ -18,13 +18,10 @@
  */
 
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatIconModule } from '@angular/material/icon';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatTableModule } from '@angular/material/table';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateLoader, TranslateModule, TranslateNoOpLoader } from '@ngx-translate/core';
 import { OAuthModule } from 'angular-oauth2-oidc';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { ArlasCollaborativesearchService } from '../../services/collaborative-search/arlas.collaborative-search.service';
 import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
 import { ArlasExtendService } from '../../services/extend/extend.service';
@@ -39,18 +36,14 @@ describe('ExtendComponent', () => {
   let component: ExtendComponent;
   let fixture: ComponentFixture<ExtendComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [
-        MatTableModule,
-        MatCheckboxModule,
-        MatIconModule,
-        MatPaginatorModule,
+      imports: [
         TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader } }),
         OAuthModule.forRoot(),
         ExtendComponent
-    ],
-    providers: [
+      ],
+      providers: [
         ArlasConfigService, ArlasCollaborativesearchService,
         {
             provide: ArlasStartupService,
@@ -69,14 +62,14 @@ describe('ExtendComponent', () => {
             provide: GET_OPTIONS,
             useValue: () => { }
         }
-    ]
-})
+      ]
+    })
       .compileComponents();
 
     fixture = TestBed.createComponent(ExtendComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  }));
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();

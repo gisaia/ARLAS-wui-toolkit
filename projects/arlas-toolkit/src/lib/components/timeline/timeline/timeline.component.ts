@@ -134,15 +134,15 @@ export class TimelineComponent implements OnInit, OnDestroy {
   public timelineLegend: CollectionLegend[] = [];
   public mainCollection: string;
 
-  private _onDestroy$ = new Subject<boolean>();
+  private readonly _onDestroy$ = new Subject<boolean>();
 
   public constructor(
     protected arlasCollaborativesearchService: ArlasCollaborativesearchService,
-    private arlasStartupService: ArlasStartupService,
-    private arlasOverlayService: ArlasOverlayService,
-    private arlasColorService: ArlasColorService,
-    public widgetNotifier: WidgetNotifierService,
-    private collectionService: ArlasCollectionService) {
+    private readonly arlasStartupService: ArlasStartupService,
+    private readonly arlasOverlayService: ArlasOverlayService,
+    private readonly arlasColorService: ArlasColorService,
+    protected widgetNotifier: WidgetNotifierService,
+    private readonly collectionService: ArlasCollectionService) {
   }
 
   public ngOnInit() {
@@ -161,7 +161,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
         active: true,
         main: true
       });
-      if (!!this.timelineContributor.additionalCollections) {
+      if (this.timelineContributor.additionalCollections) {
         this.timelineContributor.additionalCollections.forEach(ac => {
           const displayName = this.collectionService.getDisplayName(ac.collectionName) !== ac.collectionName ?
             this.collectionService.getDisplayName(ac.collectionName) : this.collectionService.getUnit(ac.collectionName);
@@ -222,7 +222,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
    */
   public onTimelineIntervalBrushed(selections: SelectedOutputValues[]): void {
     // Once we bruch the main timeline, we want the detailed one to be able to pick up collaborations again
-    if (!!this.detailedTimelineContributor) {
+    if (this.detailedTimelineContributor) {
       this.detailedTimelineContributor.updateData = true;
     }
     this.timelineContributor.valueChanged(selections, this.timelineContributor.getAllCollections());
@@ -257,7 +257,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
   }
 
   public showHistogramTooltip(tooltip: HistogramTooltip, e: HTMLDivElement, xOffset: number, yOffset: number, right: boolean) {
-    if (!!this.timelineOverlayRef) {
+    if (this.timelineOverlayRef) {
       this.timelineOverlayRef.close();
     }
     if (!!tooltip && tooltip.shown) {
@@ -266,7 +266,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
   }
 
   public hideHistogramTooltip() {
-    if (!!this.timelineOverlayRef) {
+    if (this.timelineOverlayRef) {
       this.timelineOverlayRef.close();
     }
   }
@@ -385,7 +385,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
       detailedTimelineRange = (+d[l - 1].key) - (+d[0].key);
     }
     // In case if the timeline is hidden
-    if (!!this.timelineHistogramComponent) {
+    if (this.timelineHistogramComponent) {
       if (timelineRange !== undefined && detailedTimelineRange !== undefined) {
         const intervalSelection = (+this.timelineContributor.intervalSelection.endvalue -
           +this.timelineContributor.intervalSelection.startvalue);
@@ -418,24 +418,26 @@ export class TimelineComponent implements OnInit, OnDestroy {
 
   private resetHistogramsInputs(inputs: any) {
     Object.keys(inputs).forEach(key => {
-      if (key === 'chartType' && isNaN(inputs[key])) {
-        inputs[key] = ChartType[inputs[key]];
-      } else if (key === 'dataType' && isNaN(inputs[key])) {
-        inputs[key] = DataType[inputs[key]];
-      } else if (key === 'xAxisPosition' && isNaN(inputs[key])) {
-        inputs[key] = Position[inputs[key]];
-      } else if (key === 'descriptionPosition' && isNaN(inputs[key])) {
-        inputs = Position[inputs[key]];
+      if (Number.isNaN(inputs[key])) {
+        if (key === 'chartType') {
+          inputs[key] = ChartType[inputs[key]];
+        } else if (key === 'dataType') {
+          inputs[key] = DataType[inputs[key]];
+        } else if (key === 'xAxisPosition') {
+          inputs[key] = Position[inputs[key]];
+        } else if (key === 'descriptionPosition') {
+          inputs = Position[inputs[key]];
+        }
       }
     });
   }
 
   private hideDetailedTimeline() {
     this.showDetailedTimeline = false;
-    if (!!this.detailedTimelineContributor) {
+    if (this.detailedTimelineContributor) {
       this.detailedTimelineContributor.updateData = false;
     }
-    if (!!this.timelineHistogramComponent) {
+    if (this.timelineHistogramComponent) {
       this.timelineHistogramComponent.histogram.histogramParams.chartHeight = this.timelineComponent.input.chartHeight;
       this.timelineHistogramComponent.resizeHistogram();
     }
