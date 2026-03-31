@@ -20,7 +20,7 @@
       </div>
     }
     @let c = contributor | asSwimlaneContributor;
-    <arlas-histogram [chartType]="chartType.swimlane" [selectedSwimlanes]="c.selectedSwimlanes" [data]="c.swimData"
+    <arlas-histogram [chartType]="chartType.swimlane" [selectedSwimlanes]="c.selectedSwimlanes" [data]="$any(c.swimData)"
       (selectedSwimlanesEvent)="c.valueChanged($event)" [id]="graphParam?.id" [dataType]="graphParam?.dataType" [dataUnit]="graphParam?.dataUnit"
       [valuesDateFormat]="graphParam?.valuesDateFormat" [isHistogramSelectable]="graphParam?.isHistogramSelectable" [multiselectable]="graphParam?.multiselectable"
       [topOffsetRemoveInterval]="graphParam?.topOffsetRemoveInterval" [leftOffsetRemoveInterval]="graphParam?.leftOffsetRemoveInterval"

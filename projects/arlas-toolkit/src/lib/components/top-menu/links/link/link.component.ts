@@ -45,8 +45,8 @@ export class LinkComponent implements OnInit {
 
   public show = false;
   public constructor(
-    private http: HttpClient,
-    @Inject(GET_OPTIONS) private getOptions,
+    private readonly http: HttpClient,
+    @Inject(GET_OPTIONS) private readonly getOptions,
   ) { }
 
   public ngOnInit(): void {

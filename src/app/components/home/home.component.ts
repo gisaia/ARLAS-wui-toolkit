@@ -57,7 +57,7 @@ import {
   AuthentSetting,
   SpinnerOptions
 } from '../../../../projects/arlas-toolkit/src/lib/tools/utils';
-import { AnalyticsBoardComponent, AnalyticsMenuComponent, BookmarkMenuComponent, FiltersComponent, FilterShortcutComponent, LanguageSwitcherComponent, PermissionsCreatorComponent, SearchComponent, TimelineComponent, ToolkitComponent, TopMenuComponent } from '../../../../projects/arlas-toolkit/src/public-api';
+import { AnalyticsBoardComponent, AnalyticsMenuComponent, BookmarkMenuComponent, ConfirmModalComponent, FiltersComponent, FilterShortcutComponent, LanguageSwitcherComponent, PermissionsCreatorComponent, SearchComponent, TimelineComponent, ToolkitComponent, TopMenuComponent } from '../../../../projects/arlas-toolkit/src/public-api';
 
 @Component({
   selector: 'arlas-tool-home',
@@ -289,5 +289,11 @@ export class HomeComponent implements OnInit {
           collection: 'totot'
         }
       });
+  }
+
+  public openConfirm() {
+    const confirmDialogRef = this.dialog.open(ConfirmModalComponent);
+    confirmDialogRef.componentInstance.confirmHTLMMessage =
+        '<strong>Remove</strong> all tags from `Test` ?';
   }
 }

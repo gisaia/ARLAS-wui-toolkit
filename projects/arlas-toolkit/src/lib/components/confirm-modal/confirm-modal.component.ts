@@ -18,6 +18,7 @@
  */
 
 import { Component } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -29,7 +30,8 @@ import { TranslatePipe } from '@ngx-translate/core';
   imports: [
     MatDialogModule,
     TranslatePipe,
-    MatIcon
+    MatIcon,
+    MatButtonModule
   ]
 })
 export class ConfirmModalComponent {

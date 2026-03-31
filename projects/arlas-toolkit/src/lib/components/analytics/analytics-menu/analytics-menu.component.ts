@@ -18,8 +18,9 @@
  */
 
 import { Component, Input, OnInit } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatActionList } from '@angular/material/list';
+import { MatListModule } from '@angular/material/list';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TranslatePipe } from '@ngx-translate/core';
 import { AnalyticsService } from '../../../services/analytics/analytics.service';
@@ -31,10 +32,11 @@ import { AnalyticGroupConfiguration } from '../analytics.utils';
   templateUrl: './analytics-menu.component.html',
   styleUrls: ['./analytics-menu.component.scss'],
   imports: [
-    MatActionList,
+    MatListModule,
     MatIconModule,
     TranslatePipe,
-    MatTooltipModule
+    MatTooltipModule,
+    MatButtonModule
   ]
 })
 export class AnalyticsMenuComponent implements OnInit {

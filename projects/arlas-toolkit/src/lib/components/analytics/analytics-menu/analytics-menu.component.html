@@ -14,11 +14,11 @@
       }
 
       @if (showIndicators && analyticsService.activeFilterTab.get(tab.name)) {
-        <div class="active-filter-tab" (click)="removeTabFilter(tab.name, $event);">
+        <button mat-icon-button class="active-filter-tab" (click)="removeTabFilter(tab.name, $event);">
           <mat-icon class="active-filter-tab-close"
             [matTooltip]="'Click to remove all filters of this tab' | translate"
             matTooltipPosition="right">clear</mat-icon>
-        </div>
+        </button>
       }
     </button>
   }

@@ -1,16 +1,16 @@
 <mat-menu #menu="matMenu">
   <div class="add">
-    <mat-button mat-menu-item (click)="openDialogAdd()" [class.full-width]="!addBookmarkDisabled" [disabled]="addBookmarkDisabled">
+    <button mat-menu-item (click)="openDialogAdd()" [class.full-width]="!addBookmarkDisabled" [disabled]="addBookmarkDisabled">
       <mat-icon>bookmark_add</mat-icon>
       <span>{{ "Add a dataset" | translate }}</span>
-    </mat-button>
+    </button>
     @if (addBookmarkDisabled) {
       <mat-icon class="info" [matTooltip]="infoMessage | translate: { maxBookmarks: bookmarkService.maxSize}"
       matTooltipClass="allow-breakline" >info_outlined</mat-icon>
     }
   </div>
-  <mat-button mat-menu-item (click)="openDatasetListDialog()">
+  <button mat-menu-item (click)="openDatasetListDialog()">
     <mat-icon>{{icon}}</mat-icon>
     <span>{{ 'Manage datasets' | translate }}</span>
-  </mat-button>
+  </button>
 </mat-menu>

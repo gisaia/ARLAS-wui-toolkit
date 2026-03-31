@@ -2,8 +2,8 @@
 ############   AUTHENTICATION SETTINGS   ###############
 ########################################################
 authentication:
-  use_authent: false
-  auth_mode: 'openid'
+  use_authent: true
+  auth_mode: 'iam'
   force_connect: false
   threshold: 5000
   url: https://localhost/arlas_iam_server
@@ -12,8 +12,8 @@ authentication:
   use_discovery: true
   issuer: https://localhost:9443/auth/realms/arlas
   client_id: arlas-front
-  redirect_uri: http://localhost:4200/callback
-  silent_refresh_redirect_uri: http://localhost:4200/silent-refresh.html
+  redirect_uri: https://localhost:4200/callback
+  silent_refresh_redirect_uri: https://localhost:4200/silent-refresh.html
   scope: profile
   login_url: https://localhost:9443/auth/realms/arlas
   show_debug_information: true
@@ -35,8 +35,8 @@ persistence:
 links:
   - name: Explorer
     icon: landscape
-    check_url: http://localhost:81/server/explore/demo_algoe/_count?&righthand=false&pretty=false&max-age-cache=120
-    url: https://demo.cloud.arlas.io/
+    check_url: https://cloud.arlas.io/arlas/server/explore/demo_sea_phys_bcg/_geoaggregate/3/4/2?agg=geotile:point_geom:interval-5:aggregated_geometries-centroid&agg=histogram:current_dir_angle_arlas:interval-80.0&agg=histogram:current_speed:interval-5&pretty=true&gaussian=true
+    url: https://cloud.arlas.io/
   - name: ARLAS Builder
     icon: build
     check_url: http://localhost:9997/arlas_iam_server

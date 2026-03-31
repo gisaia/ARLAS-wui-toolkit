@@ -21,6 +21,7 @@ import { JsonPipe } from '@angular/common';
 import { Component, DestroyRef, inject, Inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -45,7 +46,8 @@ import { PermissionDialogData } from '../_interfaces';
     MatIconModule,
     MatFormFieldModule,
     ReactiveFormsModule,
-    GetCollectionDisplayNamePipe
+    GetCollectionDisplayNamePipe,
+    MatButtonModule
   ]
 })
 export class PermissionsCreatorDialogComponent {

@@ -19,6 +19,7 @@
 
 import { AsyncPipe, DatePipe } from '@angular/common';
 import { Component, Inject, OnDestroy, Output } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
@@ -47,7 +48,8 @@ import { BookmarkAddDialogComponent } from './bookmark-add-dialog.component';
     MatTooltipModule,
     DatePipe,
     MatMenuModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatButtonModule
   ]
 })
 export class BookmarkComponent implements OnDestroy {
