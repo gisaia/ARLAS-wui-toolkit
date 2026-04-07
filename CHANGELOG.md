@@ -1,5 +1,11 @@
 # Change Log
 
+## [v27.1.4](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.1.4) (2026-03-27)
+
+**Miscellaneous:**
+
+- Migrate to Angular 20 [\#972](https://github.com/gisaia/ARLAS-wui-toolkit/issues/972)
+
 ## [v27.0.22](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.0.22) (2026-01-27)
 
 ## [v27.0.21](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.0.21) (2025-12-09)
