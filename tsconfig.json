@@ -5,26 +5,22 @@
     "baseUrl": "src",
     "sourceMap": true,
     "declaration": false,
-    "allowJs": true,
+    "target": "esnext",
+    "module": "esnext",
     "moduleResolution": "bundler",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "types": [
-      "node"
-    ],
-    "target": "ES2022",
+    "skipLibCheck": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "typeRoots": [
       "node_modules/@types"
     ],
     "lib": [
-      "ESNext",
+      "ES2022",
       "DOM",
       "DOM.Iterable"
-    ],
-    "module": "esnext",
-    "skipLibCheck": true
+    ]
   },
   "exclude": [
     "node_modules"

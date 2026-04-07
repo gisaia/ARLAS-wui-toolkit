@@ -21,9 +21,9 @@
  */
 
 import { Injectable } from '@angular/core';
-import hopscotch from 'hopscotch';
-import {  WalkthroughLoader } from './walkthrough.utils';
 import { TranslateService } from '@ngx-translate/core';
+import hopscotch from 'hopscotch';
+import { WalkthroughLoader } from './walkthrough.utils';
 
 @Injectable({
   providedIn: 'root',
@@ -35,8 +35,8 @@ export class ArlasWalkthroughService {
   public isActivable = true;
 
   public constructor(
-    private walkthrougLoader: WalkthroughLoader,
-    private translateService: TranslateService
+    private readonly walkthrougLoader: WalkthroughLoader,
+    private readonly translateService: TranslateService
 
   ) {
     this.hopscotch = hopscotch;

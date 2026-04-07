@@ -63,6 +63,7 @@ describe('HistogramWidgetComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(HistogramWidgetComponent);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput('componentInputs', { topOffsetRemoveInterval: 0});
     fixture.detectChanges();
   });
 

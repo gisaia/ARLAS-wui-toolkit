@@ -1,12 +1,12 @@
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { OAuthModule } from 'angular-oauth2-oidc';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { AuthentificationService } from '../../services/authentification/authentification.service';
 import { ArlasCollaborativesearchService } from '../../services/collaborative-search/arlas.collaborative-search.service';
 import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
 import {
-  ArlasConfigService,
-  CONFIG_UPDATER, FETCH_OPTIONS
+  ArlasConfigService, CONFIG_UPDATER, FETCH_OPTIONS
 } from '../../services/startup/startup.service';
 import { ArlasTagService } from '../../services/tag/tag.service';
 import { GET_OPTIONS } from '../../tools/utils';
@@ -18,7 +18,10 @@ describe('TagComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [TagComponent],
+      imports: [
+        TagComponent,
+        OAuthModule.forRoot()
+      ],
       providers: [
         ArlasConfigService,
         ArlasCollaborativesearchService,
