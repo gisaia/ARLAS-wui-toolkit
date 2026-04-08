@@ -20,9 +20,7 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Aggregation, AggregationResponse, ComputationRequest, ComputationResponse, Filter, Hits } from 'arlas-api';
-import { HistogramContributor, ResultListContributor, TreeContributor } from 'arlas-web-contributors';
-import { getAggregationPrecision } from 'arlas-web-contributors/utils/histoswimUtils';
-import { getFieldValue } from 'arlas-web-contributors/utils/utils';
+import { getAggregationPrecision, getFieldValue, HistogramContributor, ResultListContributor, TreeContributor } from 'arlas-web-contributors';
 import { Collaboration, Contributor, projType } from 'arlas-web-core';
 import { Observable } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';

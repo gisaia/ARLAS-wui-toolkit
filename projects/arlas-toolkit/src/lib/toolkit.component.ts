@@ -30,9 +30,8 @@ import { CONFIG_ID_QUERY_PARAM } from './tools/utils';
 
 @Component({
   selector: 'arlas-tool-root',
-  templateUrl: './toolkit.component.html',
-  providers: [Location],
-  styleUrls: ['./toolkit.component.scss']
+  styleUrls: ['./toolkit.component.scss'],
+  template: ''
 })
 export class ToolkitComponent implements AfterViewInit, OnInit, OnDestroy {
 
@@ -117,7 +116,7 @@ export class ToolkitComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   public ngAfterViewInit(): void {
-    if (this.configService.getConfig() && this.configService.getConfig()['error'] !== undefined) {
+    if (this.configService.getConfig()?.['error'] !== undefined) {
       this.configService.confErrorBus.next(this.configService.getConfig()['error']);
     } else if (this.arlasStartupService.shouldRunApp) {
       interval(400).pipe(take(1)).subscribe(() => {

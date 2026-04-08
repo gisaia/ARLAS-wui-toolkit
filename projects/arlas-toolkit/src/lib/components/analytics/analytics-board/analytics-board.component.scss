@@ -17,19 +17,19 @@
  * under the License.
  */
 
-.analytics-board-content{
+.analytics-board-content {
   display: flex;
   flex-direction: column;
   overflow-y: auto;
 
-  .analytics-board-panel{
+  .analytics-board-panel {
     margin: 2px;
     box-shadow: none;
 
-    .analytics-board-panel-title{
+    .analytics-board-panel-title {
       align-items: center;
 
-      .analytics-board-panel-icon{
+      .analytics-board-panel-icon {
         margin-right: 5px;
         font-size: 20px;
         height: 20px;
@@ -38,12 +38,11 @@
     }
 
     ::ng-deep .mat-expansion-panel-body {
-      padding-right: 0;
-      padding-left: 0;
+      padding: 0;
     }
   }
 
-  .analytics-board-group{
+  .analytics-board-group {
     flex:1;
     flex-wrap: wrap;
     display: flex;
@@ -51,7 +50,7 @@
     padding-top: 3px;
     align-items: flex-start;
 
-    .analytics-board-card{
+    .analytics-board-card {
       flex:1;
       width: 100%;
       margin: 3px;
@@ -61,17 +60,17 @@
         align-self: center;
       }
 
-      .mat-mdc-card-title{
+      .mat-mdc-card-title {
         font-size: 15px;
         margin-bottom: 5px;
       }
 
-      .analytics-board-card-title{
+      .analytics-board-card-title {
         display: flex;
         align-items: center;
         padding: 3px 0 0 25px;
 
-        .analytics-board-card-icon{
+        .analytics-board-card-icon {
           margin-right: 5px;
           font-size: 20px;
           height: 20px;
@@ -81,7 +80,7 @@
     }
   }
 
-  .active-filter-group{
+  .active-filter-group {
     position: absolute;
     width: 14px;
     height: 14px;
@@ -89,12 +88,8 @@
     left: 7px;
   }
 
-  .active-filter-group-close{
+  .active-filter-group-close {
     padding: 1px 0 0 1px;
-  }
-
-
-  .active-filter-group-close{
     display: none;
     font-size: 12px;
     color: white;
@@ -103,24 +98,24 @@
   }
 
   .active-filter:hover .active-filter-close,
-  .active-filter-group:hover .active-filter-group-close{
+  .active-filter-group:hover .active-filter-group-close {
     display: block;
   }
 
-  .active-filter, .active-filter-group{
+  .active-filter, .active-filter-group {
     background-color: #F44336;
   }
 }
 
-.analytics-board-compact{
+.analytics-board-compact {
   width: 35px;
 
-  .mat-mdc-card{
+  .mat-mdc-card {
     padding: 5px 5px 0 5px !important;
     border-radius: 0px;
   }
 
-  .analytics-compact-card{
+  .analytics-compact-card {
     cursor: pointer;
 
     .active-filter{
@@ -132,7 +127,7 @@
       top: 8px;
     }
 
-    .active-filter-close{
+    .active-filter-close {
       display: none;
       padding: 2px 0px 0 2px;
       font-size: 14px;

@@ -8,12 +8,11 @@
     @if (!!timelineLegend && timelineLegend.length > 1) {
       <div class="arlas-timeline--legend">
         @for (collectionLegend of timelineLegend; track collectionLegend) {
-          <div class="arlas-timeline--legend-container"
-            (click)="hideShowCollection(collectionLegend)">
+          <div class="arlas-timeline--legend-container" (click)="hideShowCollection(collectionLegend)">
             <div class="arlas-timeline--legend-chip"
-            [style.backgroundColor]="collectionLegend.active ? collectionLegend.color : '#dadada'"></div>
+              [style.backgroundColor]="collectionLegend.active ? collectionLegend.color : '#dadada'"></div>
             <div class="arlas-timeline--legend-collection" [style.color]="collectionLegend.active ? '#444' : '#bbb'">
-            {{ collectionLegend.display_name | translate }}</div>
+              {{ collectionLegend.display_name | translate }}</div>
           </div>
         }
       </div>
@@ -91,7 +90,7 @@
           [showStripes]="timelineComponent?.input?.showStripes" [chartXLabel]="timelineComponent?.input?.chartXLabel"
           [shortYLabels]="timelineComponent?.input?.shortYLabels" [xUnit]="timelineComponent?.input?.xUnit"
           [yUnit]="timelineComponent?.input?.yUnit" [useUtc]="timelineContributor?.useUtc"
-        (tooltipEvent)="emitTooltip($event,arlasTimeline)"></arlas-histogram>
+          (tooltipEvent)="emitTooltip($event,arlasTimeline)"></arlas-histogram>
       </div>
     }
     @if (timelineData.length === 0) {

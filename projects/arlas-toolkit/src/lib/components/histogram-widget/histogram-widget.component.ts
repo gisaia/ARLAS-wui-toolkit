@@ -20,9 +20,8 @@
 import {
   AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild
 } from '@angular/core';
-import { DataType, HistogramComponent, HistogramTooltip } from 'arlas-web-components';
-import { DetailedHistogramContributor, HistogramContributor } from 'arlas-web-contributors';
-import { SelectedOutputValues } from 'arlas-web-contributors/models/models';
+import { DataType, HistogramComponent, HistogramTooltip, Position } from 'arlas-web-components';
+import { DetailedHistogramContributor, HistogramContributor, SelectedOutputValues } from 'arlas-web-contributors';
 import { OperationEnum } from 'arlas-web-core';
 import { Subject, filter, takeUntil } from 'rxjs';
 import { ArlasCollaborativesearchService } from '../../services/collaborative-search/arlas.collaborative-search.service';
@@ -60,6 +59,8 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy, AfterViewIni
   public tooltipEvent: Subject<HistogramTooltip> = new Subject<HistogramTooltip>();
 
   public histogramOverlayRef: ArlasOverlayRef;
+
+  protected readonly Position = Position;
 
   @Input() public contributor: HistogramContributor;
   @Input() public componentInputs;

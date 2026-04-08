@@ -26,7 +26,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatSelectModule } from '@angular/material/select';
 import { SearchContributor } from 'arlas-web-contributors';
 import { fromEvent } from 'rxjs';
-import packageJson from '../../../../package.json';
+import packageJson from '../../../../package.json' with { type: 'json' };
 import { AiasDownloadComponent } from '../../../../projects/arlas-toolkit/src/lib/components/aias/aias-download/aias-download.component';
 import { AiasEnrichComponent } from '../../../../projects/arlas-toolkit/src/lib/components/aias/aias-enrich/aias-enrich.component';
 import { DownloadComponent } from '../../../../projects/arlas-toolkit/src/lib/components/download/download.component';
