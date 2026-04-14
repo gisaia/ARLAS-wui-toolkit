@@ -29,7 +29,6 @@ import { ArlasSettingsService } from '../settings/arlas.settings.service';
   providedIn: 'root'
 })
 export class FetchInterceptorService {
-
   public constructor(
     private readonly arlasSettings: ArlasSettingsService,
     private readonly errorService: ErrorService,
@@ -44,6 +43,10 @@ export class FetchInterceptorService {
     }
   }
 
+  /**
+   * Intercepts any errored fetch request.
+   * If the url of the request has been whitelisted, then any potential error is ignored.
+   */
   public applyInterceptor() {
     const settings = this.arlasSettings.settings;
     const useAuthent = !!settings && !!settings.authentication && !!settings.authentication.use_authent;
@@ -55,6 +58,11 @@ export class FetchInterceptorService {
         ,
         requestError: (error) => Promise.reject(error),
         response: (response) => {
+          // Skip errors if url is whitelisted
+          if (settings?.whitelistedUrls.some(whitelisted => response.url.startsWith(whitelisted))) {
+            return response;
+          }
+
           // Modify the reponse object
           let code = response.status;
           if (code === 401 || code === 403) {
