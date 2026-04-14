@@ -20,6 +20,7 @@
 import { LOCATION_INITIALIZED } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable, InjectionToken, Injector } from '@angular/core';
+import { marker } from '@colsen1991/ngx-translate-extract-marker';
 import { TranslateService } from '@ngx-translate/core';
 import Ajv from 'ajv';
 import ajvKeywords from 'ajv-keywords';
@@ -70,7 +71,6 @@ import { ArlasSettingsService } from '../settings/arlas.settings.service';
 import * as arlasConfSchema from './arlasconfig.schema.json';
 import { ContributorBuilder } from './contributorBuilder';
 import * as arlasSettingsSchema from './settings.schema.json';
-import { marker } from '@colsen1991/ngx-translate-extract-marker';
 
 @Injectable({
   providedIn: 'root'
@@ -925,6 +925,11 @@ export interface ArlasSettings {
   resultlist?: ResultlistSettings;
   processes?: Array<ProcessSettings>;
   geocoding?: GeocodingSetting;
+  /**
+   * Urls that are ignored by the FetchInterceptorService.
+   * Check is performed on whether the intercepted url matches the beginning of any whitelisted url.
+   */
+  whitelistedUrls: string[];
 }
 
 export interface LinkSettings {
