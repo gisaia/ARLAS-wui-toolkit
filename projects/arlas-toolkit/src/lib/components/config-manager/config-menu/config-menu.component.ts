@@ -51,7 +51,7 @@ export class ConfigMenuComponent {
 
   @Input() public zone: string;
 
-  @Output() public actionExecutedEmitter = new Subject();
+  @Output() public actionExecutedEmitter = new Subject<ConfigAction>();
 
   public ConfigAction = ConfigActionEnum;
 
