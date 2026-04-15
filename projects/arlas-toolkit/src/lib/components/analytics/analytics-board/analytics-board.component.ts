@@ -109,8 +109,8 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
   public collapsedHeaderHeight = 32;
   private tabChangeSubscription: Subscription;
   public constructor(
-    protected collaborativeService: ArlasCollaborativesearchService,
-    public analyticsService: AnalyticsService,
+    protected readonly collaborativeService: ArlasCollaborativesearchService,
+    protected readonly analyticsService: AnalyticsService,
   ) { }
 
   public ngOnInit() {

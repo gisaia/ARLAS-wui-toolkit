@@ -12,10 +12,9 @@
             [expandedHeight]="expandedHeaderHeight + 'px'" [collapsedHeight]="collapsedHeaderHeight + 'px'" color="primary">
             <mat-panel-title class="analytics-board-panel-title">
               @if (showIndicators && analyticsService.activeFilterGroup.get(group.groupId)) {
-                <div
-                  class="active-filter-group" (click)="removeFilter(group.groupId, $event);">
-                  <mat-icon class="active-filter-group-close" matTooltip="{{'Click to remove filter' | translate}}"
-                  matTooltipPosition="below">clear</mat-icon>
+                <div class="active-filter-group" (click)="removeFilter(group.groupId, $event);">
+                  <mat-icon class="active-filter-group-close" [matTooltip]="'Click to remove filter' | translate"
+                    matTooltipPosition="below">clear</mat-icon>
                 </div>
               }
               @if (group?.icon !== undefined) {
