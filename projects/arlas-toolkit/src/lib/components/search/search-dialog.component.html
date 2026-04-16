@@ -10,8 +10,8 @@
     </span>
     <mat-menu #menu="matMenu" class="settings-list">
       @for (c of collections; track c) {
-        <mat-checkbox #menuItems id="{{ c.label }}" [(ngModel)]="c.checked"
-            [ngModelOptions]="{standalone: true}" (click)="$event.stopPropagation()" [disableRipple]="true"
+        <mat-checkbox #menuItems id="{{ c.label }}" [(ngModel)]="c.checked" [ngModelOptions]="{standalone: true}"
+            (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()" [disableRipple]="true"
             (change)="onChangeCollection($event)">
           <span class="flex-span">
             <mat-icon class="scale-down" [style.color]="c.color">fiber_manual_record</mat-icon>
@@ -33,16 +33,16 @@
     <ul class="autocomplete">
       @if (searchContributors.length === 1) {
         @for (search of filteredSearch | async; track search) {
-          <li class="search-option"
-            (click)="clickItemSearch(search.key_as_string)" [matTooltip]="search.key_as_string" matTooltipPosition="after">
+          <li class="search-option" [matTooltip]="search.key_as_string" matTooltipPosition="after"
+              (click)="clickItemSearch(search.key_as_string)" (keydown)="clickItemSearch(search.key_as_string)">
             <span class="key">{{ search.key_as_string }}</span>
             <span class="count">{{ search.count }}</span>
           </li>
         }
       } @else if (searchContributors.length > 1) {
         @for (search of filteredSearch | async; track search) {
-          <li class="search-option"
-            (click)="clickItemSearch(search.key_as_string)" [matTooltip]="search.key_as_string" matTooltipPosition="after">
+          <li class="search-option" [matTooltip]="search.key_as_string" matTooltipPosition="after"
+              (click)="clickItemSearch(search.key_as_string)" (keydown)="clickItemSearch(search.key_as_string)">
             <span class="key">{{ search.key_as_string }}</span>
             <div class="flex-span collections-count" >
               @for (s of search.collections; track s) {

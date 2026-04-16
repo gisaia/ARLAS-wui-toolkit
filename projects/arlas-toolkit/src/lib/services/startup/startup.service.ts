@@ -284,11 +284,11 @@ export class ArlasStartupService {
       let langToSet = navigator.language.slice(0, 2);
       const urlLanguage = getParamValue('lg');
       if (urlLanguage) {
-        langToSet = decodeURIComponent(urlLanguage.replace(/\+/g, ' '));
+        langToSet = decodeURIComponent(urlLanguage.replaceAll('+', ' '));
       }
       const locationInitialized = this.injector.get(LOCATION_INITIALIZED, Promise.resolve(null));
       locationInitialized.then(() => {
-        this.translateService.setDefaultLang('en');
+        this.translateService.setFallbackLang('en').subscribe();
         this.translateService.use(langToSet).subscribe(() => {
           console.log(`Successfully initialized '${langToSet}' language.`);
         }, err => {

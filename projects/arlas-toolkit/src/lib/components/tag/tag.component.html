@@ -1,8 +1,7 @@
 <div class="arlas-tag-box">
   @for (process of tagService.processStatus | keyvalue; track process) {
     <div class="arlas-tag-notification" (mouseenter)="hoveredDiv = process.value.id" (mouseleave)="hoveredDiv = ''">
-      <div class="arlas-tag-notification-content" id="tag-progress-{{process.value.id}}" [class.arlas-tag-active]="hoveredDiv === process.value.id ? true : false"
-        >
+      <div class="arlas-tag-notification-content" id="tag-progress-{{process.value.id}}" [class.arlas-tag-active]="hoveredDiv === process.value.id ? true : false">
         <span>{{process.value.label}}</span>
         @if (process.value.progress == 0) {
           <mat-icon class="arlas-tag-notification-icon-blue">watch_later</mat-icon>
@@ -10,7 +9,9 @@
           <span>{{process.value.progress | number:'1.0-0'}} %</span>
         } @else if (process.value.progress == 100) {
           <mat-icon class="arlas-tag-notification-icon-green arlas-tag-hide">check_circle</mat-icon>
-          <mat-icon class="arlas-tag-notification-icon-grey arlas-tag-show" (click)="removeProgress(process.value.id)">cancel</mat-icon>
+          <button mat-icon-button (click)="removeProgress(process.value.id)" class="arlas-tag-notification-icon-grey arlas-tag-show">
+            <mat-icon>cancel</mat-icon>
+          </button>
         }
       </div>
       @if (process.value.progress > 0 && process.value.progress < 100) {

@@ -20,7 +20,7 @@ import { DatePipe, DecimalPipe, KeyValuePipe } from '@angular/common';
 import { Component, ElementRef, Input, OnInit, Output, Renderer2, ViewEncapsulation } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatAutocomplete, MatAutocompleteTrigger } from '@angular/material/autocomplete';
-import { MatButton } from '@angular/material/button';
+import { MatButton, MatButtonModule } from '@angular/material/button';
 import { MatCheckbox, MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatFormField } from '@angular/material/form-field';
@@ -61,7 +61,7 @@ import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component'
     templateUrl: './tag.component.html',
     styleUrls: ['./tag.component.scss'],
     encapsulation: ViewEncapsulation.None,
-    imports: [MatIcon, MatProgressBar, DecimalPipe, KeyValuePipe]
+    imports: [MatIcon, MatProgressBar, DecimalPipe, KeyValuePipe, MatButtonModule]
 })
 export class TagComponent {
   /**

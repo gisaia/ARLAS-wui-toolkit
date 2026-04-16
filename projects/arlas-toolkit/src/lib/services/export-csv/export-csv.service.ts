@@ -74,7 +74,7 @@ export class ArlasExportCsvService {
         const aggsOriginal: Aggregation[] = (<TreeContributor>contributor).getAggregations();
         const aggsForExport = [];
         aggsOriginal.forEach(agg => {
-          aggsForExport.push(Object.assign({}, agg));
+          aggsForExport.push({...agg});
         });
         aggsForExport.filter(agg => agg.type === Aggregation.TypeEnum.Term).map(a => a.size = '10000');
         aggResponse = this.collaborativesearchService.resolveButNotAggregation(

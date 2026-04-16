@@ -5,7 +5,9 @@
     <div class="state">{{arlasError?.message | translate:{service: $any(arlasError)?.service | translate} }}</div>
     @if (arlasError?.actionType === 'link') {
       @if (arlasError?.showAction) {
-        <div class="action" (click)="arlasError.executeAction()">{{arlasError?.actionMessage | translate }}</div>
+        <button mat-button class="action" (click)="arlasError.executeAction()">
+          {{arlasError?.actionMessage | translate }}
+        </button>
       }
     } @else {
       @if (arlasError?.showAction) {

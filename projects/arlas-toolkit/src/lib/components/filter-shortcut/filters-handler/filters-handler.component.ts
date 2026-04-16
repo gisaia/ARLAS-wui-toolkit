@@ -18,6 +18,7 @@
  */
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { DateTimeAdapter, OWL_DATE_TIME_LOCALE } from '@danielmoncada/angular-datetime-picker';
 import { MomentDateTimeAdapter } from '@danielmoncada/angular-datetime-picker-moment-adapter';
@@ -47,7 +48,8 @@ import { FilterShortcutChipComponent } from '../chip/chip.component';
   ],
   imports: [
     MatIcon,
-    FilterShortcutChipComponent
+    FilterShortcutChipComponent,
+    MatButtonModule
   ]
 })
 export class ShortcutFiltersHandlerComponent implements OnInit, OnDestroy {

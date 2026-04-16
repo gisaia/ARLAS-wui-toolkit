@@ -65,11 +65,15 @@
   <button mat-raised-button class="process" (click)="openEnrich()">Enrich</button>
 
   <button mat-raised-button class="process" (click)="openConfirm()">Confirm</button>
+
+  <button mat-raised-button class="process" (click)="openDeniedAccess()">Denied Access</button>
+
+  <button mat-raised-button class="process" (click)="openPermissionsCreator()">Permission creator (mock)</button>
 </div>
 
 <div style="margin-bottom: 10px;">
   <arlas-filter [title]="'ARLAS toolkit'" [backgroundColorFilter]="'#eee'" [colorFilter]="'#000'"
-  [availableSpace]="windowWidth - 5"></arlas-filter>
+    [availableSpace]="windowWidth - 5"></arlas-filter>
 </div>
 
 @if (timelineComponentConfig) {

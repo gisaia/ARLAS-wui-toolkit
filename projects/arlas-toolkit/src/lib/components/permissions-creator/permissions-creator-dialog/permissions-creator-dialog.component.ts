@@ -25,6 +25,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { marker } from '@colsen1991/ngx-translate-extract-marker';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -47,7 +48,8 @@ import { PermissionDialogData } from '../_interfaces';
     MatFormFieldModule,
     ReactiveFormsModule,
     GetCollectionDisplayNamePipe,
-    MatButtonModule
+    MatButtonModule,
+    MatInputModule
   ]
 })
 export class PermissionsCreatorDialogComponent {

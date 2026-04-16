@@ -19,6 +19,7 @@
 
 import { KeyValuePipe } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -50,7 +51,8 @@ import { DatePickerComponent } from '../date-picker/date-picker.component';
     TranslatePipe,
     GetTimeLabelPipe,
     DatePickerComponent,
-    KeyValuePipe
+    KeyValuePipe,
+    MatButtonModule
   ]
 })
 export class TimelineShortcutComponent implements OnInit {
@@ -95,7 +97,7 @@ export class TimelineShortcutComponent implements OnInit {
   public timeShortcutsMap: Map<string, Array<StringifiedTimeShortcut>>;
   public showRemoveIcon = false;
   public showShortcuts = false;
-  public HIDE_SHOW: string = marker('Show');
+  public HIDE_SHOW: string = marker('Show time shortcuts');
   public isShortcutSelected = false;
   public timeZone = 'UTC';
 
@@ -149,9 +151,9 @@ export class TimelineShortcutComponent implements OnInit {
     if (this.timeShortcuts && this.timeShortcuts.length > 0) {
       this.showShortcuts = !this.showShortcuts;
       if (this.showShortcuts) {
-        this.HIDE_SHOW = marker('Hide');
+        this.HIDE_SHOW = marker('Hide time shortcuts');
       } else {
-        this.HIDE_SHOW = marker('Show');
+        this.HIDE_SHOW = marker('Show time shortcuts');
       }
     }
   }

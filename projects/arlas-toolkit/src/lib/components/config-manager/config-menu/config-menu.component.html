@@ -3,55 +3,36 @@
 </button>
 <mat-menu #menu="matMenu" class="action-menu">
   @for (action of actions; track action) {
-    <div>
-      @if (action.type === ConfigAction.VIEW) {
-        <div>
-          <button mat-menu-item (click)="onActionClick(action)">
-            <mat-icon>launch</mat-icon>
-            <span>{{'View' | translate}}</span>
-          </button>
-        </div>
-      }
-      @if (action.type === ConfigAction.SHARE) {
-        <div>
-          <button mat-menu-item [disabled]="!action.enabled" (click)="onActionClick(action)">
-            <mat-icon>share</mat-icon>
-            <span>{{'Share' | translate}}</span>
-          </button>
-        </div>
-      }
-      @if (action.type === ConfigAction.EDIT) {
-        <div>
-          <button mat-menu-item [disabled]="!action.enabled" (click)="onActionClick(action)">
-            <mat-icon>create</mat-icon>
-            <span>{{'Edit' | translate}}</span>
-          </button>
-        </div>
-      }
-      @if (action.type === ConfigAction.DUPLICATE) {
-        <div>
-          <button mat-menu-item [disabled]="!action.enabled" (click)="onActionClick(action)">
-            <mat-icon>filter_none</mat-icon>
-            <span>{{'Duplicate' | translate}}</span>
-          </button>
-        </div>
-      }
-      @if (action.type === ConfigAction.RENAME) {
-        <div>
-          <button mat-menu-item [disabled]="!action.enabled" (click)="onActionClick(action)">
-            <mat-icon>drive_file_rename_outline</mat-icon>
-            <span>{{'Rename' | translate}}</span>
-          </button>
-        </div>
-      }
-      @if (action.type === ConfigAction.DELETE) {
-        <div>
-          <button mat-menu-item [disabled]="!action.enabled" (click)="onActionClick(action)">
-            <mat-icon>delete</mat-icon>
-            <span>{{'Delete' | translate}}</span>
-          </button>
-        </div>
-      }
-    </div>
+    @if (action.type === ConfigAction.VIEW) {
+      <button mat-menu-item (click)="onActionClick(action)">
+        <mat-icon>launch</mat-icon>
+        <span>{{'View' | translate}}</span>
+      </button>
+    } @else if (action.type === ConfigAction.SHARE) {
+      <button mat-menu-item [disabled]="!action.enabled" (click)="onActionClick(action)">
+        <mat-icon>share</mat-icon>
+        <span>{{'Share' | translate}}</span>
+      </button>
+    } @else if (action.type === ConfigAction.EDIT) {
+      <button mat-menu-item [disabled]="!action.enabled" (click)="onActionClick(action)">
+        <mat-icon>create</mat-icon>
+        <span>{{'Edit' | translate}}</span>
+      </button>
+    } @else if (action.type === ConfigAction.DUPLICATE) {
+      <button mat-menu-item [disabled]="!action.enabled" (click)="onActionClick(action)">
+        <mat-icon>filter_none</mat-icon>
+        <span>{{'Duplicate' | translate}}</span>
+      </button>
+    } @else if (action.type === ConfigAction.RENAME) {
+      <button mat-menu-item [disabled]="!action.enabled" (click)="onActionClick(action)">
+        <mat-icon>drive_file_rename_outline</mat-icon>
+        <span>{{'Rename' | translate}}</span>
+      </button>
+    } @else if (action.type === ConfigAction.DELETE) {
+      <button mat-menu-item [disabled]="!action.enabled" (click)="onActionClick(action)">
+        <mat-icon>delete</mat-icon>
+        <span>{{'Delete' | translate}}</span>
+      </button>
+    }
   }
 </mat-menu>

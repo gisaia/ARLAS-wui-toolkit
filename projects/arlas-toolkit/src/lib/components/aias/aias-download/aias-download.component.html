@@ -113,8 +113,7 @@
         @if (!isProcessing && !processStarted) {
           <div class="buttons">
             <button mat-flat-button mat-button matStepperPrevious>{{ 'Previous' | translate }}</button>
-            <button [color]="'primary'" [disabled]="isProcessing || !formGroup.valid " matStepperNext mat-flat-button
-              (click)="submit()">
+            <button [color]="'primary'" [disabled]="!formGroup.valid" matStepperNext mat-flat-button (click)="submit()">
               {{ 'Download' | translate }}
             </button>
           </div>

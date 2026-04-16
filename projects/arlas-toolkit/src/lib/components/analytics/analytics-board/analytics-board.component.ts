@@ -20,6 +20,7 @@
 import { CdkDragDrop, CdkDropList } from '@angular/cdk/drag-drop';
 import { NgClass } from '@angular/common';
 import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -50,7 +51,8 @@ import { AnalyticGroupConfiguration } from '../analytics.utils';
     MatTooltipModule,
     NgClass,
     WidgetComponent,
-    ProgressSpinnerComponent
+    ProgressSpinnerComponent,
+    MatButtonModule
   ]
 })
 export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
@@ -59,7 +61,7 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
    * @Input : Angular
    * @description Display mode of the analytics tab. Can be 'normal' or 'compact'.
    */
-  @Input() public mode = 'normal';
+  @Input() public mode: 'normal' | 'compact' = 'normal';
 
   /**
    * @Input : Angular

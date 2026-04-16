@@ -34,7 +34,7 @@ import { ProcessOutput } from '../../../tools/process.interface';
     DatePipe,
     MatProgressBarModule,
     MatDialogModule,
-    MatButtonModule,
+    MatButtonModule
   ]
 })
 export class AiasResultComponent {

@@ -28,6 +28,8 @@ authentication:
 
 tab_name: "ARLAS Wui"
 
+arlas_iam_wui_url: https://localhost/iam
+
 persistence:
   url: https://localhost/persist
   use_local_config: true

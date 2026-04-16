@@ -95,16 +95,23 @@ $count-chip-height: 30px;
     display: flex;
     justify-content: center;
     align-items: center;
-  }
 
-  .icon_close{
-    font-size: 12px;
-    width: 12px;
-    height: 12px;
-    position: absolute;
-    top: 0;
-    right: 0;
-    cursor: pointer;
+    &_close {
+      --mat-icon-button-state-layer-size: 12px;
+      --mat-icon-button-touch-target-size: 12px;
+      padding: 0;
+
+      position: absolute;
+      display: flex;
+      top: 0;
+      right: 0;
+
+      mat-icon {
+        font-size: 12px;
+        width: 12px;
+        height: 12px;
+      }
+    }
   }
 
   &:focus {
@@ -125,19 +132,21 @@ $count-chip-height: 30px;
 .count-container {
   display: flex;
   align-items: center;
-}
 
-.zoom {
-  background-color: white;
-  height: 24px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
+  .zoom {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    --mat-icon-button-state-layer-size: 15px;
+    --mat-icon-button-touch-target-size: 15px;
+    padding: 0;
 
-  mat-icon{
-    font-size: 15px;
-    width: 15px;
-    height: 15px;
+    mat-icon {
+      font-size: 15px;
+      width: 15px;
+      height: 15px;
+    }
   }
 }
 

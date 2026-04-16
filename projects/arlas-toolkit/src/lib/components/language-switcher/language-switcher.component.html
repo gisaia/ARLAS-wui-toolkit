@@ -4,7 +4,7 @@
     <span class="flag-icon flag-{{currentLanguage}}"></span>
   </mat-select-trigger>
   @for (lang of availablesLanguages; track lang) {
-    <mat-option (click)="setLanguage(lang)" [value]="lang" class="switcher-option">
+    <mat-option (click)="setLanguage(lang)" (keydown)="setLanguage(lang)" [value]="lang" class="switcher-option">
       <span class="flag-icon flag-{{lang}}"></span>
     </mat-option>
   }

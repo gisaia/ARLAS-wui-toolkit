@@ -1,5 +1,5 @@
 @if (show) {
-  <div class="wrapper" (click)="navigateTo(link?.url)" [matTooltip]="link?.tooltip | translate">
+  <div class="wrapper" (click)="navigateTo(link?.url)" (keydown)="navigateTo(link?.url)" [matTooltip]="link?.tooltip | translate">
     <div class="circle">
       <mat-icon>{{link.icon}}</mat-icon>
     </div>

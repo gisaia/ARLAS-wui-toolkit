@@ -8,12 +8,12 @@
     @if (!!timelineLegend && timelineLegend.length > 1) {
       <div class="arlas-timeline--legend">
         @for (collectionLegend of timelineLegend; track collectionLegend) {
-          <div class="arlas-timeline--legend-container" (click)="hideShowCollection(collectionLegend)">
+          <button mat-button class="arlas-timeline--legend-container" (click)="hideShowCollection(collectionLegend)">
             <div class="arlas-timeline--legend-chip"
               [style.backgroundColor]="collectionLegend.active ? collectionLegend.color : '#dadada'"></div>
             <div class="arlas-timeline--legend-collection" [style.color]="collectionLegend.active ? '#444' : '#bbb'">
               {{ collectionLegend.display_name | translate }}</div>
-          </div>
+          </button>
         }
       </div>
     }

@@ -18,14 +18,14 @@
  */
 
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslatePipe } from '@ngx-translate/core';
 import { ChartType, DataType, HistogramTooltip, Position } from 'arlas-d3';
 import { ArlasColorService, HistogramComponent } from 'arlas-web-components';
 import { DetailedHistogramContributor, HistogramContributor, SelectedOutputValues } from 'arlas-web-contributors';
 import { OperationEnum } from 'arlas-web-core';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Subject, takeUntil } from 'rxjs';
 import { GetContributorPipe } from '../../../pipes/get-contributor.pipe';
 import { ArlasCollaborativesearchService } from '../../../services/collaborative-search/arlas.collaborative-search.service';
 import { ArlasCollectionService } from '../../../services/collection/arlas-collection.service';
@@ -55,7 +55,8 @@ import { CollectionLegend, TimelineConfiguration } from './timeline.utils';
     ProgressSpinnerComponent,
     HistogramComponent,
     GetContributorPipe,
-    MatIconModule
+    MatIconModule,
+    MatButtonModule
   ]
 })
 export class TimelineComponent implements OnInit, OnDestroy {

@@ -198,5 +198,6 @@
 	"Add permission description": "Add a description to the permission:",
 	"course.distance.gps.travelled_m": "Distance",
 	"The connection is lost": "The connection to {{service}} is lost.",
-	"The service is unavailable": "{{service}} is unavailable."
+	"The service is unavailable": "{{service}} is unavailable.",
+	"About ##wui##": "About {{wui}} {{version}}"
 }

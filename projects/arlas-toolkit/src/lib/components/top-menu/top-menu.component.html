@@ -12,7 +12,7 @@
 
   <!-- Information -->
   @if (showAboutButton) {
-    <button mat-icon-button matTooltip="{{ 'About' | translate }} {{ wuiName }} {{ version }}"
+    <button mat-icon-button [matTooltip]="'About ##wui##' | translate:{ wui: wuiName, version: version }"
       (click)="displayAbout()">
       <mat-icon class="icon">info_outline</mat-icon>
     </button>

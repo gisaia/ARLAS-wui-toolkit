@@ -69,7 +69,7 @@ export function iamServiceFactory(service: ArlasIamService) {
 }
 
 export function localDatePickerFactory(translate: TranslateService) {
-  return translate.currentLang;
+  return translate.getCurrentLang();
 }
 
 export function configUpdaterFactory(x): any {
@@ -81,7 +81,7 @@ export function getOptionsFactory(settingsService: ArlasSettingsService, arlasAu
   const getOptions = () => {
     let token = null;
     const authSettings = settingsService.getAuthentSettings();
-    let authentMode = !!authSettings ? authSettings.auth_mode : undefined;
+    let authentMode = authSettings ? authSettings.auth_mode : undefined;
     const isAuthentActivated = !!authSettings && !!authSettings.use_authent;
     if (isAuthentActivated && !authentMode) {
       authentMode = 'openid';
@@ -90,21 +90,21 @@ export function getOptionsFactory(settingsService: ArlasSettingsService, arlasAu
       if (!!authentMode && authentMode === 'iam') {
         token = arlasIamService.getAccessToken();
       } else {
-        token = !!arlasAuthService.accessToken ? arlasAuthService.accessToken : null;
+        token = arlasAuthService.accessToken ? arlasAuthService.accessToken : null;
       }
-      if (token !== null) {
+      if (token === null) {
+        return {};
+      } else {
         const headers = {
           Authorization: 'Bearer ' + token
         };
         if (authentMode === 'iam') {
           const org = arlasIamService.getOrganisation();
-          if (!!org) {
+          if (org) {
             headers['arlas-org-filter'] = org;
           }
         }
         return { headers };
-      } else {
-        return {};
       }
     } else {
       return {};
@@ -123,7 +123,6 @@ export const MY_CUSTOM_FORMATS = {
   monthYearA11yLabel: 'MMMM YYYY',
 };
 
-// TODO: Have providers being exported for default easy configuration
 @NgModule({
   imports: [
     ToolkitRoutingModule,

@@ -44,11 +44,13 @@
   justify-content: center;
   flex-direction: column;
   background-color: white;
-  width: 24px;
-  height: 24px;
+  --mat-icon-button-state-layer-size: 24px;
+  --mat-icon-button-touch-target-size: 24px;
   margin-left: 5px;
-  cursor: pointer;
   border: 1px solid #a1a1a1;
+  border-radius: 0;
+  padding: 0;
+  box-sizing: content-box;
 }
 
 .shortcut-button {
@@ -66,26 +68,40 @@
 }
 
 .shortcut-button__icon {
-  color: white;
-  width: 18px;
-  height: 18px;
-  font-size: 18px;
+  --mat-icon-button-state-layer-size: 18px;
+  --mat-icon-button-touch-target-size: 18px;
+  padding: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  mat-icon {
+    color: white;
+    width: 18px;
+    height: 18px;
+    font-size: 18px;
+  }
 }
 
 .cursor {
   cursor: pointer;
 }
 
-.shortcut-remove-filter{
-  height: 20px;
+.shortcut-remove-filter {
+  --mat-icon-button-state-layer-size: 20px;
+  --mat-icon-button-touch-target-size: 20px;
+  padding: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   &-icon {
     color: white;
-    width: 20px;
-    height: 20px;
+    width: 15px;
+    height: 15px;
     font-size: 15px;
-    cursor: pointer;
-    padding: 2px 2px;
   }
 }
 

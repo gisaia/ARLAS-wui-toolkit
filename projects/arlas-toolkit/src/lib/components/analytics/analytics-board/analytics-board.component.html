@@ -12,10 +12,10 @@
             [expandedHeight]="expandedHeaderHeight + 'px'" [collapsedHeight]="collapsedHeaderHeight + 'px'" color="primary">
             <mat-panel-title class="analytics-board-panel-title">
               @if (showIndicators && analyticsService.activeFilterGroup.get(group.groupId)) {
-                <div class="active-filter-group" (click)="removeFilter(group.groupId, $event);">
-                  <mat-icon class="active-filter-group-close" [matTooltip]="'Click to remove filter' | translate"
-                    matTooltipPosition="below">clear</mat-icon>
-                </div>
+                <button mat-icon-button class="active-filter-group" (click)="removeFilter(group.groupId, $event)"
+                    [matTooltip]="'Click to remove filter' | translate" matTooltipPosition="below">
+                  <mat-icon class="active-filter-group-close">clear</mat-icon>
+                </button>
               }
               @if (group?.icon !== undefined) {
                 <mat-icon class="analytics-board-panel-icon">{{group.icon}}</mat-icon>
@@ -46,18 +46,17 @@
     }
 
     @if (display && mode === 'compact') {
-      <div [id]="'compact-' + group.groupId"
+      <button mat-icon-button [id]="'compact-' + group.groupId"
           #compactTooltip="matTooltip" (mouseover)="compactTooltip.show()" [matTooltip]="group.title | translate"
           matTooltipPosition="right" (click)="changeMode(group.groupId)" class="analytics-compact-card">
         <mat-icon>{{group.icon}}</mat-icon>
         @if (analyticsService.activeFilterGroup.get(group.groupId)) {
-          <div class="active-filter"
-            (click)="removeFilter(group.groupId, $event);compactTooltip.hide()">
+          <button mat-icon-button class="active-filter" (click)="removeFilter(group.groupId, $event); compactTooltip.hide()">
             <mat-icon class="active-filter-close" [matTooltip]="'Click to remove filter' | translate"
               matTooltipPosition="below" (mouseenter)="compactTooltip.hide()">clear</mat-icon>
-          </div>
+        </button>
         }
-      </div>
+      </button>
     }
   }
 </div>

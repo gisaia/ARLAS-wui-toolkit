@@ -21,22 +21,19 @@
       <div><mat-icon class="icon">check_circle</mat-icon></div>
       <div class="state">{{'The permission was created successfully' | translate}}</div>
       @if (showAction) {
-        <div class="action" (click)="goToArlasIAMWui()">{{'go to iam' | translate}}</div>
+        <button mat-button class="action" (click)="goToArlasIAMWui()">
+          {{'go to iam' | translate}}
+        </button>
       }
     </div>
   } @else if (creationStatus === 'errored') {
     <div class="errored">
       <div><mat-icon class="icon">error</mat-icon></div>
       <div class="state">{{'The permission creation failed' | translate}}</div>
-      <div class="action" (click)="showErrorDetails = !showErrorDetails">
+      <button mat-button class="action" (click)="showErrorDetails = !showErrorDetails">
         <span>{{'See details' | translate}}</span>
-        @if (!showErrorDetails) {
-          <mat-icon>chevron_right</mat-icon>
-        }
-        @if (showErrorDetails) {
-          <mat-icon>expand_more</mat-icon>
-        }
-      </div>
+        <mat-icon>{{ showErrorDetails ? 'expand_more' : 'chevron_right' }}</mat-icon>
+      </button>
       @if (showErrorDetails) {
         <div class="detail">
           {{creationError | json}}

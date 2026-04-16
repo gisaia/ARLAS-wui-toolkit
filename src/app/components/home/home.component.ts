@@ -57,7 +57,7 @@ import {
   AuthentSetting,
   SpinnerOptions
 } from '../../../../projects/arlas-toolkit/src/lib/tools/utils';
-import { AnalyticsBoardComponent, AnalyticsMenuComponent, BookmarkMenuComponent, ConfirmModalComponent, FiltersComponent, FilterShortcutComponent, LanguageSwitcherComponent, PermissionsCreatorComponent, SearchComponent, TimelineComponent, ToolkitComponent, TopMenuComponent } from '../../../../projects/arlas-toolkit/src/public-api';
+import { AnalyticsBoardComponent, AnalyticsMenuComponent, AuthorisationError, BookmarkMenuComponent, ConfirmModalComponent, DeniedAccessDialogComponent, FiltersComponent, FilterShortcutComponent, LanguageSwitcherComponent, PermissionsCreatorComponent, PermissionsCreatorDialogComponent, SearchComponent, TimelineComponent, ToolkitComponent, TopMenuComponent } from '../../../../projects/arlas-toolkit/src/public-api';
 
 @Component({
   selector: 'arlas-tool-home',
@@ -295,5 +295,26 @@ export class HomeComponent implements OnInit {
     const confirmDialogRef = this.dialog.open(ConfirmModalComponent);
     confirmDialogRef.componentInstance.confirmHTLMMessage =
         '<strong>Remove</strong> all tags from `Test` ?';
+  }
+
+  public openDeniedAccess() {
+    this.dialog.open(DeniedAccessDialogComponent, {
+        disableClose: true, data: {
+          error: new AuthorisationError(401),
+          forceAction: false
+        },
+        panelClass: 'arlas-error-dialog'
+      });
+  }
+
+  public openPermissionsCreator() {
+    this.dialog.open(PermissionsCreatorDialogComponent, {
+      data: {
+        partitionFilterHeader: '',
+        mainCollection: '',
+        oid: ''
+      },
+      panelClass: 'arlas-permission-dialog'
+    })
   }
 }

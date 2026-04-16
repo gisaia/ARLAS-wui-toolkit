@@ -4,7 +4,8 @@
       @for (shortcutType of timeShortcutsMap | keyvalue; track shortcutType) {
         <ul class="arlas-time-shortcuts__list">
           @for (shortCut of shortcutType.value; track shortCut) {
-            <li class="arlas-time-shortcut" (click)="setShortcut(shortCut)">{{shortCut.label | translate}}</li>
+            <li class="arlas-time-shortcut" (click)="setShortcut(shortCut)" (keydown)="setShortcut(shortCut)">
+              {{shortCut.label | translate}}</li>
           }
         </ul>
       }
@@ -12,8 +13,11 @@
   }
   <div class="arlas-time--tools">
     <mat-basic-chip class="shortcut-button">
-      <mat-icon id="shortcut-btn" class="shortcut-button__icon" [class.cursor]="timeShortcuts?.length > 0" (click)="showSortcuts()"
-      matTooltip="{{HIDE_SHOW + ' time shortcuts' | translate}}" matTooltipPosition="above">access_time</mat-icon>
+      <button mat-icon-button id="shortcut-btn" class="shortcut-button__icon" (click)="showSortcuts()"
+          [matTooltip]="HIDE_SHOW | translate" matTooltipPosition="above">
+        <mat-icon>access_time</mat-icon>
+      </button>
+
       <div class="arlas-datepicker-container">
         @if (activeDatePicker) {
           <arlas-tool-date-picker class="shortcut-button__label"
@@ -21,8 +25,7 @@
             [endSelectedDate]="$any(timelineContributor?.intervalSelection?.endvalue)"
             [timelineComponent]="timelineComponent">
           </arlas-tool-date-picker>
-        }
-        @if (!activeDatePicker) {
+        } @else {
           <div class="shortcut-button__label">
             {{timelineContributor?.timeLabel | getTimeLabel: dateFormat:translate:timelineContributor?.useUtc}}
           </div>
@@ -32,19 +35,18 @@
         </div>
       </div>
       @if (showRemoveIcon) {
-        <div class="shortcut-remove-filter" (click)="removeTimelineCollaboration()"
-          matTooltip="{{'Remove time filter' | translate}}" matTooltipPosition="above">
+        <button mat-icon-button class="shortcut-remove-filter" (click)="removeTimelineCollaboration()"
+            [matTooltip]="'Remove time filter' | translate" matTooltipPosition="above">
           <mat-icon class="shortcut-remove-filter-icon" >clear</mat-icon>
-        </div>
+        </button>
       }
     </mat-basic-chip>
-    <div class="arlas-timeline-toggle" (click)="toggleTimeline()">
-      @if (!isDisplayHistogram) {
-        <mat-icon [matTooltip]="'Show timeline' | translate" matTooltipPosition="above">keyboard_arrow_up</mat-icon>
-      }
+    <button mat-icon-button class="arlas-timeline-toggle" (click)="toggleTimeline()">
       @if (isDisplayHistogram) {
         <mat-icon [matTooltip]="'Hide timeline' | translate" matTooltipPosition="above">keyboard_arrow_down</mat-icon>
+      } @else {
+        <mat-icon [matTooltip]="'Show timeline' | translate" matTooltipPosition="above">keyboard_arrow_up</mat-icon>
       }
-    </div>
+    </button>
   </div>
 </div>

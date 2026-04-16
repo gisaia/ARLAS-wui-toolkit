@@ -7,10 +7,10 @@
           @if (showZoomToData &&
             (((zoomToStrategy === ZoomToDataStrategy.CENTROID || !zoomToStrategy)  && c.hasCentroidPath)
             || (zoomToStrategy === ZoomToDataStrategy.GEOMETRY && c.hasGeometryPath))) {
-            <div class="zoom"
-              (click)="zoomToData(c.collection)" [matTooltip]="'Zoom to data' | translate" matTooltipPosition="below">
+            <button mat-icon-button class="zoom" (click)="zoomToData(c.collection)"
+                [matTooltip]="'Zoom to data' | translate" matTooltipPosition="below">
               <mat-icon>filter_center_focus</mat-icon>
-            </div>
+            </button>
           }
           <div class="value-unit">
             <div class="value">
@@ -29,8 +29,9 @@
                 [matTooltip]="contributorId | getContributorLabel:contributors | translate">
                 <mat-icon class="icon">{{contributorId | getCollaborationIcon:contributorsIcons }}
                 </mat-icon>
-                <mat-icon (click)="removeCollaboration(contributorId)" class="icon_close mat-icon material-icons">
-                clear</mat-icon>
+                <button mat-icon-button (click)="removeCollaboration(contributorId)" class="icon_close">
+                  <mat-icon>clear</mat-icon>
+                </button>
               </mat-basic-chip>
             }
           }
@@ -42,7 +43,7 @@
   @if (showExtraCollections || (extraCountAll && extraCountAll.length > 0)) {
     <div class="extra"
       [class.extra-open]="isExtraOpen" id="extra-collections">
-      <section class="title" (click)="toggleExtraCounts()">
+      <section class="title" (click)="toggleExtraCounts()" (keydown)="toggleExtraCounts()">
         <div class="text">{{ 'See more' | translate }}</div>
         <div class="info">
           <div class="extra-count-number">{{ extraCountAll ? extraCountAll.length : 0 }}</div>
@@ -63,11 +64,10 @@
                 @if (showZoomToData &&
                   (((zoomToStrategy === ZoomToDataStrategy.CENTROID || !zoomToStrategy)  && c.hasCentroidPath)
                   || (zoomToStrategy === ZoomToDataStrategy.GEOMETRY && c.hasGeometryPath))) {
-                  <div class="zoom"
-                    (click)="zoomToData(c.collection)" matTooltip="{{ 'Zoom to data' | translate }}"
-                    matTooltipPosition="left">
+                  <button mat-icon-button class="zoom" (click)="zoomToData(c.collection)"
+                      [matTooltip]="'Zoom to data' | translate" matTooltipPosition="left">
                     <mat-icon>filter_center_focus</mat-icon>
-                  </div>
+                  </button>
                 }
                 <div class="value-unit">
                   <div class="value">
@@ -80,14 +80,14 @@
                 @for (contributorId of collaborations; track contributorId; let index = $index) {
                   @if (contributorId | isCollabOnCollection:c.collection:contributors) {
                     <mat-basic-chip id="filter-chip-{{contributorId}}" class="filter-chip"
-                      [style.color]="contributorId | getGlobalColorFilter:'color':colorFilter:backgroundColorFilter:collaborationsMap "
-                      [style.background-color]="contributorId | getGlobalColorFilter:'background':colorFilter:backgroundColorFilter:collaborationsMap "
-                      (click)="changeCollaborationState(contributorId)"
-                      [matTooltip]="contributorId | getContributorLabel:contributors | translate">
-                      <mat-icon class="icon">{{contributorId | getCollaborationIcon :contributorsIcons }}
-                      </mat-icon>
-                      <mat-icon (click)="removeCollaboration(contributorId)" class="icon_close mat-icon material-icons">
-                      clear</mat-icon>
+                        [style.color]="contributorId | getGlobalColorFilter:'color':colorFilter:backgroundColorFilter:collaborationsMap "
+                        [style.background-color]="contributorId | getGlobalColorFilter:'background':colorFilter:backgroundColorFilter:collaborationsMap "
+                        (click)="changeCollaborationState(contributorId)" (keydown)="changeCollaborationState(contributorId)"
+                        [matTooltip]="contributorId | getContributorLabel:contributors | translate">
+                      <mat-icon class="icon">{{contributorId | getCollaborationIcon :contributorsIcons }}</mat-icon>
+                      <button mat-icon-button (click)="removeCollaboration(contributorId)" class="icon_close">
+                        <mat-icon>clear</mat-icon>
+                      </button>
                     </mat-basic-chip>
                   }
                 }
@@ -106,15 +106,16 @@
         (click)="changeCollaborationState(contributorId)"
         [matTooltip]="contributorId | getContributorLabel:contributors | translate">
         <mat-icon class="icon">{{contributorId | getCollaborationIcon :contributorsIcons }}</mat-icon>
-        <mat-icon (click)="removeCollaboration(contributorId)" class="icon_close mat-icon material-icons">
-        clear</mat-icon>
+        <button mat-icon-button (click)="removeCollaboration(contributorId)" class="icon_close">
+          <mat-icon>clear</mat-icon>
+        </button>
       </mat-basic-chip>
     }
   }
 
   @if (collaborations.size > 0) {
-    <mat-basic-chip id="clear-all" class="clear-chip" [@fadeInOut]
-      (click)="removeAllFilters()" [matTooltip]="'Clear all filters' | translate">
+    <mat-basic-chip id="clear-all" class="clear-chip" [matTooltip]="'Clear all filters' | translate"
+        [@fadeInOut] (click)="removeAllFilters()" (keydown)="removeAllFilters()">
       <mat-icon>filter_alt_off</mat-icon>
     </mat-basic-chip>
   }
