@@ -914,6 +914,11 @@ export interface ArlasSettings {
   resultlist?: ResultlistSettings;
   processes?: Array<ProcessSettings>;
   geocoding?: GeocodingSetting;
+  /**
+   * Urls that are ignored by the FetchInterceptorService.
+   * Check is performed on whether the intercepted url matches the beginning of any whitelisted url.
+   */
+  whitelistedUrls: string[];
 }
 
 export interface LinkSettings {

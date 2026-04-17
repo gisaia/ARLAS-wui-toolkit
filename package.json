@@ -76,9 +76,6 @@
     "jsonpath": false
   },
   "overrides": {
-    "underscore": "^1.13.8",
-    "vite": "^7.3.2",
-    "arlas-d3": "28.0.0-beta.2",
-    "shpjs": "^6.0.2"
+    "underscore": "^1.13.8"
   }
 }
