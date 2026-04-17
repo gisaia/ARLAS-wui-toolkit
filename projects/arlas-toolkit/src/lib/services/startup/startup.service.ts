@@ -918,7 +918,7 @@ export interface ArlasSettings {
    * Urls that are ignored by the FetchInterceptorService.
    * Check is performed on whether the intercepted url matches the beginning of any whitelisted url.
    */
-  whitelistedUrls: string[];
+  whitelistedUrls?: string[];
 }
 
 export interface LinkSettings {
