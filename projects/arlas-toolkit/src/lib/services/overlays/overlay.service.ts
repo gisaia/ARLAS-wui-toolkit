@@ -17,22 +17,22 @@
  * under the License.
  */
 
-import { Injectable, ElementRef, Injector, ComponentRef, InjectionToken } from '@angular/core';
-import { Overlay, OverlayConfig, OriginConnectionPosition, OverlayConnectionPosition, OverlayRef } from '@angular/cdk/overlay';
+import { OriginConnectionPosition, Overlay, OverlayConfig, OverlayConnectionPosition, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal, ComponentType } from '@angular/cdk/portal';
-
+import { ComponentRef, Injectable, InjectionToken, Injector } from '@angular/core';
+import { ARLASDonutTooltip, TimelineTooltip } from 'arlas-d3';
+import { HistogramTooltip } from 'arlas-web-components';
+import {
+  CalendarTimelineTooltipOverlayComponent
+} from '../../components/calendar-timeline-tooltip-overlay/calendar-timeline-tooltip-overlay.component';
+import { DonutTooltipOverlayComponent } from '../../components/donut-tooltip-overlay/donut-tooltip-overlay.component';
 import { HistogramTooltipOverlayComponent } from '../../components/histogram-tooltip-overlay/histogram-tooltip-overlay.component';
 import {
-  ArlasOverlayRef, HISTOGRAM_TOOLTIP_DATA, DONUT_TOOLTIP_DATA,
-  CALENDAR_TIMELINE_TOOLTIP_DATA, POWERBAR_TOOLTIP_DATA
+  ARLASPowerbarTooltip, PowerbarTooltipOverlayComponent
+} from '../../components/powerbar-tooltip-overlay/powerbar-tooltip-overlay.component';
+import {
+  ArlasOverlayRef, CALENDAR_TIMELINE_TOOLTIP_DATA, DONUT_TOOLTIP_DATA, HISTOGRAM_TOOLTIP_DATA, POWERBAR_TOOLTIP_DATA
 } from '../../tools/utils';
-import { HistogramTooltip } from 'arlas-web-components';
-import { ARLASDonutTooltip, TimelineTooltip } from 'arlas-d3';
-import { DonutTooltipOverlayComponent } from '../../components/donut-tooltip-overlay/donut-tooltip-overlay.component';
-import { CalendarTimelineTooltipOverlayComponent } from
-  '../../components/calendar-timeline-tooltip-overlay/calendar-timeline-tooltip-overlay.component';
-import { ARLASPowerbarTooltip, PowerbarTooltipOverlayComponent } from
-  '../../components/powerbar-tooltip-overlay/powerbar-tooltip-overlay.component';
 
 
 export interface ToolTipConfig<T> {
@@ -52,30 +52,30 @@ export class ArlasOverlayService {
 
   public constructor(private overlay: Overlay, private parentOverlay: Overlay, private injector: Injector) { }
 
-  public openHistogramTooltip(config: ToolTipConfig<HistogramTooltip>, elementRef: ElementRef, xOffset: number,
+  public openHistogramTooltip(config: ToolTipConfig<HistogramTooltip>, element: HTMLDivElement, xOffset: number,
     yOffset: number, right: boolean) {
-    return this.openTooltip(config, elementRef, xOffset, yOffset, right, HistogramTooltipOverlayComponent, HISTOGRAM_TOOLTIP_DATA);
+    return this.openTooltip(config, element, xOffset, yOffset, right, HistogramTooltipOverlayComponent, HISTOGRAM_TOOLTIP_DATA);
   }
 
-  public openCalendarTimelineTooltip(config: ToolTipConfig<TimelineTooltip>, elementRef: ElementRef, xOffset: number,
+  public openCalendarTimelineTooltip(config: ToolTipConfig<TimelineTooltip>, element: HTMLDivElement, xOffset: number,
     yOffset: number, right: boolean) {
-    return this.openTooltip(config, elementRef, xOffset, yOffset, right, CalendarTimelineTooltipOverlayComponent, CALENDAR_TIMELINE_TOOLTIP_DATA);
+    return this.openTooltip(config, element, xOffset, yOffset, right, CalendarTimelineTooltipOverlayComponent, CALENDAR_TIMELINE_TOOLTIP_DATA);
   }
 
-  public openDonutTooltip(config: ToolTipConfig<ARLASDonutTooltip>, elementRef: ElementRef, xOffset: number, yOffset: number, right: boolean) {
-    return this.openTooltip(config, elementRef, xOffset, yOffset, right, DonutTooltipOverlayComponent, DONUT_TOOLTIP_DATA);
+  public openDonutTooltip(config: ToolTipConfig<ARLASDonutTooltip>, element: HTMLDivElement, xOffset: number, yOffset: number, right: boolean) {
+    return this.openTooltip(config, element, xOffset, yOffset, right, DonutTooltipOverlayComponent, DONUT_TOOLTIP_DATA);
   }
 
-  public openPowerbarTooltip(config: ToolTipConfig<ARLASPowerbarTooltip>, elementRef: ElementRef, xOffset: number,
+  public openPowerbarTooltip(config: ToolTipConfig<ARLASPowerbarTooltip>, element: HTMLDivElement, xOffset: number,
     yOffset: number, right: boolean) {
-    return this.openTooltip(config, elementRef, xOffset, yOffset, right, PowerbarTooltipOverlayComponent, POWERBAR_TOOLTIP_DATA);
+    return this.openTooltip(config, element, xOffset, yOffset, right, PowerbarTooltipOverlayComponent, POWERBAR_TOOLTIP_DATA);
   }
 
-  private openTooltip<T, U>(config: ToolTipConfig<T>, elementRef: ElementRef, xOffset: number,
+  private openTooltip<T, U>(config: ToolTipConfig<T>, element: HTMLDivElement, xOffset: number,
     yOffset: number, right: boolean, componentType: ComponentType<U>, token: InjectionToken<any>) {
     const dialogConfig = { ...DEFAULT_TOOLTIP_CONFIG, ...config };
 
-    const overlayRef = this.createTooltipOverlay(dialogConfig, elementRef, xOffset, yOffset, right);
+    const overlayRef = this.createTooltipOverlay(dialogConfig, element, xOffset, yOffset, right);
     // Returns an OverlayRef which is a PortalHost
     const componentActionsRef = new ArlasOverlayRef(overlayRef);
     this.attachTooltipContainer(overlayRef, dialogConfig, componentActionsRef, componentType, token);
@@ -83,10 +83,10 @@ export class ArlasOverlayService {
     return componentActionsRef;
   }
 
-  private createTooltipOverlay<T>(config: ToolTipConfig<T>, elementRef: ElementRef, xOffset: number, yOffset: number,
+  private createTooltipOverlay<T>(config: ToolTipConfig<T>, element: HTMLDivElement, xOffset: number, yOffset: number,
     right: boolean) {
     // Returns an OverlayConfig
-    const overlayConfig = this.getOverlayConfig(config, elementRef, xOffset, yOffset, right, /** bottom */ false);
+    const overlayConfig = this.getOverlayConfig(config, element, xOffset, yOffset, right, /** bottom */ false);
     // Returns an OverlayRef
     return this.overlay.create(overlayConfig);
   }
@@ -109,7 +109,7 @@ export class ArlasOverlayService {
     return containerRef.instance;
   }
 
-  private getOverlayConfig(config: any, elementRef: ElementRef, xOffset: number, yOffset: number,
+  private getOverlayConfig(config: any, element: HTMLDivElement, xOffset: number, yOffset: number,
     right: boolean, bottom: boolean): OverlayConfig {
     const origins = {
       topLeft: { originX: 'start', originY: 'top' } as OriginConnectionPosition,
@@ -159,7 +159,7 @@ export class ArlasOverlayService {
     };
     const origin = right ? (bottom ? origins.bottomRight : origins.topRight) : (bottom ? origins.bottomLeft : origins.topLeft);
     const overlay = right ? (bottom ? overlays.bottomRight : overlays.topRight) : (bottom ? overlays.bottomLeft : overlays.topLeft);
-    const positionStrategy = this.overlay.position().flexibleConnectedTo(elementRef)
+    const positionStrategy = this.overlay.position().flexibleConnectedTo(element)
       .withDefaultOffsetX(xOffset)
       .withDefaultOffsetY(yOffset).withPositions([{
         originX: origin.originX,

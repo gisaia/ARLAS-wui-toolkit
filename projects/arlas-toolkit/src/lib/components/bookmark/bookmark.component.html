@@ -10,14 +10,14 @@
     <mat-cell *matCellDef="let bookmark">
       <mat-icon mat-icon-button style="cursor: pointer;" (click)="$event.stopPropagation()" [matMenuTriggerFor]="menu">more_vert</mat-icon>
       <mat-menu #menu="matMenu">
-          <button mat-menu-item (click)="viewBookmark(bookmark.id)">
-              <mat-icon>remove_red_eye</mat-icon><span>{{'View' | translate}}</span>
-          </button>
-          <button mat-menu-item (click)="removeBookmark(bookmark.id)">
-              <mat-icon >delete</mat-icon><span>{{'Delete' | translate}}</span>
-          </button>
-          <button mat-menu-item (click)="updateBookMarkName(bookmark.id, bookmark.name)">
-            <mat-icon >edit</mat-icon><span>{{'Rename' | translate}}</span>
+        <button mat-menu-item (click)="viewBookmark(bookmark.id)">
+          <mat-icon>remove_red_eye</mat-icon><span>{{'View' | translate}}</span>
+        </button>
+        <button mat-menu-item (click)="removeBookmark(bookmark.id)">
+          <mat-icon >delete</mat-icon><span>{{'Delete' | translate}}</span>
+        </button>
+        <button mat-menu-item (click)="updateBookMarkName(bookmark.id, bookmark.name)">
+          <mat-icon >edit</mat-icon><span>{{'Rename' | translate}}</span>
         </button>
       </mat-menu>
     </mat-cell>
@@ -44,7 +44,7 @@
 </mat-table>
 
 
-<ng-container *ngIf="showCombine">
+@if (showCombine) {
   <div class="bookmark-actions__description">
     <mat-icon>info</mat-icon>
     <span>
@@ -57,7 +57,7 @@
     <button class="bookmark-action-button" mat-raised-button [disabled]="disableCombine"(click)="viewCombine()">{{ 'View Combine' | translate }}</button>
     <button class="bookmark-action-button" mat-raised-button [disabled]="disableCombine" (click)="combine()">{{ 'Combine' | translate }}</button>
   </div>
-</ng-container>
+}
 
 <mat-dialog-actions align="end">
   <button mat-raised-button mat-dialog-close>{{ 'Close' | translate }}</button>

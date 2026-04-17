@@ -18,13 +18,7 @@
  */
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MarkdownModule } from 'ngx-markdown';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { AboutComponent } from './about.component';
 
 
@@ -35,12 +29,8 @@ describe('AboutComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        ReactiveFormsModule, MatAutocompleteModule,
-        MatInputModule, FormsModule, BrowserAnimationsModule,
-        MatIconModule, MatDialogModule,
-        MarkdownModule
-      ],
-      declarations: [AboutComponent]
+        AboutComponent
+      ]
     }).compileComponents();
   });
 

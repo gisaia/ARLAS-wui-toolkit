@@ -17,14 +17,20 @@
  * under the License.
  */
 
+import { AsyncPipe } from '@angular/common';
 import { Component, Inject, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { marker } from '@colsen1991/ngx-translate-extract-marker';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { AggregationResponse } from 'arlas-api';
-import { ArlasColorService } from 'arlas-web-components';
+import { ArlasColorService, GetCollectionDisplayNamePipe } from 'arlas-web-components';
 import { SearchContributor } from 'arlas-web-contributors';
 import { OperationEnum } from 'arlas-web-core';
 import { Observable, of, Subject, Subscription, zip } from 'rxjs';
@@ -36,7 +42,12 @@ import { ArlasConfigService } from '../../services/startup/startup.service';
   selector: 'arlas-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss'],
-  standalone: false
+  imports: [
+    MatIconModule,
+    MatButtonModule,
+    TranslatePipe,
+    MatTooltipModule
+  ]
 })
 export class SearchComponent implements OnInit, OnDestroy, OnChanges {
   /**
@@ -121,8 +132,7 @@ export class SearchComponent implements OnInit, OnDestroy, OnChanges {
                     if (filter.q[0][0].split(':').length > 0) {
                       searchtxt = filter.q[0][0].split(':')[1];
                     }
-                    const pattern = /\"/gi;
-                    initSearchValue += searchtxt.replace(pattern, '') + ' ';
+                    initSearchValue += searchtxt.replaceAll(/"/gi, '') + ' ';
                   }
                   this.searchValue = initSearchValue.slice(0, -1);
                 }
@@ -154,7 +164,7 @@ export class SearchComponent implements OnInit, OnDestroy, OnChanges {
       this.searchContributors[0].search(value);
     } else {
       const configDebounceTime = this.configService.getValue('arlas.server.debounceCollaborationTime');
-      const debounceDuration = configDebounceTime !== undefined ? configDebounceTime : 750;
+      const debounceDuration = configDebounceTime === undefined ? 750 : configDebounceTime;
       const enabledContributors = this.searchContributors.filter(s => this.collectionsState.get(s.collection));
       for (let i = 0; i < enabledContributors.length; i++) {
         setTimeout(() => {
@@ -214,7 +224,18 @@ export class SearchComponent implements OnInit, OnDestroy, OnChanges {
 @Component({
   templateUrl: './search-dialog.component.html',
   styleUrls: ['./search-dialog.component.scss'],
-  standalone: false
+  imports: [
+    MatIconModule,
+    MatButtonModule,
+    MatMenuModule,
+    ReactiveFormsModule,
+    TranslatePipe,
+    AsyncPipe,
+    GetCollectionDisplayNamePipe,
+    MatTooltipModule,
+    MatCheckboxModule,
+    FormsModule
+  ]
 })
 export class SearchDialogComponent {
 
@@ -235,7 +256,7 @@ export class SearchDialogComponent {
    */
   public filteredSearch: Observable<any[]>;
 
-  private keyEvent: Subject<number> = new Subject<number>();
+  private readonly keyEvent = new Subject<number>();
 
   /**
    * @description Placeholder value as retrieved from the search contributor
@@ -256,9 +277,9 @@ export class SearchDialogComponent {
   public collections: { label: string; checked: boolean; color: string; }[];
   public updateAutoCompleteResult = new Subject<void>();
   public constructor(
-    private arlasColorService: ArlasColorService,
-    private collaborativeService: ArlasCollaborativesearchService,
-    public dialogRef: MatDialogRef<SearchDialogComponent>,
+    private readonly arlasColorService: ArlasColorService,
+    private readonly collaborativeService: ArlasCollaborativesearchService,
+    private readonly dialogRef: MatDialogRef<SearchDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: {
       'searchContributors': SearchContributor[];
       'value': string;
@@ -266,7 +287,7 @@ export class SearchDialogComponent {
       'collectionsState': Map<string, boolean>;
       'displayCollectionSettings': boolean;
     },
-    public translate: TranslateService
+    private readonly translate: TranslateService
   ) {
     this.searchContributors = data.searchContributors;
     this.collectionsState = data.collectionsState;

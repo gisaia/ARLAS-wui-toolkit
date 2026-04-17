@@ -18,6 +18,7 @@
  */
 
 import { HttpClient } from '@angular/common/http';
+
 export abstract class WalkthroughLoader {
 
   public abstract loader(): Promise<any>;
@@ -25,7 +26,7 @@ export abstract class WalkthroughLoader {
 }
 
 export class BasicWalkthroughLoader extends WalkthroughLoader {
-  public constructor(private http: HttpClient) {
+  public constructor(private readonly http: HttpClient) {
     super();
   }
   public loader(): Promise<any> {

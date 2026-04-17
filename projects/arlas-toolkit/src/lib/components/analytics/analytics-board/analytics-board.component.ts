@@ -17,12 +17,21 @@
  * under the License.
  */
 
-import { CdkDragDrop } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, CdkDropList } from '@angular/cdk/drag-drop';
+import { NgClass } from '@angular/common';
 import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { TranslatePipe } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
+import { GetContributorPipe } from '../../../pipes/get-contributor.pipe';
 import { AnalyticsService } from '../../../services/analytics/analytics.service';
 import { ArlasCollaborativesearchService } from '../../../services/collaborative-search/arlas.collaborative-search.service';
 import { SpinnerOptions } from '../../../tools/utils';
+import { ProgressSpinnerComponent } from '../../progress-spinner/progress-spinner.component';
+import { WidgetComponent } from '../../widget/widget.component';
 import { AnalyticGroupConfiguration } from '../analytics.utils';
 
 /**
@@ -33,7 +42,18 @@ import { AnalyticGroupConfiguration } from '../analytics.utils';
   selector: 'arlas-analytics-board',
   templateUrl: './analytics-board.component.html',
   styleUrls: ['./analytics-board.component.scss'],
-  standalone: false
+  imports: [
+    MatExpansionModule,
+    MatIconModule,
+    CdkDropList,
+    TranslatePipe,
+    GetContributorPipe,
+    MatTooltipModule,
+    NgClass,
+    WidgetComponent,
+    ProgressSpinnerComponent,
+    MatButtonModule
+  ]
 })
 export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
 
@@ -41,7 +61,7 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
    * @Input : Angular
    * @description Display mode of the analytics tab. Can be 'normal' or 'compact'.
    */
-  @Input() public mode = 'normal';
+  @Input() public mode: 'normal' | 'compact' = 'normal';
 
   /**
    * @Input : Angular
@@ -91,8 +111,8 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
   public collapsedHeaderHeight = 32;
   private tabChangeSubscription: Subscription;
   public constructor(
-    protected collaborativeService: ArlasCollaborativesearchService,
-    public analyticsService: AnalyticsService,
+    protected readonly collaborativeService: ArlasCollaborativesearchService,
+    protected readonly analyticsService: AnalyticsService,
   ) { }
 
   public ngOnInit() {

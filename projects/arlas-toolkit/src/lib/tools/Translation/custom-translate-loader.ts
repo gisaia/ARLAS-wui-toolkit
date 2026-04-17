@@ -17,14 +17,14 @@
  * under the License.
  */
 
-import en from 'arlas-web-components/assets/i18n/en.json';
-import es from 'arlas-web-components/assets/i18n/es.json';
-import fr from 'arlas-web-components/assets/i18n/fr.json';
-import enMap from 'arlas-map/assets/i18n/en.json';
-import esMap from 'arlas-map/assets/i18n/es.json';
-import frMap from 'arlas-map/assets/i18n/fr.json';
-import { TranslateLoader } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
+import { TranslateLoader } from '@ngx-translate/core';
+import enMap from 'arlas-map/assets/i18n/en.json' with { type: 'json' };
+import esMap from 'arlas-map/assets/i18n/es.json' with { type: 'json' };
+import frMap from 'arlas-map/assets/i18n/fr.json' with { type: 'json' };
+import en from 'arlas-web-components/assets/i18n/en.json' with { type: 'json' };
+import es from 'arlas-web-components/assets/i18n/es.json' with { type: 'json' };
+import fr from 'arlas-web-components/assets/i18n/fr.json' with { type: 'json' };
 import { Observable } from 'rxjs';
 
 export class CustomTranslateLoader implements TranslateLoader {

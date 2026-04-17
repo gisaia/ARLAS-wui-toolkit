@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule, TranslateNoOpLoader } from '@ngx-translate/core';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { VerifyComponent } from './verify.component';
 
 describe('VerifyComponent', () => {
@@ -10,15 +10,12 @@ describe('VerifyComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [VerifyComponent],
-      providers: [FormBuilder],
-      imports: [
+    imports: [
         TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader } }),
         RouterModule.forRoot([]),
-        FormsModule,
-        ReactiveFormsModule
-      ]
-    })
+        VerifyComponent
+    ]
+})
       .compileComponents();
   });
 

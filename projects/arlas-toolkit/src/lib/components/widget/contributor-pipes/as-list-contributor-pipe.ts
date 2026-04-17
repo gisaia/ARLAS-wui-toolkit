@@ -17,18 +17,17 @@
  * under the License.
  */
 
-// This file is required by karma.conf.js and loads recursively all the .spec and framework files
+import { Pipe, PipeTransform } from '@angular/core';
+import { ResultListContributor } from 'arlas-web-contributors';
+import { Contributor } from 'arlas-web-core';
 
-import 'zone.js';
-import 'zone.js/testing';
-import { getTestBed } from '@angular/core/testing';
-import {
-  BrowserDynamicTestingModule,
-  platformBrowserDynamicTesting
-} from '@angular/platform-browser-dynamic/testing';
+@Pipe({
+  name: 'asListContributor',
+})
+export class AsListContributorPipe implements PipeTransform {
 
-// First, initialize the Angular testing environment.
-getTestBed().initTestEnvironment(
-  BrowserDynamicTestingModule,
-  platformBrowserDynamicTesting()
-);
+  public transform(contributor: Contributor): ResultListContributor {
+    return contributor as ResultListContributor;
+  }
+
+}

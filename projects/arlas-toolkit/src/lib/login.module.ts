@@ -40,36 +40,34 @@ import { CustomTranslateLoader } from './tools/Translation/custom-translate-load
 
 
 @NgModule({
-  declarations: [
-    LoginComponent,
-    RegisterComponent,
-    VerifyComponent,
-    ResetComponent,
-    ForgotComponent,
-    ChangePasswordComponent
-  ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    MatButtonModule,
-    MatCheckboxModule,
-    MatDialogModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatIconModule,
-    MatProgressSpinnerModule,
-    ReactiveFormsModule,
-    RouterModule,
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useClass: CustomTranslateLoader,
-        deps: [HttpClient]
-      }
-    })
-  ],
-  exports: [
-    LoginComponent
-  ]
+    imports: [
+        CommonModule,
+        FormsModule,
+        MatButtonModule,
+        MatCheckboxModule,
+        MatDialogModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatIconModule,
+        MatProgressSpinnerModule,
+        ReactiveFormsModule,
+        RouterModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useClass: CustomTranslateLoader,
+                deps: [HttpClient]
+            }
+        }),
+        LoginComponent,
+        RegisterComponent,
+        VerifyComponent,
+        ResetComponent,
+        ForgotComponent,
+        ChangePasswordComponent
+    ],
+    exports: [
+        LoginComponent
+    ]
 })
 export class LoginModule { }

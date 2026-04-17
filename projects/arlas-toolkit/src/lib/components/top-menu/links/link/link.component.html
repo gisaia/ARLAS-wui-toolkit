@@ -1,6 +1,8 @@
-<div class="wrapper" *ngIf="show" (click)="navigateTo(link?.url)" [matTooltip]="link?.tooltip">
+@if (show) {
+  <div class="wrapper" (click)="navigateTo(link?.url)" (keydown)="navigateTo(link?.url)" [matTooltip]="link?.tooltip | translate">
     <div class="circle">
-        <mat-icon>{{link.icon}}</mat-icon>
+      <mat-icon>{{link.icon}}</mat-icon>
     </div>
-    <div class="name">{{link.name}}</div>
-</div>
+    <div class="name">{{link.name | translate}}</div>
+  </div>
+}

@@ -19,6 +19,9 @@
 
 import { HttpClient } from '@angular/common/http';
 import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
+import { MatTooltip } from '@angular/material/tooltip';
+import { TranslatePipe } from '@ngx-translate/core';
 import { finalize } from 'rxjs';
 import { LinkSettings } from '../../../../services/startup/startup.service';
 import { GET_OPTIONS } from '../../../../tools/utils';
@@ -27,7 +30,11 @@ import { GET_OPTIONS } from '../../../../tools/utils';
   selector: 'arlas-link',
   templateUrl: './link.component.html',
   styleUrls: ['./link.component.scss'],
-  standalone: false
+  imports: [
+    MatIcon,
+    TranslatePipe,
+    MatTooltip
+  ]
 })
 export class LinkComponent implements OnInit {
 
@@ -38,8 +45,8 @@ export class LinkComponent implements OnInit {
 
   public show = false;
   public constructor(
-    private http: HttpClient,
-    @Inject(GET_OPTIONS) private getOptions,
+    private readonly http: HttpClient,
+    @Inject(GET_OPTIONS) private readonly getOptions,
   ) { }
 
   public ngOnInit(): void {

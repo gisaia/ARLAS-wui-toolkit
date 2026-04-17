@@ -23,17 +23,15 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { interval } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { ArlasCollaborativesearchService } from './services/collaborative-search/arlas.collaborative-search.service';
+import { ErrorService } from './services/error/error.service';
 import { ArlasConfigService, ArlasStartupService } from './services/startup/startup.service';
 import { ArlasWalkthroughService } from './services/walkthrough/walkthrough.service';
 import { CONFIG_ID_QUERY_PARAM } from './tools/utils';
-import { ErrorService } from './services/error/error.service';
 
 @Component({
   selector: 'arlas-tool-root',
-  templateUrl: './toolkit.component.html',
-  providers: [Location],
   styleUrls: ['./toolkit.component.scss'],
-  standalone: false
+  template: ''
 })
 export class ToolkitComponent implements AfterViewInit, OnInit, OnDestroy {
 
@@ -118,7 +116,7 @@ export class ToolkitComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   public ngAfterViewInit(): void {
-    if (this.configService.getConfig() && this.configService.getConfig()['error'] !== undefined) {
+    if (this.configService.getConfig()?.['error'] !== undefined) {
       this.configService.confErrorBus.next(this.configService.getConfig()['error']);
     } else if (this.arlasStartupService.shouldRunApp) {
       interval(400).pipe(take(1)).subscribe(() => {

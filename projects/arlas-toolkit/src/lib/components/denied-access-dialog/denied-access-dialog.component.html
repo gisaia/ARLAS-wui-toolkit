@@ -1,16 +1,24 @@
 <div mat-dialog-title class="title">{{arlasError?.title| translate}}</div>
 <mat-dialog-content class="content">
-    <div class="errored">
-        <div><mat-icon class="icon">error</mat-icon></div>
-        <div class="state">{{arlasError?.message | translate:{service: $any(arlasError)?.service | translate} }}</div>
-        <ng-container *ngIf="arlasError?.actionType === 'link'; else buttonType">
-            <div *ngIf="arlasError?.showAction" class="action" (click)="arlasError.executeAction()">{{arlasError?.actionMessage | translate }}</div>
-        </ng-container>
-        <ng-template #buttonType>
-            <button mat-stroked-button *ngIf="arlasError?.showAction" (click)="arlasError.executeAction()">{{arlasError?.actionMessage | translate}}</button>
-        </ng-template>
-    </div>
+  <div class="errored">
+    <div><mat-icon class="icon">error</mat-icon></div>
+    <div class="state">{{arlasError?.message | translate:{service: $any(arlasError)?.service | translate} }}</div>
+    @if (arlasError?.actionType === 'link') {
+      @if (arlasError?.showAction) {
+        <button mat-button class="action" (click)="arlasError.executeAction()">
+          {{arlasError?.actionMessage | translate }}
+        </button>
+      }
+    } @else {
+      @if (arlasError?.showAction) {
+        <button mat-stroked-button (click)="arlasError.executeAction()">{{arlasError?.actionMessage | translate}}</button>
+      }
+    }
+  </div>
 </mat-dialog-content>
-<mat-dialog-actions class="actions" *ngIf="!forceAction">
+
+@if (!forceAction) {
+  <mat-dialog-actions class="actions">
     <button mat-button [mat-dialog-close]="true">{{'Close' | translate}}</button>
-</mat-dialog-actions>
+  </mat-dialog-actions>
+}

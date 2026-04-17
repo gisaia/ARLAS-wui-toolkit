@@ -16,26 +16,33 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+import { SelectionModel } from '@angular/cdk/collections';
 import { Component, Inject, Input, OnInit, ViewEncapsulation } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDivider, MatListModule, MatListOption } from '@angular/material/list';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatFormField, MatSelectModule } from '@angular/material/select';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { marker } from '@colsen1991/ngx-translate-extract-marker';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { Aggregation } from 'arlas-api';
+import { ARLAS_VSET, LayerIdToName } from 'arlas-map';
+import { Search } from 'arlas-tagger-api';
 import { LayerSourceConfig, MapContributor } from 'arlas-web-contributors';
 import { projType } from 'arlas-web-core';
+import * as FileSaver from 'file-saver';
+import { NgxSpinnerComponent, NgxSpinnerService } from 'ngx-spinner';
 import { ArlasCollaborativesearchService } from '../../services/collaborative-search/arlas.collaborative-search.service';
 import { ArlasConfigService } from '../../services/startup/startup.service';
-import { ArlasSearchField } from './model/ArlasSearchField';
-
-import { SelectionModel } from '@angular/cdk/collections';
-import { MatListOption } from '@angular/material/list';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { marker } from '@colsen1991/ngx-translate-extract-marker';
-import { TranslateService } from '@ngx-translate/core';
-import { Search } from 'arlas-tagger-api';
-import { ARLAS_VSET } from 'arlas-map';
-import * as FileSaver from 'file-saver';
-import { NgxSpinnerService } from 'ngx-spinner';
 import { orderAlphabeticallyArlasSearchFields } from '../../tools/utils';
+import { AdmonitionCardComponent } from '../admonition-card/admonition-card.component';
+import { ExcludeTypePipe } from './exclude-type.pipe';
+import { ArlasSearchField } from './model/ArlasSearchField';
 
 
 export interface ShareLayerSourceConfig extends LayerSourceConfig {
@@ -50,9 +57,12 @@ export interface ShareLayerSourceConfig extends LayerSourceConfig {
 @Component({
   selector: 'arlas-share',
   templateUrl: './share.component.html',
-  styleUrls: ['./share.component.css'],
+  styleUrls: ['./share.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  standalone: false
+  imports: [
+    MatIconModule,
+    MatButtonModule
+  ]
 })
 export class ShareComponent {
 
@@ -73,7 +83,23 @@ export class ShareComponent {
   templateUrl: './share-dialog.component.html',
   styleUrls: ['./share-dialog.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  standalone: false
+  imports: [
+    MatStepperModule,
+    AdmonitionCardComponent,
+    ReactiveFormsModule,
+    TranslatePipe,
+    MatDivider,
+    NgxSpinnerComponent,
+    MatIconModule,
+    MatButtonModule,
+    MatTooltipModule,
+    MatRadioModule,
+    MatFormField,
+    MatSelectModule,
+    LayerIdToName,
+    MatListModule,
+    ExcludeTypePipe
+  ]
 })
 export class ShareDialogComponent implements OnInit {
 

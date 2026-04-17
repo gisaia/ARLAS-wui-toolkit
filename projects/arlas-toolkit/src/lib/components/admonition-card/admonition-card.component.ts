@@ -18,12 +18,12 @@
  */
 
 import { Component, input } from '@angular/core';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'arlas-admonition-card',
   imports: [
-    TranslateModule
+    TranslatePipe
   ],
   templateUrl: './admonition-card.component.html',
   styleUrl: './admonition-card.component.scss'

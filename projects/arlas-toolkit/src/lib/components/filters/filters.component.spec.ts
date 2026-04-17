@@ -18,13 +18,10 @@
  */
 
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { MatChipsModule } from '@angular/material/chips';
-import { MatIconModule } from '@angular/material/icon';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateLoader, TranslateModule, TranslateNoOpLoader } from '@ngx-translate/core';
-import { AwcColorGeneratorLoader, ColorGeneratorLoader, ColorGeneratorModule, FormatNumberPipe } from 'arlas-web-components';
+import { AwcColorGeneratorLoader, ColorGeneratorLoader, ColorGeneratorModule } from 'arlas-web-components';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { ArlasCollaborativesearchService } from '../../services/collaborative-search/arlas.collaborative-search.service';
 import { ArlasCollectionService } from '../../services/collection/arlas-collection.service';
 import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
@@ -40,22 +37,17 @@ describe('FiltersComponent', () => {
   let component: FiltersComponent;
   let fixture: ComponentFixture<FiltersComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [FiltersComponent],
       imports: [
-        MatChipsModule,
-        MatIconModule,
-        MatTooltipModule,
-        MatMenuModule,
         TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader } }),
-        FormatNumberPipe,
         ColorGeneratorModule.forRoot({
           loader: {
             provide: ColorGeneratorLoader,
             useClass: AwcColorGeneratorLoader
           }
-        })
+        }),
+        FiltersComponent
       ],
       providers: [
         {
@@ -78,7 +70,7 @@ describe('FiltersComponent', () => {
     fixture = TestBed.createComponent(FiltersComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  }));
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();

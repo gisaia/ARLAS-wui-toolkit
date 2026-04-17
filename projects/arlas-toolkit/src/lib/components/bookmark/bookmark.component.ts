@@ -17,8 +17,16 @@
  * under the License.
  */
 
+import { AsyncPipe, DatePipe } from '@angular/common';
 import { Component, Inject, OnDestroy, Output } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatTableModule } from '@angular/material/table';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { TranslatePipe } from '@ngx-translate/core';
 import { Subject, takeUntil } from 'rxjs';
 import { ArlasBookmarkService } from '../../services/bookmark/bookmark.service';
 import { BookmarkDataSource } from '../../services/bookmark/bookmarkDataSource';
@@ -31,7 +39,18 @@ import { BookmarkAddDialogComponent } from './bookmark-add-dialog.component';
   selector: 'arlas-bookmark',
   templateUrl: './bookmark.component.html',
   styleUrls: ['./bookmark.component.scss'],
-  standalone: false
+  imports: [
+    MatTableModule,
+    MatDialogModule,
+    TranslatePipe,
+    MatIconModule,
+    AsyncPipe,
+    MatTooltipModule,
+    DatePipe,
+    MatMenuModule,
+    MatCheckboxModule,
+    MatButtonModule
+  ]
 })
 export class BookmarkComponent implements OnDestroy {
 

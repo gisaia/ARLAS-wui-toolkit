@@ -19,7 +19,10 @@
 
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { TranslatePipe } from '@ngx-translate/core';
 import { Filter } from 'arlas-api';
 import { ArlasIamService } from '../../services/arlas-iam/arlas-iam.service';
 import { ArlasCollaborativesearchService } from '../../services/collaborative-search/arlas.collaborative-search.service';
@@ -31,7 +34,11 @@ import { PermissionsCreatorDialogComponent } from './permissions-creator-dialog/
   selector: 'arlas-permissions-creator',
   templateUrl: './permissions-creator.component.html',
   styleUrls: ['./permissions-creator.component.scss'],
-  standalone: false
+  imports: [
+    MatButtonModule,
+    MatTooltipModule,
+    TranslatePipe
+  ]
 })
 export class PermissionsCreatorComponent implements OnInit {
 

@@ -17,11 +17,16 @@
  * under the License.
  */
 
-import { Component, ElementRef, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
+import { Component, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { Expression } from 'arlas-api';
 import { ARLASDonutTooltip, Position, SwimlaneMode, SwimlaneRepresentation } from 'arlas-d3';
-import { CellBackgroundStyleEnum, ChartType, DataType, HistogramComponent, PowerBar } from 'arlas-web-components';
+import {
+  CellBackgroundStyleEnum, ChartType, DataType, DonutComponent, HistogramComponent,
+  MetricComponent, MetricsTableComponent, PowerBar, PowerbarsComponent, ResultListComponent
+} from 'arlas-web-components';
 import { ComputeContributor, MetricsTableContributor, SwimLaneContributor, TreeContributor } from 'arlas-web-contributors';
 import { CollaborationEvent, Contributor, OperationEnum } from 'arlas-web-core';
 import { Subject, takeUntil } from 'rxjs';
@@ -30,7 +35,14 @@ import { ArlasExportCsvService } from '../../services/export-csv/export-csv.serv
 import { ArlasOverlayService } from '../../services/overlays/overlay.service';
 import { ArlasStartupService } from '../../services/startup/startup.service';
 import { ArlasOverlayRef, SpinnerOptions } from '../../tools/utils';
+import { HistogramWidgetComponent } from '../histogram-widget/histogram-widget.component';
 import { DEFAULT_SPINNER_OPTIONS } from '../progress-spinner/progress-spinner.component';
+import { AsHistogramContributorPipe } from './contributor-pipes/as-histogram-contributor-pipe';
+import { AsListContributorPipe } from './contributor-pipes/as-list-contributor-pipe';
+import { AsMetricContributorPipe } from './contributor-pipes/as-metric-contributor-pipe';
+import { AsMetricsTableContributorPipe } from './contributor-pipes/as-metrics-table-contributor-pipe';
+import { AsSwimlaneContributorPipe } from './contributor-pipes/as-swimlane-contributor-pipe';
+import { AsTreeContributorPipe } from './contributor-pipes/as-tree-contributor-pipe';
 
 /**
  * A Widget wraps a component from ARLAS-web-components and bind it to its contributor. The component has thus input data to plot.
@@ -40,7 +52,24 @@ import { DEFAULT_SPINNER_OPTIONS } from '../progress-spinner/progress-spinner.co
   selector: 'arlas-tool-widget',
   templateUrl: './widget.component.html',
   styleUrls: ['./widget.component.scss'],
-  standalone: false
+  imports: [
+    HistogramWidgetComponent,
+    MatFormFieldModule,
+    MatSelectModule,
+    TranslatePipe,
+    HistogramComponent,
+    PowerbarsComponent,
+    DonutComponent,
+    ResultListComponent,
+    MetricComponent,
+    MetricsTableComponent,
+    AsHistogramContributorPipe,
+    AsSwimlaneContributorPipe,
+    AsTreeContributorPipe,
+    AsListContributorPipe,
+    AsMetricContributorPipe,
+    AsMetricsTableContributorPipe
+]
 })
 export class WidgetComponent implements OnInit {
 
@@ -123,7 +152,7 @@ export class WidgetComponent implements OnInit {
     private readonly arlasExportCsvService: ArlasExportCsvService
   ) { }
 
-  public showDonutTooltip(tooltip: ARLASDonutTooltip, e: ElementRef) {
+  public showDonutTooltip(tooltip: ARLASDonutTooltip, e: HTMLDivElement) {
     if (!!this.donutOverlayRef) {
       this.donutOverlayRef.close();
     }
@@ -250,7 +279,7 @@ export class WidgetComponent implements OnInit {
       .onRowSelect(new Set((this.contributor as MetricsTableContributor).selectedTerms));
   }
 
-  public showPowerbarTooltip(powerbar: PowerBar, e: ElementRef) {
+  public showPowerbarTooltip(powerbar: PowerBar, e: HTMLDivElement) {
     if (!!this.powerbarOverlayRef) {
       this.powerbarOverlayRef.close();
     }

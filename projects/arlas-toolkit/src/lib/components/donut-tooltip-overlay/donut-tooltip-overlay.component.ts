@@ -18,7 +18,6 @@
  * under the License.
  */
 
-import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { ARLASDonutTooltip } from 'arlas-d3';
@@ -33,7 +32,6 @@ import { WidgetTooltipComponent } from '../widget-tooltip/widget-tooltip.compone
   imports: [
     TranslateModule,
     WidgetTooltipComponent,
-    CommonModule,
     FormatNumberPipe
   ]
 })

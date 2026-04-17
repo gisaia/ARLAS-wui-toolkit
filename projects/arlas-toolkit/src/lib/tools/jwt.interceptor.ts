@@ -29,9 +29,9 @@ import { ArlasSettingsService } from '../services/settings/arlas.settings.servic
 export class JwtInterceptor implements HttpInterceptor {
 
   public constructor(
-    private authenticationService: AuthentificationService,
-    private iamService: ArlasIamService,
-    private settingsService: ArlasSettingsService
+    private readonly authenticationService: AuthentificationService,
+    private readonly iamService: ArlasIamService,
+    private readonly settingsService: ArlasSettingsService
   ) { }
 
   public intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
@@ -44,7 +44,7 @@ export class JwtInterceptor implements HttpInterceptor {
     });
 
     const authSettings = this.settingsService.getAuthentSettings();
-    let authentMode = !!authSettings ? authSettings.auth_mode : undefined;
+    let authentMode = authSettings ? authSettings.auth_mode : undefined;
     if (!!authSettings && !!authSettings.use_authent && !authentMode) {
       authentMode = 'openid';
     }
@@ -61,7 +61,7 @@ export class JwtInterceptor implements HttpInterceptor {
       }
     } else if (authentMode === 'iam') {
       const token = this.iamService.getAccessToken();
-      if (!!token) {
+      if (token) {
         let headers = new HttpHeaders({
           'Authorization': `Bearer ${token}`
         });

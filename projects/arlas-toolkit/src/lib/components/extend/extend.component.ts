@@ -17,20 +17,32 @@
  * under the License.
  */
 
+import { DatePipe } from '@angular/common';
 import { Component, Output } from '@angular/core';
-import { ArlasExtendService } from '../../services/extend/extend.service';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatIconModule } from '@angular/material/icon';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
+import { TranslatePipe } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
+import { ArlasExtendService } from '../../services/extend/extend.service';
+import { ExtendLocalDatabase } from '../../services/extend/extendLocalDatabase';
+import { ExtendPersistenceDatabase } from '../../services/extend/extendPersistenceDatabase';
 import { Extend } from '../../services/extend/model';
 import { ArlasDataSource } from '../../tools/arlasDataSource';
-import { PageEvent } from '@angular/material/paginator';
-import { ExtendPersistenceDatabase } from '../../services/extend/extendPersistenceDatabase';
-import { ExtendLocalDatabase } from '../../services/extend/extendLocalDatabase';
 
 @Component({
   selector: 'arlas-extend',
   templateUrl: './extend.component.html',
-  styleUrls: ['./extend.component.css'],
-  standalone: false
+  styleUrls: ['./extend.component.scss'],
+  imports: [
+    MatTableModule,
+    TranslatePipe,
+    MatCheckboxModule,
+    MatIconModule,
+    MatPaginatorModule,
+    DatePipe
+  ]
 })
 export class ExtendComponent {
 

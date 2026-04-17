@@ -18,18 +18,21 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { FormBuilder, FormGroup, FormGroupDirective, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButton } from '@angular/material/button';
+import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
 import { ArlasIamService } from '../../services/arlas-iam/arlas-iam.service';
-import { ConfirmedValidator } from '../../tools/utils';
 import { ArlasSettingsService } from '../../services/settings/arlas.settings.service';
-import { NOT_CONFIGURED } from '../../tools/utils';
+import { ConfirmedValidator, NOT_CONFIGURED } from '../../tools/utils';
 
 @Component({
   selector: 'arlas-verify',
   templateUrl: './verify.component.html',
-  styleUrls: ['./verify.component.css'],
-  standalone: false
+  styleUrls: ['./verify.component.scss'],
+  imports: [FormsModule, ReactiveFormsModule, MatFormField, MatLabel, MatInput, MatError, MatButton, RouterLink, TranslatePipe]
 })
 export class VerifyComponent implements OnInit {
 

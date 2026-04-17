@@ -18,10 +18,19 @@
  */
 import { SelectionModel } from '@angular/cdk/collections';
 import { Component, Inject, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
-import { MatListOption, MatSelectionList } from '@angular/material/list';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDivider, MatListModule, MatListOption, MatSelectionList } from '@angular/material/list';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { TranslatePipe } from '@ngx-translate/core';
 import { CollectionReferenceDescription } from 'arlas-api';
+import { GetCollectionDisplayNamePipe } from 'arlas-web-components';
 import { projType } from 'arlas-web-core';
 import { DeviceDetectorService, OS } from 'ngx-device-detector';
 import { ArlasIamService } from '../../services/arlas-iam/arlas-iam.service';
@@ -32,6 +41,7 @@ import {
 import { ArlasSettingsService } from '../../services/settings/arlas.settings.service';
 import { ArlasConfigService } from '../../services/startup/startup.service';
 import { orderAlphabeticallyArlasSearchFields } from '../../tools/utils';
+import { AdmonitionCardComponent } from '../admonition-card/admonition-card.component';
 import { ArlasSearchField } from '../share/model/ArlasSearchField';
 
 export const ARLAS_HITS_EXPORTER_VERSION = 2.2;
@@ -39,8 +49,10 @@ export const ARLAS_HITS_EXPORTER_VERSION = 2.2;
 @Component({
   selector: 'arlas-download',
   templateUrl: './download.component.html',
-  styleUrls: ['./download.component.css'],
-  standalone: false
+  imports: [
+    MatIconModule,
+    MatButtonModule
+  ]
 })
 export class DownloadComponent {
 
@@ -63,7 +75,21 @@ export class DownloadComponent {
   templateUrl: './download-dialog.component.html',
   styleUrls: ['./download-dialog.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  standalone: false
+  imports: [
+    MatStepperModule,
+    ReactiveFormsModule,
+    AdmonitionCardComponent,
+    TranslatePipe,
+    MatRadioModule,
+    MatDivider,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatTooltipModule,
+    MatListModule,
+    MatIconModule,
+    MatButtonModule,
+    GetCollectionDisplayNamePipe
+  ]
 })
 export class DownloadDialogComponent implements OnInit {
 
@@ -110,7 +136,7 @@ export class DownloadDialogComponent implements OnInit {
 
   public ngOnInit() {
     this.serverUrl = this.configService.getValue('arlas.server').url;
-    if (this.deviceService.os === OS.WINDOWS) {
+    if (this.deviceService.os() === OS.WINDOWS) {
       this.detectedOs = 'Windows';
     }
 

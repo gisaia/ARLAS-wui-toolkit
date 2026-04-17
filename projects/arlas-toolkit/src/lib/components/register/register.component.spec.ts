@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TranslateLoader, TranslateModule, TranslateNoOpLoader } from '@ngx-translate/core';
-
+import { FormBuilder } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { TranslateLoader, TranslateModule, TranslateNoOpLoader } from '@ngx-translate/core';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { ArlasSettingsService } from '../../services/settings/arlas.settings.service';
 import { MockArlasSettingsService } from '../../tools/tests/arlas-settings-service.mock';
 import { RegisterComponent } from './register.component';
@@ -13,7 +13,6 @@ describe('RegisterComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [RegisterComponent],
       providers: [
         FormBuilder,
         {
@@ -24,8 +23,7 @@ describe('RegisterComponent', () => {
       imports: [
         TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader } }),
         RouterModule.forRoot([]),
-        FormsModule,
-        ReactiveFormsModule
+        RegisterComponent
       ]
     })
       .compileComponents();

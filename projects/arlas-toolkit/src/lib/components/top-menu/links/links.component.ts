@@ -18,18 +18,25 @@
  */
 
 import { Component, EventEmitter, HostListener, OnInit, Output } from '@angular/core';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { TranslatePipe } from '@ngx-translate/core';
 import { ArlasSettingsService } from '../../../services/settings/arlas.settings.service';
 import { LinkSettings } from '../../../services/startup/startup.service';
+import { LinkComponent } from './link/link.component';
 
 @Component({
   selector: 'arlas-links',
   templateUrl: './links.component.html',
   styleUrls: ['./links.component.scss'],
-  standalone: false
+  imports: [
+    MatProgressSpinnerModule,
+    TranslatePipe,
+    LinkComponent
+  ]
 })
 export class LinksComponent implements OnInit {
 
-  @HostListener('click')
+  @HostListener('click', ['$event'])
   public clickInside($event) {
     $event.stopPropagation();
   }

@@ -7,7 +7,7 @@
       <div>
         <form [formGroup]="resetForm" (ngSubmit)="onSubmit()">
           <div class="form-content">
-            <ng-container *ngIf="!validated">
+            @if (!validated) {
               <mat-form-field appearance="outline">
                 <mat-label>{{'Password' | translate}}</mat-label>
                 <input matInput type="password" formControlName="password">
@@ -16,18 +16,21 @@
                 <mat-label>{{'Confirm password' | translate}}</mat-label>
                 <input matInput type="password" formControlName="confirm_password">
               </mat-form-field>
-            </ng-container>
+            }
 
 
           </div>
-          <div class="validate" *ngIf="validated">
-            {{'Your password has been changed.' | translate}}
-          </div>
-          <div class="buttons" *ngIf="!validated">
-            <button  type="submit" class="reset-button" [disabled]="this.resetForm.invalid" mat-flat-button
+          @if (validated) {
+            <div class="validate">
+              {{'Your password has been changed.' | translate}}
+            </div>
+          }
+          @if (!validated) {
+            <div class="buttons">
+              <button  type="submit" class="reset-button" [disabled]="resetForm.invalid" mat-flat-button
               color="primary">{{ 'Change' | translate}}</button>
-
-          </div>
+            </div>
+          }
           <div class="account">
             {{'Already have an account?' | translate}}
             <button mat-button type="button" [routerLink]="'/login'">{{ 'Log In' | translate}}</button>

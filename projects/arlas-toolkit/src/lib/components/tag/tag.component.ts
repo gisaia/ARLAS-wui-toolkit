@@ -16,10 +16,32 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+import { DatePipe, DecimalPipe, KeyValuePipe } from '@angular/common';
 import { Component, ElementRef, Input, OnInit, Output, Renderer2, ViewEncapsulation } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatCheckboxChange } from '@angular/material/checkbox';
+import { FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { MatAutocomplete, MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { MatButton, MatButtonModule } from '@angular/material/button';
+import { MatCheckbox, MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatFormField } from '@angular/material/form-field';
+import { MatIcon } from '@angular/material/icon';
+import { MatInput } from '@angular/material/input';
+import { MatProgressBar } from '@angular/material/progress-bar';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { MatOption, MatSelect } from '@angular/material/select';
+import {
+  MatCell,
+  MatCellDef,
+  MatColumnDef,
+  MatHeaderCell,
+  MatHeaderCellDef,
+  MatHeaderRow,
+  MatHeaderRowDef,
+  MatRow,
+  MatRowDef,
+  MatTable
+} from '@angular/material/table';
+import { TranslatePipe } from '@ngx-translate/core';
 import { Aggregation, AggregationResponse, AggregationsRequest } from 'arlas-api';
 import { TagRefRequest } from 'arlas-tagger-api';
 import { from, Subject } from 'rxjs';
@@ -35,11 +57,11 @@ import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component'
  * Note : This component is binded to ARLAS-wui configuration.
  */
 @Component({
-  selector: 'arlas-tag',
-  templateUrl: './tag.component.html',
-  styleUrls: ['./tag.component.css'],
-  encapsulation: ViewEncapsulation.None,
-  standalone: false
+    selector: 'arlas-tag',
+    templateUrl: './tag.component.html',
+    styleUrls: ['./tag.component.scss'],
+    encapsulation: ViewEncapsulation.None,
+    imports: [MatIcon, MatProgressBar, DecimalPipe, KeyValuePipe, MatButtonModule]
 })
 export class TagComponent {
   /**
@@ -80,9 +102,11 @@ export class TagComponent {
 @Component({
   selector: 'arlas-tag-dialog',
   templateUrl: './tag-dialog.component.html',
-  styleUrls: ['./tag-dialog.component.css'],
+  styleUrls: ['./tag-dialog.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  standalone: false
+  imports: [
+    FormsModule, ReactiveFormsModule, MatFormField, MatInput, MatSelect, MatOption,
+    MatAutocompleteTrigger, MatAutocomplete, MatCheckbox, MatButton, MatProgressBar, TranslatePipe]
 })
 export class TagDialogComponent implements OnInit {
   /**
@@ -245,9 +269,11 @@ export class TagDialogComponent implements OnInit {
 @Component({
   selector: 'arlas-management-tag-dialog',
   templateUrl: './tag-management-dialog.component.html',
-  styleUrls: ['./tag-management-dialog.component.css'],
+  styleUrls: ['./tag-management-dialog.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  standalone: false
+  imports: [
+    MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatCheckbox,
+    MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, MatProgressSpinner, MatButton, DatePipe, TranslatePipe]
 })
 export class TagManagementDialogComponent {
   public tagsRef: TagRefRequest[] = new Array<TagRefRequest>();

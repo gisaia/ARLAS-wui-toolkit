@@ -61,10 +61,16 @@ $large-icon-size: 48px;
 }
 
 .arlas-timeline--legend-container {
-  display: flex;
-  align-items: center;
   margin-right: 10px;
-  cursor: pointer;
+
+  --mat-button-text-touch-target-size: 30px;
+  --mat-button-text-container-height: 30px;
+  padding: 0;
+
+  ::ng-deep .mdc-button__label {
+    display: flex;
+    align-items: center;
+  }
 }
 
 .show-detailedtimeline-true {

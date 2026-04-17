@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { beforeEach, describe, expect, it } from 'vitest';
 import { ContactComponent } from './contact.component';
 
 describe('ContactComponent', () => {
@@ -8,8 +8,8 @@ describe('ContactComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ContactComponent ]
-    })
+    imports: [ContactComponent]
+})
       .compileComponents();
   });
 

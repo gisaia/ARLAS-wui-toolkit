@@ -18,8 +18,9 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import { AuthentificationService } from '../../services/authentification/authentification.service';
+import { TranslatePipe } from '@ngx-translate/core';
 import { ArlasIamService } from '../../services/arlas-iam/arlas-iam.service';
+import { AuthentificationService } from '../../services/authentification/authentification.service';
 import { ArlasSettingsService } from '../../services/settings/arlas.settings.service';
 
 
@@ -27,7 +28,9 @@ import { ArlasSettingsService } from '../../services/settings/arlas.settings.ser
   selector: 'arlas-user-infos',
   templateUrl: './user-infos.component.html',
   styleUrls: ['./user-infos.component.scss'],
-  standalone: false
+  imports: [
+    TranslatePipe
+  ]
 })
 export class UserInfosComponent implements OnInit {
 

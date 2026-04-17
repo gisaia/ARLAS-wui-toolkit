@@ -1,93 +1,105 @@
 <div #arlas_tooltip_anchor></div>
-<div *ngIf="componentType === 'histogram'" class="histogram-container">
-  <arlas-tool-histogram-widget [contributor]="contributor" [componentInputs]="graphParam" [showExportCsv]="showExportCsv"
-    [spinnerOptions]="spinnerOptions" [position]="position" [groupLength]="groupLength" [noDetail]="noDetail"
-    (exportCsvEvent)="exportCsv($event.contributor, $event.firstLevel, $event.type, 'histogram')"></arlas-tool-histogram-widget>
-</div>
 
-<div *ngIf="componentType === 'swimlane'">
-  <div *ngIf="showSwimlaneDropDown" class="dropdownSwimlane">
-    <mat-form-field>
-      <mat-select panelClass="panelSwimlane" [value]="swimSelected.name" (change)="changeSwimlane($event)">
-        <mat-option *ngFor="let s of swimlanes" value="{{s?.name}}">{{s.name | translate}}</mat-option>
-      </mat-select>
-    </mat-form-field>
+@if (componentType === 'histogram') {
+  <div class="histogram-container">
+    <arlas-tool-histogram-widget [contributor]="contributor | asHistogramContributor" [componentInputs]="graphParam" [showExportCsv]="showExportCsv"
+      [spinnerOptions]="spinnerOptions" [position]="position" [groupLength]="groupLength" [noDetail]="noDetail"
+      (exportCsvEvent)="exportCsv($event.contributor, $event.firstLevel, $event.type, 'histogram')"></arlas-tool-histogram-widget>
   </div>
-  <arlas-histogram [chartType]="chartType.swimlane" [selectedSwimlanes]="contributor?.selectedSwimlanes" [data]="contributor?.swimData"
-    (selectedSwimlanesEvent)="contributor?.valueChanged($event)" [id]="graphParam?.id" [dataType]="graphParam?.dataType" [dataUnit]="graphParam?.dataUnit"
-    [valuesDateFormat]="graphParam?.valuesDateFormat" [isHistogramSelectable]="graphParam?.isHistogramSelectable" [multiselectable]="graphParam?.multiselectable"
-    [topOffsetRemoveInterval]="graphParam?.topOffsetRemoveInterval" [leftOffsetRemoveInterval]="graphParam?.leftOffsetRemoveInterval"
-    [brushHandlesHeightWeight]="graphParam?.brushHandlesHeightWeight" [chartTitle]="graphParam?.chartTitle" [chartWidth]="graphParam?.chartWidth"
-    [chartHeight]="graphParam?.chartHeight" [customizedCssClass]="graphParam?.customizedCssClass" [xAxisPosition]="graphParam?.xAxisPosition"
-    [descriptionPosition]="graphParam?.descriptionPosition" [xTicks]="graphParam?.xTicks" [yTicks]="graphParam?.yTicks" [xLabels]="graphParam?.xLabels"
-    [yLabels]="graphParam?.yLabels" [showXTicks]="graphParam?.showXTicks" [showYTicks]="graphParam?.showYTicks" [showXLabels]="graphParam?.showXLabels"
-    [showYLabels]="graphParam?.showYLabels" [ticksDateFormat]="graphParam?.ticksDateFormat" [isSmoothedCurve]="graphParam?.isSmoothedCurve"
-    [barWeight]="graphParam?.barWeight" [paletteColors]="graphParam?.paletteColors" [swimlaneMode]="graphParam?.swimlaneMode"
-    [swimLaneLabelsWidth]="graphParam?.swimLaneLabelsWidth" [swimlaneBorderRadius]="graphParam?.swimlaneBorderRadius" [swimlaneHeight]="graphParam?.swimlaneHeight"
-    [displayOnlyIntervalsWithData]="graphParam?.displayOnlyIntervalsWithData"
-    [swimlaneRepresentation]="graphParam?.swimlane_representation" [swimlaneOptions]="graphParam?.swimlane_options" [useUtc]="contributor?.useUtc"></arlas-histogram>
-</div>
-
-<div class="powerbars-widget" *ngIf="componentType === 'powerbars'">
-  <arlas-powerbars [customizedCssClass]="graphParam?.customizedCssClass" [powerbarTitle]="graphParam?.powerbarTitle" [displayFilterField]="graphParam?.displayFilter"
-    [inputData]="contributor?.treeData" [unit]="graphParam?.unit" [missingLeafEvent]="contributor?.emitMissingLeaf"
-    [filterOperator]="graphParam?.filterOperator" [useColorService]="graphParam?.useColorService" [useColorFromData]="graphParam?.useColorFromData" [keysToColors]="graphParam?.keysToColors"
-    [colorsSaturationWeight]="graphParam?.colorsSaturationWeight" (selectedPowerBarEvent)="contributor?.selectedNodesListChanged($event)" [scrollable]="graphParam?.scrollable"
-    [selectedPaths]="contributor?.selectedNodesPathsList" (searchedTerm)="contributor?.updateTreeDataSearch($event)"
-    [groupSelections]="graphParam?.groupSelections"  [selectWithCheckbox]="graphParam?.selectWithCheckbox"
-    (filterOperatorEvent)="changePowerbarsOperator($event)" (overPowerBarEvent)="showPowerbarTooltip($event, arlas_tooltip_anchor)" (outPowerBarEvent)="hidePowerbarTooltip($event)"
-    [chartWidth]="graphParam?.chartWidth" [displayExportButton]="showExportCsv" (exportEvent)="exportCsv(contributor, true, componentType)">
-  </arlas-powerbars>
-</div>
-
-<div *ngIf="componentType === 'donut'" class="donut-container">
-  <div class="donut">{{contributor?.getFilterDisplayName() | translate}}</div>
-
-  <arlas-donut [id]="graphParam?.id" [donutData]="contributor?.treeData" [opacity]="graphParam.opacity" [multiselectable]="graphParam?.multiselectable"
-    [selectedArcsList]="contributor?.selectedNodesPathsList" [unit]="graphParam?.unit" [diameter]="graphParam?.diameter" (hoveredNodeTooltipEvent)="showDonutTooltip($event, arlas_tooltip_anchor)" [containerWidth]="graphParam?.containerWidth" [keysToColors]="graphParam?.keysToColors" [colorsSaturationWeight]="graphParam?.colorsSaturationWeight"
-    (selectedNodesEvent)="contributor?.selectedNodesListChanged($event)" [customizedCssClass]="graphParam?.customizedCssClass"
-    [displayExportButton]="showExportCsv" (exportEvent)="exportCsv(contributor, false, componentType)">
-  </arlas-donut>
-</div>
-
-<div *ngIf="componentType === 'resultlist'">
-  <arlas-result-list style="height:100%" [rowItemList]="contributor?.data" [detailedDataRetriever]="contributor?.detailedDataRetriever"
-    [fieldsConfiguration]="contributor?.fieldsConfiguration" [fieldsList]="contributor?.fieldsList" [filtersMap]="contributor?.filtersMap"
-    [dropDownMapValues]="contributor?.dropDownMapValues" (sortColumnEvent)="emitEvent(contributorId, 'sortColumnEvent', $event)" [fetchState]="contributor?.fetchState"
-    (paginationEvent)="emitEvent(contributorId, 'paginationEvent', $event)" (setFiltersEvent)="contributor?.setFilters($event)"
-    [tableWidth]="graphParam.tableWidth" [globalActionsList]="graphParam.globalActionsList" [nLastLines]="graphParam.nLastLines"
-    [detailedGridHeight]="graphParam.detailedGridHeight" [nbGridColumns]="graphParam.nbGridColumns" [indeterminatedItems]="this.indeterminatedItems"
-    [highlightItems]="contributor?.highlightItems" [defautMode]="graphParam.defautMode" [displayFilters]="graphParam.displayFilters"
-    [isBodyHidden]="graphParam.isBodyHidden" [isGeoSortEnabled]="graphParam?.isGeoSortActived"
-    [useColorService]="graphParam?.useColorService" [cellBackgroundStyle]="graphParam?.cellBackgroundStyle" [keysToColors]="graphParam?.keysToColors"
-    [colorsSaturationWeight]="graphParam?.colorsSaturationWeight" (geoSortEvent)="emitEvent(contributorId, 'geoSortEvent', $event)"
-    (geoAutoSortEvent)="emitEvent(contributorId, 'geoAutoSortEvent', $event)" (selectedItemsEvent)="emitEvent(contributorId, 'selectedItemsEvent', $event)"
-    (consultedItemEvent)="emitEvent(contributorId, 'consultedItemEvent', $event)" (actionOnItemEvent)="emitEvent(contributorId, 'actionOnItemEvent', $event)"
-    (globalActionEvent)="emitEvent(contributorId, 'globalActionEvent', $event)" [options]="graphParam?.options">
-  </arlas-result-list>
-</div>
-
-<div *ngIf="componentType === 'metric'">
-  <arlas-metric [beforeValue]="graphParam?.beforeValue" [shortValue]="graphParam?.shortValue"
-                [value]="contributor?.metricValue" [afterValue]="graphParam?.afterValue" [approximateValue]="metricApproximate"
-                [customizedCssClass]="graphParam?.customizedCssClass" [valuePrecision]="graphParam?.valuePrecision"
-                [chartWidth]="graphParam?.chartWidth" >
-
-  </arlas-metric>
-</div>
-
-<div *ngIf="componentType === 'metricstable'">
-  <arlas-metrics-table
-    [metricsTable]="contributor?.data"
-    [selectedTerms]="contributor?.selectedTerms"
-    [filterOperator]="graphParam?.filterOperator"
-    [useColorService]="graphParam?.useColorService"
-    [applyColorTo]="graphParam?.applyColorTo"
-    [showRowField]="graphParam?.showRowField"
-    [selectWithCheckbox]="graphParam?.selectWithCheckbox"
-    [headerDisplayMode]="graphParam?.headerDisplayMode"
-    [normaliseBy]="graphParam?.normaliseBy"
-    (onSelect)="contributor?.onRowSelect($event)"
-    (filterOperatorEvent)="changeMetricsTableOperator($event)"
+} @else if (componentType === 'swimlane') {
+  <div>
+    @if (showSwimlaneDropDown) {
+      <div class="dropdownSwimlane">
+        <mat-form-field>
+          <mat-select panelClass="panelSwimlane" [value]="swimSelected.name" (change)="changeSwimlane($event)">
+            @for (s of swimlanes; track s) {
+              <mat-option value="{{s?.name}}">{{s.name | translate}}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </div>
+    }
+    @let c = contributor | asSwimlaneContributor;
+    <arlas-histogram [chartType]="chartType.swimlane" [selectedSwimlanes]="c.selectedSwimlanes" [data]="$any(c.swimData)"
+      (selectedSwimlanesEvent)="c.valueChanged($event)" [id]="graphParam?.id" [dataType]="graphParam?.dataType" [dataUnit]="graphParam?.dataUnit"
+      [valuesDateFormat]="graphParam?.valuesDateFormat" [isHistogramSelectable]="graphParam?.isHistogramSelectable" [multiselectable]="graphParam?.multiselectable"
+      [topOffsetRemoveInterval]="graphParam?.topOffsetRemoveInterval" [leftOffsetRemoveInterval]="graphParam?.leftOffsetRemoveInterval"
+      [brushHandlesHeightWeight]="graphParam?.brushHandlesHeightWeight" [chartTitle]="graphParam?.chartTitle" [chartWidth]="graphParam?.chartWidth"
+      [chartHeight]="graphParam?.chartHeight" [customizedCssClass]="graphParam?.customizedCssClass" [xAxisPosition]="graphParam?.xAxisPosition"
+      [descriptionPosition]="graphParam?.descriptionPosition" [xTicks]="graphParam?.xTicks" [yTicks]="graphParam?.yTicks" [xLabels]="graphParam?.xLabels"
+      [yLabels]="graphParam?.yLabels" [showXTicks]="graphParam?.showXTicks" [showYTicks]="graphParam?.showYTicks" [showXLabels]="graphParam?.showXLabels"
+      [showYLabels]="graphParam?.showYLabels" [ticksDateFormat]="graphParam?.ticksDateFormat" [isSmoothedCurve]="graphParam?.isSmoothedCurve"
+      [barWeight]="graphParam?.barWeight" [paletteColors]="graphParam?.paletteColors" [swimlaneMode]="graphParam?.swimlaneMode"
+      [swimLaneLabelsWidth]="graphParam?.swimLaneLabelsWidth" [swimlaneBorderRadius]="graphParam?.swimlaneBorderRadius" [swimlaneHeight]="graphParam?.swimlaneHeight"
+      [displayOnlyIntervalsWithData]="graphParam?.displayOnlyIntervalsWithData"
+      [swimlaneRepresentation]="graphParam?.swimlane_representation" [swimlaneOptions]="graphParam?.swimlane_options" [useUtc]="c.useUtc"></arlas-histogram>
+  </div>
+} @else if (componentType === 'powerbars') {
+  @let c = contributor | asTreeContributor;
+  <div class="powerbars-widget">
+    <arlas-powerbars [customizedCssClass]="graphParam?.customizedCssClass" [powerbarTitle]="graphParam?.powerbarTitle" [displayFilterField]="graphParam?.displayFilter"
+      [inputData]="c.treeData" [unit]="graphParam?.unit" [missingLeafEvent]="c.emitMissingLeaf"
+      [filterOperator]="graphParam?.filterOperator" [useColorService]="graphParam?.useColorService" [useColorFromData]="graphParam?.useColorFromData" [keysToColors]="graphParam?.keysToColors"
+      [colorsSaturationWeight]="graphParam?.colorsSaturationWeight" (selectedPowerBarEvent)="c.selectedNodesListChanged($event)" [scrollable]="graphParam?.scrollable"
+      [selectedPaths]="c.selectedNodesPathsList" (searchedTerm)="c.updateTreeDataSearch($event)"
+      [groupSelections]="graphParam?.groupSelections"  [selectWithCheckbox]="graphParam?.selectWithCheckbox"
+      (filterOperatorEvent)="changePowerbarsOperator($event)" (overPowerBarEvent)="showPowerbarTooltip($event, arlas_tooltip_anchor)" (outPowerBarEvent)="hidePowerbarTooltip($event)"
+      [chartWidth]="graphParam?.chartWidth" [displayExportButton]="showExportCsv" (exportEvent)="exportCsv(contributor, true, componentType)">
+    </arlas-powerbars>
+  </div>
+} @else if (componentType === 'donut') {
+  @let c = contributor | asTreeContributor;
+  <div class="donut-container">
+    <div class="donut">{{contributor?.getFilterDisplayName() | translate}}</div>
+    <arlas-donut [id]="graphParam?.id" [donutData]="c.treeData" [opacity]="graphParam.opacity" [multiselectable]="graphParam?.multiselectable"
+      [selectedArcsList]="c.selectedNodesPathsList" [unit]="graphParam?.unit" [diameter]="graphParam?.diameter" (hoveredNodeTooltipEvent)="showDonutTooltip($event, arlas_tooltip_anchor)"
+      [containerWidth]="graphParam?.containerWidth" [keysToColors]="graphParam?.keysToColors" [colorsSaturationWeight]="graphParam?.colorsSaturationWeight"
+      (selectedNodesEvent)="c.selectedNodesListChanged($event)" [customizedCssClass]="graphParam?.customizedCssClass"
+      [displayExportButton]="showExportCsv" (exportEvent)="exportCsv(contributor, false, componentType)">
+    </arlas-donut>
+  </div>
+} @else if (componentType === 'resultlist') {
+  @let c = contributor | asListContributor;
+  <div>
+    <arlas-result-list style="height:100%" [rowItemList]="c.data" [detailedDataRetriever]="c.detailedDataRetriever"
+      [fieldsConfiguration]="c.fieldsConfiguration" [fieldsList]="c.fieldsList" [filtersMap]="c.filtersMap"
+      [dropDownMapValues]="c.dropDownMapValues" (sortColumnEvent)="emitEvent(contributorId, 'sortColumnEvent', $event)" [fetchState]="c.fetchState"
+      (paginationEvent)="emitEvent(contributorId, 'paginationEvent', $event)" (setFiltersEvent)="c.setFilters($event)"
+      [tableWidth]="graphParam.tableWidth" [globalActionsList]="graphParam.globalActionsList" [nLastLines]="graphParam.nLastLines"
+      [detailedGridHeight]="graphParam.detailedGridHeight" [nbGridColumns]="graphParam.nbGridColumns" [indeterminatedItems]="indeterminatedItems"
+      [highlightItems]="c.highlightItems" [defautMode]="graphParam.defautMode" [displayFilters]="graphParam.displayFilters"
+      [isBodyHidden]="graphParam.isBodyHidden" [isGeoSortEnabled]="graphParam?.isGeoSortActived"
+      [useColorService]="graphParam?.useColorService" [cellBackgroundStyle]="graphParam?.cellBackgroundStyle" [keysToColors]="graphParam?.keysToColors"
+      [colorsSaturationWeight]="graphParam?.colorsSaturationWeight" (geoSortEvent)="emitEvent(contributorId, 'geoSortEvent', $event)"
+      (geoAutoSortEvent)="emitEvent(contributorId, 'geoAutoSortEvent', $event)" (selectedItemsEvent)="emitEvent(contributorId, 'selectedItemsEvent', $event)"
+      (consultedItemEvent)="emitEvent(contributorId, 'consultedItemEvent', $event)" (actionOnItemEvent)="emitEvent(contributorId, 'actionOnItemEvent', $event)"
+      (globalActionEvent)="emitEvent(contributorId, 'globalActionEvent', $event)" [options]="graphParam?.options">
+    </arlas-result-list>
+  </div>
+} @else if (componentType === 'metric') {
+  @let c = contributor | asMetricContributor;
+  <div>
+    <arlas-metric [beforeValue]="graphParam?.beforeValue" [shortValue]="graphParam?.shortValue"
+      [value]="c.metricValue" [afterValue]="graphParam?.afterValue" [approximateValue]="metricApproximate"
+      [customizedCssClass]="graphParam?.customizedCssClass" [valuePrecision]="graphParam?.valuePrecision"
+      [chartWidth]="graphParam?.chartWidth" >
+    </arlas-metric>
+  </div>
+} @else if (componentType === 'metricstable') {
+  @let c = contributor | asMetricsTableContributor;
+  <div>
+    <arlas-metrics-table
+      [metricsTable]="$any(c.data)"
+      [selectedTerms]="c.selectedTerms"
+      [filterOperator]="graphParam?.filterOperator"
+      [useColorService]="graphParam?.useColorService"
+      [applyColorTo]="graphParam?.applyColorTo"
+      [showRowField]="graphParam?.showRowField"
+      [selectWithCheckbox]="graphParam?.selectWithCheckbox"
+      [headerDisplayMode]="graphParam?.headerDisplayMode"
+      [normaliseBy]="graphParam?.normaliseBy"
+      (onSelect)="c.onRowSelect($event)"
+      (filterOperatorEvent)="changeMetricsTableOperator($event)"
     ></arlas-metrics-table>
-</div>
+  </div>
+}

@@ -17,11 +17,13 @@
  * under the License.
  */
 
-import { TranslateService } from '@ngx-translate/core';
+import { inject } from '@angular/core';
 import { OwlDateTimeIntl } from '@danielmoncada/angular-datetime-picker';
+import { TranslateService } from '@ngx-translate/core';
 
 // here is the default text string
 export class ArlasTranslateIntl extends OwlDateTimeIntl {
+  private readonly translateService = inject(TranslateService);
 
   /** A label for the up second button (used by screen readers).  */
   public upSecondLabel = this.translateService.instant('Datepicker.upSecondLabel');
@@ -82,8 +84,4 @@ export class ArlasTranslateIntl extends OwlDateTimeIntl {
 
   /** A label for the hour12 button (PM) */
   public hour12PMLabel = this.translateService.instant('Datepicker.hour12PMLabel');
-
-  public constructor(private translateService: TranslateService) {
-    super();
-  }
 }

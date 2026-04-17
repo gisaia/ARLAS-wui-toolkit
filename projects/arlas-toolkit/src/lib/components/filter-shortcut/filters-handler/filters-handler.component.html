@@ -1,21 +1,32 @@
 <div class="container">
-    <arlas-filter-shortcut-chip *ngIf="!!firstLabel && displayFilterFirstValue"
-        [@fadeInOut]
-        [hide]="moreClicked"
-        [label]="firstLabel"
-        [shortenValues]="!histogramDatatype"
-        (clearEmitter)="clearFilter($event, 0)"></arlas-filter-shortcut-chip>
-    <div class="more" [@fadeInOut] [class.more--expanded]="moreClicked" *ngIf="showMore" (click)="showFilters($event)">
-        <span [@fadeInOut] *ngIf="!moreClicked">{{displayFilterFirstValue ? +(labels?.length - 1) : labels?.length}}</span>
-        <mat-icon [@fadeInOut] class="collapse" *ngIf="moreClicked">expand_less</mat-icon>
-    </div>
-    <div class="list" [@fadeInOut] *ngIf="moreClicked">
-        <div *ngFor="let label of labels; let idx = idx" class="filter">
-            <arlas-filter-shortcut-chip
-                [label]="label"
-                [shortenValues]="!histogramDatatype"
-                (clearEmitter)="clearFilter($event, idx)"
-                ></arlas-filter-shortcut-chip>
+  @if (!!firstLabel && displayFilterFirstValue) {
+    <arlas-filter-shortcut-chip
+      [@fadeInOut]
+      [hide]="moreClicked"
+      [label]="firstLabel"
+      [shortenValues]="!histogramDatatype"
+      (clearEmitter)="clearFilter($event, 0)"></arlas-filter-shortcut-chip>
+  }
+  @if (showMore) {
+    <button mat-icon-button class="more" [@fadeInOut] [class.more--expanded]="moreClicked" (click)="showFilters($event)">
+      @if (moreClicked) {
+        <mat-icon [@fadeInOut] class="collapse">expand_less</mat-icon>
+      } @else {
+        <span [@fadeInOut]>{{displayFilterFirstValue ? (labels?.length - 1) : labels?.length}}</span>
+      }
+    </button>
+  }
+  @if (moreClicked) {
+    <div class="list" [@fadeInOut]>
+      @for (label of labels; track label) {
+        <div class="filter">
+          <arlas-filter-shortcut-chip
+            [label]="label"
+            [shortenValues]="!histogramDatatype"
+            (clearEmitter)="clearFilter($event, $index)"
+          ></arlas-filter-shortcut-chip>
         </div>
+      }
     </div>
+  }
 </div>

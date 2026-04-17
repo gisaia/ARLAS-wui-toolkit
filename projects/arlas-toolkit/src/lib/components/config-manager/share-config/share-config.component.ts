@@ -18,7 +18,22 @@
  */
 
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { MatButton } from '@angular/material/button';
+import { MatCheckbox } from '@angular/material/checkbox';
+import {
+  MatCell,
+  MatCellDef,
+  MatColumnDef,
+  MatHeaderCell,
+  MatHeaderCellDef,
+  MatHeaderRow,
+  MatHeaderRowDef,
+  MatRow,
+  MatRowDef,
+  MatTable
+} from '@angular/material/table';
 import { marker } from '@colsen1991/ngx-translate-extract-marker';
+import { TranslatePipe } from '@ngx-translate/core';
 import { catchError, of, take } from 'rxjs';
 import { ErrorService } from '../../../services/error/error.service';
 import { PersistenceService } from '../../../services/persistence/persistence.service';
@@ -34,8 +49,10 @@ export interface PersistenceGroup {
 @Component({
   selector: 'arlas-share-config',
   templateUrl: './share-config.component.html',
-  styleUrls: ['./share-config.component.css'],
-  standalone: false
+  styleUrls: ['./share-config.component.scss'],
+  imports: [
+    MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell,
+    MatCheckbox, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, MatButton, TranslatePipe]
 })
 export class ShareConfigComponent implements OnInit {
 

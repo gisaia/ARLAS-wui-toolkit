@@ -17,21 +17,30 @@
  * under the License.
  */
 
+import { CdkScrollable } from '@angular/cdk/scrolling';
 import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { FormsModule } from '@angular/forms';
+import { MatButton, MatIconButton } from '@angular/material/button';
+import { MAT_DIALOG_DATA, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
+import { MatFormField, MatLabel, MatSuffix } from '@angular/material/form-field';
+import { MatIcon } from '@angular/material/icon';
+import { MatInput } from '@angular/material/input';
 import { marker } from '@colsen1991/ngx-translate-extract-marker';
+import { TranslatePipe } from '@ngx-translate/core';
 import { DataWithLinks } from 'arlas-persistence-api';
 import { Observable, catchError, forkJoin, map, mergeMap, of, take, tap } from 'rxjs';
 import { ErrorService } from '../../../services/error/error.service';
 import { PersistenceService } from '../../../services/persistence/persistence.service';
 import { ArlasConfigService } from '../../../services/startup/startup.service';
 import { Config, ConfigAction, ConfigActionEnum } from '../../../tools/utils';
+import { ShareConfigComponent } from '../share-config/share-config.component';
 
 @Component({
   selector: 'arlas-action-modal',
   templateUrl: './action-modal.component.html',
-  styleUrls: ['./action-modal.component.css'],
-  standalone: false
+  imports: [
+    MatDialogTitle, CdkScrollable, MatDialogContent, MatDialogActions, MatButton, MatDialogClose, MatFormField,
+    MatLabel, MatInput, FormsModule, MatIconButton, MatSuffix, MatIcon, ShareConfigComponent, TranslatePipe]
 })
 export class ActionModalComponent {
 

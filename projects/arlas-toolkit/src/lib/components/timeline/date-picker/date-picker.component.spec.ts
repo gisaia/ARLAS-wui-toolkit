@@ -1,13 +1,12 @@
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   DateTimeAdapter, OWL_DATE_TIME_FORMATS,
-  OWL_DATE_TIME_LOCALE,
-  OwlDateTimeModule
+  OWL_DATE_TIME_LOCALE
 } from '@danielmoncada/angular-datetime-picker';
 import { MomentDateTimeAdapter } from '@danielmoncada/angular-datetime-picker-moment-adapter';
 import { TranslateLoader, TranslateModule, TranslateNoOpLoader } from '@ngx-translate/core';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { ArlasCollaborativesearchService } from '../../../services/collaborative-search/arlas.collaborative-search.service';
 import { ArlasConfigurationUpdaterService } from '../../../services/configuration-updater/configurationUpdater.service';
 import {
@@ -32,35 +31,36 @@ describe('DatePickerComponent', () => {
   let component: DatePickerComponent;
   let fixture: ComponentFixture<DatePickerComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [DatePickerComponent],
-      imports: [OwlDateTimeModule, FormsModule,
+      imports: [
         TranslateModule.forRoot({
           loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader }
-        })],
+        }),
+        DatePickerComponent
+      ],
       providers: [
         { provide: OWL_DATE_TIME_LOCALE, useValue: 'fr' },
         ArlasCollaborativesearchService,
         {
-          provide: ArlasStartupService,
-          useClass: ArlasStartupService,
-          deps: [ArlasConfigurationUpdaterService]
+            provide: ArlasStartupService,
+            useClass: ArlasStartupService,
+            deps: [ArlasConfigurationUpdaterService]
         },
         ArlasConfigService,
         { provide: DateTimeAdapter, useClass: MomentDateTimeAdapter, deps: [OWL_DATE_TIME_LOCALE] },
         { provide: OWL_DATE_TIME_FORMATS, useValue: MY_CUSTOM_FORMATS },
         { provide: CONFIG_UPDATER, useValue: {} },
         {
-          provide: ArlasConfigurationUpdaterService,
-          useClass: ArlasConfigurationUpdaterService
+            provide: ArlasConfigurationUpdaterService,
+            useClass: ArlasConfigurationUpdaterService
         },
         { provide: FETCH_OPTIONS, useValue: {} },
         provideHttpClient(withInterceptorsFromDi()),
       ]
     })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(DatePickerComponent);

@@ -23,13 +23,15 @@
     position: relative;
 
     .more {
-        height: 18px;
+        --mat-icon-button-state-layer-size: 18px;
+        --mat-icon-button-touch-target-size: 18px;
+        padding: 0;
+
         min-width: 18px;
-        border-radius: 11px;
+        border-radius: 50%;
         background-color: #e7e7e7;
         border: 1px solid #e7e7e7;
         font-size: 12px;
-        padding: 1px;
         display: flex;
         align-items: center;
         justify-content: center;

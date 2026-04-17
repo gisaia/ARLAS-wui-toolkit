@@ -18,8 +18,11 @@
  */
 
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { ArlasIamService } from '../../services/arlas-iam/arlas-iam.service';
 import { AuthentificationService } from '../../services/authentification/authentification.service';
@@ -31,7 +34,12 @@ import { DeniedAccessData } from '../../tools/utils';
   selector: 'arlas-denied-access-dialog',
   templateUrl: './denied-access-dialog.component.html',
   styleUrls: ['./denied-access-dialog.component.scss'],
-  standalone: false
+  imports: [
+    TranslatePipe,
+    MatDialogModule,
+    MatIconModule,
+    MatButtonModule
+  ]
 })
 export class DeniedAccessDialogComponent implements OnInit, OnDestroy {
 

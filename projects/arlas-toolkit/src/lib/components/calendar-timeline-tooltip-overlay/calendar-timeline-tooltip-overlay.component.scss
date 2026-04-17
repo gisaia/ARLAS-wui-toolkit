@@ -17,29 +17,27 @@
  * under the License.
  */
 
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ConfigMenuComponent } from './config-menu.component';
-import { TranslateModule } from '@ngx-translate/core';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { ActionModalModule } from '../action-modal/action-modal.module';
+.wrapper {
+    background-color: white;
+    border-radius: 4px;
+    width: 100%;
+    height: 100%;
+    font-size: .9em;
+    font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
 
-@NgModule({
-  imports: [
-    CommonModule,
-    TranslateModule,
-    MatMenuModule,
-    MatIconModule,
-    ActionModalModule,
-    MatButtonModule
-  ],
-  exports: [
-    ConfigMenuComponent
-  ],
-  declarations: [
-    ConfigMenuComponent
-  ]
-})
-export class ConfigMenuModule { }
+.title {
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.category {
+    color: #666;
+}
+
+.image {
+    object-fit: cover;
+    width: 250px;
+}

@@ -17,14 +17,21 @@
  * under the License.
  */
 
+import { KeyValuePipe } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-import { HistogramContributor } from 'arlas-web-contributors';
-import { SelectedOutputValues, StringifiedTimeShortcut } from 'arlas-web-contributors/models/models';
+import { MatButtonModule } from '@angular/material/button';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { marker } from '@colsen1991/ngx-translate-extract-marker';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { HistogramContributor, SelectedOutputValues, StringifiedTimeShortcut } from 'arlas-web-contributors';
 import { OperationEnum } from 'arlas-web-core';
 import { filter } from 'rxjs/operators';
+import { GetTimeLabelPipe } from '../../../pipes/get-time-label.pipe';
 import { ArlasCollaborativesearchService } from '../../../services/collaborative-search/arlas.collaborative-search.service';
 import { ArlasStartupService } from '../../../services/startup/startup.service';
+import { DatePickerComponent } from '../date-picker/date-picker.component';
 
 /**
  * This component contains shortcut labels that allow to apply predefined temporal filters on a timeline
@@ -37,7 +44,16 @@ import { ArlasStartupService } from '../../../services/startup/startup.service';
   selector: 'arlas-timeline-shortcut',
   templateUrl: './timeline-shortcut.component.html',
   styleUrls: ['./timeline-shortcut.component.scss'],
-  standalone: false
+  imports: [
+    MatChipsModule,
+    MatIconModule,
+    MatTooltipModule,
+    TranslatePipe,
+    GetTimeLabelPipe,
+    DatePickerComponent,
+    KeyValuePipe,
+    MatButtonModule
+  ]
 })
 export class TimelineShortcutComponent implements OnInit {
   /**
@@ -81,7 +97,7 @@ export class TimelineShortcutComponent implements OnInit {
   public timeShortcutsMap: Map<string, Array<StringifiedTimeShortcut>>;
   public showRemoveIcon = false;
   public showShortcuts = false;
-  public HIDE_SHOW = 'Show';
+  public HIDE_SHOW: string = marker('Show time shortcuts');
   public isShortcutSelected = false;
   public timeZone = 'UTC';
 
@@ -135,9 +151,9 @@ export class TimelineShortcutComponent implements OnInit {
     if (this.timeShortcuts && this.timeShortcuts.length > 0) {
       this.showShortcuts = !this.showShortcuts;
       if (this.showShortcuts) {
-        this.HIDE_SHOW = 'Hide';
+        this.HIDE_SHOW = marker('Hide time shortcuts');
       } else {
-        this.HIDE_SHOW = 'Show';
+        this.HIDE_SHOW = marker('Show time shortcuts');
       }
     }
   }

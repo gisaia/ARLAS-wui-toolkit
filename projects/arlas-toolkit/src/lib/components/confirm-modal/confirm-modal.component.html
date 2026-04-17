@@ -1,6 +1,12 @@
-<h2 mat-dialog-title><mat-icon style="vertical-align: text-bottom;color:red;">warning</mat-icon>&nbsp;CAUTION</h2>
-<mat-dialog-content style="font-family:Roboto,'Helvetica Neue',sans-serif" [innerHTML]="confirmHTLMMessage">{{confirmMessage}}</mat-dialog-content>
+<h2 mat-dialog-title>
+  <mat-icon class="confirm__icon">warning</mat-icon>
+  {{ 'CAUTION' | translate }}
+</h2>
+<mat-dialog-content class="confirm__content" [innerHTML]="confirmHTLMMessage">
+  {{ confirmMessage | translate }}
+</mat-dialog-content>
+
 <mat-dialog-actions>
-  <button mat-button [mat-dialog-close]="false">No</button>
-  <button mat-button [mat-dialog-close]="true">Yes</button>
+  <button mat-button [mat-dialog-close]="false">{{ 'No' | translate }}</button>
+  <button mat-button [mat-dialog-close]="true">{{ 'Yes' | translate }}</button>
 </mat-dialog-actions>

@@ -34,11 +34,3 @@ jobs:
         run: npm run license-check
       - name: Build
         run: npm run build-release
-      - name: Documentation
-        env:
-          # secrets are defined here : https://github.com/organizations/gisaia/settings/secrets/actions
-          DOCKER_USERNAME: ${{ secrets.DOCKER_HUB_USER }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
-        run: |
-          echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
-          ./mkDocs.sh

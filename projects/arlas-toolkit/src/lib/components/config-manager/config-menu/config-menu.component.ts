@@ -18,8 +18,12 @@
  */
 
 import { Component, Input, Output, ViewEncapsulation } from '@angular/core';
+import { MatIconButton } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
+import { MatIcon } from '@angular/material/icon';
+import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
 import { marker } from '@colsen1991/ngx-translate-extract-marker';
+import { TranslatePipe } from '@ngx-translate/core';
 import { Configuration, ExploreApi } from 'arlas-api';
 import { DataWithLinks } from 'arlas-persistence-api';
 import { Subject, from, of } from 'rxjs';
@@ -40,7 +44,7 @@ import { ActionModalComponent } from '../action-modal/action-modal.component';
   templateUrl: './config-menu.component.html',
   styleUrls: ['./config-menu.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  standalone: false
+  imports: [MatIconButton, MatMenuTrigger, MatIcon, MatMenu, MatMenuItem, TranslatePipe]
 })
 export class ConfigMenuComponent {
   @Input() public actions: Array<ConfigAction>;

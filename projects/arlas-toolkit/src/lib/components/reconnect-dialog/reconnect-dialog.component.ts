@@ -18,14 +18,20 @@
  */
 
 import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
+import { TranslatePipe } from '@ngx-translate/core';
 import { AuthentificationService } from '../../services/authentification/authentification.service';
 
 @Component({
   selector: 'arlas-tool-reconnect-dialog',
   templateUrl: './reconnect-dialog.component.html',
-  styleUrls: ['./reconnect-dialog.component.css'],
-  standalone: false
+  styleUrls: ['./reconnect-dialog.component.scss'],
+  imports: [
+    TranslatePipe,
+    MatDialogModule,
+    MatButtonModule
+  ]
 })
 export class ReconnectDialogComponent {
   public code: number;

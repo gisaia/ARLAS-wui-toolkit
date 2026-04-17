@@ -7,7 +7,9 @@
   <ng-container xValue>
     <ng-container *ngTemplateOutlet="intervalTemplate; context: {value: interval.start}"></ng-container>
     <!-- keep this because we ll need this later -->
-    <span class="interval-text" *ngIf="displayText">{{ 'to' | translate }}</span>
+    @if (displayText) {
+      <span class="interval-text">{{ 'to' | translate }}</span>
+    }
     <ng-container *ngTemplateOutlet="intervalTemplate; context: {value: interval.end}"></ng-container>
     <ng-container *ngTemplateOutlet="intervalTextTemplate;
       context: {
@@ -62,7 +64,7 @@
 
 <!-- display the text after the interval -->
 <ng-template #intervalTextTemplate let-interval="interval" let-intervalValue="intervalValue"
-             let-unit="unit" let-isTypeTime="isTime">
+  let-unit="unit" let-isTypeTime="isTime">
   @if (isTypeTime) {
     <span class="interval-text">{{ intervalValue }}</span>
   } @else if (unit) {

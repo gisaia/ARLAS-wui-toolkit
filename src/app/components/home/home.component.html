@@ -6,10 +6,10 @@
     <arlas-search [searchContributors]="searchContributors" [dialogPositionTop]="10" [dialogPositionLeft]="50"></arlas-search>
   </div>
   <div middle-menu class="shortcut-list">
-    <ng-container *ngFor="let shortcut of shortcuts; let idx=index" >
+    @for (shortcut of shortcuts; track shortcut; let idx = $index) {
       <arlas-filter-shortcut class="shortcut" [style.z-index]="lastShortcutOpen === idx ? 2 : 1"
         [shortcut]="shortcut" [(isOpen)]="isShortcutOpen[idx]" [displayFilterFirstValue]="false"></arlas-filter-shortcut>
-    </ng-container>
+    }
   </div>
   <div right-menu>
     <arlas-permissions-creator></arlas-permissions-creator>
@@ -31,7 +31,9 @@
         <span>Download data</span>
       </button>
     </mat-menu>
-    <button *ngIf="connected" mat-flat-button color="accent" (click)="logout()">Log out</button>
+    @if (connected) {
+      <button mat-flat-button color="accent" (click)="logout()">Log out</button>
+    }
   </div>
 </arlas-top-menu>
 
@@ -39,26 +41,34 @@
   <mat-form-field>
     <mat-label>Asset format</mat-label>
     <mat-select [(value)]="selectedAssetFormat">
-      <mat-option *ngFor="let format of assetFormats" [value]="format">
-        {{ format }}
-      </mat-option>
+      @for (format of assetFormats; track format) {
+        <mat-option [value]="format">
+          {{ format }}
+        </mat-option>
+      }
     </mat-select>
   </mat-form-field>
 
   <mat-form-field>
     <mat-label>Item format</mat-label>
     <mat-select [(value)]="selectedItemFormat">
-      <mat-option *ngFor="let format of itemFormats" [value]="format">
-        {{ format }}
-      </mat-option>
+      @for (format of itemFormats; track format) {
+        <mat-option [value]="format">
+          {{ format }}
+        </mat-option>
+      }
     </mat-select>
   </mat-form-field>
 
-  <button mat-raised-button class="process"
-    (click)="openDownload()">Download</button>
+  <button mat-raised-button class="process" (click)="openDownload()">Download</button>
 
-  <button mat-raised-button class="process"
-    (click)="openEnrich()">Enrich</button>
+  <button mat-raised-button class="process" (click)="openEnrich()">Enrich</button>
+
+  <button mat-raised-button class="process" (click)="openConfirm()">Confirm</button>
+
+  <button mat-raised-button class="process" (click)="openDeniedAccess()">Denied Access</button>
+
+  <button mat-raised-button class="process" (click)="openPermissionsCreator()">Permission creator (mock)</button>
 </div>
 
 <div style="margin-bottom: 10px;">
@@ -66,9 +76,11 @@
     [availableSpace]="windowWidth - 5"></arlas-filter>
 </div>
 
-<arlas-timeline *ngIf="timelineComponentConfig" [activeDatePicker]="true" [timelineComponent]="timelineComponentConfig"
-  [detailedTimelineComponent]="detailedTimelineComponentConfig" [units]="units" class="timeline" [showSpinner]="true">
-</arlas-timeline>
+@if (timelineComponentConfig) {
+  <arlas-timeline [activeDatePicker]="true" [timelineComponent]="timelineComponentConfig"
+    [detailedTimelineComponent]="detailedTimelineComponentConfig" class="timeline" [showSpinner]="true">
+  </arlas-timeline>
+}
 
 <arlas-analytics-menu class="analytics-menu-container" [tabIndexByDefault]="2" [showIndicators]="true"></arlas-analytics-menu>
 

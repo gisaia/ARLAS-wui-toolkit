@@ -18,20 +18,27 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButton } from '@angular/material/button';
+import { MatError, MatFormField, MatLabel, MatPrefix, MatSuffix } from '@angular/material/form-field';
+import { MatIcon } from '@angular/material/icon';
+import { MatInput } from '@angular/material/input';
+import { Router, RouterLink } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
 import { LoginData } from 'arlas-iam-api';
-import { ArlasIamService } from '../../services/arlas-iam/arlas-iam.service';
-import { ArlasSettingsService } from '../../services/settings/arlas.settings.service';
 import { finalize } from 'rxjs';
-import { NOT_CONFIGURED } from '../../tools/utils';
+import { ArlasIamService } from '../../services/arlas-iam/arlas-iam.service';
 import { ErrorService } from '../../services/error/error.service';
+import { ArlasSettingsService } from '../../services/settings/arlas.settings.service';
+import { NOT_CONFIGURED } from '../../tools/utils';
 
 @Component({
   selector: 'arlas-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
-  standalone: false
+  imports: [
+    FormsModule, ReactiveFormsModule, MatFormField, MatLabel, MatInput, MatIcon,
+    MatPrefix, MatError, MatSuffix, RouterLink, MatButton, TranslatePipe]
 })
 export class LoginComponent implements OnInit {
 

@@ -17,21 +17,25 @@
  * under the License.
  */
 
-import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { TranslatePipe } from '@ngx-translate/core';
 import { ChartType, DataType, HistogramTooltip, Position } from 'arlas-d3';
 import { ArlasColorService, HistogramComponent } from 'arlas-web-components';
-import { DetailedHistogramContributor, HistogramContributor } from 'arlas-web-contributors';
-import { SelectedOutputValues } from 'arlas-web-contributors/models/models';
+import { DetailedHistogramContributor, HistogramContributor, SelectedOutputValues } from 'arlas-web-contributors';
 import { OperationEnum } from 'arlas-web-core';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Subject, takeUntil } from 'rxjs';
+import { GetContributorPipe } from '../../../pipes/get-contributor.pipe';
 import { ArlasCollaborativesearchService } from '../../../services/collaborative-search/arlas.collaborative-search.service';
 import { ArlasCollectionService } from '../../../services/collection/arlas-collection.service';
 import { ArlasOverlayService } from '../../../services/overlays/overlay.service';
 import { ArlasStartupService } from '../../../services/startup/startup.service';
-import { ArlasOverlayRef } from '../../../tools/utils';
-import { CollectionLegend, TimelineConfiguration } from './timeline.utils';
 import { WidgetNotifierService } from '../../../services/widget/widget.notifier.service';
+import { ArlasOverlayRef } from '../../../tools/utils';
+import { ProgressSpinnerComponent } from '../../progress-spinner/progress-spinner.component';
+import { TimelineShortcutComponent } from '../timeline-shortcut/timeline-shortcut.component';
+import { CollectionLegend, TimelineConfiguration } from './timeline.utils';
 
 
 /**
@@ -45,7 +49,15 @@ import { WidgetNotifierService } from '../../../services/widget/widget.notifier.
   selector: 'arlas-timeline',
   templateUrl: './timeline.component.html',
   styleUrls: ['./timeline.component.scss'],
-  standalone: false
+  imports: [
+    TimelineShortcutComponent,
+    TranslatePipe,
+    ProgressSpinnerComponent,
+    HistogramComponent,
+    GetContributorPipe,
+    MatIconModule,
+    MatButtonModule
+  ]
 })
 export class TimelineComponent implements OnInit, OnDestroy {
 
@@ -122,15 +134,15 @@ export class TimelineComponent implements OnInit, OnDestroy {
   public timelineLegend: CollectionLegend[] = [];
   public mainCollection: string;
 
-  private _onDestroy$ = new Subject<boolean>();
+  private readonly _onDestroy$ = new Subject<boolean>();
 
   public constructor(
     protected arlasCollaborativesearchService: ArlasCollaborativesearchService,
-    private arlasStartupService: ArlasStartupService,
-    private arlasOverlayService: ArlasOverlayService,
-    private arlasColorService: ArlasColorService,
-    public widgetNotifier: WidgetNotifierService,
-    private collectionService: ArlasCollectionService) {
+    private readonly arlasStartupService: ArlasStartupService,
+    private readonly arlasOverlayService: ArlasOverlayService,
+    private readonly arlasColorService: ArlasColorService,
+    protected widgetNotifier: WidgetNotifierService,
+    private readonly collectionService: ArlasCollectionService) {
   }
 
   public ngOnInit() {
@@ -149,7 +161,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
         active: true,
         main: true
       });
-      if (!!this.timelineContributor.additionalCollections) {
+      if (this.timelineContributor.additionalCollections) {
         this.timelineContributor.additionalCollections.forEach(ac => {
           const displayName = this.collectionService.getDisplayName(ac.collectionName) !== ac.collectionName ?
             this.collectionService.getDisplayName(ac.collectionName) : this.collectionService.getUnit(ac.collectionName);
@@ -210,7 +222,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
    */
   public onTimelineIntervalBrushed(selections: SelectedOutputValues[]): void {
     // Once we bruch the main timeline, we want the detailed one to be able to pick up collaborations again
-    if (!!this.detailedTimelineContributor) {
+    if (this.detailedTimelineContributor) {
       this.detailedTimelineContributor.updateData = true;
     }
     this.timelineContributor.valueChanged(selections, this.timelineContributor.getAllCollections());
@@ -244,8 +256,8 @@ export class TimelineComponent implements OnInit, OnDestroy {
     this.isDetailedIntervalBrushed = false;
   }
 
-  public showHistogramTooltip(tooltip: HistogramTooltip, e: ElementRef, xOffset: number, yOffset: number, right: boolean) {
-    if (!!this.timelineOverlayRef) {
+  public showHistogramTooltip(tooltip: HistogramTooltip, e: HTMLDivElement, xOffset: number, yOffset: number, right: boolean) {
+    if (this.timelineOverlayRef) {
       this.timelineOverlayRef.close();
     }
     if (!!tooltip && tooltip.shown) {
@@ -254,12 +266,12 @@ export class TimelineComponent implements OnInit, OnDestroy {
   }
 
   public hideHistogramTooltip() {
-    if (!!this.timelineOverlayRef) {
+    if (this.timelineOverlayRef) {
       this.timelineOverlayRef.close();
     }
   }
 
-  public emitTooltip(tooltip: HistogramTooltip, e: ElementRef) {
+  public emitTooltip(tooltip: HistogramTooltip, e: HTMLDivElement) {
     const yOffset = this.timelineLegend && this.timelineLegend.length > 1 ? -140 : -110;
     let xOffset = tooltip.xPosition;
     let right = false;
@@ -373,7 +385,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
       detailedTimelineRange = (+d[l - 1].key) - (+d[0].key);
     }
     // In case if the timeline is hidden
-    if (!!this.timelineHistogramComponent) {
+    if (this.timelineHistogramComponent) {
       if (timelineRange !== undefined && detailedTimelineRange !== undefined) {
         const intervalSelection = (+this.timelineContributor.intervalSelection.endvalue -
           +this.timelineContributor.intervalSelection.startvalue);
@@ -406,24 +418,26 @@ export class TimelineComponent implements OnInit, OnDestroy {
 
   private resetHistogramsInputs(inputs: any) {
     Object.keys(inputs).forEach(key => {
-      if (key === 'chartType' && isNaN(inputs[key])) {
-        inputs[key] = ChartType[inputs[key]];
-      } else if (key === 'dataType' && isNaN(inputs[key])) {
-        inputs[key] = DataType[inputs[key]];
-      } else if (key === 'xAxisPosition' && isNaN(inputs[key])) {
-        inputs[key] = Position[inputs[key]];
-      } else if (key === 'descriptionPosition' && isNaN(inputs[key])) {
-        inputs = Position[inputs[key]];
+      if (Number.isNaN(inputs[key])) {
+        if (key === 'chartType') {
+          inputs[key] = ChartType[inputs[key]];
+        } else if (key === 'dataType') {
+          inputs[key] = DataType[inputs[key]];
+        } else if (key === 'xAxisPosition') {
+          inputs[key] = Position[inputs[key]];
+        } else if (key === 'descriptionPosition') {
+          inputs = Position[inputs[key]];
+        }
       }
     });
   }
 
   private hideDetailedTimeline() {
     this.showDetailedTimeline = false;
-    if (!!this.detailedTimelineContributor) {
+    if (this.detailedTimelineContributor) {
       this.detailedTimelineContributor.updateData = false;
     }
-    if (!!this.timelineHistogramComponent) {
+    if (this.timelineHistogramComponent) {
       this.timelineHistogramComponent.histogram.histogramParams.chartHeight = this.timelineComponent.input.chartHeight;
       this.timelineHistogramComponent.resizeHistogram();
     }

@@ -15,7 +15,7 @@
       "projectType": "application",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:application",
+          "builder": "@angular/build:application",
           "options": {
             "outputPath": {
               "base": "dist"
@@ -67,7 +67,7 @@
           }
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "@angular/build:dev-server",
           "options": {
             "buildTarget": "arlas-wui-toolkit:build"
           },
@@ -82,32 +82,16 @@
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "builder": "@angular/build:extract-i18n",
           "options": {
             "buildTarget": "arlas-wui-toolkit-demo:build"
           }
         },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@angular/build:unit-test",
           "options": {
-            "main": "src/test.ts",
-            "karmaConfig": "./karma.conf.js",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "src/tsconfig.spec.json",
-            "scripts": [],
-            "styles": [
-              "src/styles.css"
-            ],
-            "assets": [
-              "src/assets",
-              "src/i18n",
-              "src/favicon.ico",
-              "src/config.json",
-              "src/settings.yaml",
-              "src/silent-refresh.html",
-              "src/tour.json",
-              "src/env.js"
-            ]
+            "watch": false,
+            "tsConfig": "src/tsconfig.spec.json"
           }
         },
         "lint": {
@@ -123,29 +107,6 @@
         }
       }
     },
-    "arlas-wui-toolkit-demo-e2e": {
-      "root": "e2e",
-      "sourceRoot": "e2e",
-      "projectType": "application",
-      "architect": {
-        "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
-          "options": {
-            "protractorConfig": "./protractor.conf.js",
-            "devServerTarget": "arlas-wui-toolkit-demo:serve"
-          }
-        },
-        "lint": {
-          "builder": "@angular-eslint/builder:lint",
-          "options": {
-            "tsConfig": [
-              "e2e/tsconfig.e2e.json"
-            ],
-            "exclude": []
-          }
-        }
-      }
-    },
     "arlas-wui-toolkit": {
       "projectType": "library",
       "root": "projects/arlas-toolkit",
@@ -153,7 +114,7 @@
       "prefix": "arlas",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "builder": "@angular/build:ng-packagr",
           "options": {
             "tsConfig": "projects/arlas-toolkit/tsconfig.lib.json",
             "project": "projects/arlas-toolkit/ng-package.json"
@@ -161,16 +122,17 @@
           "configurations": {
             "production": {
               "tsConfig": "projects/arlas-toolkit/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/arlas-toolkit/tsconfig.lib.json"
             }
           }
         },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@angular/build:unit-test",
           "options": {
-            "main": "projects/arlas-toolkit/src/test.ts",
-            "tsConfig": "projects/arlas-toolkit/tsconfig.spec.json",
-            "karmaConfig": "projects/arlas-toolkit/karma.conf.js",
-            "polyfills": "projects/arlas-toolkit/src/polyfills.ts"
+            "watch": false,
+            "tsConfig": "projects/arlas-toolkit/tsconfig.spec.json"
           }
         },
         "lint": {

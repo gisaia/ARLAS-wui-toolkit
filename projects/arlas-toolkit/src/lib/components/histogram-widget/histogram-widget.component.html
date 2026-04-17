@@ -1,41 +1,43 @@
 <div [class.detail-status]="showDetailedHistogram">
   <arlas-tool-progress-spinner [strokeWidth]="spinnerOptions?.strokeWidth" [color]="spinnerOptions?.color"
     [diameter]="spinnerOptions?.diameter"
-    [hidden]="!(showSpinner || (detailedContributor?.isDataUpdating || contributor?.isDataUpdating))"></arlas-tool-progress-spinner>
-  <div (mouseleave)="hideHistogramTooltip()" #detailed class="histogram detailed-histogram" [class.displayed-detail]="showDetailedHistogram" *ngIf="showDetailedHistogram">
-    <arlas-histogram class="histogram-container" #detailedhistogram [intervalListSelection]="detailedContributor?.intervalListSelection"
-      [intervalSelection]="detailedTimelineIntervalSelection" (dataPlottedEvent)="afterDetailedDataPlotted($event)"
-      [data]="detailedContributor?.chartData" (valuesListChangedEvent)="onDetailedIntervalBrushed($event)"
-      [id]="componentInputs?.id" [dataType]="componentInputs?.dataType" [dataUnit]="componentInputs?.dataUnit"
-      [valuesDateFormat]="componentInputs?.valuesDateFormat"
-      [isHistogramSelectable]="componentInputs?.isHistogramSelectable"
-      [multiselectable]="componentInputs?.multiselectable"
-      [topOffsetRemoveInterval]="componentInputs?.topOffsetRemoveInterval"
-      [leftOffsetRemoveInterval]="componentInputs?.leftOffsetRemoveInterval"
-      [brushHandlesHeightWeight]="componentInputs?.brushHandlesHeightWeight" [chartType]="componentInputs?.chartType"
-      [chartTitle]="componentInputs?.chartTitle" [chartWidth]="componentInputs?.chartWidth"
-      [chartHeight]="componentInputs?.chartHeight" [customizedCssClass]="componentInputs?.customizedCssClass"
-      [xAxisPosition]="0" [descriptionPosition]="componentInputs?.descriptionPosition"
-      [xTicks]="componentInputs?.xTicks" [yTicks]="componentInputs?.yTicks" [xLabels]="componentInputs?.xLabels"
-      [yLabels]="componentInputs?.yLabels" [showXTicks]="componentInputs?.showXTicks"
-      [showYTicks]="componentInputs?.showYTicks" [showXLabels]="componentInputs?.showXLabels"
-      [showYLabels]="componentInputs?.showYLabels" [ticksDateFormat]="componentInputs?.ticksDateFormat"
-      [isSmoothedCurve]="componentInputs?.isSmoothedCurve" [barWeight]="componentInputs?.barWeight"
-      [paletteColors]="componentInputs?.paletteColors"
-      [applyOffsetOnAreaChart]="componentInputs?.applyOffsetOnAreaChart"
-      [displayOnlyIntervalsWithData]="componentInputs?.displayOnlyIntervalsWithData"
-      [yAxisStartsFromZero]="componentInputs?.yAxisStartsFromZero" [showStripes]="componentInputs?.showStripes"
-      [chartXLabel]="componentInputs?.chartXLabel" [shortYLabels]="componentInputs?.shortYLabels"
-      [useUtc]="detailedContributor?.useUtc"
-      (hoveredBucketEvent)="widgetNotifier.notifyBucketHover($event)"
-      (tooltipEvent)="emitTooltip($event,detailed, true)"
-      [xUnit]="componentInputs?.xUnit" [yUnit]="componentInputs?.yUnit"
+  [hidden]="!(showSpinner || (detailedContributor?.isDataUpdating || contributor?.isDataUpdating))"></arlas-tool-progress-spinner>
+  @if (showDetailedHistogram) {
+    <div (mouseleave)="hideHistogramTooltip()" #detailed class="histogram detailed-histogram" [class.displayed-detail]="showDetailedHistogram">
+      <arlas-histogram class="histogram-container" #detailedhistogram [intervalListSelection]="$any(detailedContributor?.intervalListSelection)"
+        [intervalSelection]="$any(detailedTimelineIntervalSelection)" (dataPlottedEvent)="afterDetailedDataPlotted($event)"
+        [data]="detailedContributor?.chartData" (valuesListChangedEvent)="onDetailedIntervalBrushed($event)"
+        [id]="componentInputs?.id" [dataType]="componentInputs?.dataType" [dataUnit]="componentInputs?.dataUnit"
+        [valuesDateFormat]="componentInputs?.valuesDateFormat"
+        [isHistogramSelectable]="componentInputs?.isHistogramSelectable"
+        [multiselectable]="componentInputs?.multiselectable"
+        [topOffsetRemoveInterval]="componentInputs?.topOffsetRemoveInterval"
+        [leftOffsetRemoveInterval]="componentInputs?.leftOffsetRemoveInterval"
+        [brushHandlesHeightWeight]="componentInputs?.brushHandlesHeightWeight" [chartType]="componentInputs?.chartType"
+        [chartTitle]="componentInputs?.chartTitle" [chartWidth]="componentInputs?.chartWidth"
+        [chartHeight]="componentInputs?.chartHeight" [customizedCssClass]="componentInputs?.customizedCssClass"
+        [xAxisPosition]="Position.top" [descriptionPosition]="componentInputs?.descriptionPosition"
+        [xTicks]="componentInputs?.xTicks" [yTicks]="componentInputs?.yTicks" [xLabels]="componentInputs?.xLabels"
+        [yLabels]="componentInputs?.yLabels" [showXTicks]="componentInputs?.showXTicks"
+        [showYTicks]="componentInputs?.showYTicks" [showXLabels]="componentInputs?.showXLabels"
+        [showYLabels]="componentInputs?.showYLabels" [ticksDateFormat]="componentInputs?.ticksDateFormat"
+        [isSmoothedCurve]="componentInputs?.isSmoothedCurve" [barWeight]="componentInputs?.barWeight"
+        [paletteColors]="componentInputs?.paletteColors"
+        [applyOffsetOnAreaChart]="componentInputs?.applyOffsetOnAreaChart"
+        [displayOnlyIntervalsWithData]="componentInputs?.displayOnlyIntervalsWithData"
+        [yAxisStartsFromZero]="componentInputs?.yAxisStartsFromZero" [showStripes]="componentInputs?.showStripes"
+        [chartXLabel]="componentInputs?.chartXLabel" [shortYLabels]="componentInputs?.shortYLabels"
+        [useUtc]="detailedContributor?.useUtc"
+        (hoveredBucketEvent)="widgetNotifier.notifyBucketHover($event)"
+        (tooltipEvent)="emitTooltip($event,detailed, true)"
+        [xUnit]="componentInputs?.xUnit" [yUnit]="componentInputs?.yUnit"
       [displayExportButton]="showExportCsv" (exportEvent)="exportCsv(detailedContributor)"></arlas-histogram>
-  </div>
+    </div>
+  }
 
   <div class="histogram" (mouseleave)="hideHistogramTooltip()" #main>
-    <arlas-histogram class="histogram-container" #histogram [intervalListSelection]="contributor?.intervalListSelection"
-      [intervalSelection]="contributor?.intervalSelection" [data]="contributor?.chartData"
+    <arlas-histogram class="histogram-container" #histogram [intervalListSelection]="$any(contributor?.intervalListSelection)"
+      [intervalSelection]="$any(contributor?.intervalSelection)" [data]="contributor?.chartData"
       (valuesListChangedEvent)="onMainIntervalBrushed($event)"
       [id]="componentInputs?.id" [dataType]="componentInputs?.dataType" [dataUnit]="componentInputs?.dataUnit"
       [valuesDateFormat]="componentInputs?.valuesDateFormat"
@@ -60,6 +62,6 @@
       [useUtc]="contributor?.useUtc"
       (tooltipEvent)="emitTooltip($event, main, false)"
       [xUnit]="componentInputs?.xUnit" [yUnit]="componentInputs?.yUnit"
-      [displayExportButton]="showExportCsv" (exportEvent)="exportCsv(contributor)"></arlas-histogram>
+    [displayExportButton]="showExportCsv" (exportEvent)="exportCsv(contributor)"></arlas-histogram>
   </div>
 </div>

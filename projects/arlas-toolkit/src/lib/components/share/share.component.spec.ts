@@ -1,14 +1,6 @@
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatRadioModule } from '@angular/material/radio';
-import { MatSelectModule } from '@angular/material/select';
-import { MatStepperModule } from '@angular/material/stepper';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { ArlasCollaborativesearchService } from '../../services/collaborative-search/arlas.collaborative-search.service';
 import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
 import {
@@ -20,14 +12,12 @@ describe('ShareComponent', () => {
   let component: ShareComponent;
   let fixture: ComponentFixture<ShareComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ShareComponent],
-      imports: [ReactiveFormsModule, MatAutocompleteModule,
-        MatInputModule, FormsModule, BrowserAnimationsModule,
-        MatIconModule, MatDialogModule, MatStepperModule,
-        MatRadioModule, MatSelectModule],
-      providers: [ArlasConfigService, ArlasCollaborativesearchService,
+      imports: [ShareComponent],
+      providers: [
+        ArlasConfigService,
+        ArlasCollaborativesearchService,
         {
           provide: ArlasStartupService,
           useClass: ArlasStartupService,
@@ -38,10 +28,12 @@ describe('ShareComponent', () => {
           useClass: ArlasConfigurationUpdaterService
         },
         { provide: FETCH_OPTIONS, useValue: {} },
-        { provide: CONFIG_UPDATER, useValue: {} }, provideHttpClient(withInterceptorsFromDi())]
+        { provide: CONFIG_UPDATER, useValue: {} },
+        provideHttpClient(withInterceptorsFromDi())
+      ]
     })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ShareComponent);

@@ -18,21 +18,21 @@
  */
 
 .container {
-  font-family: Roboto, "Helvetica Neue", Arial;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-.reset-form {
+.validate-form {
   width: 340px;
   margin: 50px auto;
   font-size: 15px;
 }
 
-.reset-form mat-form-field {
+.validate-form mat-form-field {
   font-size: 14px;
   width: 100%;
 }
 
-.reset-form mat-form-field ::ng-deep .mat-mdc-form-field-outline {
+.validate-form mat-form-field ::ng-deep .mat-mdc-form-field-outline {
   background-color: white;
   border-radius: 4px;
 }
@@ -55,7 +55,8 @@
   padding: 10px 35px 0;
 }
 
-.reset-form .form-content {
+/* TODO: mutualise IAM css code */
+.validate-form .form-content {
   margin-bottom: 15px;
   background: #ededed;
   padding: 15px 30px 0 30px;
@@ -82,11 +83,16 @@
   height: 100%;
 }
 
-.reset-form h2 {
+.confirm-error {
+  font-size: 13px;
+  padding: 0 5px 5px 5px;
+}
+
+.validate-form h2 {
   margin: 10px 0;
 }
 
-.reset-button {
+.validate-button {
   background-color: #00bcd4;
   border-radius: 15px;
   padding: 0 30px;
@@ -103,7 +109,7 @@
   gap: 0 10px;
   align-items: baseline;
   padding-top: 15px;
-  font-family: Roboto, "Helvetica Neue", Arial;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
 .account button {
@@ -119,10 +125,21 @@
   padding: 0 0 15px 2px;
 }
 
-.validate{
+.validate, .error {
   color: white;
   background-color: #5cb85c;
   padding: 10px;
   margin-bottom: 10px;
   border-radius: 10px;
+}
+
+.error {
+  background-color: rgb(244, 67, 54);
+}
+
+.form-text-detail {
+  font-size: 12px;
+  color: #606770;
+  padding: 10px 0;
+  display: inline-block;
 }

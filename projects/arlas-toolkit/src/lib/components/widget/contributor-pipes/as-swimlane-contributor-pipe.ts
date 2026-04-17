@@ -17,47 +17,17 @@
  * under the License.
  */
 
-.group-cell {
-  word-wrap: break-word !important;
-  white-space: unset !important;
-  flex: 0 0 50% !important;
-  width: 50% !important;
-  /* overflow-wrap: break-word; */
-  word-wrap: break-word;
-  word-break: break-word;
-}
+import { Pipe, PipeTransform } from '@angular/core';
+import { SwimLaneContributor } from 'arlas-web-contributors';
+import { Contributor } from 'arlas-web-core';
 
-.group-row {
-  width: 500px;
-}
-.group-table-items{
-  overflow: hidden;
-}
+@Pipe({
+  name: 'asSwimlaneContributor',
+})
+export class AsSwimlaneContributorPipe implements PipeTransform {
 
-.group-table-items .mat-column-checked{
-  flex:0 0 50px;
-}
-.mat-mdc-header-cell {
-  display:flex;
-  justify-content:center;
-}
+  public transform(contributor: Contributor): SwimLaneContributor {
+    return contributor as SwimLaneContributor;
+  }
 
-.mat-mdc-cell{
-  display:flex;
-  justify-content:center;
-}
-
-.mat-column-name{
-  display:flex;
-  justify-content:flex-start;
-  align-items: center;
-}
-
-.share-container {
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-
-.share-button {
-  margin-right: 10px;
 }

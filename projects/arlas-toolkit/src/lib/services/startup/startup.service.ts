@@ -24,7 +24,7 @@ import { marker } from '@colsen1991/ngx-translate-extract-marker';
 import { TranslateService } from '@ngx-translate/core';
 import Ajv from 'ajv';
 import ajvKeywords from 'ajv-keywords';
-import * as draftSchema from 'ajv/lib/refs/json-schema-draft-06.json';
+import * as draftSchema from 'ajv/lib/refs/json-schema-draft-06.json' with { type: 'json' };
 import { CollectionReferenceDescription, CollectionReferenceParameters, CollectionsApi, Configuration, ExploreApi } from 'arlas-api';
 import { DefaultApi, Configuration as IamConfiguration } from 'arlas-iam-api';
 import { ArlasMapComponent } from 'arlas-map';
@@ -34,29 +34,18 @@ import {
   MetricsTableComponent, PowerbarsComponent
 } from 'arlas-web-components';
 import {
-  ChipsSearchContributor, ComputeContributor, DetailedHistogramContributor, HistogramContributor,
-  MapContributor,
-  MetricsTableContributor,
-  ResultListContributor,
-  SearchContributor,
-  SwimLaneContributor, TreeContributor
+  AnalyticsContributor, ChipsSearchContributor, ComputeContributor, DetailedHistogramContributor, HistogramContributor,
+  MapContributor, MetricsTableContributor, ResultListContributor, SearchContributor, SwimLaneContributor, TreeContributor
 } from 'arlas-web-contributors';
-import { AnalyticsContributor } from 'arlas-web-contributors/contributors/AnalyticsContributor';
-import * as rootContributorConfSchema from 'arlas-web-contributors/jsonSchemas/rootContributorConf.schema.json';
-import { ConfigService, Contributor } from 'arlas-web-core';
-import { projType } from 'arlas-web-core/models/projections';
+import * as rootContributorConfSchema from 'arlas-web-contributors/jsonSchemas/rootContributorConf.schema.json' with { type: 'json' };
+import { ConfigService, Contributor, projType } from 'arlas-web-core';
 import YAML from 'js-yaml';
-import { Subject, defer, throwError } from 'rxjs';
-import { catchError, first, mergeMap, retry } from 'rxjs/operators';
+import { Subject, catchError, defer, first, mergeMap, retry, throwError } from 'rxjs';
 import { AnalyticGroupConfiguration } from '../../components/analytics/analytics.utils';
 import { FilterShortcutConfiguration } from '../../components/filter-shortcut/filter-shortcut.utils';
 import {
-  AuthentSetting,
-  CONFIG_ID_QUERY_PARAM, GET_OPTIONS,
-  GeocodingSetting,
-  NOT_CONFIGURED,
-  WidgetConfiguration, getFieldProperties,
-  getParamValue
+  AuthentSetting, CONFIG_ID_QUERY_PARAM, GET_OPTIONS, GeocodingSetting,
+  NOT_CONFIGURED, WidgetConfiguration, getFieldProperties, getParamValue
 } from '../../tools/utils';
 import { ArlasIamService, IamHeader } from '../arlas-iam/arlas-iam.service';
 import { AuthentificationService, } from '../authentification/authentification.service';
@@ -68,9 +57,9 @@ import { PermissionService, PermissionSetting } from '../permission/permission.s
 import { PersistenceService, PersistenceSetting } from '../persistence/persistence.service';
 import { ProcessService } from '../process/process.service';
 import { ArlasSettingsService } from '../settings/arlas.settings.service';
-import * as arlasConfSchema from './arlasconfig.schema.json';
+import * as arlasConfSchema from './arlasconfig.schema.json' with { type: 'json' };
 import { ContributorBuilder } from './contributorBuilder';
-import * as arlasSettingsSchema from './settings.schema.json';
+import * as arlasSettingsSchema from './settings.schema.json' with { type: 'json' };
 
 @Injectable({
   providedIn: 'root'
@@ -295,11 +284,11 @@ export class ArlasStartupService {
       let langToSet = navigator.language.slice(0, 2);
       const urlLanguage = getParamValue('lg');
       if (urlLanguage) {
-        langToSet = decodeURIComponent(urlLanguage.replace(/\+/g, ' '));
+        langToSet = decodeURIComponent(urlLanguage.replaceAll('+', ' '));
       }
       const locationInitialized = this.injector.get(LOCATION_INITIALIZED, Promise.resolve(null));
       locationInitialized.then(() => {
-        this.translateService.setDefaultLang('en');
+        this.translateService.setFallbackLang('en').subscribe();
         this.translateService.use(langToSet).subscribe(() => {
           console.log(`Successfully initialized '${langToSet}' language.`);
         }, err => {
@@ -559,14 +548,14 @@ export class ArlasStartupService {
    * @returns ARLAS Configuration object Promise
    */
   public getAppConfigurationObject(settings: ArlasSettings): Promise<any> {
-    const url = new URL(window.location.href);
+    const url = new URL(globalThis.location.href);
     const usePersistence = !!settings?.persistence?.url && settings.persistence.url !== NOT_CONFIGURED && !settings.persistence.use_local_config;
     const configurationId = url.searchParams.get(CONFIG_ID_QUERY_PARAM);
     return new Promise<any>((resolve, reject) => {
       let configDataPromise = Promise.resolve(null);
       let configData;
       if (usePersistence) {
-        if (!!configurationId) {
+        if (configurationId) {
           configDataPromise = defer(() => this.persistenceService.get(configurationId)).pipe(
             catchError((err: Response) => {
               this.errorService.closeAll().afterAllClosed.pipe(first()).subscribe(() => {
@@ -588,20 +577,20 @@ export class ArlasStartupService {
                 const config = JSON.parse(s.doc_value);
                 this.configService.appName = s.doc_key;
                 configData = config;
-                return Promise.resolve(config);
+                return config;
               }
-              return Promise.resolve(null);
+              return null;
             }).catch((err) => {
-              if (!(err instanceof Response)) {
-                this.shouldRunApp = false;
-                this.errorService.emitInvalidDashboardError(false);
-              } else {
+              if (err instanceof Response) {
                 this.emptyMode = true;
                 err.json().then(r => {
                   console.error(r);
                   this.errorService.emitUnavailableService('ARLAS-persistence');
                 });
-                return Promise.resolve(null);
+                return null;
+              } else {
+                this.shouldRunApp = false;
+                this.errorService.emitInvalidDashboardError(false);
               }
             });
         } else {
@@ -613,12 +602,12 @@ export class ArlasStartupService {
           .get('config.json')
           .pipe(mergeMap((response) => {
             configData = response;
-            if (configData.extraConfigs !== undefined) {
+            if (configData.extraConfigs === undefined) {
+              return Promise.resolve(configData);
+            } else {
               const promises = new Array<Promise<any>>();
               configData.extraConfigs.forEach(extraConfig => promises.push(this.loadExtraConfig(extraConfig, configData)));
               return Promise.all(promises).then(() => configData);
-            } else {
-              return Promise.resolve(configData);
             }
           })).toPromise();
       }
@@ -626,7 +615,7 @@ export class ArlasStartupService {
         if (!this.emptyMode) {
           return this.validateConfiguration(configObject);
         } else {
-          return Promise.resolve({});
+          return {};
         }
       }).catch((err: Error) => {
         // Block the app from running
@@ -645,7 +634,7 @@ export class ArlasStartupService {
         this.collaborativesearchService.setExploreApi(this.arlasExploreApi);
         this.collaborativesearchService.defaultCollection = this.configService.getValue('arlas.server.collection.name');
         const maxAge = this.configService.getValue('arlas.server.max_age_cache');
-        this.collaborativesearchService.max_age = maxAge !== undefined ? maxAge : 120;
+        this.collaborativesearchService.max_age = maxAge ?? 120;
         resolve(data);
       });
     }
@@ -793,17 +782,17 @@ export class ArlasStartupService {
     return this.http.get(extraConfig.configPath + '?' + Date.now())
       .toPromise()
       .then((extraConfigData) => {
-        if (extraConfigData[extraConfig.replacer] !== undefined) {
-          this.setAttribute(extraConfig.replacedAttribute, extraConfigData[extraConfig.replacer], data);
-        } else {
+        if (extraConfigData[extraConfig.replacer] === undefined) {
           this.shouldRunApp = false;
           this.errorMessagesList.push('The replacer : ' + extraConfig.replacer + ' does not exist in your '
             + extraConfig.configPath + ' file.');
+        } else {
+          this.setAttribute(extraConfig.replacedAttribute, extraConfigData[extraConfig.replacer], data);
         }
       })
       .catch((err: any) => {
         console.error(err);
-        return Promise.resolve(null);
+        return null;
       });
   }
 
@@ -843,7 +832,7 @@ export class ArlasStartupService {
           console.error(err);
           this.errorService.emitUnavailableService('');
         }
-        return Promise.resolve(null);
+        return null;
       }).then((x) => { });
   }
 
@@ -888,9 +877,9 @@ export class ArlasStartupService {
           layer.filter.forEach(expression => {
             if (Array.isArray(expression) && expression.length === 3) {
               if (expression[0] === '!=' && expression[2] === 'Infinity') {
-                expression = ['<=', expression[1].replace(/\./g, '_'), Number.MAX_VALUE];
+                expression = ['<=', expression[1].replaceAll('.', '_'), Number.MAX_VALUE];
               } else if (expression[0] === '!=' && expression[2] === '-Infinity') {
-                expression = ['>=', expression[1].replace(/\./g, '_'), -Number.MAX_VALUE];
+                expression = ['>=', expression[1].replaceAll('.', '_'), -Number.MAX_VALUE];
               }
             }
             filters.push(expression);

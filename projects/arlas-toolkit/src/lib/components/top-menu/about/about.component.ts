@@ -19,12 +19,11 @@
 
 import { Component, Input } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MarkdownComponent } from 'ngx-markdown';
 
 @Component({
   selector: 'arlas-about',
-  templateUrl: './about.component.html',
-  styleUrls: ['./about.component.css'],
-  standalone: false
+  template: ''
 })
 export class AboutComponent {
 
@@ -40,20 +39,9 @@ export class AboutComponent {
    */
   @Input() public extraTextData: string;
 
-  /**
-   * @Input : Angular
-   * @description Whether to display the About Component as a link
-   */
-  @Input() public displayLink = false;
-
-  /**
-   * @Input : Angular
-   * @description Name of the WUI in which the bar is used
-   */
-  @Input() public wuiName: string;
   public dialogRef: MatDialogRef<AboutDialogComponent>;
 
-  public constructor(public dialog: MatDialog) { }
+  public constructor(private readonly dialog: MatDialog) { }
 
   public openDialog() {
     this.dialogRef = this.dialog.open(AboutDialogComponent, { panelClass: 'arlas-about-dialog' });
@@ -65,8 +53,10 @@ export class AboutComponent {
 @Component({
   selector: 'arlas-about-dialog',
   templateUrl: './about-dialog.component.html',
-  styleUrls: ['./about-dialog.component.css'],
-  standalone: false
+  styleUrls: ['./about-dialog.component.scss'],
+  imports: [
+    MarkdownComponent
+  ]
 })
 export class AboutDialogComponent {
 

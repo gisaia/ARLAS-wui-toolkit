@@ -18,23 +18,19 @@
  */
 
 import {
-  AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter,
-  Input, OnDestroy, OnInit, Output, ViewChild
+  AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild
 } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-import { DataType, HistogramComponent, HistogramTooltip } from 'arlas-web-components';
-import { DetailedHistogramContributor, HistogramContributor } from 'arlas-web-contributors';
-import { SelectedOutputValues } from 'arlas-web-contributors/models/models';
+import { DataType, HistogramComponent, HistogramTooltip, Position } from 'arlas-web-components';
+import { DetailedHistogramContributor, HistogramContributor, SelectedOutputValues } from 'arlas-web-contributors';
 import { OperationEnum } from 'arlas-web-core';
 import { Subject, filter, takeUntil } from 'rxjs';
 import { ArlasCollaborativesearchService } from '../../services/collaborative-search/arlas.collaborative-search.service';
-import { ArlasExportCsvService } from '../../services/export-csv/export-csv.service';
 import { ArlasOverlayService } from '../../services/overlays/overlay.service';
 import { ArlasConfigService } from '../../services/startup/startup.service';
 import { WidgetNotifierService } from '../../services/widget/widget.notifier.service';
 import { ArlasOverlayRef, SpinnerOptions } from '../../tools/utils';
 import { isShortcutID } from '../filter-shortcut/filter-shortcut.utils';
-import { DEFAULT_SPINNER_OPTIONS } from '../progress-spinner/progress-spinner.component';
+import { DEFAULT_SPINNER_OPTIONS, ProgressSpinnerComponent } from '../progress-spinner/progress-spinner.component';
 
 
 /**
@@ -45,7 +41,10 @@ import { DEFAULT_SPINNER_OPTIONS } from '../progress-spinner/progress-spinner.co
   selector: 'arlas-tool-histogram-widget',
   templateUrl: './histogram-widget.component.html',
   styleUrls: ['./histogram-widget.component.scss'],
-  standalone: false
+  imports: [
+    ProgressSpinnerComponent,
+    HistogramComponent
+  ]
 })
 export class HistogramWidgetComponent implements OnInit, OnDestroy, AfterViewInit {
 
@@ -60,6 +59,8 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy, AfterViewIni
   public tooltipEvent: Subject<HistogramTooltip> = new Subject<HistogramTooltip>();
 
   public histogramOverlayRef: ArlasOverlayRef;
+
+  protected readonly Position = Position;
 
   @Input() public contributor: HistogramContributor;
   @Input() public componentInputs;
@@ -110,20 +111,18 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy, AfterViewIni
   @ViewChild('histogram', { static: false }) public histogramComponent: HistogramComponent;
   @ViewChild('detailedhistogram', { static: false }) public detailedHistogramComponent: HistogramComponent;
 
-  private _onDestroy$ = new Subject<boolean>();
+  private readonly _onDestroy$ = new Subject<boolean>();
 
   public constructor(
     protected arlasCollaborativesearchService: ArlasCollaborativesearchService,
     private readonly arlasConfigurationService: ArlasConfigService,
     private readonly cdr: ChangeDetectorRef,
-    public translate: TranslateService,
-    public arlasExportCsvService: ArlasExportCsvService,
     private readonly arlasOverlayService: ArlasOverlayService,
-    public widgetNotifier: WidgetNotifierService
+    protected widgetNotifier: WidgetNotifierService
   ) { }
 
   public initDetailedContributor() {
-    if (!!this.contributor) {
+    if (this.contributor) {
       this.detailedContributor = new DetailedHistogramContributor(
         this.contributor.collection + '-'
         + this.contributor.identifier + '-arlas__detailed',
@@ -134,7 +133,7 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy, AfterViewIni
       this.detailedContributor.annexedContributorId = this.contributor.identifier;
       this.detailedContributor.useUtc = this.contributor.useUtc;
       this.detailedContributor.selectionExtentPercentage = 0.02;
-      const detailedNbBuckets = !!this.contributor.getNbBuckets() ? this.contributor.getNbBuckets() : 50;
+      const detailedNbBuckets = this.contributor.getNbBuckets() ?? 50;
       this.detailedContributor.setNbBuckets(detailedNbBuckets);
       this.detailedContributor.setName(this.contributor.getName() + '__detailed');
       this.detailedContributor.init(this.contributor.getAggregations(), this.contributor.getField(),
@@ -194,7 +193,7 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy, AfterViewIni
       const detailedHistogramRange = (+selection.endvalue - +selection.startvalue);
       this.showDetailedHistogram = !this.noDetail && (detailedHistogramRange <= 0.2 * histogramRange);
       this.resizeMainHistogram();
-      if (!!this.detailedContributor) {
+      if (this.detailedContributor) {
         this.detailedContributor.updateData = this.showDetailedHistogram;
       }
     }
@@ -229,7 +228,7 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy, AfterViewIni
     }
   }
 
-  public showHistogramTooltip(tooltip: HistogramTooltip, e: ElementRef, xOffset: number, yOffset: number) {
+  public showHistogramTooltip(tooltip: HistogramTooltip, e: HTMLDivElement, xOffset: number, yOffset: number) {
     if (this.histogramOverlayRef) {
       this.histogramOverlayRef.close();
     }
@@ -244,11 +243,8 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy, AfterViewIni
     }
   }
 
-  public emitTooltip(tooltip, e: ElementRef, detailed: boolean) {
+  public emitTooltip(tooltip, e: HTMLDivElement, detailed: boolean) {
     let yOffset = 20;
-    if (detailed) {
-      yOffset = 20;
-    }
     const analyticsBoardWidth = 445;
     let itemPerLine = 1;
     let xOffset = 470;
@@ -371,7 +367,7 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy, AfterViewIni
   private hideDetailedHistogram() {
     this.showDetailedHistogram = false;
     this.histogramComponent.histogram.histogramParams.topOffsetRemoveInterval = this.componentInputs.topOffsetRemoveInterval;
-    if (!!this.detailedContributor) {
+    if (this.detailedContributor) {
       this.detailedContributor.updateData = false;
       this.detailedContributor.range = undefined;
     }

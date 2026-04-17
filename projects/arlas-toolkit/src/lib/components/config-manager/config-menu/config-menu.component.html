@@ -2,42 +2,37 @@
   <mat-icon>more_vert</mat-icon>
 </button>
 <mat-menu #menu="matMenu" class="action-menu">
-  <div *ngFor="let action of actions">
-    <div *ngIf="action.type === ConfigAction.VIEW">
+  @for (action of actions; track action) {
+    @if (action.type === ConfigAction.VIEW) {
       <button mat-menu-item (click)="onActionClick(action)">
         <mat-icon>launch</mat-icon>
         <span>{{'View' | translate}}</span>
       </button>
-    </div>
-    <div *ngIf="action.type === ConfigAction.SHARE">
+    } @else if (action.type === ConfigAction.SHARE) {
       <button mat-menu-item [disabled]="!action.enabled" (click)="onActionClick(action)">
         <mat-icon>share</mat-icon>
         <span>{{'Share' | translate}}</span>
       </button>
-    </div>
-    <div *ngIf="action.type === ConfigAction.EDIT">
+    } @else if (action.type === ConfigAction.EDIT) {
       <button mat-menu-item [disabled]="!action.enabled" (click)="onActionClick(action)">
         <mat-icon>create</mat-icon>
         <span>{{'Edit' | translate}}</span>
       </button>
-    </div>
-    <div *ngIf="action.type === ConfigAction.DUPLICATE">
+    } @else if (action.type === ConfigAction.DUPLICATE) {
       <button mat-menu-item [disabled]="!action.enabled" (click)="onActionClick(action)">
         <mat-icon>filter_none</mat-icon>
         <span>{{'Duplicate' | translate}}</span>
       </button>
-    </div>
-    <div *ngIf="action.type === ConfigAction.RENAME">
+    } @else if (action.type === ConfigAction.RENAME) {
       <button mat-menu-item [disabled]="!action.enabled" (click)="onActionClick(action)">
         <mat-icon>drive_file_rename_outline</mat-icon>
         <span>{{'Rename' | translate}}</span>
       </button>
-    </div>
-    <div *ngIf="action.type === ConfigAction.DELETE">
+    } @else if (action.type === ConfigAction.DELETE) {
       <button mat-menu-item [disabled]="!action.enabled" (click)="onActionClick(action)">
         <mat-icon>delete</mat-icon>
         <span>{{'Delete' | translate}}</span>
       </button>
-    </div>
-  </div>
+    }
+  }
 </mat-menu>

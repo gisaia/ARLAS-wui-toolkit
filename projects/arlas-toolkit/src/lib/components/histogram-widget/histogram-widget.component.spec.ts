@@ -1,18 +1,11 @@
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { MatIconModule } from '@angular/material/icon';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSelectModule } from '@angular/material/select';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateLoader, TranslateModule, TranslateNoOpLoader } from '@ngx-translate/core';
 import {
   ArlasColorService,
-  AwcColorGeneratorLoader, ColorGeneratorLoader, ColorGeneratorModule,
-  DonutModule,
-  HistogramModule,
-  MetricModule, PowerbarsModule,
-  ResultsModule
+  AwcColorGeneratorLoader, ColorGeneratorLoader, ColorGeneratorModule
 } from 'arlas-web-components';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { ArlasCollaborativesearchService } from '../../services/collaborative-search/arlas.collaborative-search.service';
 import { ArlasCollectionService } from '../../services/collection/arlas-collection.service';
 import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
@@ -23,48 +16,40 @@ import {
   CONFIG_UPDATER,
   FETCH_OPTIONS
 } from '../../services/startup/startup.service';
-import { ProgressSpinnerComponent } from '../progress-spinner/progress-spinner.component';
 import { HistogramWidgetComponent } from './histogram-widget.component';
 
 describe('HistogramWidgetComponent', () => {
   let component: HistogramWidgetComponent;
   let fixture: ComponentFixture<HistogramWidgetComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [HistogramWidgetComponent, ProgressSpinnerComponent],
-      imports: [HistogramModule,
-        PowerbarsModule,
-        ResultsModule,
-        DonutModule,
-        MetricModule,
-        MatSelectModule,
-        MatTooltipModule,
-        MatIconModule,
-        MatProgressSpinnerModule,
+      imports: [
         TranslateModule.forRoot({
-          loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader }
+            loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader }
         }),
         ColorGeneratorModule.forRoot({
-          loader: {
-            provide: ColorGeneratorLoader,
-            useClass: AwcColorGeneratorLoader
-          }
-        })],
+            loader: {
+                provide: ColorGeneratorLoader,
+                useClass: AwcColorGeneratorLoader
+            }
+        }),
+        HistogramWidgetComponent
+      ],
       providers: [
         ArlasCollaborativesearchService,
         ArlasConfigService,
         ArlasColorService,
         {
-          provide: ArlasStartupService,
-          useClass: ArlasStartupService,
-          deps: [ArlasConfigurationUpdaterService]
+            provide: ArlasStartupService,
+            useClass: ArlasStartupService,
+            deps: [ArlasConfigurationUpdaterService]
         },
         ArlasOverlayService,
         { provide: CONFIG_UPDATER, useValue: {} },
         {
-          provide: ArlasConfigurationUpdaterService,
-          useClass: ArlasConfigurationUpdaterService
+            provide: ArlasConfigurationUpdaterService,
+            useClass: ArlasConfigurationUpdaterService
         },
         { provide: FETCH_OPTIONS, useValue: {} },
         provideHttpClient(withInterceptorsFromDi()),
@@ -73,12 +58,12 @@ describe('HistogramWidgetComponent', () => {
       ]
     })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(HistogramWidgetComponent);
     component = fixture.componentInstance;
-    component.componentInputs = {};
+    fixture.componentRef.setInput('componentInputs', { topOffsetRemoveInterval: 0});
     fixture.detectChanges();
   });
 

@@ -17,14 +17,14 @@
  * under the License.
  */
 
-import { Component, OnInit, Input, SimpleChanges, OnChanges } from '@angular/core';
-import * as _moment from 'moment';
-import { DateTimeAdapter, OWL_DATE_TIME_LOCALE } from '@danielmoncada/angular-datetime-picker';
-import { MomentDateTimeAdapter } from '@danielmoncada/angular-datetime-picker-moment-adapter';
-
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { DateTimeAdapter, OWL_DATE_TIME_LOCALE, OwlDateTimeModule, OwlNativeDateTimeModule } from '@danielmoncada/angular-datetime-picker';
+import { MomentDateTimeAdapter, OwlMomentDateTimeModule } from '@danielmoncada/angular-datetime-picker-moment-adapter';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { HistogramContributor } from 'arlas-web-contributors';
+import * as _moment from 'moment';
 import { ArlasStartupService } from '../../../services/startup/startup.service';
-import { TranslateService } from '@ngx-translate/core';
 
 const moment = (_moment as any).default ? (_moment as any).default : _moment;
 
@@ -38,7 +38,13 @@ const moment = (_moment as any).default ? (_moment as any).default : _moment;
   providers: [
     { provide: DateTimeAdapter, useClass: MomentDateTimeAdapter, deps: [OWL_DATE_TIME_LOCALE] }
   ],
-  standalone: false
+  imports: [
+    TranslatePipe,
+    OwlNativeDateTimeModule,
+    OwlMomentDateTimeModule,
+    OwlDateTimeModule,
+    FormsModule
+  ]
 })
 export class DatePickerComponent implements OnInit, OnChanges {
 
