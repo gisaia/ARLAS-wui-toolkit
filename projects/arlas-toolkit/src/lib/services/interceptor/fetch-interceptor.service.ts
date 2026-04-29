@@ -59,7 +59,7 @@ export class FetchInterceptorService {
         requestError: (error) => Promise.reject(error),
         response: (response) => {
           // Skip errors if url is whitelisted
-          if (settings?.whitelistedUrls.some(whitelisted => response.url.startsWith(whitelisted))) {
+          if (settings?.whitelistedUrls?.some(whitelisted => response.url.startsWith(whitelisted))) {
             return response;
           }
 
