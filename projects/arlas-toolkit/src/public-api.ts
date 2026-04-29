@@ -151,4 +151,5 @@ export {
   ConfigAction, ConfigActionEnum, DONUT_TOOLTIP_DATA, GET_OPTIONS, getFieldProperties, getKeyForColor, getParamValue, hashCode,
   HISTOGRAM_TOOLTIP_DATA, intToRGB, MapService, NOT_CONFIGURED, sortOnDate, SpinnerOptions, WidgetConfiguration, ZoomToDataStrategy
 } from './lib/tools/utils';
+export { ArlasTranslateIntl } from './lib/components/timeline/date-picker/ArlasTranslateIntl';
 
