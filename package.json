@@ -67,7 +67,7 @@
     "license-check-and-add": "^4.0.5",
     "ng-packagr": "^21.2.2",
     "node": "^24.10.1",
-    "patch-package": "^6.4.7",
+    "patch-package": "^8.0.1",
     "ts-node": "~10.4.0",
     "typescript": "~5.9.3",
     "vitest": "^4.1.2"
