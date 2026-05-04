@@ -17,9 +17,8 @@
  * under the License.
  */
 
-import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import {
   BaseCollectionService, CollectionModule, ColorGeneratorLoader, ColorGeneratorModule
 } from 'arlas-web-components';
@@ -72,7 +71,6 @@ import { ArlasOverlayService } from './services/overlays/overlay.service';
 import { ArlasConfigService, ArlasStartupService } from './services/startup/startup.service';
 import { ArlasWalkthroughModule } from './services/walkthrough/walkthrough.module';
 import { ArlasColorGeneratorLoader } from './tools/color-generator-loader';
-import { CustomTranslateLoader } from './tools/Translation/custom-translate-loader';
 
 
 const exports = [
@@ -135,13 +133,6 @@ const exports = [
         provide: ColorGeneratorLoader,
         useClass: ArlasColorGeneratorLoader,
         deps: [ArlasConfigService, ArlasCollaborativesearchService]
-      }
-    }),
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useClass: CustomTranslateLoader,
-        deps: [HttpClient]
       }
     }),
     ArlasWalkthroughModule.forRoot(),

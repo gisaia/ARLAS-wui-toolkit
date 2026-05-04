@@ -17,95 +17,24 @@
  * under the License.
  */
 
-import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
-import { forwardRef, Injectable, NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatOptionModule } from '@angular/material/core';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatRadioModule } from '@angular/material/radio';
-import { MatSelectModule } from '@angular/material/select';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatTableModule } from '@angular/material/table';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { BrowserModule } from '@angular/platform-browser';
+import { forwardRef, NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { Observable } from 'rxjs';
 import { TagComponent, TagDialogComponent, TagManagementDialogComponent } from './components/tag/tag.component';
 import { ArlasTagService } from './services/tag/tag.service';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class CustomTranslateLoader implements TranslateLoader {
-
-  public constructor(private http: HttpClient) { }
-
-  public getTranslation(lang: string): Observable<any> {
-    const apiAddress = 'assets/i18n/' + lang + '.json?' + Date.now();
-    return Observable.create(observer => {
-      this.http.get(apiAddress).subscribe(
-        res => {
-          observer.next(res);
-          observer.complete();
-        },
-        error => {
-          // failed to retrieve requested language file, use default
-          observer.complete(); // => Default language is already loaded
-        }
-      );
-    });
-  }
-}
-
 @NgModule({
-    imports: [
-        BrowserModule,
-        BrowserAnimationsModule,
-        CommonModule,
-        FormsModule,
-        MatAutocompleteModule,
-        MatButtonModule,
-        MatCheckboxModule,
-        MatDialogModule,
-        MatFormFieldModule,
-        MatIconModule,
-        MatInputModule,
-        MatOptionModule,
-        MatProgressBarModule,
-        MatProgressSpinnerModule,
-        MatRadioModule,
-        MatSelectModule,
-        MatSnackBarModule,
-        MatTableModule,
-        MatTooltipModule,
-        ReactiveFormsModule,
-        TranslateModule.forRoot({
-            loader: {
-                provide: TranslateLoader,
-                useClass: CustomTranslateLoader,
-                deps: [HttpClient]
-            }
-        }),
-        TagComponent,
-        TagDialogComponent,
-        TagManagementDialogComponent
-    ],
-    exports: [
-        TagComponent
-    ],
-    providers: [
-        forwardRef(() => ArlasTagService)
-    ],
-    bootstrap: []
+  imports: [
+    BrowserAnimationsModule,
+    TagComponent,
+    TagDialogComponent,
+    TagManagementDialogComponent
+  ],
+  exports: [
+    TagComponent
+  ],
+  providers: [
+    forwardRef(() => ArlasTagService)
+  ],
+  bootstrap: []
 })
 export class ArlasTaggerModule { }

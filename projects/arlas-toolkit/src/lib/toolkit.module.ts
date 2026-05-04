@@ -17,7 +17,6 @@
  * under the License.
  */
 import { forwardRef, inject, NgModule, provideAppInitializer } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -136,7 +135,8 @@ export const MY_CUSTOM_FORMATS = {
   providers: [
     DeviceDetectorService,
     {
-      provide: FETCH_OPTIONS, useValue: {
+      provide: FETCH_OPTIONS,
+      useValue: {
         referrerPolicy: 'origin'
       }
     },
@@ -144,8 +144,6 @@ export const MY_CUSTOM_FORMATS = {
       provide: CONFIG_UPDATER,
       useFactory: configUpdaterFactory
     },
-    { provide: MAT_DIALOG_DATA, useValue: {} },
-    { provide: MatDialogRef, useValue: {} },
     forwardRef(() => ArlasAoiService),
     forwardRef(() => ArlasBookmarkService),
     forwardRef(() => ArlasSettingsService),
