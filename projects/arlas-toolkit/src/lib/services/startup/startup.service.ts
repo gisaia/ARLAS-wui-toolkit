@@ -670,7 +670,10 @@ export class ArlasStartupService {
               // mainCollection is included in allCollections
               allCollections.forEach(c => this.collectionsMap.set(c.collection_name, c.params));
               if (data.collection) {
-                this.collectionId = allCollections.find(c => c.collection_name === data.collection).params.id_path;
+                const c = allCollections.find(c => c.collection_name === data.collection);
+                if (c) {
+                  this.collectionId = c.params.id_path;
+                }
               }
               resolve(allCollections);
             },
