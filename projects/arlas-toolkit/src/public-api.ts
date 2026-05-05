@@ -69,6 +69,7 @@ export { ExcludeTypePipe } from './lib/components/share/exclude-type.pipe';
 export { ArlasSearchField } from './lib/components/share/model/ArlasSearchField';
 export { ShareComponent, ShareDialogComponent, ShareLayerSourceConfig } from './lib/components/share/share.component';
 export { TagComponent, TagDialogComponent, TagManagementDialogComponent } from './lib/components/tag/tag.component';
+export { ArlasTranslateIntl } from './lib/components/timeline/date-picker/ArlasTranslateIntl';
 export { DatePickerComponent } from './lib/components/timeline/date-picker/date-picker.component';
 export { TimelineShortcutComponent } from './lib/components/timeline/timeline-shortcut/timeline-shortcut.component';
 export { TimelineComponent } from './lib/components/timeline/timeline/timeline.component';
@@ -81,7 +82,6 @@ export { UserInfosComponent } from './lib/components/user-infos/user-infos.compo
 export { VerifyComponent } from './lib/components/verify/verify.component';
 export { WidgetTooltipComponent } from './lib/components/widget-tooltip/widget-tooltip.component';
 export { WidgetComponent } from './lib/components/widget/widget.component';
-export { LoginModule } from './lib/login.module';
 export { GetTimeLabelPipe } from './lib/pipes/get-time-label.pipe';
 export { AnalyticsService } from './lib/services/analytics/analytics.service';
 export { ArlasAoiService } from './lib/services/aoi/aoi.service';
@@ -151,5 +151,4 @@ export {
   ConfigAction, ConfigActionEnum, DONUT_TOOLTIP_DATA, GET_OPTIONS, getFieldProperties, getKeyForColor, getParamValue, hashCode,
   HISTOGRAM_TOOLTIP_DATA, intToRGB, MapService, NOT_CONFIGURED, sortOnDate, SpinnerOptions, WidgetConfiguration, ZoomToDataStrategy
 } from './lib/tools/utils';
-export { ArlasTranslateIntl } from './lib/components/timeline/date-picker/ArlasTranslateIntl';
 
