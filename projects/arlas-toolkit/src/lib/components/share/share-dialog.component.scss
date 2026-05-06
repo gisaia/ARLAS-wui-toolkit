@@ -32,7 +32,11 @@
   font-weight: 200;
   font-size: 14px;
   margin: 0 10px;
-  width: 200px
+  width: 200px;
+
+  .mdc-button__label {
+    white-space: nowrap;
+  }
 }
 
 .share-description {
@@ -119,5 +123,9 @@
   // Avoid wrapping of values in dropdown
   &__precision {
     width: 260px;
+  }
+
+  &-button__container {
+    --mat-dialog-actions-alignment: space-between;
   }
 }

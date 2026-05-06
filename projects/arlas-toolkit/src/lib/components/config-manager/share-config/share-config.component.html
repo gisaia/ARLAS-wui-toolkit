@@ -21,6 +21,6 @@
   <mat-row class="group-row" *matRowDef="let myRowData; columns: ['group', 'reader', 'writer']"></mat-row>
 </mat-table>
 <div mat-dialog-actions class="share-container">
-  <button mat-raised-button class="modal_button share-button" color="primary" (click)="updateGroups()">{{ 'Share' | translate }}</button>
-  <button mat-raised-button class="modal_button" (click)="close()" >{{ 'Cancel' | translate }}</button>
+  <button matButton="filled" class="modal_button share-button" color="primary" (click)="updateGroups()">{{ 'Share' | translate }}</button>
+  <button mat-stroked-button class="modal_button" (click)="close()" >{{ 'Cancel' | translate }}</button>
 </div>

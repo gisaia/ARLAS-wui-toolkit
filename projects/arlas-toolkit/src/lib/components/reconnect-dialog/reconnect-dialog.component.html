@@ -4,8 +4,8 @@
     <mat-dialog-content>{{'You are no longer logged in. Would you like to log in again?'| translate}}</mat-dialog-content>
     <mat-dialog-actions>
       <!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->
-      <button mat-raised-button class="modal_button" color="primary" (click)="login()" [mat-dialog-close]="true">{{'Log in' | translate}}</button>
-      <button mat-raised-button class="modal_button" (click)="logout()" [mat-dialog-close]="true">{{'No' | translate}}</button>
+      <button matButton="filled" color="primary" class="modal_button" color="primary" (click)="login()" [mat-dialog-close]="true">{{'Log in' | translate}}</button>
+      <button mat-stroked-button class="modal_button" (click)="logout()" [mat-dialog-close]="true">{{'No' | translate}}</button>
     </mat-dialog-actions>
   </div>
 } @else if (code === 403) {
@@ -14,7 +14,7 @@
     <mat-dialog-content>{{'You are not authorized to access this resource.'| translate}}</mat-dialog-content>
     <mat-dialog-actions>
       <!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->
-      <button mat-raised-button class="modal_button" color="primary" [mat-dialog-close]="true">{{'OK' | translate}}</button>
+      <button matButton="filled" color="primary" class="modal_button" color="primary" [mat-dialog-close]="true">{{'OK' | translate}}</button>
     </mat-dialog-actions>
   </div>
 }

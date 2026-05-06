@@ -90,19 +90,16 @@ $error-color: #ce3d38;
         .action {
             display: flex;
             flex-direction: row-reverse;
+            gap: 10px;
+
             font-size: $xs-font-size;
-            text-decoration: underline;
-            cursor: pointer;
             margin-bottom: $default-margin;
-
-            --mat-button-text-icon-spacing: 0;
-            --mat-button-text-icon-offset: 8px;
-
 
             mat-icon {
                 width: 20px;
                 height: 20px;
                 font-size: 20px;
+                margin: 0;
             }
         }
         .detail {

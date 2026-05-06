@@ -62,8 +62,8 @@
           }
         </form>
         <div class="buttons">
-          <button mat-flat-button mat-dialog-close>{{ 'Cancel' | translate }}</button>
-          <button [color]="'primary'" matStepperNext mat-flat-button [disabled]="!formGroup.valid">
+          <button mat-stroked-button mat-dialog-close>{{ 'Cancel' | translate }}</button>
+          <button [color]="'primary'" matStepperNext matButton="filled" [disabled]="!formGroup.valid">
             {{ 'Next' | translate }}
           </button>
         </div>
@@ -112,8 +112,8 @@
         </div>
         @if (!isProcessing && !processStarted) {
           <div class="buttons">
-            <button mat-flat-button mat-button matStepperPrevious>{{ 'Previous' | translate }}</button>
-            <button [color]="'primary'" [disabled]="!formGroup.valid" matStepperNext mat-flat-button (click)="submit()">
+            <button mat-stroked-button matStepperPrevious>{{ 'Previous' | translate }}</button>
+            <button [color]="'primary'" [disabled]="!formGroup.valid" matStepperNext matButton="filled" (click)="submit()">
               {{ 'Download' | translate }}
             </button>
           </div>

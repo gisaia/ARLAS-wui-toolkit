@@ -17,10 +17,13 @@
  * under the License.
  */
 
-import { enableProdMode, importProvidersFrom } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { enableProdMode, importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
+import { provideTranslateService, TranslateLoader } from '@ngx-translate/core';
 import { ArlasToolkitSharedModule } from '../projects/arlas-toolkit/src/lib/shared.module';
 import { ArlasToolKitModule } from '../projects/arlas-toolkit/src/lib/toolkit.module';
+import { CustomTranslateLoader } from '../projects/arlas-toolkit/src/lib/tools/Translation/custom-translate-loader';
 import { AppRoutingModule } from './app/app-routing.module';
 import { AppComponent } from './app/app.component';
 import { environment } from './environments/environment';
@@ -34,7 +37,16 @@ bootstrapApplication(AppComponent, {
     importProvidersFrom(
       AppRoutingModule,
       ArlasToolkitSharedModule,
-      ArlasToolKitModule)
+      ArlasToolKitModule
+    ),
+    provideTranslateService({
+      loader: {
+        provide: TranslateLoader,
+        useClass: CustomTranslateLoader,
+        deps: [HttpClient]
+      }
+    }),
+    provideZoneChangeDetection()
   ]
 })
   .catch(err => console.log(err));

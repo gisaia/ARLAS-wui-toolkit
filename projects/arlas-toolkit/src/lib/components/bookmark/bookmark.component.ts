@@ -168,7 +168,7 @@ export class BookmarkComponent implements OnDestroy {
     this.actions.next({ action: 'view-combine', id: this.itemsCheck.join('#') });
   }
 
-  public updateBookMarkName(id, name){
+  public updateBookMarkName(id: string, name: string) {
     const dialogRef = this.dialog.open(BookmarkAddDialogComponent, { data: { name: name }, id: 'add-bookmark-dialog' });
     dialogRef.afterClosed().subscribe(bookmarkName => {
       if (bookmarkName) {

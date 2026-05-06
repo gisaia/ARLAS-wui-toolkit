@@ -17,14 +17,15 @@
  * under the License.
  */
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, Inject, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, inject, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDivider, MatListModule, MatListOption } from '@angular/material/list';
 import { MatRadioModule } from '@angular/material/radio';
-import { MatFormField, MatSelectModule } from '@angular/material/select';
+import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -56,21 +57,10 @@ export interface ShareLayerSourceConfig extends LayerSourceConfig {
  */
 @Component({
   selector: 'arlas-share',
-  templateUrl: './share.component.html',
-  styleUrls: ['./share.component.scss'],
-  encapsulation: ViewEncapsulation.None,
-  imports: [
-    MatIconModule,
-    MatButtonModule
-  ]
+  template: ''
 })
 export class ShareComponent {
-
-  @Input() public icon = 'share';
-
-  public constructor(
-    public dialog: MatDialog
-  ) { }
+  private readonly dialog = inject(MatDialog);
 
   public openDialog(visibilityStatus?: Map<string, boolean>) {
     this.dialog.open(ShareDialogComponent, { data: visibilityStatus, width: '80vw' });
@@ -94,11 +84,12 @@ export class ShareComponent {
     MatButtonModule,
     MatTooltipModule,
     MatRadioModule,
-    MatFormField,
+    MatFormFieldModule,
     MatSelectModule,
     LayerIdToName,
     MatListModule,
-    ExcludeTypePipe
+    ExcludeTypePipe,
+    MatDialogModule
   ]
 })
 export class ShareDialogComponent implements OnInit {
@@ -144,23 +135,23 @@ export class ShareDialogComponent implements OnInit {
   // the server, and this can lead to incoherences
   public constructor(
     @Inject(MAT_DIALOG_DATA) public data: Map<string, boolean>,
-    private _formBuilder: UntypedFormBuilder,
-    private collaborativeService: ArlasCollaborativesearchService,
-    private configService: ArlasConfigService,
-    public dialogRef: MatDialogRef<ShareDialogComponent>,
-    private spinner: NgxSpinnerService,
-    public translate: TranslateService,
-    private snackBar: MatSnackBar,
+    private readonly formBuilder: UntypedFormBuilder,
+    private readonly collaborativeService: ArlasCollaborativesearchService,
+    private readonly configService: ArlasConfigService,
+    private readonly dialogRef: MatDialogRef<ShareDialogComponent>,
+    private readonly spinner: NgxSpinnerService,
+    private readonly translate: TranslateService,
+    private readonly snackBar: MatSnackBar,
   ) { }
 
   public isSelected(field: ArlasSearchField): boolean {
     return (this.selectedFields || []).some(f => f.label === field.label);
   }
   public ngOnInit() {
-    this.geojsonTypeGroup = this._formBuilder.group({
+    this.geojsonTypeGroup = this.formBuilder.group({
       geojsonType: ['', Validators.required]
     });
-    this.paramFormGroup = this._formBuilder.group({
+    this.paramFormGroup = this.formBuilder.group({
       precision: ['', Validators.required],
       availableFields: ['', Validators.required],
       orderField: [''],
@@ -315,7 +306,6 @@ export class ShareDialogComponent implements OnInit {
 
   public exportShapefile(geojsonType) {
     this.spinner.show('downloadshapefile');
-    const fileDate = Date.now();
     if (geojsonType.source.startsWith('feature') && !geojsonType.source.startsWith('feature-metric')) {
       this.request = (this.request as Search);
       /** add chosen fields to include in the request */

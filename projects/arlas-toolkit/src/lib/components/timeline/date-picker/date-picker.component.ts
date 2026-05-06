@@ -141,4 +141,19 @@ export class DatePickerComponent implements OnInit, OnChanges {
     }
     return date;
   }
+
+  /**
+   * Adds mat button class to define the material theme variables to uniformize the format of the buttons
+   */
+  public addButtonClass() {
+    const buttons = document.getElementsByClassName('owl-dt-container-control-button');
+
+    if (buttons.length !== 2) {
+      console.warn('Could not find the date picker buttons.');
+      return;
+    }
+
+    buttons.item(0).classList.add('mat-mdc-outlined-button');
+    buttons.item(1).classList.add('mat-mdc-unelevated-button', 'mat-primary');
+  }
 }

@@ -19,6 +19,7 @@
 
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import {
   BaseCollectionService, CollectionModule, ColorGeneratorLoader, ColorGeneratorModule
 } from 'arlas-web-components';
@@ -143,7 +144,13 @@ const exports = [
   providers: [
     ArlasOverlayService,
     ArlasCollectionService,
-    provideHttpClient(withInterceptorsFromDi())
+    provideHttpClient(withInterceptorsFromDi()),
+    {
+      provide: MAT_DIALOG_DEFAULT_OPTIONS,
+      useValue: {
+        autoFocus: false
+      }
+    }
   ]
 })
 export class ArlasToolkitSharedModule { }

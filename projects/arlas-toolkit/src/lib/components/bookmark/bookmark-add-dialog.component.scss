@@ -17,10 +17,6 @@
  * under the License.
  */
 
- ::ng-deep #add-bookmark-dialog .mat-mdc-dialog-surface {
-  padding: 12px 24px;
-}
-
 .bookmark__add {
   padding: 0;
 
@@ -43,8 +39,8 @@
 
   .mat-mdc-form-field {
     width: 100%;
-    padding-bottom: 10px;
-    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-top: 10px;
 
     ::ng-deep.mat-mdc-form-field-infix {
       padding-top: 5px;

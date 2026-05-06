@@ -58,6 +58,8 @@
 html, body{
   background-color: whitesmoke;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+
+  --mat-button-filled-container-color: green;
 }
 
 .dropdownSwimlane{

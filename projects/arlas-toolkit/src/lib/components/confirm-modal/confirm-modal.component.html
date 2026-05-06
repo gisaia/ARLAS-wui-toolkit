@@ -7,6 +7,6 @@
 </mat-dialog-content>
 
 <mat-dialog-actions>
-  <button mat-button [mat-dialog-close]="false">{{ 'No' | translate }}</button>
-  <button mat-button [mat-dialog-close]="true">{{ 'Yes' | translate }}</button>
+  <button mat-stroked-button [mat-dialog-close]="false">{{ 'No' | translate }}</button>
+  <button matButton="filled" color="warn" [mat-dialog-close]="true">{{ 'Yes' | translate }}</button>
 </mat-dialog-actions>

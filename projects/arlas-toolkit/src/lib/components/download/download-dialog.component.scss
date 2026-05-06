@@ -17,6 +17,10 @@
  * under the License.
  */
 
+:host {
+  --mat-dialog-actions-alignment: space-between;
+}
+
 .download-radio-group {
   display: inline-flex;
   flex-direction: row;

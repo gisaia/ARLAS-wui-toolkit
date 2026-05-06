@@ -13,7 +13,11 @@
         </mat-radio-button>
       </mat-radio-group>
       <mat-divider class="download__divider"></mat-divider>
-      <button mat-button matStepperNext class="download-stepper-button">{{ 'Next' | translate}}</button>
+
+      <mat-dialog-actions>
+        <button matButton="filled" color="primary" matStepperNext class="download-stepper-button" [disabled]="!exportTypeGroup.valid">
+          {{ 'Next' | translate}}</button>
+      </mat-dialog-actions>
     </form>
   </mat-step>
   <mat-step [stepControl]="paramFormGroup">
@@ -56,13 +60,13 @@
           </mat-selection-list>
         </div>
         <div class="download-feature-button">
-          <button mat-raised-button class="mat-accent fill text-sm download-button"
+          <button matButton="filled" color="accent" class="text-sm download-button"
             matTooltip="{{'Select All' | translate}}" matTooltipPosition="above"
-            (click)="selectedList.selectAll();onSelectionChange(selectedList.selectedOptions)">
+            (click)="selectedList.selectAll(); onSelectionChange(selectedList.selectedOptions)">
             &gt;&gt;
           </button>
           <br /><br />
-          <button mat-raised-button class="mat-primary fill text-sm download-button"
+          <button matButton="filled" color="primary" class="text-sm download-button"
             matTooltip="{{'Remove All' | translate}}"
             (click)="selectedList.deselectAll();onSelectionChange(selectedList.selectedOptions)">
             &lt;&lt;
@@ -84,8 +88,12 @@
         </div>
       </div>
       <mat-divider class="download__divider"></mat-divider>
-      <button mat-button matStepperPrevious class="download-stepper-button">{{ 'Back' | translate}}</button>
-      <button mat-button matStepperNext class="download-stepper-button">{{ 'Next' | translate}}</button>
+
+      <div class="download-stepper-actions">
+        <button mat-stroked-button matStepperPrevious class="download-stepper-button">{{ 'Back' | translate}}</button>
+        <button matButton="filled" color="primary" matStepperNext class="download-stepper-button" [disabled]="!paramFormGroup.valid">
+          {{ 'Next' | translate}}</button>
+      </div>
     </form>
   </mat-step>
   <mat-step>
@@ -116,8 +124,8 @@
     </div>
     <mat-divider class="download__divider"></mat-divider>
     <div class="download-stepper-actions">
-      <button mat-button matStepperPrevious class="download-stepper-button">{{ 'Back' | translate}}</button>
-      <button mat-raised-button color="accent" class="download-stepper-button"
+      <button mat-stroked-button matStepperPrevious class="download-stepper-button">{{ 'Back' | translate}}</button>
+      <button matButton="filled" color="primary" class="download-stepper-button"
         [class.btn-success]="isCopied" (click)="copyCommand(downloadCommand, downloadCommandWindows)">
         <mat-icon [class.hide-icon]="!isCopied">check</mat-icon>
         <span>{{ (isCopied ? 'Copied' : 'Copy') | translate}}</span>
