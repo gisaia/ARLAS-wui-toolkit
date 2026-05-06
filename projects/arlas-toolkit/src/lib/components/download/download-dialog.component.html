@@ -60,13 +60,13 @@
           </mat-selection-list>
         </div>
         <div class="download-feature-button">
-          <button matButton="filled" color="accent" class="text-sm download-button"
+          <button matButton="filled" color="primary" class="text-sm download-button"
             matTooltip="{{'Select All' | translate}}" matTooltipPosition="above"
             (click)="selectedList.selectAll(); onSelectionChange(selectedList.selectedOptions)">
             &gt;&gt;
           </button>
           <br /><br />
-          <button matButton="filled" color="primary" class="text-sm download-button"
+          <button matButton="filled" color="accent" class="text-sm download-button"
             matTooltip="{{'Remove All' | translate}}"
             (click)="selectedList.deselectAll();onSelectionChange(selectedList.selectedOptions)">
             &lt;&lt;

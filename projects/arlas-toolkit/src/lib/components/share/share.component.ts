@@ -121,7 +121,7 @@ export class ShareDialogComponent implements OnInit {
 
   public selectedFields = new Array<ArlasSearchField>();
   public selectedOrderField: ArlasSearchField;
-  public sortDirection: string;
+  public sortDirection: 'asc' | 'desc' = 'asc';
 
   public allFields = new Array<ArlasSearchField>();
   public excludedType = new Set<string>();

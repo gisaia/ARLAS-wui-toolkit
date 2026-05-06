@@ -63,11 +63,11 @@
                 </mat-selection-list>
               </div>
               <div class="share-feature-button">
-                <button matButton="filled" color="accent" class="text-sm share-button" matTooltip="{{'Select All' | translate}}" [matTooltipPosition]="'above'" (click)="selectedList.selectAll();onSelectionChange(selectedList.selectedOptions)">
+                <button matButton="filled" color="primary" class="text-sm share-button" matTooltip="{{'Select All' | translate}}" [matTooltipPosition]="'above'" (click)="selectedList.selectAll();onSelectionChange(selectedList.selectedOptions)">
                   &gt;&gt;
                 </button>
                 <br /><br />
-                <button matButton="filled" color="primary" class="text-sm share-button" matTooltip="{{'Remove All' | translate}}" (click)="selectedList.deselectAll();onSelectionChange(selectedList.selectedOptions)">
+                <button matButton="filled" color="accent" class="text-sm share-button" matTooltip="{{'Remove All' | translate}}" (click)="selectedList.deselectAll();onSelectionChange(selectedList.selectedOptions)">
                   &lt;&lt;
                 </button>
               </div>
@@ -96,8 +96,9 @@
                     </mat-option>
                   }
                 </mat-select>
-                <mat-hint>{{'Types' | translate}} {{excludedTypeString}} {{'are excluded' | translate}}</mat-hint>
+                <mat-hint>{{'Types ##types## are excluded' | translate:{ types: excludedTypeString} }}</mat-hint>
               </mat-form-field>
+
               <mat-radio-group class="share-radio-group" formControlName="orderDirection" [(ngModel)]="sortDirection">
                 <mat-radio-button [value]="'asc'" class="share-radio-button">ASC</mat-radio-button>
                 <mat-radio-button [value]="'desc'" class="share-radio-button">DESC</mat-radio-button>
