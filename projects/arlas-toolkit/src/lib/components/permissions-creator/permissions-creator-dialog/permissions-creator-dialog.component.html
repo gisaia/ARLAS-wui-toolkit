@@ -18,7 +18,7 @@
   }
   @if (creationStatus === 'successful') {
     <div class="successful">
-      <div><mat-icon class="icon">check_circle</mat-icon></div>
+      <mat-icon class="icon">check_circle</mat-icon>
       <div class="state">{{'The permission was created successfully' | translate}}</div>
       @if (showAction) {
         <button matButton="filled" color="primary" class="action" (click)="goToArlasIAMWui()">
@@ -28,7 +28,7 @@
     </div>
   } @else if (creationStatus === 'errored') {
     <div class="errored">
-      <div><mat-icon class="icon">error</mat-icon></div>
+      <mat-icon class="icon">error</mat-icon>
       <div class="state">{{'The permission creation failed' | translate}}</div>
       <button matButton="filled" color="accent" class="action" (click)="showErrorDetails = !showErrorDetails">
         <span>{{'See details' | translate}}</span>
