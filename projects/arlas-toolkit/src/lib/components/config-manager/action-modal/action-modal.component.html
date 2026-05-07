@@ -5,7 +5,7 @@
     <mat-dialog-actions>
       <!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->
       <button matButton="filled" class="modal_button" color="warn" [mat-dialog-close]="action.config.id">{{'Delete' | translate}}</button>
-      <button mat-stroked-button class="modal_button" [mat-dialog-close]="false">{{'Cancel' | translate}}</button>
+      <button matButton="outlined" class="modal_button" [mat-dialog-close]="false">{{'Cancel' | translate}}</button>
     </mat-dialog-actions>
   </div>
 } @else if (action.type === ConfigAction.DUPLICATE) {
@@ -25,7 +25,7 @@
     </div>
     <div mat-dialog-actions>
       <button matButton="filled" class="modal_button" color="primary" (click)="duplicate(value, action.config)">{{ 'Duplicate' | translate}}</button>
-      <button mat-stroked-button class="modal_button" [mat-dialog-close]="false">{{ 'Cancel' | translate}}</button>
+      <button matButton="outlined" class="modal_button" [mat-dialog-close]="false">{{ 'Cancel' | translate}}</button>
     </div>
   </div>
 } @else if (action.type === ConfigAction.RENAME) {
@@ -45,7 +45,7 @@
     </div>
     <div mat-dialog-actions>
       <button matButton="filled" class="modal_button" color="primary" (click)="rename(value, action.config)">{{ 'Rename' | translate}}</button>
-      <button mat-stroked-button class="modal_button" [mat-dialog-close]="false">{{ 'Cancel' | translate}}</button>
+      <button matButton="outlined" class="modal_button" [mat-dialog-close]="false">{{ 'Cancel' | translate}}</button>
     </div>
   </div>
 } @else if (action.type === ConfigAction.CREATE) {
@@ -65,7 +65,7 @@
     </div>
     <div mat-dialog-actions>
       <button matButton="filled" class="modal_button" color="primary" (click)="create(value)">{{ 'Create' | translate }}</button>
-      <button mat-stroked-button class="modal_button" [mat-dialog-close]="false">{{ 'Cancel' | translate }}</button>
+      <button matButton="outlined" class="modal_button" [mat-dialog-close]="false">{{ 'Cancel' | translate }}</button>
     </div>
   </div>
 } @else if (action.type === ConfigAction.SHARE) {

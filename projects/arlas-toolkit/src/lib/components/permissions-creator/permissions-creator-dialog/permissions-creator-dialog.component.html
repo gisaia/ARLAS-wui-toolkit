@@ -44,7 +44,7 @@
 </mat-dialog-content>
 
 <mat-dialog-actions class="actions">
-  <button mat-stroked-button [disabled]="creationButtonDisabled" [mat-dialog-close]="null">{{CLOSE_TEXT | translate}}
+  <button matButton="outlined" [disabled]="creationButtonDisabled" [mat-dialog-close]="null">{{CLOSE_TEXT | translate}}
   </button>
   @if (!creationButtonHidden) {
     <button class="create-action" matButton="filled" color="primary" (click)="createPermission()"

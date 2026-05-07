@@ -109,7 +109,7 @@
         <mat-divider class="share-stepper__divider"></mat-divider>
 
         <mat-dialog-actions class="share-stepper-button__container">
-          <button mat-stroked-button matStepperPrevious class="share-stepper-button">{{ 'Back' | translate}}</button>
+          <button matButton="outlined" matStepperPrevious class="share-stepper-button">{{ 'Back' | translate}}</button>
           <button matButton="filled" color="primary" matStepperNext class="share-stepper-button" [disabled]="!paramFormGroup.valid">
             {{ 'Next' | translate}}</button>
         </mat-dialog-actions>
@@ -138,6 +138,6 @@
       </button>
     </div>
     <mat-divider class="share-stepper__divider"></mat-divider>
-    <button mat-stroked-button matStepperPrevious class="share-stepper-button">{{ 'Back' | translate}}</button>
+    <button matButton="outlined" matStepperPrevious class="share-stepper-button">{{ 'Back' | translate}}</button>
   </mat-step>
 </mat-horizontal-stepper>

@@ -46,6 +46,6 @@
 }
 
 <div style="display:flex;flex-direction:row;justify-content:space-around;padding-top:10px;">
-  <button mat-stroked-button [disabled]="selectedsTag.length === 0" color="primary" (click)="replay()">{{ 'Replay' | translate }}</button>
+  <button matButton="outlined" [disabled]="selectedsTag.length === 0" color="primary" (click)="replay()">{{ 'Replay' | translate }}</button>
 </div>
 

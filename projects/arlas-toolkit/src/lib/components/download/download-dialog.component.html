@@ -90,7 +90,7 @@
       <mat-divider class="download__divider"></mat-divider>
 
       <div class="download-stepper-actions">
-        <button mat-stroked-button matStepperPrevious class="download-stepper-button">{{ 'Back' | translate}}</button>
+        <button matButton="outlined" matStepperPrevious class="download-stepper-button">{{ 'Back' | translate}}</button>
         <button matButton="filled" color="primary" matStepperNext class="download-stepper-button" [disabled]="!paramFormGroup.valid">
           {{ 'Next' | translate}}</button>
       </div>
@@ -124,7 +124,7 @@
     </div>
     <mat-divider class="download__divider"></mat-divider>
     <div class="download-stepper-actions">
-      <button mat-stroked-button matStepperPrevious class="download-stepper-button">{{ 'Back' | translate}}</button>
+      <button matButton="outlined" matStepperPrevious class="download-stepper-button">{{ 'Back' | translate}}</button>
       <button matButton="filled" color="primary" class="download-stepper-button"
         [class.btn-success]="isCopied" (click)="copyCommand(downloadCommand, downloadCommandWindows)">
         <mat-icon [class.hide-icon]="!isCopied">check</mat-icon>

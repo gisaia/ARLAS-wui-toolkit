@@ -46,7 +46,7 @@
             @if (displayNoAccount) {
               <div class="no-account">
                 {{'No Account?' | translate}}
-                <button mat-stroked-button type="button" [routerLink]="'/register'">{{ 'Sign up' | translate}}</button>
+                <button matButton="outlined" type="button" [routerLink]="'/register'">{{ 'Sign up' | translate}}</button>
               </div>
             }
           </form>

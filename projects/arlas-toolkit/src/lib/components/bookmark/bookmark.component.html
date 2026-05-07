@@ -54,11 +54,11 @@
     </span>
   </div>
   <div class="bookmark-actions">
-    <button class="bookmark-action-button" mat-stroked-button [disabled]="disableCombine" (click)="viewCombine()">{{ 'Apply combination' | translate }}</button>
+    <button class="bookmark-action-button" matButton="outlined" [disabled]="disableCombine" (click)="viewCombine()">{{ 'Apply combination' | translate }}</button>
     <button class="bookmark-action-button" matButton="filled" color="primary" [disabled]="disableCombine" (click)="combine()">{{ 'Combine into a bookmark' | translate }}</button>
   </div>
 }
 
 <mat-dialog-actions align="end">
-  <button mat-stroked-button mat-dialog-close>{{ 'Close' | translate }}</button>
+  <button matButton="outlined" mat-dialog-close>{{ 'Close' | translate }}</button>
 </mat-dialog-actions>

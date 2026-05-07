@@ -5,7 +5,7 @@
     <mat-dialog-actions>
       <!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->
       <button matButton="filled" color="primary" class="modal_button" color="primary" (click)="login()" [mat-dialog-close]="true">{{'Log in' | translate}}</button>
-      <button mat-stroked-button class="modal_button" (click)="logout()" [mat-dialog-close]="true">{{'No' | translate}}</button>
+      <button matButton="outlined" class="modal_button" (click)="logout()" [mat-dialog-close]="true">{{'No' | translate}}</button>
     </mat-dialog-actions>
   </div>
 } @else if (code === 403) {
