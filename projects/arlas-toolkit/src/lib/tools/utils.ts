@@ -17,11 +17,12 @@
  * under the License.
  */
 
-import { Filter } from 'arlas-api';
 import { OverlayRef } from '@angular/cdk/overlay';
 import { InjectionToken } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Contributor } from 'arlas-web-core';
+import { Filter } from 'arlas-api';
+import { ARLASDonutTooltip, TimelineTooltip } from 'arlas-d3';
+import { HistogramTooltip } from 'arlas-web-components';
 import {
   ComputeContributor,
   DetailedHistogramContributor,
@@ -30,8 +31,10 @@ import {
   SwimLaneContributor,
   TreeContributor
 } from 'arlas-web-contributors';
-import { ArlasError } from './errors/error';
+import { Contributor } from 'arlas-web-core';
+import { ARLASPowerbarTooltip } from '../components/powerbar-tooltip-overlay/powerbar-tooltip-overlay.component';
 import { ArlasSearchField } from '../components/share/model/ArlasSearchField';
+import { ArlasError } from './errors/error';
 
 export const CONFIG_ID_QUERY_PARAM = 'config_id';
 export const GET_OPTIONS = new InjectionToken<Function>('get_options');
@@ -274,10 +277,18 @@ export class ArlasOverlayRef {
     }
   }
 }
-export const HISTOGRAM_TOOLTIP_DATA = new InjectionToken<any>('HISTOGRAM_TOOLTIP_DATA');
-export const CALENDAR_TIMELINE_TOOLTIP_DATA = new InjectionToken<any>('CALENDAR_TIMELINE_TOOLTIP_DATA');
-export const DONUT_TOOLTIP_DATA = new InjectionToken<any>('DONUT_TOOLTIP_DATA');
-export const POWERBAR_TOOLTIP_DATA = new InjectionToken<any>('POWERBAR_TOOLTIP_DATA');
+
+/**
+ * Extended structure for an histogram tooltip used to communicate to the overlay what kind of render to apply
+ */
+export interface HistogramTooltipExtended extends HistogramTooltip {
+  chartType: 'histogram' | 'swimlane';
+}
+
+export const HISTOGRAM_TOOLTIP_DATA = new InjectionToken<HistogramTooltipExtended>('HISTOGRAM_TOOLTIP_DATA');
+export const CALENDAR_TIMELINE_TOOLTIP_DATA = new InjectionToken<TimelineTooltip>('CALENDAR_TIMELINE_TOOLTIP_DATA');
+export const DONUT_TOOLTIP_DATA = new InjectionToken<ARLASDonutTooltip>('DONUT_TOOLTIP_DATA');
+export const POWERBAR_TOOLTIP_DATA = new InjectionToken<ARLASPowerbarTooltip>('POWERBAR_TOOLTIP_DATA');
 
 export interface WidgetConfiguration {
   /**
