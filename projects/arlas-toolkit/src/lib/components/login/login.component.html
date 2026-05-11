@@ -40,13 +40,13 @@
               </div>
             }
             <div class="buttons">
-              <button type="submit" class="login-button" [class.spinner]="isLoading" [disabled]="loginForm.invalid || isLoading" mat-flat-button
-              color="primary">{{ 'Login' | translate}}</button>
+              <button type="submit" class="login-button" [class.spinner]="isLoading" [disabled]="loginForm.invalid || isLoading"
+                matButton="filled" color="primary">{{ 'Login' | translate}}</button>
             </div>
             @if (displayNoAccount) {
               <div class="no-account">
                 {{'No Account?' | translate}}
-                <button mat-button type="button" [routerLink]="'/register'">{{ 'Sign up' | translate}}</button>
+                <button matButton="outlined" color="primary" type="button" [routerLink]="'/register'">{{ 'Sign up' | translate}}</button>
               </div>
             }
           </form>

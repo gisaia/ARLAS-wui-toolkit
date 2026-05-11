@@ -17,10 +17,10 @@
  * under the License.
  */
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, Inject, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, inject, Inject, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDivider, MatListModule, MatListOption, MatSelectionList } from '@angular/material/list';
@@ -48,25 +48,15 @@ export const ARLAS_HITS_EXPORTER_VERSION = 2.2;
 
 @Component({
   selector: 'arlas-download',
-  templateUrl: './download.component.html',
-  imports: [
-    MatIconModule,
-    MatButtonModule
-  ]
+  template: ''
 })
 export class DownloadComponent {
+  private readonly dialog = inject(MatDialog);
 
-  @Input() public icon = 'get_app';
-  @Input() public collections;
-
-
-  public constructor(
-    public dialog: MatDialog
-  ) { }
+  @Input() public collections: string[];
 
   public openDialog() {
-    this.dialog.open(DownloadDialogComponent, { data: this.collections, width: '80vw' }
-    );
+    this.dialog.open(DownloadDialogComponent, { data: this.collections, width: '80vw' });
   }
 }
 
@@ -88,7 +78,8 @@ export class DownloadComponent {
     MatListModule,
     MatIconModule,
     MatButtonModule,
-    GetCollectionDisplayNamePipe
+    GetCollectionDisplayNamePipe,
+    MatDialogModule
   ]
 })
 export class DownloadDialogComponent implements OnInit {
@@ -122,13 +113,13 @@ export class DownloadDialogComponent implements OnInit {
 
   public constructor(
     @Inject(MAT_DIALOG_DATA) public data: string[],
-    private formBuilder: UntypedFormBuilder,
-    private collaborativeService: ArlasCollaborativesearchService,
-    private configService: ArlasConfigService,
-    private authService: AuthentificationService,
-    private iamService: ArlasIamService,
-    private settingsService: ArlasSettingsService,
-    private deviceService: DeviceDetectorService,
+    private readonly formBuilder: UntypedFormBuilder,
+    private readonly collaborativeService: ArlasCollaborativesearchService,
+    private readonly configService: ArlasConfigService,
+    private readonly authService: AuthentificationService,
+    private readonly iamService: ArlasIamService,
+    private readonly settingsService: ArlasSettingsService,
+    private readonly deviceService: DeviceDetectorService,
   ) {
     this.collections = data;
     this.selectedCollection = data[0];

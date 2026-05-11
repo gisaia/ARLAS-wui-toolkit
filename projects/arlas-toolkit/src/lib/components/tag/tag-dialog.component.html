@@ -47,8 +47,8 @@
   }
 
   <div style="display:flex;flex-direction:row;justify-content:space-around;padding-top:10px;">
-    <button mat-raised-button [disabled]="tagService.isProcessing || !tagFormGroup.valid " color="primary" (click)="addTag()">{{ 'Add Tag' | translate }}</button>
-    <button mat-raised-button [disabled]="tagService.isProcessing || fieldtotag.empty || (propagation.checked && !tagFormGroup.valid)" color="warn" (click)="removeTag()">{{ 'Remove Tag' | translate }}</button>
+    <button matButton="filled" [disabled]="tagService.isProcessing || !tagFormGroup.valid " color="primary" (click)="addTag()">{{ 'Add Tag' | translate }}</button>
+    <button matButton="filled" [disabled]="tagService.isProcessing || fieldtotag.empty || (propagation.checked && !tagFormGroup.valid)" color="warn" (click)="removeTag()">{{ 'Remove Tag' | translate }}</button>
   </div>
   @if (tagService.isProcessing) {
     <mat-progress-bar class="tag-progress" [color]="'accent'" [mode]="'indeterminate'"></mat-progress-bar>

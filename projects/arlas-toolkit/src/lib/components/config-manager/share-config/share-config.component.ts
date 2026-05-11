@@ -20,6 +20,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { MatCheckbox } from '@angular/material/checkbox';
+import { MatDialogActions } from '@angular/material/dialog';
 import {
   MatCell,
   MatCellDef,
@@ -51,7 +52,7 @@ export interface PersistenceGroup {
   templateUrl: './share-config.component.html',
   styleUrls: ['./share-config.component.scss'],
   imports: [
-    MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell,
+    MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatDialogActions,
     MatCheckbox, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, MatButton, TranslatePipe]
 })
 export class ShareConfigComponent implements OnInit {

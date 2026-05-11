@@ -60,15 +60,19 @@
     </mat-select>
   </mat-form-field>
 
-  <button mat-raised-button class="process" (click)="openDownload()">Download</button>
+  <button matButton="elevated" class="process" (click)="openDownload()">Download</button>
 
-  <button mat-raised-button class="process" (click)="openEnrich()">Enrich</button>
+  <button matButton="elevated" class="process" (click)="openEnrich()">Enrich</button>
 
-  <button mat-raised-button class="process" (click)="openConfirm()">Confirm</button>
+  <button matButton="elevated" class="process" (click)="openConfirm()">Confirm</button>
 
-  <button mat-raised-button class="process" (click)="openDeniedAccess()">Denied Access</button>
+  <button matButton="elevated" class="process" (click)="openDeniedAccess()">Denied Access</button>
 
-  <button mat-raised-button class="process" (click)="openPermissionsCreator()">Permission creator (mock)</button>
+  <button matButton="elevated" class="process" (click)="openReconnect()">Reconnect</button>
+
+  <button matButton="elevated" class="process" (click)="openPermissionsCreator()">Permission creator (mock)</button>
+
+  <arlas-config-menu [actions]="actions"></arlas-config-menu>
 </div>
 
 <div style="margin-bottom: 10px;">
@@ -89,4 +93,4 @@
 
 <arlas-bookmark-menu #bookmarkMenu></arlas-bookmark-menu>
 <arlas-download #download [collections]="collections" [hidden]="true"></arlas-download>
-<arlas-share #share [icon]="'share'" [hidden]="true"></arlas-share>
+<arlas-share #share [hidden]="true"></arlas-share>

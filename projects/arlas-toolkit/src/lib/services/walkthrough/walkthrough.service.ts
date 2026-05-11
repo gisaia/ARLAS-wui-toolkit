@@ -37,7 +37,6 @@ export class ArlasWalkthroughService {
   public constructor(
     private readonly walkthrougLoader: WalkthroughLoader,
     private readonly translateService: TranslateService
-
   ) {
     this.hopscotch = hopscotch;
   }

@@ -18,19 +18,19 @@
   }
   @if (creationStatus === 'successful') {
     <div class="successful">
-      <div><mat-icon class="icon">check_circle</mat-icon></div>
+      <mat-icon class="icon">check_circle</mat-icon>
       <div class="state">{{'The permission was created successfully' | translate}}</div>
       @if (showAction) {
-        <button mat-button class="action" (click)="goToArlasIAMWui()">
+        <button matButton="filled" color="primary" class="action" (click)="goToArlasIAMWui()">
           {{'go to iam' | translate}}
         </button>
       }
     </div>
   } @else if (creationStatus === 'errored') {
     <div class="errored">
-      <div><mat-icon class="icon">error</mat-icon></div>
+      <mat-icon class="icon">error</mat-icon>
       <div class="state">{{'The permission creation failed' | translate}}</div>
-      <button mat-button class="action" (click)="showErrorDetails = !showErrorDetails">
+      <button matButton="filled" color="accent" class="action" (click)="showErrorDetails = !showErrorDetails">
         <span>{{'See details' | translate}}</span>
         <mat-icon>{{ showErrorDetails ? 'expand_more' : 'chevron_right' }}</mat-icon>
       </button>
@@ -44,10 +44,10 @@
 </mat-dialog-content>
 
 <mat-dialog-actions class="actions">
-  <button mat-button [disabled]="creationButtonDisabled" [mat-dialog-close]="null">{{CLOSE_TEXT | translate}}
+  <button matButton="outlined" [disabled]="creationButtonDisabled" [mat-dialog-close]="null">{{CLOSE_TEXT | translate}}
   </button>
   @if (!creationButtonHidden) {
-    <button class="create-action" mat-button (click)="createPermission()"
+    <button class="create-action" matButton="filled" color="primary" (click)="createPermission()"
       [disabled]="createPermissionForm.invalid || creationButtonDisabled">
       <span class="label">{{CREATE_TEXT | translate}}</span>
       @if (showSpinner) {

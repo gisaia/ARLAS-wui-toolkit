@@ -32,7 +32,11 @@
   font-weight: 200;
   font-size: 14px;
   margin: 0 10px;
-  width: 200px
+  width: 200px;
+
+  .mdc-button__label {
+    white-space: nowrap;
+  }
 }
 
 .share-description {
@@ -41,7 +45,7 @@
 }
 
 .share-form-field {
-  flex: 2;
+  flex: 1;
 }
 
 .share-title-list {
@@ -66,6 +70,15 @@
 
   &__options {
     padding-top: 15px;
+    gap: 50px;
+
+    .share-radio-group {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 20px;
+      flex: 0;
+    }
   }
 }
 
@@ -119,5 +132,9 @@
   // Avoid wrapping of values in dropdown
   &__precision {
     width: 260px;
+  }
+
+  &-button__container {
+    --mat-dialog-actions-alignment: space-between;
   }
 }

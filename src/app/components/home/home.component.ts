@@ -55,9 +55,25 @@ import {
 } from '../../../../projects/arlas-toolkit/src/lib/services/startup/startup.service';
 import {
   AuthentSetting,
+  Config,
+  ConfigAction,
+  ConfigActionEnum,
   SpinnerOptions
 } from '../../../../projects/arlas-toolkit/src/lib/tools/utils';
-import { AnalyticsBoardComponent, AnalyticsMenuComponent, AuthorisationError, BookmarkMenuComponent, ConfirmModalComponent, DeniedAccessDialogComponent, FiltersComponent, FilterShortcutComponent, LanguageSwitcherComponent, PermissionsCreatorComponent, PermissionsCreatorDialogComponent, SearchComponent, TimelineComponent, ToolkitComponent, TopMenuComponent } from '../../../../projects/arlas-toolkit/src/public-api';
+import { AnalyticsBoardComponent, AnalyticsMenuComponent, AuthorisationError, BookmarkMenuComponent, ConfigMenuComponent, ConfirmModalComponent, DeniedAccessDialogComponent, FiltersComponent, FilterShortcutComponent, LanguageSwitcherComponent, PermissionsCreatorComponent, PermissionsCreatorDialogComponent, ReconnectDialogComponent, SearchComponent, TimelineComponent, ToolkitComponent, TopMenuComponent } from '../../../../projects/arlas-toolkit/src/public-api';
+import config from '../../../config.json';
+
+const DUMMY_CONFIG: Config = {
+  id: 'TEST',
+  name: 'TEST',
+  value: JSON.stringify(config),
+  lastUpdate: 0,
+  readers: [],
+  writers: [],
+  zone: 'config.json',
+  org: '',
+  displayPublic: true
+};
 
 @Component({
   selector: 'arlas-tool-home',
@@ -81,8 +97,9 @@ import { AnalyticsBoardComponent, AnalyticsMenuComponent, AuthorisationError, Bo
     DownloadComponent,
     ShareComponent,
     TimelineComponent,
-    FilterShortcutComponent
-  ]
+    FilterShortcutComponent,
+    ConfigMenuComponent
+]
 })
 export class HomeComponent implements OnInit {
 
@@ -117,6 +134,44 @@ export class HomeComponent implements OnInit {
   ];
   public selectedItemFormat = this.itemFormats[0];
   public collections: Array<string>;
+
+  public actions: ConfigAction[] = [
+    {
+      type: ConfigActionEnum.CREATE,
+      enabled: true,
+      config: DUMMY_CONFIG
+    },
+    {
+      type: ConfigActionEnum.DELETE,
+      enabled: true,
+      config: DUMMY_CONFIG
+    },
+    {
+      type: ConfigActionEnum.DUPLICATE,
+      enabled: true,
+      config: DUMMY_CONFIG
+    },
+    {
+      type: ConfigActionEnum.EDIT,
+      enabled: true,
+      config: DUMMY_CONFIG
+    },
+    {
+      type: ConfigActionEnum.RENAME,
+      enabled: true,
+      config: DUMMY_CONFIG
+    },
+    {
+      type: ConfigActionEnum.SHARE,
+      enabled: true,
+      config: DUMMY_CONFIG
+    },
+    {
+      type: ConfigActionEnum.VIEW,
+      enabled: true,
+      config: DUMMY_CONFIG
+    }
+  ];
 
   @ViewChild('tooltip') public tooltip;
   @ViewChild('download', { static: false }) private readonly downloadComponent: DownloadComponent;
@@ -242,7 +297,21 @@ export class HomeComponent implements OnInit {
   }
 
   public displayShare() {
-    this.shareComponent.openDialog();
+    const visibility = new Map([
+      [
+        "Produits:arlas_vset:arlas_id:Latest products:1696925765098",
+        true
+      ],
+      [
+        "Produits:arlas_vset:arlas_id:Products:1696926758346",
+        true
+      ],
+      [
+        "Produits:arlas_vset:arlas_id:Density of products:1696925833059",
+        false
+      ]
+    ]);
+    this.shareComponent.openDialog(visibility);
   }
 
   private getSearchContributorConfig() {
@@ -305,6 +374,17 @@ export class HomeComponent implements OnInit {
         },
         panelClass: 'arlas-error-dialog'
       });
+  }
+
+  public openReconnect() {
+    this.dialog.open(ReconnectDialogComponent, {
+      disableClose: true,
+      data: {
+        code: 401
+      },
+      panelClass: 'arlas-error-dialog',
+      backdropClass: 'reconnect-dialog',
+    });
   }
 
   public openPermissionsCreator() {

@@ -46,6 +46,6 @@
 }
 
 <div style="display:flex;flex-direction:row;justify-content:space-around;padding-top:10px;">
-  <button mat-raised-button [disabled]="selectedsTag.length === 0" color="primary" (click)="replay()">{{ 'Replay' | translate }}</button>
+  <button matButton="outlined" color="primary" [disabled]="selectedsTag.length === 0" (click)="replay()">{{ 'Replay' | translate }}</button>
 </div>
 

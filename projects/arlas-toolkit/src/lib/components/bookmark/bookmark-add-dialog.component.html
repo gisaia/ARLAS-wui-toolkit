@@ -11,6 +11,6 @@
   </mat-form-field>
 </div>
 <div mat-dialog-actions class="bookmark__add--actions">
-  <button mat-raised-button [disabled]="disableSubmit" class="modal_button" color="accent" (click)="submit()"  tabindex="2">{{ 'OK' | translate }}</button>
-  <button mat-raised-button class="modal_button" (click)="cancel()" tabindex="-1">{{ 'Cancel' | translate }}</button>
+  <button matButton="filled" [disabled]="disableSubmit" class="modal_button" color="accent" (click)="submit()"  tabindex="2">{{ 'OK' | translate }}</button>
+  <button matButton="outlined" class="modal_button" (click)="cancel()" tabindex="-1">{{ 'Cancel' | translate }}</button>
 </div>

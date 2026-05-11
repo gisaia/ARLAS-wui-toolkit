@@ -4,8 +4,8 @@
     <mat-dialog-content>{{'This will delete' | translate}} {{action.config.name}} {{'element and cannot be undone.' | translate}}</mat-dialog-content>
     <mat-dialog-actions>
       <!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->
-      <button mat-raised-button class="modal_button" color="primary"  [mat-dialog-close]="action.config.id">{{'Delete' | translate}}</button>
-      <button mat-raised-button class="modal_button" [mat-dialog-close]="false">{{'Cancel' | translate}}</button>
+      <button matButton="filled" class="modal_button" color="warn" [mat-dialog-close]="action.config.id">{{'Delete' | translate}}</button>
+      <button matButton="outlined" class="modal_button" [mat-dialog-close]="false">{{'Cancel' | translate}}</button>
     </mat-dialog-actions>
   </div>
 } @else if (action.type === ConfigAction.DUPLICATE) {
@@ -16,7 +16,7 @@
         <mat-label>{{'New name' | translate}}</mat-label>
         <input matInput type="text" [(ngModel)]="value" (focus)="errorMessage=''">
         @if (value) {
-          <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+          <button matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
             <mat-icon>close</mat-icon>
           </button>
         }
@@ -24,8 +24,8 @@
       <span style="color: red; display: block;">{{errorMessage | translate}}</span>
     </div>
     <div mat-dialog-actions>
-      <button mat-raised-button class="modal_button" color="primary" (click)="duplicate(value, action.config)">{{ 'Duplicate' | translate}}</button>
-      <button mat-raised-button class="modal_button" [mat-dialog-close]="false">{{ 'Cancel' | translate}}</button>
+      <button matButton="filled" class="modal_button" color="primary" (click)="duplicate(value, action.config)">{{ 'Duplicate' | translate}}</button>
+      <button matButton="outlined" class="modal_button" [mat-dialog-close]="false">{{ 'Cancel' | translate}}</button>
     </div>
   </div>
 } @else if (action.type === ConfigAction.RENAME) {
@@ -36,7 +36,7 @@
         <mat-label>{{'New name' | translate}}</mat-label>
         <input matInput type="text" [(ngModel)]="value" (focus)="errorMessage=''">
         @if (value) {
-          <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+          <button matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
             <mat-icon>close</mat-icon>
           </button>
         }
@@ -44,8 +44,8 @@
       <span style="color: red; display: block;">{{errorMessage | translate}}</span>
     </div>
     <div mat-dialog-actions>
-      <button mat-raised-button class="modal_button" color="primary" (click)="rename(value, action.config)">{{ 'Rename' | translate}}</button>
-      <button mat-raised-button class="modal_button" [mat-dialog-close]="false">{{ 'Cancel' | translate}}</button>
+      <button matButton="filled" class="modal_button" color="primary" (click)="rename(value, action.config)">{{ 'Rename' | translate}}</button>
+      <button matButton="outlined" class="modal_button" [mat-dialog-close]="false">{{ 'Cancel' | translate}}</button>
     </div>
   </div>
 } @else if (action.type === ConfigAction.CREATE) {
@@ -56,7 +56,7 @@
         <mat-label>{{'Name' | translate}}</mat-label>
         <input matInput type="text" [(ngModel)]="value" (focus)="errorMessage=''">
         @if (value) {
-          <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+          <button matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
             <mat-icon>close</mat-icon>
           </button>
         }
@@ -64,8 +64,8 @@
       <span style="color: red; display: block;">{{errorMessage | translate}}</span>
     </div>
     <div mat-dialog-actions>
-      <button mat-raised-button class="modal_button" color="primary" (click)="create(value)">{{ 'Create' | translate }}</button>
-      <button mat-raised-button class="modal_button" [mat-dialog-close]="false">{{ 'Cancel' | translate }}</button>
+      <button matButton="filled" class="modal_button" color="primary" (click)="create(value)">{{ 'Create' | translate }}</button>
+      <button matButton="outlined" class="modal_button" [mat-dialog-close]="false">{{ 'Cancel' | translate }}</button>
     </div>
   </div>
 } @else if (action.type === ConfigAction.SHARE) {

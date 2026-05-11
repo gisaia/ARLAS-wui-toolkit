@@ -45,13 +45,13 @@
             }
             @if (displayForm) {
               <div class="buttons">
-                <button type="submit" class="sign-up-button" [disabled]="signUpForm.invalid" mat-flat-button
-                color="primary">{{ 'Sign up' | translate}}</button>
+                <button type="submit" class="sign-up-button" [disabled]="signUpForm.invalid"
+                  matButton="filled" color="primary">{{ 'Sign up' | translate}}</button>
               </div>
             }
             <div class="account">
               {{'Already have an account?' | translate}}
-              <button mat-button type="button" [routerLink]="'/login'">{{ 'Log In' | translate}}</button>
+              <button matButton="outlined" color="primary" type="button" [routerLink]="'/login'">{{ 'Log In' | translate}}</button>
             </div>
           </form>
         </div>
