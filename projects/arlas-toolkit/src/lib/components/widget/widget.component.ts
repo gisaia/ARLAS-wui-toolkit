@@ -285,21 +285,18 @@ export class WidgetComponent implements OnInit {
     this.hidePowerbarTooltip();
 
     let xOffset = 470;
-    if (this.groupLength = 2) {
-      if (this.position === 0) {
-        xOffset = 470;
-      } else {
+    if (this.groupLength === 2) {
+      if (this.position === 1) {
         xOffset = 244;
       }
-    } else if (this.groupLength = 3) {
-      if (this.position === 0) {
-        xOffset = 470;
-      } else if (this.position === 1) {
-        xOffset = 320;
-      } else {
+    } else if (this.groupLength === 3) {
+      if (this.position === 1) {
+        xOffset = 319;
+      } else if (this.position === 2) {
         xOffset = 169;
       }
     }
+
     // Shortcut case
     if (this.position === undefined) {
       xOffset = 270;
