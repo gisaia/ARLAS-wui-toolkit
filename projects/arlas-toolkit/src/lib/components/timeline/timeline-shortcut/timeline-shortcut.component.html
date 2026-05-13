@@ -41,7 +41,7 @@
         </button>
       }
     </mat-basic-chip>
-    <button mat-icon-button class="arlas-timeline-toggle" (click)="toggleTimeline()">
+    <button mat-icon-button class="arlas-timeline-toggle" [class.arlas-timeline-toggle--open]="!isDisplayHistogram" (click)="toggleTimeline()">
       @if (isDisplayHistogram) {
         <mat-icon [matTooltip]="'Hide timeline' | translate" matTooltipPosition="above">keyboard_arrow_down</mat-icon>
       } @else {
