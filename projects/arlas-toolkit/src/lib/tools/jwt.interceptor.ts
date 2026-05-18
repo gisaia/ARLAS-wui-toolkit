@@ -19,7 +19,7 @@
 
 import { HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { PROTECTED_IMAGE_HEADER } from 'arlas-web-components';
+import { PROTECTED_REQUEST_HEADER } from 'arlas-web-components';
 import { Observable } from 'rxjs';
 import { ArlasIamService } from '../services/arlas-iam/arlas-iam.service';
 import { AuthentificationService } from '../services/authentification/authentification.service';
@@ -36,11 +36,11 @@ export class JwtInterceptor implements HttpInterceptor {
 
   public intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     // Intercepts quicklook requests to add token
-    if (!request.headers.has(PROTECTED_IMAGE_HEADER) || request.headers.get(PROTECTED_IMAGE_HEADER) !== 'true') {
+    if (!request.headers.has(PROTECTED_REQUEST_HEADER) || request.headers.get(PROTECTED_REQUEST_HEADER) !== 'true') {
       return next.handle(request);
     }
     request = request.clone({
-      headers: request.headers.delete(PROTECTED_IMAGE_HEADER)
+      headers: request.headers.delete(PROTECTED_REQUEST_HEADER)
     });
 
     const authSettings = this.settingsService.getAuthentSettings();
