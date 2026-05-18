@@ -1,4 +1,4 @@
-<mat-action-list class="analytics-menu">
+<mat-action-list class="analytics-menu" [class.analytics-menu--unselected]="!analyticsService.activeTab">
   @for (tab of analyticsService.tabs; track tab; let tabIdx = $index) {
     <button mat-list-item (click)="selectTab(tabIdx)">
       @if (tab.icon) {
