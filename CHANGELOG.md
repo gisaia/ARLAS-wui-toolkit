@@ -1,12 +1,19 @@
 # Change Log
 
-## [v27.1.5](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.1.5) (2026-04-15)
+## [v28.0.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v28.0.0) (2026-05-21)
 
-## [v27.1.4](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.1.4) (2026-03-27)
+**New stuff:**
+
+- Enhance the tooltip of swimlanes, using overlay system [\#446](https://github.com/gisaia/ARLAS-wui-toolkit/issues/446)
 
 **Miscellaneous:**
 
+- \[ANGULAR\] Migrate to Angular 21 [\#984](https://github.com/gisaia/ARLAS-wui-toolkit/issues/984)
 - Migrate to Angular 20 [\#972](https://github.com/gisaia/ARLAS-wui-toolkit/issues/972)
+
+## [v27.1.5](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.1.5) (2026-04-15)
+
+## [v27.1.4](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.1.4) (2026-03-27)
 
 ## [v27.0.22](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v27.0.22) (2026-01-27)
 
