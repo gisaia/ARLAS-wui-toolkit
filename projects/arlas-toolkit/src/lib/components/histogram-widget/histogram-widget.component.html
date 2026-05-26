@@ -3,7 +3,7 @@
     [diameter]="spinnerOptions?.diameter"
     [hidden]="!(showSpinner || (detailedContributor?.isDataUpdating || contributor?.isDataUpdating))"></arlas-tool-progress-spinner>
   @if (showDetailedHistogram) {
-    <div (mouseleave)="hideHistogramTooltip()" #detailed class="histogram detailed-histogram" [class.displayed-detail]="showDetailedHistogram">
+    <div (mouseleave)="hideHistogramTooltip()" (mouseenter)="isHover.set(true)" #detailed class="histogram detailed-histogram" [class.displayed-detail]="showDetailedHistogram">
       <arlas-histogram class="histogram-container" #detailedhistogram [intervalListSelection]="$any(detailedContributor?.intervalListSelection)"
         [intervalSelection]="$any(detailedTimelineIntervalSelection)" (dataPlottedEvent)="afterDetailedDataPlotted($event)"
         [data]="detailedContributor?.chartData" (valuesListChangedEvent)="onDetailedIntervalBrushed($event)"
@@ -31,11 +31,11 @@
         (hoveredBucketEvent)="widgetNotifier.notifyBucketHover($event)"
         (tooltipEvent)="emitTooltip($event,detailed, true)"
         [xUnit]="componentInputs?.xUnit" [yUnit]="componentInputs?.yUnit"
-        [displayExportButton]="showExportCsv" (exportEvent)="exportCsv(detailedContributor)"></arlas-histogram>
+        [displayExportButton]="showExportCsv && isHover()" (exportEvent)="exportCsv(detailedContributor)"></arlas-histogram>
     </div>
   }
 
-  <div class="histogram" (mouseleave)="hideHistogramTooltip()" #main>
+  <div class="histogram" (mouseleave)="hideHistogramTooltip()" (mouseenter)="isHover.set(true)" #main>
     <arlas-histogram class="histogram-container" #histogram [intervalListSelection]="$any(contributor?.intervalListSelection)"
       [intervalSelection]="$any(contributor?.intervalSelection)" [data]="contributor?.chartData"
       (valuesListChangedEvent)="onMainIntervalBrushed($event)"
@@ -62,6 +62,6 @@
       [useUtc]="contributor?.useUtc"
       (tooltipEvent)="emitTooltip($event, main, false)"
       [xUnit]="componentInputs?.xUnit" [yUnit]="componentInputs?.yUnit"
-    [displayExportButton]="showExportCsv" (exportEvent)="exportCsv(contributor)"></arlas-histogram>
+      [displayExportButton]="showExportCsv && isHover()" (exportEvent)="exportCsv(contributor)"></arlas-histogram>
   </div>
 </div>

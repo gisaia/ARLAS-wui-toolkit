@@ -18,12 +18,12 @@
  */
 
 import {
-  AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild
+  AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output, signal, ViewChild
 } from '@angular/core';
 import { DataType, HistogramComponent, HistogramTooltip, Position } from 'arlas-web-components';
 import { DetailedHistogramContributor, HistogramContributor, SelectedOutputValues } from 'arlas-web-contributors';
 import { OperationEnum } from 'arlas-web-core';
-import { Subject, filter, takeUntil } from 'rxjs';
+import { filter, Subject, takeUntil } from 'rxjs';
 import { ArlasCollaborativesearchService } from '../../services/collaborative-search/arlas.collaborative-search.service';
 import { ArlasOverlayService } from '../../services/overlays/overlay.service';
 import { ArlasConfigService } from '../../services/startup/startup.service';
@@ -61,6 +61,8 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy, AfterViewIni
   public histogramOverlayRef: ArlasOverlayRef;
 
   protected readonly Position = Position;
+
+  protected readonly isHover = signal(false);
 
   @Input() public contributor: HistogramContributor;
   @Input() public componentInputs;
@@ -238,6 +240,7 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy, AfterViewIni
   }
 
   public hideHistogramTooltip() {
+    this.isHover.set(false);
     if (this.histogramOverlayRef) {
       this.histogramOverlayRef.close();
     }

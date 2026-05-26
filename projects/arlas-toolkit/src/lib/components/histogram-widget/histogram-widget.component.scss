@@ -38,12 +38,7 @@
     right: 10px;
 
     ::ng-deep .histogram__export {
-      // Leave space for the download button by accounting for the right position
-      right: calc(-1 * 24px - 5px - 10px);
-
-      .mat-mdc-button-touch-target {
-        width: 24px;
-      }
+      --mat-icon-button-touch-target-size: 24px;
     }
   }
 }
