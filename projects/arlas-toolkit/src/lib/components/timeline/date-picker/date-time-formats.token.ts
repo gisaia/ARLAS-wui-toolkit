@@ -29,7 +29,7 @@ export const DEFAULT_OWL_DATE_TIME_FORMATS_VALUE = {
   monthYearLabel: 'MMM YYYY',
   dateA11yLabel: 'LL',
   monthYearA11yLabel: 'MMMM YYYY'
-}
+};
 
 export const DEFAULT_OWL_DATE_TIME_FORMATS = new InjectionToken<OwlDateTimeFormats>(
   'DEFAULT_OWL_DATE_TIME_FORMATS',
