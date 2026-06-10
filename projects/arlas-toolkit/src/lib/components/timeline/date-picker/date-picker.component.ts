@@ -17,14 +17,17 @@
  * under the License.
  */
 
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, inject, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { DateTimeAdapter, OWL_DATE_TIME_LOCALE, OwlDateTimeModule, OwlNativeDateTimeModule } from '@danielmoncada/angular-datetime-picker';
-import { MomentDateTimeAdapter, OwlMomentDateTimeModule } from '@danielmoncada/angular-datetime-picker-moment-adapter';
+import { DateTimeAdapter, OWL_DATE_TIME_FORMATS, OWL_DATE_TIME_LOCALE, OwlDateTimeModule, OwlNativeDateTimeModule }
+  from '@danielmoncada/angular-datetime-picker';
+import { MomentDateTimeAdapter, OWL_MOMENT_DATE_TIME_ADAPTER_OPTIONS, OwlMomentDateTimeModule }
+  from '@danielmoncada/angular-datetime-picker-moment-adapter';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { HistogramContributor } from 'arlas-web-contributors';
 import * as _moment from 'moment';
 import { ArlasStartupService } from '../../../services/startup/startup.service';
+import { ARLAS_DATE_TIME_FORMATS, ARLAS_OWL_MOMENT_ADAPTER_OPTIONS } from './date-time-formats.token';
 
 const moment = (_moment as any).default ? (_moment as any).default : _moment;
 
@@ -36,7 +39,15 @@ const moment = (_moment as any).default ? (_moment as any).default : _moment;
   templateUrl: './date-picker.component.html',
   styleUrls: ['./date-picker.component.scss'],
   providers: [
-    { provide: DateTimeAdapter, useClass: MomentDateTimeAdapter, deps: [OWL_DATE_TIME_LOCALE] }
+    {
+      provide: OWL_MOMENT_DATE_TIME_ADAPTER_OPTIONS,
+      useFactory: () => inject(ARLAS_OWL_MOMENT_ADAPTER_OPTIONS)
+    },
+    { provide: DateTimeAdapter, useClass: MomentDateTimeAdapter, deps: [OWL_DATE_TIME_LOCALE, OWL_MOMENT_DATE_TIME_ADAPTER_OPTIONS] },
+    {
+      provide: OWL_DATE_TIME_FORMATS,
+      useFactory: () => inject(ARLAS_DATE_TIME_FORMATS)
+    }
   ],
   imports: [
     TranslatePipe,
