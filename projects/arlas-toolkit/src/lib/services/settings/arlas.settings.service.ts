@@ -18,18 +18,17 @@
  */
 
 import { Injectable } from '@angular/core';
-import { ArlasSettings, LinkSettings, ProcessSettings, ResultlistSettings } from '../startup/startup.service';
-import { PersistenceSetting } from '../persistence/persistence.service';
+import { DrawTheme } from 'arlas-map';
+import { AuthentSetting, GeocodingSetting } from '../../tools/utils';
 import { PermissionSetting } from '../permission/permission.service';
-import {AuthentSetting, GeocodingSetting} from '../../tools/utils';
+import { PersistenceSetting } from '../persistence/persistence.service';
+import { ArlasSettings, LinkSettings, ProcessSettings, ResultlistSettings } from '../startup/startup.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ArlasSettingsService {
   public settings: ArlasSettings;
-
-  public constructor() { }
 
   public setSettings(settings: ArlasSettings): void {
     this.settings = settings;
@@ -98,5 +97,9 @@ export class ArlasSettingsService {
 
   public getProcessSettings(name: string): ProcessSettings {
     return !!this.settings && !!this.settings.processes ? this.settings.processes.find(p => p.name === name) : undefined;
+  }
+
+  public getDrawTheme(): DrawTheme {
+    return this.settings?.drawTheme ?? {};
   }
 }

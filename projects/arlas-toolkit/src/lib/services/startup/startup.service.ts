@@ -27,7 +27,7 @@ import ajvKeywords from 'ajv-keywords';
 import * as draftSchema from 'ajv/lib/refs/json-schema-draft-06.json' with { type: 'json' };
 import { CollectionReferenceDescription, CollectionReferenceParameters, CollectionsApi, Configuration, ExploreApi } from 'arlas-api';
 import { DefaultApi, Configuration as IamConfiguration } from 'arlas-iam-api';
-import { ArlasMapComponent } from 'arlas-map';
+import { ArlasMapComponent, DrawTheme } from 'arlas-map';
 import { DataWithLinks } from 'arlas-persistence-api';
 import {
   DonutComponent, HistogramComponent, MetricComponent,
@@ -922,6 +922,11 @@ export interface ArlasSettings {
    * Check is performed on whether the intercepted url matches the beginning of any whitelisted url.
    */
   whitelistedUrls?: string[];
+
+  /**
+   * Theme to use for the draw in an ARLAS map
+   */
+  drawTheme?: DrawTheme;
 }
 
 export interface LinkSettings {
