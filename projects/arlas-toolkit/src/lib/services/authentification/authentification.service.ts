@@ -19,7 +19,7 @@
 
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AuthConfig, OAuthErrorEvent, OAuthService, OAuthStorage, UserInfo } from 'angular-oauth2-oidc';
+import { AuthConfig, OAuthErrorEvent, OAuthEvent, OAuthService, OAuthStorage, UserInfo } from 'angular-oauth2-oidc';
 import { BehaviorSubject, Observable, ReplaySubject, combineLatest } from 'rxjs';
 import { from } from 'rxjs/internal/observable/from';
 import { filter } from 'rxjs/internal/operators/filter';
@@ -252,6 +252,17 @@ export class AuthentificationService extends ArlasAuthentificationService {
         }
       });
     }
+    this.oauthService.events.subscribe((event: OAuthEvent) => {
+      if (event.type === 'token_received') {
+        // Store a unique timestamp used as a cache-busting parameter on API requests
+        // This prevents the browser from reusing cached responses from a previous session
+        sessionStorage.setItem('cache_bust', Date.now().toString());
+      }
+      if (event.type === 'logout') {
+        // Clear the cache-busting token on logout to avoid stale values on next login
+        sessionStorage.removeItem('cache_bust');
+      }
+    });
 
     this.oauthService.events.pipe(filter(e => e.type !== 'session_unchanged'))
       .subscribe(e => {

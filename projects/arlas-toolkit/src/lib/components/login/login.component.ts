@@ -54,7 +54,7 @@ export class LoginComponent implements OnInit {
     private settingsService: ArlasSettingsService,
     private errorService: ErrorService,
     private router: Router
-  ) {}
+  ) { }
 
 
   public ngOnInit(): void {
@@ -96,6 +96,9 @@ export class LoginComponent implements OnInit {
     this.isLoading = true;
     this.iamService.login(this.loginForm.get('email').value, this.loginForm.get('password').value).subscribe({
       next: loginData => {
+        // Store a unique timestamp used as a cache-busting parameter on API requests
+        // This prevents the browser from reusing cached responses from a previous session
+        sessionStorage.setItem('cache_bust', Date.now().toString());
         this.iamService.user = loginData.user;
         this.iamService.setHeadersFromAccesstoken(loginData.access_token);
         this.iamService.notifyTokenRefresh(loginData);
