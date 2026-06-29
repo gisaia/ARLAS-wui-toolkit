@@ -17,25 +17,26 @@
  * under the License.
  */
 
-import { Observable, merge, BehaviorSubject } from 'rxjs';
 import { DataSource } from '@angular/cdk/collections';
-import { ArlasLocalDatabase } from './arlasLocalDatabase';
-import { sortOnDate, ArlasStorageObject } from './utils';
+import { BehaviorSubject, Observable, merge } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ArlasLocalDatabase } from './arlasLocalDatabase';
+import { ArlasStorageObject, sortOnDate } from './utils';
 
-export class ArlasDataSource extends DataSource<any> {
-  private _filterChange = new BehaviorSubject('');
+export class ArlasDataSource<T extends ArlasStorageObject> extends DataSource<T> {
+  private readonly _filterChange = new BehaviorSubject('');
+
   public get filter(): string {
     return this._filterChange.value;
   }
   public set filter(filter: string) {
     this._filterChange.next(filter);
   }
-  public constructor(public arlasLocalDatabase: ArlasLocalDatabase<ArlasStorageObject>) {
+  public constructor(public arlasLocalDatabase: ArlasLocalDatabase<T>) {
     super();
   }
   /** Connect function called by the table to retrieve one stream containing the data to render. */
-  public connect(): Observable<ArlasStorageObject[]> {
+  public connect(): Observable<T[]> {
     const displayDataChanges = [
       this.arlasLocalDatabase.dataChange,
       this._filterChange
@@ -48,14 +49,15 @@ export class ArlasDataSource extends DataSource<any> {
   }
 
   public disconnect() { }
-  public getSortedData(): ArlasStorageObject[] {
+
+  public getSortedData(): T[] {
     const data = this.arlasLocalDatabase.data.slice();
     // force date asc sort
     const sortedData = sortOnDate(data);
-    return sortedData.slice().filter((item: ArlasStorageObject) => {
+    return sortedData.slice().filter(item => {
       if (item.name !== undefined) {
         const searchStr = (item.name).toLowerCase();
-        return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
+        return searchStr.includes(this.filter.toLowerCase());
       }
     });
 

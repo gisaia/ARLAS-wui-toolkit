@@ -20,7 +20,8 @@
       "ES2022",
       "DOM",
       "DOM.Iterable"
-    ]
+    ],
+    "strict": true
   },
   "exclude": [
     "node_modules"

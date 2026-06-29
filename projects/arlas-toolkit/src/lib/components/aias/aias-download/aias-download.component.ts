@@ -40,6 +40,13 @@ import { AiasResultComponent } from '../aias-result/aias-result.component';
 
 export const DOWNLOAD_PROCESS_NAME = marker('download');
 
+export interface AiasDownloadPayload {
+  raw_archive: boolean | null | undefined;
+  target_format: string | null | undefined;
+  target_projection: string | null | undefined;
+  crop_wkt: string | null | undefined;
+}
+
 @Component({
   selector: 'arlas-aias-download',
   templateUrl: './aias-download.component.html',
@@ -64,9 +71,9 @@ export const DOWNLOAD_PROCESS_NAME = marker('download');
 })
 export class AiasDownloadComponent extends AiasProcess implements OnInit, OnDestroy {
 
-  public formGroup: FormGroup = new FormGroup({
+  public formGroup = new FormGroup({
     raw_archive: new FormControl<boolean>(true),
-    crop_wkt: new FormControl<boolean>(false),
+    do_crop_wkt: new FormControl<boolean>(false),
     target_projection: new FormControl<string>(marker('native')),
     target_format: new FormControl<string>('native')
   });
@@ -120,7 +127,7 @@ export class AiasDownloadComponent extends AiasProcess implements OnInit, OnDest
       const assetFormat = this.data.itemDetail.get(assetFormatKey).toUpperCase();
       if (assetFormat === 'JPEG2000') {
         this.pictureFormats = ['Jpeg2000'];
-        this.formGroup.get('target_format').setValue('Jpeg2000');
+        this.formGroup.controls.target_format.setValue('Jpeg2000');
       } else if (assetFormat === 'GEOTIFF') {
         this.pictureFormats = this.pictureFormats.filter(format => format.toUpperCase() !== 'GEOTIFF');
       }
@@ -154,28 +161,28 @@ export class AiasDownloadComponent extends AiasProcess implements OnInit, OnDest
   }
 
   private _listenFormsChanges(): void{
-    this.formGroup.get('raw_archive')
+    this.formGroup.controls.raw_archive
       .valueChanges
       .pipe(takeUntil(this._onDestroy$))
       .subscribe(checked => {
         this.displayAoiForms = !checked && this.hasAoi;
         this.displayFormatFrom = !checked &&  this.hasOneItemToDownload();
         this.displayProjectionFrom = !checked &&  this.hasOneItemToDownload();
-        this.formGroup.get('crop_wkt').setValue(false);
-        if(checked){
-          this.formGroup.get('target_format').setValue('native');
-          this.formGroup.get('target_projection').setValue('native');
+        this.formGroup.controls.do_crop_wkt.setValue(false);
+        if (checked) {
+          this.formGroup.controls.target_format.setValue('native');
+          this.formGroup.controls.target_projection.setValue('native');
         }
       });
 
-    this.formGroup.get('crop_wkt')
+    this.formGroup.controls.do_crop_wkt
       .valueChanges
       .pipe(takeUntil(this._onDestroy$))
       .subscribe(checked => {
         this.displayFormatFrom = !this.downloadAllElements() &&  this.hasOneItemToDownload();
         this.displayProjectionFrom =  !this.downloadAllElements() && !checked &&  this.hasOneItemToDownload();
-        if(checked){
-          this.formGroup.get('target_projection').setValue('native');
+        if (checked) {
+          this.formGroup.controls.target_projection.setValue('native');
         }
       });
   }
@@ -185,14 +192,19 @@ export class AiasDownloadComponent extends AiasProcess implements OnInit, OnDest
   }
 
   public downloadAllElements(): boolean {
-    return this.formGroup.get('raw_archive').value;
+    return !!this.formGroup.value.raw_archive;
   }
 
   protected preparePayload() {
-    const payload = this.formGroup.value;
-    payload['crop_wkt'] = '';
-    if(this.formGroup.get('crop_wkt').value === true && this.hasAoi){
-      payload['crop_wkt'] = this.data.wktAoi;
+    const payload: AiasDownloadPayload = {
+      raw_archive: this.formGroup.value.raw_archive,
+      target_format: this.formGroup.value.target_format,
+      target_projection: this.formGroup.value.target_projection,
+      crop_wkt: null
+    };
+
+    if (this.formGroup.value.do_crop_wkt === true && this.hasAoi) {
+      payload.crop_wkt = this.data.wktAoi;
     }
 
     return payload;

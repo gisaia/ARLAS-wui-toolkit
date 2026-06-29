@@ -41,7 +41,7 @@ export class AiasResultComponent {
 
   @Input() public isProcessing = false;
 
-  @Input() public statusResult: ProcessOutput;
+  @Input() public statusResult: ProcessOutput | null = null;
 
   @Input() public hasError = false;
 

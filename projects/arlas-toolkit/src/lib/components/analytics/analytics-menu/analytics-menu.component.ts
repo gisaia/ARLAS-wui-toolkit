@@ -25,7 +25,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { TranslatePipe } from '@ngx-translate/core';
 import { AnalyticsService } from '../../../services/analytics/analytics.service';
 import { getParamValue } from '../../../tools/utils';
-import { AnalyticGroupConfiguration } from '../analytics.utils';
 
 @Component({
   selector: 'arlas-analytics-menu',
@@ -50,18 +49,12 @@ export class AnalyticsMenuComponent implements OnInit {
 
   /**
    * @Input : Angular
-   * @description List of groups. Each group contains one or more widgets.
-   */
-  @Input() public groups: Array<AnalyticGroupConfiguration>;
-
-  /**
-   * @Input : Angular
    * @description Whether to show the indicator of filters applied on this tab.
    */
   @Input() public showIndicators = false;
 
   public constructor(
-    public analyticsService: AnalyticsService
+    public readonly analyticsService: AnalyticsService
   ) { }
 
   public ngOnInit(): void {

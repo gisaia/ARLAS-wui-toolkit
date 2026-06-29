@@ -1,17 +1,17 @@
 <div #arlas_tooltip_anchor></div>
 
-@if (componentType === 'histogram') {
+@if (componentType() === 'histogram') {
   <div class="histogram-container">
-    <arlas-tool-histogram-widget [contributor]="contributor | asHistogramContributor" [componentInputs]="graphParam" [showExportCsv]="showExportCsv"
-      [spinnerOptions]="spinnerOptions" [position]="position" [groupLength]="groupLength" [noDetail]="noDetail"
+    <arlas-tool-histogram-widget [contributor]="contributor() | asHistogramContributor" [componentInputs]="graphParam" [showExportCsv]="showExportCsv"
+      [spinnerOptions]="spinnerOptions" [position]="position()" [groupLength]="groupLength()" [noDetail]="noDetail"
       (exportCsvEvent)="exportCsv($event.contributor, $event.firstLevel, $event.type, 'histogram')"></arlas-tool-histogram-widget>
   </div>
-} @else if (componentType === 'swimlane') {
+} @else if (componentType() === 'swimlane') {
   <div (mouseleave)="hideSwimlaneTooltip()">
     @if (showSwimlaneDropDown) {
       <div class="dropdownSwimlane">
         <mat-form-field>
-          <mat-select panelClass="panelSwimlane" [value]="swimSelected.name" (change)="changeSwimlane($event)">
+          <mat-select panelClass="panelSwimlane" [value]="swimSelected.name" (selectionChange)="changeSwimlane($event)">
             @for (s of swimlanes; track s) {
               <mat-option value="{{s?.name}}">{{s.name | translate}}</mat-option>
             }
@@ -19,7 +19,7 @@
         </mat-form-field>
       </div>
     }
-    @let c = contributor | asSwimlaneContributor;
+    @let c = contributor() | asSwimlaneContributor;
     <arlas-histogram [chartType]="chartType.swimlane" [selectedSwimlanes]="c.selectedSwimlanes" [data]="$any(c.swimData)"
       (selectedSwimlanesEvent)="c.valueChanged($event)" [id]="graphParam?.id" [dataType]="graphParam?.dataType" [dataUnit]="graphParam?.dataUnit"
       [valuesDateFormat]="graphParam?.valuesDateFormat" [isHistogramSelectable]="graphParam?.isHistogramSelectable" [multiselectable]="graphParam?.multiselectable"
@@ -35,8 +35,8 @@
       [swimlaneRepresentation]="graphParam?.swimlane_representation" [swimlaneOptions]="graphParam?.swimlane_options"
       [useUtc]="c.useUtc"  (tooltipEvent)="showSwimlaneTooltip($event, arlas_tooltip_anchor)"></arlas-histogram>
   </div>
-} @else if (componentType === 'powerbars') {
-  @let c = contributor | asTreeContributor;
+} @else if (componentType() === 'powerbars') {
+  @let c = contributor() | asTreeContributor;
   <div class="powerbars-widget">
     <arlas-powerbars [customizedCssClass]="graphParam?.customizedCssClass" [powerbarTitle]="graphParam?.powerbarTitle" [displayFilterField]="graphParam?.displayFilter"
       [inputData]="c.treeData" [unit]="graphParam?.unit" [missingLeafEvent]="c.emitMissingLeaf"
@@ -45,40 +45,40 @@
       [selectedPaths]="c.selectedNodesPathsList" (searchedTerm)="c.updateTreeDataSearch($event)"
       [groupSelections]="graphParam?.groupSelections"  [selectWithCheckbox]="graphParam?.selectWithCheckbox"
       (filterOperatorEvent)="changePowerbarsOperator($event)" (overPowerBarEvent)="showPowerbarTooltip($event, arlas_tooltip_anchor)" (outPowerBarEvent)="hidePowerbarTooltip()"
-      [chartWidth]="graphParam?.chartWidth" [displayExportButton]="showExportCsv" (exportEvent)="exportCsv(contributor, true, componentType)">
+      [chartWidth]="graphParam?.chartWidth" [displayExportButton]="showExportCsv" (exportEvent)="exportCsv(contributor(), true, componentType())">
     </arlas-powerbars>
   </div>
-} @else if (componentType === 'donut') {
-  @let c = contributor | asTreeContributor;
+} @else if (componentType() === 'donut') {
+  @let c = contributor() | asTreeContributor;
   <div class="donut-container">
-    <div class="donut">{{contributor?.getFilterDisplayName() | translate}}</div>
+    <div class="donut">{{contributor().getFilterDisplayName() | translate}}</div>
     <arlas-donut [id]="graphParam?.id" [donutData]="c.treeData" [opacity]="graphParam.opacity" [multiselectable]="graphParam?.multiselectable"
       [selectedArcsList]="c.selectedNodesPathsList" [unit]="graphParam?.unit" [diameter]="graphParam?.diameter" (hoveredNodeTooltipEvent)="showDonutTooltip($event, arlas_tooltip_anchor)"
       [containerWidth]="graphParam?.containerWidth" [keysToColors]="graphParam?.keysToColors" [colorsSaturationWeight]="graphParam?.colorsSaturationWeight"
       (selectedNodesEvent)="c.selectedNodesListChanged($event)" [customizedCssClass]="graphParam?.customizedCssClass"
-      [displayExportButton]="showExportCsv" (exportEvent)="exportCsv(contributor, false, componentType)">
+      [displayExportButton]="showExportCsv" (exportEvent)="exportCsv(contributor(), false, componentType())">
     </arlas-donut>
   </div>
-} @else if (componentType === 'resultlist') {
-  @let c = contributor | asListContributor;
+} @else if (componentType() === 'resultlist') {
+  @let c = contributor() | asListContributor;
   <div>
     <arlas-result-list style="height:100%" [rowItemList]="c.data" [detailedDataRetriever]="c.detailedDataRetriever"
       [fieldsConfiguration]="c.fieldsConfiguration" [tableFields]="c.fieldsList" [cardFields]="c.cardViewProperties" [filtersMap]="c.filtersMap"
-      [dropDownMapValues]="c.dropDownMapValues" (sortColumnEvent)="emitEvent(contributorId, 'sortColumnEvent', $event)" [fetchState]="c.fetchState"
-      (paginationEvent)="emitEvent(contributorId, 'paginationEvent', $event)" (setFiltersEvent)="c.setFilters($event)"
+      [dropDownMapValues]="c.dropDownMapValues" (sortColumnEvent)="emitEvent(contributorId(), 'sortColumnEvent', $event)" [fetchState]="c.fetchState"
+      (paginationEvent)="emitEvent(contributorId(), 'paginationEvent', $event)" (setFiltersEvent)="c.setFilters($event)"
       [tableWidth]="graphParam.tableWidth" [globalActionsList]="graphParam.globalActionsList" [nLastLines]="graphParam.nLastLines"
-      [detailedGridHeight]="graphParam.detailedGridHeight" [nbGridColumns]="graphParam.nbGridColumns" [indeterminatedItems]="indeterminatedItems"
-      [highlightItems]="c.highlightItems" [hasCardMode]="!!graphParam?.hasCardView" [hasGridMode]="graphParam?.hasGridView" [defautMode]="graphParam.defaultMode" [displayFilters]="graphParam.displayFilters"
+      [detailedGridHeight]="graphParam.detailedGridHeight" [nbGridColumns]="graphParam.nbGridColumns"
+      [highlightItems]="c.highlightItems" [hasCardMode]="!!graphParam?.hasCardView" [hasGridMode]="graphParam?.hasGridView" [defautMode]="graphParam.defautMode" [displayFilters]="graphParam.displayFilters"
       [isBodyHidden]="graphParam.isBodyHidden" [isGeoSortEnabled]="graphParam?.isGeoSortActived"
       [useColorService]="graphParam?.useColorService" [cellBackgroundStyle]="graphParam?.cellBackgroundStyle" [keysToColors]="graphParam?.keysToColors"
-      [colorsSaturationWeight]="graphParam?.colorsSaturationWeight" (geoSortEvent)="emitEvent(contributorId, 'geoSortEvent', $event)"
-      (geoAutoSortEvent)="emitEvent(contributorId, 'geoAutoSortEvent', $event)" (selectedItemsEvent)="emitEvent(contributorId, 'selectedItemsEvent', $event)"
-      (consultedItemEvent)="emitEvent(contributorId, 'consultedItemEvent', $event)" (actionOnItemEvent)="emitEvent(contributorId, 'actionOnItemEvent', $event)"
-      (globalActionEvent)="emitEvent(contributorId, 'globalActionEvent', $event)" [options]="graphParam?.options">
+      [colorsSaturationWeight]="graphParam?.colorsSaturationWeight" (geoSortEvent)="emitEvent(contributorId(), 'geoSortEvent', $event)"
+      (geoAutoSortEvent)="emitEvent(contributorId(), 'geoAutoSortEvent', $event)" (selectedItemsEvent)="emitEvent(contributorId(), 'selectedItemsEvent', $event)"
+      (consultedItemEvent)="emitEvent(contributorId(), 'consultedItemEvent', $event)" (actionOnItemEvent)="emitEvent(contributorId(), 'actionOnItemEvent', $event)"
+      (globalActionEvent)="emitEvent(contributorId(), 'globalActionEvent', $event)" [options]="graphParam?.options">
     </arlas-result-list>
   </div>
-} @else if (componentType === 'metric') {
-  @let c = contributor | asMetricContributor;
+} @else if (componentType() === 'metric') {
+  @let c = contributor() | asMetricContributor;
   <div>
     <arlas-metric [beforeValue]="graphParam?.beforeValue" [shortValue]="graphParam?.shortValue"
       [value]="c.metricValue" [afterValue]="graphParam?.afterValue" [approximateValue]="metricApproximate"
@@ -86,8 +86,8 @@
       [chartWidth]="graphParam?.chartWidth" >
     </arlas-metric>
   </div>
-} @else if (componentType === 'metricstable') {
-  @let c = contributor | asMetricsTableContributor;
+} @else if (componentType() === 'metricstable') {
+  @let c = contributor() | asMetricsTableContributor;
   <div>
     <arlas-metrics-table
       [metricsTable]="$any(c.data)"

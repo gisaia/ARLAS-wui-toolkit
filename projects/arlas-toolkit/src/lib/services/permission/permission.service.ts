@@ -17,11 +17,11 @@
  * under the License.
  */
 
-import { Inject, Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { AuthorizeApi, Configuration, Resource } from 'arlas-permissions-api';
 import { Observable } from 'rxjs/internal/Observable';
 import { from } from 'rxjs/internal/observable/from';
-import { GET_OPTIONS } from '../../tools/utils';
+import { GET_OPTIONS, GetOptions } from '../../tools/utils';
 import { ArlasSettingsService } from '../settings/arlas.settings.service';
 
 @Injectable({
@@ -29,18 +29,18 @@ import { ArlasSettingsService } from '../settings/arlas.settings.service';
 })
 export class PermissionService {
 
-  private authorizeApi: AuthorizeApi;
-  private options;
+  private authorizeApi!: AuthorizeApi;
+  private options: GetOptions = {};
+  private readonly getOptions = inject(GET_OPTIONS);
 
   public constructor(
-    @Inject(GET_OPTIONS) private getOptions,
-    private settingsService: ArlasSettingsService
+    private readonly settingsService: ArlasSettingsService
   ) {
     this.setOptions(this.getOptions());
     this.createPermissionApiInstance();
   }
 
-  public setOptions(options): void {
+  public setOptions(options: GetOptions): void {
     this.options = options;
   }
 

@@ -14,8 +14,8 @@
     <ng-container *ngTemplateOutlet="intervalTextTemplate;
       context: {
         unit: tooltip.xUnit,
-        interval: tooltip.xRange.unit,
-        intervalValue: tooltip.xRange.value,
+        interval: tooltip.xRange?.unit,
+        intervalValue: tooltip.xRange?.value,
         isTime: tooltip.dataType === 'time'
         }"></ng-container>
   </ng-container>
@@ -48,7 +48,7 @@
           </td>
 
           @if (isHistogram) {
-            @if (tooltip?.dataType === 'time') {
+            @if (tooltip.dataType === 'time') {
               <td>
                 <div class="value-unit">
                   {{ ((tooltip.yUnit && tooltip.yUnit.length > 0) ? tooltip.yUnit : y.chartId | getCollectionUnit) | translate }}

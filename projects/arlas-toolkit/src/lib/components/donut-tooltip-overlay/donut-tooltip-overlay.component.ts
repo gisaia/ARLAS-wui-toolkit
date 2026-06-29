@@ -19,7 +19,7 @@
  */
 
 import { Component, inject } from '@angular/core';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { ARLASDonutTooltip } from 'arlas-d3';
 import { FormatNumberPipe } from 'arlas-web-components';
 import { DONUT_TOOLTIP_DATA } from '../../tools/utils';
@@ -30,7 +30,7 @@ import { WidgetTooltipComponent } from '../widget-tooltip/widget-tooltip.compone
   templateUrl: './donut-tooltip-overlay.component.html',
   styleUrls: ['./donut-tooltip-overlay.component.scss'],
   imports: [
-    TranslateModule,
+    TranslatePipe,
     WidgetTooltipComponent,
     FormatNumberPipe
   ]

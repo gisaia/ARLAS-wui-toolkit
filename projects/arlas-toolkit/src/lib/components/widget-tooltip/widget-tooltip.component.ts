@@ -38,7 +38,7 @@ export interface WidgetTooltip<T> {
   styleUrl: './widget-tooltip.component.scss'
 })
 export class WidgetTooltipComponent {
-  public title = input.required<string>();
+  public title = input<string>();
 
   /** Whether to hide the box-shadow */
   public isFlat = input<boolean>(false);

@@ -17,8 +17,8 @@
  * under the License.
  */
 
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormGroupDirective, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component } from '@angular/core';
+import { FormControl, FormGroup, FormGroupDirective, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
@@ -33,33 +33,27 @@ import { ArlasSettingsService } from '../../services/settings/arlas.settings.ser
     styleUrls: ['./register.component.scss'],
     imports: [FormsModule, ReactiveFormsModule, MatFormField, MatLabel, MatInput, MatError, MatButton, RouterLink, TranslatePipe]
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent {
 
-  public signUpForm: FormGroup;
+  public signUpForm = new FormGroup({
+    email: new FormControl('', [Validators.required, Validators.email, Validators.pattern(String.raw`^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$`)])
+  });
+
   public validated = false;
   public displayForm = true;
   public allowRegister = false;
 
   public constructor(
-    private formBuilder: FormBuilder,
-    private iamService: ArlasIamService,
-    private settingsService: ArlasSettingsService,
-
-  ) { }
-
-  public ngOnInit(): void {
+    private readonly iamService: ArlasIamService,
+    private readonly settingsService: ArlasSettingsService
+  ) {
     const authSettings = this.settingsService.getAuthentSettings();
-    this.allowRegister = authSettings.sign_up_enabled;
-    if (this.allowRegister) {
-      this.signUpForm = this.formBuilder.group({
-        email: ['', [Validators.required, Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]]
-      });
-    }
+    this.allowRegister = !!authSettings?.sign_up_enabled;
   }
 
   public onSubmit(formDirective: FormGroupDirective) {
     this.validated = false;
-    this.iamService.signUp(this.signUpForm.get('email').value).subscribe({
+    this.iamService.signUp(this.signUpForm.value.email as string).subscribe({
       next: () => {
         formDirective.resetForm();
         this.signUpForm.reset();

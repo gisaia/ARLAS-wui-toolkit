@@ -104,16 +104,15 @@ const DUMMY_CONFIG: Config = {
 export class HomeComponent implements OnInit {
 
   public shortcuts: Array<FilterShortcutConfiguration>;
-  public languages: string[];
+  public languages = ['en', 'fr', 'it', 'es', 'de', 'us', 'cn'];;
   public analyticsOpen = false;
-  public target: string;
   public timelineComponentConfig: TimelineConfiguration;
   public detailedTimelineComponentConfig: TimelineConfiguration;
 
-  public lastShortcutOpen: number;
+  public lastShortcutOpen?: number;
   public isShortcutOpen: Array<boolean> = new Array();
 
-  public version: string;
+  public version = packageJson.version;;
 
   public searchContributors = new Array<SearchContributor>();
 
@@ -173,9 +172,8 @@ export class HomeComponent implements OnInit {
     }
   ];
 
-  @ViewChild('tooltip') public tooltip;
-  @ViewChild('download', { static: false }) private readonly downloadComponent: DownloadComponent;
-  @ViewChild('share', { static: false }) private readonly shareComponent: ShareComponent;
+  @ViewChild('download', { static: false }) private readonly downloadComponent?: DownloadComponent;
+  @ViewChild('share', { static: false }) private readonly shareComponent?: ShareComponent;
 
   public constructor(
     private readonly arlasStartupService: ArlasStartupService,
@@ -186,31 +184,29 @@ export class HomeComponent implements OnInit {
     private readonly analyticsService: AnalyticsService,
     private readonly collaborativeService: ArlasCollaborativesearchService,
     private readonly dialog: MatDialog
-  ) { }
-
-  public ngOnInit(): void {
+  ) {
     this.processService.setOptions({});
-    this.processService.load('download').subscribe();
     this.analyticsService.initializeGroups(this.arlasStartupService.analytics);
     this.shortcuts = this.arlasStartupService.filtersShortcuts;
-    this.languages = ['en', 'fr', 'it', 'es', 'de', 'us', 'cn'];
+
     this.timelineComponentConfig = this.arlasConfigService.getValue('arlas.web.components.timeline');
     this.detailedTimelineComponentConfig = this.arlasConfigService.getValue('arlas.web.components.detailedTimeline');
 
+    this.collections = [...new Set(Array.from(this.collaborativeService.registry.values()).map(c => c.collection))];
+  }
+
+  public ngOnInit(): void {
     const chipssearchContributorConfigs = this.getSearchContributorConfig();
     if (chipssearchContributorConfigs !== undefined && chipssearchContributorConfigs.length > 0) {
       this.searchContributors = chipssearchContributorConfigs
-        .map(c => this.arlasStartupService.contributorRegistry.get(c.identifier) as SearchContributor);
+        .map((c: any) => this.arlasStartupService.contributorRegistry.get(c.identifier) as SearchContributor);
     }
-
-    this.version = packageJson.version;
 
     this.shortcuts?.forEach((_, idx) => {
       this.isShortcutOpen.push(idx % 2 === 0);
     });
-    this.collections = [...new Set(Array.from(this.collaborativeService.registry.values()).map(c => c.collection))];
 
-    const authConfig: AuthentSetting = this.arlasAuthentService.authConfigValue;
+    const authConfig: AuthentSetting = this.arlasAuthentService.authSettings;
     if (!!authConfig && authConfig.use_authent) {
       if (authConfig.auth_mode === 'iam') {
         // IAM
@@ -293,7 +289,7 @@ export class HomeComponent implements OnInit {
   }
 
   public displayDownload() {
-    this.downloadComponent.openDialog();
+    this.downloadComponent?.openDialog();
   }
 
   public displayShare() {
@@ -311,12 +307,12 @@ export class HomeComponent implements OnInit {
         false
       ]
     ]);
-    this.shareComponent.openDialog(visibility);
+    this.shareComponent?.openDialog(visibility);
   }
 
   private getSearchContributorConfig() {
     return this.arlasStartupService.emptyMode ? undefined : this.arlasConfigService.getValue('arlas.web.contributors').filter(
-      contrib => (contrib.type === 'search' || contrib.type === 'chipssearch')
+      (contrib: any) => (contrib.type === 'search' || contrib.type === 'chipssearch')
     );
   }
 
@@ -361,9 +357,11 @@ export class HomeComponent implements OnInit {
   }
 
   public openConfirm() {
-    const confirmDialogRef = this.dialog.open(ConfirmModalComponent);
-    confirmDialogRef.componentInstance.confirmHTLMMessage =
-        '<strong>Remove</strong> all tags from `Test` ?';
+    this.dialog.open(ConfirmModalComponent, {
+      data: {
+        confirmHTMLMessage: '<strong>Remove</strong> all tags from `Test` ?'
+      }
+    });
   }
 
   public openDeniedAccess() {

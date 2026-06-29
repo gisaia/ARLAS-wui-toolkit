@@ -17,9 +17,9 @@
  * under the License.
  */
 
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, input, OnInit, Output } from '@angular/core';
 import { MatButton } from '@angular/material/button';
-import { MatCheckbox } from '@angular/material/checkbox';
+import { MatCheckbox, MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialogActions } from '@angular/material/dialog';
 import {
   MatCell,
@@ -57,29 +57,30 @@ export interface PersistenceGroup {
 })
 export class ShareConfigComponent implements OnInit {
 
-  @Input() public config: Config;
+  public config = input.required<Config>();
   @Output() public updateEmitter: EventEmitter<[boolean, any]> = new EventEmitter();
-  public groups: Array<PersistenceGroup>;
+  public groups: Array<PersistenceGroup> = [];
 
-  public constructor(private persistenceService: PersistenceService,
-    private configurationService: ArlasConfigService, private errorService: ErrorService
-  ) {
+  public constructor(
+    private readonly persistenceService: PersistenceService,
+    private readonly configurationService: ArlasConfigService,
+    private readonly errorService: ErrorService
+  ) { }
 
-  }
   public ngOnInit() {
-    const options = this.getOptionsSetOrg(this.config.org);
-    this.persistenceService.getGroupsByZone(this.config.zone, options).pipe(take(1)).subscribe((s: any) => {
+    const options = this.getOptionsSetOrg(this.config().org);
+    this.persistenceService.getGroupsByZone(this.config().zone, options).pipe(take(1)).subscribe((s: any) => {
       this.groups = new Array();
-      s.forEach(g => {
+      s.forEach((g: string) => {
         const paths = g.split('/');
         const group: PersistenceGroup = {
           name: g,
           label: paths[paths.length - 1],
-          reader: (new Set(this.config.readers)).has(g),
-          writer: (new Set(this.config.writers)).has(g)
+          reader: (new Set(this.config().readers)).has(g),
+          writer: (new Set(this.config().writers)).has(g)
         };
         if(g === 'group/public'){
-          if(this.config.displayPublic){
+          if(this.config().displayPublic){
             this.groups.push(group);
           }
         }else{
@@ -90,8 +91,8 @@ export class ShareConfigComponent implements OnInit {
   }
 
   public updateGroups() {
-    const readers = this.config.readers ? new Set<string>(this.config.readers) : new Set<string>();
-    const writers = this.config.writers ? new Set<string>(this.config.writers) : new Set<string>();
+    const readers = this.config().readers ? new Set(this.config().readers) : new Set<string>();
+    const writers = this.config().writers ? new Set(this.config().writers) : new Set<string>();
     this.groups.forEach(g => {
       if (g.reader) {
         readers.add(g.name);
@@ -104,10 +105,10 @@ export class ShareConfigComponent implements OnInit {
         writers.delete(g.name);
       }
     });
-    const options = this.getOptionsSetOrg(this.config.org);
+    const options = this.getOptionsSetOrg(this.config().org);
     this.persistenceService
-      .update(this.config.id, this.config.value, this.config.lastUpdate,
-        this.config.name, Array.from(readers), Array.from(writers), options)
+      .update(this.config().id, this.config().value, this.config().lastUpdate,
+        this.config().name, Array.from(readers), Array.from(writers), options)
       .pipe(
         catchError((err) => {
           this.errorService.closeAll().afterAllClosed.pipe(take(1))
@@ -118,12 +119,12 @@ export class ShareConfigComponent implements OnInit {
       )
       .subscribe({
         next: () => {
-          this.config.readers = Array.from(readers);
-          this.config.writers = Array.from(writers);
+          this.config().readers = Array.from(readers);
+          this.config().writers = Array.from(writers);
           this.updateEmitter.emit([true, this.config]);
         }
       });
-    const arlasConfig = this.configurationService.parse(this.config.value);
+    const arlasConfig = this.configurationService.parse(this.config().value);
     if (!!arlasConfig) {
       const resourcesGroups = this.persistenceService.dashboardToResourcesGroups(Array.from(readers), Array.from(writers));
       if (this.configurationService.hasPreview(arlasConfig)) {
@@ -153,10 +154,10 @@ export class ShareConfigComponent implements OnInit {
     this.updateEmitter.emit([true, {}]);
   }
 
-  public changeReader(changeValue, group: PersistenceGroup) {
+  public changeReader(changeValue: MatCheckboxChange, group: PersistenceGroup) {
     group.reader = changeValue.checked;
   }
-  public changeWriter(changeValue, group: PersistenceGroup) {
+  public changeWriter(changeValue: MatCheckboxChange, group: PersistenceGroup) {
     group.writer = changeValue.checked;
   }
 }

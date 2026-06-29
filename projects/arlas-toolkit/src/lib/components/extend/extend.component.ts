@@ -26,7 +26,6 @@ import { MatTableModule } from '@angular/material/table';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
 import { ArlasExtendService } from '../../services/extend/extend.service';
-import { ExtendLocalDatabase } from '../../services/extend/extendLocalDatabase';
 import { ExtendPersistenceDatabase } from '../../services/extend/extendPersistenceDatabase';
 import { Extend } from '../../services/extend/model';
 import { ArlasDataSource } from '../../tools/arlasDataSource';
@@ -46,7 +45,7 @@ import { ArlasDataSource } from '../../tools/arlasDataSource';
 })
 export class ExtendComponent {
 
-  public extends: ArlasDataSource | Extend[];
+  public extends: ArlasDataSource<Extend> | Extend[] = [];
   public columnsToDisplay = ['checked', 'name', 'date', 'actions'];
   public itemsCheck: Array<string> = new Array<string>();
 
@@ -71,8 +70,8 @@ export class ExtendComponent {
           this.resultsLength = data.total;
           this.extends = data.items;
         });
-    } else {
-      this.extends = new ArlasDataSource(this.extendService.dataBase as ExtendLocalDatabase);
+    } else if (this.extendService.dataBase) {
+      this.extends = new ArlasDataSource(this.extendService.dataBase);
     }
   }
 
@@ -99,8 +98,8 @@ export class ExtendComponent {
   }
 
   public viewExtend(id: string) {
-    const extend: Extend = this.extendService.getExtendById(id);
-    this.actions.next({ action: 'view', id: id, geometry: extend.geometry });
+    const extend = this.extendService.getExtendById(id);
+    this.actions.next({ action: 'view', id: id, geometry: extend?.geometry });
 
   }
 

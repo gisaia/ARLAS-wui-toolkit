@@ -25,7 +25,7 @@ import { AuthentSetting } from '../../tools/utils';
 })
 export class ArlasAuthentificationService {
 
-  public authConfigValue: AuthentSetting;
+  public authSettings!: AuthentSetting;
 
   protected emitSessionEnd() {
     localStorage.setItem('arlas-logout-event', 'logout' + Date.now());

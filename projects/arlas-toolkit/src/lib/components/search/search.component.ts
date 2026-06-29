@@ -18,10 +18,11 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { Component, Inject, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
-import { FormsModule, ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
+import { Component, computed, DestroyRef, inject, Inject, input, Input, linkedSignal, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
@@ -31,9 +32,9 @@ import { marker } from '@colsen1991/ngx-translate-extract-marker';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { AggregationResponse } from 'arlas-api';
 import { ArlasColorService, GetCollectionDisplayNamePipe } from 'arlas-web-components';
-import { SearchContributor } from 'arlas-web-contributors';
+import { AggregationResponseWithCollection, SearchContributor } from 'arlas-web-contributors';
 import { OperationEnum } from 'arlas-web-core';
-import { Observable, of, Subject, Subscription, zip } from 'rxjs';
+import { Observable, of, Subject, zip } from 'rxjs';
 import { debounceTime, filter, map, mergeMap, mergeWith, startWith } from 'rxjs/operators';
 import { ArlasCollaborativesearchService } from '../../services/collaborative-search/arlas.collaborative-search.service';
 import { ArlasConfigService } from '../../services/startup/startup.service';
@@ -49,31 +50,33 @@ import { ArlasConfigService } from '../../services/startup/startup.service';
     MatTooltipModule
   ]
 })
-export class SearchComponent implements OnInit, OnDestroy, OnChanges {
+export class SearchComponent implements OnInit {
   /**
    * @Input : Angular
    * @description Search contributor
    */
-  @Input({ required: true }) public searchContributors: SearchContributor[];
+  public searchContributors = input.required<SearchContributor[]>();
 
   /**
    * @Input : Angular
    * @description Top position of the search dialog in pixels
    */
-  @Input() public dialogPositionTop: number;
+  @Input() public dialogPositionTop = 0;
 
   /**
    * @Input : Angular
    * @description Left position of the search dialog in pixels
    */
-  @Input() public dialogPositionLeft: number;
+  @Input() public dialogPositionLeft = 0;
 
   /**
    * @Input : Angular
    * @description Value of the search filter
    */
-  @Input() public searchValue: string;
+  public searchValue = input<string | undefined>();
 
+  /** Search value displayed by the component */
+  public displayedSearchValue = linkedSignal(() => this.searchValue() ?? this.searchPlaceholder());
   /**
  * @Input : Angular
  * @description Wether display or not the button to select the collections
@@ -83,13 +86,13 @@ export class SearchComponent implements OnInit, OnDestroy, OnChanges {
   /**
    * @description Placeholder value as retrieved from the search contributor
    */
-  public searchPlaceholder: string;
-
-  public retrieveSearchValueSubs: Subscription[];
+  public searchPlaceholder = computed<string>(() => this.translate.instant(
+    this.searchContributors()[0] ? this.searchContributors()[0].getName() : marker('Search...')));
 
   public collectionsState: Map<string, boolean> = new Map();
-  public collections: { label: string; checked: boolean; }[];
+  public collections: SearchCollection[] = [];
 
+  private readonly destroyRef = inject(DestroyRef);
   public constructor(
     private readonly arlasColorService: ArlasColorService,
     private readonly collaborativeService: ArlasCollaborativesearchService,
@@ -101,17 +104,15 @@ export class SearchComponent implements OnInit, OnDestroy, OnChanges {
 
   public ngOnInit(): void {
     // By default all the collections are checked in the checkbox list
-    this.searchContributors.forEach(s => this.collectionsState.set(s.collection, true));
-    this.collections = this.searchContributors.map(s => ({
+    this.searchContributors().forEach(s => this.collectionsState.set(s.collection, true));
+    this.collections = this.searchContributors().map(s => ({
       label: s.collection, checked: true,
       color: this.arlasColorService.getColor(s.collection)
     }));
-    this.searchPlaceholder = this.translate.instant(this.searchContributors[0] ? this.searchContributors[0].getName() : marker('Search...'));
-    this.searchValue = this.searchPlaceholder;
-    this.retrieveSearchValueSubs = new Array(this.searchContributors.length);
+
     // Retrieve value from the url and future collaborations
-    this.searchContributors.forEach((s, i) => {
-      this.retrieveSearchValueSubs[i] = this.collaborativeService.collaborationBus.pipe(
+    this.searchContributors().forEach((s, i) => {
+      this.collaborativeService.collaborationBus.pipe(
         filter(e => {
           const contributor = this.collaborativeService.registry.get(e.id);
           let letPassContributor = false;
@@ -119,7 +120,9 @@ export class SearchComponent implements OnInit, OnDestroy, OnChanges {
             letPassContributor = contributor.getConfigValue('type') === 'search' || contributor.getConfigValue('type') === 'chipssearch';
           }
           return s.isMyOwnCollaboration(e) || e.id === 'url' || e.id === 'all' || (letPassContributor && e.operation === OperationEnum.remove);
-        }))
+        }),
+        takeUntilDestroyed(this.destroyRef)
+      )
         .subscribe(
           e => {
             const collaboration = this.collaborativeService.getCollaboration(s.identifier);
@@ -128,44 +131,31 @@ export class SearchComponent implements OnInit, OnDestroy, OnChanges {
                 let initSearchValue = '';
                 if (collection === s.collection) {
                   for (const filter of f) {
-                    let searchtxt = filter.q[0][0];
-                    if (filter.q[0][0].split(':').length > 0) {
-                      searchtxt = filter.q[0][0].split(':')[1];
+                    let searchtxt = filter.q?.[0][0];
+                    if (searchtxt && searchtxt.split(':').length > 0) {
+                      searchtxt = searchtxt.split(':')[1];
                     }
-                    initSearchValue += searchtxt.replaceAll(/"/gi, '') + ' ';
+                    initSearchValue += searchtxt?.replaceAll(/"/gi, '') + ' ';
                   }
-                  this.searchValue = initSearchValue.slice(0, -1);
+                  this.displayedSearchValue.set(initSearchValue.slice(0, -1));
                 }
               });
             } else {
-              this.searchValue = this.searchPlaceholder;
+              this.displayedSearchValue.set(this.searchPlaceholder());
             }
           }
         );
     });
   }
 
-  public ngOnChanges(changes: SimpleChanges): void {
-    // If an empty value is passed, use the placeholder instead
-    if (!!changes['searchValue'] && !changes['searchValue'].currentValue) {
-      this.searchValue = this.searchPlaceholder;
-    }
-  }
-
-  public ngOnDestroy(): void {
-    if (this.retrieveSearchValueSubs) {
-      this.retrieveSearchValueSubs.forEach(r => r.unsubscribe());
-    }
-  }
-
   public search(value: string) {
-    this.searchContributors.filter(s => this.collectionsState.get(s.collection)).forEach(s => s.search(value));
-    if (this.searchContributors.length === 1) {
-      this.searchContributors[0].search(value);
+    this.searchContributors().filter(s => this.collectionsState.get(s.collection)).forEach(s => s.search(value));
+    if (this.searchContributors().length === 1) {
+      this.searchContributors()[0].search(value);
     } else {
       const configDebounceTime = this.configService.getValue('arlas.server.debounceCollaborationTime');
       const debounceDuration = configDebounceTime === undefined ? 750 : configDebounceTime;
-      const enabledContributors = this.searchContributors.filter(s => this.collectionsState.get(s.collection));
+      const enabledContributors = this.searchContributors().filter(s => this.collectionsState.get(s.collection));
       for (let i = 0; i < enabledContributors.length; i++) {
         setTimeout(() => {
           this.snackbar.open(this.translate.instant('Loading data of', { collection: enabledContributors[i].collection }));
@@ -179,15 +169,15 @@ export class SearchComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   public openDialog() {
-    const dialogRef = this.dialog.open(SearchDialogComponent, {
+    const dialogRef = this.dialog.open<SearchDialogComponent, SearchDialogData>(SearchDialogComponent, {
       id: 'arlas-search-dialog',
       position: {
         top: this.dialogPositionTop + 'px',
         left: this.dialogPositionLeft + 'px',
       },
       data: {
-        searchContributors: this.searchContributors,
-        value: this.searchValue,
+        searchContributors: this.searchContributors(),
+        value: this.displayedSearchValue(),
         collectionsState: this.collectionsState,
         collections: this.collections,
         displayCollectionSettings: this.displayCollectionSettings
@@ -210,15 +200,46 @@ export class SearchComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   public clearSearch() {
-    this.searchValue = this.searchPlaceholder;
+    this.displayedSearchValue.set(this.searchPlaceholder());
     const configDebounceTime = this.configService.getValue('arlas.server.debounceCollaborationTime');
     const debounceDuration = configDebounceTime !== undefined ? configDebounceTime : 750;
     for (let i = 0; i < this.searchContributors.length; i++) {
       setTimeout(() => {
-        this.collaborativeService.removeFilter(this.searchContributors[i].identifier);
+        this.collaborativeService.removeFilter(this.searchContributors()[i].identifier);
       }, (i) * ((debounceDuration + 100) * 1.5));
     }
   }
+}
+
+/**
+ * Structure describing how to represent a search collection in the options dropdown menu
+ */
+interface SearchCollection {
+  label: string;
+  checked: boolean;
+  color: string;
+}
+
+/**
+ * Data to give the SearchDialogComponent when opening it
+ */
+interface SearchDialogData {
+  searchContributors: SearchContributor[];
+  value: string;
+  collections: SearchCollection[];
+  collectionsState: Map<string, boolean>;
+  displayCollectionSettings: boolean;
+}
+
+/**
+ * Result of the search with autocompletion when multiple search contributors are defined
+ */
+interface SearchResultCollection extends AggregationResponse {
+  collections: {
+    color: string;
+    count: number;
+    collection: string;
+  }[];
 }
 
 @Component({
@@ -249,12 +270,12 @@ export class SearchDialogComponent {
   /**
    * @description Form for the search
    */
-  public searchCtrl: UntypedFormControl;
+  public searchCtrl = new FormControl('');
 
   /**
    * @description List of results displayed in the autocomplete
    */
-  public filteredSearch: Observable<any[]>;
+  public filteredSearch: Observable<SearchResultCollection[]>;
 
   private readonly keyEvent = new Subject<number>();
 
@@ -274,19 +295,14 @@ export class SearchDialogComponent {
   public displayCollectionSettings = false;
 
   public collectionsState: Map<string, boolean> = new Map();
-  public collections: { label: string; checked: boolean; color: string; }[];
+  public collections: SearchCollection[];
   public updateAutoCompleteResult = new Subject<void>();
+
   public constructor(
     private readonly arlasColorService: ArlasColorService,
     private readonly collaborativeService: ArlasCollaborativesearchService,
     private readonly dialogRef: MatDialogRef<SearchDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: {
-      'searchContributors': SearchContributor[];
-      'value': string;
-      'collections': { label: string; checked: boolean; color: string; }[];
-      'collectionsState': Map<string, boolean>;
-      'displayCollectionSettings': boolean;
-    },
+    @Inject(MAT_DIALOG_DATA) public data: SearchDialogData,
     private readonly translate: TranslateService
   ) {
     this.searchContributors = data.searchContributors;
@@ -294,8 +310,6 @@ export class SearchDialogComponent {
     this.collections = data.collections;
     this.displayCollectionSettings = data.displayCollectionSettings;
     this.searchPlaceholder = this.translate.instant(this.searchContributors[0]?.getName());
-
-    this.searchCtrl = new UntypedFormControl();
 
     const autocomplete = this.searchCtrl.valueChanges.pipe(
       debounceTime(250),
@@ -364,11 +378,12 @@ export class SearchDialogComponent {
   public clearSearch() {
     this.searchCtrl.reset();
   }
-  public onChangeCollection(event) {
+
+  public onChangeCollection(event: MatCheckboxChange) {
     if (!event.checked) {
       // Remove filter
       const contributorChanged = this.searchContributors.find(s => s.collection === event.source.id);
-      if (this.collaborativeService.getCollaboration(contributorChanged.identifier)) {
+      if (contributorChanged && this.collaborativeService.getCollaboration(contributorChanged.identifier)) {
         this.collaborativeService.removeFilter(contributorChanged.identifier);
       }
     }
@@ -376,37 +391,40 @@ export class SearchDialogComponent {
     this.updateAutoCompleteResult.next();
   }
 
-  private mergeAutoComplete(search): Observable<AggregationResponse[]> {
+  private mergeAutoComplete(search: string): Observable<SearchResultCollection[]> {
     if (this.searchContributors.length === 1) {
       return zip(this.searchContributors.map(searchContrib => searchContrib.getAutoCompleteResponse$(search)
         .pipe(map(resp => resp.elements))))
-        .pipe(map(elements => (elements as any).flat(Infinity)));
+        .pipe(map(elements => (elements as any).flat(Infinity).filter((v: AggregationResponse | undefined) => !!v)));
     } else {
-      return zip(this.searchContributors.
-        filter(searchContrib => this.collectionsState.get(searchContrib.collection))
-        .map(searchContrib => zip(of(searchContrib.collection), searchContrib.getAutoCompleteResponse$(search))
-          .pipe(map(f => f[1].elements.map(e => {
-            (e as any).collection = f[0];
-            return e;
-          })))))
-        .pipe(map(elements => (elements as any).flat(Infinity)), map((el) => el.reduce((acc, l) => {
-          if (acc.find(i => i.key_as_string === l.key_as_string)) {
-            const f = acc.find(i => i.key_as_string === l.key_as_string);
-            f.collections.push({
-              color: this.arlasColorService.getColor(l.collection),
-              count: l.count,
-              collection: l.collection
-            });
-          } else {
-            l.collections = [{
-              color: this.arlasColorService.getColor(l.collection),
-              count: l.count,
-              collection: l.collection
-            }];
-            acc.push({ ...l });
-          }
-          return acc;
-        }, [])));
+      return zip(
+        this.searchContributors
+          .filter(searchContrib => this.collectionsState.get(searchContrib.collection))
+          .map(searchContrib => zip(of(searchContrib.collection), searchContrib.getAutoCompleteResponse$(search))
+            .pipe(map(f => f[1].elements?.map(e => ({ ...e, collection: f[0] } as AggregationResponseWithCollection))))
+          )
+      )
+        .pipe(
+          map(elements => (elements as any).flat(Infinity)),
+          map((el: AggregationResponseWithCollection[]) => el.reduce((acc, l) => {
+            if (acc.some(i => i.key_as_string === l.key_as_string)) {
+              const f = acc.find(i => i.key_as_string === l.key_as_string);
+              f?.collections.push({
+                color: this.arlasColorService.getColor(l.collection),
+                count: l.count,
+                collection: l.collection
+              });
+            } else {
+              const collections = [{
+                color: this.arlasColorService.getColor(l.collection),
+                count: l.count,
+                collection: l.collection
+              }];
+              acc.push({ ...l, collections });
+            }
+            return acc;
+          }, new Array<SearchResultCollection>()))
+        );
     }
   }
 }

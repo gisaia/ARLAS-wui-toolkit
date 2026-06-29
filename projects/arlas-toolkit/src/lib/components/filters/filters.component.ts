@@ -19,7 +19,7 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import {
   ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges,
-  OnInit, Output, Pipe, PipeTransform, SimpleChanges, ViewEncapsulation
+  Output, Pipe, PipeTransform, SimpleChanges, ViewEncapsulation
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
@@ -38,8 +38,8 @@ import { isShortcutID } from '../filter-shortcut/filter-shortcut.utils';
 
 @Pipe({ name: 'getContributorLabel' })
 export class GetContributorLabelPipe implements PipeTransform {
-  public transform(value: string, registry?: Map<string, Contributor>): string {
-    let label = registry.get(value).getFilterDisplayName();
+  public transform(value: string, registry: Map<string, Contributor>): string {
+    let label = registry.get(value)?.getFilterDisplayName();
     if (label !== undefined && label !== '') {
       const labelSplited = label.split('<=');
       if (labelSplited.length === 3) {
@@ -54,10 +54,10 @@ export class GetContributorLabelPipe implements PipeTransform {
 
 @Pipe({ name: 'getColorFilter' })
 export class GetColorFilterPipe implements PipeTransform {
-  public transform(value: string, type: string, collaborationsMap: Map<string, Collaboration>): string {
+  public transform(value: string, type: string, collaborationsMap: Map<string, Collaboration>): string | undefined {
     const collaboration = collaborationsMap.get(value);
     if (type === 'color') {
-      return collaboration.enabled ? '#000' : '#BDBDBD';
+      return collaboration?.enabled ? '#000' : '#BDBDBD';
     } else if (type === 'background') {
       return '#FFF';
     }
@@ -66,19 +66,21 @@ export class GetColorFilterPipe implements PipeTransform {
 
 @Pipe({ name: 'getGlobalColorFilter' })
 export class GetGlobalColorFilterPipe implements PipeTransform {
-  public transform(value: string, type: string, color, backgroundColor, collaborationsMap: Map<string, Collaboration>): string {
+  public transform(value: string, type: string, color: string,
+    backgroundColor: string, collaborationsMap: Map<string, Collaboration>
+  ): string | undefined {
     const collaboration = collaborationsMap.get(value);
     if (type === 'color') {
-      return collaboration.enabled ? color : '#BDBDBD';
+      return collaboration?.enabled ? color : '#BDBDBD';
     } else if (type === 'background') {
-      return collaboration.enabled ? backgroundColor : '#FFF';
+      return collaboration?.enabled ? backgroundColor : '#FFF';
     }
   }
 }
 
 @Pipe({ name: 'getCollaborationIcon' })
 export class GetCollaborationIconPipe implements PipeTransform {
-  public transform(value: string, contributorsIcons: Map<string, string>): string {
+  public transform(value: string, contributorsIcons: Map<string, string>): string | undefined {
     return contributorsIcons.get(value);
 
   }
@@ -88,7 +90,7 @@ export class GetCollaborationIconPipe implements PipeTransform {
 export class IsCollabOnCollectionPipe implements PipeTransform {
   public transform(value: string, collection: string, contributors: Map<string, Contributor>) {
     const contributor = contributors.get(value);
-    return contributor.collections.map(c => c.collectionName).indexOf(collection) >= 0 && value !== 'timeline';
+    return contributor && contributor.collections.map(c => c.collectionName).includes(collection) && value !== 'timeline';
   }
 }
 
@@ -119,7 +121,7 @@ export class IsCollabOnCollectionPipe implements PipeTransform {
     GetCollaborationIconPipe
   ]
 })
-export class FiltersComponent implements OnInit, OnChanges {
+export class FiltersComponent implements OnChanges {
 
   /**
    * @Input : Angular
@@ -150,7 +152,7 @@ export class FiltersComponent implements OnInit, OnChanges {
    * @description Specifies which space in pixels is available to display the collection counts,
    * in order to hide the one that would overflow. If not set, this behavior is not put in place.
    */
-  @Input() public availableSpace: number;
+  @Input() public availableSpace: number | undefined;
 
   /**
    * @Input : Angular
@@ -169,7 +171,7 @@ export class FiltersComponent implements OnInit, OnChanges {
    * @Input : Angular
    * @description Type of zoom to data
    */
-  @Input() public zoomToStrategy: ZoomToDataStrategy;
+  @Input() public zoomToStrategy: ZoomToDataStrategy | undefined;
 
   /**
    * @Output : Angular
@@ -188,10 +190,10 @@ export class FiltersComponent implements OnInit, OnChanges {
   public contributors: Map<string, Contributor>;
   public contributorsIcons: Map<string, string>;
   public collaborationByCollection: Array<{ collection: string; collaborationId: string; }> = [];
-  public countAll: CollectionCount[];
-  public extraCountAll: CollectionCount[];
+  public countAll: CollectionCount[] = [];
+  public extraCountAll: CollectionCount[] = [];
   public readonly NUMBER_FORMAT_CHAR = 'NUMBER_FORMAT_CHAR';
-  public collaborationsMap: Map<string, Collaboration>;
+  public collaborationsMap: Map<string, Collaboration> = new Map();
   public isExtraOpen = false;
 
   public ZoomToDataStrategy = ZoomToDataStrategy;
@@ -213,9 +215,6 @@ export class FiltersComponent implements OnInit, OnChanges {
   ) {
     this.contributors = this.collaborativeSearchService.registry;
     this.subscribeToFutureCollaborations();
-  }
-
-  public ngOnInit(): void {
     this.contributorsIcons = new Map(this.getAllContributorsIcons());
   }
 
@@ -235,7 +234,7 @@ export class FiltersComponent implements OnInit, OnChanges {
     this.cdr.detectChanges();
   }
 
-  public changeCollaborationState(contributorId): void {
+  public changeCollaborationState(contributorId: string): void {
     this.clickOnFilter.next(contributorId);
     const collaborationState = this.collaborativeSearchService.isEnable(contributorId);
     if (collaborationState) {
@@ -252,7 +251,7 @@ export class FiltersComponent implements OnInit, OnChanges {
 
   public getAllContributorsIcons(): any {
     return Array.from(this.arlasStartupService.contributorRegistry.keys())
-      .map(k => [k, this.configService.getValue('arlas.web.contributors').find(contrib => contrib.identifier === k).icon]).values();
+      .map(k => [k, this.configService.getValue('arlas.web.contributors').find((contrib: any) => contrib.identifier === k).icon]).values();
   }
 
   public zoomToData(collection: string): void {
@@ -284,14 +283,13 @@ export class FiltersComponent implements OnInit, OnChanges {
           this.countAll = [];
           const countsMap = new Map<string, CollectionCount>();
           count.forEach(c => {
+            const description = this.collectionToDescription.get(c.collection);
             countsMap.set(c.collection, {
               collection: c.collection,
               count: c.count,
               color: this.arlasColorService.getColor(c.collection) + ' !important',
-              hasCentroidPath: !!this.collectionToDescription.get(c.collection) &&
-                !!this.collectionToDescription.get(c.collection).centroid_path,
-              hasGeometryPath: !!this.collectionToDescription.get(c.collection) &&
-                !!this.collectionToDescription.get(c.collection).geometry_path,
+              hasCentroidPath: !!description?.centroid_path,
+              hasGeometryPath: !!description?.geometry_path,
               unit: this.collectionService.getUnit(c.collection),
               ignored: this.collectionService.isUnitIgnored(c.collection)
             });
@@ -300,8 +298,9 @@ export class FiltersComponent implements OnInit, OnChanges {
           /** respects order of units list that is given by config */
           const unitsSet = new Set(this.collectionService.getAllUnits().map(u => u.collection));
           unitsSet.forEach(c => {
-            if (countsMap.get(c)) {
-              this.countAll.push(countsMap.get(c));
+            const count = countsMap.get(c);
+            if (count) {
+              this.countAll.push(count);
             }
           });
           // Collections that don't have units are at the end of the list
@@ -345,13 +344,13 @@ export class FiltersComponent implements OnInit, OnChanges {
 
       const widths = this.countAll.map(
         c => !!document.getElementById(`arlas-count-${c.collection}`) ?
-          document.getElementById(`arlas-count-${c.collection}`).getBoundingClientRect().width + this.spacing : 0);
+          (document.getElementById(`arlas-count-${c.collection}`)?.getBoundingClientRect().width ?? 0) + this.spacing : 0);
       const clearAllWidth = this.collaborations.size > 0 && !!document.getElementById('clear-all') ?
-        document.getElementById('clear-all').getBoundingClientRect().width + this.spacing : 0;
+        (document.getElementById('clear-all')?.getBoundingClientRect().width ?? 0) + this.spacing : 0;
       const timelineChipWidth = this.collaborations.has('timeline') && !!document.getElementById('filter-chip-timeline') ?
-        document.getElementById('filter-chip-timeline').getBoundingClientRect().width + this.spacing : 0;
+        (document.getElementById('filter-chip-timeline')?.getBoundingClientRect().width ?? 0) + this.spacing : 0;
       const extraCollectionsWidth = !!document.getElementById('extra-collections') ?
-        document.getElementById('extra-collections').getBoundingClientRect().width + this.spacing : 0;
+        (document.getElementById('extra-collections')?.getBoundingClientRect().width ?? 0) + this.spacing : 0;
 
       let breakoffIndex = -1;
       let cumulativeWidth = 0;

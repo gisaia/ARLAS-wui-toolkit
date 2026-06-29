@@ -1,15 +1,17 @@
 <div class="wrapper">
   <div class="xline" style="margin-bottom: 5px;">
     <div class="title">
-      <div >{{tooltip?.stringDate}}</div>
-      @if (tooltip?.data?.metadata?.name) {
-        <div class="category">{{tooltip.data.metadata.name}}</div>
+      <div >{{tooltip.stringDate}}</div>
+      @let name = tooltip.data?.metadata?.name;
+      @if (name) {
+        <div class="category">{{name}}</div>
       }
     </div>
 
-    @if (tooltip?.data?.metadata?.thumbnail) {
+    @let thumbnail = tooltip.data?.metadata?.thumbnail;
+    @if (thumbnail) {
       <div class="image">
-        <img src="{{tooltip.data.metadata.thumbnail}}" width="250">
+        <img src="{{thumbnail}}" width="250">
       </div>
     }
   </div>

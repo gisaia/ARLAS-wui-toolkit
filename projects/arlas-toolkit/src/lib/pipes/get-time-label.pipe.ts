@@ -17,16 +17,17 @@
  * under the License.
  */
 
-import { Pipe, PipeTransform } from '@angular/core';
+import { inject, Pipe, PipeTransform } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { utcFormat, timeFormat } from 'd3-time-format';
+import { timeFormat, utcFormat } from 'd3-time-format';
 
 @Pipe({
   name: 'getTimeLabel'
 })
 export class GetTimeLabelPipe implements PipeTransform {
+  private readonly translate = inject(TranslateService);
 
-  public transform(label: string, format: string, translate: TranslateService, useUtc: boolean): any {
+  public transform(label: string | undefined, format: string | undefined, useUtc: boolean): string | undefined {
     if (label) {
       const startEndValues = label.split('to');
       if (startEndValues.length > 1) {
@@ -36,14 +37,14 @@ export class GetTimeLabelPipe implements PipeTransform {
           format = '%d/%m/%Y %H:%M';
         }
         if (useUtc) {
-          return translate.instant('From') + ' ' + (utcFormat(format)(start) + ' '
-            + translate.instant('to') + ' ' + utcFormat(format)(end));
+          return this.translate.instant('From') + ' ' + (utcFormat(format)(start) + ' '
+            + this.translate.instant('to') + ' ' + utcFormat(format)(end));
         } else {
-          return translate.instant('From') + ' ' + (timeFormat(format)(start) + ' '
-            + translate.instant('to') + ' ' + timeFormat(format)(end));
+          return this.translate.instant('From') + ' ' + (timeFormat(format)(start) + ' '
+            + this.translate.instant('to') + ' ' + timeFormat(format)(end));
         }
       } else {
-        return translate.instant(label);
+        return this.translate.instant(label);
       }
     } else {
       return label;

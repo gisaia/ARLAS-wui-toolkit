@@ -4,9 +4,9 @@ import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule, TranslateNoOpLoader } from '@ngx-translate/core';
 import { of } from 'rxjs';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { MockArlasSettingsService } from '../../../tests/arlas-settings-service.mock';
 import { ArlasIamService } from '../../services/arlas-iam/arlas-iam.service';
 import { ArlasSettingsService } from '../../services/settings/arlas.settings.service';
-import { MockArlasSettingsService } from '../../tools/tests/arlas-settings-service.mock';
 import { LoginComponent } from './login.component';
 
 describe('LoginComponent', () => {

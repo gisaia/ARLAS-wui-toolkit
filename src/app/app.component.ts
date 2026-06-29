@@ -28,7 +28,4 @@ import { RouterOutlet } from '@angular/router';
     RouterOutlet
   ]
 })
-export class AppComponent{
-
-  public constructor() {}
-}
+export class AppComponent{ }

@@ -1,11 +1,11 @@
-<div mat-dialog-title class="title">{{arlasError?.title| translate}}</div>
+<div mat-dialog-title class="title">{{arlasError.title| translate}}</div>
 <mat-dialog-content class="content">
   <div class="errored">
     <div><mat-icon class="icon">error</mat-icon></div>
-    <div class="state">{{arlasError?.message | translate:{service: $any(arlasError)?.service | translate} }}</div>
-    @if (arlasError?.showAction) {
+    <div class="state">{{arlasError.message | translate:{service: $any(arlasError)?.service | translate} }}</div>
+    @if (arlasError.showAction) {
       <button matButton="filled" color="primary" [class.action]="arlasError.actionType === 'link'" (click)="arlasError.executeAction()">
-        {{arlasError?.actionMessage | translate}}
+        {{ arlasError.actionMessage | translate }}
       </button>
     }
   </div>

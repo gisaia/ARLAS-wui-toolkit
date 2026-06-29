@@ -45,7 +45,7 @@ import { ShareConfigComponent } from '../share-config/share-config.component';
 export class ActionModalComponent {
 
   public action: ConfigAction;
-  public value: string;
+  public value = '';
   public ConfigAction = ConfigActionEnum;
 
   public errorMessage = '';
@@ -129,7 +129,11 @@ export class ActionModalComponent {
       const previewId = this.configurationService.getPreview(arlasConfig);
       resources$.push(
         this.duplicatePreview$(previewId, newConfigName, org).pipe(
-          tap((d: DataWithLinks) => this.configurationService.updatePreview(arlasConfig, d.id))
+          tap((d: DataWithLinks) => {
+              if (d.id) {
+                this.configurationService.updatePreview(arlasConfig, d.id);
+              }
+            })
         )
       );
     }
@@ -138,7 +142,11 @@ export class ActionModalComponent {
       Object.keys(i18ns).forEach(lg => {
         resources$.push(
           this.duplicateI18n$(i18ns[lg], lg, newConfigName, org).pipe(
-            tap((d: DataWithLinks) => this.configurationService.updateI18n(arlasConfig, lg, d.id))
+            tap((d: DataWithLinks) => {
+              if (d.id) {
+                this.configurationService.updateI18n(arlasConfig, lg, d.id);
+              }
+            })
           )
         );
       });
@@ -149,7 +157,11 @@ export class ActionModalComponent {
       Object.keys(tours).forEach(lg => {
         resources$.push(
           this.duplicateTour$(tours[lg], lg, newConfigName, org).pipe(
-            tap((d: DataWithLinks) => this.configurationService.updateTour(arlasConfig, lg, d.id))
+            tap((d: DataWithLinks) => {
+              if (d.id) {
+                this.configurationService.updateTour(arlasConfig, lg, d.id);
+              }
+            })
           )
         );
       });
@@ -243,8 +255,8 @@ export class ActionModalComponent {
         this.errorMessage = marker('Missing permissions to create a dashboard');
         break;
       case 500:
-        err.json().then(e => {
-          if ((e.message as string).indexOf('already exists') > 0) {
+        err.json().then((e: any) => {
+          if ((e.message as string)?.indexOf('already exists') > 0) {
             this.errorMessage = marker('A configuration with this name exists already, please choose another name');
           } else {
             this.errorMessage = marker('An error occurred, please try later');
@@ -256,7 +268,7 @@ export class ActionModalComponent {
     }
   }
 
-  private getOptionsSetOrg(org: string) {
+  private getOptionsSetOrg(org: string | undefined) {
     return this.persistenceService.getOptionsSetOrg(org);
   }
 }

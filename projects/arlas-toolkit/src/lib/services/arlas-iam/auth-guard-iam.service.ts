@@ -19,10 +19,7 @@
 
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
-import { Observable } from 'rxjs/internal/Observable';
-import { of } from 'rxjs/internal/observable/of';
-import { map } from 'rxjs/internal/operators/map';
-import { catchError, mergeMap } from 'rxjs/operators';
+import { catchError, map, mergeMap, Observable, of } from 'rxjs';
 import { ArlasIamService } from './arlas-iam.service';
 
 @Injectable({
@@ -31,8 +28,8 @@ import { ArlasIamService } from './arlas-iam.service';
 export class AuthGuardIamService {
 
   public constructor(
-    private router: Router,
-    private arlasIamService: ArlasIamService,
+    private readonly router: Router,
+    private readonly arlasIamService: ArlasIamService,
   ) { }
 
   public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
@@ -42,7 +39,7 @@ export class AuthGuardIamService {
       return of(true);
     } else {
       return this.arlasIamService.refresh().pipe(map(loginData => {
-        if (!!loginData) {
+        if (loginData?.access_token) {
           this.arlasIamService.setHeadersFromAccesstoken(loginData.access_token);
           return true;
         } else {

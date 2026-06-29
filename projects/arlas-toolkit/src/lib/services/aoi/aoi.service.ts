@@ -18,15 +18,15 @@
  */
 
 import { Injectable } from '@angular/core';
+import { ArlasStartupService } from '../startup/startup.service';
 import { AoiDatabase } from './aoiDatabase';
 import { Aoi } from './model';
-import { ArlasStartupService } from '../startup/startup.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ArlasAoiService {
-  public dataBase: AoiDatabase;
+  public dataBase?: AoiDatabase;
   public aoiMap: Map<string, Aoi> = new Map<string, Aoi>();
 
   public constructor(private arlasStartupService: ArlasStartupService) {
@@ -37,17 +37,21 @@ export class ArlasAoiService {
   }
 
   public addAoi(name: string, geometry: any) {
-    const newAoi = this.dataBase.createAoi(name, geometry);
-    this.dataBase.add(newAoi);
-    this.aoiMap = this.dataBase.storageObjectMap;
+    if (this.dataBase) {
+      const newAoi = this.dataBase.createAoi(name, geometry);
+      this.dataBase.add(newAoi);
+      this.aoiMap = this.dataBase.storageObjectMap;
+    }
   }
 
   public removeAoi(id: string) {
-    this.dataBase.remove(id);
-    this.aoiMap = this.dataBase.storageObjectMap;
+    if (this.dataBase) {
+      this.dataBase.remove(id);
+      this.aoiMap = this.dataBase.storageObjectMap;
+    }
   }
 
-  public getAoiById(id: string): Aoi {
+  public getAoiById(id: string) {
     return Array.from(this.aoiMap.values()).find(aoi => aoi.id === id);
   }
 }
