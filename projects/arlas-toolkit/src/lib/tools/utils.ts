@@ -372,3 +372,18 @@ export function flattenData(y: Object) {
   return out;
 }
 
+/**
+ * Generates a deterministic 8-character hex hash from a unique user identifier.
+ */
+export function generateUserCacheBust(userId: string): string {
+  let hash = 0;
+  for (let i = 0; i < userId.length; i++) {
+    // Multiply current hash by 31 (prime) using 32-bit integer arithmetic to avoid floating point drift,
+    // then add the code point of the current character
+    hash = Math.trunc(Math.imul(31, hash) + (userId.codePointAt(i) ?? 0));
+  }
+  // Convert to unsigned 32-bit integer to ensure a positive value,
+  // then format as a zero-padded 8-character hex string
+  return (hash >>> 0).toString(16).padStart(8, '0');
+}
+

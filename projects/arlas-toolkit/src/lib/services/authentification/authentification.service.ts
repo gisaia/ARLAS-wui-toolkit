@@ -24,7 +24,7 @@ import { BehaviorSubject, Observable, ReplaySubject, combineLatest } from 'rxjs'
 import { from } from 'rxjs/internal/observable/from';
 import { filter } from 'rxjs/internal/operators/filter';
 import { map } from 'rxjs/internal/operators/map';
-import { AuthentSetting, CONFIG_ID_QUERY_PARAM, NOT_CONFIGURED } from '../../tools/utils';
+import { AuthentSetting, CONFIG_ID_QUERY_PARAM, generateUserCacheBust, NOT_CONFIGURED } from '../../tools/utils';
 import { ArlasAuthentificationService } from '../arlas-authentification/arlas-authentification.service';
 
 
@@ -254,9 +254,13 @@ export class AuthentificationService extends ArlasAuthentificationService {
     }
     this.oauthService.events.subscribe((event: OAuthEvent) => {
       if (event.type === 'token_received') {
-        // Store a unique timestamp used as a cache-busting parameter on API requests
-        // This prevents the browser from reusing cached responses from a previous session
-        sessionStorage.setItem('cache_bust', Date.now().toString());
+        const claims = this.oauthService.getIdentityClaims() as { sub?: string; };
+        if (claims?.sub) {
+          // Derive a deterministic cache-busting key from the OIDC subject claim (stable unique user identifier)
+          // This ensures cached responses are scoped per user while remaining reusable across sessions
+          const cacheBust = generateUserCacheBust(claims.sub);
+          sessionStorage.setItem('cache_bust', cacheBust);
+        }
       }
       if (event.type === 'logout') {
         // Clear the cache-busting token on logout to avoid stale values on next login

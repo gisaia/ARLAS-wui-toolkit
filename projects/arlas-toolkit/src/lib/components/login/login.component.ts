@@ -30,7 +30,7 @@ import { finalize } from 'rxjs';
 import { ArlasIamService } from '../../services/arlas-iam/arlas-iam.service';
 import { ErrorService } from '../../services/error/error.service';
 import { ArlasSettingsService } from '../../services/settings/arlas.settings.service';
-import { NOT_CONFIGURED } from '../../tools/utils';
+import { generateUserCacheBust, NOT_CONFIGURED } from '../../tools/utils';
 
 @Component({
   selector: 'arlas-login',
@@ -96,9 +96,11 @@ export class LoginComponent implements OnInit {
     this.isLoading = true;
     this.iamService.login(this.loginForm.get('email').value, this.loginForm.get('password').value).subscribe({
       next: loginData => {
-        // Store a unique timestamp used as a cache-busting parameter on API requests
-        // This prevents the browser from reusing cached responses from a previous session
-        sessionStorage.setItem('cache_bust', Date.now().toString());
+        // Derive a deterministic cache-busting key from the user's unique ID
+        // This ensures cached responses are scoped per user while remaining reusable across sessions
+        if (loginData?.user?.id) {
+          sessionStorage.setItem('cache_bust', generateUserCacheBust(loginData.user.id));
+        }
         this.iamService.user = loginData.user;
         this.iamService.setHeadersFromAccesstoken(loginData.access_token);
         this.iamService.notifyTokenRefresh(loginData);

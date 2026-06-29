@@ -66,7 +66,7 @@ export class FetchInterceptorService {
           } else if (useAuthentIam) {
             hasValidAccessToken = this.iamService.isAuthenticated();
           }
-          // add bust params to ALL Http request
+          // add bust params to all arlas explore api Http requests
           if (hasValidAccessToken && typeof url === 'string' && url.includes('/explore')) {
             const bust = sessionStorage.getItem('cache_bust') ?? Date.now();
             url = url + '&_cb=' + bust.toString();
