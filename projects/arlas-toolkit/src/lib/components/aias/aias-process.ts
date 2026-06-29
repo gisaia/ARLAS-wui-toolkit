@@ -18,14 +18,14 @@
  */
 
 import { Subject, Subscription, takeUntil, timer } from 'rxjs';
-import { ProcessOutput, ProcessStatus } from '../../tools/process.interface';
 import { ProcessService } from '../../services/process/process.service';
+import { ProcessOutput, ProcessStatus } from '../../tools/process.interface';
 
 /** Base data communicated to an AIAS process dialog window */
 export interface AiasProcessDialogData {
   nbProducts: number;
   itemDetail:  Map<string, any>;
-  ids: string[] | null;
+  ids: string[];
   collection: string;
 }
 
@@ -44,7 +44,7 @@ export abstract class AiasProcess {
 
   public statusSub!: Subscription;
   public unsubscribeStatus = new Subject<boolean>();
-  public statusResult: ProcessOutput = null;
+  public statusResult: ProcessOutput | null = null;
 
   public constructor(
     protected processService: ProcessService,
@@ -59,29 +59,35 @@ export abstract class AiasProcess {
     this.processStarted = true;
     this.hasError = false;
 
-    const payload = this.preparePayload();
+    try {
+      const payload = this.preparePayload();
 
-    this.processService.process(this.processName, this.data.ids, payload, this.data.collection).subscribe({
-      next: (result) => {
-        this.statusResult = result;
+      this.processService.process(this.processName, this.data.ids, payload, this.data.collection).subscribe({
+        next: (result) => {
+          this.statusResult = result;
 
-        // Convert time to milliseconds
-        result.created *= 1000;
-        result.started *= 1000;
-        result.finished *= 1000;
-        result.updated *= 1000;
+          // Convert time to milliseconds
+          result.created *= 1000;
+          result.started *= 1000;
+          result.finished *= 1000;
+          result.updated *= 1000;
 
-        const executionObservable = timer(0, 5000);
-        this.statusSub = executionObservable.pipe(takeUntil(this.unsubscribeStatus)).subscribe(() => {
-          this.getStatus(result.jobID);
-        });
-      },
-      error: (err) => {
-        this.isProcessing = false;
-        this.hasError = true;
-        console.error(err);
-      }
-    });
+          const executionObservable = timer(0, 5000);
+          this.statusSub = executionObservable.pipe(takeUntil(this.unsubscribeStatus)).subscribe(() => {
+            this.getStatus(result.jobID);
+          });
+        },
+        error: (err) => {
+          this.isProcessing = false;
+          this.hasError = true;
+          console.error(err);
+        }
+      });
+    } catch (e) {
+      console.error(e);
+      this.isProcessing = false;
+      this.hasError = true;
+    }
   }
 
   private getStatus(jobId: string) {

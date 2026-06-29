@@ -71,12 +71,13 @@ export function localDatePickerFactory(translate: TranslateService) {
   return translate.getCurrentLang();
 }
 
-export function configUpdaterFactory(x): any {
-  return (x) => x[0];
+export function configUpdaterFactory(x: any): any {
+  return (x: any) => x[0];
 }
 
-export function getOptionsFactory(settingsService: ArlasSettingsService, arlasAuthService: AuthentificationService,
-  arlasIamService: ArlasIamService): any {
+export function getOptionsFactory(settingsService: ArlasSettingsService,
+  arlasAuthService: AuthentificationService, arlasIamService: ArlasIamService
+): () => { headers?: Record<string, any>; } {
   const getOptions = () => {
     let token = null;
     const authSettings = settingsService.getAuthentSettings();
@@ -94,7 +95,7 @@ export function getOptionsFactory(settingsService: ArlasSettingsService, arlasAu
       if (token === null) {
         return {};
       } else {
-        const headers = {
+        const headers: Record<string, any> = {
           Authorization: 'Bearer ' + token
         };
         if (authentMode === 'iam') {

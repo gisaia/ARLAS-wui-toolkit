@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Contributor, OperationEnum } from 'arlas-web-core';
@@ -45,7 +45,7 @@ export class FilterShortcutComponent implements OnInit {
    * @Input : Angular
    * @description Configuration of the shortcut to display
   */
-  @Input() public shortcut: FilterShortcutConfiguration;
+  public shortcut = input.required<FilterShortcutConfiguration>();
 
   /**
    * @Input : Angular
@@ -78,7 +78,7 @@ export class FilterShortcutComponent implements OnInit {
    */
   @Input() public spinnerOptions: SpinnerOptions = {
     color: DEFAULT_SPINNER_OPTIONS.color,
-    diameter: DEFAULT_SPINNER_OPTIONS.diameter / 2,
+    diameter: (DEFAULT_SPINNER_OPTIONS.diameter ?? 0) / 2,
     strokeWidth: DEFAULT_SPINNER_OPTIONS.strokeWidth
   };
 
@@ -88,20 +88,19 @@ export class FilterShortcutComponent implements OnInit {
    */
   @Output() public isOpenChange = new EventEmitter<boolean>();
 
-  public inputs;
-  public histogramUnit: string;
-  public histogramDatatype: string;
+  public inputs: any;
+  public histogramUnit?: string;
+  public histogramDatatype?: string;
 
   public constructor(
-    private collaborativeSearchService: ArlasCollaborativesearchService,
-    public cdr: ChangeDetectorRef,
+    private readonly collaborativeSearchService: ArlasCollaborativesearchService
   ) { }
 
   public ngOnInit(): void {
     if (this.isOpen) {
       this.activateContributor();
     }
-    this.inputs = Object.assign({}, this.shortcut?.component?.input);
+    this.inputs = { ...this.shortcut().component?.input };
     this.setHistogramInput();
     this.setPowerbarsInput();
   }
@@ -114,17 +113,22 @@ export class FilterShortcutComponent implements OnInit {
     }
   }
 
-  private activateContributor(): Contributor {
-    const contributor: Contributor = this.collaborativeSearchService.registry.get(this.shortcut?.component?.contributorId);
-    if (contributor) {
-      contributor.updateData = true;
+  private activateContributor(): Contributor | undefined {
+    const contributorId = this.shortcut().component?.contributorId;
+    if (contributorId) {
+      const contributor = this.collaborativeSearchService.registry.get(contributorId);
+      if (contributor) {
+        contributor.updateData = true;
+      }
+      return contributor;
     }
-    return contributor;
+
+    return undefined;
   }
 
   private triggerContributorCollaboration() {
     const c = this.activateContributor();
-    c.updateFromCollaboration({
+    c?.updateFromCollaboration({
       id: c.linkedContributorId,
       operation: OperationEnum.add,
       all: false
@@ -132,7 +136,7 @@ export class FilterShortcutComponent implements OnInit {
   }
 
   private setHistogramInput() {
-    if (this.shortcut.component) {
+    if (this.shortcut().component) {
       this.histogramUnit = this.inputs['xUnit'];
       this.histogramDatatype = this.inputs['dataType'];
       this.inputs['showXTicks'] = false;
@@ -145,7 +149,7 @@ export class FilterShortcutComponent implements OnInit {
   }
 
   private setPowerbarsInput() {
-    if (this.shortcut.component) {
+    if (this.shortcut().component) {
       this.inputs['groupSelections'] = false;
       this.inputs['selectWithCheckbox'] = true;
 

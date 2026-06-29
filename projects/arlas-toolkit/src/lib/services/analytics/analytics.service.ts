@@ -41,17 +41,17 @@ export class AnalyticsService {
   /**
    * @description Whether drag and drop is active for the groups inside of the analytics board
    */
-  public isActiveDragDrop: boolean;
+  public isActiveDragDrop = false;
 
   /**
    * @description List of groups. Each group contains one or more widgets.
    */
-  private _groups: Array<AnalyticGroupConfiguration>;
+  private _groups: Array<AnalyticGroupConfiguration> = [];
 
   /**
    * @description List of tabs. Each tab contains one or more groups.
    */
-  private _tabs: Array<AnalyticsTabs>;
+  private _tabs: Array<AnalyticsTabs> = [];
 
   /**
    * @description Map of which group(s) each contributor belong to
@@ -76,7 +76,7 @@ export class AnalyticsService {
   /**
    * @description Map of whether to display each group
    */
-  private _groupsDisplayStatusMap: Map<string, boolean>;
+  private _groupsDisplayStatusMap = new Map<string, boolean>();
 
   /**
    * @description Index of the currently selected tab. Can be undefined when no tab is selected.
@@ -122,14 +122,17 @@ export class AnalyticsService {
    * @param tabIndex Index of the tab selected. Can be undefined if none is selected.
    */
   public selectTab(tabIndex: number | undefined) {
-    if (tabIndex >= this._tabs.length) {
+    if (tabIndex !== undefined && tabIndex >= this._tabs.length) {
       throw new Error(`The index of the analytics tab selected does not exist. There are onlys ${this._tabs.length} tabs.`);
     }
 
     this._activeTab = tabIndex;
-    const tabName = tabIndex !== undefined ? this._tabs[tabIndex].name : undefined;
-    // Indicate to analytics board that the tab was changed
-    this.tabChange.next(tabName);
+    let tabName;
+    if (tabIndex !== undefined) {
+      tabName = this._tabs[tabIndex].name;
+      // Indicate to analytics board that the tab was changed
+      this.tabChange.next(tabName);
+    }
 
     // Navigate to new url
     const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
@@ -167,7 +170,7 @@ export class AnalyticsService {
         }
       });
     });
-    if (group.tab === this._tabs[this._activeTab].name) {
+    if (this._activeTab && group.tab === this._tabs[this._activeTab].name) {
       this.activateGroupContribution(group);
     }
   }
@@ -215,7 +218,7 @@ export class AnalyticsService {
     this._wasClosedMap.set(group.groupId, true);
     // Get all contributors ID from the current active tab that are not collapsed
     const currentIndex = !!this._activeTab ? this._activeTab : 0;
-    const currentTabContributorsId = [];
+    const currentTabContributorsId = new Array<string>();
     this._groupsByTab[currentIndex].groups.forEach(group => {
       if (group.collapsed !== true) {
         group.components.forEach(c => currentTabContributorsId.push(c.contributorId));
@@ -227,6 +230,7 @@ export class AnalyticsService {
       .filter(c => !currentTabContributorsId.includes(c.contributorId))
       .map(componentConfig => componentConfig.contributorId)
       .map(contribId => this.collaborativeService.registry.get(contribId))
+      .filter(c => !!c)
       .forEach(contributor => {
         contributor.updateData = false;
       });
@@ -240,6 +244,7 @@ export class AnalyticsService {
     group.components
       .map(componentConfig => componentConfig.contributorId)
       .map(contribId => this.collaborativeService.registry.get(contribId))
+      .filter(c => !!c)
       .forEach(contributor => {
         contributor.updateData = true;
         // if (!this.collaborativeService.endOfUrlCollaboration) {
@@ -315,7 +320,10 @@ export class AnalyticsService {
       const groups = this._contributorGroup.get(contrib);
       if (!!groups) {
         groups.forEach(groupId => {
-          this._activeFilterTab.set(this._groupTab.get(groupId), true);
+          const tab = this._groupTab.get(groupId);
+          if (tab) {
+            this._activeFilterTab.set(tab, true);
+          }
         });
       }
     });
@@ -393,7 +401,7 @@ export class AnalyticsService {
         if (!this._contributorGroup.get(comp.contributorId)) {
           this._contributorGroup.set(comp.contributorId, [group.groupId]);
         } else {
-          this._contributorGroup.get(comp.contributorId).push(group.groupId);
+          this._contributorGroup.get(comp.contributorId)?.push(group.groupId);
         }
       });
       if (group.collapsed) {
@@ -443,8 +451,8 @@ export class AnalyticsService {
     // sort groups given saved order
     const arlasTabsGroupsOrder = localStorage.getItem('arlas_tabs_groups_order');
     if (this.isActiveDragDrop && arlasTabsGroupsOrder) {
-      const orderedGroupIdsByTab = new Map(JSON.parse(arlasTabsGroupsOrder));
-      orderedGroupIdsByTab.forEach((ids: Array<string>, tabName: string) => {
+      const orderedGroupIdsByTab = new Map<string, string[]>(JSON.parse(arlasTabsGroupsOrder));
+      orderedGroupIdsByTab.forEach((ids, tabName) => {
         const currentTab = this._groupsByTab.filter(groupTab => groupTab.name === tabName);
         if (currentTab.length > 0) {
           currentTab[0].groups.sort((a, b) => ids.indexOf(a.groupId) - ids.indexOf(b.groupId));

@@ -38,7 +38,7 @@ import { ArlasCollaborativesearchService } from '../collaborative-search/arlas.c
 })
 export class ErrorService {
 
-  private arlasErrorsSubscription: Subscription;
+  private arlasErrorsSubscription?: Subscription;
 
   public constructor(
     private readonly dialog: MatDialog,
@@ -91,7 +91,7 @@ export class ErrorService {
     }
   }
 
-  public emitInvalidDashboardError(forceAction: boolean, message?: string) {
+  public emitInvalidDashboardError(forceAction: boolean, message: string) {
     this.emitAuthorisationError(new InvalidDashboardError(this.settingsService.getArlasHubUrl(), message), forceAction);
   }
 
@@ -116,6 +116,6 @@ export class ErrorService {
   }
 
   public unlistenToArlasCollaborativeErrors() {
-    this.arlasErrorsSubscription.unsubscribe();
+    this.arlasErrorsSubscription?.unsubscribe();
   }
 }

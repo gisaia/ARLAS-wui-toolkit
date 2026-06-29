@@ -19,7 +19,7 @@
 import { Injectable } from '@angular/core';
 import { Filter } from 'arlas-api';
 import { MetricsTableContributor, TreeContributor } from 'arlas-web-contributors';
-import { CollaborativesearchService } from 'arlas-web-core';
+import { Collaboration, CollaborativesearchService } from 'arlas-web-core';
 
 @Injectable({
   providedIn: 'root'
@@ -36,8 +36,8 @@ export class ArlasCollaborativesearchService extends CollaborativesearchService 
    * @param changeOperator Whether to change the operator of the filters applied for TreeContributors
    * @returns A dictionnary of the current collaborations
    */
-  public dataModelBuilder(filter, changeOperator = false) {
-    const dataModel = JSON.parse(filter);
+  public dataModelBuilder(filter: string, changeOperator = false) {
+    const dataModel = JSON.parse(filter) as Record<string, Collaboration>;
     const defaultCollection = this.defaultCollection;
     const registry = this.registry;
     /** transform "filters" object to Map */
@@ -46,11 +46,11 @@ export class ArlasCollaborativesearchService extends CollaborativesearchService 
       const contributor = registry.get(key);
       if (!!collab && !!collab.filters) {
         collab.filters = new Map(Object.entries(collab.filters));
-      } else if (!!collab && !collab.filters && !!collab.filter) {
+      } else if (!!collab && !collab.filters && !!(collab as any).filter) {
         /** retrocompatibility code to transform an pre-18 collaboration structure to 18 one */
         collab.filters = new Map();
-        collab.filters.set(defaultCollection, [{...collab.filter}]);
-        delete collab.filter;
+        collab.filters.set(defaultCollection, [{...(collab as any).filter}]);
+        delete (collab as any).filter;
       }
       if (contributor && contributor instanceof TreeContributor && changeOperator) {
         collab.filters.forEach((filters: any[], collection: string) => {
@@ -82,7 +82,7 @@ export class ArlasCollaborativesearchService extends CollaborativesearchService 
     return dataModel;
   }
 
-  public getCollectionsFromFilters(dataModel): Set<string> {
+  public getCollectionsFromFilters(dataModel: Record<string, Collaboration>): Set<string> {
     const collections = new Set<string>();
     Object.keys(dataModel).forEach(k => {
       const collab = dataModel[k];
@@ -98,7 +98,8 @@ export class ArlasCollaborativesearchService extends CollaborativesearchService 
     const filters: Filter[] = [];
     Array.from(this.collaborations.values()).forEach(c => {
       if (c.filters.get(collection)) {
-        filters.push(...c.filters.get(collection));
+        const collectionFilters = c.filters.get(collection) ?? [];
+        filters.push(...collectionFilters);
       }
     });
 

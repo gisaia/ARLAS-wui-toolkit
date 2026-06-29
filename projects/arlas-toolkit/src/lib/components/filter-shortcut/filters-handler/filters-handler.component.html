@@ -12,7 +12,7 @@
       @if (moreClicked) {
         <mat-icon [@fadeInOut] class="collapse">expand_less</mat-icon>
       } @else {
-        <span [@fadeInOut]>{{displayFilterFirstValue ? (labels?.length - 1) : labels?.length}}</span>
+        <span [@fadeInOut]>{{displayFilterFirstValue ? (labels.length - 1) : labels.length}}</span>
       }
     </button>
   }

@@ -47,9 +47,7 @@ import { ActionModalComponent } from '../action-modal/action-modal.component';
   imports: [MatIconButton, MatMenuTrigger, MatIcon, MatMenu, MatMenuItem, TranslatePipe]
 })
 export class ConfigMenuComponent {
-  @Input() public actions: Array<ConfigAction>;
-
-  @Input() public zone: string;
+  @Input() public actions: Array<ConfigAction> = [];
 
   @Output() public actionExecutedEmitter = new Subject<ConfigAction>();
 
@@ -165,7 +163,7 @@ export class ConfigMenuComponent {
           from(arlasExploreApi.list(false, 0, fetchOptions)).subscribe(cdrs => {
             const publicCollections = cdrs.filter(c => (c.params.organisations as any).public).map(c => c.collection_name);
             const dashboardCollections = Array.from(this.collectionService.getCollectionFromDashboard(JSON.parse(action.config.value)));
-            const publicChecker = (arr, target) => target.every(v => arr.includes(v));
+            const publicChecker = (arr: string[], target: string[]) => target.every(v => arr.includes(v));
             action.config.displayPublic = publicChecker(publicCollections, dashboardCollections);
             this.getDialogRef(action).subscribe(() => this.actionExecutedEmitter.next(action));
           });
@@ -189,7 +187,7 @@ export class ConfigMenuComponent {
 
   private openUrl(url: string) {
     const win = window.open(url, '_blank');
-    win.focus();
+    win?.focus();
   }
 
 }

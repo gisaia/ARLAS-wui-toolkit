@@ -29,8 +29,9 @@ export interface FilterShortcutConfiguration {
 const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
 export function isShortcutID(id: string): boolean {
-  if (!!id.match(UUID_REGEX)) {
-    return id.match(UUID_REGEX).length !== 0;
+  const match = id.match(UUID_REGEX);
+  if (match) {
+    return match.length !== 0;
   } else {
     return false;
   }

@@ -18,11 +18,11 @@
  */
 
 import { Injectable } from '@angular/core';
-import { MapSettingsService, GeometrySelectModel, OperationSelectModel, GeoQueryOperator } from 'arlas-map';
-import { ArlasStartupService, ArlasConfigService } from '../startup/startup.service';
-import { MapContributor } from 'arlas-web-contributors';
 import { Expression } from 'arlas-api';
+import { GeometrySelectModel, GeoQueryOperator, MapSettingsService, OperationSelectModel } from 'arlas-map';
+import { MapContributor } from 'arlas-web-contributors';
 import { Contributor } from 'arlas-web-core';
+import { ArlasStartupService } from '../startup/startup.service';
 
 @Injectable()
 export class ArlasMapSettings implements MapSettingsService {
@@ -38,8 +38,8 @@ export class ArlasMapSettings implements MapSettingsService {
   public getGeoQueries(): Map<string, [GeometrySelectModel[], OperationSelectModel[], string]> {
     const geoQueriesMap = new Map<string, [GeometrySelectModel[], OperationSelectModel[], string]>();
     this.mapContributors.forEach(mc => {
-      const displayCollectionName = !!this.startUpService.collectionsMap.get(mc.collection).display_names?.collection ?
-        this.startUpService.collectionsMap.get(mc.collection).display_names?.collection : mc.collection;
+      const collection = this.startUpService.collectionsMap.get(mc.collection);
+      const displayCollectionName = collection?.display_names?.collection ? collection.display_names.collection : mc.collection;
       geoQueriesMap.set(mc.collection, [this.getFilterGeometries(mc), this.getOperations(mc) , displayCollectionName]);
     });
     return geoQueriesMap;

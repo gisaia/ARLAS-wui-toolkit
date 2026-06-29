@@ -1,3 +1,4 @@
+@if (aois) {
 <mat-table [dataSource]="aois" class="aoi-table-items">
   <ng-container matColumnDef="checked">
     <mat-header-cell *matHeaderCellDef> # </mat-header-cell>
@@ -28,3 +29,4 @@
   <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
   <mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></mat-row>
 </mat-table>
+}

@@ -18,11 +18,11 @@
  */
 
 import { ArlasDataSource } from '../../tools/arlasDataSource';
-import { BookMark } from './model';
 import { BookmarkLocalDatabase } from './bookmarkLocalDatabase';
+import { BookMark } from './model';
 
 
-export class BookmarkDataSource extends ArlasDataSource {
+export class BookmarkDataSource extends ArlasDataSource<BookMark> {
 
   public constructor(public dataBase: BookmarkLocalDatabase) {
     super(dataBase);

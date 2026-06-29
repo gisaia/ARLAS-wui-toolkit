@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { Component, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, Input, Output, ViewChild } from '@angular/core';
 import { Granularity, TimelineData, TimelineTooltip } from 'arlas-d3';
 import { CalendarTimelineComponent, TranslationDirection } from 'arlas-web-components';
 import { Subject } from 'rxjs';
@@ -37,38 +37,27 @@ import { ArlasOverlayRef } from '../../tools/utils';
     CalendarTimelineComponent
   ]
 })
-export class CalendarTimelineToolComponent implements OnInit, OnDestroy {
+export class CalendarTimelineToolComponent {
 
   public tooltipEvent: Subject<TimelineTooltip> = new Subject<TimelineTooltip>();
 
-  public timelineOverlayRef: ArlasOverlayRef;
-  @Input() public granularity: Granularity;
-  @Input() public climatological: boolean;
+  public timelineOverlayRef?: ArlasOverlayRef;
+  @Input() public granularity?: Granularity;
+  @Input() public climatological = false;
   @Input() public boundDates: Date[] = [];
   @Input() public data: TimelineData[] = [];
-  @Input() public cursorPosition: Date;
-  @Input() public hideLeftButton: boolean;
-  @Input() public hideRightButton: boolean;
+  @Input() public cursorPosition?: Date;
+  @Input() public hideLeftButton = false;
+  @Input() public hideRightButton = false;
   @Output() public selectedDate: Subject<TimelineData> = new Subject();
   @Output() public hoveredDate: Subject<TimelineTooltip> = new Subject();
   @Output() public translate: Subject<TranslationDirection> = new Subject();
 
-  @ViewChild('calendarTimelineComponent', { static: false }) public calendarTimelineComponent: CalendarTimelineComponent;
+  @ViewChild('calendarTimelineComponent', { static: false }) public calendarTimelineComponent?: CalendarTimelineComponent;
 
   public constructor(
-    private arlasOverlayService: ArlasOverlayService
-  ) {
-  }
-
-  public ngOnInit() {
-  }
-
-  public ngOnDestroy() {
-    this.tooltipEvent.complete();
-    this.tooltipEvent.unsubscribe();
-
-  }
-
+    private readonly arlasOverlayService: ArlasOverlayService
+  ) { }
 
   public showCalendarTimelineooltip(tooltip: TimelineTooltip, e: HTMLDivElement, xOffset: number, yOffset: number, right: boolean) {
     if (!!this.timelineOverlayRef) {

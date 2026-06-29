@@ -2,8 +2,8 @@
   <mat-icon class="confirm__icon">warning</mat-icon>
   {{ 'CAUTION' | translate }}
 </h2>
-<mat-dialog-content class="confirm__content" [innerHTML]="confirmHTLMMessage">
-  {{ confirmMessage | translate }}
+<mat-dialog-content class="confirm__content" [innerHTML]="data.confirmHTMLMessage">
+  {{ data.confirmMessage | translate }}
 </mat-dialog-content>
 
 <mat-dialog-actions>

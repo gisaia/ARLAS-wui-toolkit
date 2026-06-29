@@ -23,27 +23,30 @@ import { ArlasError } from './error';
 
 export class BackendError extends ArlasError {
   public constructor(
-    status: number, message: string,
-    private readonly hubUrl: string,
+    status: number,
+    message: string,
+    private readonly hubUrl?: string,
     public service?: string
   ) {
-    super(status);
+    const title = marker('ARLAS encountered an error');
 
-    this.title = marker('ARLAS encountered an error');
-    if (this.status === 400 || this.status === 404) {
-      this.message = message;
-      this.showAction = true;
+    let showAction = false;
+    if (status === 400 || status === 404) {
+      showAction = true;
+    } else if (status === 502) {
+      message = marker('The connection is lost');
+    } else if (status === 503) {
+      message = marker('The service is unavailable');
+    } else {
+      message = marker('An error occured in the service');
+    }
+
+    super(status, title, message);
+    this.showAction = showAction && !!hubUrl;
+
+    if (this.showAction) {
       this.actionMessage = marker('go to arlas hub');
       this.actionType = 'link';
-    } else if (this.status === 502) {
-      this.message = marker('The connection is lost');
-      this.showAction = false;
-    } else if (this.status === 503) {
-      this.message = marker('The service is unavailable');
-      this.showAction = false;
-    } else {
-      this.message = marker('An error occured in the service');
-      this.showAction = false;
     }
   }
 

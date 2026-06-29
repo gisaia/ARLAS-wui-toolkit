@@ -18,8 +18,8 @@
                 <mat-label>{{'Confirm password' | translate}}</mat-label>
                 <input matInput type="password" formControlName="confirm_password">
               </mat-form-field>
-              @if (validateForm.get('confirm_password').touched
-                && validateForm.get('confirm_password').invalid && validateForm.hasError('confirmedValidator', 'confirm_password')) {
+              @if (validateForm.controls.confirm_password.touched
+                && validateForm.controls.confirm_password.invalid && validateForm.hasError('confirmedValidator', 'confirm_password')) {
                 <mat-error
                   class="confirm-error">
                   {{'Password and Confirm Password must be match' | translate}}

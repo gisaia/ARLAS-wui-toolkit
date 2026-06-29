@@ -17,23 +17,24 @@
  * under the License.
  */
 
-import { Inject, Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Configuration, DataResource, DataWithLinks, Exists, PersistApi } from 'arlas-persistence-api';
 import { from, map, mergeMap, Observable } from 'rxjs';
-import { GET_OPTIONS } from '../../tools/utils';
+import { GET_OPTIONS, GetOptions } from '../../tools/utils';
 import { ArlasSettingsService } from '../settings/arlas.settings.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PersistenceService {
-  private persistenceApi: PersistApi;
-  public options;
+  private persistenceApi!: PersistApi;
+  public options: GetOptions = {};
   public isAvailable = false;
 
+  private readonly getOptions = inject(GET_OPTIONS);
+
   public constructor(
-    @Inject(GET_OPTIONS) private getOptions,
-    private settingsService: ArlasSettingsService
+    private readonly settingsService: ArlasSettingsService
   ) {
     this.setOptions(this.getOptions());
     this.createPersistenceApiInstance();
@@ -90,11 +91,12 @@ export class PersistenceService {
     );
   }
 
+  // TODO: should return string[]
   public getGroupsByZone(zone: string, options = this.options) {
     return from(this.persistenceApi.getGroupsByZone(zone, false, options));
   }
 
-  public setOptions(options): void {
+  public setOptions(options: GetOptions): void {
     this.options = options;
   }
 
@@ -105,7 +107,8 @@ export class PersistenceService {
         if (exist.exists) {
           this.get(id, options).subscribe({
             next: (data) => {
-              this.update(data.id, newValue ? newValue : data.doc_value, new Date(data.last_update_date).getTime(), data.doc_key,
+              // id should be required
+              this.update(data.id as string, newValue ? newValue : data.doc_value, new Date(data.last_update_date).getTime(), data.doc_key,
                 readers, writers, options).subscribe();
             }
           });
@@ -119,7 +122,7 @@ export class PersistenceService {
         if (exist.exists) {
           this.get(id, options).subscribe({
             next: (data) => {
-              this.rename(data.id, newName, options).subscribe();
+              this.rename(data.id as string, newName, options).subscribe();
             }
           });
         }
@@ -130,8 +133,8 @@ export class PersistenceService {
     readers: string[];
     writers: string[];
   } {
-    let resourceReaders = [];
-    let resourceWriters = [];
+    let resourceReaders = new Array<string>();
+    let resourceWriters = new Array<string>();
     if (dashboardReaders) {
       // Seen with AB who says normally we dont need to do the replace anymore
       resourceReaders = dashboardReaders;
@@ -146,10 +149,10 @@ export class PersistenceService {
     };
   }
 
-  public getOptionsSetOrg(org: string) {
-    const newOptions = Object.assign({}, this.options);
+  public getOptionsSetOrg(org: string | undefined) {
+    const newOptions = { ...this.options};
     if (newOptions.headers) {
-      newOptions.headers = Object.assign({}, newOptions.headers);
+      newOptions.headers = { ...newOptions.headers};
     }
     // No need to have arlas-org-filer headers to delete or get by id
     if (!!newOptions && !!newOptions['headers']) {

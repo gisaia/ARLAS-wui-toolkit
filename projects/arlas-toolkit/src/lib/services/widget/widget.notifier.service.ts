@@ -18,8 +18,8 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
 import { XBucket } from 'arlas-d3';
+import { Subject } from 'rxjs';
 
 
 /**
@@ -32,14 +32,14 @@ import { XBucket } from 'arlas-d3';
 })
 export class WidgetNotifierService {
 
-  private readonly hoveredBucketSource = new Subject<XBucket>();
+  private readonly hoveredBucketSource = new Subject<XBucket | undefined>();
   public hoveredBucket$ = this.hoveredBucketSource.asObservable();
 
   /**
    * Notifies the event of hovering a histogram bucket.
    * @param b The hovered x-bucket on the histogram.
    */
-  public notifyBucketHover(b: XBucket): void {
+  public notifyBucketHover(b: XBucket | undefined): void {
     this.hoveredBucketSource.next(b);
   }
 

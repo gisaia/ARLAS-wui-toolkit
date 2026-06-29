@@ -30,10 +30,7 @@ import { ArlasCollaborativesearchService } from '../collaborative-search/arlas.c
 @Injectable()
 export class ArlasMapService implements MapService {
 
-  public map: AbstractArlasMapGL;
-
-  public constructor(private readonly collaborativeSearchService: ArlasCollaborativesearchService) {
-  }
+  public constructor(private readonly collaborativeSearchService: ArlasCollaborativesearchService) { }
 
   /**
    * @description zooms to the data extent. If 'map' parameter is not defined, then this function uses the 'map' attribute
@@ -43,28 +40,21 @@ export class ArlasMapService implements MapService {
    * that is added as a padding to bbox of data (between 0 and 1). It allows to have some context around data
    */
   public zoomToData(collection: string, geoPointField: string, map: AbstractArlasMapGL, paddingPercentage?: number) {
+    if (map === null || map === undefined) {
+      throw new Error('[ARLAS][MAP] Impossible to zoomToData, no map was set');
+    }
+
     const computationRequest: ComputationRequest = {
       metric: ComputationRequest.MetricEnum.GEOBBOX,
       field: geoPointField
     };
-    let mapInstance = map;
-    if (map === null || map === undefined) {
-      mapInstance = this.map;
-    }
+
     this.collaborativeSearchService.resolveButNotComputation([projType.compute, computationRequest],
       this.collaborativeSearchService.collaborations, collection)
       .subscribe((cr: ComputationResponse) => {
         if (cr?.geometry) {
-          mapInstance.fitBounds(mapInstance.geometryToBounds(cr.geometry, paddingPercentage) as ArlasLngLatBounds);
+          map.fitBounds(map.geometryToBounds(cr.geometry, paddingPercentage) as ArlasLngLatBounds);
         }
       });
-  }
-
-  /**
-   *
-   * @param map Map instance
-   */
-  public setMap(map: AbstractArlasMapGL) {
-    this.map = map;
   }
 }

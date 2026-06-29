@@ -42,19 +42,21 @@ import { ArlasDataSource } from '../../tools/arlasDataSource';
 })
 export class AoiComponent {
 
-  public aois: ArlasDataSource;
+  public aois?: ArlasDataSource<Aoi>;
   public columnsToDisplay = ['checked', 'name', 'date', 'actions'];
   public itemsCheck: Array<string> = new Array<string>();
 
   @Output() public actions: Subject<{ action: string; id: string; geometry?: any; }> = new Subject<any>();
 
   public constructor(
-    private aoiService: ArlasAoiService
+    private readonly aoiService: ArlasAoiService
   ) {
-    this.aois = new ArlasDataSource(this.aoiService.dataBase);
+    if (this.aoiService.dataBase) {
+      this.aois = new ArlasDataSource(this.aoiService.dataBase);
+    }
   }
 
-  public selectAoi(event, id) {
+  public selectAoi(event: { checked: boolean; }, id: string) {
     if (event.checked) {
       this.itemsCheck.push(id);
     } else {
@@ -66,14 +68,14 @@ export class AoiComponent {
   }
 
   public viewAoi(id: string) {
-    const aoi: Aoi = this.aoiService.getAoiById(id);
-    this.actions.next({ action: 'view', id: id, geometry: aoi.geometry });
+    const aoi = this.aoiService.getAoiById(id);
+    this.actions.next({ action: 'view', id: id, geometry: aoi?.geometry });
 
   }
 
   public removeAoi(id: string) {
     this.aoiService.removeAoi(id);
-    this.selectAoi({ event: { checked: false } }, id);
+    this.selectAoi({ checked: false }, id);
     this.actions.next({ action: 'remove', id: id });
   }
 }

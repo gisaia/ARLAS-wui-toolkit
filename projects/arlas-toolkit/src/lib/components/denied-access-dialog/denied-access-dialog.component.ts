@@ -17,13 +17,13 @@
  * under the License.
  */
 
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, Inject, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
-import { Subscription } from 'rxjs';
 import { ArlasIamService } from '../../services/arlas-iam/arlas-iam.service';
 import { AuthentificationService } from '../../services/authentification/authentification.service';
 import { ArlasSettingsService } from '../../services/settings/arlas.settings.service';
@@ -41,46 +41,45 @@ import { DeniedAccessData } from '../../tools/utils';
     MatButtonModule
   ]
 })
-export class DeniedAccessDialogComponent implements OnInit, OnDestroy {
+export class DeniedAccessDialogComponent implements OnInit {
 
   private isAuthentActivated: boolean;
-  private authentMode: 'openid' | 'iam';
+  private authentMode: 'openid' | 'iam' | undefined;
 
   public forceAction = false;
   public arlasError: ArlasError;
-  private actionSubscription: Subscription;
+
+  private readonly destroyRef = inject(DestroyRef);
   public constructor(
     @Inject(MAT_DIALOG_DATA) data: DeniedAccessData,
-    private settingsService: ArlasSettingsService,
-    private authentService: AuthentificationService,
-    private arlasIamService: ArlasIamService,
-    private dialog: MatDialogRef<DeniedAccessDialogComponent>,
-    private router: Router) {
-    this.arlasError = data.error;
-    this.forceAction = data.forceAction;
-  }
-
-  public ngOnInit() {
+    private readonly settingsService: ArlasSettingsService,
+    private readonly authentService: AuthentificationService,
+    private readonly arlasIamService: ArlasIamService,
+    private readonly dialog: MatDialogRef<DeniedAccessDialogComponent>,
+    private readonly router: Router
+  ) {
     const authSettings = this.settingsService.getAuthentSettings();
-    this.authentMode = !!authSettings ? authSettings.auth_mode : undefined;
+    this.authentMode = authSettings ? authSettings.auth_mode : undefined;
     this.isAuthentActivated = !!authSettings && !!authSettings.use_authent;
     if (this.isAuthentActivated && !this.authentMode) {
       this.authentMode = 'openid';
     }
-    this.actionSubscription = this.arlasError.actionSeeker$.subscribe({
-      next: (type) => {
-        if (type === 'login') {
-          this.login();
-          this.dialog.close();
-        }
-      }
-    });
+
+    this.arlasError = data.error;
+    this.forceAction = !!data.forceAction;
   }
 
-  public ngOnDestroy(): void {
-    if (this.actionSubscription) {
-      this.actionSubscription.unsubscribe();
-    }
+  public ngOnInit() {
+    this.arlasError.actionSeeker$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (type) => {
+          if (type === 'login') {
+            this.login();
+            this.dialog.close();
+          }
+        }
+      });
   }
 
   private login() {

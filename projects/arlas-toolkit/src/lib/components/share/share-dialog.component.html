@@ -21,7 +21,7 @@
     </form>
   </mat-step>
 
-  @let geojsonTypeSource = geojsonTypeGroup.get('geojsonType').value?.source;
+  @let geojsonTypeSource = geojsonTypeGroup.value.geojsonType?.source;
   @if (!geojsonTypeSource?.startsWith('feature-metric')) {
     <mat-step [stepControl]="paramFormGroup">
       <form [formGroup]="paramFormGroup">
@@ -127,12 +127,12 @@
       <p style="color: white"> {{ 'Downloading Shapefile' | translate }} </p>
     </ngx-spinner>
     <div class="share-block">
-      <button matButton="filled" color="primary" class="export-button" matTooltip="{{'Click to download the chosen layer as a Geojson file' | translate}}" (click)="exportGeojson(geojsonTypeGroup.get('geojsonType').value)">
+      <button matButton="filled" color="primary" class="export-button" matTooltip="{{'Click to download the chosen layer as a Geojson file' | translate}}" (click)="exportGeojson(geojsonTypeGroup.value.geojsonType)">
         <mat-icon>get_app</mat-icon>
         {{ 'Download Geojson' | translate}}
       </button>
 
-      <button matButton="filled" color="primary" class="export-button" matTooltip="{{'Click to download the chosen layer as a zipped Shapefile' | translate}}" (click)="exportShapefile(geojsonTypeGroup.get('geojsonType').value)" >
+      <button matButton="filled" color="primary" class="export-button" matTooltip="{{'Click to download the chosen layer as a zipped Shapefile' | translate}}" (click)="exportShapefile(geojsonTypeGroup.value.geojsonType)" >
         <mat-icon>get_app</mat-icon>
         {{ 'Download Shapefile' | translate}}
       </button>

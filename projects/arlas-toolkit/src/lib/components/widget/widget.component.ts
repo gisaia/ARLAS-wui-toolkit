@@ -17,15 +17,15 @@
  * under the License.
  */
 
-import { Component, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, computed, input, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
+import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { Expression } from 'arlas-api';
-import { ARLASDonutTooltip, HistogramTooltip, Position, SwimlaneMode, SwimlaneRepresentation } from 'arlas-d3';
+import { ARLASDonutTooltip, ChartType, DataType, HistogramTooltip, Position, SwimlaneMode, SwimlaneRepresentation } from 'arlas-d3';
 import {
-  CellBackgroundStyleEnum, ChartType, DataType, DonutComponent, HistogramComponent,
-  MetricComponent, MetricsTableComponent, PowerBar, PowerbarsComponent, ResultListComponent
+  CellBackgroundStyleEnum, DonutComponent, HistogramComponent, MetricComponent,
+  MetricsTableComponent, PowerBar, PowerbarsComponent, ResultListComponent
 } from 'arlas-web-components';
 import { ComputeContributor, MetricsTableContributor, SwimLaneContributor, TreeContributor } from 'arlas-web-contributors';
 import { CollaborationEvent, Contributor, OperationEnum } from 'arlas-web-core';
@@ -75,32 +75,41 @@ import { AsTreeContributorPipe } from './contributor-pipes/as-tree-contributor-p
 export class WidgetComponent implements OnInit {
 
   public chartType = ChartType;
-  public contributorType: string;
-  public contributor: Contributor;
-  public swimSelected;
-  public swimlanes = [];
+  public contributorType = computed(() => this.getContirbutorType());
+
+  public contributor = computed(() => {
+    const c = this.arlasStartupService.contributorRegistry.get(this.contributorId());
+    if (!c) {
+      throw new Error(`[ARLAS][WIDGET] Given contributorId ${this.contributorId()} does not match any registered contributor.`);
+    }
+    return c;
+  });
+
+  public swimSelected: any;
+  public swimlanes = new Array<any>();
   public indeterminatedItems = new Set<string>();
   public highlightItems = new Set<string>();
-  public showSwimlaneDropDown: boolean;
+  public showSwimlaneDropDown = false;
   public graphParam: any = {};
   public metricApproximate = false;
-  private donutOverlayRef: ArlasOverlayRef;
-  private powerbarOverlayRef: ArlasOverlayRef;
-  private swimlaneOverlayRef: ArlasOverlayRef;
+
+  private donutOverlayRef?: ArlasOverlayRef;
+  private powerbarOverlayRef?: ArlasOverlayRef;
+  private swimlaneOverlayRef?: ArlasOverlayRef;
 
 
-  @Input() public componentType: string;
+  public componentType = input.required<string>();
 
   /**
    * @Input : Angular
    * @description Identifier of the contributor that serves data to the component
    */
-  @Input() public contributorId: string;
+  public contributorId = input.required<string>();
   /**
    * @Input : Angular
    * @description Inputs of one of the ARLAS-web-components
    */
-  @Input() public componentParams: any;
+  public componentParams = input.required<any>();
 
   /**
    * @Input : Angular
@@ -119,19 +128,19 @@ export class WidgetComponent implements OnInit {
    * @Input : Angular
    * @description Position of the widget in the group
    */
-  @Input() public position: number;
+  public position = input.required<number>();
 
   /**
    * @Input : Angular
    * @description Number of widgets in the group to whom this widget belongs
    */
-  @Input() public groupLength: number;
+  public groupLength = input.required<number>();
 
   /**
    * @Input : Angular
    * @description Whether the widget has to display a detailed version of itself. Currently only used for histograms
    */
-  @Input() public noDetail: boolean;
+  @Input() public noDetail = false;
 
   /**
    * @Output : Angular
@@ -139,10 +148,9 @@ export class WidgetComponent implements OnInit {
    * the `origin` which is the contributor id of the component; `event` the name of the event; and eventually `data` which contains
    * the emitted data from the component.
    */
-  @Output() public outEvents: Subject<{ origin: string; event: string; data?: any; }>
-    = new Subject<{ origin: string; event: string; data?: any; }>();
+  @Output() public outEvents = new Subject<{ origin: string; event: string; data?: any; }>();
 
-  @ViewChild('histogram', { static: false }) public histogramComponent: HistogramComponent;
+  @ViewChild('histogram', { static: false }) public histogramComponent?: HistogramComponent;
 
   private _onDestroy$ = new Subject<boolean>();
 
@@ -152,9 +160,10 @@ export class WidgetComponent implements OnInit {
     private readonly arlasOverlayService: ArlasOverlayService,
     private readonly translate: TranslateService,
     private readonly arlasExportCsvService: ArlasExportCsvService
-  ) { }
+  ) {
+  }
 
-  public showDonutTooltip(tooltip: ARLASDonutTooltip, e: HTMLDivElement) {
+  public showDonutTooltip(tooltip: ARLASDonutTooltip | null, e: HTMLDivElement) {
     if (!!this.donutOverlayRef) {
       this.donutOverlayRef.close();
     }
@@ -163,52 +172,51 @@ export class WidgetComponent implements OnInit {
     let xOffset = 470;
     if (this.graphParam.diameter === 170) {
       itemPerLine = 2;
-      if (this.position % itemPerLine === 1) {
+      if (this.position() % itemPerLine === 1) {
         xOffset = 240;
       }
     } else if (this.graphParam.diameter === 125) {
       itemPerLine = 3;
-      if (this.position % itemPerLine === 1) {
+      if (this.position() % itemPerLine === 1) {
         xOffset = 320;
-        if (this.position === this.groupLength - 1) {
+        if (this.position() === this.groupLength() - 1) {
           xOffset = 245;
         }
-      } else if (this.position % itemPerLine === 2) {
+      } else if (this.position() % itemPerLine === 2) {
         xOffset = 170;
       }
     }
     if (!!tooltip && tooltip.isShown && tooltip.content) {
-      tooltip.title = this.contributor.getFilterDisplayName();
+      tooltip.title = this.contributor().getFilterDisplayName();
       this.donutOverlayRef = this.arlasOverlayService.openDonutTooltip({ data: tooltip }, e, xOffset, 0, false);
     }
   }
 
   public ngOnInit() {
-    this.contributorType = this.getContirbutorType();
-    this.contributor = this.arlasStartupService.contributorRegistry.get(this.contributorId);
-    if (this.componentType === 'swimlane') {
-      this.swimlanes = this.contributor.getConfigValue('swimlanes');
+    if (this.componentType() === 'swimlane') {
+      this.swimlanes = this.contributor().getConfigValue('swimlanes');
       if (this.swimlanes) {
         this.showSwimlaneDropDown = this.swimlanes.length > 1;
         this.swimSelected = this.swimlanes[0];
       }
-    } else if (this.contributorType === 'compute') {
-      this.metricApproximate = (this.contributor as ComputeContributor).metrics.filter(c => c.metric === 'cardinality').length > 0;
+    } else if (this.contributorType() === 'compute') {
+      this.metricApproximate = (this.contributor() as ComputeContributor).metrics.some(c => c.metric === 'cardinality');
     }
 
     this.setComponentInput(this.graphParam);
+    const c = this.contributor();
     /** Init filter operator (include/exclude) of powerbars */
-    if (this.contributor instanceof TreeContributor) {
-      this.setFilterOperator((this.contributor as TreeContributor).getFilterOperator());
-      this.contributor.operatorChangedEvent
+    if (c instanceof TreeContributor) {
+      this.setFilterOperator(c.getFilterOperator());
+      c.operatorChangedEvent
         .pipe(takeUntil(this._onDestroy$))
         .subscribe(op => {
           this.setFilterOperator(op);
         });
     }
-    if (this.contributor instanceof MetricsTableContributor) {
-      this.setFilterOperator((this.contributor as MetricsTableContributor).getFilterOperator());
-      this.contributor.operatorChanged$
+    if (c instanceof MetricsTableContributor) {
+      this.setFilterOperator(c.getFilterOperator());
+      c.operatorChanged$
         .pipe(takeUntil(this._onDestroy$))
         .subscribe(op => {
           this.setFilterOperator(op);
@@ -220,11 +228,11 @@ export class WidgetComponent implements OnInit {
    * @description Changes swimlane from the pool of swimlanes defined in SwimlaneContributor configuration.
    * @param swimlaneName The name of swimlane.
    */
-  public changeSwimlane(swimlaneName) {
-    const swimConf = this.swimlanes.filter(f => f.name === swimlaneName.value)[0];
-    (this.contributor as SwimLaneContributor).aggregations = swimConf.aggregationmodels;
+  public changeSwimlane(swimlaneName: MatSelectChange<string>) {
+    const swimConf = this.swimlanes.find(f => f.name === swimlaneName.value);
+    (this.contributor() as SwimLaneContributor).aggregations = swimConf.aggregationmodels;
     if (swimConf.jsonpath) {
-      (this.contributor as SwimLaneContributor).json_path = swimConf.jsonpath;
+      (this.contributor() as SwimLaneContributor).json_path = swimConf.jsonpath;
     }
     const collaborationEvent: CollaborationEvent = {
       id: 'changeSwimlane',
@@ -263,36 +271,37 @@ export class WidgetComponent implements OnInit {
 
 
   public changePowerbarsOperator(op: 'Neq' | 'Eq'): void {
+    const c = this.contributor() as TreeContributor;
     if (op === 'Neq') {
-      (this.contributor as TreeContributor).setFilterOperator(Expression.OpEnum.Ne, /** emit */ true);
+      c.setFilterOperator(Expression.OpEnum.Ne, /** emit */ true);
     } else {
-      (this.contributor as TreeContributor).setFilterOperator(Expression.OpEnum.Eq, /** emit */ true);
+      c.setFilterOperator(Expression.OpEnum.Eq, /** emit */ true);
     }
-    (this.contributor as TreeContributor).selectedNodesListChanged((this.contributor as TreeContributor).selectedNodesPathsList);
+    c.selectedNodesListChanged(c.selectedNodesPathsList);
   }
 
   public changeMetricsTableOperator(op: 'Neq' | 'Eq'): void {
+    const c = this.contributor() as MetricsTableContributor;
     if (op === 'Neq') {
-      (this.contributor as MetricsTableContributor).setFilterOperator(Expression.OpEnum.Ne, /** emit */ true);
+      c.setFilterOperator(Expression.OpEnum.Ne, /** emit */ true);
     } else {
-      (this.contributor as MetricsTableContributor).setFilterOperator(Expression.OpEnum.Eq, /** emit */ true);
+      c.setFilterOperator(Expression.OpEnum.Eq, /** emit */ true);
     }
-    (this.contributor as MetricsTableContributor)
-      .onRowSelect(new Set((this.contributor as MetricsTableContributor).selectedTerms));
+    c.onRowSelect(new Set(c.selectedTerms));
   }
 
   public showPowerbarTooltip(powerbar: PowerBar, e: HTMLDivElement) {
     this.hidePowerbarTooltip();
 
     let xOffset = 470;
-    if (this.groupLength === 2) {
-      if (this.position === 1) {
+    if (this.groupLength() === 2) {
+      if (this.position() === 1) {
         xOffset = 244;
       }
-    } else if (this.groupLength === 3) {
-      if (this.position === 1) {
+    } else if (this.groupLength() === 3) {
+      if (this.position() === 1) {
         xOffset = 319;
-      } else if (this.position === 2) {
+      } else if (this.position() === 2) {
         xOffset = 169;
       }
     }
@@ -301,13 +310,13 @@ export class WidgetComponent implements OnInit {
     if (this.position === undefined) {
       xOffset = 270;
     }
-    if(!this.graphParam.hideTooltip){
+    if (!this.graphParam.hideTooltip) {
       this.powerbarOverlayRef = this.arlasOverlayService.openPowerbarTooltip({
         data: {
-          title: this.contributor.getFilterDisplayName(),
+          title: this.contributor().getFilterDisplayName(),
           key: powerbar.term,
           value: powerbar.count,
-          progression:  (Math.round((powerbar.progression) * 100) / 100),
+          progression:  (Math.round((powerbar.progression ?? 0) * 100) / 100),
           color: powerbar.color
         }
       }, e, xOffset, 0, false);
@@ -322,7 +331,7 @@ export class WidgetComponent implements OnInit {
 
   public showSwimlaneTooltip(tooltip: HistogramTooltip, e: HTMLDivElement) {
     const { xOffset, yOffset } = computeChartTooltipOffset(
-      this.graphParam.chartWidth, this.groupLength, this.position, this.contributor.identifier, false);
+      this.graphParam.chartWidth, this.groupLength(), this.position(), this.contributor().identifier, false);
 
     this.hideSwimlaneTooltip();
     if (tooltip?.shown) {
@@ -337,7 +346,7 @@ export class WidgetComponent implements OnInit {
   }
 
   private getContirbutorType() {
-    const contributor = this.arlasStartupService.contributorRegistry.get(this.contributorId);
+    const contributor = this.arlasStartupService.contributorRegistry.get(this.contributorId());
     if (contributor) {
       const contributorPkgName: string = contributor.getPackageName();
       const componenType: string = contributorPkgName.split('.')[contributorPkgName.split('.').length - 1];
@@ -346,30 +355,30 @@ export class WidgetComponent implements OnInit {
   }
 
   private setComponentInput(component: any) {
-    if (this.componentParams) {
-      Object.keys(this.componentParams).forEach(key => {
+    if (this.componentParams()) {
+      Object.keys(this.componentParams()).forEach(key => {
         if (key === 'cellBackgroundStyle') {
-          component[key] = CellBackgroundStyleEnum[this.componentParams[key]];
+          component[key] = CellBackgroundStyleEnum[this.componentParams()[key] as keyof typeof CellBackgroundStyleEnum];
         } else if (key === 'chartType') {
-          component[key] = ChartType[this.componentParams[key]];
+          component[key] = ChartType[this.componentParams()[key] as keyof typeof ChartType];
         } else if (key === 'dataType') {
-          component[key] = DataType[this.componentParams[key]];
+          component[key] = DataType[this.componentParams()[key] as keyof typeof DataType];
         } else if (key === 'xAxisPosition') {
-          component[key] = Position[this.componentParams[key]];
+          component[key] = Position[this.componentParams()[key] as keyof typeof Position];
         } else if (key === 'descriptionPosition') {
-          component[key] = Position[this.componentParams[key]];
+          component[key] = Position[this.componentParams()[key] as keyof typeof Position];
         } else if (key === 'swimlaneMode') {
-          component[key] = SwimlaneMode[this.componentParams[key]];
+          component[key] = SwimlaneMode[this.componentParams()[key] as keyof typeof SwimlaneMode];
         } else if (key === 'swimlane_representation') {
-          component[key] = SwimlaneRepresentation[this.componentParams[key]];
+          component[key] = SwimlaneRepresentation[this.componentParams()[key] as keyof typeof SwimlaneRepresentation];
         } else if (key === 'chartTitle' || key === 'valuesDateFormat') {
-          if (this.componentParams[key]) {
-            component[key] = this.translate.instant(this.componentParams[key]);
+          if (this.componentParams()[key] === '') {
+            component[key] = '';
           } else {
-            component[key] = this.componentParams[key];
+            component[key] = this.translate.instant(this.componentParams()[key]);
           }
         } else {
-          component[key] = this.componentParams[key];
+          component[key] = this.componentParams()[key];
         }
       });
     }

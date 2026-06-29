@@ -18,13 +18,13 @@
  */
 
 import { KeyValuePipe } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, computed, EventEmitter, input, Input, OnInit, Output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { marker } from '@colsen1991/ngx-translate-extract-marker';
-import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { HistogramContributor, SelectedOutputValues, StringifiedTimeShortcut } from 'arlas-web-contributors';
 import { OperationEnum } from 'arlas-web-core';
 import { filter } from 'rxjs/operators';
@@ -32,6 +32,7 @@ import { GetTimeLabelPipe } from '../../../pipes/get-time-label.pipe';
 import { ArlasCollaborativesearchService } from '../../../services/collaborative-search/arlas.collaborative-search.service';
 import { ArlasStartupService } from '../../../services/startup/startup.service';
 import { DatePickerComponent } from '../date-picker/date-picker.component';
+import { TimelineConfiguration } from '../timeline/timeline.utils';
 
 /**
  * This component contains shortcut labels that allow to apply predefined temporal filters on a timeline
@@ -62,12 +63,12 @@ export class TimelineShortcutComponent implements OnInit {
   * must be set as well as the identifier of the contributor that fetches timeline data. The `HistogramContributor`
   * should be declared before in the `contributorRegistry` of `ArlasStartupService`
   */
-  @Input() public timelineComponent: any;
+  public timelineComponent = input.required<TimelineConfiguration>();
   /**
    * @Input : Angular
    * @description Optional input. Sets the format of start/end date values of the timeline.
    */
-  @Input() public dateFormat: string;
+  @Input() public dateFormat?: string;
   /**
    * @Input : Angular
    * @description Whether the date picker is enabled
@@ -92,40 +93,37 @@ export class TimelineShortcutComponent implements OnInit {
    */
   @Output() public removeCollaboration = new EventEmitter<void>();
 
-  public timelineContributor: HistogramContributor;
-  public timeShortcuts: Array<StringifiedTimeShortcut>;
-  public timeShortcutsMap: Map<string, Array<StringifiedTimeShortcut>>;
+  public timelineContributor = computed(() => {
+    const contributor = this.arlasStartupService.contributorRegistry.get(this.timelineComponent().contributorId) as HistogramContributor;
+    contributor.updateData = true;
+    return contributor;
+  });
+
+  public timeShortcuts = computed(() => this.timelineContributor().timeShortcuts);
+  public timeShortcutsMap = computed(() => this.groupBy(this.timeShortcuts(), shortcut => shortcut.type));
   public showRemoveIcon = false;
   public showShortcuts = false;
   public HIDE_SHOW: string = marker('Show time shortcuts');
   public isShortcutSelected = false;
   public timeZone = 'UTC';
 
-  public constructor(private arlasCollaborativesearchService: ArlasCollaborativesearchService, private arlasStartupService: ArlasStartupService,
-    public translate: TranslateService) {
-    this.arlasCollaborativesearchService.collaborationBus.pipe(filter(c => ((this.timelineComponent
-      && c.id === this.timelineComponent.contributorId) || c.all)))
+  public constructor(
+    private readonly arlasCollaborativesearchService: ArlasCollaborativesearchService,
+    private readonly arlasStartupService: ArlasStartupService
+  ) {
+    this.arlasCollaborativesearchService.collaborationBus.pipe(filter(c => ((c.id === this.timelineComponent().contributorId) || c.all)))
       .subscribe(data => {
-        if (this.timelineContributor && this.timelineContributor.timeLabel !== undefined
-          && this.timelineContributor.timeLabel.indexOf('to') === -1) {
+        if (this.timelineContributor().timeLabel?.indexOf('to') === -1) {
           this.isShortcutSelected = true;
         } else {
           this.isShortcutSelected = false;
         }
       });
-
   }
   public ngOnInit() {
-    if (this.timelineComponent) {
-      this.timelineContributor = <HistogramContributor>this.arlasStartupService.contributorRegistry
-        .get(this.timelineComponent.contributorId);
-      this.timelineContributor.updateData = true;
-      this.timeShortcuts = this.timelineContributor.timeShortcuts;
-      this.timeShortcutsMap = this.groupBy(this.timeShortcuts, shortcut => shortcut.type);
-      this.setRemoveIconVisibility();
-      if (!this.timelineContributor.useUtc) {
-        this.timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-      }
+    this.setRemoveIconVisibility();
+    if (!this.timelineContributor().useUtc) {
+      this.timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     }
   }
 
@@ -135,13 +133,11 @@ export class TimelineShortcutComponent implements OnInit {
    */
   public setShortcut(shortCut: StringifiedTimeShortcut): void {
     const selectedIntervalsList = new Array<SelectedOutputValues>();
-    if (this.timelineContributor) {
-      this.timelineContributor.intervalListSelection.forEach(intervalSelection => {
-        selectedIntervalsList.push(intervalSelection);
-      });
-      selectedIntervalsList.push({ startvalue: shortCut.from, endvalue: shortCut.to });
-      this.timelineContributor.valueChanged(selectedIntervalsList, this.timelineContributor.getAllCollections());
-    }
+    this.timelineContributor().intervalListSelection.forEach(intervalSelection => {
+      selectedIntervalsList.push(intervalSelection);
+    });
+    selectedIntervalsList.push({ startvalue: shortCut.from, endvalue: shortCut.to });
+    this.timelineContributor().valueChanged(selectedIntervalsList, this.timelineContributor().getAllCollections());
   }
 
   /**
@@ -176,18 +172,18 @@ export class TimelineShortcutComponent implements OnInit {
    * Shows or hides the icon that allows to clear all temporal filter. This icon is displayed when there filters on the timeline.
    */
   private setRemoveIconVisibility(): void {
-    this.arlasCollaborativesearchService.collaborationBus.pipe(filter(c => (c.id === this.timelineComponent.contributorId || c.all)))
+    this.arlasCollaborativesearchService.collaborationBus.pipe(filter(c => (c.id === this.timelineComponent().contributorId || c.all)))
       .subscribe(c => {
         if (c.operation === OperationEnum.remove) {
           this.showRemoveIcon = false;
         } else if (c.operation === OperationEnum.add &&
-          this.arlasCollaborativesearchService.collaborations.has(this.timelineComponent.contributorId)) {
+          this.arlasCollaborativesearchService.collaborations.has(this.timelineComponent().contributorId)) {
           this.showRemoveIcon = true;
         }
       });
   }
 
-  private groupBy(list, keyGetter) {
+  private groupBy(list: StringifiedTimeShortcut[], keyGetter: (short: StringifiedTimeShortcut) => string) {
     const map = new Map();
     list.forEach((item) => {
       const key = keyGetter(item);

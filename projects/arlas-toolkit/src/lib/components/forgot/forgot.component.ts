@@ -17,8 +17,8 @@
  * under the License.
  */
 
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormGroupDirective, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component } from '@angular/core';
+import { FormControl, FormGroup, FormGroupDirective, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import { MatError, MatFormField, MatLabel, MatPrefix } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
@@ -35,26 +35,21 @@ import { ArlasIamService } from '../../services/arlas-iam/arlas-iam.service';
     FormsModule, ReactiveFormsModule, MatFormField, MatLabel, MatInput,
     MatIcon, MatPrefix, MatError, MatButton, RouterLink, TranslatePipe]
 })
-export class ForgotComponent implements OnInit {
+export class ForgotComponent {
 
-  public forgotForm: FormGroup;
+  public forgotForm = new FormGroup({
+    email: new FormControl('', [Validators.required, Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')])
+  });
   public validated = false;
   public displayForm = true;
 
   public constructor(
-    private formBuilder: FormBuilder,
-    private iamService: ArlasIamService
+    private readonly iamService: ArlasIamService
   ) { }
-
-  public ngOnInit(): void {
-    this.forgotForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]]
-    });
-  }
 
   public onSubmit(formDirective: FormGroupDirective) {
     this.validated = false;
-    this.iamService.forgot(this.forgotForm.get('email').value).subscribe({
+    this.iamService.forgot(this.forgotForm.value.email as string).subscribe({
       next: () => {
         this.validated = true;
         formDirective.resetForm();

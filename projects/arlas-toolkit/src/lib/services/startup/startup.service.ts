@@ -19,16 +19,15 @@
 
 import { LOCATION_INITIALIZED } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable, InjectionToken, Injector } from '@angular/core';
+import { Inject, Injectable, InjectionToken, Injector, inject } from '@angular/core';
 import { marker } from '@colsen1991/ngx-translate-extract-marker';
 import { TranslateService } from '@ngx-translate/core';
 import Ajv from 'ajv';
 import ajvKeywords from 'ajv-keywords';
 import * as draftSchema from 'ajv/lib/refs/json-schema-draft-06.json' with { type: 'json' };
-import { CollectionReferenceDescription, CollectionReferenceParameters, CollectionsApi, Configuration, ExploreApi } from 'arlas-api';
+import { CollectionReferenceDescription, CollectionReferenceParameters, CollectionsApi, Configuration, ExploreApi, FetchAPI } from 'arlas-api';
 import { DefaultApi, Configuration as IamConfiguration } from 'arlas-iam-api';
 import { ArlasMapComponent, DrawTheme } from 'arlas-map';
-import { DataWithLinks } from 'arlas-persistence-api';
 import {
   DonutComponent, HistogramComponent, MetricComponent,
   MetricsTableComponent, PowerbarsComponent
@@ -38,19 +37,20 @@ import {
   MapContributor, MetricsTableContributor, ResultListContributor, SearchContributor, SwimLaneContributor, TreeContributor
 } from 'arlas-web-contributors';
 import * as rootContributorConfSchema from 'arlas-web-contributors/jsonSchemas/rootContributorConf.schema.json' with { type: 'json' };
-import { ConfigService, Contributor, projType } from 'arlas-web-core';
+import { ConfigService, Contributor, FetchOptions, projType } from 'arlas-web-core';
 import YAML from 'js-yaml';
 import { Subject, catchError, defer, first, mergeMap, retry, throwError } from 'rxjs';
 import { AnalyticGroupConfiguration } from '../../components/analytics/analytics.utils';
 import { FilterShortcutConfiguration } from '../../components/filter-shortcut/filter-shortcut.utils';
 import {
   AuthentSetting, CONFIG_ID_QUERY_PARAM, GET_OPTIONS, GeocodingSetting,
+  GetOptions,
   NOT_CONFIGURED, WidgetConfiguration, getFieldProperties, getParamValue
 } from '../../tools/utils';
 import { ArlasIamService, IamHeader } from '../arlas-iam/arlas-iam.service';
 import { AuthentificationService, } from '../authentification/authentification.service';
 import { ArlasCollaborativesearchService } from '../collaborative-search/arlas.collaborative-search.service';
-import { ArlasConfigurationUpdaterService } from '../configuration-updater/configurationUpdater.service';
+import { ArlasConfigurationUpdaterService, ArlasDashboardConfiguration } from '../configuration-updater/configurationUpdater.service';
 import { ErrorService } from '../error/error.service';
 import { FetchInterceptorService } from '../interceptor/fetch-interceptor.service';
 import { PermissionService, PermissionSetting } from '../permission/permission.service';
@@ -67,10 +67,6 @@ import * as arlasSettingsSchema from './settings.schema.json' with { type: 'json
 export class ArlasConfigService extends ConfigService {
   public errorsQueue = new Array<Error>();
   public appName = '';
-
-  public constructor() {
-    super();
-  }
 
   /** Returns the preview identifier stored in the config.json */
   public getPreviewId(): string | undefined {
@@ -143,7 +139,7 @@ export class ArlasConfigService extends ConfigService {
 @Injectable()
 export class ArlasExploreApi extends ExploreApi {
   public constructor(@Inject('CONF') conf: Configuration, @Inject('base_path') basePath: string,
-    @Inject('fetch') fetch) {
+    @Inject('fetch') fetch: FetchAPI) {
     super(conf, basePath, fetch);
   }
 }
@@ -151,7 +147,7 @@ export class ArlasExploreApi extends ExploreApi {
 @Injectable()
 export class ArlasCollectionApi extends CollectionsApi {
   public constructor(@Inject('CONF') conf: Configuration, @Inject('base_path') basePath: string,
-    @Inject('fetch') fetch) {
+    @Inject('fetch') fetch: FetchAPI) {
     super(conf, basePath, fetch);
   }
 }
@@ -159,13 +155,13 @@ export class ArlasCollectionApi extends CollectionsApi {
 @Injectable()
 export class ArlasIamApi extends DefaultApi {
   public constructor(@Inject('CONF') conf: IamConfiguration, @Inject('base_path') basePath: string,
-    @Inject('fetch') fetch) {
+    @Inject('fetch') fetch: FetchAPI) {
     super(conf, basePath, fetch);
   }
 }
 
 export const CONFIG_UPDATER = new InjectionToken<Function>('config_updater');
-export const FETCH_OPTIONS = new InjectionToken<any>('fetch_options');
+export const FETCH_OPTIONS = new InjectionToken<GetOptions>('fetch_options');
 
 export interface Error {
   origin: string;
@@ -179,29 +175,30 @@ export class ArlasStartupService {
   public contributorRegistry: Map<string, Contributor> = new Map<string, any>();
   public shouldRunApp = true;
   public emptyMode = false;
-  public analytics: Array<AnalyticGroupConfiguration>;
-  public filtersShortcuts: Array<FilterShortcutConfiguration>;
+  public analytics = new Array<AnalyticGroupConfiguration>();
+  public filtersShortcuts = new Array<FilterShortcutConfiguration>();
   public collectionsMap: Map<string, CollectionReferenceParameters> = new Map();
-  public collectionId: string;
-  public selectorById: string;
+  public collectionId!: string;
+  public selectorById?: string;
   public temporalContributor: Array<string> = new Array<string>();
   private readonly errorMessagesList = new Array<string>();
   public errorStartUpServiceBus: Subject<any> = new Subject<any>();
   public arlasIsUp: Subject<boolean> = new Subject<boolean>();
-  public arlasExploreApi: ArlasExploreApi;
+  public arlasExploreApi!: ArlasExploreApi;
   public configurationUpdaterService: ArlasConfigurationUpdaterService;
-  public arlasIamApi: ArlasIamApi;
+  public arlasIamApi?: ArlasIamApi;
+
+  private readonly getOptions = inject(GET_OPTIONS);
 
   public constructor(
     private readonly settingsService: ArlasSettingsService,
     private readonly configService: ArlasConfigService,
     private readonly collaborativesearchService: ArlasCollaborativesearchService,
     private readonly injector: Injector,
-    @Inject(FETCH_OPTIONS) private readonly fetchOptions,
-    @Inject(GET_OPTIONS) private readonly getOptions,
+    @Inject(FETCH_OPTIONS) private readonly fetchOptions: FetchOptions,
     private readonly http: HttpClient,
     private readonly translateService: TranslateService,
-    @Inject(CONFIG_UPDATER) private readonly configUpdater,
+    @Inject(CONFIG_UPDATER) private readonly configUpdater: Function,
     private readonly persistenceService: PersistenceService,
     private readonly permissionService: PermissionService,
     private readonly errorService: ErrorService,
@@ -220,7 +217,7 @@ export class ArlasStartupService {
     this.errorStartUpServiceBus.subscribe(e => console.error(e));
   }
 
-  public validateSettings(settings) {
+  public validateSettings(settings: ArlasSettings) {
     return new Promise<any>((resolve, reject) => {
       const ajvObj = new Ajv({ allowUnionTypes: true });
       ajvKeywords(ajvObj, 'uniqueItemProperties');
@@ -230,8 +227,8 @@ export class ArlasStartupService {
       if (settings && validateConfig(settings) === false) {
         const errorMessagesList = new Array<string>();
         errorMessagesList.push(
-          validateConfig.errors[0].schemaPath + ' ' +
-          validateConfig.errors[0].message
+          validateConfig.errors?.[0].schemaPath + ' ' +
+          validateConfig.errors?.[0].message
         );
         reject(new Error(errorMessagesList.join(' ')));
       } else {
@@ -240,7 +237,7 @@ export class ArlasStartupService {
     });
   }
 
-  public validateConfiguration(data) {
+  public validateConfiguration(data: ArlasDashboardConfiguration) {
     return new Promise<any>((resolve, reject) => {
       const ajvObj = new Ajv({ allowUnionTypes: true });
       ajvKeywords(ajvObj, 'uniqueItemProperties');
@@ -269,8 +266,8 @@ export class ArlasStartupService {
       if (validateConfig(data) === false) {
         const errorMessagesList = new Array<string>();
         errorMessagesList.push(
-          validateConfig.errors[0].schemaPath + ' ' +
-          validateConfig.errors[0].message
+          validateConfig.errors?.[0].schemaPath + ' ' +
+          validateConfig.errors?.[0].message
         );
         reject(new Error(errorMessagesList.join(' ')));
       } else {
@@ -278,7 +275,7 @@ export class ArlasStartupService {
       }
     });
   }
-  public translationLoaded(data) {
+  public translationLoaded(data: ArlasDashboardConfiguration) {
     return new Promise<any>((resolve: any) => {
       // Set default language to current browser language
       let langToSet = navigator.language.slice(0, 2);
@@ -306,7 +303,7 @@ export class ArlasStartupService {
    * @param data configation object
    * @returns the same configuration object
    */
-  public setConfigService(data) {
+  public setConfigService(data: ArlasDashboardConfiguration) {
     /** First set the raw config data in order to create an ArlasExploreApi instance */
     const configAfterUpdater = this.configUpdater(data);
     const newConfig = this.fixLayerStyleInfinity(configAfterUpdater);
@@ -332,13 +329,13 @@ export class ArlasStartupService {
    * @param availableFields list of fields that are available for exploration
    * @returns the updated configuration object
    */
-  public updateConfiguration(data, availableFields: Map<string, Set<string>>): any {
+  public updateConfiguration(data: ArlasDashboardConfiguration, availableFields: Map<string, Set<string>>): any {
     if (!this.emptyMode) {
       let updatedConfig = this.configurationUpdaterService.addCollectionIfMissing(data);
       const contributorsToRemove = this.configurationUpdaterService.getContributorsToRemove(updatedConfig, availableFields);
       updatedConfig = this.configurationUpdaterService.removeContributors(updatedConfig, contributorsToRemove);
       updatedConfig = this.configurationUpdaterService.updateContributors(updatedConfig, availableFields);
-      updatedConfig = this.configurationUpdaterService.updateMapComponent(updatedConfig, availableFields);
+      updatedConfig = this.configurationUpdaterService.updateMapComponent(updatedConfig);
       updatedConfig = this.configurationUpdaterService.removeWidgets(updatedConfig, contributorsToRemove);
       updatedConfig = this.configurationUpdaterService.removeTimelines(updatedConfig, contributorsToRemove);
       return updatedConfig;
@@ -351,7 +348,7 @@ export class ArlasStartupService {
    * Retrieves fields that are available for exploration and updates the configuration to keep only corresponding widgets and components
    * @param data configuration object
    */
-  public applyFGA(data) {
+  public applyFGA(data: ArlasDashboardConfiguration) {
     if (!this.emptyMode) {
       const defaultCollection = this.configService.getValue('arlas.server.collection.name');
       const collectionNames: Set<string> = ContributorBuilder.getCollections(this.configService.getValue('arlas.web.contributors'));
@@ -392,11 +389,11 @@ export class ArlasStartupService {
         this.shouldRunApp = false;
         console.error(err);
         this.errorService.emitSettingsError();
-        return {};
+        return '{}';
       })
       .then(s => {
         // parses the yaml file and validates it against the correponding schema
-        const settings: ArlasSettings = YAML.safeLoad(s);
+        const settings = YAML.load(s ?? '') as ArlasSettings;
         return this.validateSettings(settings);
       })
       .catch((err: any) => {
@@ -423,8 +420,8 @@ export class ArlasStartupService {
       // if authentication is configured, trigger authentication service that
       // redirects to login page if it's the first time and fetches the appropriate token
       if (settings) {
-        const authent: AuthentSetting = settings.authentication;
-        if (authent?.use_authent && authent.auth_mode === 'iam') { // Authentication activated with IAM mode
+        const authent = settings.authentication;
+        if (authent?.use_authent && authent.auth_mode === 'iam' && authent.url) { // Authentication activated with IAM mode
           if (!this.arlasIamService.areSettingsValid(authent)[0]) {
             const err = 'Authentication is set while ' + this.arlasIamService.areSettingsValid(authent)[1] + ' are not configured';
             return reject(err);
@@ -435,7 +432,7 @@ export class ArlasStartupService {
           return resolve(this.arlasIamService.initAuthService().then(() => settings));
         } else if (authent?.use_authent) { // Authentication activated with OPENID mode
           const authService: AuthentificationService = this.injector.get('AuthentificationService')[0];
-          authService.authConfigValue = authent;
+          authService.authSettings = authent;
           if (!authService.areSettingsValid(authent)[0]) {
             const err = 'Authentication is set while ' + authService.areSettingsValid(authent)[1] + ' are not configured';
             return reject(err);
@@ -462,8 +459,8 @@ export class ArlasStartupService {
       const useAuthent = !!settings && !!settings.authentication
         && !!settings.authentication.use_authent;
       // The default behavior is openid, so if there is no auth_mode specified, it is openid
-      const useAuthentOpenID = useAuthent && settings.authentication.auth_mode !== 'iam';
-      const useAuthentIam = useAuthent && settings.authentication.auth_mode === 'iam';
+      const useAuthentOpenID = useAuthent && settings.authentication?.auth_mode !== 'iam';
+      const useAuthentIam = useAuthent && settings.authentication?.auth_mode === 'iam';
       if (useAuthent) {
         this.fetchInterceptorService.applyInterceptor();
         if (useAuthentOpenID) {
@@ -511,7 +508,7 @@ export class ArlasStartupService {
             next: (loginData) => {
               if (loginData) {
                 const org = this.arlasIamService.getOrganisation();
-                const iamHeader = {
+                const iamHeader: Record<string, any> = {
                   Authorization: 'Bearer ' + loginData.access_token,
                 };
                 // Set the org filter only if the organisation is defined
@@ -526,7 +523,7 @@ export class ArlasStartupService {
                 this.persistenceService.setOptions({});
                 this.permissionService.setOptions({});
                 this.processService.setOptions({});
-                this.fetchOptions.headers = null;
+                this.fetchOptions.headers = undefined;
               }
               this.collaborativesearchService.setFetchOptions(this.fetchOptions);
               resolve(settings);
@@ -547,13 +544,13 @@ export class ArlasStartupService {
    * @param settings Arlas Settings object
    * @returns ARLAS Configuration object Promise
    */
-  public getAppConfigurationObject(settings: ArlasSettings): Promise<any> {
+  public getAppConfigurationObject(settings: ArlasSettings): Promise<ArlasDashboardConfiguration> {
     const url = new URL(globalThis.location.href);
     const usePersistence = !!settings?.persistence?.url && settings.persistence.url !== NOT_CONFIGURED && !settings.persistence.use_local_config;
     const configurationId = url.searchParams.get(CONFIG_ID_QUERY_PARAM);
-    return new Promise<any>((resolve, reject) => {
+    return new Promise<ArlasDashboardConfiguration>((resolve, reject) => {
       let configDataPromise = Promise.resolve(null);
-      let configData;
+      let configData: ArlasDashboardConfiguration;
       if (usePersistence) {
         if (configurationId) {
           configDataPromise = defer(() => this.persistenceService.get(configurationId)).pipe(
@@ -572,7 +569,7 @@ export class ArlasStartupService {
             }),
             retry({ count: 1, delay: 2000 })
           ).toPromise()
-            .then((s: DataWithLinks) => {
+            .then(s => {
               if (s) {
                 const config = JSON.parse(s.doc_value);
                 this.configService.appName = s.doc_key;
@@ -590,7 +587,7 @@ export class ArlasStartupService {
                 return null;
               } else {
                 this.shouldRunApp = false;
-                this.errorService.emitInvalidDashboardError(false);
+                this.errorService.emitInvalidDashboardError(false, marker('The dashboard is invalid'));
               }
             });
         } else {
@@ -600,13 +597,13 @@ export class ArlasStartupService {
         // persistence is not used, we use the config.json file mounted
         configDataPromise = this.http
           .get('config.json')
-          .pipe(mergeMap((response) => {
+          .pipe(mergeMap((response: any) => {
             configData = response;
             if (configData.extraConfigs === undefined) {
               return Promise.resolve(configData);
             } else {
               const promises = new Array<Promise<any>>();
-              configData.extraConfigs.forEach(extraConfig => promises.push(this.loadExtraConfig(extraConfig, configData)));
+              configData.extraConfigs.forEach((extraConfig: ExtraConfig) => promises.push(this.loadExtraConfig(extraConfig, configData)));
               return Promise.all(promises).then(() => configData);
             }
           })).toPromise();
@@ -627,7 +624,7 @@ export class ArlasStartupService {
     });
   }
 
-  public setCollaborativeService(data) {
+  public setCollaborativeService(data: ArlasDashboardConfiguration) {
     if (!this.emptyMode) {
       return new Promise<any>((resolve, reject) => {
         this.collaborativesearchService.setConfigService(this.configService);
@@ -640,7 +637,7 @@ export class ArlasStartupService {
     }
   }
 
-  public testArlasUp(configData) {
+  public testArlasUp(configData: ArlasDashboardConfiguration) {
     if (!this.emptyMode) {
       return new Promise<any>((resolve, reject) => {
         this.collaborativesearchService.resolveHits([projType.count, {}], this.collaborativesearchService.collaborations,
@@ -661,7 +658,7 @@ export class ArlasStartupService {
   /**
    * Fetches from ARLAS-Server all of the available collections and initialises the map of CollectionReferenceParameters
    */
-  public getCollections(data) {
+  public getCollections(data: ArlasDashboardConfiguration) {
     if (!this.emptyMode) {
       return new Promise<any>((resolve, reject) => {
         this.collaborativesearchService.list()
@@ -675,6 +672,10 @@ export class ArlasStartupService {
                   this.collectionId = c.params.id_path;
                 }
               }
+              if (!this.collectionId) {
+                reject(new Error(`Main collection ${data.collection} was not found`));
+              }
+
               resolve(allCollections);
             },
             error: (err) => {
@@ -693,10 +694,10 @@ export class ArlasStartupService {
   */
   public listAvailableFields(collectionNames: Set<string>): Promise<Map<string, Set<string>>> {
     const availableFieldsPerCollection = new Map<string, Set<string>>();
-    const hiddenAvailableFields = [];
+    const hiddenAvailableFields = new Array<string>();
     return this.collaborativesearchService.list().toPromise().then(
-      (collectionDescriptions: Array<CollectionReferenceDescription>) => {
-        collectionDescriptions.filter((cd: CollectionReferenceDescription) => collectionNames.has(cd.collection_name))
+      collectionDescriptions => {
+        collectionDescriptions?.filter((cd: CollectionReferenceDescription) => collectionNames.has(cd.collection_name))
           .forEach((cd: CollectionReferenceDescription) => {
             const availableFields = new Set<string>();
             getFieldProperties(cd.properties).map(p => {
@@ -717,10 +718,10 @@ export class ArlasStartupService {
       });
   }
 
-  public buildContributor(data) {
+  public buildContributor(data: ArlasDashboardConfiguration) {
     if (!this.emptyMode) {
       return new Promise<any>((resolve, reject) => {
-        this.configService.getValue('arlas.web.contributors').forEach(contrib => {
+        this.configService.getValue('arlas.web.contributors').forEach((contrib: any) => {
           const contributorType = contrib.type;
           const contributorIdentifier = contrib.identifier;
           if (contributorType === 'resultlist') {
@@ -728,7 +729,7 @@ export class ArlasStartupService {
           } else if (contributorType === 'histogram') {
             const aggregationmodels = contrib.aggregationmodels;
             aggregationmodels.forEach(
-              agg => {
+              (agg: any) => {
                 if (agg.type === 'datehistogram') {
                   if (this.temporalContributor.indexOf(contributorIdentifier)) {
                     this.temporalContributor.push(contributorIdentifier);
@@ -738,9 +739,9 @@ export class ArlasStartupService {
             );
           } else if (contributorType === 'swimlane') {
             const swimlanes = contrib.swimlanes;
-            swimlanes.forEach(swimlane => {
+            swimlanes.forEach((swimlane: any) => {
               swimlane.aggregationmodels.forEach(
-                agg => {
+                (agg: any) => {
                   if (agg.type === 'datehistogram') {
                     if (this.temporalContributor.indexOf(contributorIdentifier)) {
                       this.temporalContributor.push(contributorIdentifier);
@@ -784,8 +785,8 @@ export class ArlasStartupService {
   public loadExtraConfig(extraConfig: ExtraConfig, data: Object): Promise<any> {
     return this.http.get(extraConfig.configPath + '?' + Date.now())
       .toPromise()
-      .then((extraConfigData) => {
-        if (extraConfigData[extraConfig.replacer] === undefined) {
+      .then((extraConfigData: Record<string, any> | undefined) => {
+        if (extraConfigData?.[extraConfig.replacer] === undefined) {
           this.shouldRunApp = false;
           this.errorMessagesList.push('The replacer : ' + extraConfig.replacer + ' does not exist in your '
             + extraConfig.configPath + ' file.');
@@ -799,11 +800,11 @@ export class ArlasStartupService {
       });
   }
 
-  public changeOrgHeader(org: string, accessToken: string) {
+  public changeOrgHeader(org: string | undefined, accessToken: string) {
     this.arlasIamService.setHeaders(org, accessToken);
     const headers: IamHeader = {
       Authorization: 'Bearer ' + accessToken,
-      'arlas-org-filter': org,
+      'arlas-org-filter': org
     };
     this.persistenceService.setOptions({ headers });
     this.permissionService.setOptions({ headers });
@@ -839,7 +840,7 @@ export class ArlasStartupService {
       }).then((x) => { });
   }
 
-  private setAttribute(path, value, object) {
+  private setAttribute(path: string, value: any, object: Record<string, any>) {
     const pathToList = path.split('.');
     const pathLength = pathToList.length;
     for (let i = 0; i < pathLength - 1; i++) {
@@ -854,7 +855,7 @@ export class ArlasStartupService {
   }
 
   private getShortcutComponent(uuid: string) {
-    let component: WidgetConfiguration;
+    let component: WidgetConfiguration | undefined;
     for (const g of this.analytics) {
       let clonedComponent: WidgetConfiguration;
       component = g.components.find(c => c.uuid === uuid);
@@ -870,14 +871,14 @@ export class ArlasStartupService {
     return component;
   }
 
-  private fixLayerStyleInfinity(config) {
+  private fixLayerStyleInfinity(config: ArlasDashboardConfiguration) {
     /** FIX wrong v15 map filters about Infinity values */
     if (!!config && !!config.arlas && !!config.arlas.web && !!config.arlas.web.components.mapgl) {
       const layers = config.arlas.web.components.mapgl.input.mapLayers.layers;
-      layers.forEach(layer => {
+      layers.forEach((layer: any) => {
         if (!!layer.filter && Array.isArray(layer.filter)) {
-          const filters = [];
-          layer.filter.forEach(expression => {
+          const filters = new Array<string[]>();
+          layer.filter.forEach((expression: any) => {
             if (Array.isArray(expression) && expression.length === 3) {
               if (expression[0] === '!=' && expression[2] === 'Infinity') {
                 expression = ['<=', expression[1].replaceAll('.', '_'), Number.MAX_VALUE];
@@ -949,8 +950,8 @@ export interface ResultlistSettings {
 
 export interface ProcessSettings {
   name: string;
-  url?: string;
-  check_url?: string;
+  url: string;
+  check_url: string;
   max_items?: number;
   settings: {
     url: string;

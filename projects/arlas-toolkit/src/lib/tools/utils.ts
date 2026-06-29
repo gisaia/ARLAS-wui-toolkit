@@ -21,23 +21,23 @@ import { OverlayRef } from '@angular/cdk/overlay';
 import { InjectionToken } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Filter } from 'arlas-api';
-import { ARLASDonutTooltip, TimelineTooltip } from 'arlas-d3';
-import { HistogramTooltip } from 'arlas-web-components';
+import { ARLASDonutTooltip, HistogramTooltip, TimelineTooltip } from 'arlas-d3';
 import {
-  ComputeContributor,
-  DetailedHistogramContributor,
-  HistogramContributor,
-  ResultListContributor,
-  SwimLaneContributor,
-  TreeContributor
+  ComputeContributor, DetailedHistogramContributor, HistogramContributor,
+  ResultListContributor, SwimLaneContributor, TreeContributor
 } from 'arlas-web-contributors';
-import { Contributor } from 'arlas-web-core';
+import { Collaboration, Contributor } from 'arlas-web-core';
 import { ARLASPowerbarTooltip } from '../components/powerbar-tooltip-overlay/powerbar-tooltip-overlay.component';
 import { ArlasSearchField } from '../components/share/model/ArlasSearchField';
 import { ArlasError } from './errors/error';
 
 export const CONFIG_ID_QUERY_PARAM = 'config_id';
-export const GET_OPTIONS = new InjectionToken<Function>('get_options');
+export interface GetOptions {
+  headers?: Record<string, any>;
+  responseType?: 'json';
+};
+export type GetOptionsFunction = () => GetOptions;
+export const GET_OPTIONS = new InjectionToken<GetOptionsFunction>('get_options');
 export const NOT_CONFIGURED = 'NOT_CONFIGURED';
 
 export interface ConfigAction {
@@ -130,7 +130,7 @@ export interface AuthentSetting {
   logout_url?: string;
   post_logout_redirect_uri?: string;
   storage?: string;
-  customQueryParams?: Object;
+  custom_query_params?: Object[];
   threshold?: number;
   url?: string;
   sign_up_enabled?: boolean;
@@ -157,10 +157,10 @@ export enum ZoomToDataStrategy {
  * This interface lists the possible methods to apply on a Map object of a given cartographic client
  */
 export interface MapService {
-  zoomToData(collection: string, geoPointField: string, map: any);
+  zoomToData(collection: string, geoPointField: string, map: any): void;
 }
 
-export function hashCode(str) { // java String#hashCode
+export function hashCode(str: string) { // java String#hashCode
   let hash = 0;
   for (let i = 0; i < str.length; i++) {
     hash = str.charCodeAt(i) + ((hash << 5) - hash);
@@ -168,7 +168,7 @@ export function hashCode(str) { // java String#hashCode
   return hash;
 }
 
-export function intToRGB(i) {
+export function intToRGB(i: number) {
   const c = (i & 0x00FFFFFF)
     .toString(16)
     .toUpperCase();
@@ -184,7 +184,7 @@ export class Guid {
   }
 }
 
-export function sortOnDate(data: ArlasStorageObject[]): ArlasStorageObject[] {
+export function sortOnDate<T extends ArlasStorageObject>(data: T[]): T[] {
   const sortedData = data.sort((a, b) => {
     let propertyA: number = new Date(0).getTime();
     let propertyB: number = new Date(0).getTime();
@@ -197,7 +197,7 @@ export function sortOnDate(data: ArlasStorageObject[]): ArlasStorageObject[] {
   return sortedData;
 }
 
-export function getKeyForColor(dataModel: Object): string {
+export function getKeyForColor(dataModel: Record<string, Collaboration>): string {
   const finalKeys: string[] = [];
   Object.keys(dataModel).forEach(k => {
     const key = new Set();
@@ -228,14 +228,9 @@ export function getKeyForColor(dataModel: Object): string {
 }
 
 export function getFieldProperties(fieldList: any, parentPrefix?: string,
-  arlasFields?: Array<{ label: string; type: string; }>, isFirstLevel?: boolean
-): Array<{ label: string; type: string; }> {
-  if (!arlasFields) {
-    arlasFields = new Array();
-  }
-  if (isFirstLevel === undefined) {
-    isFirstLevel = true;
-  }
+  arlasFields: { label: string; type: string; }[] = [], isFirstLevel = true
+): { label: string; type: string; }[] {
+
   Object.keys(fieldList).forEach(fieldName => {
     if (fieldList[fieldName].type === 'OBJECT') {
       const subFields = fieldList[fieldName].properties;
@@ -250,6 +245,7 @@ export function getFieldProperties(fieldList: any, parentPrefix?: string,
   if (isFirstLevel) {
     return arlasFields;
   }
+  return [];
 }
 
 
@@ -300,7 +296,7 @@ export interface WidgetConfiguration {
   /**
    * @description swimlane | histogram | donut | powerbars | resultlist
    */
-  componentType?: string;
+  componentType: string;
   /**
  * @description whether we display export csv button
  */
@@ -352,8 +348,9 @@ export function orderAlphabeticallyArlasSearchFields(arlasSearchFieldA: ArlasSea
 }
 
 export function flattenData(y: Object) {
-  const out = {};
-  function flatten(x, name = '') {
+  const out: Record<string, any> = {};
+
+  function flatten(x: Record<string, any>, name = '') {
     if (typeof x === 'object' && !Array.isArray(x)) {
       for (const a in x) {
         if (Object.prototype.hasOwnProperty.call(x, a)) {

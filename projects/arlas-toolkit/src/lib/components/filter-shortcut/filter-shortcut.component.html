@@ -1,12 +1,14 @@
-@if (shortcut && shortcut.component) {
-  <div class="container" id="{{'shortcut-' +  shortcut.uuid}}">
+@let component = shortcut().component;
+
+@if (component) {
+  <div class="container" id="{{'shortcut-' +  shortcut().uuid}}">
     <section #title class="title" [class.open_title]="isOpen" (click)="toggle()"
       [style.min-width.px]="shortcutWidth / 2">
-      <div class="text">{{shortcut.title | translate}}</div>
+      <div class="text">{{shortcut().title | translate}}</div>
       <div class="actions">
         <arlas-shortcut-filters-handler
-          [contributorId]="shortcut.component?.contributorId"
-          [widgetType]="shortcut.component.componentType"
+          [contributorId]="component.contributorId"
+          [widgetType]="component.componentType"
           [histogramDatatype]="histogramDatatype"
           [histogramUnit]="histogramUnit"
           [displayFilterFirstValue]="displayFilterFirstValue"
@@ -21,10 +23,10 @@
       @let titleWidth = title.getBoundingClientRect().width;
       <section class="content" [style.width.px]="titleWidth > shortcutWidth + 10 ? titleWidth - 10 : shortcutWidth">
         <arlas-tool-widget style="width:100%"
-          id="{{'shortcut-widget-' +  shortcut.uuid}}"
-          [componentType]="shortcut.component.componentType"
-          [contributorId]="shortcut.component?.contributorId"
-          [componentParams]="inputs" [groupLength]="1"
+          id="{{'shortcut-widget-' +  shortcut().uuid}}"
+          [componentType]="component.componentType"
+          [contributorId]="component.contributorId"
+          [componentParams]="inputs" [groupLength]="1" [position]="0"
           [noDetail]="true" [spinnerOptions]="spinnerOptions"
         ></arlas-tool-widget>
       </section>
