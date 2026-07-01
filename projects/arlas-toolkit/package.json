@@ -24,8 +24,8 @@
     "@ngx-translate/http-loader": "^17.0.0",
     "core-js": "~3.26.1",
     "moment": "^2.24.0",
-    "stream": "0.0.2",
     "rxjs": "^7.4.0",
+    "stream": "0.0.2",
     "zone.js": "^0.15.0"
   },
   "dependencies": {
@@ -47,7 +47,7 @@
     "cli-color": "^1.2.0",
     "fetch-intercept": "^2.3.1",
     "hopscotch": "0.3.1",
-    "js-yaml": "^3.14.0",
+    "js-yaml": "^3.15.0",
     "ngx-device-detector": "^11.0.0",
     "ngx-markdown": "^21.0.0",
     "ngx-spinner": "^21.0.0"
