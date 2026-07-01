@@ -66,10 +66,11 @@ export class FetchInterceptorService {
           } else if (useAuthentIam) {
             hasValidAccessToken = this.iamService.isAuthenticated();
           }
-          // add bust params to all arlas explore api Http requests
-          if (hasValidAccessToken && typeof url === 'string' && url.includes('/explore')) {
+          // add bust params to all Http requests
+          if (hasValidAccessToken && typeof url === 'string') {
             const bust = sessionStorage.getItem('cache_bust') ?? Date.now();
-            url = url + '&_cb=' + bust.toString();
+            const separator = url.includes('?') ? '&' : '?';
+            url = url + separator + '_cb=' + bust.toString();
           }
           return [url, config];
         }
