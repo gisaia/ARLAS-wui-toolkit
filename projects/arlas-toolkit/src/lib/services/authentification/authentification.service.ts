@@ -19,12 +19,12 @@
 
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AuthConfig, OAuthErrorEvent, OAuthService, OAuthStorage, UserInfo } from 'angular-oauth2-oidc';
+import { AuthConfig, OAuthErrorEvent, OAuthEvent, OAuthService, OAuthStorage, UserInfo } from 'angular-oauth2-oidc';
 import { BehaviorSubject, Observable, ReplaySubject, combineLatest } from 'rxjs';
 import { from } from 'rxjs/internal/observable/from';
 import { filter } from 'rxjs/internal/operators/filter';
 import { map } from 'rxjs/internal/operators/map';
-import { AuthentSetting, CONFIG_ID_QUERY_PARAM, NOT_CONFIGURED } from '../../tools/utils';
+import { AuthentSetting, CONFIG_ID_QUERY_PARAM, generateUserCacheBust, NOT_CONFIGURED } from '../../tools/utils';
 import { ArlasAuthentificationService } from '../arlas-authentification/arlas-authentification.service';
 
 
@@ -252,6 +252,21 @@ export class AuthentificationService extends ArlasAuthentificationService {
         }
       });
     }
+    this.oauthService.events.subscribe((event: OAuthEvent) => {
+      if (event.type === 'token_received') {
+        const claims = this.oauthService.getIdentityClaims() as { sub?: string; };
+        if (claims?.sub) {
+          // Derive a deterministic cache-busting key from the OIDC subject claim (stable unique user identifier)
+          // This ensures cached responses are scoped per user while remaining reusable across sessions
+          const cacheBust = generateUserCacheBust(claims.sub);
+          sessionStorage.setItem('cache_bust', cacheBust);
+        }
+      }
+      if (event.type === 'logout') {
+        // Clear the cache-busting token on logout to avoid stale values on next login
+        sessionStorage.removeItem('cache_bust');
+      }
+    });
 
     this.oauthService.events.pipe(filter(e => e.type !== 'session_unchanged'))
       .subscribe(e => {

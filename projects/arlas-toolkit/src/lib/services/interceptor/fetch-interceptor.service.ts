@@ -24,6 +24,8 @@ import fetchIntercept from 'fetch-intercept';
 import { ErrorService } from '../../services/error/error.service';
 import { AuthorisationError } from '../../tools/errors/authorisation-error';
 import { ArlasSettingsService } from '../settings/arlas.settings.service';
+import { AuthentificationService } from '../authentification/authentification.service';
+import { ArlasIamService } from '../arlas-iam/arlas-iam.service';
 
 @Injectable({
   providedIn: 'root'
@@ -32,11 +34,14 @@ export class FetchInterceptorService {
   public constructor(
     private readonly arlasSettings: ArlasSettingsService,
     private readonly errorService: ErrorService,
-    private readonly router: Router) { }
+    private readonly router: Router,
+    private readonly authService: AuthentificationService,
+    private readonly iamService: ArlasIamService
+  ) { }
 
   public interceptLogout() {
     const settings = this.arlasSettings.settings;
-    if (settings.authentication.auth_mode === 'iam') {
+    if (settings.authentication?.auth_mode === 'iam') {
       this.router.navigate(['login']);
     } else {
       this.errorService.emitAuthorisationError(new AuthorisationError(401));
@@ -50,11 +55,25 @@ export class FetchInterceptorService {
   public applyInterceptor() {
     const settings = this.arlasSettings.settings;
     const useAuthent = !!settings && !!settings.authentication && !!settings.authentication.use_authent;
+    const useAuthentOpenID = useAuthent && settings.authentication?.auth_mode !== 'iam';
+    const useAuthentIam = useAuthent && settings.authentication?.auth_mode === 'iam';
     if (useAuthent) {
       fetchIntercept.register({
-        request: (url, config) =>
-          // Modify the url or config here
-          [url, config]
+        request: (url, config) => {
+          let hasValidAccessToken = false;
+          if (useAuthentOpenID) {
+            hasValidAccessToken = this.authService.hasValidAccessToken();
+          } else if (useAuthentIam) {
+            hasValidAccessToken = this.iamService.isAuthenticated();
+          }
+          // add bust params to all Http requests
+          if (hasValidAccessToken && typeof url === 'string') {
+            const bust = sessionStorage.getItem('cache_bust') ?? Date.now();
+            const separator = url.includes('?') ? '&' : '?';
+            url = url + separator + '_cb=' + bust.toString();
+          }
+          return [url, config];
+        }
         ,
         requestError: (error) => Promise.reject(error),
         response: (response) => {
@@ -70,7 +89,7 @@ export class FetchInterceptorService {
             if (response.headers.has('WWW-Authenticate')) {
               code = 403;
             }
-            if (settings.authentication.auth_mode === 'iam') {
+            if (settings.authentication?.auth_mode === 'iam') {
               // If not currently logging in, display error
               if (this.router.url !== '/login') {
                 this.errorService.emitAuthorisationError(new AuthorisationError(code));
@@ -91,7 +110,7 @@ export class FetchInterceptorService {
           return response;
         },
         // Handle a fetch error
-        responseError: (error) =>  {
+        responseError: (error) => {
           if (typeof error === 'object' && error['request'] instanceof Request && error['request'].signal.aborted) {
             // Signal was aborted, for supposedly good reasons (COG tile rendering, old pending request, ...)
           } else {
