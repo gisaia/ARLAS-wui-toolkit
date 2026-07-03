@@ -21,6 +21,7 @@ export { AdmonitionCardComponent } from './lib/components/admonition-card/admoni
 export { AiasDownloadComponent, DOWNLOAD_PROCESS_NAME } from './lib/components/aias/aias-download/aias-download.component';
 export { AiasEnrichComponent, ENRICH_PROCESS_NAME } from './lib/components/aias/aias-enrich/aias-enrich.component';
 export { AiasResultComponent } from './lib/components/aias/aias-result/aias-result.component';
+export { AiasProcess, AiasProcessDialogData, AiasDownloadDialogData } from './lib/components/aias/aias-process';
 export { AnalyticsBoardComponent } from './lib/components/analytics/analytics-board/analytics-board.component';
 export { AnalyticsMenuComponent } from './lib/components/analytics/analytics-menu/analytics-menu.component';
 export {
