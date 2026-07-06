@@ -1,5 +1,12 @@
 # Change Log
 
+## [v28.1.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v28.1.0) (2026-07-06)
+
+**Fixed bugs:**
+
+- Broken checkbox layout in search settings [\#1018](https://github.com/gisaia/ARLAS-wui-toolkit/issues/1018)
+- HTTP cache bleed between user sessions [\#1017](https://github.com/gisaia/ARLAS-wui-toolkit/issues/1017)
+
 ## [v28.0.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v28.0.2) (2026-06-10)
 
 ## [v28.0.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v28.0.1) (2026-05-26)
