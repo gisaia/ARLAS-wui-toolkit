@@ -17,6 +17,11 @@
  * under the License.
  */
 
+:host {
+  --arlas-histogram-widget-status-bg: #fafafa;
+}
+
+
 .detailed-histogram {
   visibility: hidden;
 }
@@ -26,7 +31,7 @@
 }
 
 .detail-status {
-  background-color: #fafafa;
+background-color: var(--arlas-histogram-widget-status-bg, #fafafa);
   border-radius: 2px;
 }
 

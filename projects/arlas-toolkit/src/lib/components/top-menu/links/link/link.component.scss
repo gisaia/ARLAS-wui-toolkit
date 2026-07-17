@@ -17,6 +17,13 @@
  * under the License.
  */
 
+:host {
+  --arlas-link-wrapper-color: var(--mat-sys-on-background);
+  --arlas-link-wrapper-hover-bg: var(--mat-sys-surface);
+  --arlas-link-border-color: var(--mat-sys-on-background);
+}
+
+
 $sm-spacing: 5px;
 $circle-diameter: 40px;
 $default-border-radius: 4px;
@@ -30,10 +37,10 @@ $default-font-size: 14px;
     width: 65px;
     border-radius: $default-border-radius;
     padding: $sm-spacing 0;
-    color: #555;
+    color: var(--arlas-link-wrapper-color, #555);
     cursor: pointer;
     &:hover {
-        background-color: #eeeeee;
+      background-color: var(--arlas-link-wrapper-hover-bg, #eeeeee);
     }
     .name {
         margin-top: calc(2 * $sm-spacing);
@@ -43,7 +50,7 @@ $default-font-size: 14px;
     .circle {
         height: $circle-diameter;
         width: $circle-diameter;
-        border: 2px solid #555;
+        border: 2px solid var(--arlas-link-border-color, #555);
         border-radius: $circle-diameter;
         display: flex;
         align-items: center;

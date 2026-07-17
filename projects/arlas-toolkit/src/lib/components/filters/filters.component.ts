@@ -16,25 +16,36 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { animate, state, style, transition, trigger } from '@angular/animations';
+import {animate, state, style, transition, trigger} from '@angular/animations';
 import {
   ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges,
-  Output, Pipe, PipeTransform, SimpleChanges, ViewEncapsulation
+  Output, Pipe, PipeTransform, SimpleChanges, ViewEncapsulation,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  Pipe,
+  PipeTransform,
+  SimpleChanges,
+  ViewEncapsulation
 } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatChipsModule } from '@angular/material/chips';
-import { MatIconModule } from '@angular/material/icon';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { TranslatePipe } from '@ngx-translate/core';
-import { CollectionReferenceParameters } from 'arlas-api';
-import { ArlasColorService, FormatNumberPipe } from 'arlas-web-components';
-import { Collaboration, Contributor } from 'arlas-web-core';
-import { Subject, take, takeUntil } from 'rxjs';
-import { ArlasCollaborativesearchService } from '../../services/collaborative-search/arlas.collaborative-search.service';
-import { ArlasCollectionService } from '../../services/collection/arlas-collection.service';
-import { ArlasConfigService, ArlasStartupService } from '../../services/startup/startup.service';
-import { CollectionCount, ZoomToDataStrategy } from '../../tools/utils';
-import { isShortcutID } from '../filter-shortcut/filter-shortcut.utils';
+import {MatButtonModule} from '@angular/material/button';
+import {MatChipsModule} from '@angular/material/chips';
+import {MatIconModule} from '@angular/material/icon';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {TranslatePipe} from '@ngx-translate/core';
+import {CollectionReferenceParameters} from 'arlas-api';
+import {ArlasColorService, FormatNumberPipe} from 'arlas-web-components';
+import {Collaboration, Contributor} from 'arlas-web-core';
+import {Subject, take, takeUntil} from 'rxjs';
+import {ArlasCollaborativesearchService} from '../../services/collaborative-search/arlas.collaborative-search.service';
+import {ArlasCollectionService} from '../../services/collection/arlas-collection.service';
+import {ArlasConfigService, ArlasStartupService} from '../../services/startup/startup.service';
+import {CollectionCount, ZoomToDataStrategy} from '../../tools/utils';
+import {isShortcutID} from '../filter-shortcut/filter-shortcut.utils';
 
 @Pipe({ name: 'getContributorLabel' })
 export class GetContributorLabelPipe implements PipeTransform {
@@ -71,9 +82,9 @@ export class GetGlobalColorFilterPipe implements PipeTransform {
   ): string | undefined {
     const collaboration = collaborationsMap.get(value);
     if (type === 'color') {
-      return collaboration?.enabled ? color : '#BDBDBD';
+      return collaboration?.enabled ? color : 'inherit';
     } else if (type === 'background') {
-      return collaboration?.enabled ? backgroundColor : '#FFF';
+      return collaboration?.enabled ? backgroundColor : 'inherit';
     }
   }
 }
@@ -127,12 +138,12 @@ export class FiltersComponent implements OnChanges {
    * @Input : Angular
    * @description Background color of the filters chips
    */
-  @Input() public backgroundColorFilter = '#FFF';
+  @Input() public backgroundColorFilter = 'inherit';
   /**
     * @Input : Angular
     * @description Color of the filters icon
     */
-  @Input() public colorFilter = '#000';
+  @Input() public colorFilter = 'inherit';
 
   /**
    * @Input : Angular

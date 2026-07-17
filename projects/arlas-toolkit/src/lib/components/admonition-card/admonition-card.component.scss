@@ -17,21 +17,34 @@
  * under the License.
  */
 
+:host {
+  --arlas-admonition-accent: #ff4081;
+  --arlas-admonition-title-color: var(--mat-sys-on-background);
+  --arlas-admonition-content-text-color: var(--mat-sys-on-background);  // was #333
+  --arlas-admonition-accent-bg: rgba(255, 64, 129, 0.1);
+}
+
+
 .admonition {
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 1px 5px 0 rgba(0, 0, 0, .12), 0 3px 1px -2px rgba(0, 0, 0, .2);
   position: relative;
   margin: 1.5625em 0;
   padding: 0 1.2rem;
-  border-left: .4rem solid #ff4081;
+  border-left: .4rem solid var(--arlas-admonition-accent, #ff4081);
   border-radius: .2rem;
   font-size: 0.9rem;
   overflow: auto;
 }
 
 .admonition-title {
+  color: var(--arlas-admonition-title-color);
   margin: 0 -1.2rem;
   padding: .8rem 1.2rem;
-  border-bottom: .1rem solid rgba(255, 64, 129, 0.1);
-  background-color: rgba(255, 64, 129, 0.1);
+  border-bottom: .1rem solid var(--arlas-admonition-accent-bg, rgba(255, 64, 129, 0.1));
+  background-color: var(--arlas-admonition-accent-bg, rgba(255, 64, 129, 0.1));
   font-weight: 700;
+}
+
+.admonition-content {
+  color: var(--arlas-admonition-content-text-color);
 }

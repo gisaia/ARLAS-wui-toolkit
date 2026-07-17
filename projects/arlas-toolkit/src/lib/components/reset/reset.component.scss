@@ -19,6 +19,30 @@
 
 @use "../iam/form-error.scss" as form;
 
+:host {
+  --arlas-iam-form-bg-color: var(--mat-sys-surface-variant);
+  --arlas-iam-input-bg-color: var(--mat-sys-surface);
+  --arlas-reset-title-bg: #00bcd4;
+  --arlas-reset-title-text: white;
+  --arlas-reset-subtitle-bg: var(--mat-sys-surface);
+  --arlas-reset-subtitle-text: var(--mat-sys-on-background);
+  --arlas-reset-button-bg: #00bcd4;
+  --arlas-reset-link-color: #00bcd4;
+  --arlas-reset-error-text: rgb(244, 67, 54);
+  --arlas-reset-success-bg: #5cb85c;
+  --arlas-reset-success-text: var(--mat-sys-on-background);
+}
+
+.dark-theme{
+  :host{
+    ::ng-deep .mat-mdc-text-field-wrapper {
+      background-color: var(--mat-sys-surface-variant) !important;
+    }
+
+
+  }
+}
+
 .container {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
@@ -29,20 +53,10 @@
   font-size: 15px;
 }
 
-.reset-form mat-form-field {
-  font-size: 14px;
-  width: 100%;
-}
-
-.reset-form mat-form-field ::ng-deep .mat-mdc-form-field-outline {
-  background-color: white;
-  border-radius: 4px;
-}
-
 .title {
   padding: 10px 20px;
-  background-color: #00bcd4;
-  color: white;
+  background-color: var(--arlas-reset-title-bg, #00bcd4);
+  color: var(--arlas-reset-title-text, white);
   font-size: 18px;
   border-radius: 15px 15px 0 0;
 }
@@ -52,8 +66,8 @@
 }
 
 .subtitle {
-  background: #ededed;
-  color: #606770;
+  background: var(--arlas-reset-subtitle-bg, #ededed);
+  color: var(--arlas-reset-subtitle-text, #606770);
   padding: 10px 35px 0;
 }
 
@@ -62,7 +76,7 @@
 }
 
 .reset-button {
-  background-color: #00bcd4;
+  background-color: var(--arlas-reset-button-bg, #00bcd4);
   border-radius: 15px;
   padding: 0 30px;
 }
@@ -82,7 +96,7 @@
 }
 
 .account button {
-  color: #00bcd4;
+  color: var(--arlas-reset-link-color, #00bcd4);
 }
 
 .form-error {
@@ -90,8 +104,8 @@
 }
 
 .validate {
-  color: white;
-  background-color: #5cb85c;
+  color: var(--arlas-reset-success-text, white);
+  background-color: var(--arlas-reset-success-bg, #5cb85c);
   padding: 10px;
   margin-bottom: 10px;
   border-radius: 10px;

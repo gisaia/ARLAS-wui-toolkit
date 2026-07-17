@@ -17,6 +17,12 @@
  * under the License.
  */
 
+:host {
+  --arlas-permissions-creator-dialog-success: #18853c;
+  --arlas-permissions-creator-dialog-error: #ce3d38;
+}
+
+
 $sm-spacing: 5px;
 $sm-margin: 5px;
 $default-margin: 10px;
@@ -24,8 +30,8 @@ $default-spacing: 10px;
 $sm-font-size: 14px;
 $xs-font-size: 12px;
 $default-font-size: 16px;
-$success-color: #18853c;
-$error-color: #ce3d38;
+// $success-color: #18853c;
+// $error-color: #ce3d38;
 
 ::ng-deep.arlas-permission-dialog .mdc-dialog__surface {
     padding: 0 15px;
@@ -59,7 +65,7 @@ $error-color: #ce3d38;
         align-items: center;
 
         .icon {
-            color: $success-color;
+            color: var(--arlas-permissions-creator-dialog-success, #18853c);
         }
 
         .state {
@@ -80,7 +86,7 @@ $error-color: #ce3d38;
         align-items: center;
 
         .icon {
-            color: $error-color;
+            color: var(--arlas-permissions-creator-dialog-error, #ce3d38);
         }
 
         .state {

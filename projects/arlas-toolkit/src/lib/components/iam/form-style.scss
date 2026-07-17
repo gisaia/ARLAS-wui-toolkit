@@ -19,7 +19,7 @@
 
 .iam__form-content {
     margin-bottom: 15px;
-    background: #ededed;
+    background: var(--arlas-iam-form-bg-color, #ededed);;
     padding: 15px 30px 0 30px;
     border-radius: 0 0 15px 15px;
     display: flex;
@@ -27,6 +27,7 @@
     gap: 15px;
 
     mat-form-field {
+        font-size: 14px;
         width: 100%;
 
         ::ng-deep {
@@ -38,9 +39,22 @@
                 height: 100%;
             }
 
+            .mat-mdc-form-field-outline,
             .mat-mdc-text-field-wrapper,
             .mdc-floating-label--float-above{
-                background-color: white;
+                background-color: ar(--arlas-iam-input-bg-color, white);;
+            }
+
+            .mat-mdc-text-field-wrapper {
+                padding: 0;
+            }
+
+            .mat-mdc-form-field-focus-overlay {
+                opacity: 0;
+            }
+
+            .mat-mdc-form-field-outline {
+                border-radius: 4px;
             }
         }
     }

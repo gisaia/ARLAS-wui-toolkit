@@ -17,6 +17,11 @@
  * under the License.
  */
 
+:host {
+  --arlas-powerbar-tooltip-overlay-value: var(--mat-sys-on-background);
+}
+
+
 .xValue {
   display: flex;
   align-items: center;
@@ -36,7 +41,7 @@
   padding-left: calc(/** Width of the chip */ 10px + /** Gap between elements */ 5px);
 
   .value {
-    color: black;
+    color: var(--arlas-powerbar-tooltip-overlay-value, black);
   }
 
   .percentage {

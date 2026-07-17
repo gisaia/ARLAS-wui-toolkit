@@ -17,10 +17,6 @@
  * under the License.
  */
 
-:host {
-  --mat-dialog-actions-alignment: space-between;
-}
-
 .download-radio-group {
   display: inline-flex;
   flex-direction: row;
@@ -72,7 +68,7 @@
   -ms-flex-pack: center;
   justify-content: center;
   padding: 8px 20px;
-  color: rgba(0, 0, 0, .54);
+color: var(--arlas-download-dialog-title-color, rgba(0, 0, 0, .54));
   background: rgba(0, 0, 0, .03);
   flex:3
 }
@@ -97,7 +93,7 @@
 
 .download-block {
   .btn-success {
-    background-color: #4CAF50;
+background-color: var(--arlas-download-dialog-primary-bg, #4CAF50);
 
     mat-icon {
       font-size: 20px;
@@ -125,6 +121,12 @@
 }
 
 .download-stepper {
+  --arlas-download-dialog-title-color: var(--mat-sys-on-background); // was rgba(0, 0, 0, .54)
+  --arlas-download-dialog-primary-bg: #4CAF50;
+  --arlas-download-dialog-primary-text: var(--mat-sys-on-background);
+  --arlas-download-dialog-box-bg: lightgray; // was lightgray
+  --arlas-download-dialog-box-text-color: var(--mat-sys-on-background);
+
   width: 100%;
 
   .mat-horizontal-content-container {
@@ -139,7 +141,8 @@
 .download-box {
   height: 240px;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-  background-color: lightgray;
+  background-color: var(--arlas-download-dialog-box-bg, lightgray);
+  color: var(--arlas-download-dialog-box-text-color, black);
   border: none;
   width: 100%;
   padding: 10px 10px 0;
@@ -148,8 +151,8 @@
 
 
 .btn-success {
-  background-color: #4CAF50 !important;
-  color: white !important;
+background-color: var(--arlas-download-dialog-primary-bg, #4CAF50) !important;
+color: var(--arlas-download-dialog-primary-text, white) !important;
 }
 
 .hide-icon {

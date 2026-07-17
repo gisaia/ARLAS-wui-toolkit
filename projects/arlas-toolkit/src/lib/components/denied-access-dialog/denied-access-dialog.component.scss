@@ -17,6 +17,13 @@
  * under the License.
  */
 
+:host {
+  --arlas-denied-access-dialog-error: #ce3d38;
+  --arlas-denied-access-dialog-success: #18853c;
+  --arlas-denied-access-dialog-state: var(--mat-sys-on-background);
+}
+
+
 $sm-spacing: 5px;
 $sm-margin: 5px;
 $default-margin: 10px;
@@ -24,52 +31,52 @@ $default-spacing: 10px;
 $sm-font-size: 14px;
 $xs-font-size: 12px;
 $default-font-size: 16px;
-$success-color: #18853c;
-$error-color: #ce3d38;
+// $success-color: #18853c;
+// $error-color: #ce3d38;
 
 ::ng-deep.arlas-error-dialog .mdc-dialog__surface {
-    padding: 12px 24px;
+  padding: 12px 24px;
 }
 
 .title {
-    font-size: $default-font-size;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  font-size: $default-font-size;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .content {
-    overflow: unset;
+  overflow: unset;
 
-    .errored {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
+  .errored {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
-        .icon {
-            color: $error-color;
-            margin-bottom: $default-margin;
-        }
-
-        .state {
-            margin-bottom: calc(2 * $default-margin);
-            color: black;
-        }
-
-        .action {
-            display: flex;
-            font-size: $xs-font-size;
-            text-decoration: underline;
-            cursor: pointer;
-            margin-bottom: $default-margin;
-        }
+    .icon {
+      color: var(--arlas-denied-access-dialog-error, #ce3d38);
+      margin-bottom: $default-margin;
     }
+
+    .state {
+      margin-bottom: calc(2 * $default-margin);
+      color: var(--arlas-denied-access-dialog-state, black);
+    }
+
+    .action {
+      display: flex;
+      font-size: $xs-font-size;
+      text-decoration: underline;
+      cursor: pointer;
+      margin-bottom: $default-margin;
+    }
+  }
 
 }
 
 .actions {
-    display: flex;
-    justify-content: flex-end;
+  display: flex;
+  justify-content: flex-end;
 }

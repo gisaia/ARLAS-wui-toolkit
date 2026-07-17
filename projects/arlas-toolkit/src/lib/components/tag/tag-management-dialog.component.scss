@@ -18,6 +18,10 @@
  */
 
 .tags-table-items {
+  --arlas-tag-management-active-bg: #174ea6;
+  --arlas-tag-management-active-color: var(--mat-sys-on-surface);
+  --arlas-tag-management-inactive-color: #cccccc;
+
   min-width: 50vw;
   max-height: 85vh;
   overflow: overlay;
@@ -55,15 +59,15 @@
 }
 
 .active-tag{
-  background-color: #174ea6;
+  background-color: var(--arlas-tag-management-active-bg, #174ea6);
 }
 
 .active-tag .mat-mdc-cell{
-  color : white;
+  color : var(--arlas-tag-management-active-color, white);
 }
 
 .inactive-tag .mat-mdc-cell{
-  color : #cccccc;
+  color : var(--arlas-tag-management-inactive-color, #cccccc);
 }
 
 ::ng-deep.arlas-tag-dialog .mdc-dialog__surface {
