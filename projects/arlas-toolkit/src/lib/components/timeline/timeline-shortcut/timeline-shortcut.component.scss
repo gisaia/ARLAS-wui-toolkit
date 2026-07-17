@@ -17,6 +17,18 @@
  * under the License.
  */
 
+:host {
+  --arlas-timeline-shortcut-toggle-bg: var(--mat-sys-surface);
+  --arlas-timeline-shortcut-button-bg: #FF4081;
+  --arlas-timeline-shortcut-button-text: var(--mat-sys-on-background);
+  --arlas-timeline-shortcut-list-bg: var(--mat-sys-surface);
+  --arlas-timeline-shortcut-link-color: rgb(48, 136, 177);
+  --arlas-timeline-shortcut-icon-text: white;
+  --arlas-timeline-shortcut-label-text: white;
+  --arlas-timeline-shortcut-border-color: var(--mat-sys-on-background);
+}
+
+
 .arlas-time-shortcuts--container {
   display: flex;
   flex-direction: column;
@@ -43,18 +55,18 @@
   display: flex;
   justify-content: center;
   flex-direction: column;
-  background-color: white;
+  background-color: var(--arlas-timeline-shortcut-toggle-bg, white);
   --mat-icon-button-state-layer-size: 24px;
   --mat-icon-button-touch-target-size: 24px;
   margin-left: 5px;
-  border: 1px solid #a1a1a1;
+  border: 1px solid var(--arlas-timeline-shortcut-border-color, #a1a1a1);
   border-radius: 0;
   padding: 0;
   box-sizing: content-box;
 }
 
 .shortcut-button {
-  background-color: #FF4081;
+  background-color: var(--arlas-timeline-shortcut-button-bg, #FF4081);
   float: right;
   display: flex;
   height: 30px;
@@ -77,7 +89,7 @@
   align-items: center;
 
   mat-icon {
-    color: white;
+    color: var(--arlas-timeline-shortcut-icon-text, white);
     width: 18px;
     height: 18px;
     font-size: 18px;
@@ -98,7 +110,7 @@
   align-items: center;
 
   &-icon {
-    color: white;
+    color: var(--arlas-timeline-shortcut-icon-text, white);
     width: 15px;
     height: 15px;
     font-size: 15px;
@@ -111,7 +123,7 @@
   padding-left: 4px;
 
   &-icon {
-    color: white;
+    color: var(--arlas-timeline-shortcut-icon-text, white);
     width: 20px;
     height: 20px;
     font-size: 15px;
@@ -123,7 +135,7 @@
 
 .shortcut-button__label {
   font-size: 1em;
-  color: white;
+  color: var(--arlas-timeline-shortcut-label-text, white);
   padding-left: 5px;
 }
 
@@ -136,13 +148,13 @@
     display: flex;
     justify-content: space-between;
     font-size: 14px;
-    background-color: white;
-    border: 1px solid #a1a1a1;
+    background-color: var(--arlas-timeline-shortcut-list-bg, white);
+    border: 1px solid var(--arlas-timeline-shortcut-border-color, #a1a1a1);
   }
 }
 
 .arlas-time-shortcut {
-  color: rgb(48, 136, 177);
+  color: var(--arlas-timeline-shortcut-link-color, rgb(48, 136, 177));
   cursor: pointer;
 
   &:hover {

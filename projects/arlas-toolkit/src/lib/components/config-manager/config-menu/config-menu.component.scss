@@ -18,7 +18,9 @@
  */
 
 .action-menu {
-    --mdc-typography-body1-letter-spacing: 0;
-    --mdc-theme-text-primary-on-background: #000000d1;
-    --mdc-list-list-item-label-text-color: #000000d1;
+  --arlas-config-menu-text-color: var(--mat-sys-on-background);
+  --arlas-config-menu-label-color: var(--mat-sys-on-background);
+  --mdc-typography-body1-letter-spacing: 0;
+  --mdc-theme-text-primary-on-background: var(--arlas-config-menu-text-color, #000000d1);
+  --mdc-list-list-item-label-text-color: var(--arlas-config-menu-label-color, #000000d1);
 }

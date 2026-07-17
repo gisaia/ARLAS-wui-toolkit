@@ -16,7 +16,13 @@
  * specific language governing permissions and limitations
  * under the License.
  */
- .aoi-table-items{
+
+:host {
+  --arlas-aoi-view-color: #2196f3;
+  --arlas-aoi-delete-color: #FF0000;
+}
+
+.aoi-table-items{
   overflow: hidden;
 }
 
@@ -33,11 +39,11 @@
 }
 
 .aoi-icons-action-view:hover{
-  color: #2196f3;
+  color: var(--arlas-aoi-view-color, #2196f3);
 }
 
 .aoi-icons-action-delete:hover{
-  color: #FF0000;
+  color: var(--arlas-aoi-delete-color, #FF0000);
 }
 
 .mat-mdc-header-cell {

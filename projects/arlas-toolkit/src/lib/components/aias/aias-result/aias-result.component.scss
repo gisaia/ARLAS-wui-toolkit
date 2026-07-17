@@ -17,38 +17,42 @@
  * under the License.
  */
 
-$warnColor: #f0ad4e;
-$infoColor: #0c5460;
-$errorColor: #d43f3a;
-$successColor: #5cb85c;
-$progressColor: #337ab7;
-$labelColor: #757575;
+:host {
+  --arlas-aias-result-status-bg: var(--mat-sys-surface); // was #fff
+  --arlas-aias-result-status-running: #337ab7;
+  --arlas-aias-result-status-successful: #5cb85c;
+  --arlas-aias-result-status-failed: #d43f3a;
+  --arlas-aias-result-status-accepted: #0c5460;
+  --arlas-aias-result-value-color: var(--mat-sys-on-background);
+  --arlas-aias-result-error-color: #d43f3a;
+}
+
 
 @mixin status() {
     padding: 10px 15px;
     border: 1px solid;
-    background-color: #fff;
+    background-color: var(--arlas-aias-result-status-bg, #fff);
     border-radius: 25px;
     font-size: 14px;
 
     &.status-running {
-      color: $progressColor;
-      border-color: $progressColor;
+      color: var(--arlas-aias-result-status-running, #337ab7);
+      border-color: var(--arlas-aias-result-status-running, #337ab7);
     }
 
     &.status-successful {
-      color: $successColor;
-      border-color: $successColor;
+      color: var(--arlas-aias-result-status-successful, #5cb85c);
+      border-color: var(--arlas-aias-result-status-successful, #5cb85c);
     }
 
     &.status-accepted {
-      color: $infoColor;
-      border-color: $infoColor;
+      color: var(--arlas-aias-result-status-accepted, #0c5460);
+      border-color: var(--arlas-aias-result-status-accepted, #0c5460);
     }
 
     &.status-failed {
-      color: $errorColor;
-      border-color: $errorColor;
+      color: var(--arlas-aias-result-status-failed, #d43f3a);
+      border-color: var(--arlas-aias-result-status-failed, #d43f3a);
     }
 }
 
@@ -79,7 +83,7 @@ $labelColor: #757575;
         padding: 3px 0;
         .value {
           font-weight: 400;
-          color: rgba(0, 0, 0, 0.55);
+          color: var(--arlas-aias-result-value-color, rgba(0, 0, 0, 0.55));
         }
       }
 
@@ -89,7 +93,7 @@ $labelColor: #757575;
     }
 
     .error {
-      color: $errorColor;
+      color: var(--arlas-aias-result-error-color, #d43f3a);
     }
 
     .close {

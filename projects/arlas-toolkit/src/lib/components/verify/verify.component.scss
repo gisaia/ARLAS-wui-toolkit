@@ -17,6 +17,23 @@
  * under the License.
  */
 
+:host {
+  --arlas-iam-form-bg-color: var(--mat-sys-surface-variant);
+  --arlas-iam-input-bg-color: var(--mat-sys-surface);
+  --arlas-verify-title-bg: #00bcd4;
+  --arlas-verify-title-text: var(--mat-sys-on-background);
+  --arlas-verify-subtitle-bg: var(--mat-sys-surface);
+  --arlas-verify-subtitle-text: var(--mat-sys-on-background);
+  --arlas-verify-button-bg: #00bcd4;
+  --arlas-verify-link-color: #00bcd4;
+  --arlas-verify-error-text: rgb(244, 67, 54);
+  --arlas-verify-success-bg: #5cb85c;
+  --arlas-verify-success-text: var(--mat-sys-on-background);
+  --arlas-verify-error-bg: rgb(244, 67, 54);
+  --arlas-verify-detail-text: var(--mat-sys-on-background);
+}
+
+
 .container {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
@@ -27,20 +44,10 @@
   font-size: 15px;
 }
 
-.validate-form mat-form-field {
-  font-size: 14px;
-  width: 100%;
-}
-
-.validate-form mat-form-field ::ng-deep .mat-mdc-form-field-outline {
-  background-color: white;
-  border-radius: 4px;
-}
-
 .title {
   padding: 10px 20px;
-  background-color: #00bcd4;
-  color: white;
+  background-color: var(--arlas-verify-title-bg, #00bcd4);
+  color: var(--arlas-verify-title-text, white);
   font-size: 18px;
   border-radius: 15px 15px 0 0;
 }
@@ -50,8 +57,8 @@
 }
 
 .subtitle {
-  background: #ededed;
-  color: #606770;
+  background: var(--arlas-verify-subtitle-bg, #ededed);
+  color: var(--arlas-verify-subtitle-text, #606770);
   padding: 10px 35px 0;
 }
 
@@ -65,7 +72,7 @@
 }
 
 .validate-button {
-  background-color: #00bcd4;
+  background-color: var(--arlas-verify-button-bg, #00bcd4);
   border-radius: 15px;
   padding: 0 30px;
 }
@@ -85,11 +92,11 @@
 }
 
 .account button {
-  color: #00bcd4;
+  color: var(--arlas-verify-link-color, #00bcd4);
 }
 
 .form-error {
-  color: rgb(244, 67, 54);
+  color: var(--arlas-verify-error-text, rgb(244, 67, 54));
   display: block;
   font-family: Roboto, "Helvetica Neue", sans-serif;
   font-size: 12px;
@@ -98,20 +105,20 @@
 }
 
 .validate, .error {
-  color: white;
-  background-color: #5cb85c;
+  color: var(--arlas-verify-success-text, white);
+  background-color: var(--arlas-verify-success-bg, #5cb85c);
   padding: 10px;
   margin-bottom: 10px;
   border-radius: 10px;
 }
 
 .error {
-  background-color: rgb(244, 67, 54);
+  background-color: var(--arlas-verify-error-bg, rgb(244, 67, 54));
 }
 
 .form-text-detail {
   font-size: 12px;
-  color: #606770;
+  color: var(--arlas-verify-detail-text, #606770);
   padding: 10px 0;
   display: inline-block;
 }

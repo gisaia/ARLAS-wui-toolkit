@@ -17,6 +17,14 @@
  * under the License.
  */
 
+:host {
+  --arlas-filters-handler-more-bg: var(--mat-sys-surface);
+  --arlas-filters-handler-expanded-bg: var(--mat-sys-surface);
+  --arlas-filters-handler-more-border-color: var(--mat-sys-surface);
+  --arlas-filters-handler-expanded-border-color: var(--mat-sys-on-background);
+}
+
+
 .container {
     display: flex;
     align-items: center;
@@ -29,8 +37,8 @@
 
         min-width: 18px;
         border-radius: 50%;
-        background-color: #e7e7e7;
-        border: 1px solid #e7e7e7;
+        background-color: var(--arlas-filters-handler-more-bg, #e7e7e7);
+        border: 1px solid var(--arlas-filters-handler-more-border-color, #e7e7e7);
         font-size: 12px;
         display: flex;
         align-items: center;
@@ -38,8 +46,8 @@
         margin-left: 3px;
 
         &--expanded {
-            background-color: #FFF;
-            border: 1px solid #000;
+            background-color: var(--arlas-filters-handler-expanded-bg, #FFF);
+            border: 1px solid var(--arlas-filters-handler-expanded-border-color, #000);
         }
 
         .collapse {

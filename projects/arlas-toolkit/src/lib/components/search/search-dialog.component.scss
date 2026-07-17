@@ -17,6 +17,18 @@
  * under the License.
  */
 
+:host {
+  --arlas-search-dialog-icon-color: var(--mat-sys-on-background);
+  --arlas-search-dialog-option-hover-bg: rgba(208, 217, 226, 0.548);
+  --arlas-search-dialog-count-color: var(--mat-sys-on-background);
+  --arlas-search-dialog-container-border: var(--mat-sys-on-background);
+  --arlas-search-dialog-checkbox-color: var(--mat-sys-on-background);
+  --arlas-search-dialog-warn-text-color: var(--mat-sys-on-background);
+  --arlas-search-dialog-txt-option-color: var(--mat-sys-on-background);
+  --arlas-search-dialog-input-bg-color: var(--mat-sys-background);
+}
+
+
 @mixin search-text {
     font-size: 14px;
     padding: 6px 4px;
@@ -43,9 +55,6 @@
 }
 
 .search-dialog {
-    --arlas-search-width: 400px;
-    --arlas-search-height: 30px;
-
     display: flex;
     flex-direction: column;
     padding: 4px;
@@ -54,25 +63,25 @@
     .arlas-search-container {
         display: flex;
         align-items: center;
-        border: 2px solid #0969da;
+        border: 2px solid var(--arlas-search-dialog-border-color, #0969da);
         border-radius: 4px;
-        height: var(--arlas-search-height);
-        width: var(--arlas-search-width);
+        height: var(--arlas-search-dialog-height, 30px);
+        width: var(--arlas-search-dialog-width, 400px);
 
         .search {
             margin: 2px 4px 0;
-            color: grey;
+            color: var(--arlas-search-dialog-icon-color, grey);
         }
 
         .settings {
-            color: grey;
+            color: var(--arlas-search-dialog-icon-color, grey);
         }
 
         .full-width-input {
             border: 0;
             width: 100%;
             font-size: 14px;
-
+            background: var(--arlas-search-dialog-input-bg-color) ;
             &:focus {
                 outline: none;
             }
@@ -101,6 +110,7 @@
 
         .search-warning {
             @include search-text;
+            color: var(--arlas-search-dialog-warn-text-color)
         }
 
         .search-option {
@@ -108,9 +118,9 @@
             display: flex;
             justify-content: space-between;
             cursor: pointer;
-
+            color: var(--arlas-search-dialog-txt-option-color);
             &:hover {
-                background-color: rgba(208, 217, 226, 0.548);
+                background-color: var(--arlas-search-dialog-option-hover-bg, rgba(208, 217, 226, 0.548));
             }
 
             span {
@@ -119,7 +129,7 @@
                 overflow: hidden;
             }
             .count {
-                color: #5a5555;
+                color: var(--arlas-search-dialog-count-color, #5a5555);
                 position: relative;
                 top: 5px;
             }
@@ -128,7 +138,7 @@
 }
 
 ::ng-deep #arlas-search-dialog .mat-mdc-dialog-container {
-    border: 1px solid #a1a1a1;
+    border: 1px solid var(--arlas-search-dialog-container-border, #a1a1a1);
     border-radius: 8px !important;
     box-shadow: none;
 }

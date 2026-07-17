@@ -17,8 +17,13 @@
  * under the License.
  */
 
+:host {
+  --arlas-progress-spinner-overlay: var(--mat-sys-surface);
+}
+
+
 .overlay {
-  background: #FFF;
+  background: var(--arlas-progress-spinner-overlay, #FFF);
   opacity: 0.65;
   width: -webkit-fill-available;
   height: -webkit-fill-available;

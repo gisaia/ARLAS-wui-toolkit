@@ -23,6 +23,10 @@
   flex: 1;
 }
 
+.share-hint{
+  color: var(--arlas-share-dialog-hint-color);
+}
+
 .share-url {
   width: 100%;
   flex: 3;
@@ -59,7 +63,7 @@
   -ms-flex-pack: center;
   justify-content: center;
   padding: 8px 20px;
-  color: rgba(0, 0, 0, 0.54);
+  color: var(--arlas-share-dialog-title-color, rgba(0, 0, 0, 0.54));
   background: rgba(0, 0, 0, 0.03);
 }
 
@@ -115,6 +119,8 @@
 }
 
 .share-stepper {
+  --arlas-share-dialog-title-color: var(--mat-sys-on-background);
+  --arlas-share-dialog-hint-color: var(--mat-sys-on-background);
   width: 100%;
 
   .mat-horizontal-stepper-header-container {

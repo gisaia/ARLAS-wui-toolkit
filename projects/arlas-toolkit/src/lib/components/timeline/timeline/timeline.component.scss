@@ -17,10 +17,16 @@
  * under the License.
  */
 
+:host {
+  --arlas-timeline-container-bg: var(--mat-sys-surface);
+  --arlas-timeline-empty-text: var(--mat-sys-on-background);
+}
+
+
 $large-icon-size: 48px;
 
 .arlas-timeline--container {
-  background-color: white;
+  background-color: var(--arlas-timeline-container-bg, white);
   box-sizing: border-box;
 
   .timeline-empty {
@@ -30,7 +36,7 @@ $large-icon-size: 48px;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    color: grey;
+    color: var(--arlas-timeline-empty-text, grey);
 
     .icon {
       height: $large-icon-size;
