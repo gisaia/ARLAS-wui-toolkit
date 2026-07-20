@@ -63,12 +63,12 @@
   @let c = contributor | asListContributor;
   <div>
     <arlas-result-list style="height:100%" [rowItemList]="c.data" [detailedDataRetriever]="c.detailedDataRetriever"
-      [fieldsConfiguration]="c.fieldsConfiguration" [fieldsList]="c.fieldsList" [filtersMap]="c.filtersMap"
+      [fieldsConfiguration]="c.fieldsConfiguration" [tableFields]="c.fieldsList" [cardFields]="c.cardViewProperties" [filtersMap]="c.filtersMap"
       [dropDownMapValues]="c.dropDownMapValues" (sortColumnEvent)="emitEvent(contributorId, 'sortColumnEvent', $event)" [fetchState]="c.fetchState"
       (paginationEvent)="emitEvent(contributorId, 'paginationEvent', $event)" (setFiltersEvent)="c.setFilters($event)"
       [tableWidth]="graphParam.tableWidth" [globalActionsList]="graphParam.globalActionsList" [nLastLines]="graphParam.nLastLines"
       [detailedGridHeight]="graphParam.detailedGridHeight" [nbGridColumns]="graphParam.nbGridColumns" [indeterminatedItems]="indeterminatedItems"
-      [highlightItems]="c.highlightItems" [defautMode]="graphParam.defautMode" [displayFilters]="graphParam.displayFilters"
+      [highlightItems]="c.highlightItems" [hasCardMode]="!!graphParam?.hasCardView" [hasGridMode]="graphParam?.hasGridView" [defautMode]="graphParam.defaultMode" [displayFilters]="graphParam.displayFilters"
       [isBodyHidden]="graphParam.isBodyHidden" [isGeoSortEnabled]="graphParam?.isGeoSortActived"
       [useColorService]="graphParam?.useColorService" [cellBackgroundStyle]="graphParam?.cellBackgroundStyle" [keysToColors]="graphParam?.keysToColors"
       [colorsSaturationWeight]="graphParam?.colorsSaturationWeight" (geoSortEvent)="emitEvent(contributorId, 'geoSortEvent', $event)"

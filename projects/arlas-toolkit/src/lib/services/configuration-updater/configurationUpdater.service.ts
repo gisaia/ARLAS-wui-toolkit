@@ -218,9 +218,10 @@ export class ArlasConfigurationUpdaterService {
    * @param availableFieldsPerCollection List of available fields for exploration
    * @returns configuration object
    */
-  public updateContributors(data, availableFieldsPerCollection: Map<string, Set<string>>): any {
-    let updatedConfig = this.updateResultListContributors(data, availableFieldsPerCollection);
-    updatedConfig = this.updateMapContributors(updatedConfig, availableFieldsPerCollection);
+  public updateContributors(data: any, availableFieldsPerCollection: Map<string, Set<string>>): any {
+    // Authorize no indexed fiel in list
+    // let updatedConfig = this.updateResultListContributors(data, availableFieldsPerCollection);
+    let updatedConfig = this.updateMapContributors(data, availableFieldsPerCollection);
     updatedConfig = this.updateHistogramContributors(updatedConfig, availableFieldsPerCollection);
     updatedConfig = this.updateChipSearchContributors(updatedConfig, availableFieldsPerCollection);
     return updatedConfig;
@@ -269,6 +270,7 @@ export class ArlasConfigurationUpdaterService {
    * @param data configuration object
    * @param availableFieldsPerCollection List of available fields for exploration for each collection.
    * @returns configuration object
+   * @deprecated
    */
   public updateResultListContributors(data, availableFieldsPerCollection: Map<string, Set<string>>): any {
     if (data && data.arlas && data.arlas.web && data.arlas.web.contributors) {
@@ -357,7 +359,7 @@ export class ArlasConfigurationUpdaterService {
   }
 
   /**
-   * Removes the properties -from ResultListContributor- that define fields not available for exploration
+   * Removes the properties -from HistogramContributor- that define fields not available for exploration
    * @param data configuration object
    * @param availableFieldsPerCollection List of available fields for exploration for each collection.
    * @returns configuration object
