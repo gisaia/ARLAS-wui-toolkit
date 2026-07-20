@@ -1124,7 +1124,6 @@
 **Fixed bugs:**
 
 - Share : agg field is not configurable [\#37](https://github.com/gisaia/ARLAS-wui-toolkit/issues/37)
-- Fix swimlanes dropdown list [\#39](https://github.com/gisaia/ARLAS-wui-toolkit/pull/39) ([sebbousquet](https://github.com/sebbousquet))
 
 ## [v5.1.2](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v5.1.2) (2018-05-16)
 
