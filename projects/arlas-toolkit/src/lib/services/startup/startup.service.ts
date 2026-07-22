@@ -944,7 +944,6 @@ export interface HistogramSettings {
 }
 
 export interface ResultlistSettings {
-  enable_export: boolean;
   export_size: number;
 }
 
