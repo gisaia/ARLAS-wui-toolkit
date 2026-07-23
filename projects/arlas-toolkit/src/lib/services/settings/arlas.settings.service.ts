@@ -78,10 +78,6 @@ export class ArlasSettingsService {
     return !!this.settings && !!this.settings.histogram && !!this.settings.histogram.max_buckets ? this.settings.histogram.max_buckets : 200;
   }
 
-  public isResultListExportEnabled(): boolean {
-    return !!this.settings && !!this.settings.resultlist && !!this.settings.resultlist.enable_export;
-  }
-
   public getResultlistSettings(): ResultlistSettings {
     return !!this.settings && !!this.settings.resultlist ? this.settings.resultlist : undefined;
   }
