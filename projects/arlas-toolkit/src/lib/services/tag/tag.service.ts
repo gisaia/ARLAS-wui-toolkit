@@ -18,6 +18,7 @@
  */
 import { inject, Inject, Injectable, OnDestroy } from '@angular/core';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+import { TranslateService } from '@ngx-translate/core';
 import { Filter } from 'arlas-api';
 import { Configuration, FetchAPI, StatusApi, TagRefRequest, UpdateResponse, WriteApi } from 'arlas-tagger-api';
 import { from, interval, Observable, Subject, Subscription } from 'rxjs';
@@ -60,12 +61,13 @@ export class ArlasTagService implements OnDestroy {
 
   private readonly getOptions = inject(GET_OPTIONS);
 
+  private readonly translate = inject(TranslateService);
   public constructor(
-    private collaborativeSearchService: ArlasCollaborativesearchService,
-    private configService: ArlasConfigService,
-    private snackBar: MatSnackBar,
-    private authService: AuthentificationService,
-    private arlasSettingsService: ArlasSettingsService
+    private readonly collaborativeSearchService: ArlasCollaborativesearchService,
+    private readonly configService: ArlasConfigService,
+    private readonly snackBar: MatSnackBar,
+    private readonly authService: AuthentificationService,
+    private readonly arlasSettingsService: ArlasSettingsService
   ) {
     // for now, the ARLAS-tagger url  and collection name are fetched from the config.
     // we should keep doing it for now, otherwise we will have two sources (settings.yaml (it was env.js) & config.json) to configure
@@ -173,7 +175,7 @@ export class ArlasTagService implements OnDestroy {
           this.onGoingSubscription.set(response.id, subscription);
         },
         error => {
-          this.snackBar.open('Error : the tag has not been added', '', snackConfig);
+          this.snackBar.open(this.translate.instant('Error : the tag has not been added'), '', snackConfig);
           this.isProcessing = false;
           this.collaborativeSearchService.collaborationErrorBus.next(error);
 
@@ -186,7 +188,7 @@ export class ArlasTagService implements OnDestroy {
     } else {
       from(this.taggerApi.untagPost(this.tagger.collection, data, false, this.options)).subscribe(
         (response: UpdateResponse) => {
-          this.snackBar.open('Untag task running', '', snackConfig);
+          this.snackBar.open(this.translate.instant('Untag task running'), '', snackConfig);
           this.status.next(new Map<string, boolean>().set(mode, true));
           const subscription = interval(5000).subscribe(() => {
             this.followStatus(response);
