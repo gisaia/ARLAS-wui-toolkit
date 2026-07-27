@@ -5,14 +5,15 @@ import {
   ArlasColorService,
   AwcColorGeneratorLoader, ColorGeneratorLoader, ColorGeneratorModule
 } from 'arlas-web-components';
+import { HistogramContributor } from 'arlas-web-contributors';
 import { beforeEach, describe, expect, it } from 'vitest';
+import { MockArlasConfigService, TEST_CONTRIBUTOR_ID } from '../../../tests/arlas-config-service.mock';
 import { ArlasCollaborativesearchService } from '../../services/collaborative-search/arlas.collaborative-search.service';
 import { ArlasCollectionService } from '../../services/collection/arlas-collection.service';
-import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
 import { ArlasExportCsvService } from '../../services/export-csv/export-csv.service';
 import { ArlasOverlayService } from '../../services/overlays/overlay.service';
 import {
-  ArlasConfigService, ArlasStartupService,
+  ArlasConfigService,
   CONFIG_UPDATER,
   FETCH_OPTIONS
 } from '../../services/startup/startup.service';
@@ -38,19 +39,13 @@ describe('HistogramWidgetComponent', () => {
       ],
       providers: [
         ArlasCollaborativesearchService,
-        ArlasConfigService,
-        ArlasColorService,
         {
-            provide: ArlasStartupService,
-            useClass: ArlasStartupService,
-            deps: [ArlasConfigurationUpdaterService]
+          provide: ArlasConfigService,
+          useClass: MockArlasConfigService
         },
+        ArlasColorService,
         ArlasOverlayService,
         { provide: CONFIG_UPDATER, useValue: {} },
-        {
-            provide: ArlasConfigurationUpdaterService,
-            useClass: ArlasConfigurationUpdaterService
-        },
         { provide: FETCH_OPTIONS, useValue: {} },
         provideHttpClient(withInterceptorsFromDi()),
         ArlasExportCsvService,
@@ -63,7 +58,9 @@ describe('HistogramWidgetComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(HistogramWidgetComponent);
     component = fixture.componentInstance;
-    fixture.componentRef.setInput('componentInputs', { topOffsetRemoveInterval: 0});
+    fixture.componentRef.setInput('componentInputs', { chartHeight: 100 });
+    fixture.componentRef.setInput('contributor',
+      new HistogramContributor(TEST_CONTRIBUTOR_ID, TestBed.inject(ArlasCollaborativesearchService), TestBed.inject(ArlasConfigService), 'test'));
     fixture.detectChanges();
   });
 

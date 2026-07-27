@@ -4,6 +4,7 @@ import {
   TranslateLoader, TranslateModule, TranslateNoOpLoader
 } from '@ngx-translate/core';
 import { beforeEach, describe, expect, it } from 'vitest';
+import { GET_OPTIONS } from '../../tools/utils';
 import { ArlasCollaborativesearchService } from '../collaborative-search/arlas.collaborative-search.service';
 import { ArlasConfigurationUpdaterService } from '../configuration-updater/configurationUpdater.service';
 import { ArlasSettingsService } from '../settings/arlas.settings.service';
@@ -34,6 +35,7 @@ describe('ArlasStartupService', () => {
         { provide: CONFIG_UPDATER, useValue: {} },
         { provide: FETCH_OPTIONS, useValue: {} },
         provideHttpClient(withInterceptorsFromDi()),
+        { provide: GET_OPTIONS, useValue: () => { } },
       ]
     });
 
