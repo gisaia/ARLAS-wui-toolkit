@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "ng": "ng",
-    "postinstall": "patch-package && patch-package --patch-dir ./node_modules/arlas-web-core/patches",
+    "postinstall": "patch-package --patch-dir ./node_modules/arlas-web-core/patches",
     "start": "ng serve",
     "start:iam": "ng serve --ssl --ssl-cert=$EXPLO_SSL_CERT --ssl-key=$EXPLO_SSL_KEY",
     "build": "ng build",
