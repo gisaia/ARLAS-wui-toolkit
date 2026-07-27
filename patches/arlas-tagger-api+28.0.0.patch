@@ -1,30 +1,7 @@
 diff --git a/node_modules/arlas-tagger-api/api.d.ts b/node_modules/arlas-tagger-api/api.d.ts
-index 4236b57..bb801cf 100644
+index 4236b57..f4865a7 100644
 --- a/node_modules/arlas-tagger-api/api.d.ts
 +++ b/node_modules/arlas-tagger-api/api.d.ts
-@@ -70,19 +70,19 @@ export interface Expression {
-      * @type {string}
-      * @memberof Expression
-      */
--    field?: string;
-+    field: string;
-     /**
-      *
-      * @type {string}
-      * @memberof Expression
-      */
--    op?: Expression.OpEnum;
-+    op: Expression.OpEnum;
-     /**
-      *
-      * @type {string}
-      * @memberof Expression
-      */
--    value?: string;
-+    value: string;
- }
- /**
-  * @export
 @@ -515,7 +515,7 @@ export interface UpdateResponse {
       * @type {string}
       * @memberof UpdateResponse
