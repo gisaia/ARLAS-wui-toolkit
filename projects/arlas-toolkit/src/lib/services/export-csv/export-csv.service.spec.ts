@@ -1,10 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { TranslateLoader, TranslateModule, TranslateNoOpLoader } from '@ngx-translate/core';
+import { DateTimeProvider, OAuthLogger, OAuthService, UrlHelperService } from 'angular-oauth2-oidc';
 import { beforeEach, describe, expect, it } from 'vitest';
+import { GET_OPTIONS } from '../../tools/utils';
 import { ArlasCollaborativesearchService } from '../collaborative-search/arlas.collaborative-search.service';
 import { ArlasCollectionService } from '../collection/arlas-collection.service';
-import { ArlasConfigurationUpdaterService } from '../configuration-updater/configurationUpdater.service';
-import { ArlasStartupService, FETCH_OPTIONS } from '../startup/startup.service';
+import { ArlasStartupService, CONFIG_UPDATER, FETCH_OPTIONS } from '../startup/startup.service';
 import { ArlasExportCsvService } from './export-csv.service';
 
 describe('ArlasExportCsvService', () => {
@@ -16,18 +17,16 @@ describe('ArlasExportCsvService', () => {
         TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader } })
       ],
       providers: [
-        {
-          provide: ArlasStartupService,
-          useClass: ArlasStartupService,
-          deps: [ArlasConfigurationUpdaterService]
-        },
         ArlasCollaborativesearchService,
-        {
-          provide: ArlasConfigurationUpdaterService,
-          useClass: ArlasConfigurationUpdaterService
-        },
+        ArlasStartupService,
         { provide: FETCH_OPTIONS, useValue: {} },
-        ArlasCollectionService
+        ArlasCollectionService,
+        { provide: GET_OPTIONS, useValue: () => { } },
+        { provide: CONFIG_UPDATER, useValue: {} },
+        OAuthService,
+        OAuthLogger,
+        DateTimeProvider,
+        UrlHelperService,
       ]
     });
 

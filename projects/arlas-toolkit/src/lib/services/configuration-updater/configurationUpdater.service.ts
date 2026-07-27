@@ -220,8 +220,11 @@ export class ArlasConfigurationUpdaterService {
    * @param availableFieldsPerCollection List of available fields for exploration
    * @returns configuration object
    */
-  public updateContributors(data: ArlasDashboardConfiguration, availableFieldsPerCollection: Map<string, Set<string>>): ArlasDashboardConfiguration {
+  public updateContributors(data: ArlasDashboardConfiguration,
+    availableFieldsPerCollection: Map<string, Set<string>>
+  ): ArlasDashboardConfiguration {
     // Authorize not indexed fields in list
+    // let updatedConfig = this.updateResultListContributors(data, availableFieldsPerCollection);
     let updatedConfig = this.updateMapContributors(data, availableFieldsPerCollection);
     updatedConfig = this.updateHistogramContributors(updatedConfig, availableFieldsPerCollection);
     updatedConfig = this.updateChipSearchContributors(updatedConfig, availableFieldsPerCollection);

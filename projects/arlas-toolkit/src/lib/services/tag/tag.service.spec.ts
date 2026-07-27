@@ -19,6 +19,7 @@
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { TranslateLoader, TranslateModule, TranslateNoOpLoader } from '@ngx-translate/core';
 import { DateTimeProvider, OAuthLogger, OAuthModule, OAuthService, UrlHelperService } from 'angular-oauth2-oidc';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { GET_OPTIONS } from '../../tools/utils';
@@ -32,7 +33,13 @@ describe('ArlasTagService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [OAuthModule, MatSnackBarModule],
+      imports: [
+        OAuthModule,
+        MatSnackBarModule,
+        TranslateModule.forRoot({
+          loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader }
+        }),
+      ],
       providers: [
         ArlasTagService,
         ArlasCollaborativesearchService,
