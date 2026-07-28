@@ -30,12 +30,14 @@ import { ConfirmedValidator } from '../../tools/utils';
 @Component({
     selector: 'arlas-tool-reset',
     templateUrl: './reset.component.html',
-    styleUrls: ['./reset.component.scss'],
+    styleUrls: [
+      './reset.component.scss',
+      '../iam/form-style.scss'
+    ],
     imports: [FormsModule, ReactiveFormsModule, MatFormField, MatLabel, MatInput, MatButton, RouterLink, TranslatePipe]
 })
 export class ResetComponent {
 
-  // TODO: check that it keeps working
   public resetForm = new FormGroup({
     password: new FormControl('', [Validators.required]),
     confirm_password: new FormControl('', [Validators.required])

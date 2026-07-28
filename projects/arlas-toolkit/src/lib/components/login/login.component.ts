@@ -35,7 +35,10 @@ import { generateUserCacheBust, NOT_CONFIGURED } from '../../tools/utils';
 @Component({
   selector: 'arlas-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
+  styleUrls: [
+    './login.component.scss',
+    '../iam/form-style.scss'
+  ],
   imports: [
     FormsModule, ReactiveFormsModule, MatFormField, MatLabel, MatInput, MatIcon,
     MatPrefix, MatError, MatSuffix, RouterLink, MatButton, TranslatePipe]
@@ -66,9 +69,8 @@ export class LoginComponent implements OnInit {
     this.showPage = false;
     this.iamService.refresh().pipe(finalize(() => this.showPage = true)).subscribe({
       next: (loginData: LoginData) => {
-        // TODO: change LoginData to have both user and token ?
         this.iamService.user = loginData.user;
-        this.iamService.setHeadersFromAccesstoken(loginData.access_token as string);
+        this.iamService.setHeadersFromAccesstoken(loginData.access_token);
         this.iamService.notifyTokenRefresh(loginData);
         localStorage.removeItem('arlas-logout-event');
         if (!!this.iamService.reloadState) {
@@ -100,7 +102,7 @@ export class LoginComponent implements OnInit {
           sessionStorage.setItem('cache_bust', generateUserCacheBust(loginData.user.id));
         }
         this.iamService.user = loginData.user;
-        this.iamService.setHeadersFromAccesstoken(loginData.access_token as string);
+        this.iamService.setHeadersFromAccesstoken(loginData.access_token);
         this.iamService.notifyTokenRefresh(loginData);
         this.iamService.startRefreshTokenTimer(loginData);
         localStorage.removeItem('arlas-logout-event');

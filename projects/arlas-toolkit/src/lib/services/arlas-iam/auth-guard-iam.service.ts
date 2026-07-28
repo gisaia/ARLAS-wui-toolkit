@@ -33,13 +33,13 @@ export class AuthGuardIamService {
   ) { }
 
   public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-    if (!!this.arlasIamService.user) {
+    if (this.arlasIamService.user) {
       // If arlasIamService has a user no need to try to refresh
       // Usefull to not call refresh too many times in app navigation
       return of(true);
     } else {
       return this.arlasIamService.refresh().pipe(map(loginData => {
-        if (loginData?.access_token) {
+        if (loginData.access_token) {
           this.arlasIamService.setHeadersFromAccesstoken(loginData.access_token);
           return true;
         } else {

@@ -512,7 +512,7 @@ export class ArlasStartupService {
                   Authorization: 'Bearer ' + loginData.access_token,
                 };
                 // Set the org filter only if the organisation is defined
-                if (!!org) {
+                if (org) {
                   iamHeader['arlas-org-filter'] = org;
                 }
                 this.persistenceService.setOptions({ headers: iamHeader });

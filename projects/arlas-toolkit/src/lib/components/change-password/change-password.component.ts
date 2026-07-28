@@ -31,14 +31,17 @@ import { ConfirmedValidator } from '../../tools/utils';
 @Component({
   selector: 'arlas-tool-change-password',
   templateUrl: './change-password.component.html',
-  styleUrls: ['./change-password.component.scss'],
+  styleUrls: [
+    './change-password.component.scss',
+    '../iam/form-style.scss'
+  ],
   imports: [
     MatDialogTitle, CdkScrollable, MatDialogContent, FormsModule, ReactiveFormsModule,
     MatFormField, MatLabel, MatInput, MatError, MatButton, MatDialogClose, TranslatePipe, MatDialogActions
 ]
 })
 export class ChangePasswordComponent {
-  // TODO: check that it keeps working
+
   public changeForm = new FormGroup({
     old_password: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required]),
