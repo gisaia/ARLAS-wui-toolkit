@@ -146,7 +146,6 @@ export class ArlasIamService extends ArlasAuthentificationService {
     this.currentOrganisation = undefined;
   }
 
-  // TODO: LoginData should return user and accezss token
   /** This method should be called right after being logged in
    * THUS; there is no need to refresh the token at 0; we can wait for the moment the token is about to expire to **start** the timer.
    * By doing this we avoid refreshing the token twice in a row.
@@ -155,8 +154,7 @@ export class ArlasIamService extends ArlasAuthentificationService {
   public startRefreshTokenTimer(loginData: LoginData): void {
     this.tokenRefreshedSource.next(loginData);
     // permit to obtain accessToken expiration date
-    const accessToken = loginData.access_token as string;
-    const jwtToken = JSON.parse(atob(accessToken.split('.')[1]));
+    const jwtToken = JSON.parse(atob(loginData.access_token.split('.')[1]));
     const exp = jwtToken.exp;
     const iat = jwtToken.iat;
     const threshold = (exp-iat)/2;
@@ -171,7 +169,7 @@ export class ArlasIamService extends ArlasAuthentificationService {
         next: (loginData: LoginData) => {
           // store localy accessToken
           this.user = loginData.user;
-          this.setHeadersFromAccesstoken(loginData.access_token as string);
+          this.setHeadersFromAccesstoken(loginData.access_token);
           this.tokenRefreshedSource.next(loginData);
         },
         error: (e) => {
@@ -187,7 +185,7 @@ export class ArlasIamService extends ArlasAuthentificationService {
         loginData => {
           if (loginData) {
             this.user = loginData.user;
-            this.setHeadersFromAccesstoken(loginData.access_token as string);
+            this.setHeadersFromAccesstoken(loginData.access_token);
             this.startRefreshTokenTimer(loginData);
           }
         })
