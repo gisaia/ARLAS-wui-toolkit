@@ -28,6 +28,7 @@ $bold-font-weight: 700;
     font-size: $title-font-size;
     font-weight: $bold-font-weight;
     padding-bottom: calc(2 * $default-spacing);
+    color: var(--mat-sys-on-background);
     display: flex;
     align-items: center;
 
@@ -40,6 +41,7 @@ $bold-font-weight: 700;
 }
 
 .user_info-list {
+    color: var(--mat-sys-on-background);
     display: flex;
     flex-direction: column;
 

@@ -1,0 +1,24 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+
+.dark-theme {
+    markdown {
+      color:  var(--mat-sys-on-background);
+      background: inherit;
+    }
+
+    markdown pre,
+    markdown code {
+      background: var(--mat-sys-background);
+      color: var(--mat-sys-on-background);
+    }
+
+    markdown a {
+      color: #6ab0f3;
+    }
+
+    markdown blockquote {
+      border-left-color: #555;
+      color: #aaa;
+    }
+}

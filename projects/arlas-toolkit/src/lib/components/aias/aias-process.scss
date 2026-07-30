@@ -24,7 +24,7 @@ $default-spacing: 10px;
 .sub-title {
   font-size: 14px;
   font-weight: 400;
-  color: rgba(0, 0, 0, 0.75);
+  color: var(--mat-sys-on-background);
 }
 
 .step {

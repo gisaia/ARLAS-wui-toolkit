@@ -17,12 +17,12 @@
  * under the License.
  */
 
-import { Injectable } from '@angular/core';
-import { DrawTheme } from 'arlas-map';
-import { AuthentSetting, GeocodingSetting } from '../../tools/utils';
-import { PermissionSetting } from '../permission/permission.service';
-import { PersistenceSetting } from '../persistence/persistence.service';
-import { ArlasSettings, LinkSettings, ProcessSettings, ResultlistSettings } from '../startup/startup.service';
+import {Injectable} from '@angular/core';
+import {DrawTheme} from 'arlas-map';
+import {AuthentSetting, GeocodingSetting} from '../../tools/utils';
+import {PermissionSetting} from '../permission/permission.service';
+import {PersistenceSetting} from '../persistence/persistence.service';
+import {ArlasSettings, LinkSettings, ProcessSettings, ResultlistSettings} from '../startup/startup.service';
 
 @Injectable({
   providedIn: 'root'
@@ -68,6 +68,10 @@ export class ArlasSettingsService {
 
   public getLinksSettings(): LinkSettings[] {
     return !!this.settings && !!this.settings.links ? this.settings.links : [];
+  }
+
+  public isDarkThemeEnabled(): boolean {
+    return !!this.settings && !!this.settings.dark_theme_enabled;
   }
 
   public getTicketingKey(): string | undefined {

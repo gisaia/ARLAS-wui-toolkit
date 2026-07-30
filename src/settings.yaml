@@ -27,6 +27,7 @@ authentication:
   disable_at_hash_check: true
 
 tab_name: "ARLAS Wui"
+dark_theme_enabled: true
 
 arlas_iam_wui_url: https://localhost/iam
 

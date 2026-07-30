@@ -18,7 +18,7 @@
  */
 
 import { UpperCasePipe } from '@angular/common';
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, computed, inject, Input, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
@@ -33,6 +33,7 @@ import { AuthentificationService } from '../../services/authentification/authent
 import { ErrorService } from '../../services/error/error.service';
 import { FetchInterceptorService } from '../../services/interceptor/fetch-interceptor.service';
 import { ArlasSettingsService } from '../../services/settings/arlas.settings.service';
+import { ThemeService } from '../../services/theme.service';
 import { ChangePasswordComponent } from '../change-password/change-password.component';
 import { UserInfosComponent } from '../user-infos/user-infos.component';
 import { AboutComponent } from './about/about.component';
@@ -88,6 +89,10 @@ export class TopMenuComponent {
   public linksEnabled = false;
   @ViewChild('about', { static: false }) private readonly aboutcomponent?: AboutComponent;
 
+  private readonly themeService = inject(ThemeService);
+  public isDarkMode = computed(() => this.themeService.isDarkMode());
+  protected isDarkThemeEnabled = false;
+
   public constructor(
     private readonly authentService: AuthentificationService,
     private readonly arlasIamService: ArlasIamService,
@@ -140,6 +145,7 @@ export class TopMenuComponent {
           this.connected = false;
         }
       });
+      this.isDarkThemeEnabled = this.settingsService.isDarkThemeEnabled();
     }
 
     /** This is a method to listen to logging out event from other tabs of the same domain. */
@@ -199,5 +205,9 @@ export class TopMenuComponent {
     } else {
       return '';
     }
+  }
+
+  protected toggleDarkMode() {
+    this.themeService.toggleThemeMode();
   }
 }

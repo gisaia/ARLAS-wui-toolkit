@@ -26,6 +26,7 @@
   --arlas-search-dialog-warn-text-color: var(--mat-sys-on-background);
   --arlas-search-dialog-txt-option-color: var(--mat-sys-on-background);
   --arlas-search-dialog-input-bg-color: var(--mat-sys-background);
+  --arlas-search-dialog-input-text-color: var(--mat-sys-on-background);
 }
 
 
@@ -82,6 +83,7 @@
             width: 100%;
             font-size: 14px;
             background: var(--arlas-search-dialog-input-bg-color) ;
+            color: var(--arlas-search-dialog-input-text-color) ;
             &:focus {
                 outline: none;
             }
@@ -90,7 +92,7 @@
         .close {
             padding: 0;
             --mdc-icon-button-state-layer-size: 24px;
-
+            color: var(--arlas-search-dialog-input-text-color) ;
             .icon {
                 font-size: 18px;
                 height: 18px;
