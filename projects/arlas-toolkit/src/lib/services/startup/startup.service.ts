@@ -31,8 +31,7 @@ import {
 import { DefaultApi, Configuration as IamConfiguration } from 'arlas-iam-api';
 import { ArlasMapComponent, DrawTheme } from 'arlas-map';
 import {
-  DonutComponent, HistogramComponent, MetricComponent,
-  MetricsTableComponent, PowerbarsComponent
+  DonutComponent, HistogramComponent, MetricComponent, MetricsTableComponent, PowerbarsComponent
 } from 'arlas-web-components';
 import {
   AnalyticsContributor, ChipsSearchContributor, ComputeContributor, DetailedHistogramContributor, HistogramContributor,
@@ -45,8 +44,7 @@ import { Subject, catchError, defer, first, firstValueFrom, mergeMap, retry, thr
 import { AnalyticGroupConfiguration } from '../../components/analytics/analytics.utils';
 import { FilterShortcutConfiguration } from '../../components/filter-shortcut/filter-shortcut.utils';
 import {
-  AuthentSetting, CONFIG_ID_QUERY_PARAM, GET_OPTIONS, GeocodingSetting,
-  GetOptions,
+  AuthentSetting, CONFIG_ID_QUERY_PARAM, GET_OPTIONS, GeocodingSetting, GetOptions,
   NOT_CONFIGURED, WidgetConfiguration, getFieldProperties, getParamValue
 } from '../../tools/utils';
 import { ArlasIamService, IamHeader } from '../arlas-iam/arlas-iam.service';
@@ -919,6 +917,7 @@ export interface ArlasSettings {
   links?: Array<LinkSettings>;
   ticketing_key?: string;
   tab_name?: string;
+  dark_theme_enabled?: boolean;
   dashboards_shortcut?: boolean;
   histogram?: HistogramSettings;
   resultlist?: ResultlistSettings;

@@ -1,0 +1,86 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+
+
+.dark-theme{
+
+    /* Container */
+    .owl-dt-container {
+      background: var(--mat-sys-background);
+      color: var(--mat-sys-on-background);
+      box-shadow: 0 5px 5px -3px rgba(0,0,0,.4), 0 8px 10px 1px rgba(0,0,0,.3);
+    }
+
+    /* Calendar header (month/year nav) */
+    .owl-dt-calendar-control-content,
+    .owl-dt-calendar-control {
+      color: var(--mat-sys-on-background);
+    }
+
+    .owl-dt-control-button:hover .owl-dt-control-button-content {
+      background: rgba(255,255,255,.1);
+    }
+
+    /* Calendar table cells */
+    .owl-dt-calendar-table .owl-dt-calendar-cell-content {
+      color: var(--mat-sys-on-background);
+    }
+
+    .owl-dt-calendar-table .owl-dt-calendar-cell-content:hover {
+      background-color: rgba(255,255,255,.1);
+    }
+
+    .owl-dt-weekdays, .owl-dt-calendar-table .owl-dt-calendar-header {
+      color: var(--mat-sys-on-background);
+    }
+
+    .owl-dt-control-button-arrow{
+      fill: var(--mat-sys-on-background);
+    }
+
+    /* Disabled / out-of-month days */
+    .owl-dt-calendar-table .owl-dt-calendar-cell-out {
+      color: #b1aaaa;
+    }
+
+    /* Selected day */
+    .owl-dt-calendar-cell-selected {
+      background-color: #6ab0f3 !important;
+      color: #1e1e1e !important;
+    }
+
+    /* Today marker */
+    .owl-dt-calendar-cell-today:not(.owl-dt-calendar-cell-selected) {
+      border-color: #6ab0f3;
+    }
+
+    /* Timer (hour/minute/second spinners) */
+    .owl-dt-timer {
+      color: var(--mat-sys-on-background);
+    }
+
+    .owl-dt-timer-content .owl-dt-timer-input {
+      background: #2d2d2d;
+      color: var(--mat-sys-on-background);
+      border-color: #444;
+    }
+
+    .owl-dt-timer-arrow {
+      color: var(--mat-sys-on-background);
+    }
+
+    /* Control/action buttons row (Set/Cancel) */
+    .owl-dt-container-buttons {
+      background: #1e1e1e;
+      color: var(--mat-sys-on-background);
+    }
+
+    .owl-dt-container-control-button {
+      color: #6ab0f3;
+    }
+
+    /* Backdrop */
+    .owl-dt-container-backdrop {
+      background: rgba(0,0,0,.6);
+    }
+}

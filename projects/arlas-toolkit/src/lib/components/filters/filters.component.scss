@@ -44,6 +44,7 @@ $count-chip-height: 30px;
   --arlas-filters-chip-text-color: var(--mat-sys-on-background);
   --arlas-filters-zoom-bg: var(--mat-sys-surface);
   --arlas-filters-unit-color: var(--mat-sys-on-background);
+  --arlas-filters-value-color: var(--mat-sys-on-background);
   --arlas-filters-extra-bg: var(--mat-sys-surface);
   --arlas-filters-counts-bg: var(--mat-sys-surface);
   --arlas-filters-chip-color: var(--mat-sys-on-background);
@@ -168,6 +169,7 @@ $count-chip-height: 30px;
     font-weight: 600;
     margin: 0 $sm-margin;
     white-space: nowrap;
+    color: var(--arlas-filters-value-color, black);
   }
 
   .unit {

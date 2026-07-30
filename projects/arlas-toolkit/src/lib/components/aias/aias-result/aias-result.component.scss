@@ -24,13 +24,14 @@
   --arlas-aias-result-status-failed: #d43f3a;
   --arlas-aias-result-status-accepted: #0c5460;
   --arlas-aias-result-value-color: var(--mat-sys-on-background);
+  --arlas-aias-result-label-color: var(--mat-sys-on-background);
   --arlas-aias-result-error-color: #d43f3a;
 }
 
 
 @mixin status() {
     padding: 10px 15px;
-    border: 1px solid;
+    border: 1px solid var(--mat-sys-on-surface);
     background-color: var(--arlas-aias-result-status-bg, #fff);
     border-radius: 25px;
     font-size: 14px;
@@ -84,6 +85,9 @@
         .value {
           font-weight: 400;
           color: var(--arlas-aias-result-value-color, rgba(0, 0, 0, 0.55));
+        }
+        .label {
+          color: var(--arlas-aias-result-label-color,  rgba(0, 0, 0, 0.55));
         }
       }
 

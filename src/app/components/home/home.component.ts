@@ -17,38 +17,42 @@
  * under the License.
  */
 
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatDialog } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatSelectModule } from '@angular/material/select';
-import { SearchContributor } from 'arlas-web-contributors';
-import { fromEvent } from 'rxjs';
-import packageJson from '../../../../package.json' with { type: 'json' };
-import { AiasDownloadComponent } from '../../../../projects/arlas-toolkit/src/lib/components/aias/aias-download/aias-download.component';
-import { AiasEnrichComponent } from '../../../../projects/arlas-toolkit/src/lib/components/aias/aias-enrich/aias-enrich.component';
-import { DownloadComponent } from '../../../../projects/arlas-toolkit/src/lib/components/download/download.component';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {MatButtonModule} from '@angular/material/button';
+import {MatDialog} from '@angular/material/dialog';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatIconModule} from '@angular/material/icon';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatSelectModule} from '@angular/material/select';
+import {SearchContributor} from 'arlas-web-contributors';
+import {fromEvent} from 'rxjs';
+import packageJson from '../../../../package.json' with {type: 'json'};
+import {
+  AiasDownloadComponent
+} from '../../../../projects/arlas-toolkit/src/lib/components/aias/aias-download/aias-download.component';
+import {
+  AiasEnrichComponent
+} from '../../../../projects/arlas-toolkit/src/lib/components/aias/aias-enrich/aias-enrich.component';
+import {DownloadComponent} from '../../../../projects/arlas-toolkit/src/lib/components/download/download.component';
 import {
   FilterShortcutConfiguration
 } from '../../../../projects/arlas-toolkit/src/lib/components/filter-shortcut/filter-shortcut.utils';
 import {
   DEFAULT_SPINNER_OPTIONS
 } from '../../../../projects/arlas-toolkit/src/lib/components/progress-spinner/progress-spinner.component';
-import { ShareComponent } from '../../../../projects/arlas-toolkit/src/lib/components/share/share.component';
+import {ShareComponent} from '../../../../projects/arlas-toolkit/src/lib/components/share/share.component';
 import {
   TimelineConfiguration
 } from '../../../../projects/arlas-toolkit/src/lib/components/timeline/timeline/timeline.utils';
-import { AnalyticsService } from '../../../../projects/arlas-toolkit/src/lib/services/analytics/analytics.service';
+import {AnalyticsService} from '../../../../projects/arlas-toolkit/src/lib/services/analytics/analytics.service';
 import {
   ArlasAuthentificationService
 } from '../../../../projects/arlas-toolkit/src/lib/services/arlas-authentification/arlas-authentification.service';
-import { ArlasIamService } from '../../../../projects/arlas-toolkit/src/lib/services/arlas-iam/arlas-iam.service';
+import {ArlasIamService} from '../../../../projects/arlas-toolkit/src/lib/services/arlas-iam/arlas-iam.service';
 import {
   ArlasCollaborativesearchService
 } from '../../../../projects/arlas-toolkit/src/lib/services/collaborative-search/arlas.collaborative-search.service';
-import { ProcessService } from '../../../../projects/arlas-toolkit/src/lib/services/process/process.service';
+import {ProcessService} from '../../../../projects/arlas-toolkit/src/lib/services/process/process.service';
 import {
   ArlasConfigService,
   ArlasStartupService
@@ -60,7 +64,26 @@ import {
   ConfigActionEnum,
   SpinnerOptions
 } from '../../../../projects/arlas-toolkit/src/lib/tools/utils';
-import { AnalyticsBoardComponent, AnalyticsMenuComponent, AuthorisationError, BookmarkMenuComponent, ConfigMenuComponent, ConfirmModalComponent, DeniedAccessDialogComponent, FiltersComponent, FilterShortcutComponent, LanguageSwitcherComponent, PermissionsCreatorComponent, PermissionsCreatorDialogComponent, ReconnectDialogComponent, SearchComponent, TimelineComponent, ToolkitComponent, TopMenuComponent } from '../../../../projects/arlas-toolkit/src/public-api';
+import {
+  AiasResultComponent,
+  AnalyticsBoardComponent,
+  AnalyticsMenuComponent,
+  AuthorisationError,
+  BookmarkMenuComponent,
+  ConfigMenuComponent,
+  ConfirmModalComponent,
+  DeniedAccessDialogComponent,
+  FiltersComponent,
+  FilterShortcutComponent,
+  LanguageSwitcherComponent,
+  PermissionsCreatorComponent,
+  PermissionsCreatorDialogComponent,
+  ReconnectDialogComponent,
+  SearchComponent,
+  TimelineComponent,
+  ToolkitComponent,
+  TopMenuComponent
+} from '../../../../projects/arlas-toolkit/src/public-api';
 import config from '../../../config.json';
 
 const DUMMY_CONFIG: Config = {
@@ -353,6 +376,18 @@ export class HomeComponent implements OnInit {
           ids: ['1'],
           collection: 'totot'
         }
+      });
+  }
+
+  public openResult() {
+    const item = new Map<string, any>();
+    item.set('properties.item_format', this.selectedItemFormat);
+
+    this.dialog.open(
+      AiasResultComponent,
+      {
+        minWidth: '520px',
+        maxWidth: '60vw'
       });
   }
 
