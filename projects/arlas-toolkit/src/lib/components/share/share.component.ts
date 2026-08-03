@@ -332,13 +332,12 @@ export class ShareDialogComponent implements OnInit {
       return;
     }
 
-    this.spinner.show('downloadshapefile');
-
     const collection = this.layerCollectionMap.get(geojsonType.id);
     if (!collection) {
       return;
     }
 
+    this.spinner.show('downloadshapefile');
     if (geojsonType.source.startsWith('feature') && !geojsonType.source.startsWith('feature-metric')) {
       this.request = (this.request as Search);
       /** add chosen fields to include in the request */

@@ -25,7 +25,9 @@ import { TranslateService } from '@ngx-translate/core';
 import Ajv from 'ajv';
 import ajvKeywords from 'ajv-keywords';
 import * as draftSchema from 'ajv/lib/refs/json-schema-draft-06.json' with { type: 'json' };
-import { CollectionReferenceDescription, CollectionReferenceParameters, CollectionsApi, Configuration, ExploreApi, FetchAPI } from 'arlas-api';
+import {
+  CollectionReferenceDescription, CollectionReferenceParameters, CollectionsApi, Configuration, ExploreApi, FetchAPI, Hits
+} from 'arlas-api';
 import { DefaultApi, Configuration as IamConfiguration } from 'arlas-iam-api';
 import { ArlasMapComponent, DrawTheme } from 'arlas-map';
 import {
@@ -39,7 +41,7 @@ import {
 import * as rootContributorConfSchema from 'arlas-web-contributors/jsonSchemas/rootContributorConf.schema.json' with { type: 'json' };
 import { ConfigService, Contributor, FetchOptions, projType } from 'arlas-web-core';
 import YAML from 'js-yaml';
-import { Subject, catchError, defer, first, mergeMap, retry, throwError } from 'rxjs';
+import { Subject, catchError, defer, first, firstValueFrom, mergeMap, retry, throwError } from 'rxjs';
 import { AnalyticGroupConfiguration } from '../../components/analytics/analytics.utils';
 import { FilterShortcutConfiguration } from '../../components/filter-shortcut/filter-shortcut.utils';
 import {
@@ -238,7 +240,7 @@ export class ArlasStartupService {
   }
 
   public validateConfiguration(data: ArlasDashboardConfiguration) {
-    return new Promise<any>((resolve, reject) => {
+    return new Promise<ArlasDashboardConfiguration>((resolve, reject) => {
       const ajvObj = new Ajv({ allowUnionTypes: true });
       ajvKeywords(ajvObj, 'uniqueItemProperties');
       const validateConfig = ajvObj
@@ -275,8 +277,9 @@ export class ArlasStartupService {
       }
     });
   }
+
   public translationLoaded(data: ArlasDashboardConfiguration) {
-    return new Promise<any>((resolve: any) => {
+    return new Promise<[ArlasDashboardConfiguration, string]>(resolve => {
       // Set default language to current browser language
       let langToSet = navigator.language.slice(0, 2);
       const urlLanguage = getParamValue('lg');
@@ -303,7 +306,7 @@ export class ArlasStartupService {
    * @param data configation object
    * @returns the same configuration object
    */
-  public setConfigService(data: ArlasDashboardConfiguration) {
+  public setConfigService(data: [ArlasDashboardConfiguration, string]) {
     /** First set the raw config data in order to create an ArlasExploreApi instance */
     const configAfterUpdater = this.configUpdater(data);
     const newConfig = this.fixLayerStyleInfinity(configAfterUpdater);
@@ -329,7 +332,7 @@ export class ArlasStartupService {
    * @param availableFields list of fields that are available for exploration
    * @returns the updated configuration object
    */
-  public updateConfiguration(data: ArlasDashboardConfiguration, availableFields: Map<string, Set<string>>): any {
+  public updateConfiguration(data: ArlasDashboardConfiguration, availableFields: Map<string, Set<string>>) {
     if (!this.emptyMode) {
       let updatedConfig = this.configurationUpdaterService.addCollectionIfMissing(data);
       const contributorsToRemove = this.configurationUpdaterService.getContributorsToRemove(updatedConfig, availableFields);
@@ -348,7 +351,7 @@ export class ArlasStartupService {
    * Retrieves fields that are available for exploration and updates the configuration to keep only corresponding widgets and components
    * @param data configuration object
    */
-  public applyFGA(data: ArlasDashboardConfiguration) {
+  public applyFGA(data: [ArlasDashboardConfiguration, string]): Promise<ArlasDashboardConfiguration> {
     if (!this.emptyMode) {
       const defaultCollection = this.configService.getValue('arlas.server.collection.name');
       const collectionNames: Set<string> = ContributorBuilder.getCollections(this.configService.getValue('arlas.web.contributors'));
@@ -370,7 +373,7 @@ export class ArlasStartupService {
             console.error(err);
             this.errorService.emitUnavailableService('ARLAS-server');
           }
-          return Promise.resolve(null);
+          return {};
         });
     } else {
       return Promise.resolve({});
@@ -549,7 +552,7 @@ export class ArlasStartupService {
     const usePersistence = !!settings?.persistence?.url && settings.persistence.url !== NOT_CONFIGURED && !settings.persistence.use_local_config;
     const configurationId = url.searchParams.get(CONFIG_ID_QUERY_PARAM);
     return new Promise<ArlasDashboardConfiguration>((resolve, reject) => {
-      let configDataPromise = Promise.resolve(null);
+      let configDataPromise = Promise.resolve<ArlasDashboardConfiguration>({});
       let configData: ArlasDashboardConfiguration;
       if (usePersistence) {
         if (configurationId) {
@@ -595,9 +598,9 @@ export class ArlasStartupService {
         }
       } else {
         // persistence is not used, we use the config.json file mounted
-        configDataPromise = this.http
+        configDataPromise = firstValueFrom(this.http
           .get('config.json')
-          .pipe(mergeMap((response: any) => {
+          .pipe(mergeMap((response: ArlasDashboardConfiguration) => {
             configData = response;
             if (configData.extraConfigs === undefined) {
               return Promise.resolve(configData);
@@ -606,8 +609,9 @@ export class ArlasStartupService {
               configData.extraConfigs.forEach((extraConfig: ExtraConfig) => promises.push(this.loadExtraConfig(extraConfig, configData)));
               return Promise.all(promises).then(() => configData);
             }
-          })).toPromise();
+          })));
       }
+
       resolve(configDataPromise.then(configObject => {
         if (!this.emptyMode) {
           return this.validateConfiguration(configObject);
@@ -620,13 +624,14 @@ export class ArlasStartupService {
         this.shouldRunApp = false;
         console.error(err);
         this.errorService.emitInvalidDashboardError(true, marker('An error was detected in the dashboard while loading it.'));
+        return {};
       }));
     });
   }
 
   public setCollaborativeService(data: ArlasDashboardConfiguration) {
     if (!this.emptyMode) {
-      return new Promise<any>((resolve, reject) => {
+      return new Promise<ArlasDashboardConfiguration>((resolve, reject) => {
         this.collaborativesearchService.setConfigService(this.configService);
         this.collaborativesearchService.setExploreApi(this.arlasExploreApi);
         this.collaborativesearchService.defaultCollection = this.configService.getValue('arlas.server.collection.name');
@@ -635,11 +640,12 @@ export class ArlasStartupService {
         resolve(data);
       });
     }
+    return Promise.reject(new Error('ARLAS is running on empty mode'));
   }
 
-  public testArlasUp(configData: ArlasDashboardConfiguration) {
+  public testArlasUp(configData: ArlasDashboardConfiguration): Promise<Hits> {
     if (!this.emptyMode) {
-      return new Promise<any>((resolve, reject) => {
+      return new Promise<Hits>((resolve, reject) => {
         this.collaborativesearchService.resolveHits([projType.count, {}], this.collaborativesearchService.collaborations,
           this.collaborativesearchService.defaultCollection)
           .subscribe(
@@ -651,16 +657,16 @@ export class ArlasStartupService {
             });
       });
     } else {
-      return Promise.resolve(configData);
+      return Promise.reject(new Error('ARLAS is running on empty mode'));
     }
   }
 
   /**
    * Fetches from ARLAS-Server all of the available collections and initialises the map of CollectionReferenceParameters
    */
-  public getCollections(data: ArlasDashboardConfiguration) {
+  public getCollections(data: Hits) {
     if (!this.emptyMode) {
-      return new Promise<any>((resolve, reject) => {
+      return new Promise<CollectionReferenceDescription[]>((resolve, reject) => {
         this.collaborativesearchService.list()
           .subscribe({
             next: (allCollections) => {
@@ -684,7 +690,7 @@ export class ArlasStartupService {
           });
       });
     } else {
-      return Promise.resolve(data);
+      return Promise.reject(new Error('ARLAS is running on empty mode'));
     }
   }
   /**
@@ -718,7 +724,7 @@ export class ArlasStartupService {
       });
   }
 
-  public buildContributor(data: ArlasDashboardConfiguration) {
+  public buildContributor(data: CollectionReferenceDescription[]) {
     if (!this.emptyMode) {
       return new Promise<any>((resolve, reject) => {
         this.configService.getValue('arlas.web.contributors').forEach((contrib: any) => {
@@ -769,7 +775,7 @@ export class ArlasStartupService {
         resolve(data);
       });
     } else {
-      return Promise.resolve(data);
+      return Promise.reject(new Error('ARLAS is running on empty mode'));
     }
   }
 

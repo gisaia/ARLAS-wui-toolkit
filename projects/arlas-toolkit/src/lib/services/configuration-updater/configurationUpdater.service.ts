@@ -23,8 +23,25 @@ import {
   ClusterLayerCourceConfig, FeatureLayerSourceConfig, FieldsConfiguration, LayerSourceConfig, TopologyLayerSourceConfig
 } from 'arlas-web-contributors';
 
-// TODO: create a structure representing the configuration
-export type ArlasDashboardConfiguration = any;
+export interface ArlasDashboardConfiguration {
+  arlas?: {
+    web: {
+      contributors: any[];
+      analytics: any[];
+      components: Record<string, any>;
+    };
+    server: {
+      collection: {
+        name: string;
+      };
+    };
+  };
+  extraConfigs?: {
+    configPath: string;
+    replacedAttribute: string;
+    replacer: string;
+  }[];
+}
 
 export class ArlasConfigurationUpdaterService {
 
@@ -38,7 +55,7 @@ export class ArlasConfigurationUpdaterService {
     const contributorsToRemove = new Set<string>();
     if (data && data.arlas && data.arlas.web && data.arlas.web.contributors) {
       /** the conf is validated before; therefore, `arlas.web.contributors` is defined */
-      data.arlas.web.contributors.forEach((contributor: any) => {
+      data.arlas.web.contributors.forEach(contributor => {
         /** Remove contributors which collection is not available. */
         if (contributor.collection && !availableFieldsPerCollection.has(contributor.collection)) {
           contributorsToRemove.add(contributor.identifier);
@@ -205,11 +222,11 @@ export class ArlasConfigurationUpdaterService {
    */
   public addCollectionIfMissing(data: ArlasDashboardConfiguration) {
     if (data && data.arlas && data.arlas.web && data.arlas.web.contributors) {
-      data.arlas.web.contributors.forEach((contributor: any) => {
+      for (const contributor of data.arlas.web.contributors) {
         if (!contributor.collection) {
           contributor.collection = data.arlas.server.collection.name;
         }
-      });
+      }
     }
     return data;
   }
