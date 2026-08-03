@@ -52,3 +52,21 @@ links:
     icon: satellite_alt
     url: https://demo.cloud.arlas.io/
     check_url: http://localhost:9997/arlas_iam_server
+
+processes:
+  - name: download
+    url: 'https://localhost/aproc/processes/download/execution'
+    check_url: 'https://localhost/aproc/processes/download'
+    max_items: 15
+    settings:
+      url: 'assets/processes/download.json'
+    status:
+      url: 'https://localhost/aproc/jobs'
+  - name: enrich
+    url: 'https://localhost/aproc/processes/enrich/execution'
+    check_url: 'https://localhost/aproc/processes/enrich'
+    max_items: 15
+    settings:
+      url: 'assets/processes/enrich.json'
+    status:
+      url: 'https://localhost/aproc/jobs'

@@ -20,8 +20,8 @@
 export { AdmonitionCardComponent } from './lib/components/admonition-card/admonition-card.component';
 export { AiasDownloadComponent, DOWNLOAD_PROCESS_NAME } from './lib/components/aias/aias-download/aias-download.component';
 export { AiasEnrichComponent, ENRICH_PROCESS_NAME } from './lib/components/aias/aias-enrich/aias-enrich.component';
+export { AiasDownloadDialogData, AiasProcess, AiasProcessDialogData } from './lib/components/aias/aias-process';
 export { AiasResultComponent } from './lib/components/aias/aias-result/aias-result.component';
-export { AiasProcess, AiasProcessDialogData, AiasDownloadDialogData } from './lib/components/aias/aias-process';
 export { AnalyticsBoardComponent } from './lib/components/analytics/analytics-board/analytics-board.component';
 export { AnalyticsMenuComponent } from './lib/components/analytics/analytics-menu/analytics-menu.component';
 export {
@@ -151,7 +151,7 @@ export { PaginatorI18n } from './lib/tools/paginatori18n';
 export { ProcessOutput, ProcessStatus } from './lib/tools/process.interface';
 export {
   ArlasOverlayRef, ArlasStorageObject, ArlasStorageType, AuthentSetting, CollectionCount, CollectionUnit, Config, CONFIG_ID_QUERY_PARAM,
-  ConfigAction, ConfigActionEnum, DONUT_TOOLTIP_DATA, GET_OPTIONS, getFieldProperties, getKeyForColor, getParamValue, hashCode,
+  ConfigAction, ConfigActionEnum, DONUT_TOOLTIP_DATA, GET_OPTIONS, getFieldProperties, getKeyForColor, GetOptions, getParamValue, hashCode,
   HISTOGRAM_TOOLTIP_DATA, intToRGB, MapService, NOT_CONFIGURED, sortOnDate, SpinnerOptions, WidgetConfiguration, ZoomToDataStrategy
 } from './lib/tools/utils';
 
