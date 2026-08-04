@@ -31,7 +31,10 @@ import { ConfirmedValidator, NOT_CONFIGURED } from '../../tools/utils';
 @Component({
   selector: 'arlas-verify',
   templateUrl: './verify.component.html',
-  styleUrls: ['./verify.component.scss'],
+  styleUrls: [
+    './verify.component.scss',
+    '../iam/form-style.scss'
+  ],
   imports: [FormsModule, ReactiveFormsModule, MatFormField, MatLabel, MatInput, MatError, MatButton, RouterLink, TranslatePipe]
 })
 export class VerifyComponent {
