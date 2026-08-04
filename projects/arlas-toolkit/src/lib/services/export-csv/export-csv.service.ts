@@ -22,7 +22,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Aggregation, AggregationResponse, ComputationRequest, ComputationResponse, Filter, Hits } from 'arlas-api';
 import { getAggregationPrecision, getFieldValue, HistogramContributor, ResultListContributor, TreeContributor } from 'arlas-web-contributors';
 import { Collaboration, Contributor, projType } from 'arlas-web-core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 import { ArlasCollaborativesearchService } from '../collaborative-search/arlas.collaborative-search.service';
 import { ArlasCollectionService } from '../collection/arlas-collection.service';
@@ -47,7 +47,7 @@ export class ArlasExportCsvService {
       });
       header.push(this.translate.instant('count'));
       if ((<TreeContributor>contributor).getAggregations()[0].metrics) {
-        (<TreeContributor>contributor).getAggregations()[0].metrics.forEach(m => {
+        (<TreeContributor>contributor).getAggregations()[0].metrics?.forEach(m => {
           header.push(this.translate.instant('HEADER_EXPORT',
             {field: this.translate.instant(this.arlasCollectionService.getDisplayFieldName(m.collect_field)),
               metric: this.translate.instant(m.collect_fct.toString())
@@ -55,7 +55,7 @@ export class ArlasExportCsvService {
         });
       }
       csvData.push(header);
-      this.populateCSV(csvData, null, data, 0, (<TreeContributor>contributor).getAggregations(), stayAtFirstLevel);
+      this.populateCSV(csvData, [], data, 0, (<TreeContributor>contributor).getAggregations(), stayAtFirstLevel);
       const CSV = csvData.map(l => l.join(';')).join('\n');
       const contentType = 'text/csv';
       const csvFile = new Blob([CSV], { type: contentType });
@@ -64,15 +64,15 @@ export class ArlasExportCsvService {
   }
 
   public compute(contributor: Contributor, contributorType?: string): Observable<AggregationResponse> {
-    let aggResponse: Observable<AggregationResponse>;
+    let aggResponse: Observable<AggregationResponse> = of();
     if (!contributorType) {
       contributorType = this.configService.getValue('arlas.web.contributors')
-        .find(cont => cont.identifier === contributor.identifier).type;
+        .find((cont: any) => cont.identifier === contributor.identifier).type;
     }
     switch (contributorType) {
       case 'tree': {
         const aggsOriginal: Aggregation[] = (<TreeContributor>contributor).getAggregations();
-        const aggsForExport = [];
+        const aggsForExport = new Array<Aggregation>();
         aggsOriginal.forEach(agg => {
           aggsForExport.push({...agg});
         });
@@ -89,7 +89,7 @@ export class ArlasExportCsvService {
     return aggResponse;
   }
 
-  public fetchHistogramData$(contributor): Observable<AggregationResponse> {
+  public fetchHistogramData$(contributor: Contributor): Observable<AggregationResponse> {
     const collaborations = new Map<string, Collaboration>();
     this.collaborativesearchService.collaborations.forEach((k, v) => {
       collaborations.set(v, k);
@@ -101,7 +101,7 @@ export class ArlasExportCsvService {
       .resolveButNotComputation(
         [
           projType.compute,
-          <ComputationRequest>{ filter: null, field: field, metric: ComputationRequest.MetricEnum.SPANNING }
+          { filter: undefined, field: field, metric: ComputationRequest.MetricEnum.SPANNING }
         ],
         collaborations,
         contributor.collection
@@ -134,6 +134,9 @@ export class ArlasExportCsvService {
    */
   public fetchResultlistData$(contributor: ResultListContributor, filter?: Filter): Observable<Hits> {
     const size = this.settingsService.getResultlistSettings()?.export_size;
+    if (!size) {
+      throw new Error('[ARLAS][EXPORT][LIST] No configuration found for the size of the resultlist export');
+    }
     return contributor.fetch$(size, contributor.getAllFields().map(af => af.field), filter);
   }
 
@@ -222,7 +225,7 @@ export class ArlasExportCsvService {
           }
           csvData.push(line);
         }
-        if (sumOtherDocCounts > 0 && i === aggregations.length - 1) {
+        if (sumOtherDocCounts !== undefined && sumOtherDocCounts > 0 && i === aggregations.length - 1) {
           const other = new Array();
           for (let k = 0; k < aggregations.length; k++) {
             if (k < aggregationLevel) {

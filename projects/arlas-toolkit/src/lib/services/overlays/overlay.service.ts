@@ -20,8 +20,7 @@
 import { OriginConnectionPosition, Overlay, OverlayConfig, OverlayConnectionPosition, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal, ComponentType } from '@angular/cdk/portal';
 import { ComponentRef, inject, Injectable, InjectionToken, Injector } from '@angular/core';
-import { ARLASDonutTooltip, TimelineTooltip } from 'arlas-d3';
-import { HistogramTooltip } from 'arlas-web-components';
+import { ARLASDonutTooltip, HistogramTooltip, TimelineTooltip } from 'arlas-d3';
 import {
   CalendarTimelineTooltipOverlayComponent
 } from '../../components/calendar-timeline-tooltip-overlay/calendar-timeline-tooltip-overlay.component';

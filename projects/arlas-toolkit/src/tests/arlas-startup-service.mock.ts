@@ -17,21 +17,17 @@
  * under the License.
  */
 
-import { HttpClient } from '@angular/common/http';
+import { of } from 'rxjs';
+import { TEST_CONTRIBUTOR_ID } from './arlas-config-service.mock';
 
-export abstract class WalkthroughLoader {
+export class MockArlasStartupService {
+    public contributorRegistry = new Map();
 
-  public abstract loader(): Promise<TourDefinition>;
-
-}
-
-export class BasicWalkthroughLoader extends WalkthroughLoader {
-  public constructor(private readonly http: HttpClient) {
-    super();
-  }
-  public loader() {
-    return this.http
-      .get('/asset/tour/tour_en.json?' + Date.now())
-      .toPromise() as Promise<TourDefinition>;
-  }
+    public constructor() {
+        this.contributorRegistry.set(TEST_CONTRIBUTOR_ID, {
+            chartDataEvent: of(),
+            getPackageName: () => 'arlas.test',
+            getFilterDisplayName: () => 'test'
+        });
+    }
 }

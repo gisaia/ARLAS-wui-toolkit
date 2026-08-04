@@ -17,8 +17,8 @@
  * under the License.
  */
 
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component } from '@angular/core';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
@@ -30,31 +30,27 @@ import { ConfirmedValidator } from '../../tools/utils';
 @Component({
     selector: 'arlas-tool-reset',
     templateUrl: './reset.component.html',
-    styleUrls: ['./reset.component.scss'],
+    styleUrls: [
+      './reset.component.scss',
+      '../iam/form-style.scss'
+    ],
     imports: [FormsModule, ReactiveFormsModule, MatFormField, MatLabel, MatInput, MatButton, RouterLink, TranslatePipe]
 })
-export class ResetComponent implements OnInit {
+export class ResetComponent {
 
-  public resetForm: FormGroup;
+  public resetForm = new FormGroup({
+    password: new FormControl('', [Validators.required]),
+    confirm_password: new FormControl('', [Validators.required])
+  }, ConfirmedValidator('password', 'confirm_password') as ValidatorFn);
   public validated = false;
 
-  public userId = null;
-  public token = null;
+  public userId: string | null = null;
+  public token: string | null = null;
 
   public constructor(
-    private formBuilder: FormBuilder,
-    private iamService: ArlasIamService,
-    private route: ActivatedRoute,
-  ) { }
-
-  public ngOnInit(): void {
-    this.resetForm = this.formBuilder.group({
-      password: ['', [Validators.required]],
-      confirm_password: ['', [Validators.required]]
-    }, {
-      validator: ConfirmedValidator('password', 'confirm_password')
-    });
-
+    private readonly iamService: ArlasIamService,
+    private readonly route: ActivatedRoute,
+  ) {
     this.route.paramMap.subscribe(params => {
       this.userId = params.get('id');
       this.token = params.get('token');
@@ -62,14 +58,16 @@ export class ResetComponent implements OnInit {
   }
 
   public onSubmit(): void {
-    this.validated = false;
-    this.iamService.reset(this.userId, this.token, this.resetForm.get('password').value).subscribe({
-      next: (data) => {
-        this.validated = true;
-      },
-      error: err => {
-        console.error(err);
-      }
-    });
+    if (this.userId && this.token) {
+      this.validated = false;
+      this.iamService.reset(this.userId, this.token, this.resetForm.value.password as string).subscribe({
+        next: (data) => {
+          this.validated = true;
+        },
+        error: err => {
+          console.error(err);
+        }
+      });
+    }
   }
 }

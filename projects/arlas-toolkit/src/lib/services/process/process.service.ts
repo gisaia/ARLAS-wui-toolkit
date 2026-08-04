@@ -23,6 +23,7 @@ import { Expression, Filter, Search } from 'arlas-api';
 import { projType } from 'arlas-web-core';
 import { map, Observable } from 'rxjs';
 import { Process, ProcessInputs, ProcessOutput } from '../../tools/process.interface';
+import { GetOptions } from '../../tools/utils';
 import { ArlasCollaborativesearchService } from '../collaborative-search/arlas.collaborative-search.service';
 import { ArlasSettingsService } from '../settings/arlas.settings.service';
 
@@ -31,16 +32,25 @@ import { ArlasSettingsService } from '../settings/arlas.settings.service';
 })
 export class ProcessService {
   private processInputs: ProcessInputs = {};
-  private options: any = {};
+  private options: GetOptions = {};
 
   public constructor(
-    private http: HttpClient,
-    private arlasSettingsService: ArlasSettingsService,
-    private collaborativeSearchService: ArlasCollaborativesearchService
+    private readonly http: HttpClient,
+    private readonly arlasSettingsService: ArlasSettingsService,
+    private readonly collaborativeSearchService: ArlasCollaborativesearchService
   ) { }
 
-  public setOptions(options): void {
+  public setOptions(options: GetOptions): void {
     this.options = options;
+  }
+
+  private getProcessSettings(processName: string) {
+    const settings = this.arlasSettingsService.getProcessSettings(processName);
+    if (settings) {
+      return settings;
+    }
+
+    throw new Error(`[ARLAS][PROCESS] No settings were found for process ${processName}`);
   }
 
   /**
@@ -62,7 +72,7 @@ export class ProcessService {
     data.inputs = Object.assign(data.inputs, payload);
 
     return this.http.post(
-      this.arlasSettingsService.getProcessSettings(processName)?.url, data,
+      this.getProcessSettings(processName).url, data,
       Object.assign(this.options, { responseType: 'text' })
     )
       .pipe(map(
@@ -74,20 +84,20 @@ export class ProcessService {
   }
 
   public check(processName: string): Observable<any> {
-    return this.http.get(this.arlasSettingsService.getProcessSettings(processName)?.check_url, this.options);
+    return this.http.get(this.getProcessSettings(processName).check_url, this.options);
   }
 
   public getProcessInputs(): ProcessInputs {
     return this.processInputs;
   }
 
-  public setProcessInputs(process: ProcessInputs): void {
-    this.processInputs = process;
+  public setProcessInputs(process: ProcessInputs | undefined): void {
+    this.processInputs = process ?? {};
   }
 
   public load(processName: string): Observable<Process> {
     return this.http.get(
-      this.arlasSettingsService.getProcessSettings(processName)?.settings.url,
+      this.getProcessSettings(processName).settings.url,
       Object.assign(this.options, { responseType: 'text' })
     )
       .pipe(
@@ -101,7 +111,7 @@ export class ProcessService {
 
   public getJobStatus(processName: string, jobId: string): Observable<ProcessOutput> {
     return this.http.get(
-      this.arlasSettingsService.getProcessSettings(processName).status.url + '/' + jobId,
+      this.getProcessSettings(processName).status.url + '/' + jobId,
       Object.assign(this.options, { responseType: 'text' })
     )
       .pipe(map(
@@ -141,7 +151,7 @@ export class ProcessService {
         filterExpression,
         false
       );
-    return searchResult.pipe(map((data: any) => {
+    return searchResult.pipe(map(data => {
       const matchingAdditionalParams = new Map<string, any>();
       if (!!data && !!data?.hits && data.hits.length > 0) {
         data.hits.forEach(i => {
@@ -155,7 +165,7 @@ export class ProcessService {
     }));
   }
 
-  private resolve(path, obj = self, separator = '.') {
+  private resolve(path: string | string[], obj: Record<string, any>, separator = '.') {
     const properties = Array.isArray(path) ? path : path.split(separator);
     return properties.reduce((prev, curr) => prev?.[curr], obj);
   }

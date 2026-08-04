@@ -17,14 +17,14 @@
  * under the License.
  */
 
-import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, DestroyRef, inject, Input, OnInit, ViewChild } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenu, MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { marker } from '@colsen1991/ngx-translate-extract-marker';
 import { TranslatePipe } from '@ngx-translate/core';
-import { Subject, takeUntil } from 'rxjs';
 import { ArlasBookmarkService } from '../../services/bookmark/bookmark.service';
 import { ArlasCollaborativesearchService } from '../../services/collaborative-search/arlas.collaborative-search.service';
 import { BookmarkAddDialogComponent } from '../bookmark/bookmark-add-dialog.component';
@@ -41,36 +41,34 @@ import { BookmarkComponent } from '../bookmark/bookmark.component';
     MatTooltipModule
   ]
 })
-export class BookmarkMenuComponent implements OnInit, OnDestroy {
+export class BookmarkMenuComponent implements OnInit {
 
   /**
    * @Input : Angular
    * @description Icon to use for the 'Manage dataset' action
    */
-  @Input() public icon: string;
-  /**
-   * @deprecated Top bookmarks are no longer displayed
-   */
-  @Input() public nbTopBookmarks: number;
+  @Input() public icon = 'view_list';
+
   @Input() public isSelectMultipleBookmarks = true;
+
+  @ViewChild('menu') public matMenu?: MatMenu;
 
   public nbCollaborations = 0;
   public addBookmarkDisabled = false;
-  private _onDestroy$ = new Subject<boolean>();
-  public infoMessage: string;
-  @ViewChild('menu') public matMenu: MatMenu;
+  public infoMessage?: string;
+
+  private readonly destroyRef = inject(DestroyRef);
 
   public constructor(
-    public dialog: MatDialog,
-    public bookmarkService: ArlasBookmarkService,
-    private collabrativeSearchService: ArlasCollaborativesearchService  ) { }
+    private readonly dialog: MatDialog,
+    public readonly bookmarkService: ArlasBookmarkService,
+    private readonly collabrativeSearchService: ArlasCollaborativesearchService
+  ) { }
 
   public ngOnInit(): void {
-    this.icon = this.icon ? this.icon : 'view_list';
-
     this.nbCollaborations = this.collabrativeSearchService.collaborations.size;
     this.checkAddButtonState();
-    this.collabrativeSearchService.collaborationBus.pipe(takeUntil(this._onDestroy$))
+    this.collabrativeSearchService.collaborationBus.pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => {
         this.nbCollaborations = this.collabrativeSearchService.collaborations.size;
         this.checkAddButtonState();
@@ -107,10 +105,5 @@ export class BookmarkMenuComponent implements OnInit, OnDestroy {
 
   public viewBookmark(id: string) {
     this.bookmarkService.viewBookMark(id);
-  }
-
-  public ngOnDestroy() {
-    this._onDestroy$.next(true);
-    this._onDestroy$.complete();
   }
 }

@@ -60,15 +60,13 @@
         }
       }
 
-      @if ((filteredSearch | async).length === 0) {
+      @if ((filteredSearch | async)?.length === 0) {
         <li class="search-warning">
           <!-- Under two characters, no search is performed -->
-          @if (searchCtrl.value === null || searchCtrl.value?.length < 2) {
+          @if (searchCtrl.value === null || searchCtrl.value.length < 2) {
             <span>{{ 'No search' | translate }}</span>
-          }
-          @if (searchCtrl.value?.length >= 2) {
-            <span>{{ (searching ? 'Searching' : 'No results') | translate
-            }}</span>
+          } @else if (searchCtrl.value.length >= 2) {
+            <span>{{ (searching ? 'Searching' : 'No results') | translate }}</span>
           }
         </li>
       }

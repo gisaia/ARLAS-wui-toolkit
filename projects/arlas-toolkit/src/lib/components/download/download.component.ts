@@ -17,8 +17,9 @@
  * under the License.
  */
 import { SelectionModel } from '@angular/cdk/collections';
+import { StepperSelectionEvent } from '@angular/cdk/stepper';
 import { Component, inject, Inject, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -29,7 +30,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TranslatePipe } from '@ngx-translate/core';
-import { CollectionReferenceDescription } from 'arlas-api';
+import { CollectionReferenceDescription, Filter } from 'arlas-api';
 import { GetCollectionDisplayNamePipe } from 'arlas-web-components';
 import { projType } from 'arlas-web-core';
 import { DeviceDetectorService, OS } from 'ngx-device-detector';
@@ -53,7 +54,7 @@ export const ARLAS_HITS_EXPORTER_VERSION = 2.2;
 export class DownloadComponent {
   private readonly dialog = inject(MatDialog);
 
-  @Input() public collections: string[];
+  @Input() public collections: string[] = [];
 
   public openDialog() {
     this.dialog.open(DownloadDialogComponent, { data: this.collections, width: '80vw' });
@@ -88,19 +89,20 @@ export class DownloadDialogComponent implements OnInit {
   public selectedFields = new Array<ArlasSearchField>();
   public selectedSortableFields = new Array<ArlasSearchField>();
   public selectedFieldString = '';
-  public selectedFirstOrderField: ArlasSearchField;
-  public selectedSecondOrderField: ArlasSearchField;
-  public selectedThirdOrderField: ArlasSearchField;
 
-  public filterUrl: string;
-  public exportedTypeCommand: string;
-  public authTypeCommand: string;
+  public filterUrl?: string;
+  public exportedTypeCommand?: string;
+  public authTypeCommand?: string;
 
   public isCopied = false;
 
-  public exportTypeGroup: UntypedFormGroup;
-  public paramFormGroup: UntypedFormGroup;
-  public collectionRef: CollectionReferenceDescription;
+  public exportTypeGroup = new FormGroup({
+    exportType: new FormControl('', Validators.required)
+  });
+  public paramFormGroup = new FormGroup({
+    availableFields: new FormControl('', Validators.required)
+  });
+  public collectionRef?: CollectionReferenceDescription;
 
   public operatingSystems = ['Linux/Mac', 'Windows'];
   public detectedOs = 'Linux/Mac';
@@ -109,11 +111,10 @@ export class DownloadDialogComponent implements OnInit {
   public collections;
   public selectedCollection;
   public serverUrl;
-  @ViewChild('selectedList', { static: false }) public selectionList: MatSelectionList;
+  @ViewChild('selectedList', { static: false }) public selectionList?: MatSelectionList;
 
   public constructor(
     @Inject(MAT_DIALOG_DATA) public data: string[],
-    private readonly formBuilder: UntypedFormBuilder,
     private readonly collaborativeService: ArlasCollaborativesearchService,
     private readonly configService: ArlasConfigService,
     private readonly authService: AuthentificationService,
@@ -123,20 +124,14 @@ export class DownloadDialogComponent implements OnInit {
   ) {
     this.collections = data;
     this.selectedCollection = data[0];
+    this.serverUrl = this.configService.getValue('arlas.server').url;
   }
 
   public ngOnInit() {
-    this.serverUrl = this.configService.getValue('arlas.server').url;
     if (this.deviceService.os() === OS.WINDOWS) {
       this.detectedOs = 'Windows';
     }
 
-    this.exportTypeGroup = this.formBuilder.group({
-      exportType: ['', Validators.required]
-    });
-    this.paramFormGroup = this.formBuilder.group({
-      availableFields: ['', Validators.required]
-    });
     this.setCollectionField(this.selectedCollection);
   }
 
@@ -150,13 +145,13 @@ export class DownloadDialogComponent implements OnInit {
     });
   }
 
-  public collectionChange(event) {
+  public collectionChange() {
     this.selectedFields = new Array<ArlasSearchField>();
-    this.selectionList.deselectAll();
+    this.selectionList?.deselectAll();
     this.setCollectionField(this.selectedCollection);
   }
 
-  public setCollectionField(collection) {
+  public setCollectionField(collection: string) {
     this.collaborativeService.describe(collection).subscribe(
       description => {
         this.allFields = [];
@@ -178,14 +173,18 @@ export class DownloadDialogComponent implements OnInit {
    * Switches between dialog steps
    * @param event The step index
    */
-  public changeStep(event) {
+  public changeStep(event: StepperSelectionEvent) {
     if (event.selectedIndex === 2) {
       this.isCopied = false;
-      this.exportedTypeCommand = this.exportTypeGroup.get('exportType').value;
-      const filters = Array.from(this.collaborativeService.collaborations.values()).filter(element =>
-        !!element.filters.get(this.selectedCollection) && element.filters.get(this.selectedCollection).length > 0)
-        .map(element => element.filters.get(this.selectedCollection)[0]);
+      this.exportedTypeCommand = this.exportTypeGroup.value.exportType ?? undefined;
+      const filters = Array.from(this.collaborativeService.collaborations.values())
+        .filter(element => {
+          const f = element.filters.get(this.selectedCollection);
+          return f && f.length > 0;
+        })
+        .map(element => element.filters.get(this.selectedCollection)?.[0] as Filter);
       this.filterUrl = this.collaborativeService.getUrl([projType.search, []], filters);
+
       const token = this.getToken();
       if (!!token) {
         this.authTypeCommand = '--auth=token --token=' + token;
@@ -213,11 +212,11 @@ export class DownloadDialogComponent implements OnInit {
     }
   }
 
-  public copyCommand(downloadCommand, downloadCommandWindows) {
+  public copyCommand(downloadCommand: HTMLTextAreaElement, downloadCommandWindows: HTMLTextAreaElement) {
     if (this.detectedOs === 'Windows') {
-      this.copyTextToClipboard((downloadCommandWindows as HTMLTextAreaElement).value);
+      this.copyTextToClipboard(downloadCommandWindows.value);
     } else {
-      this.copyTextToClipboard((downloadCommand as HTMLTextAreaElement).value);
+      this.copyTextToClipboard(downloadCommand.value);
     }
   }
 

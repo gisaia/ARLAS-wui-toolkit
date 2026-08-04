@@ -20,6 +20,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { ArlasMessage, LoginData, PermissionData, PermissionDef, UserData } from 'arlas-iam-api';
+import { finalize, Subscription, tap, throwError } from 'rxjs';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { Observable } from 'rxjs/internal/Observable';
 import { Subject } from 'rxjs/internal/Subject';
@@ -28,42 +29,41 @@ import { timer } from 'rxjs/internal/observable/timer';
 import { takeUntil } from 'rxjs/internal/operators/takeUntil';
 import { AuthentSetting, NOT_CONFIGURED } from '../../tools/utils';
 import { ArlasAuthentificationService } from '../arlas-authentification/arlas-authentification.service';
-import { ArlasIamApi } from '../startup/startup.service';
 import { ArlasSettingsService } from '../settings/arlas.settings.service';
-import { finalize, tap } from 'rxjs';
+import { ArlasIamApi } from '../startup/startup.service';
 
 export const ARLAS_ORG_FILTER = 'arlas-org-filter';
 
 
 export interface IamHeader {
   Authorization: string;
-  [ARLAS_ORG_FILTER]: string;
+  [ARLAS_ORG_FILTER]?: string;
 }
 @Injectable({
   providedIn: 'root'
 })
 export class ArlasIamService extends ArlasAuthentificationService {
 
-  private options;
-  private arlasIamApi: ArlasIamApi;
-  private refreshTokenTimer$;
-  private unsubscribe: Subject<void> = new Subject<void>();
-  private tokenRefreshedSource: BehaviorSubject<LoginData> = new BehaviorSubject(null);
-  private currentOrganisation = '';
-
+  private options: Record<string, any> = {};
+  private arlasIamApi!: ArlasIamApi;
+  private refreshTokenTimer$: Subscription | undefined;
+  private readonly unsubscribe: Subject<void> = new Subject<void>();
+  private readonly tokenRefreshedSource = new BehaviorSubject<LoginData | null>(null);
   public tokenRefreshed$ = this.tokenRefreshedSource.asObservable();
-  public user: UserData;
-  public reloadState: string;
+
+  private currentOrganisation?: string;
+  public user: UserData | undefined;
+  public reloadState?: string;
   public storage = new Map();
 
   public constructor(
-    private router: Router,
-    private settings: ArlasSettingsService
+    private readonly router: Router,
+    private readonly settings: ArlasSettingsService
   ) {
     super();
   }
 
-  public declareReloadState(reloadState) {
+  public declareReloadState(reloadState: string) {
     this.reloadState = reloadState;
   }
 
@@ -73,7 +73,7 @@ export class ArlasIamService extends ArlasAuthentificationService {
     }
   }
 
-  public setOptions(options): void {
+  public setOptions(options: Record<string, any>): void {
     this.options = options;
   }
 
@@ -86,7 +86,7 @@ export class ArlasIamService extends ArlasAuthentificationService {
    * - Set the headers of iamService with an already stored organisation in localstorage.  */
   public setHeadersFromAccesstoken(accessToken: string): void {
     this.storeAccessToken(accessToken);
-    const headers = {
+    const headers: Record<string, string> = {
       Authorization: 'Bearer ' + accessToken
     };
     const organisation = this.getOrganisation();
@@ -97,7 +97,7 @@ export class ArlasIamService extends ArlasAuthentificationService {
   }
 
   /** Stores the given org and access token in localstorage + set iamService headers. */
-  public setHeaders(org: string, accessToken: string): void {
+  public setHeaders(org: string | undefined, accessToken: string): void {
     this.storeAccessToken(accessToken);
     this.storeOrganisation(org);
     const headers = {
@@ -119,22 +119,22 @@ export class ArlasIamService extends ArlasAuthentificationService {
    * The method checks if the organisation is defined
    * If not returned the first of the list in user's organisations.
    */
-  public getOrganisation(): string {
-    if (!!this.currentOrganisation) {
+  public getOrganisation(): string | undefined {
+    if (this.currentOrganisation) {
       return this.currentOrganisation;
     } else {
-      if (!!this.user && this.user.organisations?.length > 0) {
+      if (!!this.user?.organisations && this.user.organisations?.length > 0) {
         return this.user.organisations[0].name;
       }
-      return null;
+      return undefined;
     }
   }
 
-  public storeOrganisation(organisation: string): void {
+  public storeOrganisation(organisation: string | undefined): void {
     this.currentOrganisation = organisation;
   }
 
-  public notifyTokenRefresh(loginData: LoginData) {
+  public notifyTokenRefresh(loginData: LoginData | null) {
     this.tokenRefreshedSource.next(loginData);
   }
 
@@ -143,7 +143,7 @@ export class ArlasIamService extends ArlasAuthentificationService {
   }
 
   private clearOrganisation() {
-    this.currentOrganisation = null;
+    this.currentOrganisation = undefined;
   }
 
   /** This method should be called right after being logged in
@@ -154,8 +154,7 @@ export class ArlasIamService extends ArlasAuthentificationService {
   public startRefreshTokenTimer(loginData: LoginData): void {
     this.tokenRefreshedSource.next(loginData);
     // permit to obtain accessToken expiration date
-    const accessToken = loginData.access_token;
-    const jwtToken = JSON.parse(atob(accessToken.split('.')[1]));
+    const jwtToken = JSON.parse(atob(loginData.access_token.split('.')[1]));
     const exp = jwtToken.exp;
     const iat = jwtToken.iat;
     const threshold = (exp-iat)/2;
@@ -183,16 +182,16 @@ export class ArlasIamService extends ArlasAuthentificationService {
   public initAuthService() {
     return this.refresh().toPromise()
       .then(
-        (loginData: LoginData) => {
-          this.user = loginData.user;
-          this.setHeadersFromAccesstoken(loginData.access_token);
-          this.startRefreshTokenTimer(loginData);
-          return Promise.resolve();
+        loginData => {
+          if (loginData) {
+            this.user = loginData.user;
+            this.setHeadersFromAccesstoken(loginData.access_token);
+            this.startRefreshTokenTimer(loginData);
+          }
         })
       .catch((err) => {
         this.checkForceConnect();
         console.error(err);
-        return Promise.resolve();
       });
   }
 
@@ -313,7 +312,10 @@ export class ArlasIamService extends ArlasAuthentificationService {
   }
 
   public change(oldPassword: string, newPassword: string): Observable<UserData> {
-    return from(this.arlasIamApi.updateUser({ oldPassword: oldPassword, newPassword: newPassword }, this.user.id, this.options));
+    if (this.user?.id) {
+      return from(this.arlasIamApi.updateUser({ oldPassword: oldPassword, newPassword: newPassword }, this.user.id, this.options));
+    }
+    return throwError(() => new Error('No user id'));
   }
 
   public createPermission(oid: string, permissionDef: PermissionDef): Observable<PermissionData> {

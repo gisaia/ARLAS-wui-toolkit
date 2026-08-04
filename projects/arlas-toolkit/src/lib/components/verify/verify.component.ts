@@ -17,8 +17,8 @@
  * under the License.
  */
 
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormGroupDirective, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component } from '@angular/core';
+import { FormControl, FormGroup, FormGroupDirective, FormsModule, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
@@ -31,33 +31,29 @@ import { ConfirmedValidator, NOT_CONFIGURED } from '../../tools/utils';
 @Component({
   selector: 'arlas-verify',
   templateUrl: './verify.component.html',
-  styleUrls: ['./verify.component.scss'],
+  styleUrls: [
+    './verify.component.scss',
+    '../iam/form-style.scss'
+  ],
   imports: [FormsModule, ReactiveFormsModule, MatFormField, MatLabel, MatInput, MatError, MatButton, RouterLink, TranslatePipe]
 })
-export class VerifyComponent implements OnInit {
+export class VerifyComponent {
 
-  public validateForm: FormGroup;
+  public validateForm = new FormGroup({
+    password: new FormControl('', Validators.required),
+    confirm_password: new FormControl('', Validators.required)
+  }, ConfirmedValidator('password', 'confirm_password') as ValidatorFn);
   public validated = false;
   public displayForm = true;
 
-  public userId = null;
-  public token = null;
+  public userId: string | null = null;
+  public token: string | null = null;
 
   public constructor(
-    private formBuilder: FormBuilder,
-    private iamService: ArlasIamService,
-    private route: ActivatedRoute,
-    private settingsService: ArlasSettingsService
-  ) { }
-
-  public ngOnInit(): void {
-    this.validateForm = this.formBuilder.group({
-      password: ['', [Validators.required]],
-      confirm_password: ['', [Validators.required]]
-    }, {
-      validator: ConfirmedValidator('password', 'confirm_password')
-    });
-
+    private readonly iamService: ArlasIamService,
+    private readonly route: ActivatedRoute,
+    private readonly settingsService: ArlasSettingsService
+  ) {
     this.route.paramMap.subscribe(params => {
       this.userId = params.get('id');
       this.token = params.get('token');
@@ -65,8 +61,12 @@ export class VerifyComponent implements OnInit {
   }
 
   public onSubmit(formDirective: FormGroupDirective): void {
+    if (!this.userId || !this.token || !this.validateForm.value.password) {
+      return;
+    }
+
     this.validated = false;
-    this.iamService.verify(this.userId, this.token, this.validateForm.get('password').value).subscribe({
+    this.iamService.verify(this.userId, this.token, this.validateForm.value.password).subscribe({
       next: (e) => {
         formDirective.resetForm();
         this.validateForm.reset();
@@ -78,7 +78,7 @@ export class VerifyComponent implements OnInit {
         }
       },
       error: err => {
-        err.json().then(e => {
+        err.json().then((e: any) => {
           if (e.message === 'User already verified.'){
             this.validateForm.setErrors({
               alreadyVerified: true

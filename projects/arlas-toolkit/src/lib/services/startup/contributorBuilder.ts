@@ -43,7 +43,7 @@ export class ContributorBuilder {
     settingsService: ArlasSettingsService,
     colorService?: ArlasColorService): any {
 
-    const config = configService.getValue('arlas.web.contributors').find(contrib =>
+    const config = configService.getValue('arlas.web.contributors').find((contrib: any) =>
       contrib.type === contributorType && contrib.identifier === identifier
     );
     let collection = !!config['collection'] ? config['collection'] : collaborativesearchService.defaultCollection;
@@ -97,7 +97,7 @@ export class ContributorBuilder {
         const groupIdToValues = new Map<string, Array<string>>();
         const analytics = configService.getValue('arlas.web.analytics');
         if (analytics) {
-          analytics.forEach(analytic => {
+          analytics.forEach((analytic: any) => {
             if (analytic.filterValues) {
               groupIdToValues.set(analytic.groupId, analytic.filterValues);
             } else {
@@ -120,7 +120,9 @@ export class ContributorBuilder {
         contributor = new MetricsTableContributor(identifier, collaborativesearchService, configService, collection);
         break;
     }
-    contributor.updateData = false;
+    if (contributor) {
+      contributor.updateData = false;
+    }
     return contributor;
   }
 
@@ -134,7 +136,7 @@ export class ContributorBuilder {
       /** For histograms, multi-collection is possible. We need to check the 'additionalCollections' attribute.*/
       if (contributor.type === 'histogram') {
         if (contributor.additionalCollections && Array.isArray(contributor.additionalCollections)) {
-          contributor.additionalCollections.forEach(ac => {
+          contributor.additionalCollections.forEach((ac: any) => {
             collections.add(ac.collectionName);
           });
         }

@@ -18,7 +18,7 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import { MatError, MatFormField, MatLabel, MatPrefix, MatSuffix } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
@@ -35,7 +35,10 @@ import { generateUserCacheBust, NOT_CONFIGURED } from '../../tools/utils';
 @Component({
   selector: 'arlas-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
+  styleUrls: [
+    './login.component.scss',
+    '../iam/form-style.scss'
+  ],
   imports: [
     FormsModule, ReactiveFormsModule, MatFormField, MatLabel, MatInput, MatIcon,
     MatPrefix, MatError, MatSuffix, RouterLink, MatButton, TranslatePipe]
@@ -43,24 +46,26 @@ import { generateUserCacheBust, NOT_CONFIGURED } from '../../tools/utils';
 export class LoginComponent implements OnInit {
 
   public showPassword = false;
-  public loginForm: FormGroup;
+  public loginForm = new FormGroup({
+    email: new FormControl('', Validators.required),
+    password: new FormControl('', Validators.required)
+  });
   public isLoading = false;
   public showPage = false;
   public displayNoAccount = false;
 
   public constructor(
-    private formBuilder: FormBuilder,
-    private iamService: ArlasIamService,
-    private settingsService: ArlasSettingsService,
-    private errorService: ErrorService,
-    private router: Router
+    private readonly iamService: ArlasIamService,
+    private readonly settingsService: ArlasSettingsService,
+    private readonly errorService: ErrorService,
+    private readonly router: Router
   ) { }
 
 
   public ngOnInit(): void {
     this.errorService.closeAll();
     const authSettings = this.settingsService.getAuthentSettings();
-    this.displayNoAccount = authSettings.sign_up_enabled;
+    this.displayNoAccount = !!authSettings?.sign_up_enabled;
     this.showPage = false;
     this.iamService.refresh().pipe(finalize(() => this.showPage = true)).subscribe({
       next: (loginData: LoginData) => {
@@ -85,16 +90,11 @@ export class LoginComponent implements OnInit {
 
       }
     });
-
-    this.loginForm = this.formBuilder.group({
-      email: ['', Validators.required],
-      password: ['', [Validators.required]]
-    });
   }
 
   public onSubmit(): void {
     this.isLoading = true;
-    this.iamService.login(this.loginForm.get('email').value, this.loginForm.get('password').value).subscribe({
+    this.iamService.login(this.loginForm.value.email as string, this.loginForm.value.password as string).subscribe({
       next: loginData => {
         // Derive a deterministic cache-busting key from the user's unique ID
         // This ensures cached responses are scoped per user while remaining reusable across sessions

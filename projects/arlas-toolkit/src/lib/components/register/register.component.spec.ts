@@ -3,8 +3,8 @@ import { FormBuilder } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule, TranslateNoOpLoader } from '@ngx-translate/core';
 import { beforeEach, describe, expect, it } from 'vitest';
+import { MockArlasSettingsService } from '../../../tests/arlas-settings-service.mock';
 import { ArlasSettingsService } from '../../services/settings/arlas.settings.service';
-import { MockArlasSettingsService } from '../../tools/tests/arlas-settings-service.mock';
 import { RegisterComponent } from './register.component';
 
 describe('RegisterComponent', () => {

@@ -17,8 +17,31 @@
  * under the License.
  */
 
-/* SystemJS module definition */
-declare var module: NodeModule;
-interface NodeModule {
-  id: string;
+.iam__form-content {
+    margin-bottom: 15px;
+    background: #ededed;
+    padding: 15px 30px 0 30px;
+    border-radius: 0 0 15px 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    mat-form-field {
+        width: 100%;
+
+        ::ng-deep {
+            .mdc-text-field--outlined {
+                height: 56px;
+            }
+
+            .mat-mdc-form-field-flex {
+                height: 100%;
+            }
+
+            .mat-mdc-text-field-wrapper,
+            .mdc-floating-label--float-above{
+                background-color: white;
+            }
+        }
+    }
 }

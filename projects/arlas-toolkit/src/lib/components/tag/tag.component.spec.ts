@@ -1,5 +1,6 @@
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TranslateLoader, TranslateModule, TranslateNoOpLoader } from '@ngx-translate/core';
 import { OAuthModule } from 'angular-oauth2-oidc';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { AuthentificationService } from '../../services/authentification/authentification.service';
@@ -20,7 +21,10 @@ describe('TagComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         TagComponent,
-        OAuthModule.forRoot()
+        OAuthModule.forRoot(),
+        TranslateModule.forRoot({
+          loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader }
+        }),
       ],
       providers: [
         ArlasConfigService,

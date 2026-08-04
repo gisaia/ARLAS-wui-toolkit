@@ -22,17 +22,13 @@ import { ArlasError } from './error';
 
 /** Error sent when the dashboard is invalid */
 export class InvalidDashboardError extends ArlasError {
-  public constructor(private readonly hubUrl: string, message?: string) {
-    super(0);
+  public constructor(private readonly hubUrl: string | undefined, message: string) {
+    const title = marker('Dashboard is invalid');
+    super(0, title, message);
 
-    this.title = marker('Dashboard is invalid');
     this.actionType = 'link';
-    this.showAction = true;
+    this.showAction = !!hubUrl;
     this.actionMessage = marker('go to arlas hub');
-
-    if (message) {
-      this.message = message;
-    }
   }
 
   public executeAction() {

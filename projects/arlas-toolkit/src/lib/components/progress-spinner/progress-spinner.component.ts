@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { SpinnerOptions } from '../../tools/utils';
 
@@ -35,15 +35,10 @@ export const DEFAULT_SPINNER_OPTIONS: SpinnerOptions = {
     MatProgressSpinnerModule
   ]
 })
-export class ProgressSpinnerComponent implements OnInit {
+export class ProgressSpinnerComponent {
 
   @Input() public color = DEFAULT_SPINNER_OPTIONS.color;
   @Input() public diameter = DEFAULT_SPINNER_OPTIONS.diameter;
   @Input() public strokeWidth = DEFAULT_SPINNER_OPTIONS.strokeWidth;
-
-  public constructor() { }
-
-  public ngOnInit(): void {
-  }
 
 }

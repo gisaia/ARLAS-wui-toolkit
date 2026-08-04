@@ -4,9 +4,9 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { TranslateLoader, TranslateModule, TranslateNoOpLoader } from '@ngx-translate/core';
 import { DateTimeProvider, OAuthLogger, OAuthService, UrlHelperService } from 'angular-oauth2-oidc';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { MockArlasSettingsService } from '../../../../tests/arlas-settings-service.mock';
 import { AuthentificationService } from '../../../services/authentification/authentification.service';
 import { ArlasSettingsService } from '../../../services/settings/arlas.settings.service';
-import { MockArlasSettingsService } from '../../../tools/tests/arlas-settings-service.mock';
 import { GET_OPTIONS } from '../../../tools/utils';
 import { ActionModalComponent } from './action-modal.component';
 

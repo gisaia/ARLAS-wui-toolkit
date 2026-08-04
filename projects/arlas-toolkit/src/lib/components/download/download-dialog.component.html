@@ -26,7 +26,7 @@
 
       <mat-form-field>
         <mat-label>{{ "Collection" | translate}}</mat-label>
-        <mat-select (selectionChange)="collectionChange($event)" [(value)]="selectedCollection">
+        <mat-select (selectionChange)="collectionChange()" [(value)]="selectedCollection">
           @for (option of collections; track option) {
             <mat-option [value]="option" >
               {{ option | getCollectionDisplayName | translate }}
@@ -114,12 +114,19 @@
         --mount dst=/output,src="$PWD",type=bind \
         --rm \
         gisaia/arlas-hits-exporter:{{arlasHitsExporterVersion}} \
-        --search_url="{{serverUrl}}/explore/{{selectedCollection}}/_search?size=9999&sort={{collectionRef?.params.id_path}}&{{filterUrl}}" \
+        --search_url="{{serverUrl}}/explore/{{selectedCollection}}/_search?size=9999&sort={{collectionRef?.params?.id_path}}&{{filterUrl}}" \
         --include={{selectedFieldString}} \
         --format={{exportedTypeCommand}} \
         {{authTypeCommand}}
       </textarea>
-      <textarea [hidden]="osselection.value !== 'Windows'" class="download-box" #downloadCommandWindows>docker run -it --mount dst=/output,src="%cd%",type=bind --rm gisaia/arlas-hits-exporter:{{arlasHitsExporterVersion}} --search_url="{{serverUrl}}/explore/{{selectedCollection}}/_search?size=9999&sort={{collectionRef?.params.id_path}}&{{filterUrl}}" --include={{selectedFieldString}} --format={{exportedTypeCommand}} {{authTypeCommand}}
+      <textarea [hidden]="osselection.value !== 'Windows'" class="download-box" #downloadCommandWindows>docker run \
+        -it \
+        --mount dst=/output,src="%cd%",type=bind \
+        --rm gisaia/arlas-hits-exporter:{{arlasHitsExporterVersion}} \
+        --search_url="{{serverUrl}}/explore/{{selectedCollection}}/_search?size=9999&sort={{collectionRef?.params?.id_path}}&{{filterUrl}}" \
+        --include={{selectedFieldString}} \
+        --format={{exportedTypeCommand}} \
+        {{authTypeCommand}}
       </textarea>
     </div>
     <mat-divider class="download__divider"></mat-divider>

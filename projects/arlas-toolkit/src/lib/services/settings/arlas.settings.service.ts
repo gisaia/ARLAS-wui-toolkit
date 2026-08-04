@@ -28,7 +28,7 @@ import { ArlasSettings, LinkSettings, ProcessSettings, ResultlistSettings } from
   providedIn: 'root'
 })
 export class ArlasSettingsService {
-  public settings: ArlasSettings;
+  public settings!: ArlasSettings;
 
   public setSettings(settings: ArlasSettings): void {
     this.settings = settings;
@@ -38,39 +38,39 @@ export class ArlasSettingsService {
     return this.settings;
   }
 
-  public getPersistenceSettings(): PersistenceSetting {
+  public getPersistenceSettings(): PersistenceSetting | undefined {
     return !!this.settings && !!this.settings.persistence ? this.settings.persistence : undefined;
   }
 
-  public getPermissionSettings(): PermissionSetting {
+  public getPermissionSettings(): PermissionSetting | undefined {
     return !!this.settings && !!this.settings.permission ? this.settings.permission : undefined;
   }
 
-  public getGeocodingSettings(): GeocodingSetting {
+  public getGeocodingSettings(): GeocodingSetting | undefined {
     return !!this.settings && !!this.settings.geocoding ? this.settings.geocoding : undefined;
   }
 
-  public getArlasWuiUrl(): string {
+  public getArlasWuiUrl(): string | undefined {
     return !!this.settings && !!this.settings.arlas_wui_url ? this.settings.arlas_wui_url : undefined;
   }
 
-  public getArlasBuilderUrl(): string {
+  public getArlasBuilderUrl(): string | undefined {
     return !!this.settings && !!this.settings.arlas_builder_url ? this.settings.arlas_builder_url : undefined;
   }
 
-  public getArlasHubUrl(): string {
+  public getArlasHubUrl(): string | undefined {
     return !!this.settings && !!this.settings.arlas_hub_url ? this.settings.arlas_hub_url : undefined;
   }
 
-  public getArlasIAMWuiUrl(): string {
+  public getArlasIAMWuiUrl(): string | undefined {
     return !!this.settings && !!this.settings.arlas_iam_wui_url ? this.settings.arlas_iam_wui_url : undefined;
   }
 
   public getLinksSettings(): LinkSettings[] {
-    return !!this.settings && !!this.settings.links ? this.settings.links : undefined;
+    return !!this.settings && !!this.settings.links ? this.settings.links : [];
   }
 
-  public getTicketingKey(): string {
+  public getTicketingKey(): string | undefined {
     return !!this.settings && !!this.settings.ticketing_key && this.settings.ticketing_key !== '' ? this.settings.ticketing_key : undefined;
   }
 
@@ -78,7 +78,7 @@ export class ArlasSettingsService {
     return !!this.settings && !!this.settings.histogram && !!this.settings.histogram.max_buckets ? this.settings.histogram.max_buckets : 200;
   }
 
-  public getResultlistSettings(): ResultlistSettings {
+  public getResultlistSettings(): ResultlistSettings | undefined {
     return !!this.settings && !!this.settings.resultlist ? this.settings.resultlist : undefined;
   }
 
@@ -87,11 +87,11 @@ export class ArlasSettingsService {
       this.settings.histogram.export_nb_buckets : 1000;
   }
 
-  public getAuthentSettings(): AuthentSetting {
+  public getAuthentSettings(): AuthentSetting | undefined {
     return !!this.settings && !!this.settings.authentication ? this.settings.authentication : undefined;
   }
 
-  public getProcessSettings(name: string): ProcessSettings {
+  public getProcessSettings(name: string): ProcessSettings | undefined {
     return !!this.settings && !!this.settings.processes ? this.settings.processes.find(p => p.name === name) : undefined;
   }
 

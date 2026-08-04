@@ -22,11 +22,14 @@ import { TestBed } from '@angular/core/testing';
 import {
   TranslateLoader, TranslateModule, TranslateNoOpLoader
 } from '@ngx-translate/core';
+import { DateTimeProvider, OAuthLogger, OAuthService, UrlHelperService } from 'angular-oauth2-oidc';
 import { beforeEach, describe, expect, it } from 'vitest';
+import { GET_OPTIONS } from '../../tools/utils';
 import { ArlasCollaborativesearchService } from '../collaborative-search/arlas.collaborative-search.service';
-import { ArlasConfigurationUpdaterService } from '../configuration-updater/configurationUpdater.service';
 import {
-  ArlasConfigService, ArlasStartupService, CONFIG_UPDATER, FETCH_OPTIONS
+  ArlasConfigService,
+  ArlasStartupService,
+  CONFIG_UPDATER, FETCH_OPTIONS
 } from '../startup/startup.service';
 import { ArlasAoiService } from './aoi.service';
 
@@ -35,22 +38,21 @@ describe('ArlasAoiService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader } })],
+      imports: [
+        TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader } })
+      ],
       providers: [
-        {
-          provide: ArlasStartupService,
-          useClass: ArlasStartupService,
-          deps: [ArlasConfigurationUpdaterService]
-        },
         ArlasConfigService,
+        ArlasStartupService,
         ArlasCollaborativesearchService,
         { provide: CONFIG_UPDATER, useValue: {} },
-        {
-          provide: ArlasConfigurationUpdaterService,
-          useClass: ArlasConfigurationUpdaterService
-        },
         { provide: FETCH_OPTIONS, useValue: {} },
         provideHttpClient(withInterceptorsFromDi()),
+        { provide: GET_OPTIONS, useValue: () => { } },
+        OAuthService,
+        OAuthLogger,
+        DateTimeProvider,
+        UrlHelperService,
       ]
     });
 

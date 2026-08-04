@@ -17,9 +17,9 @@
  * under the License.
  */
 
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
 import { TranslatePipe } from '@ngx-translate/core';
 
@@ -35,8 +35,5 @@ import { TranslatePipe } from '@ngx-translate/core';
   ]
 })
 export class ConfirmModalComponent {
-  public confirmMessage: string;
-  public confirmHTLMMessage: string;
-
-  public constructor(public dialogRef: MatDialogRef<ConfirmModalComponent>) { }
+  public data = inject<{ confirmMessage?: string; confirmHTMLMessage?: string; }>(MAT_DIALOG_DATA);
 }

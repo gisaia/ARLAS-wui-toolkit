@@ -32,7 +32,7 @@
 
   @if (statusResult?.message) {
     <div class="message" [class.error]="hasError">
-      {{ statusResult.message | translate }}
+      {{ statusResult?.message | translate }}
     </div>
   }
 

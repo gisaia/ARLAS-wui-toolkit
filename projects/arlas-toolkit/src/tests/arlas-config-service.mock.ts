@@ -17,14 +17,23 @@
  * under the License.
  */
 
-export interface TaggerResponse {
-  id: string;
-  endTime: number;
-  failed: number;
-  label: string;
-  processingTimes: number;
-  progress: number;
-  propagated: number;
-  startTime: number;
-  updated: number;
+import { Aggregation } from 'arlas-api';
+
+export const TEST_CONTRIBUTOR_ID = 'test';
+
+export class MockArlasConfigService {
+    public getValue(key: string) {
+        if (key === 'arlas.web.contributors') {
+            return [
+                {
+                    identifier: TEST_CONTRIBUTOR_ID,
+                    aggregationmodels: [
+                        {
+                            type: Aggregation.TypeEnum.Histogram
+                        }
+                    ]
+                }
+            ];
+        }
+    }
 }

@@ -1,7 +1,7 @@
 <div class="arlas-time-shortcuts--container">
   @if (showShortcuts) {
     <div class="arlas-time-shortcuts__list--container">
-      @for (shortcutType of timeShortcutsMap | keyvalue; track shortcutType) {
+      @for (shortcutType of timeShortcutsMap() | keyvalue; track shortcutType) {
         <ul class="arlas-time-shortcuts__list">
           @for (shortCut of shortcutType.value; track shortCut) {
             <li class="arlas-time-shortcut" (click)="setShortcut(shortCut)" (keydown)="setShortcut(shortCut)">
@@ -21,13 +21,13 @@
       <div class="arlas-datepicker-container">
         @if (activeDatePicker) {
           <arlas-tool-date-picker class="shortcut-button__label"
-            [startSelectedDate]="$any(timelineContributor?.intervalSelection?.startvalue)"
-            [endSelectedDate]="$any(timelineContributor?.intervalSelection?.endvalue)"
-            [timelineComponent]="timelineComponent">
+            [startSelectedDate]="timelineContributor().intervalSelection?.startvalue"
+            [endSelectedDate]="timelineContributor().intervalSelection?.endvalue"
+            [timelineComponent]="timelineComponent()">
           </arlas-tool-date-picker>
         } @else {
           <div class="shortcut-button__label">
-            {{timelineContributor?.timeLabel | getTimeLabel: dateFormat:translate:timelineContributor?.useUtc}}
+            {{timelineContributor().timeLabel | getTimeLabel:dateFormat:timelineContributor().useUtc}}
           </div>
         }
         <div class="time-zone" matTooltip="{{'Time zone' | translate}} {{timeZone}}" matTooltipPosition="above">

@@ -18,13 +18,32 @@
  */
 
 import { Aggregation } from 'arlas-api';
-import { FieldsConfiguration, LayerSourceConfig } from 'arlas-web-contributors';
 import { VisualisationSetConfig } from 'arlas-map';
+import {
+  ClusterLayerCourceConfig, FeatureLayerSourceConfig, FieldsConfiguration, LayerSourceConfig, TopologyLayerSourceConfig
+} from 'arlas-web-contributors';
+
+export interface ArlasDashboardConfiguration {
+  arlas?: {
+    web: {
+      contributors: any[];
+      analytics: any[];
+      components: Record<string, any>;
+    };
+    server: {
+      collection: {
+        name: string;
+      };
+    };
+  };
+  extraConfigs?: {
+    configPath: string;
+    replacedAttribute: string;
+    replacer: string;
+  }[];
+}
 
 export class ArlasConfigurationUpdaterService {
-
-  public constructor() {
-  }
 
   /**
    * Parses the configuration and returns a list of contributors that should be removed from the config.
@@ -32,7 +51,7 @@ export class ArlasConfigurationUpdaterService {
    * @param availableFieldsPerCollection list of fields available for exploration for each collection.
    * @returns configuration object
    */
-  public getContributorsToRemove(data, availableFieldsPerCollection: Map<string, Set<string>>): Set<string> {
+  public getContributorsToRemove(data: ArlasDashboardConfiguration, availableFieldsPerCollection: Map<string, Set<string>>): Set<string> {
     const contributorsToRemove = new Set<string>();
     if (data && data.arlas && data.arlas.web && data.arlas.web.contributors) {
       /** the conf is validated before; therefore, `arlas.web.contributors` is defined */
@@ -46,12 +65,12 @@ export class ArlasConfigurationUpdaterService {
           if (contributor.collection && availableFieldsPerCollection.has(contributor.collection)) {
             const availableFields = availableFieldsPerCollection.get(contributor.collection);
             contributor.aggregationmodels.forEach((am: Aggregation) => {
-              if (!availableFields.has(am.field)) {
+              if (!availableFields?.has(am.field)) {
                 contributorsToRemove.add(contributor.identifier);
               }
               if (am.metrics) {
                 am.metrics.forEach(m => {
-                  if (!availableFields.has(m.collect_field)) {
+                  if (!availableFields?.has(m.collect_field)) {
                     contributorsToRemove.add(contributor.identifier);
                   }
                 });
@@ -68,7 +87,7 @@ export class ArlasConfigurationUpdaterService {
         if (contributor.type === 'compute' && contributor.metrics) {
           if (contributor.collection && availableFieldsPerCollection.has(contributor.collection)) {
             const availableFields = availableFieldsPerCollection.get(contributor.collection);
-            if (contributor.metrics.find(m => !availableFields.has(m.field) && m.metric !== 'count')) {
+            if (contributor.metrics.find((m: any) => !availableFields?.has(m.field) && m.metric !== 'count')) {
               contributorsToRemove.add(contributor.identifier);
             }
           } else {
@@ -79,14 +98,14 @@ export class ArlasConfigurationUpdaterService {
         if (contributor.type === 'swimlane' && contributor.swimlanes) {
           if (contributor.collection && availableFieldsPerCollection.has(contributor.collection)) {
             const availableFields = availableFieldsPerCollection.get(contributor.collection);
-            contributor.swimlanes.forEach(swimlane => {
+            contributor.swimlanes.forEach((swimlane: any) => {
               swimlane.aggregationmodels.forEach((am: Aggregation) => {
-                if (!availableFields.has(am.field)) {
+                if (!availableFields?.has(am.field)) {
                   contributorsToRemove.add(contributor.identifier);
                 }
                 if (am.metrics) {
                   am.metrics.forEach(m => {
-                    if (!availableFields.has(m.collect_field)) {
+                    if (!availableFields?.has(m.collect_field)) {
                       contributorsToRemove.add(contributor.identifier);
                     }
                   });
@@ -103,7 +122,7 @@ export class ArlasConfigurationUpdaterService {
         if ((contributor.type === 'chipssearch' || contributor.type === 'search') && contributor.search_field) {
           if (contributor.collection && availableFieldsPerCollection.has(contributor.collection)) {
             const availableFields = availableFieldsPerCollection.get(contributor.collection);
-            if (!availableFields.has(contributor.search_field)) {
+            if (!availableFields?.has(contributor.search_field)) {
               contributorsToRemove.add(contributor.identifier);
             }
           } else {
@@ -116,7 +135,7 @@ export class ArlasConfigurationUpdaterService {
           if (contributor.collection && availableFieldsPerCollection.has(contributor.collection)) {
             const availableFields = availableFieldsPerCollection.get(contributor.collection);
             if (contributor.fieldsConfiguration.idFieldName
-              && !availableFields.has(contributor.fieldsConfiguration.idFieldName)) {
+              && !availableFields?.has(contributor.fieldsConfiguration.idFieldName)) {
               contributorsToRemove.add(contributor.identifier);
             }
           } else {
@@ -125,13 +144,13 @@ export class ArlasConfigurationUpdaterService {
         }
       });
       /** remove detailed contributors */
-      data.arlas.web.contributors.filter(contributor => contributor.annexedContributorId).forEach(contributor => {
+      data.arlas.web.contributors.filter((contributor: any) => contributor.annexedContributorId).forEach((contributor: any) => {
         if (contributorsToRemove.has(contributor.annexedContributorId)) {
           contributorsToRemove.add(contributor.identifier);
         }
       });
       /** remove shortcuts contributors */
-      data.arlas.web.contributors.filter(contributor => contributor.linkedContributorId).forEach(contributor => {
+      data.arlas.web.contributors.filter((contributor: any) => contributor.linkedContributorId).forEach((contributor: any) => {
         if (contributorsToRemove.has(contributor.linkedContributorId)) {
           contributorsToRemove.add(contributor.identifier);
         }
@@ -146,9 +165,9 @@ export class ArlasConfigurationUpdaterService {
    * @param contributorsToRemove list of contributors identifiers to remove from the configuration
    * @returns configuration object
    */
-  public removeContributors(data, contributorsToRemove: Set<string>): any {
+  public removeContributors(data: ArlasDashboardConfiguration, contributorsToRemove: Set<string>): ArlasDashboardConfiguration {
     if (data && data.arlas && data.arlas.web && data.arlas.web.contributors) {
-      data.arlas.web.contributors = data.arlas.web.contributors.filter(contributor =>
+      data.arlas.web.contributors = data.arlas.web.contributors.filter((contributor: any) =>
         !contributorsToRemove.has(contributor.identifier));
     }
     return data;
@@ -160,12 +179,12 @@ export class ArlasConfigurationUpdaterService {
    * @param contributorsToRemove
    * @returns configuration object
    */
-  public removeWidgets(data, contributorsToRemove: Set<string>): any {
+  public removeWidgets(data: ArlasDashboardConfiguration, contributorsToRemove: Set<string>): ArlasDashboardConfiguration {
     if (data && data.arlas && data.arlas.web && data.arlas.web.analytics) {
-      data.arlas.web.analytics.forEach(widget => {
-        widget.components = widget.components.filter(c => !contributorsToRemove.has(c.contributorId));
+      data.arlas.web.analytics.forEach((widget: any) => {
+        widget.components = widget.components.filter((c: any) => !contributorsToRemove.has(c.contributorId));
       });
-      data.arlas.web.analytics = data.arlas.web.analytics.filter(widget => widget.components.length > 0);
+      data.arlas.web.analytics = data.arlas.web.analytics.filter((widget: any) => widget.components.length > 0);
     }
     return data;
   }
@@ -176,7 +195,7 @@ export class ArlasConfigurationUpdaterService {
    * @param contributorsToRemove
    * @returns configuration object
    */
-  public removeTimelines(data, contributorsToRemove: Set<string>): any {
+  public removeTimelines(data: ArlasDashboardConfiguration, contributorsToRemove: Set<string>): ArlasDashboardConfiguration {
     if (data && data.arlas && data.arlas.web) {
       const components = data.arlas.web.components;
       if (components) {
@@ -201,13 +220,13 @@ export class ArlasConfigurationUpdaterService {
    * @param data configuration object
    * @returns configuration object
    */
-  public addCollectionIfMissing(data) {
+  public addCollectionIfMissing(data: ArlasDashboardConfiguration) {
     if (data && data.arlas && data.arlas.web && data.arlas.web.contributors) {
-      data.arlas.web.contributors.forEach(contributor => {
+      for (const contributor of data.arlas.web.contributors) {
         if (!contributor.collection) {
           contributor.collection = data.arlas.server.collection.name;
         }
-      });
+      }
     }
     return data;
   }
@@ -218,8 +237,10 @@ export class ArlasConfigurationUpdaterService {
    * @param availableFieldsPerCollection List of available fields for exploration
    * @returns configuration object
    */
-  public updateContributors(data: any, availableFieldsPerCollection: Map<string, Set<string>>): any {
-    // Authorize no indexed fiel in list
+  public updateContributors(data: ArlasDashboardConfiguration,
+    availableFieldsPerCollection: Map<string, Set<string>>
+  ): ArlasDashboardConfiguration {
+    // Authorize not indexed fields in list
     // let updatedConfig = this.updateResultListContributors(data, availableFieldsPerCollection);
     let updatedConfig = this.updateMapContributors(data, availableFieldsPerCollection);
     updatedConfig = this.updateHistogramContributors(updatedConfig, availableFieldsPerCollection);
@@ -230,24 +251,23 @@ export class ArlasConfigurationUpdaterService {
   /**
    * Removes the properties -from map component - including fields that are not available for exploration
    * @param data configuration object
-   * @param availableFieldsPerCollection List of available fields for exploration for each collection.
    * @returns configuration object
    */
-  public updateMapComponent(data, availableFieldsPerCollection: Map<string, Set<string>>): any {
+  public updateMapComponent(data: ArlasDashboardConfiguration): ArlasDashboardConfiguration {
     if (data && data.arlas && data.arlas.web && data.arlas.web.components) {
       const mapComponentConfig = data.arlas.web.components.mapgl;
       if (mapComponentConfig && mapComponentConfig.input) {
         /** idFieldName is no longer used !! */
         let layerSources = [];
-        const layerSourcesList = data.arlas.web.contributors.filter(contributor => contributor.type === 'map')
-          .map(l => l.layers_sources);
+        const layerSourcesList: any[] = data.arlas.web.contributors.filter((contributor: any) => contributor.type === 'map')
+          .map((l: any) => l.layers_sources);
         if (layerSourcesList && layerSourcesList.length > 0) {
           /** reduce cannot be applied on an empty list. */
           layerSources = layerSourcesList.reduce((l1, l2) => new Array(...l1, ...l2));
         }
         /** remove layers from visualisation sets if their correponding source is removed from the contributor */
         if (layerSources) {
-          const layers = new Set(layerSources.map(ls => ls.id));
+          const layers = new Set(layerSources.map((ls: any) => ls.id));
           const visualisationsSet: Array<VisualisationSetConfig> = mapComponentConfig.input.visualisations_sets;
           if (visualisationsSet) {
             const updatedVisualisationsSet: Array<VisualisationSetConfig> = [];
@@ -272,10 +292,12 @@ export class ArlasConfigurationUpdaterService {
    * @returns configuration object
    * @deprecated
    */
-  public updateResultListContributors(data, availableFieldsPerCollection: Map<string, Set<string>>): any {
+  public updateResultListContributors(data: ArlasDashboardConfiguration,
+    availableFieldsPerCollection: Map<string, Set<string>>
+  ): ArlasDashboardConfiguration {
     if (data && data.arlas && data.arlas.web && data.arlas.web.contributors) {
-      data.arlas.web.contributors.filter(contributor => contributor.type === 'resultlist').forEach(contributor => {
-        const availableFields = availableFieldsPerCollection.get(contributor.collection);
+      data.arlas.web.contributors.filter((contributor: any) => contributor.type === 'resultlist').forEach((contributor: any) => {
+        const availableFields = availableFieldsPerCollection.get(contributor.collection) ?? new Set();
         if (contributor.fieldsConfiguration) {
           const fc = contributor.fieldsConfiguration as FieldsConfiguration;
           /** imageFieldName && urlImageTemplate were removed in v20.x.x*/
@@ -333,25 +355,25 @@ export class ArlasConfigurationUpdaterService {
         }
         /** remove columns */
         if (contributor.columns) {
-          contributor.columns = contributor.columns.filter(c => availableFields.has(c.fieldName));
+          contributor.columns = contributor.columns.filter((c: any) => availableFields.has(c.fieldName));
         }
         /** remove details */
         if (contributor.details) {
-          contributor.details.forEach(detail => {
+          contributor.details.forEach((detail: any) => {
             if (detail.fields) {
-              detail.fields = detail.fields.filter(field => availableFields.has(field.path));
+              detail.fields = detail.fields.filter((field: any) => availableFields.has(field.path));
             }
           });
-          contributor.details = contributor.details.filter(detail => (detail.fields && detail.fields.length > 0));
+          contributor.details = contributor.details.filter((detail: any) => (detail.fields && detail.fields.length > 0));
         }
         /** remove attachments */
         if (contributor.attachments) {
-          contributor.attachments = contributor.attachments.filter(a => availableFields.has(a.attachmentsField) &&
+          contributor.attachments = contributor.attachments.filter((a: any) => availableFields.has(a.attachmentsField) &&
             availableFields.has(a.attachementUrlField));
         }
         /** remove metadata fields */
         if (contributor.includeMetadata) {
-          contributor.includeMetadata = contributor.includeMetadata.filter(f => availableFields.has(f));
+          contributor.includeMetadata = contributor.includeMetadata.filter((f: string) => availableFields.has(f));
         }
       });
     }
@@ -364,16 +386,18 @@ export class ArlasConfigurationUpdaterService {
    * @param availableFieldsPerCollection List of available fields for exploration for each collection.
    * @returns configuration object
    */
-  public updateHistogramContributors(data, availableFieldsPerCollection: Map<string, Set<string>>): any {
+  public updateHistogramContributors(data: ArlasDashboardConfiguration,
+    availableFieldsPerCollection: Map<string, Set<string>>
+  ): ArlasDashboardConfiguration {
     if (data && data.arlas && data.arlas.web && data.arlas.web.contributors) {
-      data.arlas.web.contributors.filter(contributor => contributor.type === 'histogram' ||
+      data.arlas.web.contributors.filter((contributor: any) => contributor.type === 'histogram' ||
         contributor.type === 'detailedhistogram'
-      ).forEach(contributor => {
+      ).forEach((contributor: any) => {
         if (contributor.additionalCollections) {
-          contributor.additionalCollections = contributor.additionalCollections.filter(ac => {
+          contributor.additionalCollections = contributor.additionalCollections.filter((ac: any) => {
             const availableFields = availableFieldsPerCollection.get(ac.collectionName);
             const hasCollection = availableFieldsPerCollection.has(ac.collectionName);
-            const hasField = hasCollection && availableFields.has(ac.field);
+            const hasField = hasCollection && availableFields?.has(ac.field);
             return hasField;
           });
         }
@@ -391,49 +415,58 @@ export class ArlasConfigurationUpdaterService {
    * @param availableFieldsPerCollection List of available fields for exploration for each collection.
    * @returns configuration object
    */
-  public updateMapContributors(data, availableFieldsPerCollection: Map<string, Set<string>>): any {
+  public updateMapContributors(data: ArlasDashboardConfiguration,
+    availableFieldsPerCollection: Map<string, Set<string>>
+  ): ArlasDashboardConfiguration {
     if (data && data.arlas && data.arlas.web && data.arlas.web.contributors) {
-      data.arlas.web.contributors.filter(contributor => contributor.type === 'map').forEach(contributor => {
-        const availableFields = availableFieldsPerCollection.get(contributor.collection);
+      data.arlas.web.contributors.filter((contributor: any) => contributor.type === 'map').forEach((contributor: any) => {
+        const availableFields = availableFieldsPerCollection.get(contributor.collection) ?? new Set();
         if (contributor.layers_sources) {
           const updatedLayersSources: Array<LayerSourceConfig> = [];
           contributor.layers_sources.forEach((ls: LayerSourceConfig) => {
             let keepLs = true;
-            if (ls.include_fields) {
-              ls.include_fields = ls.include_fields.filter(f => availableFields.has(f));
+
+            // CONFIGURATION OF FEATURE
+            const featureLS = ls as FeatureLayerSourceConfig;
+            if (featureLS.include_fields) {
+              featureLS.include_fields = featureLS.include_fields.filter(f => availableFields.has(f));
             }
-            if (ls.colors_from_fields) {
-              ls.colors_from_fields = ls.colors_from_fields.filter(f => availableFields.has(f));
+            if (featureLS.colors_from_fields) {
+              featureLS.colors_from_fields = featureLS.colors_from_fields.filter(f => availableFields.has(f));
             }
-            if (ls.normalization_fields) {
-              ls.normalization_fields = ls.normalization_fields.filter(f =>
+            if (featureLS.normalization_fields) {
+              featureLS.normalization_fields = featureLS.normalization_fields.filter(f =>
                 availableFields.has(f.on) && (!f.per || availableFields.has(f.per)));
             }
-            if (ls.provided_fields) {
-              ls.provided_fields = ls.provided_fields.filter(f =>
+            if (featureLS.provided_fields) {
+              featureLS.provided_fields = featureLS.provided_fields.filter(f =>
                 availableFields.has(f.color) && (!f.label || availableFields.has(f.label)));
             }
-            if (ls.metrics) {
-              ls.metrics = ls.metrics.filter(f => f.field === '' || availableFields.has(f.field));
+
+            const topologyLS = ls as TopologyLayerSourceConfig;
+            if (topologyLS.metrics) {
+              topologyLS.metrics = topologyLS.metrics.filter(f => f.field === '' || availableFields.has(f.field));
             }
-            keepLs = !ls.agg_geo_field || (ls.agg_geo_field && availableFields.has(ls.agg_geo_field));
+
+            const clusterLS = ls as ClusterLayerCourceConfig;
+            keepLs = !clusterLS.agg_geo_field || (!!clusterLS.agg_geo_field && availableFields.has(clusterLS.agg_geo_field));
             if (keepLs) {
-              keepLs = !ls.raw_geometry || (ls.raw_geometry && availableFields.has(ls.raw_geometry.geometry));
+              keepLs = !clusterLS.raw_geometry || (clusterLS.raw_geometry && availableFields.has(clusterLS.raw_geometry.geometry));
             }
-            if (keepLs && ls.raw_geometry && ls.raw_geometry.sort) {
-              ls.raw_geometry.sort = ls.raw_geometry.sort.split(',').filter(s => availableFields.has(s.replace('-', ''))).join(',');
-              if (ls.raw_geometry.sort === '') {
-                delete ls.raw_geometry.sort;
+            if (keepLs && clusterLS.raw_geometry?.sort) {
+              clusterLS.raw_geometry.sort = clusterLS.raw_geometry.sort.split(',').filter(s => availableFields.has(s.replace('-', ''))).join(',');
+              if (clusterLS.raw_geometry.sort === '') {
+                delete clusterLS.raw_geometry.sort;
               }
             }
             if (keepLs) {
-              keepLs = !ls.returned_geometry || (ls.returned_geometry && availableFields.has(ls.returned_geometry));
+              keepLs = !featureLS.returned_geometry || (!!featureLS.returned_geometry && availableFields.has(featureLS.returned_geometry));
             }
             if (keepLs) {
-              keepLs = !ls.geometry_id || (ls.geometry_id && availableFields.has(ls.geometry_id));
+              keepLs = !topologyLS.geometry_id || (!!topologyLS.geometry_id && availableFields.has(topologyLS.geometry_id));
             }
             if (keepLs) {
-              keepLs = !ls.geometry_support || (ls.geometry_support && availableFields.has(ls.geometry_support));
+              keepLs = !topologyLS.geometry_support || (!!topologyLS.geometry_support && availableFields.has(topologyLS.geometry_support));
             }
             if (keepLs) {
               updatedLayersSources.push(ls);
@@ -445,7 +478,7 @@ export class ArlasConfigurationUpdaterService {
           delete contributor.geo_query_field;
         }
         if (contributor.search_sort) {
-          contributor.search_sort = contributor.search_sort.split(',').filter(s => availableFields.has(s.replace('-', ''))).join(',');
+          contributor.search_sort = contributor.search_sort.split(',').filter((s: string) => availableFields.has(s.replace('-', ''))).join(',');
           if (contributor.search_sort === '') {
             delete contributor.search_sort;
           }
@@ -461,12 +494,14 @@ export class ArlasConfigurationUpdaterService {
    * @param availableFieldsPerCollection List of available fields for exploration for each collection.
    * @returns configuration object
    */
-  public updateChipSearchContributors(data, availableFieldsPerCollection: Map<string, Set<string>>): any {
+  public updateChipSearchContributors(data: ArlasDashboardConfiguration,
+    availableFieldsPerCollection: Map<string, Set<string>>
+  ): ArlasDashboardConfiguration {
     if (data && data.arlas && data.arlas.web && data.arlas.web.contributors) {
       data.arlas.web.contributors
-        .filter(contributor => contributor.type === 'chipssearch' || contributor.type === 'search').forEach(contributor => {
+        .filter((contributor: any) => contributor.type === 'chipssearch' || contributor.type === 'search').forEach((contributor: any) => {
           const availableFields = availableFieldsPerCollection.get(contributor.collection);
-          if (contributor.autocomplete_field && !availableFields.has(contributor.autocomplete_field)) {
+          if (contributor.autocomplete_field && !availableFields?.has(contributor.autocomplete_field)) {
             delete contributor.autocomplete_field;
           }
         });

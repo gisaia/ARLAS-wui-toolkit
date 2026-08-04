@@ -18,8 +18,8 @@
  */
 
 import { CdkScrollable } from '@angular/cdk/scrolling';
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component } from '@angular/core';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import { MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle } from '@angular/material/dialog';
 import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
@@ -31,36 +31,33 @@ import { ConfirmedValidator } from '../../tools/utils';
 @Component({
   selector: 'arlas-tool-change-password',
   templateUrl: './change-password.component.html',
-  styleUrls: ['./change-password.component.scss'],
+  styleUrls: [
+    './change-password.component.scss',
+    '../iam/form-style.scss'
+  ],
   imports: [
     MatDialogTitle, CdkScrollable, MatDialogContent, FormsModule, ReactiveFormsModule,
     MatFormField, MatLabel, MatInput, MatError, MatButton, MatDialogClose, TranslatePipe, MatDialogActions
 ]
 })
-export class ChangePasswordComponent implements OnInit {
+export class ChangePasswordComponent {
 
-  public changeForm: FormGroup;
+  public changeForm = new FormGroup({
+    old_password: new FormControl('', [Validators.required]),
+    password: new FormControl('', [Validators.required]),
+    confirm_password: new FormControl('', [Validators.required])
+  }, ConfirmedValidator('password', 'confirm_password') as ValidatorFn);
+
   public validated = false;
   public displayForm = true;
 
   public constructor(
-    private formBuilder: FormBuilder,
-    private iamService: ArlasIamService,
+    private readonly iamService: ArlasIamService,
   ) { }
-
-  public ngOnInit(): void {
-    this.changeForm = this.formBuilder.group({
-      old_password: ['', [Validators.required]],
-      password: ['', [Validators.required]],
-      confirm_password: ['', [Validators.required]]
-    }, {
-      validator: ConfirmedValidator('password', 'confirm_password')
-    });
-  }
 
   public submit(): void {
     this.validated = false;
-    this.iamService.change(this.changeForm.get('old_password').value, this.changeForm.get('password').value).subscribe({
+    this.iamService.change(this.changeForm.value.old_password as string, this.changeForm.value.password as string).subscribe({
       next: () => {
         this.validated = true;
         this.changeForm.reset();

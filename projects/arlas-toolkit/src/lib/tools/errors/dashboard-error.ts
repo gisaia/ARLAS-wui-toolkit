@@ -23,25 +23,26 @@ import { ArlasError } from './error';
 /** Error sent when failing to access dashboards */
 export class DashboardError extends ArlasError {
   public constructor(status: number, private readonly hubUrl: string) {
-    super(status);
+    const title = marker('Could not access the dashboard');
 
-    this.title = marker('Could not access the dashboard');
+    let message: string = marker('The connection to dashbords is lost');
+    let actionMessage: string | undefined;
+    if (status === 403) {
+      actionMessage = marker('go to arlas hub');
+      message = marker('dashboard access forbidden');
+    } else if (status === 401) {
+      actionMessage = marker('go to arlas hub');
+      message = marker('dashboard access not authorized');
+    } else if (status === 404) {
+      actionMessage = marker('go to arlas hub');
+      message = marker('dashboard does not exist');
+    }
+
+    super(status, title, message);
+
     this.actionType = 'link';
     this.showAction = !!this.hubUrl;
-
-    if (this.status === 403) {
-      this.actionMessage = marker('go to arlas hub');
-      this.message = marker('dashboard access forbidden');
-    } else if (this.status === 401) {
-      this.actionMessage = marker('go to arlas hub');
-      this.message = marker('dashboard access not authorized');
-    } else if (this.status === 404) {
-      this.actionMessage = marker('go to arlas hub');
-      this.message = marker('dashboard does not exist');
-    } else {
-      this.message = marker('The connection to dashbords is lost');
-      this.showAction = false;
-    }
+    this.actionMessage = actionMessage;
   }
 
   public executeAction() {

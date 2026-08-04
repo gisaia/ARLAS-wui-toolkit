@@ -16,8 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
-import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, input, ViewEncapsulation } from '@angular/core';
 import { MatSelectModule } from '@angular/material/select';
 import { getParamValue } from '../../tools/utils';
 
@@ -33,23 +32,20 @@ import { getParamValue } from '../../tools/utils';
     MatSelectModule
   ]
 })
-export class LanguageSwitcherComponent implements OnInit {
+export class LanguageSwitcherComponent {
   /**
    * @Input : Angular
    * @description List of available languages for translation
    */
-  @Input() public availablesLanguages: string[];
+  public availablesLanguages = input.required<string[]>();
 
-  @Input() public currentLanguage: string;
+  public currentLanguage: string;
 
   public constructor() {
-  }
-
-  public ngOnInit() {
     this.currentLanguage = navigator.language.slice(0, 2);
     const urlLanguage = getParamValue('lg');
     if (urlLanguage) {
-      this.currentLanguage = decodeURIComponent(urlLanguage.replace(/\+/g, ' '));
+      this.currentLanguage = decodeURIComponent(urlLanguage.replaceAll('+', ' '));
     }
   }
 

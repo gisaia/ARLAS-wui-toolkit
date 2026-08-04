@@ -37,7 +37,7 @@ export interface ProcessInputs {
 export interface ProcessProjection {
   label: string;
   value: string;
-  bbox: BBox;
+  bbox: BBox | undefined;
 }
 
 

@@ -67,8 +67,8 @@ export class PermissionsCreatorDialogComponent {
   public creationButtonDisabled = false;
   public creationButtonHidden = false;
 
-  public creationStatus: 'successful' | 'errored';
-  public creationError;
+  public creationStatus: 'successful' | 'errored' | undefined;
+  public creationError: any;
 
   public showErrorDetails = false;
   public showSpinner = false;
@@ -89,7 +89,7 @@ export class PermissionsCreatorDialogComponent {
     this.descriptionInputDisabled = false;
     const permissionDef: PermissionDef = {
       value: this.data.partitionFilterHeader,
-      description: this.createPermissionForm.value.description
+      description: this.createPermissionForm.value.description ?? undefined
     };
     this.iamService.createPermission(this.data.oid, permissionDef).pipe(
       finalize(() => {

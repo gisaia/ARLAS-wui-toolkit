@@ -19,13 +19,16 @@
 
 import { CdkDragDrop, CdkDropList } from '@angular/cdk/drag-drop';
 import { NgClass } from '@angular/common';
-import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
+import {
+  AfterViewInit, Component, DestroyRef, EventEmitter, inject,
+  Input, OnChanges, OnInit, Output, SimpleChanges
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TranslatePipe } from '@ngx-translate/core';
-import { Subscription } from 'rxjs';
 import { GetContributorPipe } from '../../../pipes/get-contributor.pipe';
 import { AnalyticsService } from '../../../services/analytics/analytics.service';
 import { ArlasCollaborativesearchService } from '../../../services/collaborative-search/arlas.collaborative-search.service';
@@ -55,7 +58,7 @@ import { AnalyticGroupConfiguration } from '../analytics.utils';
     MatButtonModule
   ]
 })
-export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
+export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges {
 
   /**
    * @Input : Angular
@@ -67,7 +70,7 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
    * @Input : Angular
    * @description Id of the element to scroll to inside of the analytics board.
    */
-  @Input() public target: string;
+  @Input() public target: string | undefined;
 
   /**
    * @Input : Angular
@@ -100,7 +103,11 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
    */
   @Output() public modeChange: EventEmitter<string> = new EventEmitter();
 
-  public spinnerOptions: SpinnerOptions;
+  public spinnerOptions: SpinnerOptions = {
+    color: 'primary',
+    diameter: 100,
+    strokeWidth: 5
+  };
 
   /**
    * @description List of groups. Each group contains one or more widgets.
@@ -109,25 +116,35 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
 
   public expandedHeaderHeight = 48;
   public collapsedHeaderHeight = 32;
-  private tabChangeSubscription: Subscription;
+
+  private readonly destroyRef = inject(DestroyRef);
+
   public constructor(
     protected readonly collaborativeService: ArlasCollaborativesearchService,
     protected readonly analyticsService: AnalyticsService,
-  ) { }
-
-  public ngOnInit() {
-    this.spinnerOptions = {
-      color: !!this.colorSpinner ? this.colorSpinner : 'primary',
-      diameter: (this.diameterSpinner !== undefined && this.diameterSpinner !== null) ? this.diameterSpinner : 100,
-      strokeWidth: (this.strokeWidthSpinner !== undefined && this.strokeWidthSpinner !== null) ? this.strokeWidthSpinner : 5,
-    };
-
+  ) {
     // When the tab is changed, get the groups to display
     this.groups = this.analyticsService.getActiveGroups();
-    this.tabChangeSubscription = this.analyticsService.tabChange.subscribe(() => {
-      this.groups = this.analyticsService.getActiveGroups();
-    });
 
+    this.analyticsService.tabChange
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        this.groups = this.analyticsService.getActiveGroups();
+      });
+  }
+
+  public ngOnInit() {
+    if (this.colorSpinner) {
+      this.spinnerOptions.color = this.colorSpinner;
+    }
+
+    if (this.diameterSpinner !== undefined && this.diameterSpinner !== null) {
+      this.spinnerOptions.diameter = this.diameterSpinner;
+    }
+
+    if (this.strokeWidthSpinner !== undefined && this.strokeWidthSpinner !== null) {
+      this.spinnerOptions.strokeWidth = 5;
+    }
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
@@ -140,7 +157,7 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
     this.scrollToAnalyticsComponent(this.target);
   }
 
-  public scrollToAnalyticsComponent(target: string) {
+  public scrollToAnalyticsComponent(target: string | undefined) {
     if (this.mode === 'normal' && target !== undefined) {
       const element = (<HTMLElement>document.getElementById(target));
       element.scrollIntoView(true);
@@ -161,7 +178,7 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
     this.analyticsService.dropGroup(event);
   }
 
-  public changeMode(event) {
+  public changeMode(event: string) {
     this.modeChange.next(event);
   }
 
@@ -176,11 +193,5 @@ export class AnalyticsBoardComponent implements OnInit, AfterViewInit, OnChanges
 
   public closePanel(group: AnalyticGroupConfiguration) {
     this.analyticsService.closePanel(group);
-  }
-
-  public ngOnDestroy(): void {
-    if (this.tabChangeSubscription) {
-      this.tabChangeSubscription.unsubscribe();
-    }
   }
 }

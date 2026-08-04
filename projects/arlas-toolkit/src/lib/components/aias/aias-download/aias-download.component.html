@@ -16,7 +16,7 @@
                 <mat-option [value]="true">{{ (data.nbProducts >= 2) ? ('Download archives' | translate) : ('Download archive' | translate)  }}</mat-option>
                 <mat-option [value]="false">{{ (data.nbProducts >= 2) ? ('Download images' | translate) : ('Download image' | translate)  }}</mat-option>
               </mat-select>
-              @if (formGroup.get('raw_archive').value) {
+              @if (formGroup.value.raw_archive) {
                 <mat-hint class="warning-text">
                   <mat-icon>warning</mat-icon>
                   <span>{{ 'No cropping possible' | translate }}</span>
@@ -82,31 +82,26 @@
 
           <div class="params">
             <span class="label">{{ 'Download type' | translate }} :</span>
-            <span class="value">{{ (formGroup.get('raw_archive').value) ? ('Archive' | translate) : ('Image' | translate) }}</span>
+            <span class="value">{{ (formGroup.value.raw_archive) ? ('Archive' | translate) : ('Image' | translate) }}</span>
           </div>
 
-          @if (formGroup.get('target_projection').value) {
+          @if (formGroup.value.target_projection) {
             <div class="params">
               <span class="label">{{ 'Coordinate system for the downloaded products' | translate }} :</span>
-              <span class="value">{{ formGroup.get('target_projection').value | translate }}</span>
+              <span class="value">{{ formGroup.value.target_projection | translate }}</span>
             </div>
           }
 
-          @if (formGroup.get('target_format').value) {
+          @if (formGroup.value.target_format) {
             <div class="params">
               <span class="label">{{ 'Format of the products to download' | translate }} :</span>
-              <span class="value">{{ formGroup.get('target_format').value | translate }}</span>
+              <span class="value">{{ formGroup.value.target_format | translate }}</span>
             </div>
           }
-          @if (formGroup.get('crop_wkt').value) {
+          @if (formGroup.value.do_crop_wkt) {
             <div class="params">
               <span class="label">{{ 'Crop using the geographical filter'| translate }} :</span>
-              @if (formGroup.get('crop_wkt').value) {
-                <span class="value">{{ 'yes' | translate }}</span>
-              }
-              @if (!formGroup.get('crop_wkt').value) {
-                <span class="value">{{ 'no' | translate }}</span>
-              }
+              <span class="value">{{ (formGroup.value.do_crop_wkt ? 'yes' : 'no') | translate }}</span>
             </div>
           }
         </div>

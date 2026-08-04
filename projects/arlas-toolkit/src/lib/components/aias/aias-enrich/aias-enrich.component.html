@@ -45,7 +45,7 @@
 
           <div class="params">
             <span class="label">{{ 'Enrichment type' | translate }} :</span>
-            <span class="value">{{ formGroup.get('asset_type').value | translate }}</span>
+            <span class="value">{{ formGroup.value.asset_type | translate }}</span>
           </div>
         </div>
         @if (!isProcessing && !processStarted) {

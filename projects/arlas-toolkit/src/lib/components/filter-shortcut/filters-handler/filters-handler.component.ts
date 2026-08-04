@@ -17,18 +17,17 @@
  * under the License.
  */
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, DestroyRef, Input, OnInit, inject, input } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { DateTimeAdapter, OWL_DATE_TIME_LOCALE } from '@danielmoncada/angular-datetime-picker';
 import { MomentDateTimeAdapter } from '@danielmoncada/angular-datetime-picker-moment-adapter';
 import { TranslateService } from '@ngx-translate/core';
-import { Expression, Filter } from 'arlas-api';
-import { HistogramParams, HistogramUtils } from 'arlas-d3';
-import { ChartType, DataType } from 'arlas-web-components';
+import { Expression } from 'arlas-api';
+import { ChartType, DataType, HistogramParams, HistogramUtils } from 'arlas-d3';
 import { HistogramContributor } from 'arlas-web-contributors';
 import { Collaboration } from 'arlas-web-core';
-import { Subject, takeUntil } from 'rxjs';
 import { ArlasCollaborativesearchService } from '../../../services/collaborative-search/arlas.collaborative-search.service';
 import { FilterShortcutChipComponent } from '../chip/chip.component';
 
@@ -52,76 +51,73 @@ import { FilterShortcutChipComponent } from '../chip/chip.component';
     MatButtonModule
   ]
 })
-export class ShortcutFiltersHandlerComponent implements OnInit, OnDestroy {
+export class ShortcutFiltersHandlerComponent implements OnInit {
   /**
    * @Input : Angular
    * @description The contributor Id of the shortcut
    */
-  @Input() public contributorId: string;
+  public contributorId = input.required<string>();
 
   /**
    * @Input : Angular
    * @description The type of widget represented by the shortcut. can be 'powerbars' or 'histogram'.
    */
-  @Input() public widgetType: string;
+  public widgetType = input.required<string>();
 
   /**
    * @Input : Angular
    * @description Whether to display the value of the first filter. It will allow the user to only see the values by clicking the +X chip.
    */
-  @Input() public displayFilterFirstValue: boolean;
+  @Input() public displayFilterFirstValue = false;
 
   /**
    * @Input : Angular
    * @description The unit of the histogram values
    */
-  @Input() public histogramUnit: string;
+  @Input() public histogramUnit: string | undefined;
 
   /**
    * @Input : Angular
    * @description The type of data of the histogram. It can have the same values as a non-shortcut histogram.
    */
-  @Input() public histogramDatatype: string;
+  @Input() public histogramDatatype: string | undefined;
 
   /**
    * @Input : Angular
    * @description The format to use for the date ticks of the shortcut's histogram
    */
-  @Input() public ticksDateFormat: string;
+  @Input() public ticksDateFormat: string | undefined;
 
-  public histogramParams: HistogramParams = new HistogramParams();
+  public histogramParams!: HistogramParams;
 
   public showMore = false;
   public moreClicked = false;
 
-  public labels: string[];
-  public rawLabels: string[];
+  public labels: string[] = [];
+  private rawLabels: string[] = [];
   public firstLabel: string | undefined;
 
-  private _onDestroy$ = new Subject<boolean>();
+  private readonly destroyRef = inject(DestroyRef);
 
-  public constructor(private collaborativeSearchService: ArlasCollaborativesearchService,
-    private translate: TranslateService) { }
+  public constructor(
+    private readonly collaborativeSearchService: ArlasCollaborativesearchService,
+    private readonly translate: TranslateService
+  ) { }
 
   public ngOnInit(): void {
+    this.setHistogramParams();
     // Check if collaboration already occured (useful when moving the shortcut from a list to another)
-    const collaboration = this.collaborativeSearchService.getCollaboration(this.contributorId);
+    const collaboration = this.collaborativeSearchService.getCollaboration(this.contributorId());
     this.checkCollaboration(collaboration);
 
     // Check if collaboration occurs during the lifetime of the shortcut
     this.collaborativeSearchService.collaborationBus
-      .pipe(takeUntil(this._onDestroy$))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(collaborationBus => {
-        const collaboration = this.collaborativeSearchService.getCollaboration(this.contributorId);
+        const collaboration = this.collaborativeSearchService.getCollaboration(this.contributorId());
         this.checkCollaboration(collaboration);
       });
 
-    this.setHistogramParams();
-  }
-
-  public ngOnDestroy() {
-    this._onDestroy$.next(true);
-    this._onDestroy$.complete();
   }
 
   public showFilters(clickEvent: Event) {
@@ -135,7 +131,7 @@ export class ShortcutFiltersHandlerComponent implements OnInit, OnDestroy {
 
     if (this.labels.length > 0) {
       this.firstLabel = this.labels[0];
-      if (this.widgetType === 'powerbars' || this.widgetType === 'metricstable') {
+      if (this.widgetType() === 'powerbars' || this.widgetType() === 'metricstable') {
         this.showMore = !this.displayFilterFirstValue || this.labels.length > 1;
         /** hide list when there is one label left */
         if (this.displayFilterFirstValue && this.labels.length <= 1) {
@@ -145,36 +141,36 @@ export class ShortcutFiltersHandlerComponent implements OnInit, OnDestroy {
         this.showMore = !this.displayFilterFirstValue;
       }
 
-      const collaboration = this.collaborativeSearchService.getCollaboration(this.contributorId);
+      const collaboration = this.collaborativeSearchService.getCollaboration(this.contributorId());
       if (collaboration) {
-        const filters: Filter[] = collaboration.filters.values().next().value;
+        const filters = collaboration.filters.values().next().value;
         if (filters && filters.length > 0) {
-          const filterF: Expression[] = filters[0].f[0];
+          const filterF = filters[0].f?.[0];
           if (filterF && filterF.length > 0) {
             const expression = filterF[0];
             expression.value = this.rawLabels.join(',');
-            this.collaborativeSearchService.setFilter(this.contributorId, collaboration);
+            this.collaborativeSearchService.setFilter(this.contributorId(), collaboration);
           }
         }
       }
     } else {
       this.firstLabel = undefined;
       this.labels = [];
-      this.collaborativeSearchService.removeFilter(this.contributorId);
+      this.collaborativeSearchService.removeFilter(this.contributorId());
     }
   }
 
-  private checkCollaboration(collaboration: Collaboration): void {
+  private checkCollaboration(collaboration: Collaboration | undefined): void {
     this.firstLabel = undefined;
     this.labels = [];
 
     if (collaboration) {
-      const filters: Filter[] = collaboration.filters.values().next().value;
+      const filters = collaboration.filters.values().next().value;
       if (filters && filters.length > 0) {
-        const filterF: Expression[] = filters[0].f[0];
+        const filterF = filters[0].f?.[0];
         if (filterF && filterF.length > 0) {
           const expression = filterF[0];
-          this.setLabels(this.widgetType, expression);
+          this.setLabels(expression);
         }
       }
     } else {
@@ -183,10 +179,10 @@ export class ShortcutFiltersHandlerComponent implements OnInit, OnDestroy {
     }
   }
 
-  private setLabels(widgetType: string, expression: Expression) {
+  private setLabels(expression: Expression) {
     this.rawLabels = expression.value.split(',');
 
-    if (widgetType === 'powerbars' || this.widgetType === 'metricstable') {
+    if (this.widgetType() === 'powerbars' || this.widgetType() === 'metricstable') {
       this.labels = expression.value.split(',');
       if (expression.op === Expression.OpEnum.Ne) {
         this.labels = this.labels.map(l => '≠' + l);
@@ -217,13 +213,16 @@ export class ShortcutFiltersHandlerComponent implements OnInit, OnDestroy {
   }
 
   private setHistogramParams() {
-    const contributor = this.collaborativeSearchService.registry.get(this.contributorId) as HistogramContributor;
+    const contributor = this.collaborativeSearchService.registry.get(this.contributorId()) as HistogramContributor;
 
-    this.histogramParams.id = this.contributorId;
+    this.histogramParams = new HistogramParams(this.contributorId());
     this.histogramParams.chartType = ChartType.bars;
     this.histogramParams.useUtc = contributor.useUtc;
     this.histogramParams.dataType = this.histogramDatatype === 'time' ? DataType.time : DataType.numeric;
-    this.histogramParams.valuesDateFormat = this.ticksDateFormat;
+
+    if (this.ticksDateFormat) {
+      this.histogramParams.valuesDateFormat = this.ticksDateFormat;
+    }
   }
 
   private histogramSelectionToLabel(startEnd: Array<string>) {
