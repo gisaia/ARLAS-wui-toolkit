@@ -91,7 +91,6 @@ export class PersistenceService {
     );
   }
 
-  // TODO: should return string[]
   public getGroupsByZone(zone: string, options = this.options) {
     return from(this.persistenceApi.getGroupsByZone(zone, false, options));
   }
