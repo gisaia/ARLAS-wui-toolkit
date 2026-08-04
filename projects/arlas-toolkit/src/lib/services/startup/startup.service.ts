@@ -629,7 +629,7 @@ export class ArlasStartupService {
     });
   }
 
-  public setCollaborativeService(data: ArlasDashboardConfiguration) {
+  public setCollaborativeService(data: ArlasDashboardConfiguration): Promise<ArlasDashboardConfiguration> {
     if (!this.emptyMode) {
       return new Promise<ArlasDashboardConfiguration>((resolve, reject) => {
         this.collaborativesearchService.setConfigService(this.configService);
@@ -640,10 +640,10 @@ export class ArlasStartupService {
         resolve(data);
       });
     }
-    return Promise.reject(new Error('ARLAS is running on empty mode'));
+    return Promise.resolve({});
   }
 
-  public testArlasUp(configData: ArlasDashboardConfiguration): Promise<Hits> {
+  public testArlasUp(configData: ArlasDashboardConfiguration): Promise<Hits | undefined> {
     if (!this.emptyMode) {
       return new Promise<Hits>((resolve, reject) => {
         this.collaborativesearchService.resolveHits([projType.count, {}], this.collaborativesearchService.collaborations,
@@ -657,15 +657,15 @@ export class ArlasStartupService {
             });
       });
     } else {
-      return Promise.reject(new Error('ARLAS is running on empty mode'));
+      return Promise.resolve(undefined);
     }
   }
 
   /**
    * Fetches from ARLAS-Server all of the available collections and initialises the map of CollectionReferenceParameters
    */
-  public getCollections(data: Hits) {
-    if (!this.emptyMode) {
+  public getCollections(data: Hits | undefined): Promise<CollectionReferenceDescription[]> {
+    if (!this.emptyMode && data) {
       return new Promise<CollectionReferenceDescription[]>((resolve, reject) => {
         this.collaborativesearchService.list()
           .subscribe({
@@ -690,7 +690,7 @@ export class ArlasStartupService {
           });
       });
     } else {
-      return Promise.reject(new Error('ARLAS is running on empty mode'));
+      return Promise.resolve([]);
     }
   }
   /**
@@ -775,7 +775,7 @@ export class ArlasStartupService {
         resolve(data);
       });
     } else {
-      return Promise.reject(new Error('ARLAS is running on empty mode'));
+      return Promise.resolve({});
     }
   }
 
