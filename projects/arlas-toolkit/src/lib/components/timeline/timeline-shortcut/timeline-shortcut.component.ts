@@ -144,7 +144,7 @@ export class TimelineShortcutComponent implements OnInit {
    * Shows/hides the `div` containing the shortcuts list
    */
   public showSortcuts(): void {
-    if (this.timeShortcuts && this.timeShortcuts.length > 0) {
+    if (this.timeShortcuts() && this.timeShortcuts().length > 0) {
       this.showShortcuts = !this.showShortcuts;
       if (this.showShortcuts) {
         this.HIDE_SHOW = marker('Hide time shortcuts');

@@ -25,10 +25,6 @@ import { Collaboration, CollaborativesearchService } from 'arlas-web-core';
   providedIn: 'root'
 })
 export class ArlasCollaborativesearchService extends CollaborativesearchService {
-  public constructor() {
-    super();
-  }
-
   public endOfUrlCollaboration = false;
 
   /**
