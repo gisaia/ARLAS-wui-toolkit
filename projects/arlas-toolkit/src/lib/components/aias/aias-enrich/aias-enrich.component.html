@@ -21,6 +21,19 @@
                 }
               </mat-select>
             </mat-form-field>
+
+            @if (formGroup.controls.asset_type.value === 'cog') {
+            <mat-form-field class="field" appearance="outline">
+              <mat-label>{{ 'COG formats' | translate }}</mat-label>
+              <mat-select [multiple]="true" [formControlName]="'enrichments'">
+                @for (format of availableCogFormats; track format) {
+                <mat-option [value]="format">
+                  {{ format | translate }}
+                </mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+            }
           </section>
         </form>
 
@@ -45,8 +58,22 @@
 
           <div class="params">
             <span class="label">{{ 'Enrichment type' | translate }} :</span>
-            <span class="value">{{ formGroup.value.asset_type | translate }}</span>
+            <span class="value">{{ formGroup.controls.asset_type.value | translate }}</span>
           </div>
+
+          @if (formGroup.controls.asset_type.value === 'cog') {
+          <div class="params">
+            <span class="label">{{ 'COG formats' | translate }} :</span>
+            <span class="value">
+              @for (enrichment of formGroup.controls.enrichments.value; track enrichment) {
+                {{ enrichment | translate }}
+                @if (!$last) {
+                  ,
+                }
+              }
+            </span>
+          </div>
+          }
         </div>
         @if (!isProcessing && !processStarted) {
           <div class="buttons">
