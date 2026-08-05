@@ -68,7 +68,7 @@
   -ms-flex-pack: center;
   justify-content: center;
   padding: 8px 20px;
-color: var(--arlas-download-dialog-title-color, rgba(0, 0, 0, .54));
+  color: var(--arlas-download-dialog-title-color, rgba(0, 0, 0, .54));
   background: rgba(0, 0, 0, .03);
   flex:3
 }
@@ -93,7 +93,7 @@ color: var(--arlas-download-dialog-title-color, rgba(0, 0, 0, .54));
 
 .download-block {
   .btn-success {
-background-color: var(--arlas-download-dialog-primary-bg, #4CAF50);
+    background-color: var(--arlas-download-dialog-primary-bg, #4CAF50);
 
     mat-icon {
       font-size: 20px;
@@ -135,6 +135,12 @@ background-color: var(--arlas-download-dialog-primary-bg, #4CAF50);
 
   .download__divider {
     margin: 15px 0;
+  }
+}
+
+.dark-theme {
+  .download-stepper {
+    --arlas-download-dialog-box-bg: #646464;
   }
 }
 

@@ -17,20 +17,29 @@
  * under the License.
  */
 
-@use 'sass:map';
-@use '@angular/material' as mat;
+import { Pipe, PipeTransform } from '@angular/core';
+import { CollectionLegend } from './timeline/timeline.utils';
 
-@mixin theme($theme){
-  $color-config: mat.m2-get-color-config($theme);
-  $primary-palette: map.get($color-config, 'primary');
-  $accent-palette: map.get($color-config, 'accent');
-  $warn-palette: map.get($color-config, 'warn');
-  $is-dark-theme: map.get($color-config, 'is-dark');
-  $foreground-text: mat.get-theme-color($theme, foreground, text);
-  $background: mat.get-theme-color($theme, background, background);
+/**
+ * Based on whether a collection is active, as well as the light or dark mode,
+ * compute the text and chip color of the collection
+ */
+@Pipe({
+  name: 'collectionChipColor',
+})
+export class CollectionChipColorPipe implements PipeTransform {
+  public transform(legend: CollectionLegend, mode: 'text' | 'chip', isDarkMode: boolean): string {
+    if (mode === 'chip') {
+      if (legend.active) {
+        return legend.color;
+      }
+      return isDarkMode ? '#565656' : '#dadada';
+    }
 
-  --arlas-tag-box-bg: var(--mat-sys-surface); // was white
-  --arlas-tag-icon-green: #{mat.get-theme-color($theme, primary)}; // was #4CAF50
-  --arlas-tag-icon-blue: #{mat.get-theme-color($theme, primary)}; // was #2196F3
-  --arlas-tag-icon-grey: var(--mat-sys-on-background); // was lightslategrey
+    if (isDarkMode) {
+      return legend.active ? '#ffffff' : '#797979 ';
+    }
+    return legend.active ? '#000000' : '#bbb';
+  }
+
 }

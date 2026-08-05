@@ -18,7 +18,7 @@
  */
 
 :host {
-  --arlas-donut-tooltip-overlay-metric: var(--mat-sys-on-background);
+  --arlas-donut-tooltip-overlay-metric-text-color: var(--mat-sys-on-background);
 }
 
 .xValue {
@@ -40,7 +40,7 @@
   padding-left: calc(/** Width of the chip */ 10px + /** Gap between elements */ 5px);
 
   .metric {
-    color: var(--arlas-donut-tooltip-overlay-metric, black);
+    color: var(--arlas-donut-tooltip-overlay-metric-text-color, black);
   }
 
   .percentage {

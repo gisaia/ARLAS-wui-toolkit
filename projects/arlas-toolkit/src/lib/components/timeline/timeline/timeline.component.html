@@ -7,11 +7,11 @@
   <div class="arlas-timeline--container" #arlasTimeline>
     @if (!!timelineLegend && timelineLegend.length > 1) {
       <div class="arlas-timeline--legend">
-        @for (collectionLegend of timelineLegend; track collectionLegend) {
-          <button mat-button class="arlas-timeline--legend-container" (click)="hideShowCollection(collectionLegend)">
+        @for (collectionLegend of timelineLegend; track collectionLegend.collection) {
+          <button mat-button class="arlas-timeline--legend-container" (click)="hideShowCollection($index)">
             <div class="arlas-timeline--legend-chip"
-              [style.backgroundColor]="collectionLegend.active ? collectionLegend.color : '#dadada'"></div>
-            <div class="arlas-timeline--legend-collection" [style.color]="collectionLegend.active ? '#444' : '#bbb'">
+              [style.backgroundColor]="collectionLegend | collectionChipColor:'chip':themeService.isDarkMode()"></div>
+            <div class="arlas-timeline--legend-collection" [style.color]="collectionLegend | collectionChipColor:'text':themeService.isDarkMode()">
               {{ collectionLegend.display_name | translate }}</div>
           </button>
         }

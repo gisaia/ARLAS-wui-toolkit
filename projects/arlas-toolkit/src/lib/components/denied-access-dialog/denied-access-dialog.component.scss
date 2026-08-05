@@ -18,11 +18,9 @@
  */
 
 :host {
-  --arlas-denied-access-dialog-error: #ce3d38;
-  --arlas-denied-access-dialog-success: #18853c;
+  --arlas-denied-access-dialog-error-color: #ce3d38;
   --arlas-denied-access-dialog-state: var(--mat-sys-on-background);
 }
-
 
 $sm-spacing: 5px;
 $sm-margin: 5px;
@@ -31,8 +29,6 @@ $default-spacing: 10px;
 $sm-font-size: 14px;
 $xs-font-size: 12px;
 $default-font-size: 16px;
-// $success-color: #18853c;
-// $error-color: #ce3d38;
 
 ::ng-deep.arlas-error-dialog .mdc-dialog__surface {
   padding: 12px 24px;
@@ -56,7 +52,7 @@ $default-font-size: 16px;
     align-items: center;
 
     .icon {
-      color: var(--arlas-denied-access-dialog-error, #ce3d38);
+      color: var(--arlas-denied-access-dialog-error-color, #ce3d38);
       margin-bottom: $default-margin;
     }
 

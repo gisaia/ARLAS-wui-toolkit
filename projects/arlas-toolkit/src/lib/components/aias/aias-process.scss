@@ -89,6 +89,18 @@ $default-spacing: 10px;
   }
 }
 
+.dark-theme {
+  .step {
+    .params {
+      background-color: #575757;
+
+      .label {
+        color: #a4a4a4;
+      }
+    }
+  }
+}
+
 ::ng-deep .mat-horizontal-content-container {
   padding: 12px 24px !important;
 }

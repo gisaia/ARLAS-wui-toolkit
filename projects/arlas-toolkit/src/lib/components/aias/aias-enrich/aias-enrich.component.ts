@@ -18,7 +18,7 @@
  */
 
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, inject, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
@@ -30,6 +30,7 @@ import { marker } from '@colsen1991/ngx-translate-extract-marker';
 import { MarkerModule } from '@colsen1991/ngx-translate-extract-marker/extras';
 import { TranslatePipe } from '@ngx-translate/core';
 import { ProcessService } from '../../../services/process/process.service';
+import { ThemeService } from '../../../services/theme.service';
 import { AiasEnrichDialogData, AiasProcess } from '../aias-process';
 import { AiasResultComponent } from '../aias-result/aias-result.component';
 
@@ -64,6 +65,8 @@ export class AiasEnrichComponent extends AiasProcess implements OnInit {
   public formGroup = new FormGroup({
     asset_type: new FormControl<string>(this.enrichments[0])
   });
+
+  protected readonly themeService = inject(ThemeService);
 
   public constructor(
     protected processService: ProcessService,

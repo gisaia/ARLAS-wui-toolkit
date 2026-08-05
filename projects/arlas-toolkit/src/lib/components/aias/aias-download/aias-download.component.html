@@ -4,7 +4,7 @@
     [translate]="(data.nbProducts >= 2) ? 'Download more products' : 'Download one product'" [translateParams]="{value: data.nbProducts}">
   </div>
 </div>
-<div mat-dialog-content>
+<div mat-dialog-content [class.dark-theme]="themeService.isDarkMode()">
   <mat-stepper [linear]="true">
     <mat-step [stepControl]="formGroup" [editable]="!processStarted" [label]="'Parameters' | translate" state="params">
       <div class="step">

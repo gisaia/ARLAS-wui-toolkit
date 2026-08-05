@@ -31,9 +31,11 @@ import { ArlasCollaborativesearchService } from '../../../services/collaborative
 import { ArlasCollectionService } from '../../../services/collection/arlas-collection.service';
 import { ArlasOverlayService } from '../../../services/overlays/overlay.service';
 import { ArlasStartupService } from '../../../services/startup/startup.service';
+import { ThemeService } from '../../../services/theme.service';
 import { WidgetNotifierService } from '../../../services/widget/widget.notifier.service';
 import { ArlasOverlayRef } from '../../../tools/utils';
 import { ProgressSpinnerComponent } from '../../progress-spinner/progress-spinner.component';
+import { CollectionChipColorPipe } from '../collection-chip-color-pipe';
 import { TimelineShortcutComponent } from '../timeline-shortcut/timeline-shortcut.component';
 import { CollectionLegend, TimelineConfiguration } from './timeline.utils';
 
@@ -56,7 +58,8 @@ import { CollectionLegend, TimelineConfiguration } from './timeline.utils';
     HistogramComponent,
     GetContributorPipe,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    CollectionChipColorPipe
   ]
 })
 export class TimelineComponent implements OnInit {
@@ -142,13 +145,14 @@ export class TimelineComponent implements OnInit {
   public timelineLegend: CollectionLegend[] = [];
 
   private readonly destroyRef = inject(DestroyRef);
+  protected readonly themeService = inject(ThemeService);
 
   public constructor(
-    protected arlasCollaborativesearchService: ArlasCollaborativesearchService,
+    protected readonly arlasCollaborativesearchService: ArlasCollaborativesearchService,
     private readonly arlasStartupService: ArlasStartupService,
     private readonly arlasOverlayService: ArlasOverlayService,
     private readonly arlasColorService: ArlasColorService,
-    protected widgetNotifier: WidgetNotifierService,
+    protected readonly widgetNotifier: WidgetNotifierService,
     private readonly collectionService: ArlasCollectionService) {
   }
 
@@ -278,8 +282,9 @@ export class TimelineComponent implements OnInit {
     this.showHistogramTooltip(tooltip, e, xOffset, yOffset, right);
   }
 
-  public hideShowCollection(collectionLegend: CollectionLegend): void {
-    collectionLegend.active = !collectionLegend.active;
+  public hideShowCollection(collectionIdx: number): void {
+    // Trigger change detection for pipes
+    this.timelineLegend[collectionIdx] = { ...this.timelineLegend[collectionIdx], active: !this.timelineLegend[collectionIdx].active };
     const activeCollections = new Set(this.timelineLegend.filter(tl => tl.active).map(tl => tl.collection));
     this.timelineContributor().collections = this.timelineContributor().getAllCollections()
       .filter(c => activeCollections.has(c.collectionName));

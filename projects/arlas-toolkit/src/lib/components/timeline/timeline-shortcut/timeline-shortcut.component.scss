@@ -63,6 +63,10 @@
   border-radius: 0;
   padding: 0;
   box-sizing: content-box;
+
+  mat-icon {
+    color: var(--arlas-timeline-shortcut-button-text);
+  }
 }
 
 .shortcut-button {

@@ -41,6 +41,7 @@ import {
 } from '../../services/collaborative-search/arlas.collaborative-search.service';
 import { ArlasSettingsService } from '../../services/settings/arlas.settings.service';
 import { ArlasConfigService } from '../../services/startup/startup.service';
+import { ThemeService } from '../../services/theme.service';
 import { orderAlphabeticallyArlasSearchFields } from '../../tools/utils';
 import { AdmonitionCardComponent } from '../admonition-card/admonition-card.component';
 import { ArlasSearchField } from '../share/model/ArlasSearchField';
@@ -112,6 +113,8 @@ export class DownloadDialogComponent implements OnInit {
   public selectedCollection;
   public serverUrl;
   @ViewChild('selectedList', { static: false }) public selectionList?: MatSelectionList;
+
+  protected readonly themeService = inject(ThemeService);
 
   public constructor(
     @Inject(MAT_DIALOG_DATA) public data: string[],
