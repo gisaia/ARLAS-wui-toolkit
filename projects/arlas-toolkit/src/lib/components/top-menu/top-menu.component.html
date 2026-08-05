@@ -10,6 +10,12 @@
   <!-- Insert on the right -->
   <ng-content select="[right-menu]"></ng-content>
 
+  @if (isDarkThemeEnabled) {
+    <button class="theme-mode" mat-icon-button (click)="toggleDarkMode()">
+      <mat-icon>{{isDarkMode() ? 'dark_mode' : 'light_mode' }}</mat-icon>
+    </button>
+  }
+
   <!-- Information -->
   @if (showAboutButton) {
     <button mat-icon-button [matTooltip]="'About ##wui##' | translate:{ wui: wuiName, version: version }"

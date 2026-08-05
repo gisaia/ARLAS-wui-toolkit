@@ -17,6 +17,13 @@
  * under the License.
  */
 
+:host {
+  --arlas-top-menu-bg: var(--mat-sys-surface); // was #fff
+  --arlas-top-menu-avatar-bg: var(--mat-sys-background); // was #999
+  --arlas-top-menu-icon-color: var(--mat-sys-on-background); // was #666
+  --arlas-top-menu-avatar-text: var(--mat-sys-on-background); // was white
+}
+
 $sm-spacing: 5px;
 $sm-margin: 5px;
 $default-margin: 10px;
@@ -25,12 +32,11 @@ $sm-font-size: 14px;
 $xs-font-size: 12px;
 $default-font-size: 16px;
 $icon-height: 24px;
-$avatar-color: #999;
 
 .top-menu {
     width: 100%;
     height: 40px;
-    background-color: #fff;
+    background-color: var(--arlas-top-menu-bg, #fff);
     padding: 0;
 
 
@@ -45,7 +51,7 @@ $avatar-color: #999;
     }
 
     mat-icon {
-        color: #666;
+      color: var(--arlas-top-menu-icon-color, #666);
     }
 
     .action-menu-button {
@@ -63,8 +69,8 @@ $avatar-color: #999;
             font-size: $sm-font-size;
             font-weight: bold;
             border-radius: calc($icon-height / 2);
-            background-color: $avatar-color;
-            color: white;
+            background-color: var(--arlas-top-menu-avatar-bg, #999);
+            color: var(--arlas-top-menu-avatar-text, white);
         }
     }
 }

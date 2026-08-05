@@ -17,6 +17,29 @@
  * under the License.
  */
 
+:host {
+  --arlas-iam-form-bg-color: var(--mat-sys-surface-variant);
+  --arlas-iam-input-bg-color: var(--mat-sys-surface);
+  --arlas-forgot-title-bg: #00bcd4;
+  --arlas-forgot-title-text: white;
+  --arlas-forgot-subtitle-bg: var(--mat-sys-surface);
+  --arlas-forgot-subtitle-text: var(--mat-sys-on-background);
+  --arlas-forgot-button-bg: #00bcd4;
+  --arlas-forgot-link-color: #00bcd4;
+  --arlas-forgot-error-text: rgb(244, 67, 54);
+  --arlas-forgot-success-bg: #5cb85c;
+  --arlas-forgot-success-text: var(--mat-sys-on-background);
+}
+
+.dark-theme{
+  :host{
+    ::ng-deep .mat-mdc-text-field-wrapper {
+      background-color: var(--mat-sys-surface-variant) !important;
+    }
+  }
+}
+
+
 .container {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
@@ -32,15 +55,10 @@
   width: 100%;
 }
 
-.sign-up-form mat-form-field ::ng-deep .mat-mdc-form-field-outline {
-  background-color: white;
-  border-radius: 4px;
-}
-
 .title {
   padding: 10px 20px;
-  background-color: #00bcd4;
-  color: white;
+  background-color: var(--arlas-forgot-title-bg, #00bcd4);
+  color: var(--arlas-forgot-title-text, white);
   font-size: 18px;
   border-radius: 15px 15px 0 0;
 }
@@ -50,36 +68,9 @@
 }
 
 .subtitle {
-  background: #ededed;
-  color: #606770;
+  background: var(--arlas-forgot-subtitle-bg, #ededed);
+  color: var(--arlas-forgot-subtitle-text, #606770);
   padding: 10px 35px 0;
-}
-
-.sign-up-form .form-content {
-  margin-bottom: 15px;
-  background: #ededed;
-  padding: 15px 30px;
-  border-radius: 0 0 15px 15px;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.form-content ::ng-deep .mdc-text-field--outlined {
-  height: 56px;
-}
-
-.form-content ::ng-deep .mat-mdc-text-field-wrapper,
-.form-content ::ng-deep .mdc-floating-label--float-above{
-  background-color: white;
-}
-
-.form-content ::ng-deep .mdc-text-field--outlined {
-  height: 56px;
-}
-
-.form-content ::ng-deep .mat-mdc-form-field-flex {
-  height: 100%;
 }
 
 .sign-up-form h2 {
@@ -87,7 +78,7 @@
 }
 
 .sign-up-button {
-  background-color: #00bcd4;
+  background-color: var(--arlas-forgot-button-bg, #00bcd4);
   border-radius: 15px;
   padding: 0 30px;
 }
@@ -107,11 +98,11 @@
 }
 
 .account button {
-  color: #00bcd4;
+  color: var(--arlas-forgot-link-color, #00bcd4);
 }
 
 .form-error {
-  color: rgb(244, 67, 54);
+  color: var(--arlas-forgot-error-text, rgb(244, 67, 54));
   display: block;
   font-family: Roboto, "Helvetica Neue", sans-serif;
   font-size: 12px;
@@ -120,8 +111,8 @@
 }
 
 .validate{
-  color: white;
-  background-color: #5cb85c;
+  color: var(--arlas-forgot-success-text, white);
+  background-color: var(--arlas-forgot-success-bg, #5cb85c);
   padding: 10px;
   margin-bottom: 10px;
   border-radius: 10px;

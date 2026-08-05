@@ -17,6 +17,14 @@
  * under the License.
  */
 
+:host {
+  --arlas-bookmark-view-color: #2196f3;
+  --arlas-bookmark-delete-color: #ff0000;
+  --arlas-bookmark-header-color: var(--mat-sys-on-background); // was #0000008a
+  --arlas-bookmark-description-color: var(--mat-sys-on-background);
+}
+
+
 ::ng-deep.bookmark-manager .mdc-dialog__surface {
   padding: 24px 24px 12px 24px
 }
@@ -73,11 +81,11 @@
   cursor: pointer;
 
   &-view:hover {
-    color: #2196f3;
+color: var(--arlas-bookmark-view-color, #2196f3);
   }
 
   &-delete:hover {
-    color: #ff0000;
+color: var(--arlas-bookmark-delete-color, #ff0000);
   }
 }
 
@@ -89,7 +97,7 @@
 }
 
 .mat-mdc-header-cell {
-  color: #0000008a;
+color: var(--arlas-bookmark-header-color, #0000008a);
 }
 
 .mat-mdc-cell {
@@ -108,7 +116,7 @@
 }
 
 .bookmark-actions__description {
-  color: grey;
+color: var(--arlas-bookmark-description-color, grey);
   font-size: 14px;
   display: flex;
   align-items: center;

@@ -71,9 +71,9 @@ export class GetGlobalColorFilterPipe implements PipeTransform {
   ): string | undefined {
     const collaboration = collaborationsMap.get(value);
     if (type === 'color') {
-      return collaboration?.enabled ? color : '#BDBDBD';
+      return collaboration?.enabled ? color : 'inherit';
     } else if (type === 'background') {
-      return collaboration?.enabled ? backgroundColor : '#FFF';
+      return collaboration?.enabled ? backgroundColor : 'inherit';
     }
   }
 }
@@ -127,12 +127,12 @@ export class FiltersComponent implements OnChanges {
    * @Input : Angular
    * @description Background color of the filters chips
    */
-  @Input() public backgroundColorFilter = '#FFF';
+  @Input() public backgroundColorFilter = 'inherit';
   /**
     * @Input : Angular
     * @description Color of the filters icon
     */
-  @Input() public colorFilter = '#000';
+  @Input() public colorFilter = 'inherit';
 
   /**
    * @Input : Angular

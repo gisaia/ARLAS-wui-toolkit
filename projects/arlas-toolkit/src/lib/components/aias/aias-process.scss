@@ -24,7 +24,7 @@ $default-spacing: 10px;
 .sub-title {
   font-size: 14px;
   font-weight: 400;
-  color: rgba(0, 0, 0, 0.75);
+  color: var(--mat-sys-on-background);
 }
 
 .step {
@@ -86,6 +86,18 @@ $default-spacing: 10px;
     margin-top: 20px;
 
     --mdc-filled-button-label-text-tracking: 0;
+  }
+}
+
+.dark-theme {
+  .step {
+    .params {
+      background-color: #575757;
+
+      .label {
+        color: #a4a4a4;
+      }
+    }
   }
 }
 

@@ -17,7 +17,7 @@
  * under the License.
  */
 
-$border-color: #a1a1a1;
+$border-color: var(--arlas-filters-border-color, #a1a1a1);
 $xs-border: 1px;
 
 @mixin border {
@@ -40,6 +40,15 @@ $xs-font-size: 12px;
 $count-chip-height: 30px;
 
 .chips--container {
+  --arlas-filters-chip-bg: var(--mat-sys-surface);
+  --arlas-filters-chip-text-color: var(--mat-sys-on-background);
+  --arlas-filters-zoom-bg: var(--mat-sys-surface);
+  --arlas-filters-unit-color: var(--mat-sys-on-background);
+  --arlas-filters-value-color: var(--mat-sys-on-background);
+  --arlas-filters-extra-bg: var(--mat-sys-surface);
+  --arlas-filters-counts-bg: var(--mat-sys-surface);
+  --arlas-filters-chip-color: var(--mat-sys-on-background);
+
   display: flex;
   align-items: center;
 }
@@ -47,7 +56,7 @@ $count-chip-height: 30px;
 .collection-chip,
 .clear-chip,
 .timeline-chip {
-  background-color: white;
+  background-color: var(--arlas-filters-chip-bg, white);
   margin-right: $sm-margin;
   padding: 0 $sm-spacing;
   @include border-important();
@@ -64,7 +73,7 @@ $count-chip-height: 30px;
 }
 
 .chip-text {
-  color: black;
+  color: var(--arlas-filters-chip-text-color, black);
   padding: 0 2px;
 }
 
@@ -87,6 +96,8 @@ $count-chip-height: 30px;
 
 .timeline-chip,
 .filter-chip {
+  color: var(--arlas-filter-chip-color);
+  background: var(--arlas-filter-chip-bg);
   .icon{
     font-size: 18px;
     width: 18px;
@@ -137,7 +148,7 @@ $count-chip-height: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: white;
+    background-color: var(--arlas-filters-zoom-bg, white);
     --mat-icon-button-state-layer-size: 15px;
     --mat-icon-button-touch-target-size: 15px;
     padding: 0;
@@ -158,24 +169,25 @@ $count-chip-height: 30px;
     font-weight: 600;
     margin: 0 $sm-margin;
     white-space: nowrap;
+    color: var(--arlas-filters-value-color, black);
   }
 
   .unit {
     font-weight: 100;
     font-size: $xs-font-size;
-    color: #555;
+    color: var(--arlas-filters-unit-color, #555);
   }
 }
 
 .extra {
   font-family: Roboto, "Helvetica Neue", sans-serif;
-  background-color: white;
+  background-color: var(--arlas-filters-extra-bg, white);
   margin-right: $sm-margin;
 
   .title {
     cursor: pointer;
     display: flex;
-    background-color: #fff;
+    background-color: var(--arlas-filters-extra-title-bg, #fff);
     justify-content: space-between;
     align-items: center;
     padding: $sm-spacing;
@@ -197,11 +209,11 @@ $count-chip-height: 30px;
         height: 18px;
         width: 18px;
         border-radius: 11px;
-        background-color: #e7e7e7;
+        background-color: var(--arlas-filters-count-bg, #e7e7e7);
         display: flex;
         align-items: center;
         justify-content: center;
-        border: 1px solid #e7e7e7;
+        border: 1px solid var(--arlas-filters-count-border, #e7e7e7);
         font-size: $sm-font-size;
         align-self: center;
       }
@@ -218,9 +230,9 @@ $count-chip-height: 30px;
     position: relative;
     top: -1px;
     left: 10%;
-    background-color: grey;
+    background-color: var(--arlas-filters-separator-color, grey);
     z-index: 1;
-}
+  }
 
   .hidden {
     display: none;
@@ -229,7 +241,7 @@ $count-chip-height: 30px;
   .extra-counts {
     position: absolute;
     top: $count-chip-height;
-    background-color: white;
+    background-color: var(--arlas-filters-counts-bg, white);
     padding: $sm-spacing;
     @include border();
     border-top-left-radius: 0;

@@ -18,7 +18,7 @@
  */
 
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
@@ -34,6 +34,7 @@ import bboxPolygon from '@turf/bbox-polygon';
 import booleanIntersects from '@turf/boolean-intersects';
 import { Subject, takeUntil } from 'rxjs';
 import { ProcessService } from '../../../services/process/process.service';
+import { ThemeService } from '../../../services/theme.service';
 import { ProcessInputs, ProcessProjection } from '../../../tools/process.interface';
 import { AiasDownloadDialogData, AiasProcess } from '../aias-process';
 import { AiasResultComponent } from '../aias-result/aias-result.component';
@@ -93,6 +94,7 @@ export class AiasDownloadComponent extends AiasProcess implements OnInit, OnDest
   public tooltipDelay = 2000;
 
   private _onDestroy$ = new Subject();
+  protected readonly themeService = inject(ThemeService);
 
   public constructor(
     protected processService: ProcessService,

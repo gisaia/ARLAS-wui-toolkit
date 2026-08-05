@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
- $sm-spacing: 5px;
+$sm-spacing: 5px;
 
 .add {
   display: flex;
@@ -30,10 +30,12 @@
     font-size: 17px;
     cursor: pointer;
     padding: 0 $sm-spacing;
+    color: var(--mat-sys-on-background);
   }
 
 }
 
 ::ng-deep .allow-breakline {
   white-space: pre-line !important;
+  color: var(--mat-sys-on-background);
 }
