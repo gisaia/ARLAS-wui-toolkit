@@ -5,7 +5,7 @@
   </div>
 </div>
 
-<div mat-dialog-content>
+<div mat-dialog-content [class.dark-theme]="themeService.isDarkMode()">
   <mat-stepper [linear]="true">
     <mat-step [stepControl]="formGroup" [editable]="!processStarted"
       [label]="'Parameters' | translate" state="params">

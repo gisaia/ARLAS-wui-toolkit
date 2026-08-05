@@ -1,4 +1,4 @@
-<mat-horizontal-stepper [linear]="true" (selectionChange)="changeStep($event)" class="download-stepper">
+<mat-horizontal-stepper [linear]="true" (selectionChange)="changeStep($event)" class="download-stepper" [class.dark-theme]="themeService.isDarkMode()">
   <mat-step [stepControl]="exportTypeGroup">
     <form [formGroup]="exportTypeGroup">
       <ng-template matStepLabel>{{'Type' | translate}}</ng-template>
