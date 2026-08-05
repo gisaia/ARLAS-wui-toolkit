@@ -18,12 +18,18 @@
  */
 
 :host {
-  --arlas-filters-handler-more-bg: var(--mat-sys-surface);
+  --arlas-filters-handler-more-bg: #e7e7e7;
   --arlas-filters-handler-expanded-bg: var(--mat-sys-surface);
-  --arlas-filters-handler-more-border-color: var(--mat-sys-surface);
+  --arlas-filters-handler-more-border-color: #e7e7e7;
   --arlas-filters-handler-expanded-border-color: var(--mat-sys-on-background);
 }
 
+.dark-theme {
+    :host {
+        --arlas-filters-handler-more-bg: #787878;
+        --arlas-filters-handler-more-border-color: #787878;
+    }
+}
 
 .container {
     display: flex;
@@ -37,8 +43,8 @@
 
         min-width: 18px;
         border-radius: 50%;
-        background-color: var(--arlas-filters-handler-more-bg, #e7e7e7);
-        border: 1px solid var(--arlas-filters-handler-more-border-color, #e7e7e7);
+        background-color: var(--arlas-filters-handler-more-bg);
+        border: 1px solid var(--arlas-filters-handler-more-border-color);
         font-size: 12px;
         display: flex;
         align-items: center;
