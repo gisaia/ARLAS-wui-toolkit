@@ -30,6 +30,7 @@ import {
   SwimLaneContributor,
   TreeContributor
 } from 'arlas-web-contributors';
+import { ArlasTaskService } from '../arlas.task.service';
 import { ArlasCollaborativesearchService } from '../collaborative-search/arlas.collaborative-search.service';
 import { ArlasSettingsService } from '../settings/arlas.settings.service';
 import { ArlasConfigService } from './startup.service';
@@ -41,6 +42,7 @@ export class ContributorBuilder {
     configService: ArlasConfigService,
     collaborativesearchService: ArlasCollaborativesearchService,
     settingsService: ArlasSettingsService,
+    taskService: ArlasTaskService,
     colorService?: ArlasColorService): any {
 
     const config = configService.getValue('arlas.web.contributors').find((contrib: any) =>
@@ -69,7 +71,7 @@ export class ContributorBuilder {
         (contributor as DetailedHistogramContributor).maxBuckets = settingsService.getHistogramMaxBucket();
         break;
       case 'resultlist':
-        contributor = new ResultListContributor(identifier, collaborativesearchService, configService, collection);
+        contributor = new ResultListContributor(identifier, collaborativesearchService, configService, collection, taskService);
         break;
       case 'map':
         contributor = new MapContributor(identifier, collaborativesearchService, configService, collection, colorService?.colorGenerator);
