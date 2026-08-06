@@ -142,7 +142,8 @@ export class ArlasBookmarkService {
       /** map to object (using fromEntries) so that the stringify works properly */
       Array.from(Object.keys(dataModel)).forEach(identifier => {
         dataModel[identifier] = { ...dataModel[identifier]};
-        dataModel[identifier].filters = fromEntries(dataModel[identifier].filters);
+        // Type as any so that the Map can be transformed into a Record which is stringifyable
+        dataModel[identifier].filters = fromEntries(dataModel[identifier].filters) as any;
       });
       const url = JSON.stringify(dataModel);
       let type: BookMarkType;
@@ -236,8 +237,9 @@ export class ArlasBookmarkService {
     const queryParams: Params = Object.assign({}, this.activatedRoute.snapshot.queryParams);
     /** map to object (using fromEntries) so that the stringify works properly */
     Array.from(Object.keys(dataModel)).forEach(identifier => {
-      dataModel[identifier] = Object.assign({}, dataModel[identifier]); /** cloning */
-      dataModel[identifier].filters = fromEntries(dataModel[identifier].filters);
+      dataModel[identifier] = { ...dataModel[identifier]};
+      // Type as any so that the Map can be transformed into a Record which is stringifyable
+      dataModel[identifier].filters = fromEntries(dataModel[identifier].filters) as any;
     });
     queryParams['filter'] = JSON.stringify(dataModel);
     if (language) {
@@ -367,7 +369,8 @@ export class ArlasBookmarkService {
     /** map to object (using fromEntries) so that the stringify works properly */
     if (this.selectorById) {
       dataModel[this.selectorById] = { ...collaboration };
-      dataModel[this.selectorById].filters = fromEntries(dataModel[this.selectorById].filters);
+      // Type as any so that the Map can be transformed into a Record which is stringifyable
+      dataModel[this.selectorById].filters = fromEntries(dataModel[this.selectorById].filters) as any;
     } else {
       throw new Error('[ARLAS][BOOKMARK] No resultlist has been defined, unable to get the selectorById');
     }
