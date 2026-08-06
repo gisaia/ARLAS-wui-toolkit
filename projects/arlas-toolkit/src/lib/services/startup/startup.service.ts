@@ -48,6 +48,7 @@ import {
   NOT_CONFIGURED, WidgetConfiguration, getFieldProperties, getParamValue
 } from '../../tools/utils';
 import { ArlasIamService, IamHeader } from '../arlas-iam/arlas-iam.service';
+import { ArlasTaskService } from '../arlas.task.service';
 import { AuthentificationService, } from '../authentification/authentification.service';
 import { ArlasCollaborativesearchService } from '../collaborative-search/arlas.collaborative-search.service';
 import { ArlasConfigurationUpdaterService, ArlasDashboardConfiguration } from '../configuration-updater/configurationUpdater.service';
@@ -189,6 +190,7 @@ export class ArlasStartupService {
   public arlasIamApi?: ArlasIamApi;
 
   private readonly getOptions = inject(GET_OPTIONS);
+  private readonly taskService = inject(ArlasTaskService);
 
   public constructor(
     private readonly settingsService: ArlasSettingsService,
@@ -468,32 +470,25 @@ export class ArlasStartupService {
           const authService: AuthentificationService = this.injector.get('AuthentificationService')[0];
           authService.canActivateProtectedRoutes.subscribe(isActivable => {
             if (isActivable) {
-              // ARLAS-persistence
-              this.persistenceService.setOptions({
+              const headers = {
                 headers: {
                   Authorization: 'bearer ' + authService.accessToken
                 }
-              });
-              // ARLAS-server
-              this.fetchOptions.headers = {
-                Authorization: 'bearer ' + authService.accessToken
               };
+              // ARLAS-persistence
+              this.persistenceService.setOptions(headers);
+              // ARLAS-server
+              this.fetchOptions.headers = headers.headers;
               // ARLAS-Permission
-              this.permissionService.setOptions({
-                headers: {
-                  Authorization: 'bearer ' + authService.accessToken
-                }
-              });
+              this.permissionService.setOptions(headers);
               // Process
-              this.processService.setOptions({
-                headers: {
-                  Authorization: 'bearer ' + authService.accessToken
-                }
-              });
+              this.processService.setOptions(headers);
+              this.taskService.setOptions(headers);
             } else {
               this.persistenceService.setOptions(this.getOptions());
               this.permissionService.setOptions(this.getOptions());
               this.processService.setOptions(this.getOptions());
+              this.taskService.setOptions(this.getOptions());
             }
             this.collaborativesearchService.setFetchOptions(this.fetchOptions);
             resolve(settings);
@@ -519,11 +514,13 @@ export class ArlasStartupService {
                 this.persistenceService.setOptions({ headers: iamHeader });
                 this.permissionService.setOptions({ headers: iamHeader });
                 this.processService.setOptions({ headers: iamHeader });
+                this.taskService.setOptions({ headers: iamHeader });
                 this.fetchOptions.headers = iamHeader;
               } else {
                 this.persistenceService.setOptions({});
                 this.permissionService.setOptions({});
                 this.processService.setOptions({});
+                this.taskService.setOptions({});
                 this.fetchOptions.headers = undefined;
               }
               this.collaborativesearchService.setFetchOptions(this.fetchOptions);
@@ -534,6 +531,8 @@ export class ArlasStartupService {
       } else {
         this.persistenceService.setOptions(this.getOptions());
         this.permissionService.setOptions(this.getOptions());
+        this.processService.setOptions(this.getOptions());
+        this.taskService.setOptions(this.getOptions());
         this.collaborativesearchService.setFetchOptions(this.fetchOptions);
         resolve(settings);
       }
@@ -759,7 +758,8 @@ export class ArlasStartupService {
             contributorIdentifier,
             this.configService,
             this.collaborativesearchService,
-            this.settingsService);
+            this.settingsService,
+            this.taskService);
           this.contributorRegistry.set(contributorIdentifier, contributor);
         });
         this.analytics = this.configService.getValue('arlas.web.analytics');
