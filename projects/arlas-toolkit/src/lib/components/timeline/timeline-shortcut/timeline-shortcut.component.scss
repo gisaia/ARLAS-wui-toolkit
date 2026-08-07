@@ -25,7 +25,6 @@
   --arlas-timeline-shortcut-link-color: rgb(48, 136, 177);
   --arlas-timeline-shortcut-icon-text: white;
   --arlas-timeline-shortcut-label-text: white;
-  --arlas-timeline-shortcut-border-color: var(--mat-sys-on-background);
 }
 
 
@@ -59,7 +58,8 @@
   --mat-icon-button-state-layer-size: 24px;
   --mat-icon-button-touch-target-size: 24px;
   margin-left: 5px;
-  border: 1px solid var(--arlas-timeline-shortcut-border-color, #a1a1a1);
+  // Soft border in light or dark mode
+  border: 1px solid #a1a1a1;
   border-radius: 0;
   padding: 0;
   box-sizing: content-box;
@@ -153,7 +153,8 @@
     justify-content: space-between;
     font-size: 14px;
     background-color: var(--arlas-timeline-shortcut-list-bg, white);
-    border: 1px solid var(--arlas-timeline-shortcut-border-color, #a1a1a1);
+    // Soft border in light or dark mode
+    border: 1px solid #a1a1a1;
   }
 }
 
