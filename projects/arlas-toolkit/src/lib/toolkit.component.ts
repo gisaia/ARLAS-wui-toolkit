@@ -26,7 +26,6 @@ import { ArlasCollaborativesearchService } from './services/collaborative-search
 import { ErrorService } from './services/error/error.service';
 import { ArlasConfigService, ArlasStartupService } from './services/startup/startup.service';
 import { ArlasWalkthroughService } from './services/walkthrough/walkthrough.service';
-import { CONFIG_ID_QUERY_PARAM } from './tools/utils';
 
 @Component({
   selector: 'arlas-tool-root',
@@ -50,39 +49,11 @@ export class ToolkitComponent implements AfterViewInit, OnInit, OnDestroy {
     private readonly walkthroughService: ArlasWalkthroughService,
     private readonly errorService: ErrorService
   ) {
-    // update url when filter are set
-    const queryParams: Params = {...this.activatedRoute.snapshot.queryParams};
     if (!this.arlasStartupService.emptyMode) {
       this.collaborativeService.collaborationBus.subscribe(collaborationEvent => {
+        // update url when filter are set
+        const queryParams: Params = { ...this.activatedRoute.snapshot.queryParams };
         queryParams['filter'] = this.collaborativeService.urlBuilder().split('filter=')[1];
-        if (this.activatedRoute.snapshot.queryParams['lg']) {
-          queryParams['lg'] = this.activatedRoute.snapshot.queryParams['lg'];
-        }
-        if (this.activatedRoute.snapshot.queryParams['extend']) {
-          queryParams['extend'] = this.activatedRoute.snapshot.queryParams['extend'];
-        }
-        if (this.activatedRoute.snapshot.queryParams[CONFIG_ID_QUERY_PARAM]) {
-          queryParams[CONFIG_ID_QUERY_PARAM] = this.activatedRoute.snapshot.queryParams[CONFIG_ID_QUERY_PARAM];
-        }
-        if (this.activatedRoute.snapshot.queryParams['vs']) {
-          queryParams['vs'] = this.activatedRoute.snapshot.queryParams['vs'];
-        }
-        /** at = analytic-tab */
-        if (this.activatedRoute.snapshot.queryParams['at']) {
-          queryParams['at'] = this.activatedRoute.snapshot.queryParams['at'];
-        }
-        /** rt = resultlist-tab */
-        if (this.activatedRoute.snapshot.queryParams['rt']) {
-          queryParams['rt'] = this.activatedRoute.snapshot.queryParams['rt'];
-        }
-        /** ao = analytic-open */
-        if (this.activatedRoute.snapshot.queryParams['ao']) {
-          queryParams['ao'] = this.activatedRoute.snapshot.queryParams['ao'];
-        }
-        /** ro = resultlist-open */
-        if (this.activatedRoute.snapshot.queryParams['ro']) {
-          queryParams['ro'] = this.activatedRoute.snapshot.queryParams['ro'];
-        }
         this.router.navigate([], { queryParams: queryParams, relativeTo: this.activatedRoute });
         this.collaborativeService.ongoingSubscribe.subscribe(nb => {
           if (collaborationEvent.id === 'url') {
