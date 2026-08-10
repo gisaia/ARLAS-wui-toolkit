@@ -23,7 +23,7 @@ import { Injectable, signal } from '@angular/core';
   providedIn: 'root'
 })
 export class ThemeService {
-  private darkMode = signal(false);
+  private readonly darkMode = signal(false);
   private readonly THEME_KEY = 'dark-theme-enabled';
 
   public constructor() {

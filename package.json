@@ -59,6 +59,7 @@
     "@angular/language-service": "^21.2.6",
     "@colsen1991/ngx-translate-extract-marker": "^3.0.1",
     "@stylistic/eslint-plugin": "^5.6.1",
+    "@types/file-saver": "^2.0.7",
     "@types/hopscotch": "^0.2.35",
     "@types/js-yaml": "^4.0.9",
     "@types/node": "^24.10.1",
