@@ -29,6 +29,7 @@
   --arlas-forgot-error-text: rgb(244, 67, 54);
   --arlas-forgot-success-bg: #5cb85c;
   --arlas-forgot-success-text: var(--mat-sys-on-background);
+  --arlas-forgottext-color: var(--mat-sys-on-surface);
 }
 
 .dark-theme{
@@ -95,6 +96,7 @@
   align-items: baseline;
   padding-top: 15px;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+  color: var(--arlas-forgottext-color);
 }
 
 .account button {

@@ -22,7 +22,7 @@
   --arlas-iam-input-bg-color: var(--mat-sys-surface);
   --arlas-register-title-bg: #00bcd4;
   --arlas-register-title-text: white;
-  --arlas-register-subtitle-bg: var(--mat-sys-surface);
+  --arlas-register-subtitle-bg: var(--mat-sys-surface-variant);
   --arlas-register-subtitle-text: var(--mat-sys-on-background);
   --arlas-register-content-bg: var(--mat-sys-surface);
   --arlas-register-button-bg: #00bcd4;
@@ -32,6 +32,7 @@
   --arlas-register-error-bg: rgb(244, 67, 54);
   --arlas-register-error-text: var(--mat-sys-on-background);
   --arlas-register-terms-color: #0969da;
+  --arlas-register-text-color: var(--mat-sys-on-background);
   --arlas-register-not-allowed-bg: var(--mat-sys-surface);
   --arlas-register-not-allowed-text: var(--mat-sys-on-background);
 }
@@ -96,6 +97,7 @@
   align-items: baseline;
   padding-top: 15px;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+  color: var(--arlas-register-text-color);
 }
 
 .account button {
@@ -122,6 +124,7 @@
   font-size: 12px;
   padding-bottom: 10px;
   text-align: center;
+  color: var(--arlas-register-text-color);
 }
 
 .terms a {

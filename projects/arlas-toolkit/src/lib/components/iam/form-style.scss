@@ -43,7 +43,7 @@
             .mat-mdc-form-field-outline,
             .mat-mdc-text-field-wrapper,
             .mdc-floating-label--float-above{
-                background-color: ar(--arlas-iam-input-bg-color, white);;
+                background-color: var(--arlas-iam-input-bg-color, white);;
             }
 
             .mat-mdc-text-field-wrapper {
