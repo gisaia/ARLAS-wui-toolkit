@@ -17,20 +17,20 @@
  * under the License.
  */
 
-import { Component } from '@angular/core';
-import { FormControl, FormGroup, FormGroupDirective, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatButton } from '@angular/material/button';
-import { MatError, MatFormField, MatLabel, MatPrefix } from '@angular/material/form-field';
-import { MatIcon } from '@angular/material/icon';
-import { MatInput } from '@angular/material/input';
-import { RouterLink } from '@angular/router';
-import { TranslatePipe } from '@ngx-translate/core';
-import { ArlasIamService } from '../../services/arlas-iam/arlas-iam.service';
+import {Component} from '@angular/core';
+import {FormControl, FormGroup, FormGroupDirective, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
+import {MatButton} from '@angular/material/button';
+import {MatError, MatFormField, MatLabel, MatPrefix} from '@angular/material/form-field';
+import {MatIcon} from '@angular/material/icon';
+import {MatInput} from '@angular/material/input';
+import {RouterLink} from '@angular/router';
+import {TranslatePipe} from '@ngx-translate/core';
+import {ArlasIamService} from '../../services/arlas-iam/arlas-iam.service';
 
 @Component({
   selector: 'arlas-tool-forgot',
   templateUrl: './forgot.component.html',
-  styleUrls: ['./forgot.component.scss'],
+  styleUrls: ['./forgot.component.scss', '../iam/form-style.scss'],
   imports: [
     FormsModule, ReactiveFormsModule, MatFormField, MatLabel, MatInput,
     MatIcon, MatPrefix, MatError, MatButton, RouterLink, TranslatePipe]

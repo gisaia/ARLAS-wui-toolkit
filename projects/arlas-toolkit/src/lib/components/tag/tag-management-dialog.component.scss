@@ -18,10 +18,6 @@
  */
 
 .tags-table-items {
-  --arlas-tag-management-active-bg: #174ea6;
-  --arlas-tag-management-active-color: var(--mat-sys-on-surface);
-  --arlas-tag-management-inactive-color: #cccccc;
-
   min-width: 50vw;
   max-height: 85vh;
   overflow: overlay;
@@ -59,11 +55,11 @@
 }
 
 .active-tag{
-  background-color: var(--arlas-tag-management-active-bg, #174ea6);
+  background-color: var(--arlas-tag-management-active-background, var(--mat-sys-primary));
 }
 
 .active-tag .mat-mdc-cell{
-  color : var(--arlas-tag-management-active-color, white);
+  color : var(--arlas-tag-management-active-color, var(--mat-sys-on-surface));
 }
 
 .inactive-tag .mat-mdc-cell{

@@ -68,7 +68,7 @@
   -ms-flex-pack: center;
   justify-content: center;
   padding: 8px 20px;
-  color: var(--arlas-download-dialog-title-color, rgba(0, 0, 0, .54));
+  color: var(--arlas-download-dialog-title-color,  var(--mat-sys-on-background));
   background: rgba(0, 0, 0, .03);
   flex:3
 }
@@ -93,7 +93,7 @@
 
 .download-block {
   .btn-success {
-    background-color: var(--arlas-download-dialog-primary-bg, #4CAF50);
+    background-color: var(--arlas-download-dialog-btn-success-background, var(--arlas-sys-success));
 
     mat-icon {
       font-size: 20px;
@@ -121,12 +121,6 @@
 }
 
 .download-stepper {
-  --arlas-download-dialog-title-color: var(--mat-sys-on-background); // was rgba(0, 0, 0, .54)
-  --arlas-download-dialog-primary-bg: #4CAF50;
-  --arlas-download-dialog-primary-text: var(--mat-sys-on-background);
-  --arlas-download-dialog-box-bg: lightgray; // was lightgray
-  --arlas-download-dialog-box-text-color: var(--mat-sys-on-background);
-
   width: 100%;
 
   .mat-horizontal-content-container {
@@ -138,17 +132,11 @@
   }
 }
 
-.dark-theme {
-  .download-stepper {
-    --arlas-download-dialog-box-bg: #646464;
-  }
-}
-
 .download-box {
   height: 240px;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-  background-color: var(--arlas-download-dialog-box-bg, lightgray);
-  color: var(--arlas-download-dialog-box-text-color, black);
+  background-color: var(--arlas-download-dialog-box-background, var(--mat-sys-background));
+  color: var(--arlas-download-dialog-box-text-color, var(--mat-sys-on-background));
   border: none;
   width: 100%;
   padding: 10px 10px 0;
@@ -157,8 +145,8 @@
 
 
 .btn-success {
-background-color: var(--arlas-download-dialog-primary-bg, #4CAF50) !important;
-color: var(--arlas-download-dialog-primary-text, white) !important;
+background-color: var(--arlas-download-dialog-primary-bg, var(--arlas-sys-success)) !important;
+color: var(--arlas-download-dialog-primary-text-color,  var(--arlas-sys-on-success)) !important;
 }
 
 .hide-icon {

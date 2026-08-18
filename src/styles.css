@@ -56,7 +56,8 @@
 }
 
 html, body{
-  background-color: whitesmoke;
+  height: 100%;
+  width:100%;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 
   --mat-button-filled-container-color: green;

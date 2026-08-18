@@ -18,12 +18,7 @@
  */
 
 .arlas-tag-box{
-  --arlas-tag-box-bg: var(--mat-sys-surface);
-  --arlas-tag-icon-green: #4CAF50;
-  --arlas-tag-icon-blue: #2196F3;
-  --arlas-tag-icon-grey: var(--mat-sys-on-background);
-
-  background-color: var(--arlas-tag-box-bg, white);
+  background-color: var(--arlas-tag-box-background, var(--mat-sys-surface));
   z-index: 1;
   position: absolute;
   top: 0;
@@ -48,15 +43,15 @@
 }
 
 .arlas-tag-notification-icon-green{
-  color: var(--arlas-tag-icon-green, #4CAF50);
+  color: var(--arlas-tag-icon-validate-color, var(--arlas-sys-success));
 }
 
 .arlas-tag-notification-icon-blue{
-  color: var(--arlas-tag-icon-blue, #2196F3);
+  color: var(--arlas-tag-icon-progress-color, var(--mat-sys-primary));
 }
 
 .arlas-tag-notification-icon-grey{
-  color: var(--arlas-tag-icon-grey, lightslategrey);
+  color: var(--arlas-tag-icon-notification-color, var(--mat-sys-on-background));
   display: none !important;
   cursor: pointer;
 }

@@ -16,20 +16,21 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+@use "../../mixin" as mx;
 
 :host {
-  --arlas-iam-form-bg-color: var(--mat-sys-surface-variant);
-  --arlas-iam-input-bg-color: var(--mat-sys-surface);
-  --arlas-verify-title-bg: #00bcd4;
+  --arlas-iam-form-background-color: var(--mat-sys-surface-variant);
+  --arlas-iam-input-background-color: var(--mat-sys-surface);
+  --arlas-verify-title-background: #00bcd4;
   --arlas-verify-title-text: white;
-  --arlas-verify-subtitle-bg: var(--mat-sys-surface);
+  --arlas-verify-subtitle-background: var(--mat-sys-surface);
   --arlas-verify-subtitle-text: var(--mat-sys-on-background);
-  --arlas-verify-button-bg: #00bcd4;
+  --arlas-verify-button-background: #00bcd4;
   --arlas-verify-link-color: #00bcd4;
   --arlas-verify-error-text: rgb(244, 67, 54);
-  --arlas-verify-success-bg: #5cb85c;
+  --arlas-verify-success-background: #5cb85c;
   --arlas-verify-success-text: var(--mat-sys-on-background);
-  --arlas-verify-error-bg: rgb(244, 67, 54);
+  --arlas-verify-error-background: rgb(244, 67, 54);
   --arlas-verify-detail-text: var(--mat-sys-on-background);
 }
 
@@ -45,11 +46,7 @@
 }
 
 .title {
-  padding: 10px 20px;
-  background-color: var(--arlas-verify-title-bg, #00bcd4);
-  color: var(--arlas-verify-title-text, white);
-  font-size: 18px;
-  border-radius: 15px 15px 0 0;
+  @include mx.iam-header();
 }
 
 .title h2 {
@@ -57,8 +54,8 @@
 }
 
 .subtitle {
-  background: var(--arlas-verify-subtitle-bg, #ededed);
-  color: var(--arlas-verify-subtitle-text, #606770);
+  background: var(--arlas-verify-subtitle-background, var(--mat-sys-surface));
+  color: var(--arlas-verify-subtitle-text, var(--mat-sys-on-surface));
   padding: 10px 35px 0;
 }
 
@@ -72,7 +69,7 @@
 }
 
 .validate-button {
-  background-color: var(--arlas-verify-button-bg, #00bcd4);
+  background-color: var(--arlas-verify-button-background, var(--arlas-sys-accent-variant2));
   border-radius: 15px;
   padding: 0 30px;
 }
@@ -92,7 +89,7 @@
 }
 
 .account button {
-  color: var(--arlas-verify-link-color, #00bcd4);
+  color: var(--arlas-verify-link-color, var(--arlas-sys-accent-variant2));
 }
 
 .form-error {
@@ -105,15 +102,15 @@
 }
 
 .validate, .error {
-  color: var(--arlas-verify-success-text, white);
-  background-color: var(--arlas-verify-success-bg, #5cb85c);
+  color: var(--arlas-verify-success-text, var(--arlas-sys-on-success));
+  background-color: var(--arlas-verify-success-background, var(--arlas-sys-success));
   padding: 10px;
   margin-bottom: 10px;
   border-radius: 10px;
 }
 
 .error {
-  background-color: var(--arlas-verify-error-bg, rgb(244, 67, 54));
+  background-color: var(--arlas-verify-error-background, var(--mat-sys-error));
 }
 
 .form-text-detail {

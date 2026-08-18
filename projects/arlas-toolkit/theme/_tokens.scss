@@ -16,21 +16,28 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
-@use 'sass:map';
 @use '@angular/material' as mat;
 
-@mixin theme($theme){
-  $color-config: mat.m2-get-color-config($theme);
-  $primary-palette: map.get($color-config, 'primary');
-  $accent-palette: map.get($color-config, 'accent');
-  $warn-palette: map.get($color-config, 'warn');
-  $is-dark-theme: map.get($color-config, 'is-dark');
-  $foreground-text: mat.get-theme-color($theme, foreground, text);
-  $background: mat.get-theme-color($theme, background, background);
+:root{
+  /* =========================================
+     COLOR — Primary
+     ========================================= */
+  --arlas-sys-warn-color: #f0ad4e;
+  --arlas-sys-success: #5cb85c;
+  --arlas-sys-on-success: white;
+  --arlas-sys-accent-variant2: #00bcd4;
+  --arlas-sys-accent-variant3:  rgb(48, 136, 177);
+  --arlas-sys-accent-variant4:  #337ab7;
+  --arlas-sys-on-accent-varient: white;
+  --arlas-sys-accent-varient: #F44336;
+  --arlas-sys-histogram-headband-fill: #88c9c3;
+  --arlas-sys-histogram-bar-fill: white;
+  --arlas-sys-histogram-bar-stroke: #a5a5a5;
+}
 
-  --arlas-tag-box-bg: var(--mat-sys-surface); // was white
-  --arlas-tag-icon-green: #{mat.get-theme-color($theme, primary)}; // was #4CAF50
-  --arlas-tag-icon-blue: #{mat.get-theme-color($theme, primary)}; // was #2196F3
-  --arlas-tag-icon-grey: var(--mat-sys-on-background); // was lightslategrey
+@mixin theme-token($theme){
+    $is-dark: mat.get-theme-type($theme) == dark;
+    @if($is-dark){
+      --arlas-sys-histogram-bar-fill: #616b79;
+    }
 }

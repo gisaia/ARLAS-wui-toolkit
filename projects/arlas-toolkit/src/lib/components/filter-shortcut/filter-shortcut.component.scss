@@ -17,13 +17,6 @@
  * under the License.
  */
 
-:host {
-  --arlas-filter-shortcut-title-bg: var(--mat-sys-surface);
-  --arlas-filter-shortcut-separator: var(--mat-sys-on-background);
-  --arlas-filter-shortcut-content-bg: var(--mat-sys-surface);
-}
-
-
 @mixin border {
     // Soft border in light or dark mode
     border: 1px solid #a1a1a1;
@@ -43,7 +36,7 @@
     .title {
         cursor: pointer;
         display: flex;
-        background-color: var(--arlas-filter-shortcut-title-bg, #fff);
+        background-color: var(--arlas-filter-shortcut-title-background, var(--mat-sys-surface));
         justify-content: space-between;
         @include border();
         align-items: center;
@@ -81,13 +74,13 @@
         position: relative;
         top: -1px;
         left: 10%;
-        background-color: var(--arlas-filter-shortcut-separator, grey);
+        background-color: var(--arlas-filter-shortcut-separator, var(--mat-sys-on-background));
         z-index: 1;
     }
 
     .content {
         padding: 4px;
-        background-color: var(--arlas-filter-shortcut-content-bg, #fff);
+        background-color: var(--arlas-filter-shortcut-content-background, var(--mat-sys-surface));
         display: flex;
         justify-content: center;
         @include border();

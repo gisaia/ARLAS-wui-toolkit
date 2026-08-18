@@ -17,13 +17,6 @@
  * under the License.
  */
 
-:host {
-  --arlas-analytics-menu-icon-color: var(--mat-sys-on-background);
-  --arlas-analytics-menu-selected-color: var(--mat-sys-on-background);
-  --arlas-analytics-menu-active-bg-color: #F44336;
-  --arlas-analytics-menu-active-text-color: var(--mat-sys-on-background);
-}
-
 .analytics-menu {
     width: 48px;
     padding: 0;
@@ -40,12 +33,12 @@
     }
 
     .tab-icon {
-        color: var(--arlas-analytics-menu-icon-color, grey);
+        color: var(--arlas-analytics-menu-icon-color, var(--mat-sys-on-background));
         --mdc-list-list-item-one-line-container-height: 48px;
     }
 
     .tab--selected {
-        color: var(--arlas-analytics-menu-selected-color, black);
+        color: var(--arlas-analytics-menu-selected-color, var(--mat-sys-inverse-on-background));
     }
 
     .active-filter-tab {
@@ -55,7 +48,7 @@
         border-radius: 9px;
         left: 10px;
         top: 8px;
-        background-color: var(--arlas-analytics-menu-active-bg-color, #F44336);
+        background-color: var(--arlas-sys-accent-varient);
         padding: 0;
 
         display: flex;
@@ -66,10 +59,10 @@
             display: block;
         }
 
-        .active-filter-tab-close{
+        .active-filter-tab-close {
             display: none;
             font-size: 12px;
-            color: var(--arlas-analytics-menu-active-text-color, white);
+            color: var(--arlas-analytics-menu-active-text-color, var(--mat-sys-on-background));
             width: 12px;
             height: 12px;
         }

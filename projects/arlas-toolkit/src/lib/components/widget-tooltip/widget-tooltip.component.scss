@@ -17,20 +17,12 @@
  * under the License.
  */
 
-:host {
-  --arlas-widget-tooltip-bg: var(--mat-sys-surface);
-  --arlas-widget-tooltip-text: var(--mat-sys-on-background);
-  --arlas-widget-tooltip-label: var(--mat-sys-on-background);
-}
-
-
 .tooltip {
   text-align: left;
   padding: 4px;
   font-size: 12px;
-background: var(--arlas-widget-tooltip-bg, white);
-color: var(--arlas-widget-tooltip-text, #555);
-
+  background: var(--arlas-widget-tooltip--background, var(--mat-sys-surface));
+  color: var(--arlas-widget-tooltip-text, var(--mat-sys-on-background));
   border: 0;
   border-radius: 3px;
   pointer-events: none;
@@ -81,7 +73,7 @@ color: var(--arlas-widget-tooltip-text, #555);
   }
 
   &__label {
-color: var(--arlas-widget-tooltip-label, #999);
+    color: var(--arlas-widget-tooltip-label, var(--mat-sys-on-background));
     padding: 0 5px;
     text-align: start;
     max-width: 200px;

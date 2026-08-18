@@ -17,10 +17,6 @@
  * under the License.
  */
 
-:host {
-  --arlas-donut-tooltip-overlay-metric-text-color: var(--mat-sys-on-background);
-}
-
 .xValue {
   display: flex;
   align-items: center;
@@ -40,7 +36,7 @@
   padding-left: calc(/** Width of the chip */ 10px + /** Gap between elements */ 5px);
 
   .metric {
-    color: var(--arlas-donut-tooltip-overlay-metric-text-color, black);
+    color: var(--arlas-donut-tooltip-overlay-metric-text-color, var(--mat-sys-on-background));
   }
 
   .percentage {

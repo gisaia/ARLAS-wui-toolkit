@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {Component, DestroyRef, inject, OnInit, ViewChild} from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -25,7 +25,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSelectModule } from '@angular/material/select';
 import { SearchContributor } from 'arlas-web-contributors';
-import { fromEvent } from 'rxjs';
+import {fromEvent, of} from 'rxjs';
 import packageJson from '../../../../package.json' with { type: 'json' };
 import {
   AiasDownloadComponent
@@ -67,7 +67,7 @@ import {
 import {
   AiasResultComponent,
   AnalyticsBoardComponent,
-  AnalyticsMenuComponent,
+  AnalyticsMenuComponent, AoiComponent, ArlasAoiService, ArlasTagService,
   AuthorisationError,
   BookmarkMenuComponent,
   ConfigMenuComponent,
@@ -79,12 +79,13 @@ import {
   PermissionsCreatorComponent,
   PermissionsCreatorDialogComponent,
   ReconnectDialogComponent,
-  SearchComponent,
+  SearchComponent, TagComponent, TagManagementDialogComponent,
   TimelineComponent,
   ToolkitComponent,
   TopMenuComponent
 } from '../../../../projects/arlas-toolkit/src/public-api';
 import config from '../../../config.json';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 
 const DUMMY_CONFIG: Config = {
   id: 'TEST',
@@ -121,10 +122,14 @@ const DUMMY_CONFIG: Config = {
     ShareComponent,
     TimelineComponent,
     FilterShortcutComponent,
-    ConfigMenuComponent
-]
+    ConfigMenuComponent,
+    TagComponent
+  ]
 })
 export class HomeComponent implements OnInit {
+
+  private aoi = inject(ArlasAoiService);
+  private tagSercoce = inject(ArlasTagService);
 
   public shortcuts: Array<FilterShortcutConfiguration>;
   public languages = ['en', 'fr', 'it', 'es', 'de', 'us', 'cn'];;
@@ -214,8 +219,13 @@ export class HomeComponent implements OnInit {
 
     this.timelineComponentConfig = this.arlasConfigService.getValue('arlas.web.components.timeline');
     this.detailedTimelineComponentConfig = this.arlasConfigService.getValue('arlas.web.components.detailedTimeline');
-
-    this.collections = [...new Set(Array.from(this.collaborativeService.registry.values()).map(c => c.collection))];
+   if(this.aoi.dataBase?.data.length === 0){
+     this.aoi.dataBase?.add(this.aoi.dataBase?.createAoi('test', {})).pipe(takeUntilDestroyed()).subscribe();
+   }
+   this.tagSercoce.processStatus.set('test', {id: 'test1', updated: 1, label: 't1', progress: 50});
+   this.tagSercoce.processStatus.set('tes1', {id: 'test1', failed: 1, label: 't3', progress: 0});
+   this.tagSercoce.processStatus.set('tes2', {id: 'test1', failed: 1, label: 't3', progress: 100});
+   this.collections = [...new Set(Array.from(this.collaborativeService.registry.values()).map(c => c.collection))];
   }
 
   public ngOnInit(): void {
@@ -427,6 +437,12 @@ export class HomeComponent implements OnInit {
         mainCollection: '',
         oid: ''
       },
+      panelClass: 'arlas-permission-dialog'
+    })
+  }
+
+  public openAoi() {
+    this.dialog.open(AoiComponent, {
       panelClass: 'arlas-permission-dialog'
     })
   }

@@ -1,0 +1,7 @@
+@mixin iam-header(){
+    padding: 10px 20px;
+    background-color: var(--arlas-reset-title-bg, var(--mat-sys-primary));
+    color: var(--arlas-reset-title-text, white);
+    font-size: 18px;
+    border-radius: 15px 15px 0 0;
+}

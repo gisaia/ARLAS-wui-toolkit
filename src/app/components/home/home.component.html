@@ -74,12 +74,17 @@
 
   <button matButton="elevated" class="process" (click)="openPermissionsCreator()">Permission creator (mock)</button>
 
+  <button matButton="elevated" class="process" (click)="openAoi()">Aoi</button>
   <arlas-config-menu [actions]="actions"></arlas-config-menu>
 </div>
 
 <div style="margin-bottom: 10px;">
   <arlas-filter [title]="'ARLAS toolkit'" [backgroundColorFilter]="'#eee'" [colorFilter]="'#000'"
     [availableSpace]="windowWidth - 5"></arlas-filter>
+</div>
+
+<div style="position: relative">
+  <arlas-tag></arlas-tag>
 </div>
 
 @if (timelineComponentConfig) {
