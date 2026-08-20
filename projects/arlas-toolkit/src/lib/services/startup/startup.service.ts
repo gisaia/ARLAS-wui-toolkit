@@ -675,9 +675,6 @@ export class ArlasStartupService {
                   this.collectionId = c.params.id_path;
                 }
               }
-              if (!this.collectionId) {
-                reject(new Error(`Main collection ${data.collection} was not found`));
-              }
 
               resolve(allCollections);
             },
