@@ -26,13 +26,13 @@ export class ThemeService {
   private readonly darkMode = signal(false);
   private readonly THEME_KEY = 'dark-theme-enabled';
 
-  public constructor() {
-    // Load saved preference
+  public applyThemePreference() {
     const saved = localStorage.getItem(this.THEME_KEY);
     this.darkMode.set(saved === 'true');
     if (this.darkMode()) {
       document.body.classList.add('dark-theme');
     }
+    return this;
   }
 
   /**

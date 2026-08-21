@@ -38,8 +38,8 @@
 }
 
 .subtitle {
-  background: var(--arlas-register-subtitle-bg, #ededed);
-  color: var(--arlas-register-subtitle-text, #606770);
+  background: var(--arlas-register-subtitle-bakground, var(--mat-sys-surface));
+  color: var(--arlas-register-subtitle-text, var(--mat-sys-on-surface));
   padding: 10px 35px 0;
 }
 
@@ -48,7 +48,7 @@
 }
 
 .sign-up-button {
-  background-color: var(--arlas-register-button-bg, var(--mat-sys-primary));
+  background-color: var(--arlas-register-button-background, var(--mat-sys-primary));
   border-radius: 15px;
   padding: 0 30px;
 }
@@ -74,7 +74,7 @@
 
 .validate {
   color: var(--arlas-register-success-text, var(--arlas-sys-on-success));
-  background-color: var(--arlas-register-success-bg, var(--arlas-sys-success));
+  background-color: var(--arlas-register-success-background, var(--arlas-sys-success));
   padding: 10px;
   margin-bottom: 10px;
   border-radius: 10px;
@@ -82,7 +82,7 @@
 
 .error {
   color: var(--arlas-register-error-text, var(--mat-sys-on-error));
-  background-color: var(--arlas-register-error-bg, var(--mat-sys-error));
+  background-color: var(--arlas-register-error-background, var(--mat-sys-error));
   padding: 10px;
   margin-bottom: 10px;
   border-radius: 10px;
@@ -107,6 +107,6 @@
 .not-allowed {
   text-align: center;
   padding: 20px;
-  background: var(--arlas-register-not-allowed-bg, #ededed);
+  background: var(--arlas-register-not-allowed-background, #ededed);
   color: var(--arlas-register-not-allowed-text, #606770);
 }

@@ -419,5 +419,10 @@ $dark-theme-color-override-map: (
     @include mat.m2-theme($my-final-theme, $dark-theme-color-override-map);
     @include mat.all-component-colors($my-final-theme);
     @include token.theme-token($my-final-theme);
+
+    @include mat.tooltip-overrides((
+      container-color: var(--mat-sys-surface),
+      supporting-text-color: var(--mat-sys-on-surface),
+    ));
   }
 }

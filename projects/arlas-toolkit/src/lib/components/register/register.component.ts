@@ -17,8 +17,15 @@
  * under the License.
  */
 
-import { Component } from '@angular/core';
-import { FormControl, FormGroup, FormGroupDirective, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, inject } from '@angular/core';
+import {
+  FormControl,
+  FormGroup,
+  FormGroupDirective,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators
+} from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
@@ -26,25 +33,26 @@ import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { ArlasIamService } from '../../services/arlas-iam/arlas-iam.service';
 import { ArlasSettingsService } from '../../services/settings/arlas.settings.service';
+import { ThemeService } from '../../services/theme.service';
 
 @Component({
-    selector: 'arlas-tool-register',
-    templateUrl: './register.component.html',
-    styleUrls: [
-      './register.component.scss',
-      '../iam/form-style.scss'
-    ],
-    imports: [FormsModule, ReactiveFormsModule, MatFormField, MatLabel, MatInput, MatError, MatButton, RouterLink, TranslatePipe]
+  selector: 'arlas-tool-register',
+  templateUrl: './register.component.html',
+  styleUrls: [
+    './register.component.scss',
+    '../iam/form-style.scss'
+  ],
+  imports: [FormsModule, ReactiveFormsModule, MatFormField, MatLabel, MatInput, MatError, MatButton, RouterLink, TranslatePipe]
 })
 export class RegisterComponent {
 
   public signUpForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email, Validators.pattern(String.raw`^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$`)])
   });
-
   public validated = false;
   public displayForm = true;
   public allowRegister = false;
+  private readonly theme = inject(ThemeService);
 
   public constructor(
     private readonly iamService: ArlasIamService,
@@ -52,6 +60,7 @@ export class RegisterComponent {
   ) {
     const authSettings = this.settingsService.getAuthentSettings();
     this.allowRegister = !!authSettings?.sign_up_enabled;
+    this.theme.applyThemePreference();
   }
 
   public onSubmit(formDirective: FormGroupDirective) {

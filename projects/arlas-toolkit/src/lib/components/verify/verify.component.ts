@@ -17,8 +17,16 @@
  * under the License.
  */
 
-import { Component } from '@angular/core';
-import { FormControl, FormGroup, FormGroupDirective, FormsModule, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
+import { Component, inject } from '@angular/core';
+import {
+  FormControl,
+  FormGroup,
+  FormGroupDirective,
+  FormsModule,
+  ReactiveFormsModule,
+  ValidatorFn,
+  Validators
+} from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
@@ -27,6 +35,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { ArlasIamService } from '../../services/arlas-iam/arlas-iam.service';
 import { ArlasSettingsService } from '../../services/settings/arlas.settings.service';
 import { ConfirmedValidator, NOT_CONFIGURED } from '../../tools/utils';
+import { ThemeService } from '../../services/theme.service';
 
 @Component({
   selector: 'arlas-verify',
@@ -38,16 +47,15 @@ import { ConfirmedValidator, NOT_CONFIGURED } from '../../tools/utils';
   imports: [FormsModule, ReactiveFormsModule, MatFormField, MatLabel, MatInput, MatError, MatButton, RouterLink, TranslatePipe]
 })
 export class VerifyComponent {
-
   public validateForm = new FormGroup({
     password: new FormControl('', Validators.required),
     confirm_password: new FormControl('', Validators.required)
   }, ConfirmedValidator('password', 'confirm_password') as ValidatorFn);
   public validated = false;
   public displayForm = true;
-
   public userId: string | null = null;
   public token: string | null = null;
+  private readonly theme = inject(ThemeService);
 
   public constructor(
     private readonly iamService: ArlasIamService,
@@ -58,6 +66,7 @@ export class VerifyComponent {
       this.userId = params.get('id');
       this.token = params.get('token');
     });
+    this.theme.applyThemePreference();
   }
 
   public onSubmit(formDirective: FormGroupDirective): void {
@@ -72,18 +81,18 @@ export class VerifyComponent {
         this.validateForm.reset();
         this.validated = true;
         const authSettings = this.settingsService.getAuthentSettings();
-        this.displayForm  = false;
+        this.displayForm = false;
         if (!!authSettings && authSettings.login_url && authSettings.login_url !== NOT_CONFIGURED) {
           window.open(authSettings.login_url, '_self');
         }
       },
       error: err => {
         err.json().then((e: any) => {
-          if (e.message === 'User already verified.'){
+          if (e.message === 'User already verified.') {
             this.validateForm.setErrors({
               alreadyVerified: true
             });
-          } else if (e.message === 'User not found.'){
+          } else if (e.message === 'User not found.') {
             this.validateForm.setErrors({
               unknownUser: true
             });

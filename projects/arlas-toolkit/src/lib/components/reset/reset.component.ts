@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
@@ -26,26 +26,26 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { ArlasIamService } from '../../services/arlas-iam/arlas-iam.service';
 import { ConfirmedValidator } from '../../tools/utils';
+import { ThemeService } from '../../services/theme.service';
 
 @Component({
-    selector: 'arlas-tool-reset',
-    templateUrl: './reset.component.html',
-    styleUrls: [
-      './reset.component.scss',
-      '../iam/form-style.scss'
-    ],
-    imports: [FormsModule, ReactiveFormsModule, MatFormField, MatLabel, MatInput, MatButton, RouterLink, TranslatePipe]
+  selector: 'arlas-tool-reset',
+  templateUrl: './reset.component.html',
+  styleUrls: [
+    './reset.component.scss',
+    '../iam/form-style.scss'
+  ],
+  imports: [FormsModule, ReactiveFormsModule, MatFormField, MatLabel, MatInput, MatButton, RouterLink, TranslatePipe]
 })
 export class ResetComponent {
-
   public resetForm = new FormGroup({
     password: new FormControl('', [Validators.required]),
     confirm_password: new FormControl('', [Validators.required])
   }, ConfirmedValidator('password', 'confirm_password') as ValidatorFn);
   public validated = false;
-
   public userId: string | null = null;
   public token: string | null = null;
+  private readonly theme = inject(ThemeService);
 
   public constructor(
     private readonly iamService: ArlasIamService,
@@ -55,6 +55,7 @@ export class ResetComponent {
       this.userId = params.get('id');
       this.token = params.get('token');
     });
+    this.theme.applyThemePreference();
   }
 
   public onSubmit(): void {

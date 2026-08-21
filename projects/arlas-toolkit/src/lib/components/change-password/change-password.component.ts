@@ -17,8 +17,7 @@
  * under the License.
  */
 
-import { CdkScrollable } from '@angular/cdk/scrolling';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import { MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle } from '@angular/material/dialog';
@@ -27,6 +26,7 @@ import { MatInput } from '@angular/material/input';
 import { TranslatePipe } from '@ngx-translate/core';
 import { ArlasIamService } from '../../services/arlas-iam/arlas-iam.service';
 import { ConfirmedValidator } from '../../tools/utils';
+import { ThemeService } from '../../services/theme.service';
 
 @Component({
   selector: 'arlas-tool-change-password',
@@ -36,24 +36,25 @@ import { ConfirmedValidator } from '../../tools/utils';
     '../iam/form-style.scss'
   ],
   imports: [
-    MatDialogTitle, CdkScrollable, MatDialogContent, FormsModule, ReactiveFormsModule,
+    MatDialogTitle, MatDialogContent, FormsModule, ReactiveFormsModule,
     MatFormField, MatLabel, MatInput, MatError, MatButton, MatDialogClose, TranslatePipe, MatDialogActions
-]
+  ]
 })
 export class ChangePasswordComponent {
-
   public changeForm = new FormGroup({
     old_password: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required]),
     confirm_password: new FormControl('', [Validators.required])
   }, ConfirmedValidator('password', 'confirm_password') as ValidatorFn);
-
   public validated = false;
   public displayForm = true;
+  private readonly theme = inject(ThemeService);
 
   public constructor(
     private readonly iamService: ArlasIamService,
-  ) { }
+  ) {
+    this.theme.applyThemePreference();
+  }
 
   public submit(): void {
     this.validated = false;

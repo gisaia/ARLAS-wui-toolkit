@@ -20,19 +20,6 @@
 @use "../iam/form-error.scss" as form;
 @use "../../mixin" as mx;
 
-:host {
-  --arlas-iam-form-bg-color: var(--mat-sys-surface-variant);
-  --arlas-iam-input-bg-color: var(--mat-sys-surface);
-  --arlas-reset-title-bg: #00bcd4;
-  --arlas-reset-title-text: white;
-  --arlas-reset-subtitle-bg: var(--mat-sys-surface);
-  --arlas-reset-subtitle-text: var(--mat-sys-on-background);
-  --arlas-reset-button-bg: #00bcd4;
-  --arlas-reset-link-color: #00bcd4;
-  --arlas-reset-error-text: rgb(244, 67, 54);
-  --arlas-reset-success-bg: #5cb85c;
-  --arlas-reset-success-text: var(--mat-sys-on-background);
-}
 
 .container {
   font-family: Roboto, "Helvetica Neue", sans-serif;
@@ -55,7 +42,7 @@
 }
 
 .subtitle {
-  background: var(--arlas-reset-subtitle-bg, #ededed);
+  background: var(--arlas-reset-subtitle-background, #ededed);
   color: var(--arlas-reset-subtitle-text, #606770);
   padding: 10px 35px 0;
 }
@@ -65,7 +52,7 @@
 }
 
 .reset-button {
-  background-color: var(--arlas-reset-button-bg, #00bcd4);
+  background-color: var(--arlas-reset-button-background, #00bcd4);
   border-radius: 15px;
   padding: 0 30px;
 }
@@ -94,7 +81,7 @@
 
 .validate {
   color: var(--arlas-reset-success-text, var(--arlas-sys-on-success));
-  background-color: var(--arlas-reset-success-bg, var(--arlas-sys-success));
+  background-color: var(--arlas-reset-success-background, var(--arlas-sys-success));
   padding: 10px;
   margin-bottom: 10px;
   border-radius: 10px;

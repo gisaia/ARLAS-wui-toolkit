@@ -87,11 +87,10 @@ export class TopMenuComponent {
 
   public showLinks = false;
   public linksEnabled = false;
-  @ViewChild('about', { static: false }) private readonly aboutcomponent?: AboutComponent;
-
-  private readonly themeService = inject(ThemeService);
-  public isDarkMode = computed(() => this.themeService.isDarkMode());
   protected isDarkThemeEnabled = false;
+  @ViewChild('about', {static: false}) private readonly aboutcomponent?: AboutComponent;
+  private readonly themeService = inject(ThemeService).applyThemePreference();
+  public isDarkMode = computed(() => this.themeService.isDarkMode());
 
   public constructor(
     private readonly authentService: AuthentificationService,
@@ -188,7 +187,7 @@ export class TopMenuComponent {
   }
 
   public changePassword() {
-    this.dialog.open(ChangePasswordComponent, { panelClass: 'change-dialog' });
+    this.dialog.open(ChangePasswordComponent, {panelClass: 'change-dialog'});
   }
 
   public displayAbout() {
@@ -196,7 +195,7 @@ export class TopMenuComponent {
   }
 
   public getUserInfos() {
-    this.dialog.open(UserInfosComponent, { panelClass: 'arlas-user-info-dialog' });
+    this.dialog.open(UserInfosComponent, {panelClass: 'arlas-user-info-dialog'});
   }
 
   public getInitials(name: string | undefined) {
