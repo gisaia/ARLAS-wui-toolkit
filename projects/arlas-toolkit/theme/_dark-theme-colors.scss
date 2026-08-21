@@ -316,9 +316,9 @@ $_rest: (
   error: map.get($m2-dark-palette, error),
 );
 
-$primary-palette: mat.m2-define-palette(map.get($m2-dark-palette, primary), 600);
-$tertiary-palette: mat.m2-define-palette(map.get($m2-dark-palette, tertiary), 600);
-$secondary-palette: mat.m2-define-palette(map.get($m2-dark-palette, accent), 600);
+$primary-palette: mat.m2-define-palette(map.get($m2-dark-palette, primary), 500);
+$tertiary-palette: mat.m2-define-palette(map.get($m2-dark-palette, tertiary), 500);
+$secondary-palette: mat.m2-define-palette(map.get($m2-dark-palette, accent), 500);
 
 $dark-theme-color-override-map: (
   background: #0B0F19,
