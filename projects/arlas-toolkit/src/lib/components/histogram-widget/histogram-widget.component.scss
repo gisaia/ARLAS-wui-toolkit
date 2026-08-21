@@ -26,7 +26,7 @@
 }
 
 .detail-status {
-  background-color: var(--arlas-histogram-widget-status-bg, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));
+  background-color: var(--arlas-histogram-widget-status-bg, var(--arlas-sys-light-surface));
   border-radius: 2px;
 }
 

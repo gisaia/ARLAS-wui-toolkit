@@ -43,6 +43,8 @@
   --arlas-sys-histogram-headband-fill: #88c9c3;
   --arlas-sys-histogram-bar-fill: white;
   --arlas-sys-histogram-bar-stroke: #a5a5a5;
+  --arlas-sys-light-surface: color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent);
+  --arlas-sys-on-light-surface: color-mix(in srgb, var(--mat-sys-on-surface) 40%, transparent);
 }
 
 /**

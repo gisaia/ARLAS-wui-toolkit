@@ -29,8 +29,8 @@
 
         min-width: 18px;
         border-radius: 50%;
-        background-color: var(--arlas-filters-handler-more-bg, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));
-        border: 1px solid var(--arlas-filters-handler-more-border-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));
+        background-color: var(--arlas-filters-handler-more-background, var(--arlas-sys-light-surface));
+        border: 1px solid var(--arlas-filters-handler-more-border-color, var(--arlas-sys-light-surface));
         font-size: 12px;
         display: flex;
         align-items: center;
@@ -38,7 +38,7 @@
         margin-left: 3px;
 
         &--expanded {
-            background-color: var(--arlas-filters-handler-expanded-bg, var(--mat-sys-surface));
+            background-color: var(--arlas-filters-handler-expanded-background, var(--mat-sys-surface));
             border: 1px solid var(--arlas-filters-handler-expanded-border-color,var(--mat-sys-surface-variant));
         }
 

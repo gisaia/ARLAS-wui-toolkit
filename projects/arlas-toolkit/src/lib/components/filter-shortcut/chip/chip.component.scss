@@ -29,9 +29,9 @@
     border: 1px solid var(--arlas-chip-border-color, #e7e7e7);
 
     .hide {
-        background-color: var(--arlas-chip-hide-background, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));
-        color: var(--arlas-chip-hide-text-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));
-        border: 1px solid color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent);
+        background-color: var(--arlas-chip-hide-background, var(--arlas-sys-light-surface));
+        color: var(--arlas-chip-hide-text-color, var(--arlas-sys-light-surface));
+        border: 1px solid var(--arlas-sys-light-surface);
     }
 
     &--long-text {

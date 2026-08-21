@@ -204,7 +204,7 @@ $count-chip-height: 30px;
         display: flex;
         align-items: center;
         justify-content: center;
-        border: 1px solid var(--arlas-filters-count-border, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));
+        border: 1px solid var(--arlas-filters-count-border, var(--arlas-sys-light-surface));
         font-size: $sm-font-size;
         align-self: center;
       }
@@ -221,7 +221,7 @@ $count-chip-height: 30px;
     position: relative;
     top: -1px;
     left: 10%;
-    background-color: var(--arlas-filters-separator-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));
+    background-color: var(--arlas-filters-separator-color, var(--arlas-sys-light-surface));
     z-index: 1;
   }
 
