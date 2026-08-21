@@ -24,10 +24,15 @@ import { Observable, of } from 'rxjs';
 import { GET_OPTIONS, GetOptions } from '../tools/utils';
 
 export interface TaskSettings {
+  /** Whether the retrieval of AIAS task status is enabled */
   enabled: boolean;
+  /** URL of the APROC service */
   url: string;
+  /** Collections for which the task retrieval is allowed */
   collections: string[];
+  /** Processes to hide from the user */
   ignoredProcess?: string[];
+  /** If one task is not in a final state, interval in ms before refreshing the tasks */
   taskRetrievalTimer?: number;
 }
 
