@@ -23,6 +23,9 @@
 @use '@angular/material' as mat;
 @use './tokens' as token;
 
+/**
+  Dark theme palette for m2
+ */
 $m2-dark-palette: (
   accent: (
     50: #ffecef,
@@ -157,250 +160,32 @@ $m2-dark-palette: (
     ),
   ),
 );
-// Note: Color palettes are generated from primary: #ee8ba6, secondary: #7aa1ff, tertiary: #cb92e8, neutral: #0B090A
-$m3-dark_palettes: (
-  primary: (
-    50: #ffecef,
-    100: #ffd9e0,
-    200: #ffb1c4,
-    300: #f18ea9,
-    400: #d2748e,
-    500: #b45b75,
-    600: #96435c,
-    700: #782c45,
-    800: #5c152f,
-    900: #3f001a,
-    A100: #ffd9e0,
-    A200: #ffb1c4,
-    A400: #d2748e,
-    A700: #782c45,
-    contrast: (
-      50: rgba(black, 0.87), 100: rgba(black, 0.87), 200: rgba(black, 0.87),
-      300: rgba(black, 0.87), 400: rgba(black, 0.87), 500: rgba(black, 0.87),
-      600: white, 700: white, 800: white, 900: white,
-      A100: rgba(black, 0.87), A200: rgba(black, 0.87), A400: rgba(black, 0.87), A700: white,
-    ),
-  ),
-  accent: (
-    50: #eef0ff,
-    100: #dae2ff,
-    200: #b1c5ff,
-    300: #87a9ff,
-    400: #668eea,
-    500: #4b74ce,
-    600: #2f5ab4,
-    700: #08429a,
-    800: #002c70,
-    900: #001946,
-    A100: #dae2ff,
-    A200: #b1c5ff,
-    A400: #668eea,
-    A700: #08429a,
-    contrast: (
-      50: rgba(black, 0.87), 100: rgba(black, 0.87), 200: rgba(black, 0.87),
-      300: rgba(black, 0.87), 400: rgba(black, 0.87), 500: rgba(black, 0.87),
-      600: white, 700: white, 800: white, 900: white,
-      A100: rgba(black, 0.87), A200: rgba(black, 0.87), A400: rgba(black, 0.87), A700: white,
-    ),
-  ),
-  warn: (
-    50: #ffedea,
-    100: #ffdad6,
-    200: #ffb4ab,
-    300: #ff897d,
-    400: #ff5449,
-    500: #de3730,
-    600: #ba1a1a,
-    700: #93000a,
-    800: #690005,
-    900: #410002,
-    A100: #ffdad6,
-    A200: #ffb4ab,
-    A400: #ff5449,
-    A700: #93000a,
-    contrast: (
-      50: rgba(black, 0.87), 100: rgba(black, 0.87), 200: rgba(black, 0.87),
-      300: rgba(black, 0.87), 400: rgba(black, 0.87), 500: rgba(black, 0.87),
-      600: white, 700: white, 800: white, 900: white,
-      A100: rgba(black, 0.87), A200: rgba(black, 0.87), A400: rgba(black, 0.87), A700: white,
-    ),
-  ),
-  tertiary: (
-    0: #000000,
-    10: #30004a,
-    20: #4a1666,
-    25: #562372,
-    30: #62307e,
-    35: #6f3c8b,
-    40: #7c4898,
-    50: #9761b3,
-    60: #b27bcf,
-    70: #ce95eb,
-    80: #e7b4ff,
-    90: #f5d9ff,
-    95: #fdebff,
-    98: #fff7fc,
-    99: #fffbff,
-    100: #ffffff,
-  ),
-  neutral: (
-    0: #000000,
-    10: #1d1b1c,
-    20: #333031,
-    25: #3e3a3c,
-    30: #494647,
-    35: #555153,
-    40: #615d5e,
-    50: #7a7677,
-    60: #948f91,
-    70: #afaaab,
-    80: #cbc5c6,
-    90: #e8e1e2,
-    95: #f6eff0,
-    98: #fff8f9,
-    99: #fffbff,
-    100: #ffffff,
-    4: #100e0f,
-    6: #151314,
-    12: #211f20,
-    17: #2c292a,
-    22: #373435,
-    24: #3c3839,
-    87: #dfd8da,
-    92: #ede6e8,
-    94: #f3eced,
-    96: #f9f2f3,
-  ),
-  neutral-variant: (
-    0: #000000,
-    10: #25181b,
-    20: #3c2c30,
-    25: #47373b,
-    30: #534246,
-    35: #604e52,
-    40: #6c5a5d,
-    50: #867276,
-    60: #a18b8f,
-    70: #bca6aa,
-    80: #d8c1c5,
-    90: #f5dce1,
-    95: #ffecef,
-    98: #fff8f8,
-    99: #fffbff,
-    100: #ffffff,
-  ),
-  error: (
-    0: #000000,
-    10: #410002,
-    20: #690005,
-    25: #7e0007,
-    30: #93000a,
-    35: #a80710,
-    40: #ba1a1a,
-    50: #de3730,
-    60: #ff5449,
-    70: #ff897d,
-    80: #ffb4ab,
-    90: #ffdad6,
-    95: #ffedea,
-    98: #fff8f7,
-    99: #fffbff,
-    100: #ffffff,
-  ),
-);
-
-$_rest: (
-  secondary: map.get($m2-dark-palette, accent),
-  neutral: map.get($m2-dark-palette, neutral),
-  neutral-variant: map.get($m2-dark-palette,  neutral-variant),
-  error: map.get($m2-dark-palette, error),
-);
 
 $primary-palette: mat.m2-define-palette(map.get($m2-dark-palette, primary), 500);
 $tertiary-palette: mat.m2-define-palette(map.get($m2-dark-palette, tertiary), 500);
 $secondary-palette: mat.m2-define-palette(map.get($m2-dark-palette, accent), 500);
 
+/**
+ Dark theme overrid. Cause for m2 theme variables are hardcoded in theme mixin
+ */
 $dark-theme-color-override-map: (
   background: #0B0F19,
   on-background: #F1F5F9,
   surface: #0E1525,
   surface-variant: #1E293B,
   on-surface: #F1F5F9,
-  surface-container-low: #10182B,   // tech.card
-  surface-container: #131B2E,       // tech.card
-  surface-container-high: #1E293B,  // tech.overlay
-  on-surface-variant: #F1F5F9,      // ui.muted
+  surface-container-low: #10182B,
+  surface-container: #131B2E,
+  surface-container-high: #1E293B,
+  on-surface-variant: #F1F5F9,
   outline-variant: #293F70,
 );
 
-@function _high-contrast-value($light, $dark, $theme-type) {
-  @if ($theme-type == light) {
-    @return $light;
-  }
-  @if ($theme-type == dark) {
-    @return $dark;
-  }
-  @if ($theme-type == color-scheme) {
-    @return light-dark(#{$light}, #{$dark});
-  }
-
-  @error 'Unknown theme-type #{$theme-type}. Expected light, dark, or color-scheme';
-}
-
-@mixin high-contrast-overrides($theme-type) {
-  @include mat.theme-overrides((
-    primary: _high-contrast-value(#56102a, #ffebee, $theme-type),
-    on-primary: _high-contrast-value(#ffffff, #000000, $theme-type),
-    primary-container: _high-contrast-value(#7b2e47, #ffabc0, $theme-type),
-    on-primary-container: _high-contrast-value(#ffffff, #21000a, $theme-type),
-    inverse-primary: _high-contrast-value(#ffb1c4, #7a2d46, $theme-type),
-    primary-fixed: _high-contrast-value(#7b2e47, #ffd9e0, $theme-type),
-    primary-fixed-dim: _high-contrast-value(#5f1731, #ffb1c4, $theme-type),
-    on-primary-fixed: _high-contrast-value(#ffffff, #000000, $theme-type),
-    on-primary-fixed-variant: _high-contrast-value(#ffffff, #2c0010, $theme-type),
-    secondary: _high-contrast-value(#002867, #edefff, $theme-type),
-    on-secondary: _high-contrast-value(#ffffff, #000000, $theme-type),
-    secondary-container: _high-contrast-value(#0e449d, #abc1ff, $theme-type),
-    on-secondary-container: _high-contrast-value(#ffffff, #000a25, $theme-type),
-    secondary-fixed: _high-contrast-value(#0e449d, #dae2ff, $theme-type),
-    secondary-fixed-dim: _high-contrast-value(#002e75, #b1c5ff, $theme-type),
-    on-secondary-fixed: _high-contrast-value(#ffffff, #000000, $theme-type),
-    on-secondary-fixed-variant: _high-contrast-value(#ffffff, #000f31, $theme-type),
-    tertiary: _high-contrast-value(#451061, #fceaff, $theme-type),
-    on-tertiary: _high-contrast-value(#ffffff, #000000, $theme-type),
-    tertiary-container: _high-contrast-value(#653281, #e5aeff, $theme-type),
-    on-tertiary-container: _high-contrast-value(#ffffff, #180027, $theme-type),
-    tertiary-fixed: _high-contrast-value(#653281, #f5d9ff, $theme-type),
-    tertiary-fixed-dim: _high-contrast-value(#4c1968, #e7b4ff, $theme-type),
-    on-tertiary-fixed: _high-contrast-value(#ffffff, #000000, $theme-type),
-    on-tertiary-fixed-variant: _high-contrast-value(#ffffff, #210034, $theme-type),
-    background: _high-contrast-value(#fff8f9, #151314, $theme-type),
-    on-background: _high-contrast-value(#1d1b1c, #e8e1e2, $theme-type),
-    surface: _high-contrast-value(#fff8f9, #151314, $theme-type),
-    surface-dim: _high-contrast-value(#bdb7b8, #151314, $theme-type),
-    surface-bright: _high-contrast-value(#fff8f9, #534f50, $theme-type),
-    surface-container-low: _high-contrast-value(#f6eff0, #211f20, $theme-type),
-    surface-container-lowest: _high-contrast-value(#ffffff, #000000, $theme-type),
-    surface-container: _high-contrast-value(#e8e1e2, #333031, $theme-type),
-    surface-container-high: _high-contrast-value(#d9d3d4, #3e3a3c, $theme-type),
-    surface-container-highest: _high-contrast-value(#cbc5c6, #494647, $theme-type),
-    on-surface: _high-contrast-value(#000000, #ffffff, $theme-type),
-    shadow: _high-contrast-value(#000000, #000000, $theme-type),
-    scrim: _high-contrast-value(#000000, #000000, $theme-type),
-    surface-tint: _high-contrast-value(#96435c, #ffb1c4, $theme-type),
-    inverse-surface: _high-contrast-value(#333031, #e8e1e2, $theme-type),
-    inverse-on-surface: _high-contrast-value(#ffffff, #000000, $theme-type),
-    outline: _high-contrast-value(#37282c, #ffebee, $theme-type),
-    outline-variant: _high-contrast-value(#564548, #d4bdc1, $theme-type),
-    error: _high-contrast-value(#600004, #ffece9, $theme-type),
-    on-error: _high-contrast-value(#ffffff, #000000, $theme-type),
-    error-container: _high-contrast-value(#98000a, #ffaea4, $theme-type),
-    on-error-container: _high-contrast-value(#ffffff, #220001, $theme-type),
-    surface-variant: _high-contrast-value(#f5dce1, #534246, $theme-type),
-    on-surface-variant: _high-contrast-value(#000000, #ffffff, $theme-type),
-  ))
- }
+/**
+ Global mixin that define dark theme
+ */
 @mixin m2-dark-theme-custom-override(){
+  // Create dark theme
   $dark-theme: mat.m2-define-dark-theme((
     color: (
       primary: $primary-palette,
@@ -420,6 +205,13 @@ $dark-theme-color-override-map: (
     @include mat.all-component-colors($my-final-theme);
     @include token.theme-token($my-final-theme);
 
+    /**
+      Component override.
+      Used when component has hard coded color in their theming function
+     */
+    @include mat.stepper-overrides((
+      header-icon-background-color: grey
+    ));
     @include mat.tooltip-overrides((
       container-color: var(--mat-sys-surface),
       supporting-text-color: var(--mat-sys-on-surface),
