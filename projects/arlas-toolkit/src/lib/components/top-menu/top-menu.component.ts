@@ -89,7 +89,7 @@ export class TopMenuComponent {
   public linksEnabled = false;
   protected isDarkThemeEnabled = false;
   @ViewChild('about', {static: false}) private readonly aboutcomponent?: AboutComponent;
-  private readonly themeService = inject(ThemeService).applyThemePreference();
+  private readonly themeService = inject(ThemeService);
   public isDarkMode = computed(() => this.themeService.isDarkMode());
 
   public constructor(
@@ -104,7 +104,7 @@ export class TopMenuComponent {
   ) {
     this.extraAboutText = this.translate.instant('extraAboutText') === 'extraAboutText' ? '' : this.translate.instant('extraAboutText');
     this.aboutFile = 'assets/about/about_' + this.translate.currentLang + '.md?' + Date.now() + '.md';
-
+    this.themeService.applyThemePreference();
     const links = this.settingsService.getLinksSettings();
     this.linksEnabled = !!links && links.length > 0;
     const authSettings = this.settingsService.getAuthentSettings();

@@ -17,19 +17,6 @@
  * under the License.
  */
 
-:host {
-  --arlas-iam-form-background-color: var(--mat-sys-surface-variant);
-  --arlas-iam-input-background-color: var(--mat-sys-surface);
-  --arlas-login-title-background: #00bcd4;
-  --arlas-login-title-text: white;
-  --arlas-login-button-background: #00bcd4;
-  --arlas-login-link-color: #00bcd4;
-  --arlas-login-error-background: rgb(244, 67, 54);
-  --arlas-login-error-text: var(--mat-sys-on-background);
-  --arlas-login-forgot-color: #0969da;
-  --arlas-login-accent-background: #FF4081;
-}
-
 /* Spinner button */
 @keyframes spinner {
   to {transform: rotate(360deg);}

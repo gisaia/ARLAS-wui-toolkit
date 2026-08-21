@@ -17,16 +17,16 @@
  * under the License.
  */
 
-import {DatePipe} from '@angular/common';
-import {Component, Output} from '@angular/core';
-import {MatCheckboxModule} from '@angular/material/checkbox';
-import {MatIconModule} from '@angular/material/icon';
-import {MatTableModule} from '@angular/material/table';
-import {TranslatePipe} from '@ngx-translate/core';
-import {Subject} from 'rxjs';
-import {ArlasAoiService} from '../../services/aoi/aoi.service';
-import {Aoi} from '../../services/aoi/model';
-import {ArlasDataSource} from '../../tools/arlasDataSource';
+import { DatePipe } from '@angular/common';
+import { Component, Output } from '@angular/core';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTableModule } from '@angular/material/table';
+import { TranslatePipe } from '@ngx-translate/core';
+import { Subject } from 'rxjs';
+import { ArlasAoiService } from '../../services/aoi/aoi.service';
+import { Aoi } from '../../services/aoi/model';
+import { ArlasDataSource } from '../../tools/arlasDataSource';
 
 @Component({
   selector: 'arlas-aoi',
@@ -51,7 +51,6 @@ export class AoiComponent {
   public constructor(
     private readonly aoiService: ArlasAoiService
   ) {
-    this.aoiService.addAoi('tes', {});
     if (this.aoiService.dataBase) {
       this.aois = new ArlasDataSource(this.aoiService.dataBase);
     }
@@ -70,13 +69,13 @@ export class AoiComponent {
 
   public viewAoi(id: string) {
     const aoi = this.aoiService.getAoiById(id);
-    this.actions.next({ action: 'view', id: id, geometry: aoi?.geometry });
+    this.actions.next({action: 'view', id: id, geometry: aoi?.geometry});
 
   }
 
   public removeAoi(id: string) {
     this.aoiService.removeAoi(id);
-    this.selectAoi({ checked: false }, id);
-    this.actions.next({ action: 'remove', id: id });
+    this.selectAoi({checked: false}, id);
+    this.actions.next({action: 'remove', id: id});
   }
 }

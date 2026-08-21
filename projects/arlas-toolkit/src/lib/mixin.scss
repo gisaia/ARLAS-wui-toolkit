@@ -17,7 +17,7 @@
  * under the License.
  */
 
-@mixin iam-header(){
+@mixin iam-header() {
     padding: 10px 20px;
     background-color: var(--arlas-reset-title-bg, var(--mat-sys-primary));
     color: var(--arlas-reset-title-text, white);

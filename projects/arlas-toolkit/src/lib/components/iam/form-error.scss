@@ -18,7 +18,7 @@
  */
 
 @mixin error {
-  color: var(--arlas-iam-error-text, rgb(244, 67, 54));
+  color: var(--arlas-iam-error-text, var(--mat-sys-error));
   display: block;
   font-family: Roboto, "Helvetica Neue", sans-serif;
   font-size: 12px;

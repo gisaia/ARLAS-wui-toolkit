@@ -54,7 +54,7 @@ export class LoginComponent implements OnInit {
   public isLoading = false;
   public showPage = false;
   public displayNoAccount = false;
-  private readonly theme = inject(ThemeService).applyThemePreference();
+  private readonly theme = inject(ThemeService);
 
   public constructor(
     private readonly iamService: ArlasIamService,
@@ -62,6 +62,7 @@ export class LoginComponent implements OnInit {
     private readonly errorService: ErrorService,
     private readonly router: Router
   ) {
+    this.theme.applyThemePreference();
   }
 
 
