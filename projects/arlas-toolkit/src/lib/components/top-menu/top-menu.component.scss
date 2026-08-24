@@ -29,7 +29,8 @@ $icon-height: 24px;
 .top-menu {
     width: 100%;
     height: 40px;
-    background-color: var(--arlas-top-menu--background, var(--mat-sys-surface));
+    background-color: var(--arlas-top-menu-background, var(--mat-sys-surface));
+    border-bottom: solid 1px var(--arlas-top-menu-bottom-color, var(--arlas-sys-outline));
     padding: 0;
 
 
