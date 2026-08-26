@@ -17,10 +17,10 @@
  * under the License.
  */
 
-import { Injectable } from '@angular/core';
-import { ArlasStartupService } from '../startup/startup.service';
-import { AoiDatabase } from './aoiDatabase';
-import { Aoi } from './model';
+import {Injectable} from '@angular/core';
+import {ArlasStartupService} from '../startup/startup.service';
+import {AoiDatabase} from './aoiDatabase';
+import {Aoi} from './model';
 
 @Injectable({
   providedIn: 'root'

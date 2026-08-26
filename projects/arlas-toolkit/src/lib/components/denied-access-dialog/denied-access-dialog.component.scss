@@ -19,7 +19,6 @@
 
 :host {
   --arlas-denied-access-dialog-error-color: #ce3d38;
-  --arlas-denied-access-dialog-state: var(--mat-sys-on-background);
 }
 
 $sm-spacing: 5px;
@@ -52,13 +51,13 @@ $default-font-size: 16px;
     align-items: center;
 
     .icon {
-      color: var(--arlas-denied-access-dialog-error-color, #ce3d38);
+      color: var(--arlas-denied-access-dialog-error-icon-color, var(--mat-sys-error));
       margin-bottom: $default-margin;
     }
 
     .state {
       margin-bottom: calc(2 * $default-margin);
-      color: var(--arlas-denied-access-dialog-state, black);
+      color: var(--arlas-denied-access-dialog-state, var(--mat-sys-on-background));
     }
 
     .action {

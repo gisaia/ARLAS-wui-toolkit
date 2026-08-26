@@ -17,29 +17,6 @@
  * under the License.
  */
 
-:host {
-  --arlas-iam-form-bg-color: var(--mat-sys-surface-variant);
-  --arlas-iam-input-bg-color: var(--mat-sys-surface);
-  --arlas-forgot-title-bg: #00bcd4;
-  --arlas-forgot-title-text: white;
-  --arlas-forgot-subtitle-bg: var(--mat-sys-surface);
-  --arlas-forgot-subtitle-text: var(--mat-sys-on-background);
-  --arlas-forgot-button-bg: #00bcd4;
-  --arlas-forgot-link-color: #00bcd4;
-  --arlas-forgot-error-text: rgb(244, 67, 54);
-  --arlas-forgot-success-bg: #5cb85c;
-  --arlas-forgot-success-text: var(--mat-sys-on-background);
-}
-
-.dark-theme{
-  :host{
-    ::ng-deep .mat-mdc-text-field-wrapper {
-      background-color: var(--mat-sys-surface-variant) !important;
-    }
-  }
-}
-
-
 .container {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
@@ -57,8 +34,8 @@
 
 .title {
   padding: 10px 20px;
-  background-color: var(--arlas-forgot-title-bg, #00bcd4);
-  color: var(--arlas-forgot-title-text, white);
+  background-color: var(--arlas-forgot-title-background,  var(--mat-sys-primary));
+  color: var(--arlas-forgot-title-text,  var(--mat-sys-on-primary));
   font-size: 18px;
   border-radius: 15px 15px 0 0;
 }
@@ -68,7 +45,7 @@
 }
 
 .subtitle {
-  background: var(--arlas-forgot-subtitle-bg, #ededed);
+  background: var(--arlas-forgot-subtitle-background, #ededed);
   color: var(--arlas-forgot-subtitle-text, #606770);
   padding: 10px 35px 0;
 }
@@ -78,7 +55,7 @@
 }
 
 .sign-up-button {
-  background-color: var(--arlas-forgot-button-bg, #00bcd4);
+  background-color: var(--arlas-forgot-button-background,  var(--mat-sys-primary));
   border-radius: 15px;
   padding: 0 30px;
 }
@@ -95,14 +72,15 @@
   align-items: baseline;
   padding-top: 15px;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+  color: var(--arlas-forgottext-color, var(--mat-sys-on-background));
 }
 
 .account button {
-  color: var(--arlas-forgot-link-color, #00bcd4);
+  color: var(--arlas-forgot-link-color, var(--arlas-sys-accent-variant2));
 }
 
 .form-error {
-  color: var(--arlas-forgot-error-text, rgb(244, 67, 54));
+  color: var(--arlas-forgot-error-text, var(--mat-sys-error));
   display: block;
   font-family: Roboto, "Helvetica Neue", sans-serif;
   font-size: 12px;
@@ -111,8 +89,8 @@
 }
 
 .validate{
-  color: var(--arlas-forgot-success-text, white);
-  background-color: var(--arlas-forgot-success-bg, #5cb85c);
+  color: var(--arlas-forgot-success-text, var(--arlas-sys-on-success));
+  background-color: var(--arlas-forgot-success-background, var(--arlas-sys-success));
   padding: 10px;
   margin-bottom: 10px;
   border-radius: 10px;

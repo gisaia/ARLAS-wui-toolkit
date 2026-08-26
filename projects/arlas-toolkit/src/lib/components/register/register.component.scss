@@ -17,34 +17,7 @@
  * under the License.
  */
 
-:host {
-  --arlas-iam-form-bg-color: var(--mat-sys-surface-variant);
-  --arlas-iam-input-bg-color: var(--mat-sys-surface);
-  --arlas-register-title-bg: #00bcd4;
-  --arlas-register-title-text: white;
-  --arlas-register-subtitle-bg: var(--mat-sys-surface);
-  --arlas-register-subtitle-text: var(--mat-sys-on-background);
-  --arlas-register-content-bg: var(--mat-sys-surface);
-  --arlas-register-button-bg: #00bcd4;
-  --arlas-register-link-color: #00bcd4;
-  --arlas-register-success-bg: #5cb85c;
-  --arlas-register-success-text: var(--mat-sys-on-background);
-  --arlas-register-error-bg: rgb(244, 67, 54);
-  --arlas-register-error-text: var(--mat-sys-on-background);
-  --arlas-register-terms-color: #0969da;
-  --arlas-register-not-allowed-bg: var(--mat-sys-surface);
-  --arlas-register-not-allowed-text: var(--mat-sys-on-background);
-}
-
-.dark-theme{
-  :host{
-    ::ng-deep .mat-mdc-text-field-wrapper {
-      background-color: var(--mat-sys-surface-variant) !important;
-    }
-  }
-
-  --arlas-register-terms-color: var(--mat-sys-secondary);
-}
+@use "../../mixin" as mx;
 
 .container {
   font-family: Roboto, "Helvetica Neue", sans-serif;
@@ -57,11 +30,7 @@
 }
 
 .title {
-  padding: 10px 20px;
-  background-color: var(--arlas-register-title-bg, #00bcd4);
-  color: var(--arlas-register-title-text, white);
-  font-size: 18px;
-  border-radius: 15px 15px 0 0;
+  @include mx.iam-header();
 }
 
 .title h2 {
@@ -69,8 +38,8 @@
 }
 
 .subtitle {
-  background: var(--arlas-register-subtitle-bg, #ededed);
-  color: var(--arlas-register-subtitle-text, #606770);
+  background: var(--arlas-register-subtitle-bakground, var(--mat-sys-surface));
+  color: var(--arlas-register-subtitle-text, var(--mat-sys-on-surface));
   padding: 10px 35px 0;
 }
 
@@ -79,7 +48,7 @@
 }
 
 .sign-up-button {
-  background-color: var(--arlas-register-button-bg, #00bcd4);
+  background-color: var(--arlas-register-button-background, var(--mat-sys-primary));
   border-radius: 15px;
   padding: 0 30px;
 }
@@ -96,23 +65,24 @@
   align-items: baseline;
   padding-top: 15px;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+  color: var(--arlas-register-text-color);
 }
 
 .account button {
-  color: var(--arlas-register-link-color, #00bcd4);
+  color: var(--arlas-register-link-color, var(--arlas-sys-accent-variant2));
 }
 
 .validate {
-  color: var(--arlas-register-success-text, white);
-  background-color: var(--arlas-register-success-bg, #5cb85c);
+  color: var(--arlas-register-success-text, var(--arlas-sys-on-success));
+  background-color: var(--arlas-register-success-background, var(--arlas-sys-success));
   padding: 10px;
   margin-bottom: 10px;
   border-radius: 10px;
 }
 
 .error {
-  color: var(--arlas-register-error-text, white);
-  background-color: var(--arlas-register-error-bg, rgb(244, 67, 54));
+  color: var(--arlas-register-error-text, var(--mat-sys-on-error));
+  background-color: var(--arlas-register-error-background, var(--mat-sys-error));
   padding: 10px;
   margin-bottom: 10px;
   border-radius: 10px;
@@ -122,10 +92,11 @@
   font-size: 12px;
   padding-bottom: 10px;
   text-align: center;
+  color: var(--arlas-register-text-color);
 }
 
 .terms a {
-  color: var(--arlas-register-terms-color, #0969da);
+  color: var(--arlas-register-terms-color, var(--mat-sys-primary));
   text-decoration: none;
 }
 
@@ -136,6 +107,6 @@
 .not-allowed {
   text-align: center;
   padding: 20px;
-  background: var(--arlas-register-not-allowed-bg, #ededed);
+  background: var(--arlas-register-not-allowed-background, #ededed);
   color: var(--arlas-register-not-allowed-text, #606770);
 }

@@ -17,11 +17,6 @@
  * under the License.
  */
 
-:host {
-  --arlas-extend-view-color: #2196f3;
-  --arlas-extend-delete-color: #FF0000;
-}
-
 .extend-table-items{
   overflow: hidden;
 }
@@ -39,11 +34,11 @@
 }
 
 .extend-icons-action-view:hover{
-  color: var(--arlas-extend-view-color, #2196f3);
+  color: var(--arlas-extend-view-color, var(--mat-sys-primary));
 }
 
 .extend-icons-action-delete:hover{
-  color: var(--arlas-extend-delete-color, #FF0000);
+  color: var(--arlas-extend-delete-color,  var(--mat-sys-error));
 }
 
 .mat-mdc-header-cell {

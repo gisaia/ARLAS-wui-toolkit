@@ -17,13 +17,6 @@
  * under the License.
  */
 
-:host {
-  --arlas-top-menu-bg: var(--mat-sys-surface); // was #fff
-  --arlas-top-menu-avatar-bg: var(--mat-sys-background); // was #999
-  --arlas-top-menu-icon-color: var(--mat-sys-on-background); // was #666
-  --arlas-top-menu-avatar-text: var(--mat-sys-on-background); // was white
-}
-
 $sm-spacing: 5px;
 $sm-margin: 5px;
 $default-margin: 10px;
@@ -36,7 +29,8 @@ $icon-height: 24px;
 .top-menu {
     width: 100%;
     height: 40px;
-    background-color: var(--arlas-top-menu-bg, #fff);
+    background-color: var(--arlas-top-menu-background, var(--mat-sys-surface));
+    border-bottom: solid 1px var(--arlas-top-menu-bottom-color, var(--arlas-sys-outline));
     padding: 0;
 
 
@@ -51,7 +45,7 @@ $icon-height: 24px;
     }
 
     mat-icon {
-      color: var(--arlas-top-menu-icon-color, #666);
+      color: var(--arlas-top-menu-icon-color, var(--mat-sys-on-background));
     }
 
     .action-menu-button {
@@ -69,8 +63,8 @@ $icon-height: 24px;
             font-size: $sm-font-size;
             font-weight: bold;
             border-radius: calc($icon-height / 2);
-            background-color: var(--arlas-top-menu-avatar-bg, #999);
-            color: var(--arlas-top-menu-avatar-text, white);
+            background-color: var(--arlas-top-menu-avatar--background, var(--mat-sys-background));
+            color: var(--arlas-top-menu-avatar-text, var(--mat-sys-on-background));
         }
     }
 }

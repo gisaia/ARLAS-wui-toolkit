@@ -17,15 +17,11 @@
  * under the License.
  */
 
-:host {
-  --arlas-confirm-modal-icon-color: red;
-}
-
 
 .confirm {
     &__icon {
         vertical-align: text-bottom;
-        color: var(--arlas-confirm-modal-icon-color, red);
+        color: var(--arlas-confirm-modal-icon-color, var(--mat-sys-error));
     }
 
     &__content {

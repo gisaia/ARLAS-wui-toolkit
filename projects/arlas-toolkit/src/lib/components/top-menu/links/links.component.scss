@@ -17,13 +17,6 @@
  * under the License.
  */
 
-:host {
-  --arlas-links-wrapper-bg: var(--mat-sys-surface);
-  --arlas-links-border-color: #a1a1a1;
-  --arlas-links-text-color: var(--mat-sys-on-background);
-}
-
-
 $sm-spacing: 5px;
 $default-border-radius: 4px;
 $default-font-size: 14px;
@@ -35,7 +28,7 @@ $top-menu-height: 40px;
     right: 0;
     margin-right: 6px;
     top: calc($top-menu-height + $sm-spacing);
-    background-color: var(--arlas-links-wrapper-bg, white);
+    background-color: var(--arlas-links-wrapper-background, var(--mat-sys-surface));
     display: inline-flex;
     flex-wrap: wrap;
     border: 1px solid var(--arlas-links-border-color, #a1a1a1);
@@ -44,6 +37,6 @@ $top-menu-height: 40px;
     .no-link {
         font-size: $default-font-size;
         margin: calc(3 * $sm-spacing);
-        color: var(--arlas-links-text-color);
+        color: var(--arlas-links-text-color, var(--mat-sys-on-background));
     }
 }

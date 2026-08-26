@@ -17,8 +17,15 @@
  * under the License.
  */
 
-import { Component } from '@angular/core';
-import { FormControl, FormGroup, FormGroupDirective, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, inject } from '@angular/core';
+import {
+  FormControl,
+  FormGroup,
+  FormGroupDirective,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators
+} from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import { MatError, MatFormField, MatLabel, MatPrefix } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
@@ -26,26 +33,29 @@ import { MatInput } from '@angular/material/input';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { ArlasIamService } from '../../services/arlas-iam/arlas-iam.service';
+import { ThemeService } from '../../services/theme.service';
 
 @Component({
   selector: 'arlas-tool-forgot',
   templateUrl: './forgot.component.html',
-  styleUrls: ['./forgot.component.scss'],
+  styleUrls: ['./forgot.component.scss', '../iam/form-style.scss'],
   imports: [
     FormsModule, ReactiveFormsModule, MatFormField, MatLabel, MatInput,
     MatIcon, MatPrefix, MatError, MatButton, RouterLink, TranslatePipe]
 })
 export class ForgotComponent {
-
   public forgotForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')])
   });
   public validated = false;
   public displayForm = true;
+  private readonly theme = inject(ThemeService);
 
   public constructor(
     private readonly iamService: ArlasIamService
-  ) { }
+  ) {
+    this.theme.applyThemePreference();
+  }
 
   public onSubmit(formDirective: FormGroupDirective) {
     this.validated = false;
@@ -54,7 +64,7 @@ export class ForgotComponent {
         this.validated = true;
         formDirective.resetForm();
         this.forgotForm.reset();
-        this.displayForm  = false;
+        this.displayForm = false;
       },
       error: err => {
         // API respond with error (but the resquest is OK)

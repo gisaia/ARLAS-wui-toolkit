@@ -20,10 +20,6 @@
 $sm-margin: 5px;
 $default-spacing: 10px;
 
-:host {
-  --arlas-aias-download-warn-color: #f0ad4e;
-}
-
 .checkbox-hint {
   font-size: 10px;
   font-style: italic;
@@ -34,7 +30,7 @@ $default-spacing: 10px;
   align-items: center;
   font-size: 10px;
   gap: $default-spacing;
-  color: var(--arlas-aias-download-warn-color, #f0ad4e);
+  color: var(--arlas-ias-warn-color, var(--arlas-sys-warn-color));
   & mat-icon {
     font-size: 15px;
     width: 15px;

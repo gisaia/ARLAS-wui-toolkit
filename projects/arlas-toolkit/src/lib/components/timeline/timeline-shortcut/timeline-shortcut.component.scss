@@ -17,17 +17,6 @@
  * under the License.
  */
 
-:host {
-  --arlas-timeline-shortcut-toggle-bg: var(--mat-sys-surface);
-  --arlas-timeline-shortcut-button-bg: #FF4081;
-  --arlas-timeline-shortcut-button-text: var(--mat-sys-on-background);
-  --arlas-timeline-shortcut-list-bg: var(--mat-sys-surface);
-  --arlas-timeline-shortcut-link-color: rgb(48, 136, 177);
-  --arlas-timeline-shortcut-icon-text: white;
-  --arlas-timeline-shortcut-label-text: white;
-}
-
-
 .arlas-time-shortcuts--container {
   display: flex;
   flex-direction: column;
@@ -54,7 +43,7 @@
   display: flex;
   justify-content: center;
   flex-direction: column;
-  background-color: var(--arlas-timeline-shortcut-toggle-bg, white);
+  background-color: var(--arlas-timeline-shortcut-toggle-background,  var(--mat-sys-surface));
   --mat-icon-button-state-layer-size: 24px;
   --mat-icon-button-touch-target-size: 24px;
   margin-left: 5px;
@@ -65,12 +54,12 @@
   box-sizing: content-box;
 
   mat-icon {
-    color: var(--arlas-timeline-shortcut-button-text);
+    color: var(--arlas-timeline-shortcut-button-text, var(--mat-sys-on-background));
   }
 }
 
 .shortcut-button {
-  background-color: var(--arlas-timeline-shortcut-button-bg, #FF4081);
+  background-color: var(--arlas-timeline-shortcut-button-background, var(--mat-sys-secondary));
   float: right;
   display: flex;
   height: 30px;
@@ -152,14 +141,14 @@
     display: flex;
     justify-content: space-between;
     font-size: 14px;
-    background-color: var(--arlas-timeline-shortcut-list-bg, white);
+    background-color: var(--arlas-timeline-shortcut-list-background, var(--mat-sys-surface));
     // Soft border in light or dark mode
     border: 1px solid #a1a1a1;
   }
 }
 
 .arlas-time-shortcut {
-  color: var(--arlas-timeline-shortcut-link-color, rgb(48, 136, 177));
+  color: var(--arlas-timeline-shortcut-link-color, var(--arlas-sys-accent-variant3));
   cursor: pointer;
 
   &:hover {

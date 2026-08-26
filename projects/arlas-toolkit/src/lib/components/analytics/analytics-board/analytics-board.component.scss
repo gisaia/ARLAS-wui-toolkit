@@ -17,12 +17,6 @@
  * under the License.
  */
 
-:host {
-  --arlas-analytics-board-filter-text-color: var(--mat-sys-on-background);
-  --arlas-analytics-board-filter-bg-color: #F44336;
-}
-
-
 .analytics-board-content {
   display: flex;
   flex-direction: column;
@@ -98,7 +92,7 @@
   .active-filter-group-close {
     display: none;
     font-size: 12px;
-    color: var(--arlas-analytics-board-filter-text-color, white);
+    color: var(--arlas-analytics-board-filter-text-color, var(--arlas-sys-warn-color));
     width: 14px;
     height: 14px;
   }
@@ -109,7 +103,7 @@
   }
 
   .active-filter, .active-filter-group {
-    background-color: var(--arlas-analytics-board-filter-bg-color, #F44336);
+    background-color: var(--arlas-sys-accent-variant);
   }
 }
 

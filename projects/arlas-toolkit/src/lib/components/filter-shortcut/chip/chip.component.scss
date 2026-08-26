@@ -17,18 +17,10 @@
  * under the License.
  */
 
-:host {
-  --arlas-chip-bg: var(--mat-sys-surface); // was #e7e7e7
-  --arlas-chip-hide-bg: var(--mat-sys-surface); // was #fff
-  --arlas-chip-hide-text: var(--mat-sys-on-background); // was #fff
-  --arlas-chip-border-color: var(--mat-sys-surface); // was #e7e7e7
-}
-
-
 .container {
     height: 18px;
     border-radius: 11px;
-    background-color: var(--arlas-chip-bg, #e7e7e7);
+    background-color: var(--arlas-chip-background, var(--mat-sys-surface));
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -37,9 +29,9 @@
     border: 1px solid var(--arlas-chip-border-color, #e7e7e7);
 
     .hide {
-        background-color: var(--arlas-chip-hide-bg, #fff);
-        color: var(--arlas-chip-hide-text, #fff);
-        border: 1px solid #fff;
+        background-color: var(--arlas-chip-hide-background, var(--arlas-sys-light-surface));
+        color: var(--arlas-chip-hide-text-color, var(--arlas-sys-light-surface));
+        border: 1px solid var(--arlas-sys-light-surface);
     }
 
     &--long-text {

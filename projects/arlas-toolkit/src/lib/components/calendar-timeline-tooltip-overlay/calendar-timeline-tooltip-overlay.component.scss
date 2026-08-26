@@ -17,14 +17,8 @@
  * under the License.
  */
 
-:host {
-  --arlas-calendar-timeline-tooltip-overlay-bg: var(--mat-sys-surface);
-  --arlas-calendar-timeline-tooltip-overlay-category: var(--mat-sys-on-background); // was #666
-}
-
-
 .wrapper {
-    background-color: var(--arlas-calendar-timeline-tooltip-overlay-bg, white);
+    background-color: var(--arlas-calendar-timeline-tooltip-overlay-background, var(--mat-sys-surface));
     border-radius: 4px;
     width: 100%;
     height: 100%;
@@ -40,7 +34,7 @@
 }
 
 .category {
-    color: var(--arlas-calendar-timeline-tooltip-overlay-category, #666);
+    color: var(--arlas-calendar-timeline-tooltip-overlay-category-color, var(--mat-sys-on-background));
 }
 
 .image {

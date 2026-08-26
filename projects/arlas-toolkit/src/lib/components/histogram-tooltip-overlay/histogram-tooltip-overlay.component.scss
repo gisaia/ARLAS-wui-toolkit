@@ -17,15 +17,11 @@
  * under the License.
  */
 
-:host {
-  --arlas-histogram-tooltip-overlay-text:  #999;
-}
-
 
 .interval-text {
   font-size: 12px;
   line-height: 12px;
-color: var(--arlas-histogram-tooltip-overlay-text, #999);
+  color: var(--arlas-histogram-tooltip-overlay-text, color-mix(in srgb, var(--mat-sys-on-surface) 40%, transparent));
 }
 
 .interval-value {

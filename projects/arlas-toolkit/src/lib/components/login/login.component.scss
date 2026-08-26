@@ -17,29 +17,6 @@
  * under the License.
  */
 
-:host {
-  --arlas-iam-form-bg-color: var(--mat-sys-surface-variant);
-  --arlas-iam-input-bg-color: var(--mat-sys-surface);
-  --arlas-login-title-bg: #00bcd4;
-  --arlas-login-title-text: white;
-  --arlas-login-button-bg: #00bcd4;
-  --arlas-login-link-color: #00bcd4;
-  --arlas-login-error-bg: rgb(244, 67, 54);
-  --arlas-login-error-text: var(--mat-sys-on-background);
-  --arlas-login-forgot-color: #0969da;
-  --arlas-login-accent-bg: #FF4081;
-}
-
-.dark-theme{
-  :host{
-    ::ng-deep .mat-mdc-text-field-wrapper {
-      background-color: var(--mat-sys-surface-variant) !important;
-    }
-  }
-
-  --arlas-login-forgot-color: var(--mat-sys-secondary);
-}
-
 /* Spinner button */
 @keyframes spinner {
   to {transform: rotate(360deg);}
@@ -57,7 +34,7 @@
   margin-left: -10px;
   border-radius: 50%;
   border: 2px solid #ffffff;
-  border-top-color: #00bcd4;
+  border-top-color: var(--arlas-sys-accent-variant2);
   animation: spinner .8s linear infinite;
 }
 
@@ -77,8 +54,8 @@
 
 .title {
   padding: 10px 20px;
-  background-color: var(--arlas-login-title-bg, #00bcd4);
-  color: var(--arlas-login-title-text, white);
+  background-color: var(--arlas-iam-form-header-background, var(--mat-sys-primary));
+  color: var(--arlas-login-title-text, var(--mat-sys-on-primary));
   font-size: 18px;
   border-radius: 15px 15px 0 0;
 
@@ -88,7 +65,7 @@
 }
 
 .login-button {
-  background-color: var(--arlas-login-button-bg, #00bcd4);
+  background-color: var(--arlas-login-button-background, var(--mat-sys-primary));
   border-radius: 15px;
   padding: 0 30px;
 }
@@ -105,16 +82,16 @@
   align-items: baseline;
   padding-top: 15px;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-
+  color: var(--mat-sys-on-surface)
 }
 
 .no-account button {
-  color: var(--arlas-login-link-color, #00bcd4);
+  color: var(--arlas-login-link-color, var(--arlas-sys-accent-variant2));
 }
 
 .error {
-  color: var(--arlas-login-error-text, white);
-  background-color: var(--arlas-login-error-bg, rgb(244, 67, 54));
+  color: var(--arlas-login-error-text, var(--mat-sys-on-error));
+  background-color: var(--arlas-login-error-background, var(--mat-sys-error));
   padding: 10px;
   margin-bottom: 10px;
   border-radius: 10px;
@@ -128,7 +105,7 @@
 }
 
 .forgot a {
-  color: var(--arlas-login-forgot-color, #0969da);
+  color: var(--arlas-login-forgot-color, var(--mat-sys-primary));
   text-decoration: none;
 }
 
@@ -142,7 +119,7 @@
   align-items: center;
   justify-content: center;
   .gif {
-    background-color: var(--arlas-login-accent-bg, #FF4081);
+    background-color: var(--arlas-login-accent-background, var(--mat-sys-secondary));
     border-radius: 50%;
     width: 100px;
     height: 100px;

@@ -17,11 +17,6 @@
  * under the License.
  */
 
-:host {
-  --arlas-aoi-view-color: #2196f3;
-  --arlas-aoi-delete-color: #FF0000;
-}
-
 .aoi-table-items{
   overflow: hidden;
 }
@@ -39,11 +34,11 @@
 }
 
 .aoi-icons-action-view:hover{
-  color: var(--arlas-aoi-view-color, #2196f3);
+  color: var(--arlas-aoi-view-hover-color, var(--mat-sys-primary));
 }
 
 .aoi-icons-action-delete:hover{
-  color: var(--arlas-aoi-delete-color, #FF0000);
+  color: var(--arlas-aoi-delete-color, var(--mat-sys-error));
 }
 
 .mat-mdc-header-cell {

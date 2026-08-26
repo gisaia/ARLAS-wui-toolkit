@@ -69,13 +69,13 @@ export class AoiComponent {
 
   public viewAoi(id: string) {
     const aoi = this.aoiService.getAoiById(id);
-    this.actions.next({ action: 'view', id: id, geometry: aoi?.geometry });
+    this.actions.next({action: 'view', id: id, geometry: aoi?.geometry});
 
   }
 
   public removeAoi(id: string) {
     this.aoiService.removeAoi(id);
-    this.selectAoi({ checked: false }, id);
-    this.actions.next({ action: 'remove', id: id });
+    this.selectAoi({checked: false}, id);
+    this.actions.next({action: 'remove', id: id});
   }
 }

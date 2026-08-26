@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import { MatError, MatFormField, MatLabel, MatPrefix, MatSuffix } from '@angular/material/form-field';
@@ -31,6 +31,7 @@ import { ArlasIamService } from '../../services/arlas-iam/arlas-iam.service';
 import { ErrorService } from '../../services/error/error.service';
 import { ArlasSettingsService } from '../../services/settings/arlas.settings.service';
 import { generateUserCacheBust, NOT_CONFIGURED } from '../../tools/utils';
+import { ThemeService } from '../../services/theme.service';
 
 @Component({
   selector: 'arlas-login',
@@ -53,13 +54,16 @@ export class LoginComponent implements OnInit {
   public isLoading = false;
   public showPage = false;
   public displayNoAccount = false;
+  private readonly theme = inject(ThemeService);
 
   public constructor(
     private readonly iamService: ArlasIamService,
     private readonly settingsService: ArlasSettingsService,
     private readonly errorService: ErrorService,
     private readonly router: Router
-  ) { }
+  ) {
+    this.theme.applyThemePreference();
+  }
 
 
   public ngOnInit(): void {
@@ -95,43 +99,42 @@ export class LoginComponent implements OnInit {
   public onSubmit(): void {
     this.isLoading = true;
     this.iamService.login(this.loginForm.value.email as string, this.loginForm.value.password as string).subscribe({
-      next: loginData => {
-        // Derive a deterministic cache-busting key from the user's unique ID
-        // This ensures cached responses are scoped per user while remaining reusable across sessions
-        if (loginData?.user?.id) {
-          sessionStorage.setItem('cache_bust', generateUserCacheBust(loginData.user.id));
-        }
-        this.iamService.user = loginData.user;
-        this.iamService.setHeadersFromAccesstoken(loginData.access_token);
-        this.iamService.notifyTokenRefresh(loginData);
-        this.iamService.startRefreshTokenTimer(loginData);
-        localStorage.removeItem('arlas-logout-event');
-        const authSettings = this.settingsService.getAuthentSettings();
-        if (!!this.iamService.reloadState) {
-          this.iamService.consumeReloadState();
-        } else {
-          if (!!authSettings && authSettings.redirect_uri && authSettings.redirect_uri !== NOT_CONFIGURED) {
-            window.open(authSettings.redirect_uri, '_self');
-          } else {
-            this.router.navigate(['/']);
+        next: loginData => {
+          // Derive a deterministic cache-busting key from the user's unique ID
+          // This ensures cached responses are scoped per user while remaining reusable across sessions
+          if (loginData?.user?.id) {
+            sessionStorage.setItem('cache_bust', generateUserCacheBust(loginData.user.id));
           }
+          this.iamService.user = loginData.user;
+          this.iamService.setHeadersFromAccesstoken(loginData.access_token);
+          this.iamService.notifyTokenRefresh(loginData);
+          this.iamService.startRefreshTokenTimer(loginData);
+          localStorage.removeItem('arlas-logout-event');
+          const authSettings = this.settingsService.getAuthentSettings();
+          if (!!this.iamService.reloadState) {
+            this.iamService.consumeReloadState();
+          } else {
+            if (!!authSettings && authSettings.redirect_uri && authSettings.redirect_uri !== NOT_CONFIGURED) {
+              window.open(authSettings.redirect_uri, '_self');
+            } else {
+              this.router.navigate(['/']);
+            }
+          }
+          this.isLoading = false;
+        },
+        error: () => {
+          this.errorService.closeAll();
+          this.iamService.logoutWithoutRedirection$().pipe(
+            finalize(() => {
+              this.loginForm.setErrors({
+                wrong: true
+              });
+              this.isLoading = false;
+            })
+          ).subscribe();
+
         }
-        this.isLoading = false;
-      },
-      error: () => {
-        this.errorService.closeAll();
-        this.iamService.logoutWithoutRedirection$().pipe(
-          finalize(() => {
-            this.loginForm.setErrors({
-              wrong: true
-            });
-            this.isLoading = false;
-          })
-        ).subscribe();
-
       }
-    }
-
     );
   }
 

@@ -17,11 +17,6 @@
  * under the License.
  */
 
-:host {
-  --arlas-permissions-creator-dialog-success: #18853c;
-  --arlas-permissions-creator-dialog-error: #ce3d38;
-}
-
 
 $sm-spacing: 5px;
 $sm-margin: 5px;
@@ -65,7 +60,7 @@ $default-font-size: 16px;
         align-items: center;
 
         .icon {
-            color: var(--arlas-permissions-creator-dialog-success, #18853c);
+            color: var(--arlas-permissions-creator-dialog-success, var(--arlas-sys-success));
         }
 
         .state {
@@ -86,7 +81,7 @@ $default-font-size: 16px;
         align-items: center;
 
         .icon {
-            color: var(--arlas-permissions-creator-dialog-error, #ce3d38);
+            color: var(--arlas-permissions-creator-dialog-error, var(--mat-sys-error));
         }
 
         .state {

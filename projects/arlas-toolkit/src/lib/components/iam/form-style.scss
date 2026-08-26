@@ -19,7 +19,7 @@
 
 .iam__form-content {
     margin-bottom: 15px;
-    background: var(--arlas-iam-form-bg-color, #ededed);;
+    background: var(--arlas-iam-form-bg-color, var(--mat-sys-surface));
     padding: 15px 30px 0 30px;
     border-radius: 0 0 15px 15px;
     display: flex;
@@ -43,7 +43,7 @@
             .mat-mdc-form-field-outline,
             .mat-mdc-text-field-wrapper,
             .mdc-floating-label--float-above{
-                background-color: ar(--arlas-iam-input-bg-color, white);;
+                background-color: var(--arlas-iam-input-bg-color, var(--mat-sys-surface-variant));
             }
 
             .mat-mdc-text-field-wrapper {
