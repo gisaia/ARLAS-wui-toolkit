@@ -24,18 +24,17 @@ import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { marker } from '@colsen1991/ngx-translate-extract-marker';
 import { MarkerModule } from '@colsen1991/ngx-translate-extract-marker/extras';
 import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
-import bboxPolygon from '@turf/bbox-polygon';
-import booleanIntersects from '@turf/boolean-intersects';
 import { Subject, takeUntil } from 'rxjs';
 import { ProcessService } from '../../../services/process/process.service';
 import { ThemeService } from '../../../services/theme.service';
-import { ProcessInputs, ProcessProjection } from '../../../tools/process.interface';
 import { AiasDownloadDialogData, AiasProcess } from '../aias-process';
 import { AiasResultComponent } from '../aias-result/aias-result.component';
 
@@ -52,9 +51,12 @@ export interface AiasDownloadPayload {
   selector: 'arlas-aias-download',
   templateUrl: './aias-download.component.html',
   styleUrls: ['./aias-download.component.scss', '../aias-process.scss'],
-  providers: [{
-    provide: STEPPER_GLOBAL_OPTIONS, useValue: { displayDefaultIndicatorType: false }
-  }],
+  providers: [
+    {
+      provide: STEPPER_GLOBAL_OPTIONS,
+      useValue: { displayDefaultIndicatorType: false }
+    }
+  ],
   imports: [
     TranslatePipe,
     MatStepperModule,
@@ -67,7 +69,9 @@ export interface AiasDownloadPayload {
     AiasResultComponent,
     MatIconModule,
     MatTooltipModule,
-    MatDialogModule
+    MatDialogModule,
+    MatProgressBarModule,
+    MatSlideToggleModule
   ]
 })
 export class AiasDownloadComponent extends AiasProcess implements OnInit, OnDestroy {
@@ -79,36 +83,24 @@ export class AiasDownloadComponent extends AiasProcess implements OnInit, OnDest
     target_format: new FormControl<string>('native')
   });
 
-  public pictureFormats: Array<string> = [
-    marker('native'),
-    marker('Geotiff'),
-    marker('Jpeg2000')
-  ];
-  public projections: ProcessProjection[] = [];
-
   public hasAoi = false;
   public displayAoiForms = false;
-  public displayFormatFrom = false;
+  public displayFormatForm = false;
   public displayProjectionFrom = false;
 
   public tooltipDelay = 2000;
 
-  private _onDestroy$ = new Subject();
+  private readonly _onDestroy$ = new Subject();
   protected readonly themeService = inject(ThemeService);
 
   public constructor(
-    protected processService: ProcessService,
+    protected readonly processService: ProcessService,
     @Inject(MAT_DIALOG_DATA) protected data: AiasDownloadDialogData
   ) {
     super(processService, data, DOWNLOAD_PROCESS_NAME);
   }
 
   public ngOnInit(): void {
-    if (this.data.nbProducts === 1){
-      const processConfigFileInput = this.processService.getProcessInputs(DOWNLOAD_PROCESS_NAME);
-      this._initPictureFormatList();
-      this._initProjectionList(processConfigFileInput);
-    }
     this.hasAoi = this.data.wktAoi !== undefined && this.data.wktAoi !== null && this.data.wktAoi !== '';
     this._listenFormsChanges();
   }
@@ -121,56 +113,13 @@ export class AiasDownloadComponent extends AiasProcess implements OnInit, OnDest
     this._onDestroy$.complete();
   }
 
-  private _initPictureFormatList(): void{
-    const assetFormatKey = 'properties.main_asset_format';
-    const assetFormatIsValid = this.data.itemDetail && this.data.itemDetail.has(assetFormatKey)
-      && !!this.data.itemDetail.get(assetFormatKey);
-    if (assetFormatIsValid) {
-      const assetFormat = this.data.itemDetail.get(assetFormatKey).toUpperCase();
-      if (assetFormat === 'JPEG2000') {
-        this.pictureFormats = ['Jpeg2000'];
-        this.formGroup.controls.target_format.setValue('Jpeg2000');
-      } else if (assetFormat === 'GEOTIFF') {
-        this.pictureFormats = this.pictureFormats.filter(format => format.toUpperCase() !== 'GEOTIFF');
-      }
-    }
-
-    const itemFormatKey = 'properties.item_format';
-    const itemFormatIsValid = this.data.itemDetail && this.data.itemDetail.has(itemFormatKey)
-      && !!this.data.itemDetail.get(itemFormatKey);
-    if (itemFormatIsValid) {
-      const itemFormat = this.data.itemDetail.get(itemFormatKey).toUpperCase();
-      if (itemFormat === 'SAFE') {
-        this.pictureFormats.push(marker('ZARR'));
-      }
-    }
-  }
-
-  private _initProjectionList(inputs: ProcessInputs | undefined): void {
-    const inputKey = 'target_projection';
-    if (inputs?.[inputKey]) {
-      this.projections = (<ProcessProjection[]>inputs[inputKey].schema.enum).filter(projection => {
-        const geoJson = this.data.itemDetail.get('geometry');
-        if (!projection.bbox || !geoJson) {
-          return false;
-        }
-        const feature1 = bboxPolygon(projection.bbox);
-        return booleanIntersects(feature1, geoJson);
-      });
-    }
-    const native: ProcessProjection = {bbox: undefined, label: 'native', value: marker('native')};
-    this.projections.unshift(native);
-  }
-
-  private _listenFormsChanges(): void{
+  private _listenFormsChanges(): void {
     this.formGroup.controls.raw_archive
       .valueChanges
       .pipe(takeUntil(this._onDestroy$))
       .subscribe(checked => {
-        this.displayAoiForms = !checked && this.hasAoi;
-        this.displayFormatFrom = !checked &&  this.hasOneItemToDownload();
-        this.displayProjectionFrom = !checked &&  this.hasOneItemToDownload();
         this.formGroup.controls.do_crop_wkt.setValue(false);
+        this.updateFormDisplayConditions();
         if (checked) {
           this.formGroup.controls.target_format.setValue('native');
           this.formGroup.controls.target_projection.setValue('native');
@@ -181,20 +130,25 @@ export class AiasDownloadComponent extends AiasProcess implements OnInit, OnDest
       .valueChanges
       .pipe(takeUntil(this._onDestroy$))
       .subscribe(checked => {
-        this.displayFormatFrom = !this.downloadAllElements() &&  this.hasOneItemToDownload();
-        this.displayProjectionFrom =  !this.downloadAllElements() && !checked &&  this.hasOneItemToDownload();
+        this.updateFormDisplayConditions();
         if (checked) {
           this.formGroup.controls.target_projection.setValue('native');
         }
       });
   }
 
-  public hasOneItemToDownload(): boolean{
+  private hasOneItemToDownload(): boolean {
     return this.data.nbProducts === 1;
   }
 
-  public downloadAllElements(): boolean {
+  private downloadAllElements(): boolean {
     return !!this.formGroup.value.raw_archive;
+  }
+
+  private updateFormDisplayConditions() {
+    this.displayAoiForms = !this.downloadAllElements() && this.hasAoi;
+    this.displayFormatForm = !this.downloadAllElements() && this.hasOneItemToDownload();
+    this.displayProjectionFrom =  !this.downloadAllElements() && !this.formGroup.controls.do_crop_wkt.value &&  this.hasOneItemToDownload();
   }
 
   protected preparePayload() {

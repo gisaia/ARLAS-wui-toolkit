@@ -4,6 +4,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateLoader, TranslateModule, TranslateNoOpLoader } from '@ngx-translate/core';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { ArlasCollaborativesearchService } from '../../../services/collaborative-search/arlas.collaborative-search.service';
+import { AiasDownloadDialogData } from '../aias-process';
 import { AiasDownloadComponent } from './aias-download.component';
 
 describe('AiasDownloadComponent', () => {
@@ -18,11 +19,11 @@ describe('AiasDownloadComponent', () => {
             useValue: {
                 data: {
                     nbProducts: 2,
-                    itemDetail: new Map(),
                     wktAoi: null,
                     ids: ['1', '2'],
                     collection: 'test',
-                }
+                    idFieldName: 'test'
+                } as AiasDownloadDialogData
             }
         },
         provideHttpClient(withInterceptorsFromDi()),

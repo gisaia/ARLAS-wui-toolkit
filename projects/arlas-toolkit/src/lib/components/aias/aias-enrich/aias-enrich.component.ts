@@ -18,28 +18,25 @@
  */
 
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
-import { Component, inject, Inject, OnInit } from '@angular/core';
+import { Component, inject, Inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSelectModule } from '@angular/material/select';
 import { MatStepperModule } from '@angular/material/stepper';
 import { marker } from '@colsen1991/ngx-translate-extract-marker';
 import { MarkerModule } from '@colsen1991/ngx-translate-extract-marker/extras';
 import { TranslatePipe } from '@ngx-translate/core';
-import { Expression } from 'arlas-tagger-api';
 import { ProcessService } from '../../../services/process/process.service';
 import { ThemeService } from '../../../services/theme.service';
-import { ConditionalValue, ProcessInputs } from '../../../tools/process.interface';
 import { AiasEnrichDialogData, AiasProcess } from '../aias-process';
 import { AiasResultComponent } from '../aias-result/aias-result.component';
 
 export const ENRICH_PROCESS_NAME = marker('enrich');
-
-export const COG_ENRICHMENT = marker('cog');
 
 @Component({
   selector: 'arlas-aias-enrich',
@@ -59,62 +56,24 @@ export const COG_ENRICHMENT = marker('cog');
     MatIconModule,
     AiasResultComponent,
     MatDialogModule,
-    MatChipsModule
+    MatChipsModule,
+    MatProgressBarModule
   ]
 })
-export class AiasEnrichComponent extends AiasProcess implements OnInit {
-
-  public enrichments: string[] = [
-    COG_ENRICHMENT
-  ];
-
-  public availableCogFormats = new Array<{ label: string; value: string; }>();
+export class AiasEnrichComponent extends AiasProcess {
 
   public formGroup = new FormGroup({
-    asset_type: new FormControl<string>(this.enrichments[0], Validators.required),
+    asset_type: new FormControl<string>('', Validators.required),
     enrichments: new FormControl<string[]>([], Validators.required)
   });
 
   protected readonly themeService = inject(ThemeService);
 
   public constructor(
-    protected processService: ProcessService,
+    protected readonly processService: ProcessService,
     @Inject(MAT_DIALOG_DATA) protected data: AiasEnrichDialogData
   ) {
     super(processService, data, ENRICH_PROCESS_NAME);
-  }
-
-  public ngOnInit(): void {
-    const processConfigFileInput = this.processService.getProcessInputs(ENRICH_PROCESS_NAME);
-    this._initEnrichmentsList(processConfigFileInput);
-  }
-
-  private _initEnrichmentsList(inputs: ProcessInputs | undefined): void {
-    const inputKey = 'enrichments';
-    if (inputs?.[inputKey]) {
-      const availableEnrichments = <ConditionalValue[]>inputs[inputKey].schema.enum;
-      for (const e of availableEnrichments) {
-        if (!e.if) {
-          this.availableCogFormats.push(e);
-        } else {
-          let isValid = true;
-          for (const condition of e.if) {
-            const value = this.data.itemDetail.get(condition.field)?.toUpperCase();
-            switch (condition.op) {
-              case Expression.OpEnum.Like:
-                isValid = isValid && (condition.value as any as string[]).includes(value);
-                break;
-              default:
-                break;
-            }
-          }
-
-          if (isValid) {
-            this.availableCogFormats.push(e);
-          }
-        }
-      }
-    }
   }
 
   protected preparePayload() {

@@ -117,7 +117,7 @@ export { ArlasMapService } from './lib/services/map/map.service';
 export { ArlasOverlayService, ToolTipConfig } from './lib/services/overlays/overlay.service';
 export { PermissionService, PermissionSetting } from './lib/services/permission/permission.service';
 export { PersistenceService, PersistenceSetting } from './lib/services/persistence/persistence.service';
-export { ProcessService } from './lib/services/process/process.service';
+export { ProcessService, ValidatedProcessFieldOption } from './lib/services/process/process.service';
 export { ArlasSettingsService } from './lib/services/settings/arlas.settings.service';
 export { ContributorBuilder } from './lib/services/startup/contributorBuilder';
 export {

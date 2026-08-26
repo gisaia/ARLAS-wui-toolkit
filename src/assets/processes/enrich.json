@@ -4,6 +4,16 @@
   "title": "Enrich",
   "description": "Enrich one or multiple products",
   "inputs": {
+    "asset_type": {
+      "title": "Asset type",
+      "description": "Type of asset to create",
+      "schema": {
+        "type": "object",
+        "enum": [
+          "cog"
+        ]
+      }
+    },
     "enrichments": {
       "title": "Enrichments",
       "description": "Format of the possible enrichments",
@@ -23,9 +33,9 @@
             "value": "all_bands_cog",
             "if": [
               {
-                "field": "properties.item_format",
-                "op": "like",
-                "value": ["SAFE", "LANDSAT"]
+                "field": "metadata.core.identity.collection",
+                "op": "eq",
+                "value": "AIRBUS-PLEIADES,SAFE"
               }
             ]
           }

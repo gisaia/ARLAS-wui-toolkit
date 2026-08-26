@@ -18,7 +18,6 @@
  */
 
 import { Expression } from 'arlas-api';
-import { BBox } from 'geojson';
 
 export interface Process {
   id?: string;
@@ -35,22 +34,20 @@ export interface ProcessInputs {
   [key: string]: ProcessInput;
 }
 
-export interface ProcessProjection {
+/** Options parsed from the configured inputs of a process */
+export interface ProcessFieldOption {
   label: string;
   value: string;
-  bbox: BBox | undefined;
 }
 
-export interface ConditionalValue {
-  label: string;
-  value: string;
+export interface ProcessConditionalValue extends ProcessFieldOption {
   if?: Expression[];
 }
 
 export interface ProcessInput {
   schema: {
     type: string;
-    enum?: string[] | ProcessProjection[] | ConditionalValue[];
+    enum?: string[] | ProcessConditionalValue[];
     format?: string;
     items?: {
       type: string;
