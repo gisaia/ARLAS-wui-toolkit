@@ -3,8 +3,7 @@
   "dest": "../../dist/arlas-wui-toolkit",
   "assets": [
     "./assets/i18n/*.json",
-    "./styles/*",
-    "./theme/*"
+    "./styles/*"
   ],
   "allowedNonPeerDependencies": ["."],
   "lib": {

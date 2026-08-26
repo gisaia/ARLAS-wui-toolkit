@@ -20,8 +20,7 @@
 @use "sass:map";
 @use "./ngx-date-picker-provider";
 @use "./ngx-markdown-provider" as ngxMarkDown;
-@use "../projects/arlas-toolkit/theme/dark-theme-colors" as darkTheme;
-@use "../projects/arlas-toolkit/theme/tokens" as token;
+@use "arlas-web-components/assets/theme" as darkTheme;
 // Plus imports for other components in your app.
 
 // Include the common styles for Angular Material. We include this here so that you only
@@ -51,7 +50,7 @@ $app-theme: mat.m2-define-light-theme((
   density: 0
 ));
 
-@include token.theme-token($app-theme);
+@include darkTheme.theme-token($app-theme);
 
 // TODO: refine to avoid useless imports ?
 // -> only fab, badge, bottom sheet, sort, tree not used
