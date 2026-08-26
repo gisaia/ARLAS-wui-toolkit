@@ -19,29 +19,20 @@
 
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { AvailableProcess, Task, TaskService } from 'arlas-web-contributors';
+import { DEFAULT_TASK_RETRIEVAL_INTERVAL, TaskSettings, TaskSettingsService } from 'arlas-web-components';
+import { Task, TaskService } from 'arlas-web-contributors';
 import { Observable, of } from 'rxjs';
 import { GET_OPTIONS, GetOptions } from '../tools/utils';
-
-export interface TaskSettings {
-  enabled: boolean;
-  url: string;
-  collections: string[];
-  ignoredProcess?: string[];
-  taskRetrievalTimer?: number;
-}
 
 @Injectable({
   providedIn: 'root',
 })
-export class ArlasTaskService implements TaskService {
+export class ArlasTaskService implements TaskService, TaskSettingsService {
   private readonly http = inject(HttpClient);
   private options: GetOptions = {};
   private readonly getOptions = inject(GET_OPTIONS);
 
-  private readonly taskUrls = new Map<string, string>();
-  public ignoredProcess = new Set<AvailableProcess>();
-  public taskRetrievalTimer = 5000;
+  private readonly services = new Map<string, TaskSettings>();
 
   public constructor() {
     this.setOptions(this.getOptions());
@@ -51,7 +42,7 @@ export class ArlasTaskService implements TaskService {
     this.options = options;
   }
 
-  public setSettings(settings: TaskSettings) {
+  public addService(settings: TaskSettings) {
     if (!settings.enabled) {
       return;
     }
@@ -60,23 +51,34 @@ export class ArlasTaskService implements TaskService {
     this.http.get(settings.url + '/jobs', this.options)
       .subscribe({
         next: () => {
-          settings.collections.forEach(collection => {
-            this.taskUrls.set(collection, settings.url);
-          });
-
-          this.ignoredProcess = new Set<AvailableProcess>();
-          settings.ignoredProcess?.forEach(p => this.ignoredProcess.add(p as AvailableProcess));
-          this.taskRetrievalTimer = settings.taskRetrievalTimer ?? 5000;
+          settings.taskRetrievalTimer ??= DEFAULT_TASK_RETRIEVAL_INTERVAL;
+          this.services.set(settings.service, settings);
+        },
+        error: (e) => {
+          console.warn(`[ARLAS][TASK] Service ${settings.service} is not available for tasks retrieval`);
         }
       });
   }
 
-  public getTasks(collection: string, identifier: string): Observable<Task[]> {
-    const taskUrl = this.taskUrls.get(collection);
-    if (!taskUrl) {
+  public getServiceTaskSettings(service: string) {
+    return this.services.get(service);
+  }
+
+  public getServiceTasks(collection: string, identifier: string, service: string): Observable<Task[]> {
+    const settings = this.services.get(service);
+    if (!settings?.collections.includes(collection)) {
       return of([]);
     }
 
-    return this.http.get(taskUrl + '/jobs/resources/' + identifier, this.options) as Observable<Task[]>;
+    return this.http.get(settings.url + '/jobs/resources/' + identifier, this.options) as Observable<Task[]>;
+  }
+
+  public getAllTasks(collection: string, identifier: string): Map<string, Observable<Task[]>> {
+    const taskMap$ = new Map();
+    this.services.keys().forEach(service => {
+      taskMap$.set(service, this.getServiceTasks(collection, identifier, service));
+    });
+
+    return taskMap$;
   }
 }

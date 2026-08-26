@@ -94,7 +94,7 @@ export { Aoi } from './lib/services/aoi/model';
 export { ArlasAuthentificationService } from './lib/services/arlas-authentification/arlas-authentification.service';
 export { ARLAS_ORG_FILTER, ArlasIamService } from './lib/services/arlas-iam/arlas-iam.service';
 export { AuthGuardIamService } from './lib/services/arlas-iam/auth-guard-iam.service';
-export { ArlasTaskService, TaskSettings } from './lib/services/arlas.task.service';
+export { ArlasTaskService } from './lib/services/arlas.task.service';
 export { AuthentificationService } from './lib/services/authentification/authentification.service';
 export { ArlasBookmarkService } from './lib/services/bookmark/bookmark.service';
 export { BookmarkDataSource } from './lib/services/bookmark/bookmarkDataSource';
