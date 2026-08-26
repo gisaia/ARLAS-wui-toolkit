@@ -85,7 +85,8 @@ $default-spacing: 10px;
     justify-content: space-between;
     margin-top: 20px;
 
-    --mdc-filled-button-label-text-tracking: 0;
+    --mat-button-filled-label-text-tracking: 0;
+    --mat-button-outlined-label-text-tracking: 0;
   }
 }
 

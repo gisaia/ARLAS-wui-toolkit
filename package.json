@@ -12,7 +12,6 @@
     "postinstall": "patch-package --patch-dir ./node_modules/arlas-web-core/patches",
     "start": "ng serve",
     "start:iam": "ng serve --ssl --ssl-cert=$EXPLO_SSL_CERT --ssl-key=$EXPLO_SSL_KEY",
-    "build": "ng build",
     "test": "ng test arlas-wui-toolkit",
     "lint": "ng lint arlas-wui-toolkit",
     "build-release": "ng build arlas-wui-toolkit --configuration production",
