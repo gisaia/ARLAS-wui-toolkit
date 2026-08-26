@@ -17,6 +17,7 @@
  * under the License.
  */
 
+import { Expression } from 'arlas-api';
 import { BBox } from 'geojson';
 
 export interface Process {
@@ -40,11 +41,16 @@ export interface ProcessProjection {
   bbox: BBox | undefined;
 }
 
+export interface ConditionalValue {
+  label: string;
+  value: string;
+  if?: Expression[];
+}
 
 export interface ProcessInput {
   schema: {
     type: string;
-    enum?: string[] | ProcessProjection[];
+    enum?: string[] | ProcessProjection[] | ConditionalValue[];
     format?: string;
     items?: {
       type: string;

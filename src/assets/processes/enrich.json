@@ -1,0 +1,39 @@
+{
+  "id": "d-w",
+  "version": "0.0.0",
+  "title": "Enrich",
+  "description": "Enrich one or multiple products",
+  "inputs": {
+    "enrichments": {
+      "title": "Enrichments",
+      "description": "Format of the possible enrichments",
+      "schema": {
+        "type": "object",
+        "enum": [
+          {
+            "label": "COG (visual bands)",
+            "value": "cog"
+          },
+          {
+            "label": "Overview COG (visual bands)",
+            "value": "overview_cog"
+          },
+          {
+            "label": "All bands COG",
+            "value": "all_bands_cog",
+            "if": [
+              {
+                "field": "properties.item_format",
+                "op": "like",
+                "value": ["SAFE", "LANDSAT"]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "additionalParameters": {
+    "parameters": []
+  }
+}

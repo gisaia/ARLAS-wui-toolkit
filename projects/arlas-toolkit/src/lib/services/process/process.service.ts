@@ -31,7 +31,7 @@ import { ArlasSettingsService } from '../settings/arlas.settings.service';
   providedIn: 'root'
 })
 export class ProcessService {
-  private processInputs: ProcessInputs = {};
+  private processInputs = new Map<string, ProcessInputs | undefined>();
   private options: GetOptions = {};
 
   public constructor(
@@ -87,12 +87,12 @@ export class ProcessService {
     return this.http.get(this.getProcessSettings(processName).check_url, this.options);
   }
 
-  public getProcessInputs(): ProcessInputs {
-    return this.processInputs;
+  public getProcessInputs(process: string): ProcessInputs | undefined {
+    return this.processInputs.get(process);
   }
 
-  public setProcessInputs(process: ProcessInputs | undefined): void {
-    this.processInputs = process ?? {};
+  public setProcessInputs(name: string, process: ProcessInputs | undefined): void {
+    this.processInputs.set(name, process);
   }
 
   public load(processName: string): Observable<Process> {
@@ -103,7 +103,7 @@ export class ProcessService {
       .pipe(
         map(c => {
           const process: Process = JSON.parse(c as any);
-          this.setProcessInputs(process.inputs);
+          this.setProcessInputs(processName, process.inputs);
           return process;
         })
       );

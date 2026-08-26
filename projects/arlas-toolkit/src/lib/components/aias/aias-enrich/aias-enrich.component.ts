@@ -30,19 +30,16 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { marker } from '@colsen1991/ngx-translate-extract-marker';
 import { MarkerModule } from '@colsen1991/ngx-translate-extract-marker/extras';
 import { TranslatePipe } from '@ngx-translate/core';
+import { Expression } from 'arlas-tagger-api';
 import { ProcessService } from '../../../services/process/process.service';
 import { ThemeService } from '../../../services/theme.service';
+import { ConditionalValue, ProcessInputs } from '../../../tools/process.interface';
 import { AiasEnrichDialogData, AiasProcess } from '../aias-process';
 import { AiasResultComponent } from '../aias-result/aias-result.component';
 
 export const ENRICH_PROCESS_NAME = marker('enrich');
 
 export const COG_ENRICHMENT = marker('cog');
-
-// Possible formats for COG enrichment
-export const COG = marker('COG');
-export const OVERVIEW_COG = marker('OVERVIEW_COG');
-export const ALL_BANDS_COG = marker('ALL_BANDS_COG');
 
 @Component({
   selector: 'arlas-aias-enrich',
@@ -71,11 +68,7 @@ export class AiasEnrichComponent extends AiasProcess implements OnInit {
     COG_ENRICHMENT
   ];
 
-  public availableCogFormats = [
-    COG,
-    OVERVIEW_COG,
-    ALL_BANDS_COG
-  ];
+  public availableCogFormats = new Array<{ label: string; value: string; }>();
 
   public formGroup = new FormGroup({
     asset_type: new FormControl<string>(this.enrichments[0], Validators.required),
@@ -92,23 +85,34 @@ export class AiasEnrichComponent extends AiasProcess implements OnInit {
   }
 
   public ngOnInit(): void {
-    this._initEnrichmentsList();
+    const processConfigFileInput = this.processService.getProcessInputs(ENRICH_PROCESS_NAME);
+    this._initEnrichmentsList(processConfigFileInput);
   }
 
-  private _initEnrichmentsList(): void {
-    const itemFormatKey = 'properties.item_format';
-    const itemFormatIsValid = this.data.itemDetail && this.data.itemDetail.has(itemFormatKey)
-      && !!this.data.itemDetail.get(itemFormatKey);
-    if (itemFormatIsValid) {
-      const itemFormat = this.data.itemDetail.get(itemFormatKey).toUpperCase();
-      if (itemFormat === 'SAFE') {
-        this.enrichments = [COG_ENRICHMENT];
-      }
+  private _initEnrichmentsList(inputs: ProcessInputs | undefined): void {
+    const inputKey = 'enrichments';
+    if (inputs?.[inputKey]) {
+      const availableEnrichments = <ConditionalValue[]>inputs[inputKey].schema.enum;
+      for (const e of availableEnrichments) {
+        if (!e.if) {
+          this.availableCogFormats.push(e);
+        } else {
+          let isValid = true;
+          for (const condition of e.if) {
+            const value = this.data.itemDetail.get(condition.field)?.toUpperCase();
+            switch (condition.op) {
+              case Expression.OpEnum.Like:
+                isValid = isValid && (condition.value as any as string[]).includes(value);
+                break;
+              default:
+                break;
+            }
+          }
 
-      if (!(itemFormat === 'SAFE' && itemFormat === 'LANDSAT')) {
-        this.availableCogFormats = [
-          COG, OVERVIEW_COG
-        ];
+          if (isValid) {
+            this.availableCogFormats.push(e);
+          }
+        }
       }
     }
   }

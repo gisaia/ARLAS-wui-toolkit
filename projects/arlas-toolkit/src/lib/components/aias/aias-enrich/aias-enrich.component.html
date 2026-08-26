@@ -27,8 +27,8 @@
               <mat-label>{{ 'COG formats' | translate }}</mat-label>
               <mat-select [multiple]="true" [formControlName]="'enrichments'">
                 @for (format of availableCogFormats; track format) {
-                <mat-option [value]="format">
-                  {{ format | translate }}
+                <mat-option [value]="format.value">
+                  {{ format.label | translate }}
                 </mat-option>
                 }
               </mat-select>

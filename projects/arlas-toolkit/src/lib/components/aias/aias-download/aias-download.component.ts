@@ -105,7 +105,7 @@ export class AiasDownloadComponent extends AiasProcess implements OnInit, OnDest
 
   public ngOnInit(): void {
     if (this.data.nbProducts === 1){
-      const processConfigFileInput = this.processService.getProcessInputs();
+      const processConfigFileInput = this.processService.getProcessInputs(DOWNLOAD_PROCESS_NAME);
       this._initPictureFormatList();
       this._initProjectionList(processConfigFileInput);
     }
@@ -146,12 +146,12 @@ export class AiasDownloadComponent extends AiasProcess implements OnInit, OnDest
     }
   }
 
-  private _initProjectionList(projection: ProcessInputs): void {
+  private _initProjectionList(inputs: ProcessInputs | undefined): void {
     const inputKey = 'target_projection';
-    if (projection[inputKey]) {
-      this.projections = (<ProcessProjection[]>projection[inputKey].schema.enum).filter(projection => {
+    if (inputs?.[inputKey]) {
+      this.projections = (<ProcessProjection[]>inputs[inputKey].schema.enum).filter(projection => {
         const geoJson = this.data.itemDetail.get('geometry');
-        if(!projection.bbox || !geoJson) {
+        if (!projection.bbox || !geoJson) {
           return false;
         }
         const feature1 = bboxPolygon(projection.bbox);

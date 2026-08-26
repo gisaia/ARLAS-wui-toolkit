@@ -28,10 +28,12 @@ import { SearchContributor } from 'arlas-web-contributors';
 import { fromEvent } from 'rxjs';
 import packageJson from '../../../../package.json' with { type: 'json' };
 import {
-  AiasDownloadComponent
+  AiasDownloadComponent,
+  DOWNLOAD_PROCESS_NAME
 } from '../../../../projects/arlas-toolkit/src/lib/components/aias/aias-download/aias-download.component';
 import {
-  AiasEnrichComponent
+  AiasEnrichComponent,
+  ENRICH_PROCESS_NAME
 } from '../../../../projects/arlas-toolkit/src/lib/components/aias/aias-enrich/aias-enrich.component';
 import { DownloadComponent } from '../../../../projects/arlas-toolkit/src/lib/components/download/download.component';
 import {
@@ -223,13 +225,17 @@ export class HomeComponent implements OnInit {
 
     this.timelineComponentConfig = this.arlasConfigService.getValue('arlas.web.components.timeline');
     this.detailedTimelineComponentConfig = this.arlasConfigService.getValue('arlas.web.components.detailedTimeline');
-   if(this.aoi.dataBase?.data.length === 0){
-     this.aoi.dataBase?.add(this.aoi.dataBase?.createAoi('test', {})).pipe(takeUntilDestroyed()).subscribe();
-   }
-   this.tagService.processStatus.set('test', {id: 'test1', updated: 1, label: 't1', progress: 50});
-   this.tagService.processStatus.set('tes1', {id: 'test1', failed: 1, label: 't3', progress: 0});
-   this.tagService.processStatus.set('tes2', {id: 'test1', failed: 1, label: 't3', progress: 100});
-   this.collections = [...new Set(Array.from(this.collaborativeService.registry.values()).map(c => c.collection))];
+    if(this.aoi.dataBase?.data.length === 0){
+      this.aoi.dataBase?.add(this.aoi.dataBase?.createAoi('test', {})).pipe(takeUntilDestroyed()).subscribe();
+    }
+    this.tagService.processStatus.set('test', {id: 'test1', updated: 1, label: 't1', progress: 50});
+    this.tagService.processStatus.set('tes1', {id: 'test1', failed: 1, label: 't3', progress: 0});
+    this.tagService.processStatus.set('tes2', {id: 'test1', failed: 1, label: 't3', progress: 100});
+
+    this.collections = [...new Set(Array.from(this.collaborativeService.registry.values()).map(c => c.collection))];
+
+    this.processService.load(DOWNLOAD_PROCESS_NAME).subscribe()
+    this.processService.load(ENRICH_PROCESS_NAME).subscribe()
   }
 
   public ngOnInit(): void {
