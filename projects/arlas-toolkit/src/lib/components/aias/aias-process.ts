@@ -27,7 +27,7 @@ import { ProcessFieldOption, ProcessOutput, ProcessStatus } from '../../tools/pr
 export interface AiasProcessDialogData {
   /** Number of items to process */
   nbProducts: number;
-  /** Name of the field of the id */
+  /** Name of the field containing the id */
   idFieldName: string;
   /** Ids of the items to process */
   ids: string[];
