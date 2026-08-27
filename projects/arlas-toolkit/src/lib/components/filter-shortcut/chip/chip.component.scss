@@ -26,12 +26,12 @@
     align-items: center;
     padding: 1px 3px 1px 6px;
     max-width: 160px;
-    border: 1px solid var(--arlas-chip-border-color, #e7e7e7);
+    border: 1px solid var(--arlas-chip-border-color, var(--mat-sys-surface-variant));
 
     .hide {
-        background-color: var(--arlas-chip-hide-background, var(--arlas-sys-light-surface));
-        color: var(--arlas-chip-hide-text-color, var(--arlas-sys-light-surface));
-        border: 1px solid var(--arlas-sys-light-surface);
+        background-color: var(--arlas-chip-hide-background, var(--mat-sys-surface-variant));
+        color: var(--arlas-chip-hide-text-color, var(--mat-sys-surface-variant));
+        border: 1px solid var(--mat-sys-surface-variant);
     }
 
     &--long-text {
