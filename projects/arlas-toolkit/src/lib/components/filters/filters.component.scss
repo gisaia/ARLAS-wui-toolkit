@@ -166,7 +166,7 @@ $count-chip-height: 30px;
   .unit {
     font-weight: 100;
     font-size: $xs-font-size;
-    color: var(--arlas-filters-unit-color, var(--mat-sys-on-tertiary));
+    color: var(--arlas-filters-unit-color, var(--mat-sys-on-surface));
   }
 }
 
