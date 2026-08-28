@@ -18,21 +18,26 @@
  */
 
 import { Component, inject, OnInit, ViewChild } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSelectModule } from '@angular/material/select';
+import { CollectionReferenceDescription } from 'arlas-api';
 import { SearchContributor } from 'arlas-web-contributors';
 import { fromEvent } from 'rxjs';
 import packageJson from '../../../../package.json' with { type: 'json' };
 import {
-  AiasDownloadComponent
+  AiasDownloadComponent,
+  DOWNLOAD_PROCESS_NAME
 } from '../../../../projects/arlas-toolkit/src/lib/components/aias/aias-download/aias-download.component';
 import {
-  AiasEnrichComponent
+  AiasEnrichComponent,
+  ENRICH_PROCESS_NAME
 } from '../../../../projects/arlas-toolkit/src/lib/components/aias/aias-enrich/aias-enrich.component';
+import { AiasDownloadDialogData, AiasEnrichDialogData } from '../../../../projects/arlas-toolkit/src/lib/components/aias/aias-process';
 import { DownloadComponent } from '../../../../projects/arlas-toolkit/src/lib/components/download/download.component';
 import {
   FilterShortcutConfiguration
@@ -89,7 +94,6 @@ import {
   TopMenuComponent
 } from '../../../../projects/arlas-toolkit/src/public-api';
 import config from '../../../config.json';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 const DUMMY_CONFIG: Config = {
   id: 'TEST',
@@ -153,17 +157,6 @@ export class HomeComponent implements OnInit {
   public windowWidth = window.innerWidth;
   public spinnerOptions: SpinnerOptions = DEFAULT_SPINNER_OPTIONS;
 
-  /** Different asset formats to test process */
-  public assetFormats = [
-    'Jpeg2000',
-    'GEOTIFF'
-  ];
-  public selectedAssetFormat = this.assetFormats[0];
-  public itemFormats = [
-    'Safe',
-    'Other'
-  ];
-  public selectedItemFormat = this.itemFormats[0];
   public collections: Array<string>;
 
   public actions: ConfigAction[] = [
@@ -204,6 +197,8 @@ export class HomeComponent implements OnInit {
     }
   ];
 
+  private cdrs = new Array<CollectionReferenceDescription>();
+
   @ViewChild('download', { static: false }) private readonly downloadComponent?: DownloadComponent;
   @ViewChild('share', { static: false }) private readonly shareComponent?: ShareComponent;
 
@@ -223,13 +218,18 @@ export class HomeComponent implements OnInit {
 
     this.timelineComponentConfig = this.arlasConfigService.getValue('arlas.web.components.timeline');
     this.detailedTimelineComponentConfig = this.arlasConfigService.getValue('arlas.web.components.detailedTimeline');
-   if(this.aoi.dataBase?.data.length === 0){
-     this.aoi.dataBase?.add(this.aoi.dataBase?.createAoi('test', {})).pipe(takeUntilDestroyed()).subscribe();
-   }
-   this.tagService.processStatus.set('test', {id: 'test1', updated: 1, label: 't1', progress: 50});
-   this.tagService.processStatus.set('tes1', {id: 'test1', failed: 1, label: 't3', progress: 0});
-   this.tagService.processStatus.set('tes2', {id: 'test1', failed: 1, label: 't3', progress: 100});
-   this.collections = [...new Set(Array.from(this.collaborativeService.registry.values()).map(c => c.collection))];
+    if(this.aoi.dataBase?.data.length === 0){
+      this.aoi.dataBase?.add(this.aoi.dataBase?.createAoi('test', {})).pipe(takeUntilDestroyed()).subscribe();
+    }
+
+    this.collections = [...new Set(Array.from(this.collaborativeService.registry.values()).map(c => c.collection))];
+
+    this.processService.load(DOWNLOAD_PROCESS_NAME).subscribe();
+    this.processService.load(ENRICH_PROCESS_NAME).subscribe();
+
+    this.collaborativeService.list().subscribe(cdrs => {
+      this.cdrs = cdrs;
+    });
   }
 
   public ngOnInit(): void {
@@ -355,10 +355,7 @@ export class HomeComponent implements OnInit {
 
   public openDownload() {
     const wkt = 'POLYGON((10 10, 20 10, 20 20, 10 20, 10 10),(13 13, 17 13, 17 17, 13 17, 13 13))';
-    // can be used to mock your data
-    const item = new Map<string, any>();
-    item.set('properties.main_asset_format', this.selectedAssetFormat);
-    item.set('properties.item_format', this.selectedItemFormat);
+    const collection = 'demo_eo';
 
     this.dialog.open(
       AiasDownloadComponent,
@@ -367,17 +364,16 @@ export class HomeComponent implements OnInit {
         maxWidth: '60vw',
         data: {
           nbProducts: 1,
-          itemDetail: item,
           wktAoi: wkt,
-          ids: ['1'],
-          collection: 'totot'
-        }
+          ids: ['DS_PHR1B_202312030720015_FR1_PX_E046N05_0123_01728'],
+          collection,
+          idFieldName: this.cdrs.find(cdr => cdr.collection_name === collection)?.params.id_path as string
+        } as AiasDownloadDialogData
       });
   }
 
   public openEnrich() {
-    const item = new Map<string, any>();
-    item.set('properties.item_format', this.selectedItemFormat);
+    const collection = 'demo_eo';
 
     this.dialog.open(
       AiasEnrichComponent,
@@ -386,17 +382,14 @@ export class HomeComponent implements OnInit {
         maxWidth: '60vw',
         data: {
           nbProducts: 1,
-          itemDetail: item,
-          ids: ['1'],
-          collection: 'totot'
-        }
+          ids: ['DS_PHR1B_202312030720015_FR1_PX_E046N05_0123_01728'],
+          collection,
+          idFieldName: this.cdrs.find(cdr => cdr.collection_name === collection)?.params.id_path as string
+        } as AiasEnrichDialogData
       });
   }
 
   public openResult() {
-    const item = new Map<string, any>();
-    item.set('properties.item_format', this.selectedItemFormat);
-
     this.dialog.open(
       AiasResultComponent,
       {
@@ -449,5 +442,11 @@ export class HomeComponent implements OnInit {
     this.dialog.open(AoiComponent, {
       panelClass: 'arlas-permission-dialog'
     })
+  }
+
+  public openTagStatus() {
+    this.tagService.processStatus.set('test', {id: 'test1', updated: 1, label: 't1', progress: 50});
+    this.tagService.processStatus.set('tes1', {id: 'test1', failed: 1, label: 't3', progress: 0});
+    this.tagService.processStatus.set('tes2', {id: 'test1', failed: 1, label: 't3', progress: 100});
   }
 }

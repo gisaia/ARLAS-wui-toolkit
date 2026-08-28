@@ -18,13 +18,14 @@
  */
 
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
-import { Component, inject, Inject, OnInit } from '@angular/core';
+import { Component, inject, Inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSelectModule } from '@angular/material/select';
 import { MatStepperModule } from '@angular/material/stepper';
 import { marker } from '@colsen1991/ngx-translate-extract-marker';
@@ -36,13 +37,6 @@ import { AiasEnrichDialogData, AiasProcess } from '../aias-process';
 import { AiasResultComponent } from '../aias-result/aias-result.component';
 
 export const ENRICH_PROCESS_NAME = marker('enrich');
-
-export const COG_ENRICHMENT = marker('cog');
-
-// Possible formats for COG enrichment
-export const COG = marker('COG');
-export const OVERVIEW_COG = marker('OVERVIEW_COG');
-export const ALL_BANDS_COG = marker('ALL_BANDS_COG');
 
 @Component({
   selector: 'arlas-aias-enrich',
@@ -62,55 +56,24 @@ export const ALL_BANDS_COG = marker('ALL_BANDS_COG');
     MatIconModule,
     AiasResultComponent,
     MatDialogModule,
-    MatChipsModule
+    MatChipsModule,
+    MatProgressBarModule
   ]
 })
-export class AiasEnrichComponent extends AiasProcess implements OnInit {
-
-  public enrichments: string[] = [
-    COG_ENRICHMENT
-  ];
-
-  public availableCogFormats = [
-    COG,
-    OVERVIEW_COG,
-    ALL_BANDS_COG
-  ];
+export class AiasEnrichComponent extends AiasProcess {
 
   public formGroup = new FormGroup({
-    asset_type: new FormControl<string>(this.enrichments[0], Validators.required),
+    asset_type: new FormControl<string>('', Validators.required),
     enrichments: new FormControl<string[]>([], Validators.required)
   });
 
   protected readonly themeService = inject(ThemeService);
 
   public constructor(
-    protected processService: ProcessService,
+    protected readonly processService: ProcessService,
     @Inject(MAT_DIALOG_DATA) protected data: AiasEnrichDialogData
   ) {
     super(processService, data, ENRICH_PROCESS_NAME);
-  }
-
-  public ngOnInit(): void {
-    this._initEnrichmentsList();
-  }
-
-  private _initEnrichmentsList(): void {
-    const itemFormatKey = 'properties.item_format';
-    const itemFormatIsValid = this.data.itemDetail && this.data.itemDetail.has(itemFormatKey)
-      && !!this.data.itemDetail.get(itemFormatKey);
-    if (itemFormatIsValid) {
-      const itemFormat = this.data.itemDetail.get(itemFormatKey).toUpperCase();
-      if (itemFormat === 'SAFE') {
-        this.enrichments = [COG_ENRICHMENT];
-      }
-
-      if (!(itemFormat === 'SAFE' && itemFormat === 'LANDSAT')) {
-        this.availableCogFormats = [
-          COG, OVERVIEW_COG
-        ];
-      }
-    }
   }
 
   protected preparePayload() {

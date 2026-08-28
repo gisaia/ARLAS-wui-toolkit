@@ -38,28 +38,6 @@
 </arlas-top-menu>
 
 <div class="process-container">
-  <mat-form-field>
-    <mat-label>Asset format</mat-label>
-    <mat-select [(value)]="selectedAssetFormat">
-      @for (format of assetFormats; track format) {
-        <mat-option [value]="format">
-          {{ format }}
-        </mat-option>
-      }
-    </mat-select>
-  </mat-form-field>
-
-  <mat-form-field>
-    <mat-label>Item format</mat-label>
-    <mat-select [(value)]="selectedItemFormat">
-      @for (format of itemFormats; track format) {
-        <mat-option [value]="format">
-          {{ format }}
-        </mat-option>
-      }
-    </mat-select>
-  </mat-form-field>
-
   <button matButton="elevated" class="process" (click)="openDownload()">Download</button>
 
   <button matButton="elevated" class="process" (click)="openEnrich()">Enrich</button>
@@ -75,6 +53,8 @@
   <button matButton="elevated" class="process" (click)="openPermissionsCreator()">Permission creator (mock)</button>
 
   <button matButton="elevated" class="process" (click)="openAoi()">Aoi</button>
+
+  <button matButton="elevated" class="process" (click)="openTagStatus()">Tag</button>
   <arlas-config-menu [actions]="actions"></arlas-config-menu>
 </div>
 

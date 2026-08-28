@@ -6,6 +6,10 @@
 </div>
 
 <div mat-dialog-content [class.dark-theme]="themeService.isDarkMode()">
+  @if (optionsLoading() > 0) {
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  }
+
   <mat-stepper [linear]="true">
     <mat-step [stepControl]="formGroup" [editable]="!processStarted"
       [label]="'Parameters' | translate" state="params">
@@ -15,9 +19,9 @@
             <mat-form-field class="field" appearance="outline">
               <mat-label>{{ 'Enrichment type' | translate }}</mat-label>
               <mat-select [formControlName]="'asset_type'">
-                @for (e of enrichments; track e) {
-                  <mat-option [value]="e">
-                  {{ e | translate }}</mat-option>
+                @for (e of options['asset_type']?.(); track e.value) {
+                  <mat-option [value]="e.value">
+                  {{ e.label | translate }}</mat-option>
                 }
               </mat-select>
             </mat-form-field>
@@ -26,9 +30,9 @@
             <mat-form-field class="field" appearance="outline">
               <mat-label>{{ 'COG formats' | translate }}</mat-label>
               <mat-select [multiple]="true" [formControlName]="'enrichments'">
-                @for (format of availableCogFormats; track format) {
-                <mat-option [value]="format">
-                  {{ format | translate }}
+                @for (format of options['enrichments']?.(); track format.value) {
+                <mat-option [value]="format.value">
+                  {{ format.label | translate }}
                 </mat-option>
                 }
               </mat-select>

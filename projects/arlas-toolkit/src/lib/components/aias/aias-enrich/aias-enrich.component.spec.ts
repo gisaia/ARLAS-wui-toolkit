@@ -4,6 +4,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateLoader, TranslateModule, TranslateNoOpLoader } from '@ngx-translate/core';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { ArlasCollaborativesearchService } from '../../../services/collaborative-search/arlas.collaborative-search.service';
+import { AiasEnrichDialogData } from '../aias-process';
 import { AiasEnrichComponent } from './aias-enrich.component';
 
 describe('AiasEnrichComponent', () => {
@@ -20,10 +21,10 @@ describe('AiasEnrichComponent', () => {
             useValue: {
                 data: {
                     nbProducts: 2,
-                    itemDetail: new Map(),
                     ids: ['1', '2'],
                     collection: 'test',
-                }
+                    idFieldName: 'test'
+                } as AiasEnrichDialogData
             }
         }
     ],
