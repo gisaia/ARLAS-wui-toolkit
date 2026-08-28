@@ -44,7 +44,7 @@
               [matTooltipPosition]="'before'">
               <mat-label>{{ 'Coordinate system' | translate }}</mat-label>
               <mat-select [formControlName]="'target_projection'" class="data-cy-target_projection">
-                @for (opt of options['target_projection'](); track opt.value) {
+                @for (opt of options['target_projection']?.(); track opt.value) {
                   <mat-option [value]="opt.value">{{ opt.label  | translate }}</mat-option>
                 }
               </mat-select>
@@ -59,7 +59,7 @@
               [matTooltipPosition]="'before'">
               <mat-label>{{ 'Format' | translate }}</mat-label>
               <mat-select [formControlName]="'target_format'" class="data-cy-target_format">
-                @for (opt of options['target_format'](); track opt.value) {
+                @for (opt of options['target_format']?.(); track opt.value) {
                   <mat-option [value]="opt.value">{{ opt.label| translate }}</mat-option>
                 }
               </mat-select>
