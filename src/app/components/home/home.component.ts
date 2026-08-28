@@ -18,6 +18,7 @@
  */
 
 import { Component, inject, OnInit, ViewChild } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -93,7 +94,6 @@ import {
   TopMenuComponent
 } from '../../../../projects/arlas-toolkit/src/public-api';
 import config from '../../../config.json';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 const DUMMY_CONFIG: Config = {
   id: 'TEST',
@@ -221,9 +221,6 @@ export class HomeComponent implements OnInit {
     if(this.aoi.dataBase?.data.length === 0){
       this.aoi.dataBase?.add(this.aoi.dataBase?.createAoi('test', {})).pipe(takeUntilDestroyed()).subscribe();
     }
-    this.tagService.processStatus.set('test', {id: 'test1', updated: 1, label: 't1', progress: 50});
-    this.tagService.processStatus.set('tes1', {id: 'test1', failed: 1, label: 't3', progress: 0});
-    this.tagService.processStatus.set('tes2', {id: 'test1', failed: 1, label: 't3', progress: 100});
 
     this.collections = [...new Set(Array.from(this.collaborativeService.registry.values()).map(c => c.collection))];
 
@@ -445,5 +442,11 @@ export class HomeComponent implements OnInit {
     this.dialog.open(AoiComponent, {
       panelClass: 'arlas-permission-dialog'
     })
+  }
+
+  public openTagStatus() {
+    this.tagService.processStatus.set('test', {id: 'test1', updated: 1, label: 't1', progress: 50});
+    this.tagService.processStatus.set('tes1', {id: 'test1', failed: 1, label: 't3', progress: 0});
+    this.tagService.processStatus.set('tes2', {id: 'test1', failed: 1, label: 't3', progress: 100});
   }
 }
