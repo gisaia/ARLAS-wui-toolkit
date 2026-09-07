@@ -52,10 +52,13 @@ export class LinkComponent implements OnInit {
 
   public ngOnInit(): void {
     const options = this.getOptions();
+    let responseType = 'text';
     if (this.link().check_url_response_type === 'json') {
-      options.responseType = 'json';
+      responseType = 'json';
     }
-    this.http.get(this.link().check_url, options)
+
+    // Cast as any is needed because typing of GET requires either json or text but not a type that can be either
+    this.http.get(this.link().check_url, { ...options, responseType: responseType as any })
       .pipe(finalize(() => this.onCheck$.emit()))
       .subscribe({
         next: () => {
