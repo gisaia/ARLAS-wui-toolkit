@@ -1,9 +1,10 @@
 
 <div mat-dialog-content class="bookmark__add">
   <h1 class="bookmark__add--title" mat-dialog-title>
-    {{ 'Dataset name' | translate }}
+    {{ 'Add a bookmark' | translate }}
   </h1>
-  <mat-form-field class="bookmark__add--input">
+  <mat-form-field class="bookmark__add--input" appearance="outline">
+    <mat-label>{{ 'Bookmark name' | translate }}</mat-label>
     <input matInput tabindex="1" [formControl]="bookmarkName" (keypress)="pressEvent($event)">
     @if (bookmarkName.invalid) {
       <mat-error>{{errorMessage | translate}}</mat-error>
