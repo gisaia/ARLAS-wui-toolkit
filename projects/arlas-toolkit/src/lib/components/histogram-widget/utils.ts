@@ -52,7 +52,7 @@ export function computeChartTooltipOffset(chartWidth: number, groupLength: numbe
     }
   } else if (isShortcutID(contributorId)) {
     xOffset = 20;
-    yOffset = 120;
+    yOffset = 105;
   }
 
   return { xOffset, yOffset };
