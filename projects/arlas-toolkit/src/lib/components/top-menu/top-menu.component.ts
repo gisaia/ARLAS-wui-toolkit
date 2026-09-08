@@ -144,8 +144,8 @@ export class TopMenuComponent {
           this.connected = false;
         }
       });
-      this.isDarkThemeEnabled = this.settingsService.isDarkThemeEnabled();
     }
+    this.isDarkThemeEnabled = this.settingsService.isDarkThemeEnabled();
 
     /** This is a method to listen to logging out event from other tabs of the same domain. */
     window.addEventListener('storage', (event) => {
