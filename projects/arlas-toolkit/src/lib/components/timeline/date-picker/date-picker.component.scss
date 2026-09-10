@@ -20,17 +20,18 @@
 
 .arlas-date-picker-input-from,
 .arlas-date-picker-input-to {
-    width: 135px;
+    width: 150px;
     background-color: var(--mat-sys-secondary);
     border: none;
     color: white;
     cursor: pointer;
     height: 30px;
+    font-size: var(--arlas-sys-content-font-size);
 }
 
 .arlas-date-picker-label-to,
 .arlas-date-picker-label-from {
-    font-size: var(--arlas-sys-content-font-size);;
+    font-size: var(--arlas-sys-content-font-size);
 }
 
 input:focus {

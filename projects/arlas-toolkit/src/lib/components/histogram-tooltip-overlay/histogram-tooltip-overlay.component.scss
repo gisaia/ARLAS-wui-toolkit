@@ -51,6 +51,7 @@
   }
 
   .count {
+    font-size: var(--arlas-sys-content-font-size);
     text-align: right;
 
     &--bold {

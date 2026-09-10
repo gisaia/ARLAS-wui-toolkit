@@ -29,7 +29,7 @@
     .analytics-board-panel-title {
       align-items: center;
       margin-left: 5px;
-      --mat-expansion-header-text-size: var(--arlas-sys-subtitle-font-size);
+      font-size: var(--arlas-sys-subtitle-font-size);
 
       .analytics-board-panel-icon {
         margin-right: 5px;
