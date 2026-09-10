@@ -22,7 +22,7 @@
     border: 1px solid var(--mat-sys-on-surface);
     background-color: var(--arlas-aias-result-status-bg, var(--mat-sys-surface));
     border-radius: 25px;
-    font-size: 14px;
+    font-size: var(--arlas-sys-content-font-size);
 
     &.status-running {
       color: var(--arlas-aias-result-status-running, #337ab7);

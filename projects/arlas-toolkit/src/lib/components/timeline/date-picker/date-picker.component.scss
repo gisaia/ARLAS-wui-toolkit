@@ -30,7 +30,7 @@
 
 .arlas-date-picker-label-to,
 .arlas-date-picker-label-from {
-    font-size: 14px;
+    font-size: var(--arlas-sys-content-font-size);;
 }
 
 input:focus {

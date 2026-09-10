@@ -21,7 +21,7 @@
   color: var(--arlas-iam-error-text, var(--mat-sys-error));
   display: block;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-  font-size: 12px;
+  font-size: var(--arlas-sys-minor-font-size);
   font-weight: 400;
   padding: 0 0 15px 2px;
 }

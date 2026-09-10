@@ -19,7 +19,6 @@
 
 $sm-spacing: 5px;
 $default-border-radius: 4px;
-$default-font-size: 14px;
 $top-menu-height: 40px;
 
 .wrapper {
@@ -35,7 +34,7 @@ $top-menu-height: 40px;
     border-radius: $default-border-radius;
     z-index: 1000;
     .no-link {
-        font-size: $default-font-size;
+        font-size: var(--arlas-sys-content-font-size);
         margin: calc(3 * $sm-spacing);
         color: var(--arlas-links-text-color, var(--mat-sys-on-background));
     }

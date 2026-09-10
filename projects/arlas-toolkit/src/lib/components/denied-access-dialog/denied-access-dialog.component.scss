@@ -25,16 +25,13 @@ $sm-spacing: 5px;
 $sm-margin: 5px;
 $default-margin: 10px;
 $default-spacing: 10px;
-$sm-font-size: 14px;
-$xs-font-size: 12px;
-$default-font-size: 16px;
 
 ::ng-deep.arlas-error-dialog .mdc-dialog__surface {
   padding: 12px 24px;
 }
 
 .title {
-  font-size: $default-font-size;
+  font-size: var(--arlas-sys-subtitle-font-size);
   font-weight: bold;
   display: flex;
   align-items: center;
@@ -62,7 +59,7 @@ $default-font-size: 16px;
 
     .action {
       display: flex;
-      font-size: $xs-font-size;
+      font-size: var(--arlas-sys-content-font-size);
       text-decoration: underline;
       cursor: pointer;
       margin-bottom: $default-margin;

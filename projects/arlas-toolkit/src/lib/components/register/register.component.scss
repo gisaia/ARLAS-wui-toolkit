@@ -26,7 +26,7 @@
 .sign-up-form {
   width: 340px;
   margin: 50px auto;
-  font-size: 15px;
+  font-size: var(--arlas-sys-content-font-size);
 }
 
 .title {
@@ -89,7 +89,7 @@
 }
 
 .terms {
-  font-size: 12px;
+  font-size: var(--arlas-sys-minor-font-size);
   padding-bottom: 10px;
   text-align: center;
   color: var(--arlas-register-text-color);

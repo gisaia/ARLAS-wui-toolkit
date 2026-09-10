@@ -27,7 +27,7 @@
     gap: 15px;
 
     mat-form-field {
-        font-size: 14px;
+        font-size: var(--arlas-sys-content-font-size);
         width: 100%;
 
         ::ng-deep {

@@ -24,19 +24,19 @@
 .sign-up-form {
   width: 340px;
   margin: 50px auto;
-  font-size: 15px;
+  font-size: var(--arlas-sys-content-font-size);
 }
 
 .sign-up-form mat-form-field {
-  font-size: 14px;
+  font-size: var(--arlas-sys-content-font-size);
   width: 100%;
 }
 
 .title {
   padding: 10px 20px;
-  background-color: var(--arlas-forgot-title-background,  var(--mat-sys-primary));
-  color: var(--arlas-forgot-title-text,  var(--mat-sys-on-primary));
-  font-size: 18px;
+  background-color: var(--arlas-forgot-title-background, var(--mat-sys-primary));
+  color: var(--arlas-forgot-title-text, var(--mat-sys-on-primary));
+  font-size: var(--arlas-sys-title-font-size);
   border-radius: 15px 15px 0 0;
 }
 
@@ -83,12 +83,12 @@
   color: var(--arlas-forgot-error-text, var(--mat-sys-error));
   display: block;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-  font-size: 12px;
+  font-size: var(--arlas-sys-minor-font-size);
   font-weight: 400;
   padding: 0 0 15px 2px;
 }
 
-.validate{
+.validate {
   color: var(--arlas-forgot-success-text, var(--arlas-sys-on-success));
   background-color: var(--arlas-forgot-success-background, var(--arlas-sys-success));
   padding: 10px;
