@@ -31,4 +31,8 @@ export class MockArlasSettingsService {
   public getPermissionSettings() {
     return {};
   }
+
+  public isDarkThemeEnabled() {
+    return true;
+  }
 }
