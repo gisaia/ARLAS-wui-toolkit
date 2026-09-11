@@ -20,7 +20,7 @@
         </mat-checkbox>
       }
     </mat-menu>
-    <input matInput [formControl]="searchCtrl" class="full-width-input" autocomplete="off"
+    <input matInput #searchInput [formControl]="searchCtrl" class="full-width-input" autocomplete="off"
       placeholder="{{searchPlaceholder}}" (keyup)="onKeyUp($event)" name="search">
     @if (searchCtrl.value) {
       <button mat-icon-button type="button" class="close" (click)="clearSearch()">
