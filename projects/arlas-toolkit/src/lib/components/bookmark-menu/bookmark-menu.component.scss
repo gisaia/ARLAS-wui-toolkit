@@ -25,9 +25,9 @@ $sm-spacing: 5px;
     width: 100%;
   }
   .info {
-    width: 17px;
-    height: 17px;
-    font-size: 17px;
+    width: var(--arlas-sys-minor-icon-size);
+    height: var(--arlas-sys-minor-icon-size);
+    font-size: var(--arlas-sys-minor-icon-size);
     cursor: pointer;
     padding: 0 $sm-spacing;
     color: var(--mat-sys-on-background);

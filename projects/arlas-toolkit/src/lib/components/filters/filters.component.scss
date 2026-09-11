@@ -34,8 +34,6 @@ $sm-spacing: 5px;
 $sm-margin: 5px;
 $default-margin: 10px;
 $default-spacing: 10px;
-$sm-font-size: 14px;
-$xs-font-size: 12px;
 
 $count-chip-height: 30px;
 
@@ -55,7 +53,7 @@ $count-chip-height: 30px;
   box-sizing: border-box;
   display: flex;
   align-items: center;
-  font-size: $sm-font-size;
+  font-size: var(--arlas-sys-content-font-size);
   align-self: center;
 }
 
@@ -89,29 +87,30 @@ $count-chip-height: 30px;
 .filter-chip {
   color: var(--arlas-filter-chip-color, var(--mat-sys-on-surface));
   background: var(--arlas-filter-chip-background, var(--mat-sys-surface));
-  .icon{
-    font-size: 18px;
-    width: 18px;
-    height: 18px;
+  .icon {
+    font-size: var(--arlas-sys-content-icon-size);
+    width: var(--arlas-sys-content-icon-size);
+    height: var(--arlas-sys-content-icon-size);
     cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
 
     &_close {
-      --mat-icon-button-state-layer-size: 12px;
-      --mat-icon-button-touch-target-size: 12px;
+      --arlas-filter-cancel-icon-size: 14px;
+      --mat-icon-button-state-layer-size: var(--arlas-filter-cancel-icon-size);
+      --mat-icon-button-touch-target-size: var(--arlas-filter-cancel-icon-size);
       padding: 0;
 
       position: absolute;
       display: flex;
       top: 0;
-      right: 0;
+      right: -3px;
 
       mat-icon {
-        font-size: 12px;
-        width: 12px;
-        height: 12px;
+        font-size: var(--arlas-filter-cancel-icon-size);
+        width: var(--arlas-filter-cancel-icon-size);
+        height: var(--arlas-filter-cancel-icon-size);
       }
     }
   }
@@ -165,7 +164,7 @@ $count-chip-height: 30px;
 
   .unit {
     font-weight: 100;
-    font-size: $xs-font-size;
+    font-size: var(--arlas-sys-minor-font-size);
     color: var(--arlas-filters-unit-color, var(--mat-sys-on-surface));
   }
 }
@@ -188,7 +187,7 @@ $count-chip-height: 30px;
 
     .text {
       padding-right: $default-margin;
-      font-size: $sm-font-size;
+      font-size: var(--arlas-sys-content-font-size);
       white-space: nowrap;
     }
 
@@ -205,7 +204,7 @@ $count-chip-height: 30px;
         align-items: center;
         justify-content: center;
         border: 1px solid var(--arlas-filters-count-border, var(--arlas-sys-light-surface));
-        font-size: $sm-font-size;
+        font-size: var(--arlas-sys-content-font-size);
         align-self: center;
       }
 

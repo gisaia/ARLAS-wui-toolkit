@@ -93,7 +93,7 @@
 }
 
 .mat-mdc-cell {
-  font-size: 14px;
+  font-size: var(--arlas-sys-content-font-size);
 }
 
 .bookmark-actions {
@@ -109,16 +109,16 @@
 
 .bookmark-actions__description {
   color: var(--arlas-bookmark-description-color, var(--mat-sys-on-surface-variant));
-  font-size: 14px;
+  font-size: var(--arlas-sys-content-font-size);
   display: flex;
   align-items: center;
   margin-top: 10px;
   margin-left: 5px;
 
   mat-icon {
-    height: 18px;
-    width: 18px;
-    font-size: 18px;
+    height: var(--arlas-sys-content-icon-size);
+    width: var(--arlas-sys-content-icon-size);
+    font-size: var(--arlas-sys-content-icon-size);
     margin-right: 5px;
   }
 

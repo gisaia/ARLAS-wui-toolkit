@@ -45,7 +45,7 @@
 .login-form {
   width: 340px;
   margin: 50px auto;
-  font-size: 15px;
+  font-size: var(--arlas-sys-content-font-size);
 
   h2 {
     margin: 10px 0;
@@ -56,7 +56,7 @@
   padding: 10px 20px;
   background-color: var(--arlas-iam-form-header-background, var(--mat-sys-primary));
   color: var(--arlas-login-title-text, var(--mat-sys-on-primary));
-  font-size: 18px;
+  font-size: var(--arlas-sys-title-font-size);
   border-radius: 15px 15px 0 0;
 
   h2 {
@@ -100,7 +100,7 @@
 .forgot{
   display: flex;
   justify-content: center;
-  font-size: 12px;
+  font-size: var(--arlas-sys-minor-font-size);
   padding-bottom: 10px;
 }
 
