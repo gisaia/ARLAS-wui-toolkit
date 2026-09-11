@@ -296,7 +296,7 @@ export class WidgetComponent implements OnInit {
     let xOffset = 470;
     if (this.groupLength() === 2) {
       if (this.position() === 1) {
-        xOffset = 244;
+        xOffset = 239;
       }
     } else if (this.groupLength() === 3) {
       if (this.position() === 1) {
