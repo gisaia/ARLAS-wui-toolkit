@@ -374,7 +374,7 @@ export class SearchDialogComponent implements AfterViewInit {
 
   public ngAfterViewInit(): void {
     // Set focus after template renders
-    setTimeout(() => this.searchInput()?.nativeElement.focus(), 0);
+    this.searchInput()?.nativeElement.focus();
   }
   public clickItemSearch(keyAsString: string) {
     this.dialogRef.close({
