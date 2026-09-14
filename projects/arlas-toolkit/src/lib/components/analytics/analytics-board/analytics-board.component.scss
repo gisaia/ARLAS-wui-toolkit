@@ -28,12 +28,14 @@
 
     .analytics-board-panel-title {
       align-items: center;
+      margin-left: 5px;
+      font-size: var(--arlas-sys-subtitle-font-size);
 
       .analytics-board-panel-icon {
         margin-right: 5px;
-        font-size: 20px;
-        height: 20px;
-        width: 20px;
+        font-size: var(--arlas-sys-title-icon-size);
+        height: var(--arlas-sys-title-icon-size);
+        width: var(--arlas-sys-title-icon-size);
       }
     }
 
@@ -60,11 +62,6 @@
         align-self: center;
       }
 
-      .mat-mdc-card-title {
-        font-size: 15px;
-        margin-bottom: 5px;
-      }
-
       .analytics-board-card-title {
         display: flex;
         align-items: center;
@@ -72,9 +69,9 @@
 
         .analytics-board-card-icon {
           margin-right: 5px;
-          font-size: 20px;
-          height: 20px;
-          width: 20px;
+          font-size: var(--arlas-sys-content-icon-size);
+          height: var(--arlas-sys-content-icon-size);
+          width: var(--arlas-sys-content-icon-size);
         }
       }
     }
@@ -82,19 +79,19 @@
 
   .active-filter-group {
     position: absolute;
-    --mat-icon-button-state-layer-size: 14px;
-    --mat-icon-button-touch-target-size: 14px;
+    --mat-icon-button-state-layer-size: var(--arlas-sys-minor-icon-size);
+    --mat-icon-button-touch-target-size: var(--arlas-sys-minor-icon-size);
     padding: 0;
     border-radius: 9px;
-    left: 7px;
-  }
+    left: 5px;
 
-  .active-filter-group-close {
-    display: none;
-    font-size: 12px;
-    color: var(--arlas-analytics-board-filter-text-color, var(--arlas-sys-warn-color));
-    width: 14px;
-    height: 14px;
+    &-close {
+      display: none;
+      font-size: var(--arlas-sys-minor-icon-size);
+      color: var(--arlas-analytics-board-filter-text-color, var(--arlas-sys-warn-color));
+      width: var(--arlas-sys-minor-icon-size);
+      height: var(--arlas-sys-minor-icon-size);
+    }
   }
 
   .active-filter:hover .active-filter-close,
@@ -122,8 +119,8 @@
 
     .active-filter{
       position: absolute;
-      --mat-icon-button-state-layer-size: 14px;
-      --mat-icon-button-touch-target-size: 14px;
+      --mat-icon-button-state-layer-size: var(--arlas-sys-minor-icon-size);
+      --mat-icon-button-touch-target-size: var(--arlas-sys-minor-icon-size);
       padding: 0;
 
       border-radius: 9px;
@@ -133,9 +130,9 @@
 
     .active-filter-close {
       display: none;
-      font-size: 12px;
-      width: 14px;
-      height: 14px;
+      font-size: var(--arlas-sys-minor-icon-size);
+      width: var(--arlas-sys-minor-icon-size);
+      height: var(--arlas-sys-minor-icon-size);
       color: var(--arlas-analytics-board-filter-text-color, white);
     }
   }

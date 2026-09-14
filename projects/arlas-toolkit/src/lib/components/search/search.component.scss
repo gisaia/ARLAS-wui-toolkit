@@ -51,7 +51,7 @@ $search-height: 30px;
 
   .search-text {
     color: var(--arlas-search-text-color, black);
-    font-size: 14px;
+    font-size: var(--arlas-sys-content-font-size);
     margin-right: auto;
     cursor: pointer;
     width: 150px;
@@ -69,9 +69,9 @@ $search-height: 30px;
     padding: 0;
 
     .icon {
-      font-size: 16px;
-      height: 16px;
-      width: 16px;
+      font-size: var(--arlas-sys-minor-icon-size);
+      height: var(--arlas-sys-minor-icon-size);
+      width: var(--arlas-sys-minor-icon-size);
     }
   }
 }

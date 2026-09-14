@@ -22,3 +22,8 @@
     --mat-snack-bar-button-color: white;
     --mdc-snackbar-container-color: rgb(212, 17, 17);
 }
+
+::ng-deep .mdc-button {
+    --mat-button-filled-label-text-tracking: 0;
+    --mat-button-outlined-label-text-tracking: 0;
+}

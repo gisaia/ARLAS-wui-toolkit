@@ -28,19 +28,19 @@ $default-spacing: 10px;
 }
 
 .checkbox-hint {
-  font-size: 10px;
+  font-size: var(--arlas-sys-minor-font-size);
   font-style: italic;
 }
 
 .warning-text{
   display: flex;
   align-items: center;
-  font-size: 10px;
+  font-size: var(--arlas-sys-minor-font-size);
   gap: $default-spacing;
   color: var(--arlas-ias-warn-color, var(--arlas-sys-warn-color));
   & mat-icon {
-    font-size: 15px;
-    width: 15px;
-    height: 15px;
+    font-size: var(--arlas-sys-minor-icon-size);
+    width: var(--arlas-sys-minor-icon-size);
+    height: var(--arlas-sys-minor-icon-size);
   }
 }

@@ -43,11 +43,11 @@
 
     .active-filter-tab {
         position: absolute;
-        --mat-icon-button-state-layer-size: 14px;
-        --mat-icon-button-touch-target-size: 14px;
+        --mat-icon-button-state-layer-size: var(--arlas-sys-minor-icon-size);
+        --mat-icon-button-touch-target-size: var(--arlas-sys-minor-icon-size);
         border-radius: 9px;
-        left: 10px;
-        top: 8px;
+        left: 6px;
+        top: 4px;
         background-color: var(--arlas-sys-accent-variant);
         padding: 0;
 
@@ -61,10 +61,10 @@
 
         .active-filter-tab-close {
             display: none;
-            font-size: 12px;
+            font-size: var(--arlas-sys-minor-icon-size);
             color: var(--arlas-analytics-menu-active-text-color, var(--mat-sys-on-background));
-            width: 12px;
-            height: 12px;
+            width: var(--arlas-sys-minor-icon-size);
+            height: var(--arlas-sys-minor-icon-size);
         }
     }
 }
