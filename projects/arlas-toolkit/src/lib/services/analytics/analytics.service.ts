@@ -26,6 +26,7 @@ import { AnalyticGroupConfiguration, AnalyticsTabs } from '../../components/anal
 import { hasContributorData } from '../../tools/utils';
 import { ArlasCollaborativesearchService } from '../collaborative-search/arlas.collaborative-search.service';
 import { ArlasConfigService } from '../startup/startup.service';
+import { BehaviorSubject } from 'rxjs';
 
 
 @Injectable({
@@ -98,6 +99,12 @@ export class AnalyticsService {
    */
   private defaultGroupTabName = 'analytics';
 
+  /**
+   * Whether analytics table is open or nat.
+   */
+  public readonly _isOpen$ = new BehaviorSubject<boolean>(false);
+  public readonly isOpen$ = this._isOpen$.asObservable();
+
   public constructor(
     private configService: ArlasConfigService,
     private collaborativeService: ArlasCollaborativesearchService,
@@ -133,6 +140,7 @@ export class AnalyticsService {
       // Indicate to analytics board that the tab was changed
       this.tabChange.next(tabName);
     }
+    this._isOpen$.next(tabIndex !== undefined);
 
     // Navigate to new url
     const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
