@@ -140,7 +140,7 @@ export class HomeComponent implements OnInit {
   private tagService = inject(ArlasTagService);
 
   public shortcuts: Array<FilterShortcutConfiguration>;
-  public languages = ['en', 'fr', 'it', 'es', 'de', 'us', 'cn'];;
+  public languages = ['en', 'fr', 'it', 'es', 'de', 'us', 'cn'];
   public analyticsOpen = false;
   public timelineComponentConfig: TimelineConfiguration;
   public detailedTimelineComponentConfig: TimelineConfiguration;

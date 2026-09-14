@@ -17,11 +17,13 @@
  * under the License.
  */
 
-import { Component, EventEmitter, Input, OnInit, Output, input } from '@angular/core';
+import { Component, EventEmitter, Input, input, OnInit, Output } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Contributor, OperationEnum } from 'arlas-web-core';
-import { ArlasCollaborativesearchService } from '../../services/collaborative-search/arlas.collaborative-search.service';
+import {
+  ArlasCollaborativesearchService
+} from '../../services/collaborative-search/arlas.collaborative-search.service';
 import { SpinnerOptions } from '../../tools/utils';
 import { DEFAULT_SPINNER_OPTIONS } from '../progress-spinner/progress-spinner.component';
 import { WidgetComponent } from '../widget/widget.component';

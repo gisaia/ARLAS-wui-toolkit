@@ -27,16 +27,15 @@
             </mat-form-field>
 
             @if (formGroup.controls.asset_type.value === 'cog') {
-            <mat-form-field class="field" appearance="outline">
-              <mat-label>{{ 'COG formats' | translate }}</mat-label>
-              <mat-select [multiple]="true" [formControlName]="'enrichments'">
-                @for (format of options['enrichments']?.(); track format.value) {
-                <mat-option [value]="format.value">
-                  {{ format.label | translate }}
-                </mat-option>
-                }
-              </mat-select>
-            </mat-form-field>
+              <ul class="no-bullet">
+              @for (format of formatChecked; track format.value; let i = $index) {
+                <li>
+                  <mat-checkbox [checked]="format.checked" (change)="update($event.checked, i)">
+                    {{ format.value.label | translate }}
+                  </mat-checkbox>
+                </li>
+              }
+              </ul>
             }
           </section>
         </form>

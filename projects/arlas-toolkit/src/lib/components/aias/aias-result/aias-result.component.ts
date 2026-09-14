@@ -23,7 +23,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { TranslateModule } from '@ngx-translate/core';
-import { ProcessOutput } from '../../../tools/process.interface';
+import { ProcessOutput, ProcessStatus } from '../../../tools/process.interface';
+import { DurationPipe } from '../../../pipes/duration.pipe';
 
 @Component({
   selector: 'arlas-aias-result',
@@ -34,7 +35,8 @@ import { ProcessOutput } from '../../../tools/process.interface';
     DatePipe,
     MatProgressBarModule,
     MatDialogModule,
-    MatButtonModule
+    MatButtonModule,
+    DurationPipe
   ]
 })
 export class AiasResultComponent {
@@ -48,4 +50,6 @@ export class AiasResultComponent {
   @Input() public processName = '';
 
   @Input() public processAction = '';
+
+  protected readonly ProcessStatus = ProcessStatus;
 }

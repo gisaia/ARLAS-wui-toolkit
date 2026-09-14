@@ -1,4 +1,8 @@
 <div class="process-result">
+  @let intermediarState = statusResult?.status === ProcessStatus.running ||
+    statusResult?.status === ProcessStatus.accepted || statusResult?.status === ProcessStatus.dismissed;
+  @let displayMessage = intermediarState || hasError ||
+    statusResult?.status === ProcessStatus.failed;
   @if (isProcessing) {
     <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
 
@@ -12,15 +16,32 @@
     <div class="detail">
       <div>
         <div class="prop">
+          <div class="label">{{ 'Creation date' | translate }}:</div>
+          <div class="value">{{ (statusResult?.created | date:'medium') ?? '--' }}</div>
+        </div>
+        <div class="prop">
           <div class="label">{{ 'Start date' | translate }}:</div>
           <div class="value">{{ (statusResult?.started | date:'medium') ?? '--' }}</div>
         </div>
         <div class="prop">
-          <div class="label">{{ 'End date' | translate }}:</div>
-          <div class="value">{{ (statusResult?.finished | date:'medium') ?? '--' }}</div>
+          <div class="label">{{ 'Duration' | translate }}:</div>
+          <div class="value">{{ (statusResult?.created | duration: statusResult?.finished: intermediarState ) ?? '--' }}</div>
         </div>
+        @if(intermediarState){
+          <div class="prop">
+            <div class="label">{{ 'Updated date' | translate }}:</div>
+            <div class="value">{{ (statusResult?.updated | date:'medium') ?? '--' }}</div>
+          </div>
+        }
+        <div class="prop">
+          <div class="label">{{ 'Status' | translate }}:</div>
+          <div class="value"><div class="status status-{{statusResult?.status}}">{{ statusResult?.status | translate }}</div></div>
+        </div>
+          <div class="prop">
+            <div class="label">{{ 'Resource id' | translate }}:</div>
+            <div class="value">{{ statusResult?.resourceID }}</div>
+          </div>
       </div>
-      <div class="status status-{{statusResult?.status}}">{{ statusResult?.status | translate }}</div>
     </div>
   }
 
@@ -30,7 +51,7 @@
     </div>
   }
 
-  @if (statusResult?.message) {
+  @if (statusResult?.message && displayMessage) {
     <div class="message" [class.error]="hasError">
       {{ statusResult?.message | translate }}
     </div>
