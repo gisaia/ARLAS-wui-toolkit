@@ -17,6 +17,7 @@
  * under the License.
  */
 
+$default-spacing: 10px;
 @mixin status() {
     padding: 10px 15px;
     border: 1px solid var(--mat-sys-on-surface);
@@ -47,9 +48,7 @@
 
 
 .process-result {
-    padding: 10px 24px;
-    margin-top: 25px;
-
+    padding: 2px 24px;
     .processing {
       align-items: baseline;
       display: flex;
@@ -92,4 +91,68 @@
       text-align: center;
       padding-top: 25px;
     }
+
+  .message{
+    overflow:auto;
+  }
+}
+
+
+
+.detail {
+  &__card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  &__item {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.card {
+  &__item{
+    margin-bottom: 2px;
+    overflow: hidden;
+  }
+
+  &__status {
+    @include status();
+    padding : 0 9px;
+    border-radius: 4px;
+    width: fit-content;
+    background-color: var(--mat-sys-surface-variant);
+  }
+
+  &__label{
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: color-mix(in srgb, var(--mat-sys-on-surface) 56%, transparent);
+  }
+
+  &__label-outline{
+    font-size: 14px;
+    color: color-mix(in srgb, var(--mat-sys-on-surface) 56%, transparent);
+  }
+
+  &__value {
+    font-weight: 500;
+    color:  var(--mat-sys-on-surface);
+  }
+
+  &__container {
+    background-color: var(--mat-sys-surface-variant);
+    border: 1px solid var(--mat-sys-surface-variant);
+    padding: 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border-radius: 4px;
+  }
+}
+
+
+:host ::ng-deep .process-result .mat-horizontal-content-container {
+  padding: 0px 24px !important;
 }

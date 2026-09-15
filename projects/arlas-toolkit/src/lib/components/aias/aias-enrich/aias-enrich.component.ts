@@ -35,6 +35,7 @@ import { ProcessService } from '../../../services/process/process.service';
 import { ThemeService } from '../../../services/theme.service';
 import { AiasEnrichDialogData, AiasProcess } from '../aias-process';
 import { AiasResultComponent } from '../aias-result/aias-result.component';
+import { MatCheckbox } from '@angular/material/checkbox';
 
 export const ENRICH_PROCESS_NAME = marker('enrich');
 
@@ -57,7 +58,8 @@ export const ENRICH_PROCESS_NAME = marker('enrich');
     AiasResultComponent,
     MatDialogModule,
     MatChipsModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatCheckbox
   ]
 })
 export class AiasEnrichComponent extends AiasProcess {
@@ -66,6 +68,11 @@ export class AiasEnrichComponent extends AiasProcess {
     asset_type: new FormControl<string>('', Validators.required),
     enrichments: new FormControl<string[]>([], Validators.required)
   });
+
+  public formatChecked = this.options['enrichments']?.().map(o => ({
+      value: o,
+      checked: false
+  }));
 
   protected readonly themeService = inject(ThemeService);
 
@@ -78,5 +85,14 @@ export class AiasEnrichComponent extends AiasProcess {
 
   protected preparePayload() {
     return this.formGroup.value;
+  }
+
+  protected update(checked: boolean, i: number) {
+    const v = this.formatChecked?.at(i);
+    if (v) {
+      v.checked = checked;
+    }
+    const format = this.formatChecked?.filter(v => v.checked).map(v => v.value.value);
+    this.formGroup.get('enrichments')?.setValue(format);
   }
 }

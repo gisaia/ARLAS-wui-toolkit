@@ -76,6 +76,7 @@ $default-spacing: 10px;
 
       .value {
         font-weight: 400;
+        color: var(--mat-sys-on-surface)
       }
     }
   }
@@ -93,14 +94,47 @@ $default-spacing: 10px;
 .dark-theme {
   .step {
     .params {
-      background-color: #575757;
+      background-color: var(--mat-sys-surface-container);
+      border: 1px solid var(--mat-sys-surface);
 
       .label {
-        color: #a4a4a4;
+        color: color-mix(in srgb, var(--mat-sys-on-surface) 56%, transparent);
       }
     }
   }
 }
+
+
+.section {
+  text-align: left;
+  color:  var(--mat-sys-on-surface);
+  background-color: var(--mat-sys-surface-variant);
+  border-radius: 4px;
+  padding: 10px 15px;
+  &__title{
+    font-size: var(--arlas-sys-subtitle-font-size);
+  }
+  &__item {
+    display: flex;
+    gap: 10px;
+  }
+}
+.item {
+  &__key {
+    font-size: var(--arlas-sys-content-font-size);
+    text-align: end;
+    color: var(--arlas-result-detailed-item-key-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));
+    flex: 4;
+  }
+
+  &__value {
+    font-size: var(--arlas-sys-content-font-size);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex: 5;
+  }
+}
+
 
 ::ng-deep .mat-horizontal-content-container {
   padding: 12px 24px !important;
