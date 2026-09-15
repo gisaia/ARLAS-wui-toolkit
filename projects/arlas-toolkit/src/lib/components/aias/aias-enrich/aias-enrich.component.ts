@@ -70,7 +70,7 @@ export class AiasEnrichComponent extends AiasProcess {
   });
 
   public formatChecked = this.options['enrichments']?.().map(o => ({
-    value: o,
+      value: o,
       checked: false
   }));
 
@@ -87,9 +87,9 @@ export class AiasEnrichComponent extends AiasProcess {
     return this.formGroup.value;
   }
 
-  protected update(checked: boolean, i: any) {
+  protected update(checked: boolean, i: number) {
     const v = this.formatChecked?.at(i);
-    if(v){
+    if (v) {
       v.checked = checked;
     }
     const format = this.formatChecked?.filter(v => v.checked).map(v => v.value.value);

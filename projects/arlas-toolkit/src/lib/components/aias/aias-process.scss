@@ -76,6 +76,7 @@ $default-spacing: 10px;
 
       .value {
         font-weight: 400;
+        color: var(--mat-sys-on-surface)
       }
     }
   }
@@ -93,10 +94,11 @@ $default-spacing: 10px;
 .dark-theme {
   .step {
     .params {
-      background-color: #575757;
+      background-color: var(--mat-sys-surface-container);
+      border: 1px solid var(--mat-sys-surface);
 
       .label {
-        color: #a4a4a4;
+        color: color-mix(in srgb, var(--mat-sys-on-surface) 56%, transparent);
       }
     }
   }

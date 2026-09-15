@@ -173,10 +173,7 @@ export class ProcessService {
                     undefined,
                     filter,
                     false)
-                  .pipe(map(data => {
-                    console.log(data);
-                    return data.hits?.length === itemsId.length;
-                  }));
+                  .pipe(map(data => data.hits?.length === itemsId.length));
 
                 parsedOptions.push({ ...option, valid$: optionValid$ });
               } else {

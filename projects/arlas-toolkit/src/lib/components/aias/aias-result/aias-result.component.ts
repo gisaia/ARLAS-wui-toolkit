@@ -18,13 +18,14 @@
  */
 
 import { DatePipe } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { TranslateModule } from '@ngx-translate/core';
 import { ProcessOutput, ProcessStatus } from '../../../tools/process.interface';
-import { DurationPipe } from '../../../pipes/duration.pipe';
+import { DeltaTimePipe } from 'arlas-web-components';
+import { MatTooltip } from '@angular/material/tooltip';
 
 @Component({
   selector: 'arlas-aias-result',
@@ -36,10 +37,11 @@ import { DurationPipe } from '../../../pipes/duration.pipe';
     MatProgressBarModule,
     MatDialogModule,
     MatButtonModule,
-    DurationPipe
+    DeltaTimePipe,
+    MatTooltip
   ]
 })
-export class AiasResultComponent {
+export class AiasResultComponent implements OnInit {
 
   @Input() public isProcessing = false;
 
@@ -51,5 +53,21 @@ export class AiasResultComponent {
 
   @Input() public processAction = '';
 
-  protected readonly ProcessStatus = ProcessStatus;
+  protected intermediateState = false;
+  protected displayMessage = false;
+  protected duration = 0;
+
+  public ngOnInit() {
+    // Check in witch state we are to know what we show
+    this.intermediateState = this.statusResult?.status === ProcessStatus.running ||
+      this.statusResult?.status === ProcessStatus.accepted || this.statusResult?.status === ProcessStatus.dismissed;
+
+    // Whether to display or not json message
+    this.displayMessage = this.intermediateState || this.hasError || this.statusResult?.status === ProcessStatus.failed;
+
+    // Calculate duration
+    const createdDateMillis =  this.statusResult?.created ?? 0;
+    const endDateMillis = this.statusResult?.finished ?? 0;
+    this.duration =  this.intermediateState ? Date.now() - createdDateMillis : endDateMillis - createdDateMillis;
+  }
 }
