@@ -1,60 +1,59 @@
 <div class="process-result">
-  @if (isProcessing) {
+  @if (isProcessing()) {
     <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
 
-    @if (!!statusResult?.status) {
+    @if (!!statusResult()?.status) {
       <div class="processing">
-        <div>{{ processAction | translate }}</div>
-        <div class="status status-{{statusResult?.status}}">{{ statusResult?.status | translate }}</div>
+        <div>{{ processAction() | translate }}</div>
+        <div class="status status-{{statusResult()?.status}}">{{ statusResult()?.status | translate }}</div>
       </div>
     }
-  } @else if (!hasError) {
-    <div class="detail__card card__container">
-      <div class="card__item">
-        <div class="card__label">{{ 'Creation date' | translate }}</div>
-        <div class="card__value">{{ (statusResult?.created | date:'medium') ?? '--' }}</div>
+  } @else if (!hasError()) {
+    <div class="section">
+      <div class="section__title">{{ 'Result' | translate}}</div>
+      <div class="section__item">
+          <div class="item__key">{{ 'Creation date' | translate }}</div>
+          <div class="item__value">{{ (statusResult()?.created | date:'medium') ?? '--' }}</div>
       </div>
-
-      <div class="card__item">
-        <div class="card__label">{{ 'Start date' | translate }}</div>
-        <div class="card__value">{{ (statusResult?.started | date:'medium') ?? '--' }}</div>
+      <div class="section__item">
+        <div class="item__key">{{ 'Start date' | translate }}</div>
+        <div class="item__value">{{ (statusResult()?.started | date:'medium') ?? '--' }}</div>
       </div>
-
-      <div class="card__item">
-        <div class="card__label">{{ 'Duration' | translate }}</div>
-        <div class="card__value">{{ (duration | deltaTime) ?? '--' }}</div>
+      <div class="section__item">
+        <div class="item__key">{{ 'Duration' | translate }}</div>
+        <div class="item__value">{{ (duration() | deltaTime) ?? '--' }}</div>
       </div>
-
-      @if(intermediateState){
-        <div class="card__item">
-          <div class="card__label">{{ 'Updated date' | translate }}</div>
-          <div class="card__value">{{ (statusResult?.updated | date:'medium') ?? '--' }}</div>
+      @if(intermediateState()){
+        <div class="section__item">
+          <div class="item__key">{{ 'Updated date' | translate }}</div>
+          <div class="item__value">{{ (statusResult()?.updated | date:'medium') ?? '--' }}</div>
         </div>
       }
-    </div>
+      <div class="section__item">
+        <div class="item__key">{{ 'Status' | translate }}</div>
+        <div class="item__value">{{ statusResult()?.status | translate }}</div>
+      </div>
 
-    <div class="card__item">
-      <div class="card__label-outline">{{ 'Status' | translate }}</div>
-      <div class="card__container"><div class="card__status status-{{statusResult?.status}}">{{ statusResult?.status | translate }}</div></div>
-    </div>
+      <div class="section__item">
+        <div class="item__key">{{ 'Resource id' | translate }}</div>
+        <div class="item__value item__overfow" [matTooltip]="statusResult()?.resourceID">{{ statusResult()?.resourceID }}</div>
+      </div>
 
-    <div class="card__item">
-      <div class="card__label-outline">{{ 'Resource id' | translate }}</div>
-      <div class="card__container card__value" [matTooltip]="statusResult?.resourceID">{{ statusResult?.resourceID }}</div>
+      @if (statusResult()?.message && displayMessage()) {
+      <div class="section__item">
+        <div class="item__key">{{ 'Message' | translate }}</div>
+        <div class="item__value item__overfow" [matTooltip]="statusResult()?.resourceID"> {{ statusResult()?.message | translate }}</div>
+      </div>
+      }
     </div>
   }
 
-  @if (hasError) {
+  @if (hasError()) {
     <div class="error">
-      {{ 'processing error occured' | translate:{processingName: (processName | translate)} }}
+      {{ 'processing error occured' | translate:{processingName: (processName() | translate)} }}
     </div>
   }
 
-  @if (statusResult?.message && displayMessage) {
-    <div class="message" [class.error]="hasError">
-      {{ statusResult?.message | translate }}
-    </div>
-  }
 
   <div class="close">
     <button mat-dialog-close="true" matButton="outlined">{{ 'Close dialog' | translate }}</button>

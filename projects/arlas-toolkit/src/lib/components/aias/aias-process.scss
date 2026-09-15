@@ -104,6 +104,38 @@ $default-spacing: 10px;
   }
 }
 
+
+.section {
+  text-align: left;
+  color:  var(--mat-sys-on-surface);
+  background-color: var(--mat-sys-surface-variant);
+  border-radius: 4px;
+  padding: 10px 15px;
+  &__title{
+    font-size: var(--arlas-sys-subtitle-font-size);
+  }
+  &__item {
+    display: flex;
+    gap: 10px;
+  }
+}
+.item {
+  &__key {
+    font-size: var(--arlas-sys-content-font-size);
+    text-align: end;
+    color: var(--arlas-result-detailed-item-key-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));
+    flex: 4;
+  }
+
+  &__value {
+    font-size: var(--arlas-sys-content-font-size);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex: 5;
+  }
+}
+
+
 ::ng-deep .mat-horizontal-content-container {
   padding: 12px 24px !important;
 }

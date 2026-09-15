@@ -51,33 +51,26 @@
 
     <mat-step label="{{'Summary' | translate}}" class="step" state="summary">
       <div class="step">
-        <div class="summary">
-          <div class="infos">
-            <span>{{ data.nbProducts >= 2
-              ? ('You are about to enrich multiple products' | translate:{value: data.nbProducts})
-            : ('You are about to enrich one product' | translate) }}</span>
-            <span class="infos-subtitle">{{ 'Summary of parameters' | translate }} :</span>
+      <div class="section">
+          <div class="section__title">{{ 'Your request' | translate}}</div>
+          <div class="section__item">
+            <div class="item__key">{{ 'Enrichment type' | translate }}</div>
+            <div class="item__value">{{formGroup.controls.asset_type.value | translate }}</div>
           </div>
 
-          <div class="params">
-            <span class="label">{{ 'Enrichment type' | translate }} :</span>
-            <span class="value">{{ formGroup.controls.asset_type.value | translate }}</span>
-          </div>
-
-          @if (formGroup.controls.asset_type.value === 'cog') {
-          <div class="params">
-            <span class="label">{{ 'COG formats' | translate }} :</span>
-            <span class="value">
+        @if (formGroup.controls.asset_type.value === 'cog') {
+          <div class="section__item">
+            <div class="item__key">{{ 'COG formats' | translate }}</div>
+            <div class="item__value">
               @for (enrichment of formGroup.controls.enrichments.value; track enrichment) {
                 {{ enrichment | translate }}
                 @if (!$last) {
                   ,
                 }
-              }
-            </span>
+              }</div>
           </div>
-          }
-        </div>
+        }
+      </div>
         @if (!isProcessing && !processStarted) {
           <div class="buttons">
             <button matButton="outlined" matStepperPrevious>{{ 'Previous' | translate }}</button>
