@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateLoader, TranslateModule, TranslateNoOpLoader } from '@ngx-translate/core';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { AiasResultComponent } from './aias-result.component';
-import { DurationPipe } from '../../../pipes/duration.pipe';
 
 describe('AiasResultComponent', () => {
   let component: AiasResultComponent;
@@ -12,7 +11,6 @@ describe('AiasResultComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         AiasResultComponent,
-        DurationPipe,
         TranslateModule.forRoot({
           loader: { provide: TranslateLoader, useClass: TranslateNoOpLoader }
         }),
