@@ -129,9 +129,12 @@ $default-spacing: 10px;
 
   &__value {
     font-size: var(--arlas-sys-content-font-size);
+    flex: 2;
+  }
+
+  &__overflow {
     overflow: hidden;
     text-overflow: ellipsis;
-    flex: 2;
   }
 }
 
