@@ -27,11 +27,10 @@ export class ThemeService {
   private readonly darkMode = signal(false);
   private readonly THEME_KEY = 'dark-theme-enabled';
   private readonly settingsService = inject(ArlasSettingsService);
-  private readonly isDarkThemeEnabled = this.settingsService.isDarkThemeEnabled();
 
   public applyThemePreference() {
     // No dark mode enabled.
-    if(!this.isDarkThemeEnabled){
+    if(!this.settingsService.isDarkThemeEnabled()){
       return;
     }
 
