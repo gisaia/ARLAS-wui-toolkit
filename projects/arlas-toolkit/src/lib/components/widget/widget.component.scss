@@ -21,6 +21,11 @@
   position: relative;
   display: flex;
   justify-content: center;
+
+  ::ng-deep.checkbox {
+    // Clip any overflow to limit useless scrolls
+    overflow: clip;
+  }
 }
 
 .donut-container {

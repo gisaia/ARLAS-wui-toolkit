@@ -31,7 +31,7 @@
         border-radius: 50%;
         background-color: var(--arlas-filters-handler-more-background, var(--mat-sys-surface-variant));
         border: 1px solid var(--arlas-filters-handler-more-border-color, var(--mat-sys-surface-variant));
-        font-size: 12px;
+        font-size: var(--arlas-sys-content-font-size);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -43,9 +43,9 @@
         }
 
         .collapse {
-            width: 12px;
-            height: 12px;
-            font-size: 12px;
+            width: var(--arlas-sys-minor-icon-size);
+            height: var(--arlas-sys-minor-icon-size);
+            font-size: var(--arlas-sys-minor-icon-size);
         }
     }
     .list {

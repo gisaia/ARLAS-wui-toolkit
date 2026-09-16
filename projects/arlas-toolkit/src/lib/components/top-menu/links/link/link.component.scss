@@ -27,7 +27,7 @@
 $sm-spacing: 5px;
 $circle-diameter: 40px;
 $default-border-radius: 4px;
-$default-font-size: 14px;
+
 .wrapper {
     display: flex;
     flex-direction: column;
@@ -44,7 +44,7 @@ $default-font-size: 14px;
     }
     .name {
         margin-top: calc(2 * $sm-spacing);
-        font-size: $default-font-size;
+        font-size: var(--arlas-sys-content-font-size);
         text-align: center;
     }
     .circle {

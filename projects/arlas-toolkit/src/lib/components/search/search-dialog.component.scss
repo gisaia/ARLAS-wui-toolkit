@@ -19,7 +19,7 @@
 
 
 @mixin search-text {
-    font-size: 14px;
+    font-size: var(--arlas-sys-content-font-size);
     padding: 6px 4px;
 }
 
@@ -69,7 +69,7 @@
         .full-width-input {
             border: 0;
             width: 100%;
-            font-size: 14px;
+            font-size: var(--arlas-sys-content-font-size);
             background: var(--arlas-search-dialog-input-bg-color, var(--mat-sys-background)) ;
             color: var(--arlas-search-dialog-input-text-color, var(--mat-sys-on-background)) ;
             &:focus {
@@ -82,9 +82,9 @@
             --mdc-icon-button-state-layer-size: 24px;
             color: var(--arlas-search-dialog-input-text-color, var(--mat-sys-on-background)) ;
             .icon {
-                font-size: 18px;
-                height: 18px;
-                width: 18px;
+                font-size: var(--arlas-sys-content-icon-size);
+                height: var(--arlas-sys-content-icon-size);
+                width: var(--arlas-sys-content-icon-size);
             }
         }
     }
@@ -139,7 +139,7 @@
         flex-direction: column;
         margin: 5px;
         padding: 2px;
-        font-size: 12px;
+        font-size: var(--arlas-sys-minor-font-size);
 
         .mat-mdc-checkbox .mdc-checkbox {
             --mdc-checkbox-state-layer-size: 18px;
