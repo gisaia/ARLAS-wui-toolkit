@@ -73,8 +73,8 @@
 }
 
 .shortcut-button__icon {
-  --mat-icon-button-state-layer-size: 18px;
-  --mat-icon-button-touch-target-size: 18px;
+  --mat-icon-button-state-layer-size: var(--arlas-sys-content-icon-size);
+  --mat-icon-button-touch-target-size: var(--arlas-sys-content-icon-size);
   padding: 0;
 
   display: flex;
@@ -83,9 +83,9 @@
 
   mat-icon {
     color: var(--arlas-timeline-shortcut-icon-text, white);
-    width: 18px;
-    height: 18px;
-    font-size: 18px;
+    width: var(--arlas-sys-content-icon-size);
+    height: var(--arlas-sys-content-icon-size);
+    font-size: var(--arlas-sys-content-icon-size);
   }
 }
 
@@ -94,8 +94,8 @@
 }
 
 .shortcut-remove-filter {
-  --mat-icon-button-state-layer-size: 20px;
-  --mat-icon-button-touch-target-size: 20px;
+  --mat-icon-button-state-layer-size: calc(2 * 2px + var(--arlas-sys-minor-icon-size));
+  --mat-icon-button-touch-target-size: calc(2 * 2px + var(--arlas-sys-minor-icon-size));
   padding: 0;
 
   display: flex;
@@ -104,9 +104,9 @@
 
   &-icon {
     color: var(--arlas-timeline-shortcut-icon-text, white);
-    width: 15px;
-    height: 15px;
-    font-size: 15px;
+    width: var(--arlas-sys-minor-icon-size);
+    height: var(--arlas-sys-minor-icon-size);
+    font-size: var(--arlas-sys-minor-icon-size);
   }
 }
 
@@ -117,9 +117,9 @@
 
   &-icon {
     color: var(--arlas-timeline-shortcut-icon-text, white);
-    width: 20px;
-    height: 20px;
-    font-size: 15px;
+    width: calc(2 * 2px + var(--arlas-sys-minor-icon-size));
+    height: calc(2 * 2px + var(--arlas-sys-minor-icon-size));
+    font-size: var(--arlas-sys-minor-icon-size);
     cursor: pointer;
     padding: 2px 0px;
   }
@@ -127,7 +127,7 @@
 
 
 .shortcut-button__label {
-  font-size: 1em;
+  font-size: var(--arlas-sys-content-font-size);
   color: var(--arlas-timeline-shortcut-label-text, white);
   padding-left: 5px;
 }
@@ -140,7 +140,7 @@
   &--container {
     display: flex;
     justify-content: space-between;
-    font-size: 14px;
+    font-size: var(--arlas-sys-content-font-size);
     background-color: var(--arlas-timeline-shortcut-list-background, var(--mat-sys-surface));
     // Soft border in light or dark mode
     border: 1px solid #a1a1a1;

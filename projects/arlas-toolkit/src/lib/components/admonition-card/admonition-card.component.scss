@@ -24,7 +24,7 @@
   padding: 0 1.2rem;
   border-left: .4rem solid var(--arlas-admonition-accent, var(--mat-sys-secondary));
   border-radius: .2rem;
-  font-size: 0.9rem;
+  font-size: var(--arlas-sys-content-font-size);
   overflow: auto;
 }
 

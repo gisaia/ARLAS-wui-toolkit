@@ -42,7 +42,7 @@
 .validate-form {
   width: 340px;
   margin: 50px auto;
-  font-size: 15px;
+  font-size: var(--arlas-sys-content-font-size);
 }
 
 .title {
@@ -60,7 +60,7 @@
 }
 
 .confirm-error {
-  font-size: 13px;
+  font-size: var(--arlas-sys-minor-font-size);
   padding: 0 5px 5px 5px;
 }
 
@@ -96,7 +96,7 @@
   color: var(--arlas-verify-error-text, rgb(244, 67, 54));
   display: block;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-  font-size: 12px;
+  font-size: var(--arlas-sys-minor-font-size);
   font-weight: 400;
   padding: 0 0 15px 2px;
 }
@@ -114,7 +114,7 @@
 }
 
 .form-text-detail {
-  font-size: 12px;
+  font-size: var(--arlas-sys-minor-font-size);
   color: var(--arlas-verify-detail-text, #606770);
   padding: 10px 0;
   display: inline-block;

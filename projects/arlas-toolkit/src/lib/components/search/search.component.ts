@@ -18,7 +18,10 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { Component, computed, DestroyRef, inject, Inject, input, Input, linkedSignal, OnInit } from '@angular/core';
+import {
+  AfterViewInit, Component, computed, DestroyRef, ElementRef,
+  inject, Inject, input, Input, linkedSignal, OnInit, viewChild
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -258,7 +261,7 @@ interface SearchResultCollection extends AggregationResponse {
     FormsModule
   ]
 })
-export class SearchDialogComponent {
+export class SearchDialogComponent implements AfterViewInit {
 
   /**
    * @description Search contributor
@@ -293,6 +296,8 @@ export class SearchDialogComponent {
  * @description Indicates whether display the collections settings button
  */
   public displayCollectionSettings = false;
+
+  public readonly searchInput = viewChild<ElementRef<HTMLInputElement>>('searchInput');
 
   public collectionsState: Map<string, boolean> = new Map();
   public collections: SearchCollection[];
@@ -367,6 +372,10 @@ export class SearchDialogComponent {
     }
   }
 
+  public ngAfterViewInit(): void {
+    // Set focus after template renders
+    this.searchInput()?.nativeElement.focus();
+  }
   public clickItemSearch(keyAsString: string) {
     this.dialogRef.close({
       collections: this.collections,

@@ -40,7 +40,7 @@
 
     .label {
         padding-right: 3px;
-        font-size: 10px;
+        font-size: var(--arlas-sys-content-font-size);
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -52,8 +52,8 @@
     }
 
     .clear {
-        width: 12px;
-        height: 12px;
-        font-size: 12px;
+        width: var(--arlas-sys-minor-icon-size);
+        height: var(--arlas-sys-minor-icon-size);
+        font-size: var(--arlas-sys-minor-icon-size);
     }
 }

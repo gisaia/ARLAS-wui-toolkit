@@ -21,6 +21,7 @@
 .xValue {
   display: flex;
   align-items: center;
+  font-size: var(--arlas-sys-content-font-size);
 
   .chip {
     width: 10px;
@@ -38,10 +39,11 @@
 
   .value {
     color: var(--arlas-powerbar-tooltip-overlay-value, var(--mat-sys-on-background));
+    font-size: var(--arlas-sys-content-font-size);
   }
 
   .percentage {
     font-style: italic;
-    font-size: 10px;
+    font-size: var(--arlas-sys-minor-font-size);
   }
 }

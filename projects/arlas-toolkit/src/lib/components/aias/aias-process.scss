@@ -22,7 +22,7 @@ $sm-margin: 5px;
 $default-spacing: 10px;
 
 .sub-title {
-  font-size: 14px;
+  font-size: var(--arlas-sys-content-font-size);
   font-weight: 400;
   color: var(--mat-sys-on-background);
 }
