@@ -17,6 +17,10 @@
  * under the License.
  */
 
+:host ::ng-deep .process-result .mat-horizontal-content-container {
+  padding: 0px 24px !important;
+}
+
 $default-spacing: 10px;
 @mixin status() {
     padding: 10px 15px;
@@ -93,7 +97,7 @@ $default-spacing: 10px;
     }
 
   .message{
-    overflow:auto;
+    overflow: auto;
   }
 }
 
@@ -105,7 +109,3 @@ $default-spacing: 10px;
   }
 }
 
-
-:host ::ng-deep .process-result .mat-horizontal-content-container {
-  padding: 0px 24px !important;
-}

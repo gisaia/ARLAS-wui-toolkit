@@ -42,7 +42,7 @@
       @if (statusResult()?.message && displayMessage()) {
       <div class="section__item">
         <div class="item__key">{{ 'Message' | translate }}</div>
-        <div class="item__value item__overflow" [matTooltip]="statusResult()?.resourceID"> {{ statusResult()?.message | translate }}</div>
+        <div class="item__value item__overflow" [matTooltip]="statusResult()?.message"> {{ statusResult()?.message }}</div>
       </div>
       }
     </div>
