@@ -18,7 +18,8 @@
  */
 
 import { signal, WritableSignal } from '@angular/core';
-import { finalize, Subject, Subscription } from 'rxjs';
+import { DEFAULT_TASK_RETRIEVAL_INTERVAL } from 'arlas-web-components';
+import { finalize, Subject, Subscription, takeUntil, timer } from 'rxjs';
 import { ProcessService } from '../../services/process/process.service';
 import { ProcessFieldOption, ProcessOutput, ProcessStatus } from '../../tools/process.interface';
 
@@ -92,22 +93,8 @@ export abstract class AiasProcess {
 
     try {
       const payload = this.preparePayload();
-      this.statusResult = {
-        'processID': 'enrich',
-        'type': 'process',
-        'jobID': '752beaf2-dec4-477b-8590-388c0b366566',
-        'status': 'successful' as any,
-        'message': '{\n  "message": "",\n  "error": "",\n  "process": "enrich",\n  "item_locations": [\n    "http://airs-server:8000/airs/collections/main/items/f038794c1b3e6cce4314e9b91258d8d16ce882e5840d655fa740e877806dfffe"\n  ]\n}',
-        'created': 1789111519,
-        'started': 1789111519,
-        'finished': 1789111530,
-        'updated': 1789111530,
-        'progress': 50,
-        'links': null,
-        'resourceID': 'f038794c1b3e6cce4314e9b91258d8d16ce882e5840d655fa740e877806dfffe'
-      };
-      this.isProcessing = false;
-      /* this.processService.process(this.processName, this.data.ids, payload, this.data.collection).subscribe({
+
+      this.processService.process(this.processName, this.data.ids, payload, this.data.collection).subscribe({
         next: (result) => {
           this.statusResult = result;
 
@@ -127,7 +114,7 @@ export abstract class AiasProcess {
           this.hasError = true;
           console.error(err);
         }
-      });*/
+      });
     } catch (e) {
       console.error(e);
       this.isProcessing = false;
