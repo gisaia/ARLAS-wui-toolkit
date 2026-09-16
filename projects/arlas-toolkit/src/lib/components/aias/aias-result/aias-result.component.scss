@@ -17,6 +17,11 @@
  * under the License.
  */
 
+:host ::ng-deep .process-result .mat-horizontal-content-container {
+  padding: 0px 24px !important;
+}
+
+$default-spacing: 10px;
 @mixin status() {
     padding: 10px 15px;
     border: 1px solid var(--mat-sys-on-surface);
@@ -47,9 +52,7 @@
 
 
 .process-result {
-    padding: 10px 24px;
-    margin-top: 25px;
-
+    padding: 2px 24px;
     .processing {
       align-items: baseline;
       display: flex;
@@ -92,4 +95,17 @@
       text-align: center;
       padding-top: 25px;
     }
+
+  .message{
+    overflow: auto;
+  }
 }
+
+.item {
+  &__status {
+    @include status();
+    padding : 0px 9px;
+    background-color: var(--mat-sys-surface-variant);
+  }
+}
+

@@ -18,34 +18,51 @@
  */
 
 import { DatePipe } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { TranslateModule } from '@ngx-translate/core';
-import { ProcessOutput } from '../../../tools/process.interface';
+import { ProcessOutput, ProcessStatus } from '../../../tools/process.interface';
+import { DeltaTimePipe } from 'arlas-web-components';
+import { MatTooltip } from '@angular/material/tooltip';
 
 @Component({
   selector: 'arlas-aias-result',
   templateUrl: './aias-result.component.html',
-  styleUrls: ['./aias-result.component.scss'],
+  styleUrls: ['./aias-result.component.scss', '../aias-process.scss'],
   imports: [
     TranslateModule,
     DatePipe,
     MatProgressBarModule,
     MatDialogModule,
-    MatButtonModule
+    MatButtonModule,
+    DeltaTimePipe,
+    MatTooltip
   ]
 })
 export class AiasResultComponent {
 
-  @Input() public isProcessing = false;
+  public isProcessing = input(false);
 
-  @Input() public statusResult: ProcessOutput | null = null;
+  public statusResult = input<ProcessOutput | null >(null);
 
-  @Input() public hasError = false;
+  public hasError = input(false);
 
-  @Input() public processName = '';
+  public processName = input('');
 
-  @Input() public processAction = '';
+  public processAction = input('');
+  // Whether to display or not json message
+  protected displayMessage =  computed(() =>  this.intermediateState() || this.hasError()
+    || this.statusResult()?.status === ProcessStatus.failed);
+  // Calculate duration
+  protected duration =  computed(() => {
+    const createdDateMillis =  this.statusResult()?.created ?? 0;
+    const endDateMillis = this.statusResult()?.finished ?? 0;
+    return this.intermediateState() ? Date.now() - createdDateMillis : endDateMillis - createdDateMillis;
+  });
+  // Check in witch state we are to know what we show
+  protected intermediateState = computed(() =>
+    this.statusResult()?.status === ProcessStatus.running ||
+    this.statusResult()?.status === ProcessStatus.accepted || this.statusResult()?.status === ProcessStatus.dismissed);
 }
