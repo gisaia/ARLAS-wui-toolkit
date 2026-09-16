@@ -31,7 +31,7 @@
       }
       <div class="section__item">
         <div class="item__key">{{ 'Status' | translate }}</div>
-        <div class="item__value">{{ statusResult()?.status | translate }}</div>
+        <div class="item__value"><span class="item__status status-{{statusResult()?.status}}">{{ statusResult()?.status | translate }}</span></div>
       </div>
 
       <div class="section__item">

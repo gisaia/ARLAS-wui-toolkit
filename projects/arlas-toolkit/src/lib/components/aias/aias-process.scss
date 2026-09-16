@@ -124,14 +124,14 @@ $default-spacing: 10px;
     font-size: var(--arlas-sys-content-font-size);
     text-align: end;
     color: var(--arlas-result-detailed-item-key-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));
-    flex: 4;
+    flex: 1;
   }
 
   &__value {
     font-size: var(--arlas-sys-content-font-size);
     overflow: hidden;
     text-overflow: ellipsis;
-    flex: 5;
+    flex: 2;
   }
 }
 
