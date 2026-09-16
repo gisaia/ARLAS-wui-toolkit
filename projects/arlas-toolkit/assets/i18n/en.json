@@ -286,8 +286,6 @@
 	"download": "download",
 	"native": "Native",
 	"End date": "End date",
-	"You are about to enrich multiple products": "You are about to enrich {{value}} products",
-	"You are about to enrich one product": "You are about to enrich one product",
 	"cog": "cog",
 	"COG": "COG",
 	"OVERVIEW_COG": "COG from the overview",
