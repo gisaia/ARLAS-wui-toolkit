@@ -17,7 +17,8 @@
  * under the License.
  */
 
-import { Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
+import { ArlasSettingsService } from './settings/arlas.settings.service';
 
 @Injectable({
   providedIn: 'root'
@@ -25,8 +26,14 @@ import { Injectable, signal } from '@angular/core';
 export class ThemeService {
   private readonly darkMode = signal(false);
   private readonly THEME_KEY = 'dark-theme-enabled';
+  private readonly settingsService = inject(ArlasSettingsService);
 
   public applyThemePreference() {
+    // No dark mode enabled.
+    if(!this.settingsService.isDarkThemeEnabled()){
+      return;
+    }
+
     const saved = localStorage.getItem(this.THEME_KEY);
     this.darkMode.set(saved === 'true');
     if (this.darkMode()) {
@@ -45,7 +52,7 @@ export class ThemeService {
     this.darkMode.set(!this.darkMode());
     localStorage.setItem(this.THEME_KEY, this.darkMode().toString());
 
-    if (this.darkMode()) {
+    if (this.darkMode() && !body.classList.contains('dark-theme')) {
       body.classList.add('dark-theme');
     } else {
       body.classList.remove('dark-theme');
