@@ -109,6 +109,7 @@ export class AiasDownloadComponent extends AiasProcess implements OnInit, OnDest
     if (!!this.statusSub) {
       this.statusSub.unsubscribe();
     }
+    this.unsubscribeStatus.next();
     this._onDestroy$.next(true);
     this._onDestroy$.complete();
   }
