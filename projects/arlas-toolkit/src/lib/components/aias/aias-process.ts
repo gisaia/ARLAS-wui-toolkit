@@ -49,7 +49,7 @@ export abstract class AiasProcess {
   public hasError = false;
 
   public statusSub!: Subscription;
-  public unsubscribeStatus = new Subject<boolean>();
+  public unsubscribeStatus = new Subject<void>();
   public statusResult: ProcessOutput | null = null;
 
   /** Options for each configured form control in the process inputs */
@@ -127,12 +127,12 @@ export abstract class AiasProcess {
       next: (job) => {
         this.statusResult = job;
         if (job.status !== ProcessStatus.accepted && job.status !== ProcessStatus.running) {
-          this.unsubscribeStatus.next(true);
+          this.unsubscribeStatus.next();
           this.isProcessing = false;
         }
       },
       error: (err) => {
-        this.unsubscribeStatus.next(true);
+        this.unsubscribeStatus.next();
         this.hasError = true;
         this.isProcessing = false;
       }

@@ -18,7 +18,7 @@
  */
 
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
-import { Component, inject, Inject } from '@angular/core';
+import { Component, inject, Inject, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
@@ -62,7 +62,7 @@ export const ENRICH_PROCESS_NAME = marker('enrich');
     MatCheckbox
   ]
 })
-export class AiasEnrichComponent extends AiasProcess {
+export class AiasEnrichComponent extends AiasProcess implements OnDestroy {
 
   public formGroup = new FormGroup({
     asset_type: new FormControl<string>('', Validators.required),
@@ -81,6 +81,10 @@ export class AiasEnrichComponent extends AiasProcess {
     @Inject(MAT_DIALOG_DATA) protected data: AiasEnrichDialogData
   ) {
     super(processService, data, ENRICH_PROCESS_NAME);
+  }
+
+  public ngOnDestroy() {
+    this.unsubscribeStatus.next();
   }
 
   protected preparePayload() {

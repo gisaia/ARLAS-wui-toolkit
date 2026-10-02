@@ -24,16 +24,15 @@
     "url": "https://github.com/gisaia/ARLAS-wui-toolkit.git"
   },
   "dependencies": {
-    "@angular/animations": "^21.2.19",
+    "@angular/animations": "^21.2.20",
     "@angular/cdk": "^21.2.14",
-    "@angular/common": "^21.2.19",
-    "@angular/compiler": "^21.2.19",
-    "@angular/core": "^21.2.19",
-    "@angular/forms": "^21.2.19",
+    "@angular/common": "^21.2.20",
+    "@angular/compiler": "^21.2.20",
+    "@angular/core": "^21.2.20",
+    "@angular/forms": "^21.2.20",
     "@angular/material": "^21.2.14",
-    "@angular/platform-browser": "^21.2.19",
-    "@angular/platform-browser-dynamic": "^21.2.19",
-    "@angular/router": "^21.2.19",
+    "@angular/platform-browser": "^21.2.20",
+    "@angular/router": "^21.2.20",
     "@danielmoncada/angular-datetime-picker": "^21.0.0",
     "@danielmoncada/angular-datetime-picker-moment-adapter": "^8.0.0",
     "@ngx-translate/core": "^17.0.0",
@@ -81,11 +80,7 @@
     "jsonpath": false
   },
   "overrides": {
-    "js-yaml": "4.3.2",
-    "fast-uri": "3.1.6",
-    "underscore": "^1.13.8",
-    "undici": "7.29.0",
-    "@hono/node-server": "2.0.10",
-    "esbuild": "0.28.1"
+    "undici": "7.29.1",
+    "piscina": "5.3.2"
   }
 }
