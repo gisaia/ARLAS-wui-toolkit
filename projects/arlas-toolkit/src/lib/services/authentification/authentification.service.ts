@@ -63,10 +63,10 @@ export class CustomMemoryStorage implements OAuthStorage {
 export class AuthentificationService extends ArlasAuthentificationService {
 
   public authConfig?: AuthConfig;
-  private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
-  public isAuthenticated = this.isAuthenticatedSubject.asObservable();
-  private isDoneLoadingSubject = new ReplaySubject<boolean>();
-  public isDoneLoading = this.isDoneLoadingSubject.asObservable();
+  private readonly _isAuthenticated$ = new BehaviorSubject<boolean>(false);
+  public readonly isAuthenticated$ = this._isAuthenticated$.asObservable();
+  private readonly _isDoneLoading$ = new ReplaySubject<boolean>();
+  public readonly isDoneLoading$ = this._isDoneLoading$.asObservable();
 
   /**
    * Publishes `true` if and only if (a) all the asynchronous initial
@@ -79,8 +79,8 @@ export class AuthentificationService extends ArlasAuthentificationService {
    * - whether the ajax calls for initial log in have all been done
    */
   public canActivateProtectedRoutes: Observable<boolean> = combineLatest(
-    this.isAuthenticated,
-    this.isDoneLoading
+    this.isAuthenticated$,
+    this.isDoneLoading$
   ).pipe(map(values => values.every(b => b)));
 
   public constructor(
@@ -153,9 +153,9 @@ export class AuthentificationService extends ArlasAuthentificationService {
           });
       })
       .then(() => {
-        this.isDoneLoadingSubject.next(true);
+        this._isDoneLoading$.next(true);
       })
-      .catch(() => this.isDoneLoadingSubject.next(true));
+      .catch(() => this._isDoneLoading$.next(true));
   }
 
 
@@ -186,6 +186,9 @@ export class AuthentificationService extends ArlasAuthentificationService {
   }
   public get logoutUrl() {
     return this.oauthService.logoutUrl;
+  }
+  public isAuthenticated() {
+    return this._isAuthenticated$.getValue();
   }
 
   public areSettingsValid(authentSetting: AuthentSetting): [boolean, string] {
@@ -273,7 +276,7 @@ export class AuthentificationService extends ArlasAuthentificationService {
 
     this.oauthService.events.pipe(filter(e => e.type !== 'session_unchanged'))
       .subscribe(e => {
-        this.isAuthenticatedSubject.next(this.oauthService.hasValidAccessToken());
+        this._isAuthenticated$.next(this.oauthService.hasValidAccessToken());
       });
     this.oauthService.setupAutomaticSilentRefresh();
   }
