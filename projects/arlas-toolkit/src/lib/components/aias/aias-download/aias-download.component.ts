@@ -44,7 +44,7 @@ export interface AiasDownloadPayload {
   raw_archive: boolean | null | undefined;
   target_format: string | null | undefined;
   target_projection: string | null | undefined;
-  crop_wkt: string | null | undefined;
+  crop_wkt?: string | null | undefined;
 }
 
 @Component({
@@ -157,10 +157,9 @@ export class AiasDownloadComponent extends AiasProcess implements OnInit, OnDest
       raw_archive: this.formGroup.value.raw_archive,
       target_format: this.formGroup.value.target_format,
       target_projection: this.formGroup.value.target_projection,
-      crop_wkt: null
     };
 
-    if (this.formGroup.value.do_crop_wkt === true && this.hasAoi) {
+    if (this.formGroup.value.do_crop_wkt === true && this.hasAoi && this.data?.wktAoi) {
       payload.crop_wkt = this.data.wktAoi;
     }
 
