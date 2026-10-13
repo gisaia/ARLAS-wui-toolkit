@@ -11,7 +11,7 @@
     @let thumbnail = tooltip.data?.metadata?.thumbnail;
     @if (thumbnail) {
       <div class="image">
-        <img src="{{thumbnail}}" width="250">
+        <img src="{{thumbnail}}" width="250" alt="{{'Tooltip thumbnail' | translate}}">
       </div>
     }
   </div>

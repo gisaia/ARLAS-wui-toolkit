@@ -152,6 +152,7 @@
 	"Change password": "Changement du mot de passe",
 	"Old password": "Ancien mot de passe",
 	"Old password does not match": "L'ancien mot de passe est incorret",
+	"Tooltip thumbnail": "Vignette du tooltip",
 	"Add a bookmark": "Ajouter un bookmark",
 	"Manage bookmarks": "Gérer les bookmarks",
 	"Count": "Nombre d'éléments",
