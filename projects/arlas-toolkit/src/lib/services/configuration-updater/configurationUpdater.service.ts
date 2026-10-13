@@ -263,7 +263,7 @@ export class ArlasConfigurationUpdaterService {
           .map((l: any) => l.layers_sources);
         if (layerSourcesList && layerSourcesList.length > 0) {
           /** reduce cannot be applied on an empty list. */
-          layerSources = layerSourcesList.reduce((l1, l2) => new Array(...l1, ...l2));
+          layerSources = layerSourcesList.reduce((l1, l2) => new Array(...l1, ...l2), []);
         }
         /** remove layers from visualisation sets if their correponding source is removed from the contributor */
         if (layerSources) {
