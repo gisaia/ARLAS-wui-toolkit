@@ -13,7 +13,7 @@
   </div>
   <div right-menu>
     <arlas-permissions-creator></arlas-permissions-creator>
-    <arlas-language-switcher [availablesLanguages]="['en', 'fr']" [currentLanguage]="'en'"></arlas-language-switcher>
+    <arlas-language-switcher [availablesLanguages]="['en', 'fr']"></arlas-language-switcher>
     <button mat-icon-button [matMenuTriggerFor]="actionMenu">
       <mat-icon>more_vert</mat-icon>
     </button>
@@ -22,7 +22,7 @@
         <mat-icon>share</mat-icon>
         <span>Share geographical data</span>
       </button>
-      <button mat-menu-item [matMenuTriggerFor]="bookmarkMenu.matMenu">
+      <button mat-menu-item [matMenuTriggerFor]="bookmarkMenu.matMenu!">
         <mat-icon>bookmark</mat-icon>
         <span>Bookmarks</span>
       </button>
@@ -38,31 +38,11 @@
 </arlas-top-menu>
 
 <div class="process-container">
-  <mat-form-field>
-    <mat-label>Asset format</mat-label>
-    <mat-select [(value)]="selectedAssetFormat">
-      @for (format of assetFormats; track format) {
-        <mat-option [value]="format">
-          {{ format }}
-        </mat-option>
-      }
-    </mat-select>
-  </mat-form-field>
-
-  <mat-form-field>
-    <mat-label>Item format</mat-label>
-    <mat-select [(value)]="selectedItemFormat">
-      @for (format of itemFormats; track format) {
-        <mat-option [value]="format">
-          {{ format }}
-        </mat-option>
-      }
-    </mat-select>
-  </mat-form-field>
-
   <button matButton="elevated" class="process" (click)="openDownload()">Download</button>
 
   <button matButton="elevated" class="process" (click)="openEnrich()">Enrich</button>
+
+  <button matButton="elevated" class="process" (click)="openResult()">Result</button>
 
   <button matButton="elevated" class="process" (click)="openConfirm()">Confirm</button>
 
@@ -72,12 +52,19 @@
 
   <button matButton="elevated" class="process" (click)="openPermissionsCreator()">Permission creator (mock)</button>
 
+  <button matButton="elevated" class="process" (click)="openAoi()">Aoi</button>
+
+  <button matButton="elevated" class="process" (click)="openTagStatus()">Tag</button>
   <arlas-config-menu [actions]="actions"></arlas-config-menu>
 </div>
 
 <div style="margin-bottom: 10px;">
   <arlas-filter [title]="'ARLAS toolkit'" [backgroundColorFilter]="'#eee'" [colorFilter]="'#000'"
     [availableSpace]="windowWidth - 5"></arlas-filter>
+</div>
+
+<div style="position: relative">
+  <arlas-tag></arlas-tag>
 </div>
 
 @if (timelineComponentConfig) {

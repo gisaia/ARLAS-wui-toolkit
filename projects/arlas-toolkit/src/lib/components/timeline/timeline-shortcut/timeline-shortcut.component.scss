@@ -43,18 +43,23 @@
   display: flex;
   justify-content: center;
   flex-direction: column;
-  background-color: white;
+  background-color: var(--arlas-timeline-shortcut-toggle-background,  var(--mat-sys-surface));
   --mat-icon-button-state-layer-size: 24px;
   --mat-icon-button-touch-target-size: 24px;
   margin-left: 5px;
+  // Soft border in light or dark mode
   border: 1px solid #a1a1a1;
   border-radius: 0;
   padding: 0;
   box-sizing: content-box;
+
+  mat-icon {
+    color: var(--arlas-timeline-shortcut-button-text, var(--mat-sys-on-background));
+  }
 }
 
 .shortcut-button {
-  background-color: #FF4081;
+  background-color: var(--arlas-timeline-shortcut-button-background, var(--mat-sys-secondary));
   float: right;
   display: flex;
   height: 30px;
@@ -68,8 +73,8 @@
 }
 
 .shortcut-button__icon {
-  --mat-icon-button-state-layer-size: 18px;
-  --mat-icon-button-touch-target-size: 18px;
+  --mat-icon-button-state-layer-size: var(--arlas-sys-content-icon-size);
+  --mat-icon-button-touch-target-size: var(--arlas-sys-content-icon-size);
   padding: 0;
 
   display: flex;
@@ -77,10 +82,10 @@
   align-items: center;
 
   mat-icon {
-    color: white;
-    width: 18px;
-    height: 18px;
-    font-size: 18px;
+    color: var(--arlas-timeline-shortcut-icon-text, white);
+    width: var(--arlas-sys-content-icon-size);
+    height: var(--arlas-sys-content-icon-size);
+    font-size: var(--arlas-sys-content-icon-size);
   }
 }
 
@@ -89,8 +94,8 @@
 }
 
 .shortcut-remove-filter {
-  --mat-icon-button-state-layer-size: 20px;
-  --mat-icon-button-touch-target-size: 20px;
+  --mat-icon-button-state-layer-size: calc(2 * 2px + var(--arlas-sys-minor-icon-size));
+  --mat-icon-button-touch-target-size: calc(2 * 2px + var(--arlas-sys-minor-icon-size));
   padding: 0;
 
   display: flex;
@@ -98,10 +103,10 @@
   align-items: center;
 
   &-icon {
-    color: white;
-    width: 15px;
-    height: 15px;
-    font-size: 15px;
+    color: var(--arlas-timeline-shortcut-icon-text, white);
+    width: var(--arlas-sys-minor-icon-size);
+    height: var(--arlas-sys-minor-icon-size);
+    font-size: var(--arlas-sys-minor-icon-size);
   }
 }
 
@@ -111,10 +116,10 @@
   padding-left: 4px;
 
   &-icon {
-    color: white;
-    width: 20px;
-    height: 20px;
-    font-size: 15px;
+    color: var(--arlas-timeline-shortcut-icon-text, white);
+    width: calc(2 * 2px + var(--arlas-sys-minor-icon-size));
+    height: calc(2 * 2px + var(--arlas-sys-minor-icon-size));
+    font-size: var(--arlas-sys-minor-icon-size);
     cursor: pointer;
     padding: 2px 0px;
   }
@@ -122,8 +127,8 @@
 
 
 .shortcut-button__label {
-  font-size: 1em;
-  color: white;
+  font-size: var(--arlas-sys-content-font-size);
+  color: var(--arlas-timeline-shortcut-label-text, white);
   padding-left: 5px;
 }
 
@@ -135,14 +140,15 @@
   &--container {
     display: flex;
     justify-content: space-between;
-    font-size: 14px;
-    background-color: white;
+    font-size: var(--arlas-sys-content-font-size);
+    background-color: var(--arlas-timeline-shortcut-list-background, var(--mat-sys-surface));
+    // Soft border in light or dark mode
     border: 1px solid #a1a1a1;
   }
 }
 
 .arlas-time-shortcut {
-  color: rgb(48, 136, 177);
+  color: var(--arlas-timeline-shortcut-link-color, var(--arlas-sys-accent-variant3));
   cursor: pointer;
 
   &:hover {

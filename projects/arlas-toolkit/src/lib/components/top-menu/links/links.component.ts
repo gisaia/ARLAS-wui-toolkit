@@ -37,7 +37,7 @@ import { LinkComponent } from './link/link.component';
 export class LinksComponent implements OnInit {
 
   @HostListener('click', ['$event'])
-  public clickInside($event) {
+  public clickInside($event: Event) {
     $event.stopPropagation();
   }
 
@@ -53,7 +53,7 @@ export class LinksComponent implements OnInit {
   private nbChecked = 0;
   public showSpinner = true;
 
-  public constructor(private settingsService: ArlasSettingsService) {
+  public constructor(private readonly settingsService: ArlasSettingsService) {
     this.links = this.settingsService.getLinksSettings();
   }
 

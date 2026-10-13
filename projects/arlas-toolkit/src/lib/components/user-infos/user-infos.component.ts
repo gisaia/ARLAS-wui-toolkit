@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import { ArlasIamService } from '../../services/arlas-iam/arlas-iam.service';
 import { AuthentificationService } from '../../services/authentification/authentification.service';
@@ -32,23 +32,21 @@ import { ArlasSettingsService } from '../../services/settings/arlas.settings.ser
     TranslatePipe
   ]
 })
-export class UserInfosComponent implements OnInit {
+export class UserInfosComponent {
 
   private isAuthentActivated: boolean;
   public authentMode;
 
-  public organisations: Array<string>;
-  public name: string;
-  public email: string;
-  public avatar: string;
+  public organisations: Array<string> = [];
+  public name?: string;
+  public email?: string;
+  public avatar?: string;
 
   public constructor(
-    private authentService: AuthentificationService,
-    private arlasIamService: ArlasIamService,
-    private settingsService: ArlasSettingsService
-  ) { }
-
-  public ngOnInit() {
+    private readonly authentService: AuthentificationService,
+    private readonly arlasIamService: ArlasIamService,
+    private readonly settingsService: ArlasSettingsService
+  ) {
     const authSettings = this.settingsService.getAuthentSettings();
     this.authentMode = !!authSettings ? authSettings.auth_mode : undefined;
     this.isAuthentActivated = !!authSettings && !!authSettings.use_authent;
@@ -58,11 +56,11 @@ export class UserInfosComponent implements OnInit {
     if (!!authSettings) {
       if (authSettings.auth_mode === 'iam') {
         const userInfos = this.arlasIamService.user;
-        if (userInfos.firstName && userInfos.lastName) {
+        if (userInfos?.firstName && userInfos.lastName) {
           this.name = userInfos.firstName + ' ' + userInfos.lastName;
         }
-        this.email = userInfos.email;
-        this.organisations = userInfos.organisations.map(o => o.displayName);
+        this.email = userInfos?.email;
+        this.organisations = userInfos?.organisations?.map(o => o.displayName).filter(o => !!o) as string[] ?? [];
         this.avatar = '';
       } else {
         this.authentService.loadUserInfo().subscribe(user => {
@@ -76,7 +74,7 @@ export class UserInfosComponent implements OnInit {
     }
   }
 
-  public computeName = (n) => {
+  public computeName = (n: string) => {
     if (typeof n !== 'string') {
       return '';
     }

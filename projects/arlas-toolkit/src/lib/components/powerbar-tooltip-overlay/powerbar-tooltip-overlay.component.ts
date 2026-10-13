@@ -22,7 +22,7 @@
 import { Component, Inject } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormatNumberPipe } from 'arlas-web-components';
-import { ArlasOverlayRef, POWERBAR_TOOLTIP_DATA } from '../../tools/utils';
+import { POWERBAR_TOOLTIP_DATA } from '../../tools/utils';
 import { WidgetTooltipComponent } from '../widget-tooltip/widget-tooltip.component';
 
 export interface ARLASPowerbarTooltip {
@@ -30,7 +30,7 @@ export interface ARLASPowerbarTooltip {
   key: string;
   value: any;
   progression: number;
-  color: string;
+  color?: string;
 }
 @Component({
   selector: 'arlas-powerbar-tooltip-overlay',
@@ -44,6 +44,6 @@ export interface ARLASPowerbarTooltip {
 })
 export class PowerbarTooltipOverlayComponent {
 
-  public constructor(public overlayRef: ArlasOverlayRef, @Inject(POWERBAR_TOOLTIP_DATA) public tooltip: ARLASPowerbarTooltip) { }
+  public constructor(@Inject(POWERBAR_TOOLTIP_DATA) public tooltip: ARLASPowerbarTooltip) { }
 
 }

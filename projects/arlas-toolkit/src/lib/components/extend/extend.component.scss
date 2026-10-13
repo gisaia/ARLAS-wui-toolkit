@@ -16,7 +16,8 @@
  * specific language governing permissions and limitations
  * under the License.
  */
- .extend-table-items{
+
+.extend-table-items{
   overflow: hidden;
 }
 
@@ -33,11 +34,11 @@
 }
 
 .extend-icons-action-view:hover{
-  color: #2196f3;
+  color: var(--arlas-extend-view-color, var(--mat-sys-primary));
 }
 
 .extend-icons-action-delete:hover{
-  color: #FF0000;
+  color: var(--arlas-extend-delete-color,  var(--mat-sys-error));
 }
 
 .mat-mdc-header-cell {

@@ -17,8 +17,22 @@
  * under the License.
  */
 
-/* SystemJS module definition */
-declare var module: NodeModule;
-interface NodeModule {
-  id: string;
+export class MockArlasSettingsService {
+  public getAuthentSettings() {
+    return {
+      sign_up_enabled: true
+    };
+  }
+
+  public getPersistenceSettings() {
+    return {};
+  }
+
+  public getPermissionSettings() {
+    return {};
+  }
+
+  public isDarkThemeEnabled() {
+    return true;
+  }
 }

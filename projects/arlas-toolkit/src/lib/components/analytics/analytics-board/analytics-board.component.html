@@ -2,7 +2,7 @@
   [cdkDropListDisabled]="!analyticsService.isActiveDragDrop" [class.analytics-board-compact]="mode === 'compact'"
   (cdkDropListDropped)="drop($event)">
   @for (group of groups; track $index) {
-    @let display = analyticsService.groupsDisplayStatusMap?.get(group?.groupId);
+    @let display = analyticsService.groupsDisplayStatusMap.get(group.groupId);
     @if (display && mode === 'normal') {
       <mat-expansion-panel cdkDrag id="analytics-panel-{{group?.groupId}}"
         [expanded]="group?.collapsed !== true" class="analytics-board-panel" (opened)="openPanel(group)"
@@ -29,9 +29,9 @@
             <div class="analytics-board-card"
                 [ngClass]="$any(component)?.customizedCssClass" [class.centered]="component?.componentType === 'donut'">
               <arlas-tool-widget
-                id="{{component?.componentType + '-' + component?.contributorId + '-' + group.groupId + '-' + i}}"
-                [componentType]="component?.componentType" [contributorId]="component?.contributorId"
-                [showExportCsv]="component?.showExportCsv" [componentParams]="component?.input"
+                id="{{component.componentType + '-' + component.contributorId + '-' + group.groupId + '-' + i}}"
+                [componentType]="component.componentType" [contributorId]="component.contributorId"
+                [showExportCsv]="!!component?.showExportCsv" [componentParams]="component?.input"
                 [spinnerOptions]="spinnerOptions" [position]="i" [groupLength]="group.components.length"
                 (outEvents)="listenOutput($event)">
               </arlas-tool-widget>

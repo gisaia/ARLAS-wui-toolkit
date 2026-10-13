@@ -17,18 +17,27 @@
  * under the License.
  */
 
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, OnInit, ViewChild } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSelectModule } from '@angular/material/select';
+import { CollectionReferenceDescription } from 'arlas-api';
 import { SearchContributor } from 'arlas-web-contributors';
 import { fromEvent } from 'rxjs';
 import packageJson from '../../../../package.json' with { type: 'json' };
-import { AiasDownloadComponent } from '../../../../projects/arlas-toolkit/src/lib/components/aias/aias-download/aias-download.component';
-import { AiasEnrichComponent } from '../../../../projects/arlas-toolkit/src/lib/components/aias/aias-enrich/aias-enrich.component';
+import {
+  AiasDownloadComponent,
+  DOWNLOAD_PROCESS_NAME
+} from '../../../../projects/arlas-toolkit/src/lib/components/aias/aias-download/aias-download.component';
+import {
+  AiasEnrichComponent,
+  ENRICH_PROCESS_NAME
+} from '../../../../projects/arlas-toolkit/src/lib/components/aias/aias-enrich/aias-enrich.component';
+import { AiasDownloadDialogData, AiasEnrichDialogData } from '../../../../projects/arlas-toolkit/src/lib/components/aias/aias-process';
 import { DownloadComponent } from '../../../../projects/arlas-toolkit/src/lib/components/download/download.component';
 import {
   FilterShortcutConfiguration
@@ -60,7 +69,30 @@ import {
   ConfigActionEnum,
   SpinnerOptions
 } from '../../../../projects/arlas-toolkit/src/lib/tools/utils';
-import { AnalyticsBoardComponent, AnalyticsMenuComponent, AuthorisationError, BookmarkMenuComponent, ConfigMenuComponent, ConfirmModalComponent, DeniedAccessDialogComponent, FiltersComponent, FilterShortcutComponent, LanguageSwitcherComponent, PermissionsCreatorComponent, PermissionsCreatorDialogComponent, ReconnectDialogComponent, SearchComponent, TimelineComponent, ToolkitComponent, TopMenuComponent } from '../../../../projects/arlas-toolkit/src/public-api';
+import {
+  AiasResultComponent,
+  AnalyticsBoardComponent,
+  AnalyticsMenuComponent,
+  AoiComponent,
+  ArlasAoiService,
+  ArlasTagService,
+  AuthorisationError,
+  BookmarkMenuComponent,
+  ConfigMenuComponent,
+  ConfirmModalComponent,
+  DeniedAccessDialogComponent,
+  FiltersComponent,
+  FilterShortcutComponent,
+  LanguageSwitcherComponent,
+  PermissionsCreatorComponent,
+  PermissionsCreatorDialogComponent,
+  ReconnectDialogComponent,
+  SearchComponent,
+  TagComponent,
+  TimelineComponent,
+  ToolkitComponent,
+  TopMenuComponent
+} from '../../../../projects/arlas-toolkit/src/public-api';
 import config from '../../../config.json';
 
 const DUMMY_CONFIG: Config = {
@@ -98,22 +130,25 @@ const DUMMY_CONFIG: Config = {
     ShareComponent,
     TimelineComponent,
     FilterShortcutComponent,
-    ConfigMenuComponent
-]
+    ConfigMenuComponent,
+    TagComponent
+  ]
 })
 export class HomeComponent implements OnInit {
 
+  private aoi = inject(ArlasAoiService);
+  private tagService = inject(ArlasTagService);
+
   public shortcuts: Array<FilterShortcutConfiguration>;
-  public languages: string[];
+  public languages = ['en', 'fr', 'it', 'es', 'de', 'us', 'cn'];
   public analyticsOpen = false;
-  public target: string;
   public timelineComponentConfig: TimelineConfiguration;
   public detailedTimelineComponentConfig: TimelineConfiguration;
 
-  public lastShortcutOpen: number;
+  public lastShortcutOpen?: number;
   public isShortcutOpen: Array<boolean> = new Array();
 
-  public version: string;
+  public version = packageJson.version;;
 
   public searchContributors = new Array<SearchContributor>();
 
@@ -122,17 +157,6 @@ export class HomeComponent implements OnInit {
   public windowWidth = window.innerWidth;
   public spinnerOptions: SpinnerOptions = DEFAULT_SPINNER_OPTIONS;
 
-  /** Different asset formats to test process */
-  public assetFormats = [
-    'Jpeg2000',
-    'GEOTIFF'
-  ];
-  public selectedAssetFormat = this.assetFormats[0];
-  public itemFormats = [
-    'Safe',
-    'Other'
-  ];
-  public selectedItemFormat = this.itemFormats[0];
   public collections: Array<string>;
 
   public actions: ConfigAction[] = [
@@ -173,9 +197,10 @@ export class HomeComponent implements OnInit {
     }
   ];
 
-  @ViewChild('tooltip') public tooltip;
-  @ViewChild('download', { static: false }) private readonly downloadComponent: DownloadComponent;
-  @ViewChild('share', { static: false }) private readonly shareComponent: ShareComponent;
+  private cdrs = new Array<CollectionReferenceDescription>();
+
+  @ViewChild('download', { static: false }) private readonly downloadComponent?: DownloadComponent;
+  @ViewChild('share', { static: false }) private readonly shareComponent?: ShareComponent;
 
   public constructor(
     private readonly arlasStartupService: ArlasStartupService,
@@ -186,31 +211,39 @@ export class HomeComponent implements OnInit {
     private readonly analyticsService: AnalyticsService,
     private readonly collaborativeService: ArlasCollaborativesearchService,
     private readonly dialog: MatDialog
-  ) { }
-
-  public ngOnInit(): void {
+  ) {
     this.processService.setOptions({});
-    this.processService.load('download').subscribe();
     this.analyticsService.initializeGroups(this.arlasStartupService.analytics);
     this.shortcuts = this.arlasStartupService.filtersShortcuts;
-    this.languages = ['en', 'fr', 'it', 'es', 'de', 'us', 'cn'];
+
     this.timelineComponentConfig = this.arlasConfigService.getValue('arlas.web.components.timeline');
     this.detailedTimelineComponentConfig = this.arlasConfigService.getValue('arlas.web.components.detailedTimeline');
+    if(this.aoi.dataBase?.data.length === 0){
+      this.aoi.dataBase?.add(this.aoi.dataBase?.createAoi('test', {})).pipe(takeUntilDestroyed()).subscribe();
+    }
 
+    this.collections = [...new Set(Array.from(this.collaborativeService.registry.values()).map(c => c.collection))];
+
+    this.processService.load(DOWNLOAD_PROCESS_NAME).subscribe();
+    this.processService.load(ENRICH_PROCESS_NAME).subscribe();
+
+    this.collaborativeService.list().subscribe(cdrs => {
+      this.cdrs = cdrs;
+    });
+  }
+
+  public ngOnInit(): void {
     const chipssearchContributorConfigs = this.getSearchContributorConfig();
     if (chipssearchContributorConfigs !== undefined && chipssearchContributorConfigs.length > 0) {
       this.searchContributors = chipssearchContributorConfigs
-        .map(c => this.arlasStartupService.contributorRegistry.get(c.identifier) as SearchContributor);
+        .map((c: any) => this.arlasStartupService.contributorRegistry.get(c.identifier) as SearchContributor);
     }
-
-    this.version = packageJson.version;
 
     this.shortcuts?.forEach((_, idx) => {
       this.isShortcutOpen.push(idx % 2 === 0);
     });
-    this.collections = [...new Set(Array.from(this.collaborativeService.registry.values()).map(c => c.collection))];
 
-    const authConfig: AuthentSetting = this.arlasAuthentService.authConfigValue;
+    const authConfig: AuthentSetting = this.arlasAuthentService.authSettings;
     if (!!authConfig && authConfig.use_authent) {
       if (authConfig.auth_mode === 'iam') {
         // IAM
@@ -293,7 +326,7 @@ export class HomeComponent implements OnInit {
   }
 
   public displayDownload() {
-    this.downloadComponent.openDialog();
+    this.downloadComponent?.openDialog();
   }
 
   public displayShare() {
@@ -311,21 +344,18 @@ export class HomeComponent implements OnInit {
         false
       ]
     ]);
-    this.shareComponent.openDialog(visibility);
+    this.shareComponent?.openDialog(visibility);
   }
 
   private getSearchContributorConfig() {
     return this.arlasStartupService.emptyMode ? undefined : this.arlasConfigService.getValue('arlas.web.contributors').filter(
-      contrib => (contrib.type === 'search' || contrib.type === 'chipssearch')
+      (contrib: any) => (contrib.type === 'search' || contrib.type === 'chipssearch')
     );
   }
 
   public openDownload() {
     const wkt = 'POLYGON((10 10, 20 10, 20 20, 10 20, 10 10),(13 13, 17 13, 17 17, 13 17, 13 13))';
-    // can be used to mock your data
-    const item = new Map<string, any>();
-    item.set('properties.main_asset_format', this.selectedAssetFormat);
-    item.set('properties.item_format', this.selectedItemFormat);
+    const collection = 'demo_eo';
 
     this.dialog.open(
       AiasDownloadComponent,
@@ -334,17 +364,16 @@ export class HomeComponent implements OnInit {
         maxWidth: '60vw',
         data: {
           nbProducts: 1,
-          itemDetail: item,
           wktAoi: wkt,
-          ids: ['1'],
-          collection: 'totot'
-        }
+          ids: ['DS_PHR1B_202312030720015_FR1_PX_E046N05_0123_01728'],
+          collection,
+          idFieldName: this.cdrs.find(cdr => cdr.collection_name === collection)?.params.id_path as string
+        } as AiasDownloadDialogData
       });
   }
 
   public openEnrich() {
-    const item = new Map<string, any>();
-    item.set('properties.item_format', this.selectedItemFormat);
+    const collection = 'demo_eo';
 
     this.dialog.open(
       AiasEnrichComponent,
@@ -353,17 +382,28 @@ export class HomeComponent implements OnInit {
         maxWidth: '60vw',
         data: {
           nbProducts: 1,
-          itemDetail: item,
-          ids: ['1'],
-          collection: 'totot'
-        }
+          ids: ['DS_PHR1B_202312030720015_FR1_PX_E046N05_0123_01728'],
+          collection,
+          idFieldName: this.cdrs.find(cdr => cdr.collection_name === collection)?.params.id_path as string
+        } as AiasEnrichDialogData
+      });
+  }
+
+  public openResult() {
+    this.dialog.open(
+      AiasResultComponent,
+      {
+        minWidth: '520px',
+        maxWidth: '60vw'
       });
   }
 
   public openConfirm() {
-    const confirmDialogRef = this.dialog.open(ConfirmModalComponent);
-    confirmDialogRef.componentInstance.confirmHTLMMessage =
-        '<strong>Remove</strong> all tags from `Test` ?';
+    this.dialog.open(ConfirmModalComponent, {
+      data: {
+        confirmHTMLMessage: '<strong>Remove</strong> all tags from `Test` ?'
+      }
+    });
   }
 
   public openDeniedAccess() {
@@ -396,5 +436,17 @@ export class HomeComponent implements OnInit {
       },
       panelClass: 'arlas-permission-dialog'
     })
+  }
+
+  public openAoi() {
+    this.dialog.open(AoiComponent, {
+      panelClass: 'arlas-permission-dialog'
+    })
+  }
+
+  public openTagStatus() {
+    this.tagService.processStatus.set('test', {id: 'test1', updated: 1, label: 't1', progress: 50});
+    this.tagService.processStatus.set('tes1', {id: 'test1', failed: 1, label: 't3', progress: 0});
+    this.tagService.processStatus.set('tes2', {id: 'test1', failed: 1, label: 't3', progress: 100});
   }
 }

@@ -31,6 +31,7 @@ import {
   CONFIG_UPDATER, FETCH_OPTIONS
 } from '../../services/startup/startup.service';
 import { ArlasWalkthroughService } from '../../services/walkthrough/walkthrough.service';
+import { GET_OPTIONS } from '../../tools/utils';
 import { FiltersComponent } from './filters.component';
 
 describe('FiltersComponent', () => {
@@ -62,7 +63,8 @@ describe('FiltersComponent', () => {
         ArlasConfigurationUpdaterService,
         { provide: FETCH_OPTIONS, useValue: {} },
         provideHttpClient(withInterceptorsFromDi()),
-        ArlasCollectionService
+        ArlasCollectionService,
+        { provide: GET_OPTIONS, useValue: () => { } },
       ]
     })
       .compileComponents();

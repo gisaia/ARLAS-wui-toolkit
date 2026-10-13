@@ -17,10 +17,11 @@
  * under the License.
  */
 
+
 .confirm {
     &__icon {
         vertical-align: text-bottom;
-        color:red;
+        color: var(--arlas-confirm-modal-icon-color, var(--mat-sys-error));
     }
 
     &__content {

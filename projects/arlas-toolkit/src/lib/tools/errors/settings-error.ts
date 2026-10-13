@@ -23,11 +23,12 @@ import { ArlasError } from './error';
 /** Error sent when the settings.yaml file is invalid */
 export class SettingsError extends ArlasError {
   public constructor() {
-    super(0);
-    this.title = marker('ARLAS Front-end Settings error');
+    const title = marker('ARLAS Front-end Settings error');
+    const message = marker('Please check if the settings.yaml file is provided and has a valid syntax');
+    super(0, title, message);
+
     this.showAction = false;
     this.actionMessage = '';
-    this.message = marker('Please check if the settings.yaml file is provided and has a valid syntax');
   }
 
   public executeAction() {

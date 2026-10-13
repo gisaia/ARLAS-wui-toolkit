@@ -17,6 +17,10 @@
  * under the License.
  */
 
+@use "../iam/form-error.scss" as form;
+@use "../../mixin" as mx;
+
+
 .container {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
@@ -24,62 +28,23 @@
 .reset-form {
   width: 340px;
   margin: 50px auto;
-  font-size: 15px;
-}
-
-.reset-form mat-form-field {
-  font-size: 14px;
-  width: 100%;
-}
-
-.reset-form mat-form-field ::ng-deep .mat-mdc-form-field-outline {
-  background-color: white;
-  border-radius: 4px;
+  font-size: var(--arlas-sys-content-font-size);
 }
 
 .title {
-  padding: 10px 20px;
-  background-color: #00bcd4;
-  color: white;
-  font-size: 18px;
-  border-radius: 15px 15px 0 0;
+  @include mx.iam-header();
 }
+
+
 
 .title h2 {
   font-weight: 100;
 }
 
 .subtitle {
-  background: #ededed;
-  color: #606770;
+  background: var(--arlas-reset-subtitle-background, #ededed);
+  color: var(--arlas-reset-subtitle-text, #606770);
   padding: 10px 35px 0;
-}
-
-.reset-form .form-content {
-  margin-bottom: 15px;
-  background: #ededed;
-  padding: 15px 30px 0 30px;
-  border-radius: 0 0 15px 15px;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.form-content ::ng-deep .mdc-text-field--outlined {
-  height: 56px;
-}
-
-.form-content ::ng-deep .mat-mdc-text-field-wrapper,
-.form-content ::ng-deep .mdc-floating-label--float-above{
-  background-color: white;
-}
-
-.form-content ::ng-deep .mdc-text-field--outlined {
-  height: 56px;
-}
-
-.form-content ::ng-deep .mat-mdc-form-field-flex {
-  height: 100%;
 }
 
 .reset-form h2 {
@@ -87,7 +52,7 @@
 }
 
 .reset-button {
-  background-color: #00bcd4;
+  background-color: var(--arlas-reset-button-background, #00bcd4);
   border-radius: 15px;
   padding: 0 30px;
 }
@@ -107,21 +72,16 @@
 }
 
 .account button {
-  color: #00bcd4;
+  color: var(--arlas-reset-link-color, var(--arlas-sys-accent-variant2));
 }
 
 .form-error {
-  color: rgb(244, 67, 54);
-  display: block;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
-  font-size: 12px;
-  font-weight: 400;
-  padding: 0 0 15px 2px;
+  @include form.error();
 }
 
-.validate{
-  color: white;
-  background-color: #5cb85c;
+.validate {
+  color: var(--arlas-reset-success-text, var(--arlas-sys-on-success));
+  background-color: var(--arlas-reset-success-background, var(--arlas-sys-success));
   padding: 10px;
   margin-bottom: 10px;
   border-radius: 10px;

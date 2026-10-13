@@ -17,19 +17,21 @@
  * under the License.
  */
 
+
 .interval-text {
-  font-size: 12px;
-  line-height: 12px;
-  color: #999;
+  font-size: var(--arlas-sys-minor-font-size);
+  line-height: var(--arlas-sys-minor-font-size);
+  color: var(--arlas-histogram-tooltip-overlay-text, color-mix(in srgb, var(--mat-sys-on-surface) 40%, transparent));
 }
 
 .interval-value {
-  font-size: 12px;
-  line-height: 12px;
+  font-size: var(--arlas-sys-content-font-size);
+  line-height: var(--arlas-sys-content-font-size);
 }
 
 .axis-label {
   display: inline-block;
+  font-size: var(--arlas-sys-minor-font-size);
 }
 
 .values {
@@ -38,6 +40,7 @@
   .value-lane {
     text-align: right;
     margin-right: 10px;
+    font-size: var(--arlas-sys-content-font-size);
   }
 
   .chip {
@@ -48,6 +51,7 @@
   }
 
   .count {
+    font-size: var(--arlas-sys-content-font-size);
     text-align: right;
 
     &--bold {
@@ -57,5 +61,6 @@
 
   .value-unit {
     margin-left: 5px;
+    font-size: var(--arlas-sys-content-font-size);
   }
 }

@@ -29,7 +29,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Subject, takeUntil } from 'rxjs';
 import { ArlasBookmarkService } from '../../services/bookmark/bookmark.service';
-import { BookmarkDataSource } from '../../services/bookmark/bookmarkDataSource';
 import { BookmarkPersistenceDatabase } from '../../services/bookmark/bookmarkPersistenceDatabase';
 import { BookMark } from '../../services/bookmark/model';
 import { ArlasCollaborativesearchService } from '../../services/collaborative-search/arlas.collaborative-search.service';
@@ -54,7 +53,7 @@ import { BookmarkAddDialogComponent } from './bookmark-add-dialog.component';
 })
 export class BookmarkComponent implements OnDestroy {
 
-  public bookmarks: BookmarkDataSource | BookMark[];
+  public bookmarks: BookMark[] = [];
   public columnsToDisplay = ['checked', 'name', 'date', 'count', 'actions'];
   public itemsCheck: Array<string> = new Array<string>();
   public disableCombine = true;

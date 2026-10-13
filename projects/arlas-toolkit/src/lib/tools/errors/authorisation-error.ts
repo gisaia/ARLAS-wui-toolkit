@@ -23,21 +23,23 @@ import { ArlasError } from './error';
 /** Error sent when the user lacks authorization to view something */
 export class AuthorisationError extends ArlasError {
   public constructor(status: number) {
-    super(status);
-    this.title = marker('Could not access the service');
+    const title = marker('Could not access the service');
+
+    let message: string = marker('Unknown error');
+    let showAction = false;
+    if (status === 403) {
+      message = marker('acces forbidden');
+    } else if (status === 401) {
+      message = marker('access not authorized');
+      showAction = true;
+    }
+
+    super(status, title, message);
+    this.showAction = showAction;
     this.actionMessage = marker('Log in');
 
-    if (this.status === 403) {
-      this.showAction = false;
-      this.message = marker('acces forbidden');
-    } else if (this.status === 401) {
-      this.message = marker('access not authorized');
+    if (this.showAction) {
       this.actionType = 'button';
-      this.showAction = true;
-    } else {
-      // could never happen because this error should be thrown only for the statuses 401 & 403
-      this.message = marker('Unknown error');
-      this.showAction = false;
     }
   }
 

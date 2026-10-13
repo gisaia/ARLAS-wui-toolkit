@@ -2,7 +2,7 @@
 ############   AUTHENTICATION SETTINGS   ###############
 ########################################################
 authentication:
-  use_authent: false
+  use_authent: true
   auth_mode: 'iam'
   force_connect: false
   threshold: 5000
@@ -27,6 +27,7 @@ authentication:
   disable_at_hash_check: true
 
 tab_name: "ARLAS Wui"
+dark_theme_enabled: true
 
 arlas_iam_wui_url: https://localhost/iam
 
@@ -51,3 +52,21 @@ links:
     icon: satellite_alt
     url: https://demo.cloud.arlas.io/
     check_url: http://localhost:9997/arlas_iam_server
+
+processes:
+  - name: download
+    url: 'https://localhost/aproc/processes/download/execution'
+    check_url: 'https://localhost/aproc/processes/download'
+    max_items: 15
+    settings:
+      url: 'assets/processes/download.json'
+    status:
+      url: 'https://localhost/aproc/jobs'
+  - name: enrich
+    url: 'https://localhost/aproc/processes/enrich/execution'
+    check_url: 'https://localhost/aproc/processes/enrich'
+    max_items: 15
+    settings:
+      url: 'assets/processes/enrich.json'
+    status:
+      url: 'https://localhost/aproc/jobs'

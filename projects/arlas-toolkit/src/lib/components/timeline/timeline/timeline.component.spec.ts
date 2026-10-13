@@ -24,14 +24,15 @@ import {
   AwcColorGeneratorLoader, ColorGeneratorLoader, ColorGeneratorModule
 } from 'arlas-web-components';
 import { beforeEach, describe, expect, it } from 'vitest';
+import { TEST_CONTRIBUTOR_ID } from '../../../../tests/arlas-config-service.mock';
+import { MockArlasStartupService } from '../../../../tests/arlas-startup-service.mock';
 import { ArlasCollaborativesearchService } from '../../../services/collaborative-search/arlas.collaborative-search.service';
 import { ArlasCollectionService } from '../../../services/collection/arlas-collection.service';
-import { ArlasConfigurationUpdaterService } from '../../../services/configuration-updater/configurationUpdater.service';
 import { ArlasOverlayService } from '../../../services/overlays/overlay.service';
 import {
   ArlasConfigService, ArlasStartupService, CONFIG_UPDATER, FETCH_OPTIONS
 } from '../../../services/startup/startup.service';
-import { TimelineShortcutComponent } from '../timeline-shortcut/timeline-shortcut.component';
+import { GET_OPTIONS } from '../../../tools/utils';
 import { TimelineComponent } from './timeline.component';
 
 
@@ -57,19 +58,15 @@ describe('TimelineComponent', () => {
         ArlasCollaborativesearchService,
         ArlasOverlayService,
         {
-            provide: ArlasStartupService,
-            useClass: ArlasStartupService,
-            deps: [ArlasConfigurationUpdaterService]
+          provide: ArlasStartupService,
+          useClass: MockArlasStartupService
         },
         ArlasConfigService,
         { provide: CONFIG_UPDATER, useValue: {} },
-        {
-            provide: ArlasConfigurationUpdaterService,
-            useClass: ArlasConfigurationUpdaterService
-        },
         { provide: FETCH_OPTIONS, useValue: {} },
         provideHttpClient(withInterceptorsFromDi()),
-        ArlasCollectionService
+        ArlasCollectionService,
+        { provide: GET_OPTIONS, useValue: () => { } },
       ]
     })
       .compileComponents();
@@ -78,6 +75,7 @@ describe('TimelineComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TimelineComponent);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput('timelineComponent', { contributorId: TEST_CONTRIBUTOR_ID, input: {} });
     fixture.detectChanges();
   });
 

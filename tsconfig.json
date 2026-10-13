@@ -17,10 +17,11 @@
       "node_modules/@types"
     ],
     "lib": [
-      "ES2022",
+      "ESNext",
       "DOM",
       "DOM.Iterable"
-    ]
+    ],
+    "strict": true
   },
   "exclude": [
     "node_modules"

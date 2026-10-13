@@ -17,10 +17,10 @@
  * under the License.
  */
 
-import { BehaviorSubject, catchError, map, mergeMap, Observable, of } from 'rxjs';
-import { ArlasStorageObject } from './utils';
-import { PersistenceService } from '../services/persistence/persistence.service';
 import { DataResource, DataWithLinks } from 'arlas-persistence-api';
+import { BehaviorSubject, catchError, map, mergeMap, Observable, of } from 'rxjs';
+import { PersistenceService } from '../services/persistence/persistence.service';
+import { ArlasStorageObject } from './utils';
 
 export class ArlasPersistenceDatabase<T extends ArlasStorageObject> {
   /** Stream that emits whenever the data has been modified. */
@@ -79,15 +79,15 @@ export class ArlasPersistenceDatabase<T extends ArlasStorageObject> {
   public list(size: number, page: number, order: string, key = undefined): Observable<void> {
     return this.persistenceService.list(this.storageKey, size, page, order, key)
       .pipe(catchError(e => of(e)), map((dataResource: DataResource) => {
-        const copiedData = [];
+        const copiedData = new Array<T>();
         let total = 0;
-        if (dataResource.count > 0) {
-          Array.from(dataResource.data).forEach((obj: DataWithLinks) => {
+        if (dataResource.count && dataResource.count > 0) {
+          Array.from(dataResource.data ?? []).forEach((obj: DataWithLinks) => {
             const newObj: T = this.init(JSON.parse(obj.doc_value) as T, this.additionalObject);
             copiedData.push(newObj);
             this.storageObjectMap.set(newObj.id, newObj);
           });
-          total = dataResource.total;
+          total = dataResource.total ?? 0;
         }
         this.dataChange.next({ total: total, items: copiedData as T[] });
       }));

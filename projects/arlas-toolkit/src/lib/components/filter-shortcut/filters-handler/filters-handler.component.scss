@@ -29,23 +29,23 @@
 
         min-width: 18px;
         border-radius: 50%;
-        background-color: #e7e7e7;
-        border: 1px solid #e7e7e7;
-        font-size: 12px;
+        background-color: var(--arlas-filters-handler-more-background, var(--mat-sys-surface-variant));
+        border: 1px solid var(--arlas-filters-handler-more-border-color, var(--mat-sys-surface-variant));
+        font-size: var(--arlas-sys-content-font-size);
         display: flex;
         align-items: center;
         justify-content: center;
         margin-left: 3px;
 
         &--expanded {
-            background-color: #FFF;
-            border: 1px solid #000;
+            background-color: var(--arlas-filters-handler-expanded-background, var(--mat-sys-surface-variant));
+            border: 1px solid var(--arlas-filters-handler-expanded-border-color,var(--mat-sys-surface-variant));
         }
 
         .collapse {
-            width: 12px;
-            height: 12px;
-            font-size: 12px;
+            width: var(--arlas-sys-minor-icon-size);
+            height: var(--arlas-sys-minor-icon-size);
+            font-size: var(--arlas-sys-minor-icon-size);
         }
     }
     .list {

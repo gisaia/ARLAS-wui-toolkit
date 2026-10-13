@@ -29,15 +29,17 @@ export abstract class ArlasError {
   public title: string;
   public message: string;
 
-  public showAction: boolean;
-  public actionMessage: string;
-  public actionType: ActionType;
+  public showAction = false;
+  public actionMessage?: string;
+  public actionType?: ActionType;
 
-  public constructor(status: number) {
+  public constructor(status: number, title: string, message: string) {
     this.status = status;
+    this.title = title;
+    this.message = message;
   }
 
-  public abstract executeAction();
+  public abstract executeAction(): void;
 }
 
 export type ActionType = 'link' | 'button';

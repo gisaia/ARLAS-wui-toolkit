@@ -17,28 +17,16 @@
  * under the License.
  */
 
+
 $sm-spacing: 5px;
 $sm-margin: 5px;
 $default-margin: 10px;
 $default-spacing: 10px;
-$sm-font-size: 14px;
-$xs-font-size: 12px;
-$default-font-size: 16px;
-$success-color: #18853c;
-$error-color: #ce3d38;
-
-::ng-deep.arlas-permission-dialog .mdc-dialog__surface {
-    padding: 0 15px;
-}
-
-.title {
-    font-size: $default-font-size;
-    font-weight: bold;
-}
 
 .content {
-    font-size: $sm-font-size;
+    font-size: var(--arlas-sys-content-font-size);
     padding-top: 24px;
+    --mat-form-field-outlined-label-text-size: var(--arlas-sys-content-font-size);
 
     .announcement {
         margin-bottom: $default-margin;
@@ -49,7 +37,7 @@ $error-color: #ce3d38;
     }
 
     .call_to_action {
-        margin-bottom: $sm-margin;
+        margin-bottom: $default-margin;
     }
 
     .successful {
@@ -59,7 +47,7 @@ $error-color: #ce3d38;
         align-items: center;
 
         .icon {
-            color: $success-color;
+            color: var(--arlas-permissions-creator-dialog-success, var(--arlas-sys-success));
         }
 
         .state {
@@ -67,7 +55,7 @@ $error-color: #ce3d38;
         }
 
         .action {
-            font-size: $xs-font-size;
+            font-size: var(--arlas-sys-minor-font-size);
             text-decoration: underline;
             cursor: pointer;
         }
@@ -80,7 +68,7 @@ $error-color: #ce3d38;
         align-items: center;
 
         .icon {
-            color: $error-color;
+            color: var(--arlas-permissions-creator-dialog-error, var(--mat-sys-error));
         }
 
         .state {
@@ -92,18 +80,18 @@ $error-color: #ce3d38;
             flex-direction: row-reverse;
             gap: 10px;
 
-            font-size: $xs-font-size;
+            font-size: var(--arlas-sys-minor-font-size);
             margin-bottom: $default-margin;
 
             mat-icon {
-                width: 20px;
-                height: 20px;
-                font-size: 20px;
+                width: var(--arlas-sys-content-icon-size);
+                height: var(--arlas-sys-content-icon-size);
+                font-size: var(--arlas-sys-content-icon-size);
                 margin: 0;
             }
         }
         .detail {
-            font-size: $xs-font-size;
+            font-size: var(--arlas-sys-minor-font-size);
             margin: $sm-margin;
         }
     }

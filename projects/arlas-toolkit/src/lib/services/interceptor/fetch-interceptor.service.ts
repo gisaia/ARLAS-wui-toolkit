@@ -23,9 +23,9 @@ import { marker } from '@colsen1991/ngx-translate-extract-marker';
 import fetchIntercept from 'fetch-intercept';
 import { ErrorService } from '../../services/error/error.service';
 import { AuthorisationError } from '../../tools/errors/authorisation-error';
-import { ArlasSettingsService } from '../settings/arlas.settings.service';
-import { AuthentificationService } from '../authentification/authentification.service';
 import { ArlasIamService } from '../arlas-iam/arlas-iam.service';
+import { AuthentificationService } from '../authentification/authentification.service';
+import { ArlasSettingsService } from '../settings/arlas.settings.service';
 
 @Injectable({
   providedIn: 'root'
@@ -94,6 +94,9 @@ export class FetchInterceptorService {
               if (this.router.url !== '/login') {
                 this.errorService.emitAuthorisationError(new AuthorisationError(code));
               }
+            } else if (settings.authentication?.use_authent && this.authService.isAuthenticated() && !this.authService.hasValidAccessToken()) {
+              // This handles the case of the user is authenticated but the stored token expired after leaving the session unattended
+              this.errorService.emitSessionExpiredError(401);
             } else {
               this.errorService.emitSessionExpiredError(code);
             }

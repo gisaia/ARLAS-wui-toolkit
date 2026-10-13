@@ -22,9 +22,9 @@ $sm-margin: 5px;
 $default-spacing: 10px;
 
 .sub-title {
-  font-size: 14px;
+  font-size: var(--arlas-sys-content-font-size);
   font-weight: 400;
-  color: rgba(0, 0, 0, 0.75);
+  color: var(--mat-sys-on-background);
 }
 
 .step {
@@ -76,6 +76,7 @@ $default-spacing: 10px;
 
       .value {
         font-weight: 400;
+        color: var(--mat-sys-on-surface)
       }
     }
   }
@@ -85,9 +86,58 @@ $default-spacing: 10px;
     justify-content: space-between;
     margin-top: 20px;
 
-    --mdc-filled-button-label-text-tracking: 0;
+    --mat-button-filled-label-text-tracking: 0;
+    --mat-button-outlined-label-text-tracking: 0;
   }
 }
+
+.dark-theme {
+  .step {
+    .params {
+      background-color: var(--mat-sys-surface-container);
+      border: 1px solid var(--mat-sys-surface);
+
+      .label {
+        color: color-mix(in srgb, var(--mat-sys-on-surface) 56%, transparent);
+      }
+    }
+  }
+}
+
+
+.section {
+  text-align: left;
+  color: var(--mat-sys-on-surface);
+  background-color: var(--mat-sys-surface-variant);
+  border-radius: 4px;
+  padding: 10px 15px;
+  &__title{
+    font-size: var(--arlas-sys-subtitle-font-size);
+  }
+  &__item {
+    display: flex;
+    gap: 10px;
+  }
+}
+.item {
+  &__key {
+    font-size: var(--arlas-sys-content-font-size);
+    text-align: end;
+    color: var(--arlas-result-detailed-item-key-color, color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent));
+    flex: 1;
+  }
+
+  &__value {
+    font-size: var(--arlas-sys-content-font-size);
+    flex: 2;
+  }
+
+  &__overflow {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
 
 ::ng-deep .mat-horizontal-content-container {
   padding: 12px 24px !important;

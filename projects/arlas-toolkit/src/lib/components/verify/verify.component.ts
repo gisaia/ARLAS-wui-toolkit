@@ -17,8 +17,16 @@
  * under the License.
  */
 
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormGroupDirective, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, inject } from '@angular/core';
+import {
+  FormControl,
+  FormGroup,
+  FormGroupDirective,
+  FormsModule,
+  ReactiveFormsModule,
+  ValidatorFn,
+  Validators
+} from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
@@ -27,63 +35,64 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { ArlasIamService } from '../../services/arlas-iam/arlas-iam.service';
 import { ArlasSettingsService } from '../../services/settings/arlas.settings.service';
 import { ConfirmedValidator, NOT_CONFIGURED } from '../../tools/utils';
+import { ThemeService } from '../../services/theme.service';
 
 @Component({
   selector: 'arlas-verify',
   templateUrl: './verify.component.html',
-  styleUrls: ['./verify.component.scss'],
+  styleUrls: [
+    './verify.component.scss',
+    '../iam/form-style.scss'
+  ],
   imports: [FormsModule, ReactiveFormsModule, MatFormField, MatLabel, MatInput, MatError, MatButton, RouterLink, TranslatePipe]
 })
-export class VerifyComponent implements OnInit {
-
-  public validateForm: FormGroup;
+export class VerifyComponent {
+  public validateForm = new FormGroup({
+    password: new FormControl('', Validators.required),
+    confirm_password: new FormControl('', Validators.required)
+  }, ConfirmedValidator('password', 'confirm_password') as ValidatorFn);
   public validated = false;
   public displayForm = true;
-
-  public userId = null;
-  public token = null;
+  public userId: string | null = null;
+  public token: string | null = null;
+  private readonly theme = inject(ThemeService);
 
   public constructor(
-    private formBuilder: FormBuilder,
-    private iamService: ArlasIamService,
-    private route: ActivatedRoute,
-    private settingsService: ArlasSettingsService
-  ) { }
-
-  public ngOnInit(): void {
-    this.validateForm = this.formBuilder.group({
-      password: ['', [Validators.required]],
-      confirm_password: ['', [Validators.required]]
-    }, {
-      validator: ConfirmedValidator('password', 'confirm_password')
-    });
-
+    private readonly iamService: ArlasIamService,
+    private readonly route: ActivatedRoute,
+    private readonly settingsService: ArlasSettingsService
+  ) {
     this.route.paramMap.subscribe(params => {
       this.userId = params.get('id');
       this.token = params.get('token');
     });
+    this.theme.applyThemePreference();
   }
 
   public onSubmit(formDirective: FormGroupDirective): void {
+    if (!this.userId || !this.token || !this.validateForm.value.password) {
+      return;
+    }
+
     this.validated = false;
-    this.iamService.verify(this.userId, this.token, this.validateForm.get('password').value).subscribe({
+    this.iamService.verify(this.userId, this.token, this.validateForm.value.password).subscribe({
       next: (e) => {
         formDirective.resetForm();
         this.validateForm.reset();
         this.validated = true;
         const authSettings = this.settingsService.getAuthentSettings();
-        this.displayForm  = false;
+        this.displayForm = false;
         if (!!authSettings && authSettings.login_url && authSettings.login_url !== NOT_CONFIGURED) {
           window.open(authSettings.login_url, '_self');
         }
       },
       error: err => {
-        err.json().then(e => {
-          if (e.message === 'User already verified.'){
+        err.json().then((e: any) => {
+          if (e.message === 'User already verified.') {
             this.validateForm.setErrors({
               alreadyVerified: true
             });
-          } else if (e.message === 'User not found.'){
+          } else if (e.message === 'User not found.') {
             this.validateForm.setErrors({
               unknownUser: true
             });

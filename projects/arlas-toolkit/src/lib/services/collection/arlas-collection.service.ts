@@ -25,13 +25,15 @@ import { ArlasConfigService, ArlasStartupService } from '../startup/startup.serv
 
 @Injectable()
 export class ArlasCollectionService extends BaseCollectionService {
-  private appUnits: Map<string, CollectionUnit> = new Map();
-  private displayName: Map<string, string> = new Map();
-  public displayFieldName: Map<string, string> = new Map();
+  private readonly appUnits: Map<string, CollectionUnit> = new Map();
+  private readonly displayName: Map<string, string> = new Map();
+  private readonly displayFieldName: Map<string, string | undefined> = new Map();
   public FLAT_CHAR = '_';
-  public constructor(private collaborativeService: ArlasCollaborativesearchService,
-    private configService: ArlasConfigService,
-    private arlasStartupeService: ArlasStartupService
+
+  public constructor(
+    private readonly collaborativeService: ArlasCollaborativesearchService,
+    private readonly configService: ArlasConfigService,
+    private readonly arlasStartupeService: ArlasStartupService
   ) {
     super();
     this._initUnits();
@@ -63,7 +65,7 @@ export class ArlasCollectionService extends BaseCollectionService {
         const fields = c?.display_names?.fields;
         if (fields) {
           for (const f of Object.keys(fields)) {
-            this.displayFieldName.set(this.flatten(f), c?.display_names?.fields[f]);
+            this.displayFieldName.set(this.flatten(f), c?.display_names?.fields?.[f]);
           }
         }
       }
@@ -71,8 +73,9 @@ export class ArlasCollectionService extends BaseCollectionService {
   }
 
   public getUnit(collectionName: string): string {
-    if (this.appUnits.has(collectionName)) {
-      return this.appUnits.get(collectionName).unit;
+    const unit = this.appUnits.get(collectionName);
+    if (unit) {
+      return unit.unit;
     }
     return collectionName;
   };
@@ -85,13 +88,18 @@ export class ArlasCollectionService extends BaseCollectionService {
     return this.displayName.get(collectionName) || collectionName;
   }
 
+  public getDisplayFieldNameMap() {
+    return new Map(this.displayFieldName);
+  }
+
   public getDisplayFieldName(fieldName: string): string {
     return this.displayFieldName.get(this.flatten(fieldName)) || this.flatten(fieldName);
   }
 
   public isUnitIgnored(collectionName: string): boolean {
-    if (this.appUnits.has(collectionName)) {
-      return this.appUnits.get(collectionName).ignored;
+    const unit = this.appUnits.get(collectionName);
+    if (unit) {
+      return unit.ignored;
     }
     return false;
   }

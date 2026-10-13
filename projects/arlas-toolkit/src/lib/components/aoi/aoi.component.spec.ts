@@ -24,6 +24,7 @@ import { beforeEach, describe, expect, it } from 'vitest';
 import { ArlasCollaborativesearchService } from '../../services/collaborative-search/arlas.collaborative-search.service';
 import { ArlasConfigurationUpdaterService } from '../../services/configuration-updater/configurationUpdater.service';
 import { ArlasConfigService, ArlasStartupService, CONFIG_UPDATER, FETCH_OPTIONS } from '../../services/startup/startup.service';
+import { GET_OPTIONS } from '../../tools/utils';
 import { AoiComponent } from './aoi.component';
 
 describe('AoiComponent', () => {
@@ -50,7 +51,8 @@ describe('AoiComponent', () => {
             useClass: ArlasConfigurationUpdaterService
         },
         { provide: FETCH_OPTIONS, useValue: {} },
-        provideHttpClient(withInterceptorsFromDi())
+        provideHttpClient(withInterceptorsFromDi()),
+        { provide: GET_OPTIONS, useValue: () => { } },
       ]
     }).compileComponents();
 

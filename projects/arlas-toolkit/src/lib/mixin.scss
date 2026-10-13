@@ -17,14 +17,10 @@
  * under the License.
  */
 
-export interface TaggerResponse {
-  id: string;
-  endTime: number;
-  failed: number;
-  label: string;
-  processingTimes: number;
-  progress: number;
-  propagated: number;
-  startTime: number;
-  updated: number;
+@mixin iam-header() {
+    padding: 10px 20px;
+    background-color: var(--arlas-reset-title-bg, var(--mat-sys-primary));
+    color: var(--arlas-reset-title-text, white);
+    font-size: var(--arlas-sys-dialog-title-font-size);
+    border-radius: 15px 15px 0 0;
 }

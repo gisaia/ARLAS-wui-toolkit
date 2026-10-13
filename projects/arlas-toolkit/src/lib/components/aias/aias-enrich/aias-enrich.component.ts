@@ -18,20 +18,24 @@
  */
 
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
-import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Component, inject, Inject, OnDestroy } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatChipsModule } from '@angular/material/chips';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSelectModule } from '@angular/material/select';
 import { MatStepperModule } from '@angular/material/stepper';
 import { marker } from '@colsen1991/ngx-translate-extract-marker';
 import { MarkerModule } from '@colsen1991/ngx-translate-extract-marker/extras';
 import { TranslatePipe } from '@ngx-translate/core';
 import { ProcessService } from '../../../services/process/process.service';
+import { ThemeService } from '../../../services/theme.service';
 import { AiasEnrichDialogData, AiasProcess } from '../aias-process';
 import { AiasResultComponent } from '../aias-result/aias-result.component';
+import { MatCheckbox } from '@angular/material/checkbox';
 
 export const ENRICH_PROCESS_NAME = marker('enrich');
 
@@ -52,43 +56,47 @@ export const ENRICH_PROCESS_NAME = marker('enrich');
     MarkerModule,
     MatIconModule,
     AiasResultComponent,
-    MatDialogModule
+    MatDialogModule,
+    MatChipsModule,
+    MatProgressBarModule,
+    MatCheckbox
   ]
 })
-export class AiasEnrichComponent extends AiasProcess implements OnInit {
-
-  public enrichments: Array<string> = [
-    marker('cog')
-  ];
+export class AiasEnrichComponent extends AiasProcess implements OnDestroy {
 
   public formGroup = new FormGroup({
-    asset_type: new FormControl<string>(this.enrichments[0])
+    asset_type: new FormControl<string>('', Validators.required),
+    enrichments: new FormControl<string[]>([], Validators.required)
   });
 
+  public formatChecked = this.options['enrichments']?.().map(o => ({
+      value: o,
+      checked: false
+  }));
+
+  protected readonly themeService = inject(ThemeService);
+
   public constructor(
-    protected processService: ProcessService,
+    protected readonly processService: ProcessService,
     @Inject(MAT_DIALOG_DATA) protected data: AiasEnrichDialogData
   ) {
     super(processService, data, ENRICH_PROCESS_NAME);
   }
 
-  public ngOnInit(): void {
-    this._initEnrichmentsList();
-  }
-
-  private _initEnrichmentsList(): void {
-    const itemFormatKey = 'properties.item_format';
-    const itemFormatIsValid = this.data.itemDetail && this.data.itemDetail.has(itemFormatKey)
-      && !!this.data.itemDetail.get(itemFormatKey);
-    if (itemFormatIsValid) {
-      const itemFormat = this.data.itemDetail.get(itemFormatKey).toUpperCase();
-      if (itemFormat === 'SAFE') {
-        this.enrichments = [marker('cog')];
-      }
-    }
+  public ngOnDestroy() {
+    this.unsubscribeStatus.next();
   }
 
   protected preparePayload() {
     return this.formGroup.value;
+  }
+
+  protected update(checked: boolean, i: number) {
+    const v = this.formatChecked?.at(i);
+    if (v) {
+      v.checked = checked;
+    }
+    const format = this.formatChecked?.filter(v => v.checked).map(v => v.value.value);
+    this.formGroup.get('enrichments')?.setValue(format);
   }
 }

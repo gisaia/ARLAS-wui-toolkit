@@ -25,6 +25,8 @@ import tinycolor from 'tinycolor2';
 import { ArlasCollaborativesearchService } from '../services/collaborative-search/arlas.collaborative-search.service';
 import { ArlasConfigService } from '../services/startup/startup.service';
 
+const DEFAULT_COLOR_SATURATION_WEIGHT = 0.5;
+
 /**
  * This service allows to generate a color for a given term.
  * - colors associated to terms in `keysToColors` are considered first
@@ -38,11 +40,13 @@ import { ArlasConfigService } from '../services/startup/startup.service';
 export class ArlasColorGeneratorLoader extends ColorGeneratorLoader {
 
   public keysToColors: Array<[string, string]> = new Array<[string, string]>();
-  public colorsSaturationWeight: number;
+  public colorsSaturationWeight = DEFAULT_COLOR_SATURATION_WEIGHT;
   public keysToColorsMap: Map<string, string> = new Map<string, string>();
-  public colorAggregations: Array<[Aggregation, Aggregation]>;
+  public colorAggregations = new Array<[Aggregation, Aggregation]>();
+
   private changekeysToColors = new Subject<void>();
   public changekeysToColors$ = this.changekeysToColors.asObservable();
+
   public constructor(
     private configService: ArlasConfigService,
     private collaborativesearchService: ArlasCollaborativesearchService) {
@@ -60,22 +64,20 @@ export class ArlasColorGeneratorLoader extends ColorGeneratorLoader {
       this.setColorsFromAggregations();
     }
     if (this.colorsSaturationWeight === undefined || this.colorsSaturationWeight === null) {
-      this.colorsSaturationWeight = 0.5;
+      this.colorsSaturationWeight = DEFAULT_COLOR_SATURATION_WEIGHT;
     }
     this.changekeysToColors.next();
   }
 
 
   public getColor(key: string, externalKeysToColors?: Array<[string, string]>, externalColorsSaturationWeight?: number): string {
-    let colorHex = null;
-    const keysToColors = externalKeysToColors ? externalKeysToColors : this.keysToColors;
-    const saturationWeight = (externalColorsSaturationWeight !== undefined && externalColorsSaturationWeight !== null) ?
-      externalColorsSaturationWeight : this.colorsSaturationWeight;
+    let colorHex: string | null = null;
+    const keysToColors = externalKeysToColors ?? this.keysToColors;
+    const saturationWeight = externalColorsSaturationWeight ?? this.colorsSaturationWeight;
     if (keysToColors) {
-      for (let i = 0; i < keysToColors.length; i++) {
-        const keyToColor = keysToColors[i];
-        if (keyToColor[0] === key) {
-          colorHex = keyToColor[1];
+      for (const element of keysToColors) {
+        if (element[0] === key) {
+          colorHex = element[1];
           break;
         }
       }
@@ -153,11 +155,11 @@ export class ArlasColorGeneratorLoader extends ColorGeneratorLoader {
     });
     if (this.colorAggregations) {
       this.colorAggregations.forEach(aggregations => {
-        this.collaborativesearchService.resolveAggregation([projType.aggregate, aggregations], null,
+        this.collaborativesearchService.resolveAggregation([projType.aggregate, aggregations], new Map(),
           this.collaborativesearchService.defaultCollection)
           .subscribe(agg => {
             const firstAggregationElements = agg.elements;
-            firstAggregationElements.forEach(element => {
+            firstAggregationElements?.forEach(element => {
               if (!this.keysToColorsMap.has(element.key) && element.elements && element.elements.length > 0) {
                 this.keysToColorsMap.set(element.key, element.elements[0].key);
                 this.keysToColors.push([element.key, element.elements[0].key]);

@@ -20,7 +20,7 @@
 $large-icon-size: 48px;
 
 .arlas-timeline--container {
-  background-color: white;
+  background-color: var(--arlas-timeline-container-background, var(--mat-sys-surface));
   box-sizing: border-box;
 
   .timeline-empty {
@@ -30,7 +30,7 @@ $large-icon-size: 48px;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    color: grey;
+    color: var(--arlas-timeline-empty-text, var(--mat-sys-on-background));
 
     .icon {
       height: $large-icon-size;
@@ -48,8 +48,9 @@ $large-icon-size: 48px;
 }
 
 .arlas-timeline--legend-collection {
-  font-size: 15px;
+  font-size: var(--arlas-sys-content-font-size);
   white-space: nowrap;
+  letter-spacing: normal;
 }
 
 .arlas-timeline--legend-chip {

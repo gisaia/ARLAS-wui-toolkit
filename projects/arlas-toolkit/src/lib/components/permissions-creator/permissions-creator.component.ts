@@ -68,19 +68,21 @@ export class PermissionsCreatorComponent implements OnInit {
     const mainCollection = this.collaborativeSearchService.defaultCollection;
     // - What is my current org
     const currentOrgName = this.iamService.getOrganisation();
+    const oid = this.getOrganisationId(currentOrgName);
+
     const canCreatePermission = this.hasCreationRight();
-    if (canCreatePermission) {
+    if (canCreatePermission && oid) {
       // - Get filters of the main collection
       const filters: Filter[] = this.collaborativeSearchService.getFilters(mainCollection);
       // - Build the permission
-      const partitionFilter = {};
-
+      const partitionFilter: Record<string, Filter> = {};
       partitionFilter[mainCollection] = this.collaborativeSearchService.getFinalFilter(filters);
       const partitionFilterHeader = `h:partition-filter:${JSON.stringify(partitionFilter)}`;
+
       const permissionData: PermissionDialogData = {
         partitionFilterHeader,
         mainCollection,
-        oid: this.getOrganisationId(currentOrgName)
+        oid
       };
       // - open a dialog for description
       this.createPermissionDialog.open(PermissionsCreatorDialogComponent, {
@@ -104,7 +106,7 @@ export class PermissionsCreatorComponent implements OnInit {
       return false;
       // logout ?
     }
-    const currentOrg = currentUser.organisations.find(o => o.name === orgName);
+    const currentOrg = currentUser.organisations?.find(o => o.name === orgName);
     if (!!currentOrg && currentOrg.isOwner) {
       return true;
     }
@@ -115,9 +117,13 @@ export class PermissionsCreatorComponent implements OnInit {
     return !!this.collaborativeSearchService.defaultCollection;
   }
 
-  private getOrganisationId(orgName: string) {
+  private getOrganisationId(orgName: string | undefined) {
+    if (!orgName) {
+      return undefined;
+    }
+
     const currentUser = this.iamService.user;
-    const currentOrg = currentUser.organisations.find(o => o.name === orgName);
-    return currentOrg.id;
+    const currentOrg = currentUser?.organisations?.find(o => o.name === orgName);
+    return currentOrg?.id;
   }
 }

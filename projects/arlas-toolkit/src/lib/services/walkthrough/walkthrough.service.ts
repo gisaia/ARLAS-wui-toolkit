@@ -30,8 +30,8 @@ import { WalkthroughLoader } from './walkthrough.utils';
 })
 export class ArlasWalkthroughService {
 
-  public hopscotch: any;
-  public tourData: any;
+  public hopscotch: HopscotchStatic;
+  public tourData?: TourDefinition;
   public isActivable = true;
 
   public constructor(
@@ -48,23 +48,23 @@ export class ArlasWalkthroughService {
         if (!this.tourData.steps || this.tourData.steps.length <= 0) {
           this.isActivable = false;
         } else {
-          if (this.tourData.onStart) {
+          if (this.tourData.onStart && typeof this.tourData.onStart === 'string') {
             this.tourData.onStart = new Function(this.tourData.onStart).bind(this);
           }
-          if (this.tourData.onEnd) {
+          if (this.tourData.onEnd && typeof this.tourData.onEnd === 'string') {
             this.tourData.onEnd = new Function(this.tourData.onEnd).bind(this);
           }
-          if (this.tourData.onStart) {
+          if (this.tourData.onStart && typeof this.tourData.onClose === 'string') {
             this.tourData.onClose = new Function(this.tourData.onClose).bind(this);
           }
           this.tourData.steps.forEach(step => {
-            if (step.onNext) {
+            if (step.onNext && typeof step.onNext === 'string') {
               step.onNext = new Function(step.onNext).bind(this);
             }
-            if (step.onPrev) {
+            if (step.onPrev && typeof step.onPrev === 'string') {
               step.onPrev = new Function(step.onPrev).bind(this);
             }
-            if (step.onShow) {
+            if (step.onShow && typeof step.onShow === 'string') {
               step.onShow = new Function(step.onShow).bind(this);
             }
           });
@@ -98,24 +98,28 @@ export class ArlasWalkthroughService {
    * @param stepNum Optional : specifies what step to start at
    */
   public startTour(stepNum?: number) {
-    if (localStorage.getItem(this.tourData.id) !== 'end') {
-      if (!localStorage.getItem(this.tourData.id)) {
+    if (this.tourData && localStorage.getItem(this.tourData.id) !== 'end') {
+      const tourStep = localStorage.getItem(this.tourData.id);
+      if (!tourStep) {
         this.hopscotch.startTour(this.tourData);
       } else if (stepNum) {
         this.hopscotch.startTour(this.tourData, stepNum);
         localStorage.setItem(this.tourData.id, stepNum.toString());
       } else {
-        this.hopscotch.startTour(this.tourData, localStorage.getItem(this.tourData.id));
+        this.hopscotch.startTour(this.tourData, +tourStep);
       }
       this.hopscotch.listen('next', () => {
-        localStorage.setItem(this.tourData.id, this.hopscotch.getCurrStepNum());
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        localStorage.setItem(this.tourData!.id, this.hopscotch.getCurrStepNum() + '');
       });
       this.hopscotch.listen('end', () => {
-        localStorage.setItem(this.tourData.id, 'end');
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        localStorage.setItem(this.tourData!.id, 'end');
         this.hopscotch.removeCallbacks();
       });
       this.hopscotch.listen('close', () => {
-        localStorage.setItem(this.tourData.id, 'end');
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        localStorage.setItem(this.tourData!.id, 'end');
         this.hopscotch.removeCallbacks();
       });
     }
@@ -125,7 +129,7 @@ export class ArlasWalkthroughService {
    * Skips to a given step in the tour
    * @param index
    */
-  public showStep(index) {
+  public showStep(index: number) {
     this.hopscotch.showStep(index);
   }
 
@@ -150,7 +154,7 @@ export class ArlasWalkthroughService {
    * @param clearCookie
    */
   public endTour(clearCookie?: boolean) {
-    this.hopscotch.endTour(clearCookie);
+    this.hopscotch.endTour(!!clearCookie);
   }
 
   /**
@@ -203,7 +207,9 @@ export class ArlasWalkthroughService {
    * @param tour
    */
   public resetTour() {
-    localStorage.removeItem(this.tourData.id);
+    if (this.tourData) {
+      localStorage.removeItem(this.tourData.id);
+    }
     // Hopscotch stores the tour step in the session storage
     this.endTour(true);
   }

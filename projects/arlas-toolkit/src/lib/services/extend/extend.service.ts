@@ -18,17 +18,17 @@
  */
 
 import { Injectable } from '@angular/core';
+import { Observable, throwError } from 'rxjs';
+import { AuthentificationService } from '../authentification/authentification.service';
 import { PersistenceService } from '../persistence/persistence.service';
 import { ArlasStartupService } from '../startup/startup.service';
 import { ExtendLocalDatabase } from './extendLocalDatabase';
 import { ExtendPersistenceDatabase } from './extendPersistenceDatabase';
 import { Extend } from './model';
-import { Observable } from 'rxjs';
-import { AuthentificationService } from '../authentification/authentification.service';
 
 @Injectable()
 export class ArlasExtendService {
-  public dataBase: ExtendLocalDatabase | ExtendPersistenceDatabase;
+  public dataBase?: ExtendLocalDatabase | ExtendPersistenceDatabase;
   public extendMap: Map<string, Extend> = new Map<string, Extend>();
 
   public constructor(
@@ -39,12 +39,12 @@ export class ArlasExtendService {
       if (this.persistenceService.isAvailable && this.authentService.hasValidAccessToken() && this.authentService.hasValidIdToken()) {
         this.dataBase = new ExtendPersistenceDatabase(this.persistenceService);
         this.dataBase.dataChange.subscribe(() => {
-          this.extendMap = this.dataBase.storageObjectMap;
+          this.extendMap = this.dataBase?.storageObjectMap ?? new Map();
         });
       } else {
         this.dataBase = new ExtendLocalDatabase();
         this.dataBase.dataChange.subscribe(() => {
-          this.extendMap = this.dataBase.storageObjectMap;
+          this.extendMap = this.dataBase?.storageObjectMap ?? new Map();
         });
       }
     }
@@ -73,15 +73,22 @@ export class ArlasExtendService {
   }
 
   public addExtend(name: string, geometry: any): Observable<void>{
+    if (!this.dataBase) {
+      return throwError(() => new Error('No database defined for ExtendService'));
+    }
     const newExtend = this.dataBase.createExtend(name, geometry);
     return this.dataBase.add(newExtend);
   }
 
   public removeExtend(id: string): Observable<void> {
-    return this.dataBase.remove(id);
+    if (this.dataBase) {
+      return this.dataBase.remove(id);
+    } else {
+      return throwError(() => new Error('No database defined for ExtendService'));
+    }
   }
 
-  public getExtendById(id: string): Extend {
+  public getExtendById(id: string) {
     return Array.from(this.extendMap.values()).find(extend => extend.id === id);
   }
 }

@@ -18,7 +18,7 @@
  */
 
 import { UpperCasePipe } from '@angular/common';
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, computed, inject, Input, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
@@ -33,6 +33,7 @@ import { AuthentificationService } from '../../services/authentification/authent
 import { ErrorService } from '../../services/error/error.service';
 import { FetchInterceptorService } from '../../services/interceptor/fetch-interceptor.service';
 import { ArlasSettingsService } from '../../services/settings/arlas.settings.service';
+import { ThemeService } from '../../services/theme.service';
 import { ChangePasswordComponent } from '../change-password/change-password.component';
 import { UserInfosComponent } from '../user-infos/user-infos.component';
 import { AboutComponent } from './about/about.component';
@@ -54,15 +55,15 @@ import { LinksComponent } from './links/links.component';
     UpperCasePipe
   ]
 })
-export class TopMenuComponent implements OnInit {
+export class TopMenuComponent {
 
-  public connected: boolean;
+  public connected = false;
   public isAuthentActivated: boolean;
-  public authentMode: 'openid' | 'iam';
+  public authentMode: 'openid' | 'iam' | undefined;
 
-  public name: string;
-  public avatar: string;
-  public initials: string;
+  public name?: string;
+  public avatar?: string;
+  public initials?: string;
   public aboutFile: string;
   public extraAboutText: string;
 
@@ -70,13 +71,13 @@ export class TopMenuComponent implements OnInit {
    * @Input : Angular
    * @description Version of the WUI to display as info
    */
-  @Input() public version: string;
+  @Input() public version?: string;
 
   /**
    * @Input : Angular
    * @description Name of the WUI in which the bar is used
    */
-  @Input() public wuiName: string;
+  @Input() public wuiName?: string;
 
   /**
    * @Input : Angular
@@ -86,7 +87,10 @@ export class TopMenuComponent implements OnInit {
 
   public showLinks = false;
   public linksEnabled = false;
-  @ViewChild('about', { static: false }) private aboutcomponent: AboutComponent;
+  protected isDarkThemeEnabled = false;
+  @ViewChild('about', {static: false}) private readonly aboutcomponent?: AboutComponent;
+  private readonly themeService = inject(ThemeService);
+  public isDarkMode = computed(() => this.themeService.isDarkMode());
 
   public constructor(
     private readonly authentService: AuthentificationService,
@@ -100,9 +104,7 @@ export class TopMenuComponent implements OnInit {
   ) {
     this.extraAboutText = this.translate.instant('extraAboutText') === 'extraAboutText' ? '' : this.translate.instant('extraAboutText');
     this.aboutFile = 'assets/about/about_' + this.translate.currentLang + '.md?' + Date.now() + '.md';
-  }
-
-  public ngOnInit(): void {
+    this.themeService.applyThemePreference();
     const links = this.settingsService.getLinksSettings();
     this.linksEnabled = !!links && links.length > 0;
     const authSettings = this.settingsService.getAuthentSettings();
@@ -130,7 +132,7 @@ export class TopMenuComponent implements OnInit {
         next: (data) => {
           if (!!data) {
             this.connected = true;
-            this.name = data?.user.email;
+            this.name = data?.user?.email;
             this.initials = this.getInitials(this.name);
           } else {
             this.connected = false;
@@ -143,6 +145,7 @@ export class TopMenuComponent implements OnInit {
         }
       });
     }
+    this.isDarkThemeEnabled = this.settingsService.isDarkThemeEnabled();
 
     /** This is a method to listen to logging out event from other tabs of the same domain. */
     window.addEventListener('storage', (event) => {
@@ -184,22 +187,26 @@ export class TopMenuComponent implements OnInit {
   }
 
   public changePassword() {
-    this.dialog.open(ChangePasswordComponent, { panelClass: 'change-dialog' });
+    this.dialog.open(ChangePasswordComponent, {panelClass: 'change-dialog'});
   }
 
   public displayAbout() {
-    this.aboutcomponent.openDialog();
+    this.aboutcomponent?.openDialog();
   }
 
   public getUserInfos() {
-    this.dialog.open(UserInfosComponent, { panelClass: 'arlas-user-info-dialog' });
+    this.dialog.open(UserInfosComponent, {panelClass: 'arlas-user-info-dialog'});
   }
 
-  public getInitials(name) {
+  public getInitials(name: string | undefined) {
     if (!!name && name !== '') {
       return name[0];
     } else {
       return '';
     }
+  }
+
+  protected toggleDarkMode() {
+    this.themeService.toggleThemeMode();
   }
 }

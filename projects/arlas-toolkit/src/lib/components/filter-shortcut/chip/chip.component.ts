@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, input } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { TranslatePipe } from '@ngx-translate/core';
 
@@ -30,7 +30,7 @@ import { TranslatePipe } from '@ngx-translate/core';
   ]
 })
 export class FilterShortcutChipComponent {
-  @Input() public label: string;
+  public label = input.required<string>();
   @Input() public hide = false;
   @Input() public shortenValues = true;
   @Output() public clearEmitter: EventEmitter<string> = new EventEmitter();
@@ -38,7 +38,7 @@ export class FilterShortcutChipComponent {
   public clear(event: Event) {
     event.stopPropagation();
     if (!this.hide) {
-      this.clearEmitter.emit(this.label.replace('≠', ''));
+      this.clearEmitter.emit(this.label().replace('≠', ''));
     }
   }
 

@@ -20,18 +20,16 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthConfig, OAuthErrorEvent, OAuthEvent, OAuthService, OAuthStorage, UserInfo } from 'angular-oauth2-oidc';
-import { BehaviorSubject, Observable, ReplaySubject, combineLatest } from 'rxjs';
-import { from } from 'rxjs/internal/observable/from';
-import { filter } from 'rxjs/internal/operators/filter';
-import { map } from 'rxjs/internal/operators/map';
-import { AuthentSetting, CONFIG_ID_QUERY_PARAM, generateUserCacheBust, NOT_CONFIGURED } from '../../tools/utils';
+import { BehaviorSubject, Observable, ReplaySubject, combineLatest, filter, firstValueFrom, from, map } from 'rxjs';
+import { AuthentSetting, CONFIG_ID_QUERY_PARAM, NOT_CONFIGURED, generateUserCacheBust } from '../../tools/utils';
 import { ArlasAuthentificationService } from '../arlas-authentification/arlas-authentification.service';
 
 
 export class CustomMemoryStorage implements OAuthStorage {
-  private storage;
+  private storage: Storage;
   private data = new Map<string, string>();
-  public constructor(storage) {
+
+  public constructor(storage: Storage) {
     this.storage = storage;
   }
   private needsExternalStorage(key: string) {
@@ -42,7 +40,7 @@ export class CustomMemoryStorage implements OAuthStorage {
     if (this.needsExternalStorage(key)) {
       return this.storage.getItem(key);
     }
-    return this.data.get(key);
+    return this.data.get(key) ?? null;
   }
   public removeItem(key: string) {
     if (this.needsExternalStorage(key)) {
@@ -64,11 +62,11 @@ export class CustomMemoryStorage implements OAuthStorage {
 })
 export class AuthentificationService extends ArlasAuthentificationService {
 
-  public authConfig: AuthConfig;
-  private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
-  public isAuthenticated = this.isAuthenticatedSubject.asObservable();
-  private isDoneLoadingSubject = new ReplaySubject<boolean>();
-  public isDoneLoading = this.isDoneLoadingSubject.asObservable();
+  public authConfig?: AuthConfig;
+  private readonly _isAuthenticated$ = new BehaviorSubject<boolean>(false);
+  public readonly isAuthenticated$ = this._isAuthenticated$.asObservable();
+  private readonly _isDoneLoading$ = new ReplaySubject<boolean>();
+  public readonly isDoneLoading$ = this._isDoneLoading$.asObservable();
 
   /**
    * Publishes `true` if and only if (a) all the asynchronous initial
@@ -81,8 +79,8 @@ export class AuthentificationService extends ArlasAuthentificationService {
    * - whether the ajax calls for initial log in have all been done
    */
   public canActivateProtectedRoutes: Observable<boolean> = combineLatest(
-    this.isAuthenticated,
-    this.isDoneLoading
+    this.isAuthenticated$,
+    this.isDoneLoading$
   ).pipe(map(values => values.every(b => b)));
 
   public constructor(
@@ -101,31 +99,33 @@ export class AuthentificationService extends ArlasAuthentificationService {
   }
 
   public initAuthService(): Promise<void> {
-    if (this.authConfigValue) {
-      if (this.authConfigValue.use_authent) {
-        const storage = this.authConfigValue['storage'] === 'localstorage' ? localStorage :
-          this.authConfigValue['storage'] === 'sessionstorage' ? sessionStorage : new CustomMemoryStorage(sessionStorage);
-        if (this.authConfigValue.use_discovery || this.authConfigValue['jwks_endpoint'] === undefined) {
-          this.authConfig = this.getAuthConfig(this.authConfigValue);
+    if (this.authSettings) {
+      if (this.authSettings.use_authent) {
+        const storage = this.authSettings['storage'] === 'localstorage' ? localStorage :
+          this.authSettings['storage'] === 'sessionstorage' ? sessionStorage : new CustomMemoryStorage(sessionStorage);
+        if (this.authSettings.use_discovery || this.authSettings['jwks_endpoint'] === undefined) {
+          this.authConfig = this.getAuthConfig(this.authSettings);
           this.setupAuthService(storage);
-          return this.runInitialLoginSequence(this.authConfigValue.use_discovery, this.authConfigValue.force_connect);
+          return this.runInitialLoginSequence(this.authSettings.use_discovery, this.authSettings.force_connect);
         } else {
           // Call jwks endpoint to set in config
-          if (this.authConfigValue['token_endpoint'] && this.authConfigValue['userinfo_endpoint']
-            && this.authConfigValue['login_url'] && this.authConfigValue['jwks_endpoint']) {
-            return this.http.get(this.authConfigValue['jwks_endpoint']).toPromise()
+          if (this.authSettings['token_endpoint'] && this.authSettings['userinfo_endpoint']
+            && this.authSettings['login_url'] && this.authSettings['jwks_endpoint']) {
+            return firstValueFrom(this.http.get(this.authSettings['jwks_endpoint']))
               .then(jwks => {
-                this.authConfig = this.getAuthConfig(this.authConfigValue, jwks);
+                this.authConfig = this.getAuthConfig(this.authSettings, jwks);
                 this.setupAuthService(storage);
-                this.runInitialLoginSequence(false, this.authConfigValue.force_connect);
+                return this.runInitialLoginSequence(false, this.authSettings.force_connect);
               });
           } else {
             console.error('Authentication config error : if useDiscovery ' +
               'is set to false in configuration, tokenEndpoint, userinfoEndpoint, loginUrl and jwksEndpoint must be defined.');
+            return Promise.reject(new Error('Authentication config error'));
           }
         }
       }
     }
+    return Promise.resolve();
   }
 
   public runInitialLoginSequence(useDiscovery?: boolean, forceConnect?: boolean): Promise<void> {
@@ -153,9 +153,9 @@ export class AuthentificationService extends ArlasAuthentificationService {
           });
       })
       .then(() => {
-        this.isDoneLoadingSubject.next(true);
+        this._isDoneLoading$.next(true);
       })
-      .catch(() => this.isDoneLoadingSubject.next(true));
+      .catch(() => this._isDoneLoading$.next(true));
   }
 
 
@@ -186,6 +186,9 @@ export class AuthentificationService extends ArlasAuthentificationService {
   }
   public get logoutUrl() {
     return this.oauthService.logoutUrl;
+  }
+  public isAuthenticated() {
+    return this._isAuthenticated$.getValue();
   }
 
   public areSettingsValid(authentSetting: AuthentSetting): [boolean, string] {
@@ -241,16 +244,19 @@ export class AuthentificationService extends ArlasAuthentificationService {
 
   private setupAuthService(storage: OAuthStorage) {
     this.oauthService.setStorage(storage);
-    this.oauthService.configure(this.authConfig);
-    // Useful for debugging:
-    if (this.authConfig['showDebugInformation']) {
-      this.oauthService.events.subscribe(event => {
-        if (event instanceof OAuthErrorEvent) {
-          console.error(event);
-        } else {
-          console.warn(event);
-        }
-      });
+
+    if (this.authConfig) {
+      this.oauthService.configure(this.authConfig);
+      // Useful for debugging:
+      if (this.authConfig['showDebugInformation']) {
+        this.oauthService.events.subscribe(event => {
+          if (event instanceof OAuthErrorEvent) {
+            console.error(event);
+          } else {
+            console.warn(event);
+          }
+        });
+      }
     }
     this.oauthService.events.subscribe((event: OAuthEvent) => {
       if (event.type === 'token_received') {
@@ -270,14 +276,14 @@ export class AuthentificationService extends ArlasAuthentificationService {
 
     this.oauthService.events.pipe(filter(e => e.type !== 'session_unchanged'))
       .subscribe(e => {
-        this.isAuthenticatedSubject.next(this.oauthService.hasValidAccessToken());
+        this._isAuthenticated$.next(this.oauthService.hasValidAccessToken());
       });
     this.oauthService.setupAutomaticSilentRefresh();
   }
 
 
-  private getAuthConfig(authConfigValue: AuthentSetting, jwks?): AuthConfig {
-    let authServiceConfig: AuthConfig;
+  private getAuthConfig(authConfigValue: AuthentSetting, jwks?: any): AuthConfig {
+    let authServiceConfig: AuthConfig = {};
     let url = window.location.origin.concat(window.location.pathname);
     if (url.slice(-1) !== '/') {
       url = url.concat('/');
@@ -307,8 +313,8 @@ export class AuthentificationService extends ArlasAuthentificationService {
       if (authConfigValue['dummy_client_secret'] !== undefined && authConfigValue['dummy_client_secret'] !== NOT_CONFIGURED) {
         authServiceConfig.dummyClientSecret = authConfigValue['dummy_client_secret'];
       }
-      if (authConfigValue['custom_query_params'] !== undefined && authConfigValue['custom_query_params'] !== NOT_CONFIGURED) {
-        const customQueryParams = {};
+      if (authConfigValue['custom_query_params'] !== undefined && (authConfigValue['custom_query_params'] as any) !== NOT_CONFIGURED) {
+        const customQueryParams: Record<string, any> = {};
         authConfigValue['custom_query_params'].forEach(obj => {
           for (const [key, value] of Object.entries(obj)) {
             customQueryParams[key] = value;
@@ -346,7 +352,8 @@ export class AuthentificationService extends ArlasAuthentificationService {
     }
     return authServiceConfig;
   }
-  private getQueryParam(param) {
+
+  private getQueryParam(param: string) {
     const value = (new URL(window.location.href)).searchParams.get(param);
     if (value) {
       return param.concat('=').concat(value).concat('&');

@@ -17,15 +17,18 @@
  * under the License.
  */
 
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from '../../projects/arlas-toolkit/src/lib/components/login/login.component';
-import { ContactComponent } from './components/contact/contact.component';
-import { HomeComponent } from './components/home/home.component';
-import { RegisterComponent } from '../../projects/arlas-toolkit/src/lib/components/register/register.component';
-import { VerifyComponent } from '../../projects/arlas-toolkit/src/lib/components/verify/verify.component';
-import { ResetComponent } from '../../projects/arlas-toolkit/src/lib/components/reset/reset.component';
-import { ForgotComponent } from '../../projects/arlas-toolkit/src/lib/components/forgot/forgot.component';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {LoginComponent} from '../../projects/arlas-toolkit/src/lib/components/login/login.component';
+import {ContactComponent} from './components/contact/contact.component';
+import {HomeComponent} from './components/home/home.component';
+import {RegisterComponent} from '../../projects/arlas-toolkit/src/lib/components/register/register.component';
+import {VerifyComponent} from '../../projects/arlas-toolkit/src/lib/components/verify/verify.component';
+import {ResetComponent} from '../../projects/arlas-toolkit/src/lib/components/reset/reset.component';
+import {ForgotComponent} from '../../projects/arlas-toolkit/src/lib/components/forgot/forgot.component';
+import {
+  ChangePasswordComponent
+} from '../../projects/arlas-toolkit/src/lib/components/change-password/change-password.component';
 
 
 const routes: Routes = [
@@ -35,6 +38,7 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'verify/:id/user/:token', component: VerifyComponent },
   { path: 'password_forgot', component: ForgotComponent },
+  { path: 'change_password', component: ChangePasswordComponent },
   { path: 'reset/:id/user/:token', component: ResetComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full'},
   { path: 'callback', redirectTo: 'home', pathMatch: 'full'},

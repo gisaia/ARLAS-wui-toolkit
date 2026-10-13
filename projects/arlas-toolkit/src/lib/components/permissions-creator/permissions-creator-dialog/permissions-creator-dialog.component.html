@@ -10,7 +10,7 @@
     <div class="call_to_action" >{{'Add permission description' | translate}}</div>
 
     <div class="create-content" [formGroup]="createPermissionForm">
-      <mat-form-field>
+      <mat-form-field appearance="outline">
         <mat-label>{{'Description' | translate}}</mat-label>
         <input [disabled]="descriptionInputDisabled" formControlName="description" matInput type="text" required >
       </mat-form-field>

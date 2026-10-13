@@ -30,6 +30,7 @@ import {
   SwimLaneContributor,
   TreeContributor
 } from 'arlas-web-contributors';
+import { ArlasTaskService } from '../arlas.task.service';
 import { ArlasCollaborativesearchService } from '../collaborative-search/arlas.collaborative-search.service';
 import { ArlasSettingsService } from '../settings/arlas.settings.service';
 import { ArlasConfigService } from './startup.service';
@@ -41,9 +42,10 @@ export class ContributorBuilder {
     configService: ArlasConfigService,
     collaborativesearchService: ArlasCollaborativesearchService,
     settingsService: ArlasSettingsService,
+    taskService: ArlasTaskService,
     colorService?: ArlasColorService): any {
 
-    const config = configService.getValue('arlas.web.contributors').find(contrib =>
+    const config = configService.getValue('arlas.web.contributors').find((contrib: any) =>
       contrib.type === contributorType && contrib.identifier === identifier
     );
     let collection = !!config['collection'] ? config['collection'] : collaborativesearchService.defaultCollection;
@@ -69,7 +71,7 @@ export class ContributorBuilder {
         (contributor as DetailedHistogramContributor).maxBuckets = settingsService.getHistogramMaxBucket();
         break;
       case 'resultlist':
-        contributor = new ResultListContributor(identifier, collaborativesearchService, configService, collection);
+        contributor = new ResultListContributor(identifier, collaborativesearchService, configService, collection, taskService);
         break;
       case 'map':
         contributor = new MapContributor(identifier, collaborativesearchService, configService, collection, colorService?.colorGenerator);
@@ -97,7 +99,7 @@ export class ContributorBuilder {
         const groupIdToValues = new Map<string, Array<string>>();
         const analytics = configService.getValue('arlas.web.analytics');
         if (analytics) {
-          analytics.forEach(analytic => {
+          analytics.forEach((analytic: any) => {
             if (analytic.filterValues) {
               groupIdToValues.set(analytic.groupId, analytic.filterValues);
             } else {
@@ -120,7 +122,9 @@ export class ContributorBuilder {
         contributor = new MetricsTableContributor(identifier, collaborativesearchService, configService, collection);
         break;
     }
-    contributor.updateData = false;
+    if (contributor) {
+      contributor.updateData = false;
+    }
     return contributor;
   }
 
@@ -134,7 +138,7 @@ export class ContributorBuilder {
       /** For histograms, multi-collection is possible. We need to check the 'additionalCollections' attribute.*/
       if (contributor.type === 'histogram') {
         if (contributor.additionalCollections && Array.isArray(contributor.additionalCollections)) {
-          contributor.additionalCollections.forEach(ac => {
+          contributor.additionalCollections.forEach((ac: any) => {
             collections.add(ac.collectionName);
           });
         }

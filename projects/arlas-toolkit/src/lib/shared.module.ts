@@ -21,7 +21,7 @@ import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
 import { NgModule } from '@angular/core';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import {
-  BaseCollectionService, CollectionModule, ColorGeneratorLoader, ColorGeneratorModule
+  BaseCollectionService, CollectionModule, ColorGeneratorLoader, ColorGeneratorModule, TaskSettingsService
 } from 'arlas-web-components';
 import { MarkdownModule } from 'ngx-markdown';
 import { AnalyticsBoardComponent } from './components/analytics/analytics-board/analytics-board.component';
@@ -66,6 +66,7 @@ import { LinksComponent } from './components/top-menu/links/links.component';
 import { TopMenuComponent } from './components/top-menu/top-menu.component';
 import { UserInfosComponent } from './components/user-infos/user-infos.component';
 import { WidgetComponent } from './components/widget/widget.component';
+import { ArlasTaskService } from './services/arlas.task.service';
 import { ArlasCollaborativesearchService } from './services/collaborative-search/arlas.collaborative-search.service';
 import { ArlasCollectionService } from './services/collection/arlas-collection.service';
 import { ArlasOverlayService } from './services/overlays/overlay.service';
@@ -150,6 +151,10 @@ const exports = [
       useValue: {
         autoFocus: false
       }
+    },
+    {
+      provide: TaskSettingsService,
+      useClass: ArlasTaskService
     }
   ]
 })

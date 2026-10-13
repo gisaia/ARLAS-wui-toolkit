@@ -197,7 +197,12 @@
               "field": "metadata.ObservationContext.phenomenonTime.begin"
             }
           ],
-          "additionalCollections": []
+          "additionalCollections": [
+            {
+              "collectionName": "demo_sea_phys_bcg",
+              "field": "timestamp"
+            }
+          ]
         },
         {
           "identifier": "demo_eo-metadata.core.identity.identifier-80-Capteur-Date-Couverture nuageuse-Angle d'incidence-Toponymie-Identification-Fiche technique-Niveaux de produits et de processing-Mode d'acquisition-",
@@ -395,7 +400,12 @@
           ],
           "annexedContributorId": "timeline",
           "selectionExtentPercentage": 0.2,
-          "additionalCollections": []
+          "additionalCollections": [
+            {
+              "collectionName": "demo_sea_phys_bcg",
+              "field": "timestamp"
+            }
+          ]
         },
         {
           "identifier": "demo_eo-_sensorType-10-metadata.ObservationContext.processusUsed.platform-10-",
@@ -690,7 +700,7 @@
             "dataType": "time",
             "isHistogramSelectable": true,
             "ticksDateFormat": "%b %d %Y  %H:%M",
-            "chartType": "bars",
+            "chartType": "curve",
             "chartHeight": 128,
             "chartWidth": null,
             "xAxisPosition": "bottom",

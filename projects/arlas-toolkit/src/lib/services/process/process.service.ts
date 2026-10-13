@@ -21,26 +21,40 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Expression, Filter, Search } from 'arlas-api';
 import { projType } from 'arlas-web-core';
-import { map, Observable } from 'rxjs';
-import { Process, ProcessInputs, ProcessOutput } from '../../tools/process.interface';
+import { map, Observable, of } from 'rxjs';
+import { Process, ProcessFieldOption, ProcessInputs, ProcessOutput } from '../../tools/process.interface';
+import { GetOptions } from '../../tools/utils';
 import { ArlasCollaborativesearchService } from '../collaborative-search/arlas.collaborative-search.service';
 import { ArlasSettingsService } from '../settings/arlas.settings.service';
+
+export interface ValidatedProcessFieldOption extends ProcessFieldOption {
+  valid$: Observable<boolean>;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProcessService {
-  private processInputs: ProcessInputs = {};
-  private options: any = {};
+  private readonly processInputs = new Map<string, ProcessInputs | undefined>();
+  private options: GetOptions = {};
 
   public constructor(
-    private http: HttpClient,
-    private arlasSettingsService: ArlasSettingsService,
-    private collaborativeSearchService: ArlasCollaborativesearchService
+    private readonly http: HttpClient,
+    private readonly arlasSettingsService: ArlasSettingsService,
+    private readonly collaborativeSearchService: ArlasCollaborativesearchService
   ) { }
 
-  public setOptions(options): void {
+  public setOptions(options: GetOptions): void {
     this.options = options;
+  }
+
+  private getProcessSettings(processName: string) {
+    const settings = this.arlasSettingsService.getProcessSettings(processName);
+    if (settings) {
+      return settings;
+    }
+
+    throw new Error(`[ARLAS][PROCESS] No settings were found for process ${processName}`);
   }
 
   /**
@@ -62,7 +76,7 @@ export class ProcessService {
     data.inputs = Object.assign(data.inputs, payload);
 
     return this.http.post(
-      this.arlasSettingsService.getProcessSettings(processName)?.url, data,
+      this.getProcessSettings(processName).url, data,
       Object.assign(this.options, { responseType: 'text' })
     )
       .pipe(map(
@@ -74,26 +88,26 @@ export class ProcessService {
   }
 
   public check(processName: string): Observable<any> {
-    return this.http.get(this.arlasSettingsService.getProcessSettings(processName)?.check_url, this.options);
+    return this.http.get(this.getProcessSettings(processName).check_url, this.options);
   }
 
-  public getProcessInputs(): ProcessInputs {
-    return this.processInputs;
+  public getProcessInputs(process: string): ProcessInputs | undefined {
+    return this.processInputs.get(process);
   }
 
-  public setProcessInputs(process: ProcessInputs): void {
-    this.processInputs = process;
+  public setProcessInputs(name: string, process: ProcessInputs | undefined): void {
+    this.processInputs.set(name, process);
   }
 
   public load(processName: string): Observable<Process> {
     return this.http.get(
-      this.arlasSettingsService.getProcessSettings(processName)?.settings.url,
+      this.getProcessSettings(processName).settings.url,
       Object.assign(this.options, { responseType: 'text' })
     )
       .pipe(
         map(c => {
           const process: Process = JSON.parse(c as any);
-          this.setProcessInputs(process.inputs);
+          this.setProcessInputs(processName, process.inputs);
           return process;
         })
       );
@@ -101,7 +115,7 @@ export class ProcessService {
 
   public getJobStatus(processName: string, jobId: string): Observable<ProcessOutput> {
     return this.http.get(
-      this.arlasSettingsService.getProcessSettings(processName).status.url + '/' + jobId,
+      this.getProcessSettings(processName).status.url + '/' + jobId,
       Object.assign(this.options, { responseType: 'text' })
     )
       .pipe(map(
@@ -112,51 +126,69 @@ export class ProcessService {
       ));
   }
 
-  public getItemsDetail(idFieldName: string, itemsId: string[], collection: string): Observable<Map<string, any>> {
-    // properties.main_asset_format is the field to pass to get the object value
-    const fields = ['properties.proj__epsg', 'properties.main_asset_format', 'geometry', 'properties.item_format'];
-    const search: Search = {
-      page: { size: itemsId.length },
-      form: { pretty: false, flat: false },
-      projection: {
-        includes: fields.map(field => field).join(',')
-      }
-    };
+  /**
+   * Parses the inputs of a process to determine which options are valid for the selection of items
+   * @param idFieldName Path to the id field
+   * @param itemsId List of item ids
+   * @param collection Name of the collection
+   * @param processName Name of the process
+   * @returns For each configured form field in the inputs, the validated options
+   */
+  public getValidOptions(idFieldName: string, itemsId: string[], collection: string, processName: string) {
+    const inputs = this.processInputs.get(processName);
+    const formOptions = new Map<string, ValidatedProcessFieldOption[]>();
 
-    const expression: Expression = {
-      field: idFieldName,
-      // TODO: Manage other Operators ?
-      op: Expression.OpEnum.Eq,
-      value: itemsId.join(',')
-    };
-    const filterExpression: Filter = {
-      f: [[expression]]
-    };
-    const searchResult = this.collaborativeSearchService
-      .resolveHits(
-        [projType.search, search],
-        this.collaborativeSearchService.collaborations,
-        collection,
-        undefined,
-        filterExpression,
-        false
-      );
-    return searchResult.pipe(map((data: any) => {
-      const matchingAdditionalParams = new Map<string, any>();
-      if (!!data && !!data?.hits && data.hits.length > 0) {
-        data.hits.forEach(i => {
-          const itemMetadata = i.data;
-          fields.forEach(f => {
-            matchingAdditionalParams.set(f, this.resolve(f, itemMetadata));
-          });
-        });
-      }
-      return matchingAdditionalParams;
-    }));
-  }
+    if (inputs) {
+      const idMatchExpression: Expression = {
+        field: idFieldName,
+        op: Expression.OpEnum.Eq,
+        value: itemsId.join(',')
+      };
 
-  private resolve(path, obj = self, separator = '.') {
-    const properties = Array.isArray(path) ? path : path.split(separator);
-    return properties.reduce((prev, curr) => prev?.[curr], obj);
+      Object.entries(inputs).forEach(e => {
+        const [formField, input] = e;
+
+        const parsedOptions = new Array<ValidatedProcessFieldOption>();
+        if (input.schema.enum) {
+          for (const option of input.schema.enum) {
+            if (typeof option !== 'string') {
+              if (option.if) {
+                const search: Search = {
+                  form: { pretty: false, flat: false },
+                  projection: {
+                    includes: [idFieldName, ...option.if.map(opt => opt.field)].join(',')
+                  }
+                };
+
+                // Flatten all the filters to act as and
+                const filter: Filter = {
+                  f: [[idMatchExpression], ...option.if.map(e => [e])]
+                };
+
+                const optionValid$ = this.collaborativeSearchService
+                  .resolveHits(
+                    [projType.search, search],
+                    this.collaborativeSearchService.collaborations,
+                    collection,
+                    undefined,
+                    filter,
+                    false)
+                  .pipe(map(data => data.hits?.length === itemsId.length));
+
+                parsedOptions.push({ ...option, valid$: optionValid$ });
+              } else {
+                parsedOptions.push({ ...option, valid$: of(true) });
+              }
+            } else {
+              parsedOptions.push({ label: option, value: option, valid$: of(true) });
+            }
+          }
+        }
+
+        formOptions.set(formField, parsedOptions);
+      });
+    }
+
+    return formOptions;
   }
 }

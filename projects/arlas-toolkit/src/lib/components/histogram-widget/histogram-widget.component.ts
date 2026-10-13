@@ -18,9 +18,10 @@
  */
 
 import {
-  AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output, signal, ViewChild
+  AfterViewInit, ChangeDetectorRef, Component, EventEmitter, input, Input, OnDestroy, OnInit, Output, signal, ViewChild
 } from '@angular/core';
-import { DataType, HistogramComponent, HistogramTooltip, Position } from 'arlas-web-components';
+import { DataType, HistogramTooltip, Position } from 'arlas-d3';
+import { HistogramComponent } from 'arlas-web-components';
 import { DetailedHistogramContributor, HistogramContributor, SelectedOutputValues } from 'arlas-web-contributors';
 import { OperationEnum } from 'arlas-web-core';
 import { filter, Subject, takeUntil } from 'rxjs';
@@ -49,8 +50,8 @@ import { computeChartTooltipOffset } from './utils';
 export class HistogramWidgetComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public showDetailedHistogram = false;
-  public detailedContributor: DetailedHistogramContributor;
-  public detailedTimelineIntervalSelection: SelectedOutputValues;
+  public detailedContributor?: DetailedHistogramContributor;
+  public detailedTimelineIntervalSelection?: SelectedOutputValues;
   public showSpinner = false;
   private histogramIsFiltered = false;
   private applicationFirstLoad = false;
@@ -58,14 +59,14 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy, AfterViewIni
 
   public tooltipEvent: Subject<HistogramTooltip> = new Subject<HistogramTooltip>();
 
-  public histogramOverlayRef: ArlasOverlayRef;
+  public histogramOverlayRef?: ArlasOverlayRef;
 
   protected readonly Position = Position;
 
   protected readonly isHover = signal(false);
 
-  @Input() public contributor: HistogramContributor;
-  @Input() public componentInputs;
+  public contributor = input.required<HistogramContributor>();
+  public componentInputs = input.required<any>();
   /**
    * @Input : Angular
    * @description Whether we dispylay the export csv button
@@ -75,13 +76,13 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy, AfterViewIni
    * @Input : Angular
    * @description Position of the widget in the group
    */
-  @Input() public position: number;
+  public position = input.required<number>();
 
   /**
    * @Input : Angular
    * @description Number of widgets in the group to whom this widget belongs
    */
-  @Input() public groupLength: number;
+  public groupLength = input.required<number>();
 
   /**
    * @Input : Angular
@@ -93,10 +94,9 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy, AfterViewIni
    * @Input : Angular
    * @description Whether to display a detailed histogram
    */
-  @Input() public noDetail: boolean;
+  @Input() public noDetail = true;
 
   @Output() public exportCsvEvent: Subject<{ contributor: HistogramContributor; type: string; firstLevel: boolean; }> = new Subject();
-
 
 
   /**
@@ -110,8 +110,8 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy, AfterViewIni
 
   @Output() public currentInterval: EventEmitter<string> = new EventEmitter();
 
-  @ViewChild('histogram', { static: false }) public histogramComponent: HistogramComponent;
-  @ViewChild('detailedhistogram', { static: false }) public detailedHistogramComponent: HistogramComponent;
+  @ViewChild('histogram', { static: false }) public histogramComponent?: HistogramComponent;
+  @ViewChild('detailedhistogram', { static: false }) public detailedHistogramComponent?: HistogramComponent;
 
   private readonly _onDestroy$ = new Subject<boolean>();
 
@@ -124,22 +124,24 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy, AfterViewIni
   ) { }
 
   public initDetailedContributor() {
-    if (this.contributor) {
+    if (this.contributor()) {
       this.detailedContributor = new DetailedHistogramContributor(
-        this.contributor.collection + '-'
-        + this.contributor.identifier + '-arlas__detailed',
-        this.arlasCollaborativesearchService, this.arlasConfigurationService, this.contributor.collection, false);
-      this.contributor.detailedHistrogramContributor = this.detailedContributor;
+        this.contributor().collection + '-'
+        + this.contributor().identifier + '-arlas__detailed',
+        this.arlasCollaborativesearchService, this.arlasConfigurationService, this.contributor().collection,
+        false, undefined, this.contributor().getAggregations());
+
+      this.contributor().detailedHistrogramContributor = this.detailedContributor;
       this.detailedContributor.updateData = false;
       this.detailedContributor.range = undefined;
-      this.detailedContributor.annexedContributorId = this.contributor.identifier;
-      this.detailedContributor.useUtc = this.contributor.useUtc;
+      this.detailedContributor.annexedContributorId = this.contributor().identifier;
+      this.detailedContributor.useUtc = this.contributor().useUtc;
       this.detailedContributor.selectionExtentPercentage = 0.02;
-      const detailedNbBuckets = this.contributor.getNbBuckets() ?? 50;
+      const detailedNbBuckets = this.contributor().getNbBuckets() ?? 50;
       this.detailedContributor.setNbBuckets(detailedNbBuckets);
-      this.detailedContributor.setName(this.contributor.getName() + '__detailed');
-      this.detailedContributor.init(this.contributor.getAggregations(), this.contributor.getField(),
-        this.contributor.getJsonPath(), this.contributor.additionalCollections);
+      this.detailedContributor.setName(this.contributor().getName() + '__detailed');
+      this.detailedContributor.init(this.contributor().getAggregations(), this.contributor().getField(),
+        this.contributor().getJsonPath(), this.contributor().additionalCollections ?? []);
     }
   }
 
@@ -181,15 +183,15 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy, AfterViewIni
     this.showSpinner = true;
     this.isDetailedIntervalBrushed = true;
     this.detailedTimelineIntervalSelection = { startvalue: selections[0].startvalue, endvalue: selections[0].endvalue };
-    this.contributor.valueChanged(this.contributor.intervalListSelection.concat(selections));
+    this.contributor().valueChanged(this.contributor().intervalListSelection.concat(selections));
   }
 
 
   /** When the main histogram selection is brushed
    * Hide the detailed histogram if the selection range is greater than 20% of the histogram range
    */
-  public onMainIntervalBrushed(event) {
-    const histogramRange = this.contributor.range;
+  public onMainIntervalBrushed(event: SelectedOutputValues[]) {
+    const histogramRange = this.contributor().range;
     const selection = event[event.length - 1];
     if (histogramRange && !!selection) {
       const detailedHistogramRange = (+selection.endvalue - +selection.startvalue);
@@ -199,21 +201,22 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy, AfterViewIni
         this.detailedContributor.updateData = this.showDetailedHistogram;
       }
     }
-    this.contributor.valueChanged(event);
+    this.contributor().valueChanged(event);
     this.showSpinner = this.showDetailedHistogram;
   }
 
   /** reposition interval of the main histogram after the detail histogram finishes plotting */
   public afterDetailedDataPlotted(e: string) {
     if (this.detailedContributor) {
-      if (this.isDetailedIntervalBrushed) {  // If detailed histogram is replotted after moving its own brush.
+      // If detailed histogram is replotted after moving its own brush.
+      if (this.isDetailedIntervalBrushed && this.detailedContributor.currentSelectedInterval) {
         // Reset current selection of detailed histogram after it is plotted
         this.detailedTimelineIntervalSelection = {
           startvalue: this.detailedContributor.currentSelectedInterval.startvalue,
           endvalue: this.detailedContributor.currentSelectedInterval.endvalue
         };
         // Apply the current selection of detailed histogram on the main histogram
-        this.contributor.intervalSelection = {
+        this.contributor().intervalSelection = {
           startvalue: this.detailedContributor.currentSelectedInterval.startvalue,
           endvalue: this.detailedContributor.currentSelectedInterval.endvalue
         };
@@ -248,35 +251,41 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy, AfterViewIni
 
   public emitTooltip(tooltip: HistogramTooltip, e: HTMLDivElement, detailed: boolean) {
     const { xOffset, yOffset } = computeChartTooltipOffset(
-      this.componentInputs.chartWidth, this.groupLength, this.position, this.contributor.identifier, detailed);
+      this.componentInputs().chartWidth, this.groupLength(), this.position(), this.contributor().identifier, detailed);
     this.showHistogramTooltip(tooltip, e, xOffset, yOffset);
   }
 
   private resizeMainHistogram() {
+    if (!this.histogramComponent?.histogram) {
+      return;
+    }
+
     this.histogramComponent.histogram.histogramParams.chartHeight = this.showDetailedHistogram ?
-      this.componentInputs.chartHeight * 0.5 : this.componentInputs.chartHeight;
-    this.histogramComponent.histogram.histogramParams.yLabels = this.showDetailedHistogram ? 2 : this.componentInputs.yLabels;
+      this.componentInputs().chartHeight * 0.5 : this.componentInputs().chartHeight;
+    this.histogramComponent.histogram.histogramParams.yLabels = this.showDetailedHistogram ? 2 : this.componentInputs().yLabels;
     this.histogramComponent.resizeHistogram();
   }
 
   /** show detailed histogram if selection range is less than 20% of the main histogram range */
   private showDetailedHistogramOnCollaborationEnd(): void {
     this.arlasCollaborativesearchService.collaborationBus.pipe(filter(c => ((!!this.contributor && this.histogramComponent
-      && c.id === this.contributor.identifier) || c.all)), takeUntil(this._onDestroy$))
+      && c.id === this.contributor().identifier) || c.all)), takeUntil(this._onDestroy$))
       .subscribe(c => {
         if (c.operation === OperationEnum.remove) {
           this.histogramIsFiltered = false;
           this.hideDetailedHistogram();
-          this.histogramComponent.histogram.histogramParams.chartHeight = this.componentInputs.chartHeight;
-          this.histogramComponent.resizeHistogram();
+          if (this.histogramComponent?.histogram) {
+            this.histogramComponent.histogram.histogramParams.chartHeight = this.componentInputs().chartHeight;
+            this.histogramComponent.resizeHistogram();
+          }
         } else if (c.operation === OperationEnum.add) {
           this.histogramIsFiltered = true;
-          let left = this.histogramComponent.histogram.histogramParams.startValue;
-          let right = this.histogramComponent.histogram.histogramParams.endValue;
-          if (this.histogramComponent.dataType === DataType.time) {
+          let left = this.histogramComponent?.histogram?.histogramParams.startValue;
+          let right = this.histogramComponent?.histogram?.histogramParams.endValue;
+          if (this.histogramComponent?.dataType === DataType.time) {
             this.currentInterval.emit(`${left} - ${right}`);
           } else {
-            if (this.histogramComponent.xUnit) {
+            if (this.histogramComponent?.xUnit) {
               left = left + ' ' + this.histogramComponent.xUnit;
               right = right + ' ' + this.histogramComponent.xUnit;
             }
@@ -299,15 +308,14 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy, AfterViewIni
    * Otherwise, hides the detailed histogram, and resizes the main one.
    */
   private checkDisplayDetailedHistogram() {
-    const histogramRange = this.contributor?.range;
+    const histogramRange = this.contributor().range;
     this.showSpinner = false;
-    const selection = this.contributor?.intervalSelection;
+    const selection = this.contributor().intervalSelection;
     if (histogramRange && !!selection) {
       const detailedHistogramRange = (+selection.endvalue - +selection.startvalue);
       this.showDetailedHistogram = (detailedHistogramRange <= 0.2 * histogramRange);
       this.resizeMainHistogram();
-      if (this.showDetailedHistogram) {
-        this.histogramComponent.histogram.histogramParams.topOffsetRemoveInterval = 0;
+      if (this.showDetailedHistogram && this.detailedContributor) {
         if (!this.detailedContributor) {
           this.initDetailedContributor();
         }
@@ -324,8 +332,8 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy, AfterViewIni
           });
         }
 
-        if (this.detailedHistogramComponent) {
-          this.detailedHistogramComponent.histogram.histogramParams.chartHeight = this.componentInputs.chartHeight;
+        if (this.detailedHistogramComponent?.histogram) {
+          this.detailedHistogramComponent.histogram.histogramParams.chartHeight = this.componentInputs().chartHeight;
           this.detailedHistogramComponent.resizeHistogram();
         }
       } else {
@@ -339,14 +347,15 @@ export class HistogramWidgetComponent implements OnInit, OnDestroy, AfterViewIni
       }
     } else {
       this.hideDetailedHistogram();
-      this.histogramComponent.histogram.histogramParams.chartHeight = this.componentInputs.chartHeight;
-      this.histogramComponent.resizeHistogram();
+      if (this.histogramComponent?.histogram) {
+        this.histogramComponent.histogram.histogramParams.chartHeight = this.componentInputs().chartHeight;
+        this.histogramComponent.resizeHistogram();
+      }
     }
   }
 
   private hideDetailedHistogram() {
     this.showDetailedHistogram = false;
-    this.histogramComponent.histogram.histogramParams.topOffsetRemoveInterval = this.componentInputs.topOffsetRemoveInterval;
     if (this.detailedContributor) {
       this.detailedContributor.updateData = false;
       this.detailedContributor.range = undefined;

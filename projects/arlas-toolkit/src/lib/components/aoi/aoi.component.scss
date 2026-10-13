@@ -16,7 +16,8 @@
  * specific language governing permissions and limitations
  * under the License.
  */
- .aoi-table-items{
+
+.aoi-table-items{
   overflow: hidden;
 }
 
@@ -33,11 +34,11 @@
 }
 
 .aoi-icons-action-view:hover{
-  color: #2196f3;
+  color: var(--arlas-aoi-view-hover-color, var(--mat-sys-primary));
 }
 
 .aoi-icons-action-delete:hover{
-  color: #FF0000;
+  color: var(--arlas-aoi-delete-color, var(--mat-sys-error));
 }
 
 .mat-mdc-header-cell {

@@ -22,16 +22,21 @@
   position: relative;
   margin: 1.5625em 0;
   padding: 0 1.2rem;
-  border-left: .4rem solid #ff4081;
+  border-left: .4rem solid var(--arlas-admonition-accent, var(--mat-sys-secondary));
   border-radius: .2rem;
-  font-size: 0.9rem;
+  font-size: var(--arlas-sys-content-font-size);
   overflow: auto;
 }
 
 .admonition-title {
+  color: var(--arlas-admonition-title-color, var(--mat-sys-on-background));
   margin: 0 -1.2rem;
   padding: .8rem 1.2rem;
-  border-bottom: .1rem solid rgba(255, 64, 129, 0.1);
-  background-color: rgba(255, 64, 129, 0.1);
+  border-bottom: .1rem solid var(--arlas-admonition-accent-bg, rgba(255, 64, 129, 0.1));
+  background-color: var(--arlas-admonition-accent-bg, rgba(255, 64, 129, 0.1));
   font-weight: 700;
+}
+
+.admonition-content {
+  color: var(--arlas-admonition-content-text-color, var(--mat-sys-on-background));
 }

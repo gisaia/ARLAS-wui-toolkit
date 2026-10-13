@@ -55,15 +55,15 @@
 }
 
 .active-tag{
-  background-color: #174ea6;
+  background-color: var(--arlas-tag-management-active-background, var(--mat-sys-primary));
 }
 
 .active-tag .mat-mdc-cell{
-  color : white;
+  color : var(--arlas-tag-management-active-color, var(--mat-sys-on-surface));
 }
 
 .inactive-tag .mat-mdc-cell{
-  color : #cccccc;
+  color : var(--arlas-tag-management-inactive-color, #cccccc);
 }
 
 ::ng-deep.arlas-tag-dialog .mdc-dialog__surface {

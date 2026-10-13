@@ -18,7 +18,7 @@
  */
 
 import { HttpClient } from '@angular/common/http';
-import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, inject, input, OnInit, Output } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { MatTooltip } from '@angular/material/tooltip';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -38,23 +38,27 @@ import { GET_OPTIONS } from '../../../../tools/utils';
 })
 export class LinkComponent implements OnInit {
 
-  @Input() public link: LinkSettings;
+  public link = input.required<LinkSettings>();
   @Output() public hidden$: EventEmitter<void> = new EventEmitter();
   @Output() public onCheck$: EventEmitter<void> = new EventEmitter();
   @Output() public onClick$: EventEmitter<void> = new EventEmitter();
 
   public show = false;
+  private readonly getOptions = inject(GET_OPTIONS);
+
   public constructor(
-    private readonly http: HttpClient,
-    @Inject(GET_OPTIONS) private readonly getOptions,
+    private readonly http: HttpClient
   ) { }
 
   public ngOnInit(): void {
     const options = this.getOptions();
-    if (this.link.check_url_response_type) {
-      options.responseType = this.link.check_url_response_type;
+    let responseType = 'text';
+    if (this.link().check_url_response_type === 'json') {
+      responseType = 'json';
     }
-    this.http.get(this.link.check_url, options)
+
+    // Cast as any is needed because typing of GET requires either json or text but not a type that can be either
+    this.http.get(this.link().check_url, { ...options, responseType: responseType as any })
       .pipe(finalize(() => this.onCheck$.emit()))
       .subscribe({
         next: () => {
@@ -67,7 +71,7 @@ export class LinkComponent implements OnInit {
       });
   }
 
-  public navigateTo(url) {
+  public navigateTo(url: string) {
     if (url) {
       window.open(url);
     }

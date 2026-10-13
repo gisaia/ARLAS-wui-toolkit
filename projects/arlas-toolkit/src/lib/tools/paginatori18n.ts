@@ -24,14 +24,14 @@ import { Subject } from 'rxjs';
 export class PaginatorI18n implements MatPaginatorIntl {
 
   public changes: Subject<void>;
-  public itemsPerPageLabel: string;
-  public nextPageLabel: string;
-  public previousPageLabel: string;
-  public firstPageLabel: string;
-  public lastPageLabel: string;
+  public itemsPerPageLabel!: string;
+  public nextPageLabel!: string;
+  public previousPageLabel!: string;
+  public firstPageLabel!: string;
+  public lastPageLabel!: string;
 
   public constructor(
-    private translate: TranslateService
+    private readonly translate: TranslateService
   ) {
     this.changes = new Subject();
     this.initLabels();

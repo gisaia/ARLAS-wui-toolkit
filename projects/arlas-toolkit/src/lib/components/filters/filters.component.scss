@@ -17,7 +17,7 @@
  * under the License.
  */
 
-$border-color: #a1a1a1;
+$border-color: var(--arlas-filters-border-color, #a1a1a1);
 $xs-border: 1px;
 
 @mixin border {
@@ -34,8 +34,6 @@ $sm-spacing: 5px;
 $sm-margin: 5px;
 $default-margin: 10px;
 $default-spacing: 10px;
-$sm-font-size: 14px;
-$xs-font-size: 12px;
 
 $count-chip-height: 30px;
 
@@ -47,7 +45,7 @@ $count-chip-height: 30px;
 .collection-chip,
 .clear-chip,
 .timeline-chip {
-  background-color: white;
+  background-color: var(--arlas-filters-chip-background, var(--mat-sys-surface));
   margin-right: $sm-margin;
   padding: 0 $sm-spacing;
   @include border-important();
@@ -55,7 +53,7 @@ $count-chip-height: 30px;
   box-sizing: border-box;
   display: flex;
   align-items: center;
-  font-size: $sm-font-size;
+  font-size: var(--arlas-sys-content-font-size);
   align-self: center;
 }
 
@@ -64,7 +62,7 @@ $count-chip-height: 30px;
 }
 
 .chip-text {
-  color: black;
+  color: var(--arlas-filters-chip-text-color, var(--mat-sys-on-surface));
   padding: 0 2px;
 }
 
@@ -87,29 +85,32 @@ $count-chip-height: 30px;
 
 .timeline-chip,
 .filter-chip {
-  .icon{
-    font-size: 18px;
-    width: 18px;
-    height: 18px;
+  color: var(--arlas-filter-chip-color, var(--mat-sys-on-surface));
+  background: var(--arlas-filter-chip-background, var(--mat-sys-surface));
+  .icon {
+    font-size: var(--arlas-sys-content-icon-size);
+    width: var(--arlas-sys-content-icon-size);
+    height: var(--arlas-sys-content-icon-size);
     cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
 
     &_close {
-      --mat-icon-button-state-layer-size: 12px;
-      --mat-icon-button-touch-target-size: 12px;
+      --arlas-filter-cancel-icon-size: 14px;
+      --mat-icon-button-state-layer-size: var(--arlas-filter-cancel-icon-size);
+      --mat-icon-button-touch-target-size: var(--arlas-filter-cancel-icon-size);
       padding: 0;
 
       position: absolute;
       display: flex;
       top: 0;
-      right: 0;
+      right: -3px;
 
       mat-icon {
-        font-size: 12px;
-        width: 12px;
-        height: 12px;
+        font-size: var(--arlas-filter-cancel-icon-size);
+        width: var(--arlas-filter-cancel-icon-size);
+        height: var(--arlas-filter-cancel-icon-size);
       }
     }
   }
@@ -137,7 +138,7 @@ $count-chip-height: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: white;
+    background-color: var(--arlas-filters-zoom-background, var(--mat-sys-surface));
     --mat-icon-button-state-layer-size: 15px;
     --mat-icon-button-touch-target-size: 15px;
     padding: 0;
@@ -158,24 +159,25 @@ $count-chip-height: 30px;
     font-weight: 600;
     margin: 0 $sm-margin;
     white-space: nowrap;
+    color: var(--arlas-filters-value-color, var(--mat-sys-on-surface));
   }
 
   .unit {
     font-weight: 100;
-    font-size: $xs-font-size;
-    color: #555;
+    font-size: var(--arlas-sys-minor-font-size);
+    color: var(--arlas-filters-unit-color, var(--mat-sys-on-surface));
   }
 }
 
 .extra {
   font-family: Roboto, "Helvetica Neue", sans-serif;
-  background-color: white;
+  background-color: var(--arlas-filters-extra-background, var(--mat-sys-surface));
   margin-right: $sm-margin;
 
   .title {
     cursor: pointer;
     display: flex;
-    background-color: #fff;
+    background-color: var(--arlas-filters-extra-title-background, var(--mat-sys-surface));
     justify-content: space-between;
     align-items: center;
     padding: $sm-spacing;
@@ -185,7 +187,7 @@ $count-chip-height: 30px;
 
     .text {
       padding-right: $default-margin;
-      font-size: $sm-font-size;
+      font-size: var(--arlas-sys-content-font-size);
       white-space: nowrap;
     }
 
@@ -197,12 +199,12 @@ $count-chip-height: 30px;
         height: 18px;
         width: 18px;
         border-radius: 11px;
-        background-color: #e7e7e7;
+        background-color: var(--arlas-filters-count-background, var(--mat-sys-surface));
         display: flex;
         align-items: center;
         justify-content: center;
-        border: 1px solid #e7e7e7;
-        font-size: $sm-font-size;
+        border: 1px solid var(--arlas-filters-count-border, var(--arlas-sys-light-surface));
+        font-size: var(--arlas-sys-content-font-size);
         align-self: center;
       }
 
@@ -218,9 +220,9 @@ $count-chip-height: 30px;
     position: relative;
     top: -1px;
     left: 10%;
-    background-color: grey;
+    background-color: var(--arlas-filters-separator-color, var(--arlas-sys-light-surface));
     z-index: 1;
-}
+  }
 
   .hidden {
     display: none;
@@ -229,7 +231,7 @@ $count-chip-height: 30px;
   .extra-counts {
     position: absolute;
     top: $count-chip-height;
-    background-color: white;
+    background-color: var(--arlas-filters-counts-background, var(--mat-sys-surface));
     padding: $sm-spacing;
     @include border();
     border-top-left-radius: 0;

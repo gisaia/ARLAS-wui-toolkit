@@ -20,10 +20,9 @@
 .tooltip {
   text-align: left;
   padding: 4px;
-  font-size: 12px;
-  background: white;
-  color: #555;
-
+  font-size: var(--arlas-sys-minor-font-size);
+  background: var(--arlas-widget-tooltip--background, var(--mat-sys-surface));
+  color: var(--arlas-widget-tooltip-text, var(--mat-sys-on-background));
   border: 0;
   border-radius: 3px;
   pointer-events: none;
@@ -46,8 +45,9 @@
     grid-column: 1 / span 2;
     grid-row: 1;
 
-    padding: 0 5px;
+    padding: 0 5px 5px;
     font-weight: bold;
+    font-size: var(--arlas-sys-subtitle-font-size);
   }
 
   &__xLabel {
@@ -74,7 +74,7 @@
   }
 
   &__label {
-    color: #999;
+    color: var(--arlas-widget-tooltip-label, var(--mat-sys-on-background));
     padding: 0 5px;
     text-align: start;
     max-width: 200px;

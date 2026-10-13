@@ -17,18 +17,16 @@
  * under the License.
  */
 
+import { HttpClient } from '@angular/common/http';
 import { ModuleWithProviders, NgModule, Provider } from '@angular/core';
 import { ArlasWalkthroughService } from './walkthrough.service';
 import { BasicWalkthroughLoader, WalkthroughLoader } from './walkthrough.utils';
-import { HttpClient } from '@angular/common/http';
 
 export interface WalkthroughModuleConfig {
   loader?: Provider;
 }
 
-@NgModule({
-
-})
+@NgModule({})
 export class ArlasWalkthroughModule {
 
   /**

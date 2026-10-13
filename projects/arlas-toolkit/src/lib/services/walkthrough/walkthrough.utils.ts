@@ -21,7 +21,7 @@ import { HttpClient } from '@angular/common/http';
 
 export abstract class WalkthroughLoader {
 
-  public abstract loader(): Promise<any>;
+  public abstract loader(): Promise<TourDefinition>;
 
 }
 
@@ -29,9 +29,9 @@ export class BasicWalkthroughLoader extends WalkthroughLoader {
   public constructor(private readonly http: HttpClient) {
     super();
   }
-  public loader(): Promise<any> {
+  public loader() {
     return this.http
       .get('/asset/tour/tour_en.json?' + Date.now())
-      .toPromise();
+      .toPromise() as Promise<TourDefinition>;
   }
 }

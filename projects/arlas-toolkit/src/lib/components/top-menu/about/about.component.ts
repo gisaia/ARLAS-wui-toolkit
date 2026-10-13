@@ -17,8 +17,8 @@
  * under the License.
  */
 
-import { Component, Input } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Component, inject, input, Input } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { MarkdownComponent } from 'ngx-markdown';
 
 @Component({
@@ -31,23 +31,30 @@ export class AboutComponent {
    * @Input : Angular
    * @description Path to the markdown file containing the information to display
    */
-  @Input() public pathToMd: string;
+  public pathToMd = input.required<string>();
 
   /**
    * @Input : Angular
    * @description Extra text data displayed before the markdown
    */
-  @Input() public extraTextData: string;
-
-  public dialogRef: MatDialogRef<AboutDialogComponent>;
+  @Input() public extraTextData?: string;
 
   public constructor(private readonly dialog: MatDialog) { }
 
   public openDialog() {
-    this.dialogRef = this.dialog.open(AboutDialogComponent, { panelClass: 'arlas-about-dialog' });
-    this.dialogRef.componentInstance.pathToMd = this.pathToMd;
-    this.dialogRef.componentInstance.extraTextData = this.extraTextData;
+    this.dialog.open<AboutDialogComponent, AboutDialogData>(AboutDialogComponent, {
+      panelClass: 'arlas-about-dialog',
+      data: {
+        pathToMd: this.pathToMd(),
+        extraTextData: this.extraTextData
+      }
+    });
   }
+}
+
+interface AboutDialogData {
+  pathToMd: string;
+  extraTextData?: string;
 }
 
 @Component({
@@ -59,11 +66,6 @@ export class AboutComponent {
   ]
 })
 export class AboutDialogComponent {
-
-  public pathToMd: string;
-  public extraTextData: string;
-  public constructor(public dialogRef: MatDialogRef<AboutDialogComponent>) {
-
-  }
+  public data = inject<AboutDialogData>(MAT_DIALOG_DATA);
 }
 

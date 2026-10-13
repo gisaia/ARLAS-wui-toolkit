@@ -17,15 +17,21 @@
  * under the License.
  */
 
-import { Subject, Subscription, takeUntil, timer } from 'rxjs';
-import { ProcessOutput, ProcessStatus } from '../../tools/process.interface';
+import { signal, WritableSignal } from '@angular/core';
+import { DEFAULT_TASK_RETRIEVAL_INTERVAL } from 'arlas-web-components';
+import { finalize, Subject, Subscription, takeUntil, timer } from 'rxjs';
 import { ProcessService } from '../../services/process/process.service';
+import { ProcessFieldOption, ProcessOutput, ProcessStatus } from '../../tools/process.interface';
 
 /** Base data communicated to an AIAS process dialog window */
 export interface AiasProcessDialogData {
+  /** Number of items to process */
   nbProducts: number;
-  itemDetail:  Map<string, any>;
-  ids: string[] | null;
+  /** Name of the field containing the id */
+  idFieldName: string;
+  /** Ids of the items to process */
+  ids: string[];
+  /** Name of the collection of items */
   collection: string;
 }
 
@@ -43,14 +49,40 @@ export abstract class AiasProcess {
   public hasError = false;
 
   public statusSub!: Subscription;
-  public unsubscribeStatus = new Subject<boolean>();
-  public statusResult: ProcessOutput = null;
+  public unsubscribeStatus = new Subject<void>();
+  public statusResult: ProcessOutput | null = null;
+
+  /** Options for each configured form control in the process inputs */
+  public options: Record<string, WritableSignal<ProcessFieldOption[]>> = {};
+  /** Tracks how many options are currently loading to display a loading bar to the user */
+  public optionsLoading = signal(0);
 
   public constructor(
-    protected processService: ProcessService,
-    protected data: AiasProcessDialogData,
-    private processName: string
-  ) { }
+    protected readonly processService: ProcessService,
+    protected readonly data: AiasProcessDialogData,
+    private readonly processName: string
+  ) {
+    const validatedProcessOptions = this.processService.getValidOptions(this.data.idFieldName,
+      this.data.ids, this.data.collection, processName);
+
+    validatedProcessOptions.forEach((options, fieldName) => {
+      options.forEach(opt => {
+        this.optionsLoading.update(v => v + 1);
+
+        opt.valid$
+          .pipe(finalize(() => this.optionsLoading.update(v => v - 1)))
+          .subscribe(valid => {
+            if (valid) {
+              this.options[fieldName] ??= signal([]);
+              this.options[fieldName].update(v => {
+                v.push({ label: opt.label, value: opt.value });
+                return v;
+              });
+            }
+          });
+      });
+    });
+  }
 
   protected abstract preparePayload(): any;
 
@@ -59,29 +91,35 @@ export abstract class AiasProcess {
     this.processStarted = true;
     this.hasError = false;
 
-    const payload = this.preparePayload();
+    try {
+      const payload = this.preparePayload();
 
-    this.processService.process(this.processName, this.data.ids, payload, this.data.collection).subscribe({
-      next: (result) => {
-        this.statusResult = result;
+      this.processService.process(this.processName, this.data.ids, payload, this.data.collection).subscribe({
+        next: (result) => {
+          this.statusResult = result;
 
-        // Convert time to milliseconds
-        result.created *= 1000;
-        result.started *= 1000;
-        result.finished *= 1000;
-        result.updated *= 1000;
+          // Convert time to milliseconds
+          result.created *= 1000;
+          result.started *= 1000;
+          result.finished *= 1000;
+          result.updated *= 1000;
 
-        const executionObservable = timer(0, 5000);
-        this.statusSub = executionObservable.pipe(takeUntil(this.unsubscribeStatus)).subscribe(() => {
-          this.getStatus(result.jobID);
-        });
-      },
-      error: (err) => {
-        this.isProcessing = false;
-        this.hasError = true;
-        console.error(err);
-      }
-    });
+          const executionObservable = timer(0, DEFAULT_TASK_RETRIEVAL_INTERVAL);
+          this.statusSub = executionObservable.pipe(takeUntil(this.unsubscribeStatus)).subscribe(() => {
+            this.getStatus(result.jobID);
+          });
+        },
+        error: (err) => {
+          this.isProcessing = false;
+          this.hasError = true;
+          console.error(err);
+        }
+      });
+    } catch (e) {
+      console.error(e);
+      this.isProcessing = false;
+      this.hasError = true;
+    }
   }
 
   private getStatus(jobId: string) {
@@ -89,12 +127,12 @@ export abstract class AiasProcess {
       next: (job) => {
         this.statusResult = job;
         if (job.status !== ProcessStatus.accepted && job.status !== ProcessStatus.running) {
-          this.unsubscribeStatus.next(true);
+          this.unsubscribeStatus.next();
           this.isProcessing = false;
         }
       },
       error: (err) => {
-        this.unsubscribeStatus.next(true);
+        this.unsubscribeStatus.next();
         this.hasError = true;
         this.isProcessing = false;
       }

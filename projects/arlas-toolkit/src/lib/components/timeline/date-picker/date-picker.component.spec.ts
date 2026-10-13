@@ -15,6 +15,7 @@ import {
   CONFIG_UPDATER,
   FETCH_OPTIONS
 } from '../../../services/startup/startup.service';
+import { GET_OPTIONS } from '../../../tools/utils';
 import { DatePickerComponent } from './date-picker.component';
 
 export const MY_CUSTOM_FORMATS = {
@@ -57,6 +58,7 @@ describe('DatePickerComponent', () => {
         },
         { provide: FETCH_OPTIONS, useValue: {} },
         provideHttpClient(withInterceptorsFromDi()),
+        { provide: GET_OPTIONS, useValue: () => { } },
       ]
     })
       .compileComponents();

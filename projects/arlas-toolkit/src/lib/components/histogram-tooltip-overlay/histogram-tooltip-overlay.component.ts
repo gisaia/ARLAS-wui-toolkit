@@ -37,7 +37,7 @@ import { WidgetTooltipComponent } from '../widget-tooltip/widget-tooltip.compone
 })
 export class HistogramTooltipOverlayComponent {
   public interval: {
-    start: Date | number | string;
+    start?: Date | number | string;
     end?: Date | number | string;
   };
 
@@ -47,10 +47,6 @@ export class HistogramTooltipOverlayComponent {
     public overlayRef: ArlasOverlayRef,
     @Inject(HISTOGRAM_TOOLTIP_DATA) public tooltip: HistogramTooltipExtended
   ) {
-    this.calculateDate();
-  }
-
-  public calculateDate() {
     const start = this.tooltip.xStartValue;
     let end;
     if (this.tooltip.xEndValue !== null && this.tooltip.xEndValue !== undefined) {

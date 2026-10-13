@@ -18,7 +18,7 @@
  */
 
 .overlay {
-  background: #FFF;
+  background: var(--arlas-progress-spinner-overlay, var(--mat-sys-surface));
   opacity: 0.65;
   width: -webkit-fill-available;
   height: -webkit-fill-available;

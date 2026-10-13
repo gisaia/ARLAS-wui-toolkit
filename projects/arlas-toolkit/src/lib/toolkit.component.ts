@@ -34,10 +34,7 @@ import { ArlasWalkthroughService } from './services/walkthrough/walkthrough.serv
 })
 export class ToolkitComponent implements AfterViewInit, OnInit, OnDestroy {
 
-  public analytics: Array<any>;
-  public languages: string[];
   public analyticsOpen = false;
-  public target: string;
 
   public constructor(
     private readonly configService: ArlasConfigService,
@@ -76,7 +73,7 @@ export class ToolkitComponent implements AfterViewInit, OnInit, OnDestroy {
     this.location.subscribe(x => {
       if (!this.arlasStartupService.emptyMode) {
         let dataModel = {};
-        x.url.split('&').forEach(param => {
+        x.url?.split('&').forEach(param => {
           if (param.split('filter=')[1]) {
             dataModel = this.collaborativeService.dataModelBuilder(decodeURI(param.split('filter=')[1]), true);
           }
@@ -87,8 +84,9 @@ export class ToolkitComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   public ngAfterViewInit(): void {
-    if (this.configService.getConfig()?.['error'] !== undefined) {
-      this.configService.confErrorBus.next(this.configService.getConfig()['error']);
+    const config = this.configService.getConfig() as Record<string, any>;
+    if (config?.['error'] !== undefined) {
+      this.configService.confErrorBus.next(config['error']);
     } else if (this.arlasStartupService.shouldRunApp) {
       interval(400).pipe(take(1)).subscribe(() => {
         const filter = this.activatedRoute.snapshot.queryParams['filter'];

@@ -17,6 +17,20 @@
  * under the License.
  */
 
+:host {
+  --arlas-search-border-color: #a1a1a1;
+  --arlas-search-icon-color: grey;
+  --arlas-search-text-color: var(--mat-sys-primary);
+  --arlas-search-placeholder-color: grey;
+}
+
+.dark-theme{
+  :host {
+    --arlas-search-icon-color:  var(--mat-sys-on-background);
+    --arlas-search-placeholder-color:  var(--mat-sys-on-background);
+  }
+}
+
 
 $search-height: 30px;
 
@@ -24,7 +38,7 @@ $search-height: 30px;
   min-width: 150px;
   display: flex;
   align-items: center;
-  border: 1px solid #a1a1a1;
+  border: 1px solid var(--arlas-search-border-color, #a1a1a1);
   border-radius: 4px;
   height: $search-height;
   margin-left: -2px;
@@ -32,12 +46,12 @@ $search-height: 30px;
 
   .search {
     margin: 0 4px;
-    color: grey;
+    color: var(--arlas-search-icon-color, grey);
   }
 
   .search-text {
-    color: black;
-    font-size: 14px;
+    color: var(--arlas-search-text-color, black);
+    font-size: var(--arlas-sys-content-font-size);
     margin-right: auto;
     cursor: pointer;
     width: 150px;
@@ -48,16 +62,16 @@ $search-height: 30px;
   }
 
   .search-text-empty {
-    color: grey;
+    color: var(--arlas-search-placeholder-color, grey);
   }
 
   .close {
     padding: 0;
 
     .icon {
-      font-size: 16px;
-      height: 16px;
-      width: 16px;
+      font-size: var(--arlas-sys-minor-icon-size);
+      height: var(--arlas-sys-minor-icon-size);
+      width: var(--arlas-sys-minor-icon-size);
     }
   }
 }

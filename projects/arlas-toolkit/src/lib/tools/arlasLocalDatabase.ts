@@ -17,9 +17,8 @@
  * under the License.
  */
 
-import { BehaviorSubject, map, Observable, of } from 'rxjs';
-import { sortOnDate, ArlasStorageObject } from './utils';
-import { mergeMap } from 'rxjs/operators';
+import { BehaviorSubject, map, mergeMap, Observable, of } from 'rxjs';
+import { ArlasStorageObject, sortOnDate } from './utils';
 
 export class ArlasLocalDatabase<T extends ArlasStorageObject> {
   /** Stream that emits whenever the data has been modified. */
@@ -34,9 +33,10 @@ export class ArlasLocalDatabase<T extends ArlasStorageObject> {
   public constructor(storageKey: string = 'storage_object', additionalObject?: any) {
     this.storageKey = storageKey;
 
-    if (localStorage.getItem(this.storageKey) !== null) {
-      const copiedData = [];
-      Array.from(JSON.parse(localStorage.getItem(this.storageKey))).forEach((obj: T) => {
+    const storedValue = localStorage.getItem(this.storageKey);
+    if (storedValue !== null) {
+      const copiedData = new Array<T>();
+      Array.from<T>(JSON.parse(storedValue)).forEach((obj: T) => {
         const newObj: T = this.init(obj, additionalObject);
         copiedData.push(newObj);
         this.storageObjectMap.set(obj.id, newObj);
@@ -69,7 +69,7 @@ export class ArlasLocalDatabase<T extends ArlasStorageObject> {
   public remove(id: string): Observable<void> {
     return of(true).pipe(map(v => {
       const copiedData = this.data.slice();
-      const newData = [];
+      const newData = new Array<T>();
       copiedData.forEach((u: T) => {
         if (u.id !== id) {
           newData.push(u);

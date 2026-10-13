@@ -20,8 +20,8 @@
 export { AdmonitionCardComponent } from './lib/components/admonition-card/admonition-card.component';
 export { AiasDownloadComponent, DOWNLOAD_PROCESS_NAME } from './lib/components/aias/aias-download/aias-download.component';
 export { AiasEnrichComponent, ENRICH_PROCESS_NAME } from './lib/components/aias/aias-enrich/aias-enrich.component';
+export { AiasDownloadDialogData, AiasProcess, AiasProcessDialogData } from './lib/components/aias/aias-process';
 export { AiasResultComponent } from './lib/components/aias/aias-result/aias-result.component';
-export { AiasProcess, AiasProcessDialogData, AiasDownloadDialogData } from './lib/components/aias/aias-process';
 export { AnalyticsBoardComponent } from './lib/components/analytics/analytics-board/analytics-board.component';
 export { AnalyticsMenuComponent } from './lib/components/analytics/analytics-menu/analytics-menu.component';
 export {
@@ -72,9 +72,9 @@ export { ShareComponent, ShareDialogComponent, ShareLayerSourceConfig } from './
 export { TagComponent, TagDialogComponent, TagManagementDialogComponent } from './lib/components/tag/tag.component';
 export { ArlasTranslateIntl } from './lib/components/timeline/date-picker/ArlasTranslateIntl';
 export { DatePickerComponent } from './lib/components/timeline/date-picker/date-picker.component';
-export { ARLAS_DATE_TIME_FORMATS }  from './lib/components/timeline/date-picker/date-time-formats.token';
-export { DEFAULT_OWL_DATE_TIME_FORMATS_VALUE }  from './lib/components/timeline/date-picker/date-time-formats.token';
-export { ARLAS_OWL_MOMENT_ADAPTER_OPTIONS_OVERRIDE } from './lib/components/timeline/date-picker/date-time-formats.token';
+export {
+  ARLAS_DATE_TIME_FORMATS, ARLAS_OWL_MOMENT_ADAPTER_OPTIONS_OVERRIDE, DEFAULT_OWL_DATE_TIME_FORMATS_VALUE
+} from './lib/components/timeline/date-picker/date-time-formats.token';
 export { TimelineShortcutComponent } from './lib/components/timeline/timeline-shortcut/timeline-shortcut.component';
 export { TimelineComponent } from './lib/components/timeline/timeline/timeline.component';
 export { CollectionLegend, TimelineConfiguration } from './lib/components/timeline/timeline/timeline.utils';
@@ -94,6 +94,7 @@ export { Aoi } from './lib/services/aoi/model';
 export { ArlasAuthentificationService } from './lib/services/arlas-authentification/arlas-authentification.service';
 export { ARLAS_ORG_FILTER, ArlasIamService } from './lib/services/arlas-iam/arlas-iam.service';
 export { AuthGuardIamService } from './lib/services/arlas-iam/auth-guard-iam.service';
+export { ArlasTaskService } from './lib/services/arlas.task.service';
 export { AuthentificationService } from './lib/services/authentification/authentification.service';
 export { ArlasBookmarkService } from './lib/services/bookmark/bookmark.service';
 export { BookmarkDataSource } from './lib/services/bookmark/bookmarkDataSource';
@@ -116,14 +117,13 @@ export { ArlasMapService } from './lib/services/map/map.service';
 export { ArlasOverlayService, ToolTipConfig } from './lib/services/overlays/overlay.service';
 export { PermissionService, PermissionSetting } from './lib/services/permission/permission.service';
 export { PersistenceService, PersistenceSetting } from './lib/services/persistence/persistence.service';
-export { ProcessService } from './lib/services/process/process.service';
+export { ProcessService, ValidatedProcessFieldOption } from './lib/services/process/process.service';
 export { ArlasSettingsService } from './lib/services/settings/arlas.settings.service';
 export { ContributorBuilder } from './lib/services/startup/contributorBuilder';
 export {
   ArlasConfigService, ArlasExploreApi, ArlasIamApi, ArlasSettings,
   ArlasStartupService, CONFIG_UPDATER, Error, ExtraConfig, FETCH_OPTIONS, LinkSettings
 } from './lib/services/startup/startup.service';
-export { TaggerResponse } from './lib/services/tag/model';
 export { ArlasTagService } from './lib/services/tag/tag.service';
 export { ArlasWalkthroughModule, WalkthroughModuleConfig } from './lib/services/walkthrough/walkthrough.module';
 export { ArlasWalkthroughService } from './lib/services/walkthrough/walkthrough.service';
@@ -152,7 +152,7 @@ export { PaginatorI18n } from './lib/tools/paginatori18n';
 export { ProcessOutput, ProcessStatus } from './lib/tools/process.interface';
 export {
   ArlasOverlayRef, ArlasStorageObject, ArlasStorageType, AuthentSetting, CollectionCount, CollectionUnit, Config, CONFIG_ID_QUERY_PARAM,
-  ConfigAction, ConfigActionEnum, DONUT_TOOLTIP_DATA, GET_OPTIONS, getFieldProperties, getKeyForColor, getParamValue, hashCode,
+  ConfigAction, ConfigActionEnum, DONUT_TOOLTIP_DATA, GET_OPTIONS, getFieldProperties, getKeyForColor, GetOptions, getParamValue, hashCode,
   HISTOGRAM_TOOLTIP_DATA, intToRGB, MapService, NOT_CONFIGURED, sortOnDate, SpinnerOptions, WidgetConfiguration, ZoomToDataStrategy
 } from './lib/tools/utils';
 

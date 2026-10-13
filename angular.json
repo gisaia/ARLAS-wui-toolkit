@@ -37,6 +37,7 @@
             ],
             "styles": [
               "src/styles.css",
+              "src/theme.scss",
               "node_modules/arlas-web-components/assets/styles.css"
             ],
             "scripts": [],
