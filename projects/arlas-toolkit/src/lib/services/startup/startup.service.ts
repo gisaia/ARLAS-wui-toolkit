@@ -365,10 +365,8 @@ export class ArlasStartupService {
         .catch(err => {
           this.shouldRunApp = false;
           if (err instanceof Response) {
-            err.json().then(r => {
-              console.error(r);
-              this.errorService.emitBackendError(r.status, r.message, 'ARLAS-server');
-            });
+            console.error(err);
+            this.errorService.emitBackendError(err.status, err.statusText, 'ARLAS-server');
           } else {
             console.error(err);
             this.errorService.emitUnavailableService('ARLAS-server');
@@ -580,10 +578,8 @@ export class ArlasStartupService {
             }).catch((err) => {
               if (err instanceof Response) {
                 this.emptyMode = true;
-                err.json().then(r => {
-                  console.error(r);
-                  this.errorService.emitUnavailableService('ARLAS-persistence');
-                });
+                console.error(err);
+                this.errorService.emitUnavailableService('ARLAS-persistence');
                 return null;
               } else {
                 this.shouldRunApp = false;
@@ -829,10 +825,8 @@ export class ArlasStartupService {
       .catch((err: any) => {
         this.shouldRunApp = false;
         if (err instanceof Response) {
-          err.json().then(r => {
-            console.error(r);
-            this.errorService.emitBackendError(r.status, r.message, '');
-          });
+          console.error(err);
+          this.errorService.emitBackendError(err.status, err.statusText, '');
         } else {
           console.error(err);
           this.errorService.emitUnavailableService('');
@@ -862,7 +856,7 @@ export class ArlasStartupService {
       component = g.components.find(c => c.uuid === uuid);
       if (component) {
         if (component.componentType === 'histogram') {
-          clonedComponent = {...component};
+          clonedComponent = { ...component };
           clonedComponent.contributorId = uuid;
           return clonedComponent;
         }
