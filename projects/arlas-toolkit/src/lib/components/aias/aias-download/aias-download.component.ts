@@ -44,7 +44,7 @@ export interface AiasDownloadPayload {
   raw_archive: boolean | null | undefined;
   target_format: string | null | undefined;
   target_projection: string | null | undefined;
-  crop_wkt?: string | null | undefined;
+  crop_wkt?: string | null;
 }
 
 @Component({
