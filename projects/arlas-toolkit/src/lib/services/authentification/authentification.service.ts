@@ -120,7 +120,7 @@ export class AuthentificationService extends ArlasAuthentificationService {
           } else {
             console.error('Authentication config error : if useDiscovery ' +
               'is set to false in configuration, tokenEndpoint, userinfoEndpoint, loginUrl and jwksEndpoint must be defined.');
-            return Promise.reject();
+            return Promise.reject(new Error('Authentication config error'));
           }
         }
       }
