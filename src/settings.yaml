@@ -8,6 +8,7 @@ authentication:
   threshold: 5000
   url: https://localhost/arlas_iam_server
   sign_up_enabled: true
+
   use_discovery: true
   issuer: https://localhost:9443/auth/realms/arlas
   client_id: arlas-front

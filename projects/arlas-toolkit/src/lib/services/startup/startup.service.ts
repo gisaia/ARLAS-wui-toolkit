@@ -580,6 +580,7 @@ export class ArlasStartupService {
                 this.emptyMode = true;
                 console.error(err);
                 this.errorService.emitUnavailableService('ARLAS-persistence');
+                return null;
               } else {
                 this.shouldRunApp = false;
                 this.errorService.emitInvalidDashboardError(false, marker('The dashboard is invalid'));
