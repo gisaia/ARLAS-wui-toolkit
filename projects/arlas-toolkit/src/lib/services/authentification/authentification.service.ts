@@ -115,12 +115,12 @@ export class AuthentificationService extends ArlasAuthentificationService {
               .then(jwks => {
                 this.authConfig = this.getAuthConfig(this.authSettings, jwks);
                 this.setupAuthService(storage);
-                return this.runInitialLoginSequence(false, this.authSettings.force_connect);
+                this.runInitialLoginSequence(false, this.authSettings.force_connect);
               });
           } else {
             console.error('Authentication config error : if useDiscovery ' +
               'is set to false in configuration, tokenEndpoint, userinfoEndpoint, loginUrl and jwksEndpoint must be defined.');
-            return Promise.reject('Authentication config error');
+            return Promise.reject(new Error('Authentication config error'));
           }
         }
       }
