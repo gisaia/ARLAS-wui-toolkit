@@ -203,12 +203,14 @@ export class SearchComponent implements OnInit {
 
   public clearSearch() {
     this.displayedSearchValue.set(this.searchPlaceholder());
+
     const configDebounceTime = this.configService.getValue('arlas.server.debounceCollaborationTime');
     const debounceDuration = configDebounceTime !== undefined ? configDebounceTime : 750;
-    for (let i = 0; i < this.searchContributors.length; i++) {
+    for (let i = 0; i < this.searchContributors().length; i++) {
+      // Add a timeout between filter removals so that the collaborationBus can handle them
       setTimeout(() => {
         this.collaborativeService.removeFilter(this.searchContributors()[i].identifier);
-      }, (i) * ((debounceDuration + 100) * 1.5));
+      }, i * (debounceDuration + 100) /** Multiplication to make sure that there is enough time, no matter the debounceDuration */ * 1.5);
     }
   }
 }
