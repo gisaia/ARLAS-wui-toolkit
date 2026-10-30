@@ -28,7 +28,8 @@
 
     ::ng-deep.mat-mdc-icon-button.mat-mdc-button-base {
         padding: 0;
-        --mdc-icon-button-state-layer-size: 24px;
+        --mat-icon-button-state-layer-size: 24px;
+        --mat-icon-button-touch-target-size: 24px;
     }
 }
 
