@@ -4,56 +4,20 @@
       "contributors": [
         {
           "type": "map",
-          "identifier": "demo_eo",
-          "name": "Map demo_eo",
-          "collection": "demo_eo",
+          "identifier": "demo_eo_objects",
+          "name": "Map demo_eo_objects",
+          "collection": "demo_eo_objects",
           "geo_query_op": "Intersects",
-          "geo_query_field": "_geometry_wkt",
+          "geo_query_field": "center_geom",
+          "window_extent_geometry": "geometry_path",
           "icon": "check_box_outline_blank",
           "layers_sources": [
             {
-              "id": "arlas_id:Latest products:1696925765098",
-              "name": "Latest products",
-              "source": "feature-_geometry_wkt-window-demo_eo",
+              "id": "arlas_id:Distribution:1741629939921",
+              "name": "Distribution",
+              "source": "cluster-center_geom-Medium-h3-cell-demo_eo_objects",
               "minzoom": 0,
-              "maxzoom": 22,
-              "include_fields": [
-                "metadata.ObservationContext.processusUsed.platform"
-              ],
-              "short_form_fields": [],
-              "colors_from_fields": [
-                "metadata.ObservationContext.processusUsed.platform"
-              ],
-              "provided_fields": [],
-              "normalization_fields": [],
-              "metrics": [],
-              "returned_geometry": "_geometry_wkt",
-              "render_mode": "window"
-            },
-            {
-              "id": "arlas_id:Products:1696926758346",
-              "name": "Products",
-              "source": "feature-_geometry_wkt-wide-demo_eo",
-              "minzoom": 0,
-              "maxzoom": 22,
-              "include_fields": [
-                "metadata.ObservationContext.processusUsed.platform"
-              ],
-              "short_form_fields": [],
-              "colors_from_fields": [],
-              "provided_fields": [],
-              "normalization_fields": [],
-              "metrics": [],
-              "maxfeatures": 5000,
-              "returned_geometry": "_geometry_wkt",
-              "render_mode": "wide"
-            },
-            {
-              "id": "arlas_id:Density of products:1696925833059",
-              "name": "Density of products",
-              "source": "cluster-_centroid_wkt-Coarse-tile-centroid-demo_eo",
-              "minzoom": 0,
-              "maxzoom": 15,
+              "maxzoom": 12,
               "include_fields": [],
               "short_form_fields": [],
               "colors_from_fields": [],
@@ -64,93 +28,19 @@
                   "field": "",
                   "metric": "count",
                   "normalize": true
-                },
-                {
-                  "field": "",
-                  "metric": "count",
-                  "normalize": true
-                },
-                {
-                  "field": "",
-                  "metric": "count",
-                  "normalize": true
-                },
-                {
-                  "field": "",
-                  "metric": "count",
-                  "normalize": true
                 }
               ],
-              "agg_geo_field": "_centroid_wkt",
-              "aggType": "tile",
-              "granularity": "Coarse",
-              "minfeatures": 5000,
-              "aggregated_geometry": "centroid"
-            },
-            {
-              "id": "arlas_id:Product density grid:1727968476197",
-              "name": "Product density grid",
-              "source": "cluster-_centroid_wkt-Medium-h3-cell-demo_eo",
-              "minzoom": 0,
-              "maxzoom": 15,
-              "include_fields": [],
-              "short_form_fields": [],
-              "colors_from_fields": [],
-              "provided_fields": [],
-              "normalization_fields": [],
-              "metrics": [
-                {
-                  "field": "",
-                  "metric": "count",
-                  "normalize": true
-                },
-                {
-                  "field": "",
-                  "metric": "count",
-                  "normalize": true
-                }
-              ],
-              "agg_geo_field": "_centroid_wkt",
+              "agg_geo_field": "center_geom",
               "aggType": "h3",
               "granularity": "Medium",
-              "minfeatures": 1000,
+              "minfeatures": 0,
               "aggregated_geometry": "cell"
             },
             {
-              "id": "arlas_id:Number of products:1727968375321",
-              "name": "Number of products",
-              "source": "cluster-_centroid_wkt-Coarse-h3-centroid-demo_eo",
-              "minzoom": 0,
-              "maxzoom": 15,
-              "include_fields": [],
-              "short_form_fields": [],
-              "colors_from_fields": [],
-              "provided_fields": [],
-              "normalization_fields": [],
-              "metrics": [
-                {
-                  "field": "",
-                  "metric": "count",
-                  "normalize": true
-                },
-                {
-                  "field": "",
-                  "metric": "count",
-                  "normalize": false,
-                  "short_format": true
-                }
-              ],
-              "agg_geo_field": "_centroid_wkt",
-              "aggType": "h3",
-              "granularity": "Coarse",
-              "minfeatures": 1000,
-              "aggregated_geometry": "centroid"
-            },
-            {
-              "id": "arlas_id:Heatmap:1697197287204",
-              "name": "Heatmap",
-              "source": "cluster-_centroid_wkt-Fine-tile-cell_center-demo_eo",
-              "minzoom": 1,
+              "id": "arlas_id:Distribution:1726495334494",
+              "name": "Distribution",
+              "source": "cluster-center_geom-Medium-h3-cell-demo_eo_objects",
+              "minzoom": 12,
               "maxzoom": 23,
               "include_fields": [],
               "short_form_fields": [],
@@ -164,18 +54,165 @@
                   "normalize": true
                 }
               ],
-              "agg_geo_field": "_centroid_wkt",
-              "aggType": "tile",
-              "granularity": "Fine",
-              "minfeatures": 1000,
-              "aggregated_geometry": "cell_center"
+              "agg_geo_field": "center_geom",
+              "aggType": "h3",
+              "granularity": "Medium",
+              "minfeatures": 5000,
+              "aggregated_geometry": "cell"
+            },
+            {
+              "id": "arlas_id:Bounding box:1725898236413",
+              "name": "Bounding box",
+              "source": "feature-geometry-wide-demo_eo_objects",
+              "minzoom": 12,
+              "maxzoom": 23,
+              "include_fields": [],
+              "short_form_fields": [],
+              "colors_from_fields": [],
+              "provided_fields": [],
+              "normalization_fields": [],
+              "metrics": [],
+              "maxfeatures": 5000,
+              "returned_geometry": "geometry",
+              "render_mode": "wide"
+            },
+            {
+              "id": "arlas_id:Boundig box:1725955678342",
+              "name": "Boundig box",
+              "source": "feature-geometry-wide-demo_eo_objects",
+              "minzoom": 12,
+              "maxzoom": 23,
+              "include_fields": [],
+              "short_form_fields": [],
+              "colors_from_fields": [
+                "type_id"
+              ],
+              "provided_fields": [],
+              "normalization_fields": [],
+              "metrics": [],
+              "maxfeatures": 5000,
+              "returned_geometry": "geometry",
+              "render_mode": "wide"
+            },
+            {
+              "id": "arlas_id:Boundig box (preview):1782111528647",
+              "name": "Boundig box (preview)",
+              "source": "feature-geometry-wide-demo_eo_objects",
+              "minzoom": 12,
+              "maxzoom": 23,
+              "include_fields": [],
+              "short_form_fields": [],
+              "colors_from_fields": [
+                "type_id"
+              ],
+              "provided_fields": [],
+              "normalization_fields": [],
+              "metrics": [],
+              "maxfeatures": 5000,
+              "returned_geometry": "geometry",
+              "render_mode": "wide"
+            },
+            {
+              "id": "arlas_id:Info:1782111538860",
+              "name": "Info",
+              "source": "feature-geometry-window-demo_eo_objects",
+              "minzoom": 12,
+              "maxzoom": 23,
+              "include_fields": [],
+              "short_form_fields": [],
+              "colors_from_fields": [],
+              "provided_fields": [],
+              "normalization_fields": [],
+              "metrics": [],
+              "returned_geometry": "geometry",
+              "render_mode": "window"
+            },
+            {
+              "id": "arlas_id:Bounding Box:1727193982726",
+              "name": "Bounding Box",
+              "source": "feature-metric-image_id-image_geom--1-demo_eo_objects",
+              "minzoom": 0,
+              "maxzoom": 23,
+              "include_fields": [],
+              "short_form_fields": [],
+              "colors_from_fields": [],
+              "provided_fields": [],
+              "normalization_fields": [],
+              "metrics": [],
+              "maxfeatures": 10000,
+              "raw_geometry": {
+                "geometry": "image_geom",
+                "sort": ""
+              },
+              "geometry_id": "image_id",
+              "network_fetching_level": 1
+            },
+            {
+              "id": "arlas_id:Bounding Box background:1727194160874",
+              "name": "Bounding Box background",
+              "source": "feature-metric-image_id-image_geom--1-demo_eo_objects",
+              "minzoom": 0,
+              "maxzoom": 23,
+              "include_fields": [],
+              "short_form_fields": [],
+              "colors_from_fields": [],
+              "provided_fields": [],
+              "normalization_fields": [],
+              "metrics": [],
+              "maxfeatures": 10000,
+              "raw_geometry": {
+                "geometry": "image_geom",
+                "sort": ""
+              },
+              "geometry_id": "image_id",
+              "network_fetching_level": 1
+            },
+            {
+              "id": "arlas_id:Type:1727338872737",
+              "name": "Type",
+              "source": "feature-geometry-wide-demo_eo_objects",
+              "minzoom": 19,
+              "maxzoom": 23,
+              "include_fields": [
+                "type_id"
+              ],
+              "short_form_fields": [],
+              "colors_from_fields": [
+                "type_id"
+              ],
+              "provided_fields": [],
+              "normalization_fields": [],
+              "metrics": [],
+              "maxfeatures": 5000,
+              "returned_geometry": "geometry",
+              "render_mode": "wide"
             }
           ]
         },
         {
           "type": "search",
-          "identifier": "search_demo_eo_internal.fulltext_internal.autocomplete",
-          "collection": "demo_eo",
+          "identifier": "search_demo_eo_objects_internal.fulltext_internal.autocomplete",
+          "collection": "demo_eo_objects",
+          "search_field": "internal.fulltext",
+          "name": "Search...",
+          "icon": "search",
+          "autocomplete_field": "internal.autocomplete",
+          "autocomplete_size": 10
+        },
+        {
+          "type": "search",
+          "identifier": "search_demo_flickr_internal.fulltext_internal.autocomplete",
+          "collection": "demo_flickr",
+          "search_field": "internal.fulltext",
+          "name": "Search...",
+          "icon": "search",
+          "autocomplete_field": "internal.autocomplete",
+          "autocomplete_size": 10
+        },
+        {
+          "type": "search",
+          "identifier": "search_demo_birdtracking-movebank_internal.fulltext_internal.autocomplete",
+          "collection": "demo_birdtracking-movebank",
           "search_field": "internal.fulltext",
           "name": "Search...",
           "icon": "search",
@@ -185,197 +222,127 @@
         {
           "type": "histogram",
           "identifier": "timeline",
-          "collection": "demo_eo",
+          "collection": "demo_eo_objects",
           "name": "Timeline",
           "icon": "watch_later",
           "isOneDimension": false,
           "useUtc": true,
-          "numberOfBuckets": 90,
+          "numberOfBuckets": 50,
           "aggregationmodels": [
             {
               "type": "datehistogram",
-              "field": "metadata.ObservationContext.phenomenonTime.begin"
-            }
-          ],
-          "additionalCollections": [
-            {
-              "collectionName": "demo_sea_phys_bcg",
               "field": "timestamp"
             }
-          ]
+          ],
+          "additionalCollections": []
         },
         {
-          "identifier": "demo_eo-metadata.core.identity.identifier-80-Capteur-Date-Couverture nuageuse-Angle d'incidence-Toponymie-Identification-Fiche technique-Niveaux de produits et de processing-Mode d'acquisition-",
-          "name": "DATA",
-          "title": "DATA",
-          "collection": "demo_eo",
+          "identifier": "demo_eo_objects-object_id-100-Identifier-Ingest time-Type-Object-Image-",
+          "name": "Objects",
+          "title": "Objects",
+          "collection": "demo_eo_objects",
           "icon": "table_chart",
           "type": "resultlist",
-          "search_size": 80,
+          "search_size": 100,
           "fieldsConfiguration": {
-            "idFieldName": "metadata.core.identity.identifier",
+            "idFieldName": "object_id",
             "titleFieldNames": [
               {
-                "fieldPath": "metadata.ObservationContext.processusUsed.platform",
+                "fieldPath": "type_id",
                 "process": ""
               }
             ],
             "tooltipFieldNames": [
               {
-                "fieldPath": "metadata.ObservationContext.processusUsed.platform",
+                "fieldPath": "object_id",
                 "process": ""
               }
             ],
-            "iconColorFieldName": "metadata.ObservationContext.processusUsed.platform",
-            "urlThumbnailTemplate": "{metadata.core.graphics.thumbnail}",
+            "iconColorFieldName": "type_id",
+            "useHttpQuicklooks": false,
+            "useHttpThumbnails": false,
+            "urlThumbnailTemplate": "https://storage.googleapis.com/gisaia-public/demo/eo_objects/xView/objects_thumbnail/jpg/{object_id}.jpg",
             "urlImageTemplates": [
               {
-                "url": "{metadata.core.graphics.quicklook}",
-                "description": ""
+                "url": "https://storage.googleapis.com/gisaia-public/demo/eo_objects/xView/objects_thumbnail/jpg/{object_id}.jpg",
+                "description": "Object"
+              },
+              {
+                "url": "https://storage.googleapis.com/gisaia-public/demo/eo_objects/xView/train_images_jpg/{image_number}.jpg",
+                "description": "Image"
               }
             ]
           },
           "columns": [
             {
-              "columnName": "Capteur",
-              "fieldName": "metadata.ObservationContext.processusUsed.platform",
+              "columnName": "Identifier",
+              "fieldName": "object_id",
+              "dataType": "",
+              "process": "",
+              "useColorService": false,
+              "sort": ""
+            },
+            {
+              "columnName": "Ingest time",
+              "fieldName": "ingest_time",
+              "dataType": "",
+              "process": "",
+              "useColorService": false,
+              "sort": ""
+            },
+            {
+              "columnName": "Type",
+              "fieldName": "type_id",
               "dataType": "",
               "process": "",
               "useColorService": true,
-              "sort": ""
-            },
-            {
-              "columnName": "Date",
-              "fieldName": "metadata.ObservationContext.phenomenonTime.begin",
-              "dataType": "",
-              "process": "(new Date(result)).toUTCString().split(',')[1] !== undefined ? (new Date(result)).toUTCString().split(',')[1].replace('GMT', '') :'undefined'",
-              "useColorService": false,
-              "sort": "desc"
-            },
-            {
-              "columnName": "Couverture nuageuse",
-              "fieldName": "metadata.ObservationContext.eo.opt.cloudCoverPercentage",
-              "dataType": "%",
-              "process": "",
-              "useColorService": false,
-              "sort": ""
-            },
-            {
-              "columnName": "Angle d'incidence",
-              "fieldName": "metadata.ObservationContext.eo.acquisition.incidenceAngle",
-              "dataType": "°",
-              "process": "",
-              "useColorService": false,
               "sort": ""
             }
           ],
           "details": [
             {
-              "name": "Toponymie",
+              "name": "Object",
               "order": 1,
               "fields": [
                 {
-                  "path": "_keywords.country",
-                  "label": "Pays",
+                  "path": "object_id",
+                  "label": "Identifier",
                   "process": ""
                 },
                 {
-                  "path": "_keywords.state",
-                  "label": "Etat",
+                  "path": "type_id",
+                  "label": "Type",
                   "process": ""
                 },
                 {
-                  "path": "_keywords.region",
-                  "label": "Région",
+                  "path": "edited_by",
+                  "label": "Edited by",
                   "process": ""
                 },
                 {
-                  "path": "_keywords.city",
-                  "label": "Ville",
+                  "path": "ingest_time",
+                  "label": "Ingest time",
+                  "process": ""
+                },
+                {
+                  "path": "bounds_imcoords",
+                  "label": "Coordinates in image",
                   "process": ""
                 }
               ]
             },
             {
-              "name": "Identification",
+              "name": "Image",
               "order": 2,
               "fields": [
                 {
-                  "path": "metadata.core.identity.identifier",
-                  "label": "Identifiant",
+                  "path": "dataset_source",
+                  "label": "Dataset",
                   "process": ""
                 },
                 {
-                  "path": "metadata.core.identity.collection",
-                  "label": "Plateforme",
-                  "process": ""
-                }
-              ]
-            },
-            {
-              "name": "Fiche technique",
-              "order": 3,
-              "fields": [
-                {
-                  "path": "_resolution",
-                  "label": "Résolution",
-                  "process": ""
-                },
-                {
-                  "path": "metadata.ObservationContext.eo.acquisition.incidenceAngle",
-                  "label": "Angle d'incidence",
-                  "process": ""
-                },
-                {
-                  "path": "metadata.ObservationContext.eo.opt.cloudCoverPercentage",
-                  "label": "Couverture nuageuse",
-                  "process": ""
-                },
-                {
-                  "path": "metadata.ObservationContext.eo.opt.snowCoverPercentage",
-                  "label": "Couverture neigeuse",
-                  "process": ""
-                },
-                {
-                  "path": "metadata.ObservationContext.eo.opt.waterCoverPercentage",
-                  "label": "Couverture d'eau",
-                  "process": ""
-                }
-              ]
-            },
-            {
-              "name": "Niveaux de produits et de processing",
-              "order": 4,
-              "fields": [
-                {
-                  "path": "metadata.core.description.processingLevel",
-                  "label": "Niveau de produit",
-                  "process": ""
-                },
-                {
-                  "path": "_keywords.Discipline",
-                  "label": "Discipline",
-                  "process": ""
-                }
-              ]
-            },
-            {
-              "name": "Mode d'acquisition",
-              "order": 5,
-              "fields": [
-                {
-                  "path": "metadata.ObservationContext.processusUsed.platform",
-                  "label": "Capteur",
-                  "process": ""
-                },
-                {
-                  "path": "metadata.ObservationContext.processusUsed.sensor.mode",
-                  "label": "Mode",
-                  "process": ""
-                },
-                {
-                  "path": "metadata.ObservationContext.processusUsed.instrument",
-                  "label": "Instrument",
+                  "path": "image_id",
+                  "label": "Identifier",
                   "process": ""
                 }
               ]
@@ -386,60 +353,50 @@
         {
           "type": "detailedhistogram",
           "identifier": "detailedTimeline",
-          "collection": "demo_eo",
+          "collection": "demo_eo_objects",
           "name": "Timeline",
           "icon": "watch_later",
           "isOneDimension": false,
           "useUtc": true,
-          "numberOfBuckets": 90,
+          "numberOfBuckets": 50,
           "aggregationmodels": [
             {
               "type": "datehistogram",
-              "field": "metadata.ObservationContext.phenomenonTime.begin"
+              "field": "timestamp"
             }
           ],
           "annexedContributorId": "timeline",
-          "selectionExtentPercentage": 0.2,
-          "additionalCollections": [
-            {
-              "collectionName": "demo_sea_phys_bcg",
-              "field": "timestamp"
-            }
-          ]
+          "selectionExtentPercentage": 0.02,
+          "additionalCollections": []
         },
         {
-          "identifier": "demo_eo-_sensorType-10-metadata.ObservationContext.processusUsed.platform-10-",
-          "name": "Sensor",
-          "title": "Sensor",
-          "collection": "demo_eo",
-          "icon": "camera",
+          "identifier": "demo_eo_objects-type_id-30-",
+          "name": "Object type",
+          "title": "Object type",
+          "collection": "demo_eo_objects",
+          "icon": "emoji_transportation",
           "type": "tree",
           "aggregationmodels": [
             {
-              "field": "_sensorType",
-              "size": 10,
-              "type": "term"
-            },
-            {
-              "field": "metadata.ObservationContext.processusUsed.platform",
-              "size": 10,
+              "field": "type_id",
+              "size": 30,
               "type": "term"
             }
           ]
         },
         {
-          "identifier": "demo_eo-metadata.ObservationContext.processusUsed.platform-6-Count-desc-count",
-          "name": "Collections",
-          "title": "Collections",
-          "collection": "demo_eo",
-          "icon": "camera",
+          "identifier": "demo_eo_objects-type_id-500-Count-desc-count",
+          "name": "Object type",
+          "title": "Object type",
+          "collection": "demo_eo_objects",
+          "icon": "emoji_transportation",
           "type": "tree",
           "jsonpath": "$.count",
           "aggregationmodels": [
             {
               "type": "term",
-              "field": "metadata.ObservationContext.processusUsed.platform",
-              "size": 6,
+              "field": "type_id",
+              "size": 500,
               "order": "desc",
               "on": "count"
             }
@@ -448,47 +405,17 @@
           "allowOperatorChange": true
         },
         {
-          "identifier": "demo_eo-metadata.core.identity.lifecycle.created-time-bucket-Count--50_keywords.country",
-          "name": "Acquisition per country over time",
-          "title": "Acquisition per country over time",
-          "collection": "demo_eo",
-          "icon": "assistant_photo",
-          "type": "swimlane",
-          "numberOfBuckets": 50,
-          "swimlanes": [
-            {
-              "id": 1,
-              "name": "Acquisition per country over time",
-              "xAxisField": "metadata.core.identity.lifecycle.created",
-              "termField": "_keywords.country",
-              "aggregationmodels": [
-                {
-                  "type": "term",
-                  "field": "_keywords.country",
-                  "size": 5
-                },
-                {
-                  "type": "datehistogram",
-                  "field": "metadata.core.identity.lifecycle.created"
-                }
-              ],
-              "useUtc": true,
-              "jsonpath": "$.count"
-            }
-          ]
-        },
-        {
-          "identifier": "demo_eo-_keywords.country-10-Count-desc-count",
-          "name": "Countries",
-          "title": "Countries",
-          "collection": "demo_eo",
-          "icon": "add_location",
+          "identifier": "demo_eo_objects-dataset_source-10-Count-desc-count",
+          "name": "Source",
+          "title": "Source",
+          "collection": "demo_eo_objects",
+          "icon": "storage",
           "type": "tree",
           "jsonpath": "$.count",
           "aggregationmodels": [
             {
               "type": "term",
-              "field": "_keywords.country",
+              "field": "dataset_source",
               "size": 10,
               "order": "desc",
               "on": "count"
@@ -498,18 +425,18 @@
           "allowOperatorChange": true
         },
         {
-          "identifier": "demo_eo-_keywords.city-10-Count-desc-count",
-          "name": "Cities",
-          "title": "Cities",
-          "collection": "demo_eo",
-          "icon": "add_location",
+          "identifier": "demo_eo_objects-image_id-500-Count-desc-count",
+          "name": "Identifier",
+          "title": "Identifier",
+          "collection": "demo_eo_objects",
+          "icon": "image",
           "type": "tree",
           "jsonpath": "$.count",
           "aggregationmodels": [
             {
               "type": "term",
-              "field": "_keywords.city",
-              "size": 10,
+              "field": "image_id",
+              "size": 500,
               "order": "desc",
               "on": "count"
             }
@@ -518,164 +445,24 @@
           "allowOperatorChange": true
         },
         {
-          "identifier": "3a9af5fa-ba7c-4336-8c5e-09e5f2f456a5",
-          "name": "Cloud coverage",
-          "title": "Cloud coverage",
-          "collection": "demo_eo",
-          "icon": "cloud_queue",
-          "charttype": "bars",
-          "isOneDimension": false,
-          "type": "histogram",
-          "numberOfBuckets": 20,
+          "identifier": "demo_eo_objects-edited_by-500-Count-desc-count",
+          "name": "Edited by",
+          "title": "Edited by",
+          "collection": "demo_eo_objects",
+          "icon": "person",
+          "type": "tree",
           "jsonpath": "$.count",
           "aggregationmodels": [
             {
-              "type": "histogram",
-              "field": "metadata.ObservationContext.eo.opt.cloudCoverPercentage"
+              "type": "term",
+              "field": "edited_by",
+              "size": 500,
+              "order": "desc",
+              "on": "count"
             }
           ],
-          "linked_contributor_id": "demo_eo-metadata.ObservationContext.eo.opt.cloudCoverPercentage-numeric-bucket-Count--50"
-        },
-        {
-          "identifier": "demo_eo-metadata.ObservationContext.eo.opt.cloudCoverPercentage-numeric-bucket-Count--50",
-          "name": "Cloud coverage",
-          "title": "Cloud coverage",
-          "collection": "demo_eo",
-          "icon": "cloud_queue",
-          "charttype": "bars",
-          "isOneDimension": false,
-          "type": "histogram",
-          "numberOfBuckets": 50,
-          "jsonpath": "$.count",
-          "aggregationmodels": [
-            {
-              "type": "histogram",
-              "field": "metadata.ObservationContext.eo.opt.cloudCoverPercentage"
-            }
-          ],
-          "linked_contributor_id": "3a9af5fa-ba7c-4336-8c5e-09e5f2f456a5"
-        },
-        {
-          "identifier": "demo_eo-metadata.core.temporalCoverage.begin-time-bucket-AVG-metadata.ObservationContext.eo.opt.snowCoverPercentage-50",
-          "name": "Cloud coverage over time",
-          "title": "Cloud coverage over time",
-          "collection": "demo_eo",
-          "icon": "cloud_queue",
-          "charttype": "bars",
-          "isOneDimension": false,
-          "type": "histogram",
-          "numberOfBuckets": 50,
-          "jsonpath": "$.metrics[0].value",
-          "useUtc": true,
-          "aggregationmodels": [
-            {
-              "type": "datehistogram",
-              "field": "metadata.core.temporalCoverage.begin",
-              "metrics": [
-                {
-                  "collect_fct": "avg",
-                  "collect_field": "metadata.ObservationContext.eo.opt.snowCoverPercentage"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "identifier": "demo_eo-metadata.ObservationContext.eo.opt.snowCoverPercentage-numeric-bucket-Count--50",
-          "name": "Snow coverage",
-          "title": "Snow coverage",
-          "collection": "demo_eo",
-          "icon": "ac_unit",
-          "charttype": "bars",
-          "isOneDimension": false,
-          "type": "histogram",
-          "numberOfBuckets": 50,
-          "jsonpath": "$.count",
-          "aggregationmodels": [
-            {
-              "type": "histogram",
-              "field": "metadata.ObservationContext.eo.opt.snowCoverPercentage"
-            }
-          ]
-        },
-        {
-          "identifier": "demo_eo-metadata.ObservationContext.phenomenonTime.begin-time-bucket-AVG-metadata.ObservationContext.eo.opt.snowCoverPercentage-50",
-          "name": "Snow coverage over time",
-          "title": "Snow coverage over time",
-          "collection": "demo_eo",
-          "icon": "ac_unit",
-          "charttype": "bars",
-          "isOneDimension": false,
-          "type": "histogram",
-          "numberOfBuckets": 50,
-          "jsonpath": "$.metrics[0].value",
-          "useUtc": true,
-          "aggregationmodels": [
-            {
-              "type": "datehistogram",
-              "field": "metadata.ObservationContext.phenomenonTime.begin",
-              "metrics": [
-                {
-                  "collect_fct": "avg",
-                  "collect_field": "metadata.ObservationContext.eo.opt.snowCoverPercentage"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "identifier": "demo_eo-metadata.ObservationContext.eo.acquisition.illuminationAzimuthAngle-numeric-bucket-Count--50",
-          "name": "Azimut",
-          "title": "Azimut",
-          "collection": "demo_eo",
-          "icon": "brightness_5",
-          "charttype": "bars",
-          "isOneDimension": false,
-          "type": "histogram",
-          "numberOfBuckets": 50,
-          "jsonpath": "$.count",
-          "aggregationmodels": [
-            {
-              "type": "histogram",
-              "field": "metadata.ObservationContext.eo.acquisition.illuminationAzimuthAngle"
-            }
-          ]
-        },
-        {
-          "identifier": "demo_eo-metadata.ObservationContext.eo.acquisition.incidenceAngle-numeric-bucket-Count--50",
-          "name": "Incidence angle",
-          "title": "Incidence angle",
-          "collection": "demo_eo",
-          "icon": "call_missed_outgoing",
-          "charttype": "bars",
-          "isOneDimension": false,
-          "type": "histogram",
-          "numberOfBuckets": 50,
-          "jsonpath": "$.count",
-          "aggregationmodels": [
-            {
-              "type": "histogram",
-              "field": "metadata.ObservationContext.eo.acquisition.incidenceAngle"
-            }
-          ]
-        },
-        {
-          "identifier": "demo_eo-_resolution-numeric-bucket-Count--50",
-          "name": "Resolution",
-          "title": "Resolution",
-          "collection": "demo_eo",
-          "icon": "apps",
-          "charttype": "bars",
-          "isOneDimension": false,
-          "type": "histogram",
-          "numberOfBuckets": 50,
-          "jsonpath": "$.count",
-          "aggregationmodels": [
-            {
-              "type": "histogram",
-              "field": "_resolution"
-            }
-          ]
+          "filterOperator": "Eq",
+          "allowOperatorChange": true
         }
       ],
       "components": {
@@ -700,7 +487,8 @@
             "dataType": "time",
             "isHistogramSelectable": true,
             "ticksDateFormat": "%b %d %Y  %H:%M",
-            "chartType": "curve",
+            "valuesDateFormat": "%b %d %Y  %H:%M",
+            "chartType": "bars",
             "chartHeight": 128,
             "chartWidth": null,
             "xAxisPosition": "bottom",
@@ -721,9 +509,9 @@
           "nbVerticesLimit": 100,
           "input": {
             "defaultBasemapStyle": {
-              "name": "Streets-light",
-              "styleFile": "https://api.maptiler.com/maps/208a41eb-368f-4003-8e3c-2dba0d90b3cb/style.json?key=E7xmD2y9rRj1z4TcNnj9",
-              "image": "https://api.maptiler.com/maps/208a41eb-368f-4003-8e3c-2dba0d90b3cb/0/0/0.png?key=E7xmD2y9rRj1z4TcNnj9",
+              "name": "Satellite Hybrid",
+              "styleFile": "https://api.maptiler.com/maps/hybrid/style.json?key=E7xmD2y9rRj1z4TcNnj9",
+              "image": "https://cloud.maptiler.com/static/img/maps/hybrid.png",
               "type": null
             },
             "basemapStyles": [
@@ -734,9 +522,45 @@
                 "type": null
               },
               {
+                "name": "Bright",
+                "styleFile": "https://api.maptiler.com/maps/bright/style.json?key=E7xmD2y9rRj1z4TcNnj9",
+                "image": "https://cloud.maptiler.com/static/img/maps/bright.png",
+                "type": null
+              },
+              {
+                "name": "Pastel",
+                "styleFile": "https://api.maptiler.com/maps/pastel/style.json?key=E7xmD2y9rRj1z4TcNnj9",
+                "image": "https://cloud.maptiler.com/static/img/maps/pastel.png",
+                "type": null
+              },
+              {
                 "name": "Satellite Hybrid",
                 "styleFile": "https://api.maptiler.com/maps/hybrid/style.json?key=E7xmD2y9rRj1z4TcNnj9",
                 "image": "https://cloud.maptiler.com/static/img/maps/hybrid.png",
+                "type": null
+              },
+              {
+                "name": "Streets",
+                "styleFile": "https://api.maptiler.com/maps/streets/style.json?key=E7xmD2y9rRj1z4TcNnj9",
+                "image": "https://cloud.maptiler.com/static/img/maps/streets.png",
+                "type": null
+              },
+              {
+                "name": "Topo",
+                "styleFile": "https://api.maptiler.com/maps/topo/style.json?key=E7xmD2y9rRj1z4TcNnj9",
+                "image": "https://cloud.maptiler.com/static/img/maps/topo.png",
+                "type": null
+              },
+              {
+                "name": "Topographique",
+                "styleFile": "https://api.maptiler.com/maps/topographique/style.json?key=E7xmD2y9rRj1z4TcNnj9",
+                "image": "https://cloud.maptiler.com/static/img/maps/topographique.png",
+                "type": null
+              },
+              {
+                "name": "Voyager",
+                "styleFile": "https://api.maptiler.com/maps/voyager/style.json?key=E7xmD2y9rRj1z4TcNnj9",
+                "image": "https://cloud.maptiler.com/static/img/maps/voyager.png",
                 "type": null
               },
               {
@@ -750,55 +574,55 @@
                 "styleFile": "https://api.maptiler.com/maps/208a41eb-368f-4003-8e3c-2dba0d90b3cb/style.json?key=E7xmD2y9rRj1z4TcNnj9",
                 "image": "https://api.maptiler.com/maps/208a41eb-368f-4003-8e3c-2dba0d90b3cb/0/0/0.png?key=E7xmD2y9rRj1z4TcNnj9",
                 "type": null
-              },
-              {
-                "name": "Streets-light - No label",
-                "styleFile": "https://api.maptiler.com/maps/bfbf9c99-aa66-4830-8b6c-2251d177f2f5/style.json?key=E7xmD2y9rRj1z4TcNnj9",
-                "image": "https://api.maptiler.com/maps/bfbf9c99-aa66-4830-8b6c-2251d177f2f5/0/0/0.png?key=E7xmD2y9rRj1z4TcNnj9",
-                "type": null
               }
             ],
+            "terrain": {
+              "enable": false
+            },
             "margePanForLoad": 5,
             "margePanForTest": 5,
-            "initZoom": 4,
+            "initZoom": 2,
             "initCenter": [
-              1,
-              43
+              0,
+              0
             ],
             "displayScale": true,
-            "displayCurrentCoordinates": true,
+            "displayCurrentCoordinates": false,
             "idFeatureField": "deprecated, to be removed",
             "mapLayers": {
               "layers": [],
               "events": {
                 "zoomOnClick": [],
                 "emitOnClick": [
-                  "arlas_id:Latest products:1696925765098",
-                  "scrollable_arlas_id:Latest products:1696925765098"
+                  "arlas_id:Info:1782111538860",
+                  "scrollable_arlas_id:Info:1782111538860"
                 ],
                 "onHover": [
-                  "arlas_id:Latest products:1696925765098",
-                  "scrollable_arlas_id:Latest products:1696925765098"
+                  "arlas_id:Info:1782111538860",
+                  "scrollable_arlas_id:Info:1782111538860"
                 ]
               },
               "externalEventLayers": []
             },
             "visualisations_sets": [
               {
-                "name": "Latest products",
+                "name": "Objects Type",
                 "layers": [
-                  "arlas_id:Latest products:1696925765098"
+                  "arlas_id:Distribution:1741629939921",
+                  "arlas_id:Boundig box:1725955678342",
+                  "arlas_id:Distribution:1726495334494",
+                  "arlas_id:Type:1727338872737",
+                  "arlas_id:Info:1782111538860"
                 ],
                 "enabled": true
               },
               {
-                "name": "All products",
+                "name": "Source Images",
                 "layers": [
-                  "arlas_id:Number of products:1727968375321",
-                  "arlas_id:Products:1696926758346",
-                  "arlas_id:Product density grid:1727968476197"
+                  "arlas_id:Bounding Box:1727193982726",
+                  "arlas_id:Bounding Box background:1727194160874"
                 ],
-                "enabled": true
+                "enabled": false
               }
             ]
           }
@@ -807,17 +631,17 @@
           {
             "componentType": "resultlist",
             "input": {
-              "id": "demo_eo-metadata.core.identity.identifier-80-Capteur-Date-Couverture nuageuse-Angle d'incidence-Toponymie-Identification-Fiche technique-Niveaux de produits et de processing-Mode d'acquisition-",
+              "id": "demo_eo_objects-object_id-100-Identifier-Ingest time-Type-Object-Image-",
               "tableWidth": 445,
               "globalActionsList": [],
-              "searchSize": 80,
+              "searchSize": 100,
               "nLastLines": 3,
               "detailedGridHeight": 300,
               "nbGridColumns": 3,
               "displayFilters": false,
               "hasGridMode": true,
               "defautMode": "grid",
-              "downloadLink": "https://cloud.arlas.io/arlas/server/explore/demo_eo/_search?f=metadata.core.identity.identifier:eq:{metadata_core_identity_identifier}",
+              "downloadLink": "",
               "isBodyHidden": false,
               "isGeoSortActived": true,
               "isAutoGeoSortActived": null,
@@ -827,72 +651,18 @@
               "globalActionEvent": 300,
               "useColorService": true,
               "cellBackgroundStyle": "filled",
+              "visualisationsList": [],
               "options": {
                 "showActionsOnhover": "true",
                 "showDetailIconName": "keyboard_arrow_down",
                 "hideDetailIconName": "keyboard_arrow_up",
-                "icon": "short_text",
+                "icon": "emoji_transportation",
                 "showName": true,
                 "showIcon": true
-              },
-              "visualisationsList": [
-                {
-                  "name": "testt",
-                  "description": "dd",
-                  "dataGroups": [
-                    {
-                      "filters": [
-                        {
-                          "field": "metadata.ObservationContext.processusUsed.platform",
-                          "op": "Like",
-                          "value": "SENTINEL 2"
-                        },
-                        {
-                          "field": "metadata.ObservationContext.eo.opt.cloudCoverPercentage",
-                          "op": "Gte",
-                          "value": 10
-                        }
-                      ],
-                      "name": "test",
-                      "protocol": "titiler",
-                      "visualisationUrl": "https://myendpoint/cog/tiles/WebMercatorQuad/1/2/3.jpg?url=https://somewhere.com/mycog.tif&bidx=3&bidx=1&bidx2"
-                    },
-                    {
-                      "filters": [
-                        {
-                          "field": "metadata.ObservationContext.processusUsed.platform",
-                          "op": "Eq",
-                          "value": "SPOT 6"
-                        }
-                      ],
-                      "name": "test",
-                      "protocol": "other",
-                      "visualisationUrl": "{_services_WMS_0_url}"
-                    }
-                  ]
-                },
-                {
-                  "name": "Second",
-                  "description": "Description",
-                  "dataGroups": [
-                    {
-                      "filters": [
-                        {
-                          "field": "metadata.ObservationContext.processusUsed.platform",
-                          "op": "Like",
-                          "value": "PLEIADES"
-                        }
-                      ],
-                      "name": "test",
-                      "protocol": "titiler",
-                      "visualisationUrl": "https://myendpoint/cog/tiles/WebMercatorQuad/1/2/3.jpg?url=https://somewhere.com/mycog.tif&bidx=3&bidx=1&bidx2"
-                    }
-                  ]
-                }
-              ]
+              }
             },
-            "contributorId": "demo_eo-metadata.core.identity.identifier-80-Capteur-Date-Couverture nuageuse-Angle d'incidence-Toponymie-Identification-Fiche technique-Niveaux de produits et de processing-Mode d'acquisition-",
-            "uuid": "253ea1dd-55e6-4686-a7e9-6bc73ffa96d9",
+            "contributorId": "demo_eo_objects-object_id-100-Identifier-Ingest time-Type-Object-Image-",
+            "uuid": "37db3723-897d-419c-b4bd-d0768fef31e5",
             "usage": "analytics"
           }
         ],
@@ -917,6 +687,7 @@
             "dataType": "time",
             "isHistogramSelectable": true,
             "ticksDateFormat": "%b %d %Y  %H:%M",
+            "valuesDateFormat": "%b %d %Y  %H:%M",
             "chartType": "bars",
             "chartHeight": 60,
             "chartWidth": null,
@@ -946,117 +717,61 @@
       },
       "analytics": [
         {
-          "groupId": "Products-0",
-          "title": "Collections",
-          "tab": "Products",
-          "icon": "camera",
+          "groupId": "Objects-0",
+          "title": "Object Type",
+          "tab": "Objects",
+          "icon": "emoji_transportation",
           "components": [
             {
               "componentType": "donut",
-              "showExportCsv": false,
+              "showExportCsv": "",
               "input": {
-                "id": "demo_eo-_sensorType-10-metadata.ObservationContext.processusUsed.platform-10-",
+                "id": "demo_eo_objects-type_id-30-",
                 "customizedCssClass": "arlas-donuts-analytics",
                 "diameter": 170,
                 "containerWidth": 223,
                 "multiselectable": true,
                 "opacity": 0.4
               },
-              "contributorId": "demo_eo-_sensorType-10-metadata.ObservationContext.processusUsed.platform-10-",
-              "uuid": "0586981e-4498-4622-8d06-441fd9797fd6",
+              "contributorId": "demo_eo_objects-type_id-30-",
+              "uuid": "2299ae55-e17c-401f-9422-befb97f81c46",
               "usage": "analytics"
             },
             {
               "showExportCsv": true,
               "componentType": "powerbars",
               "input": {
-                "chartTitle": "Collections",
-                "powerbarTitle": "Collections",
+                "chartTitle": "Object type",
+                "powerbarTitle": "Object type",
                 "displayFilter": true,
-                "scrollable": false,
+                "scrollable": true,
                 "filterOperator": {
                   "value": "Eq",
                   "display": true
                 },
                 "useColorService": true,
                 "useColorFromData": false,
-                "unit": "",
+                "unit": "objects",
                 "chartWidth": 217
               },
-              "contributorId": "demo_eo-metadata.ObservationContext.processusUsed.platform-6-Count-desc-count",
-              "uuid": "5ce752d9-6636-402d-b388-b409302d6c5a",
+              "contributorId": "demo_eo_objects-type_id-500-Count-desc-count",
+              "uuid": "39e0f08c-29af-4329-b2f8-1609f2faf263",
               "usage": "both"
             }
           ]
         },
         {
-          "groupId": "Products-1",
-          "title": "Country",
-          "tab": "Products",
-          "icon": "assistant_photo",
+          "groupId": "Objects-1",
+          "title": "Dataset",
+          "tab": "Objects",
+          "icon": "storage",
           "components": [
             {
-              "input": {
-                "id": "demo_eo-metadata.core.identity.lifecycle.created-time-bucket-Count--50_keywords.country",
-                "isHistogramSelectable": true,
-                "multiselectable": false,
-                "topOffsetRemoveInterval": 40,
-                "leftOffsetRemoveInterval": 18,
-                "brushHandlesHeightWeight": 0.8,
-                "yAxisStartsFromZero": true,
-                "chartTitle": "Acquisition per country over time",
-                "chartHeight": 100,
-                "chartWidth": 445,
-                "xAxisPosition": "bottom",
-                "descriptionPosition": "bottom",
-                "xTicks": 4,
-                "yTicks": 1,
-                "xLabels": 4,
-                "yLabels": 4,
-                "xUnit": "",
-                "yUnit": "",
-                "chartXLabel": "",
-                "shortYLabels": false,
-                "showXTicks": true,
-                "showYTicks": true,
-                "showXLabels": true,
-                "showYLabels": true,
-                "barWeight": 0.8,
-                "dataType": "time",
-                "swimLaneLabelsWidth": 100,
-                "swimlaneHeight": 20,
-                "swimlaneMode": "variableHeight",
-                "swimlaneBorderRadius": 3,
-                "paletteColors": [
-                  330,
-                  170
-                ],
-                "swimlane_representation": "global",
-                "customizedCssClass": "arlas-swimlane",
-                "swimlane_options": {
-                  "nan_color": "#D6D6D6"
-                }
-              },
-              "componentType": "swimlane",
-              "showExportCsv": false,
-              "contributorId": "demo_eo-metadata.core.identity.lifecycle.created-time-bucket-Count--50_keywords.country",
-              "uuid": "12fdd85d-3b40-4efc-b36d-776571fc0959",
-              "usage": "analytics"
-            }
-          ]
-        },
-        {
-          "groupId": "Products-2",
-          "title": "Geonames",
-          "tab": "Products",
-          "icon": "add_location",
-          "components": [
-            {
-              "showExportCsv": "",
+              "showExportCsv": true,
               "componentType": "powerbars",
               "input": {
-                "chartTitle": "Countries",
-                "powerbarTitle": "Countries",
+                "chartTitle": "Source",
+                "powerbarTitle": "Source",
                 "displayFilter": true,
                 "scrollable": true,
                 "filterOperator": {
@@ -1065,19 +780,27 @@
                 },
                 "useColorService": false,
                 "useColorFromData": false,
-                "unit": "",
-                "chartWidth": 217
+                "unit": "objects",
+                "chartWidth": 445
               },
-              "contributorId": "demo_eo-_keywords.country-10-Count-desc-count",
-              "uuid": "46ebb06a-13ba-40f6-aa5a-7760df0a5b6d",
+              "contributorId": "demo_eo_objects-dataset_source-10-Count-desc-count",
+              "uuid": "9eaec7f8-e990-4f54-bdfc-8279126f9bc0",
               "usage": "analytics"
-            },
+            }
+          ]
+        },
+        {
+          "groupId": "Objects-2",
+          "title": "Image identifier",
+          "tab": "Objects",
+          "icon": "image",
+          "components": [
             {
-              "showExportCsv": "",
+              "showExportCsv": true,
               "componentType": "powerbars",
               "input": {
-                "chartTitle": "Cities",
-                "powerbarTitle": "Cities",
+                "chartTitle": "Identifier",
+                "powerbarTitle": "Identifier",
                 "displayFilter": true,
                 "scrollable": true,
                 "filterOperator": {
@@ -1086,326 +809,40 @@
                 },
                 "useColorService": false,
                 "useColorFromData": false,
-                "unit": "",
-                "chartWidth": 217
+                "unit": "objects",
+                "chartWidth": 445
               },
-              "contributorId": "demo_eo-_keywords.city-10-Count-desc-count",
-              "uuid": "202eb4d9-3ce6-4fdd-bec5-4e08d6e520de",
+              "contributorId": "demo_eo_objects-image_id-500-Count-desc-count",
+              "uuid": "aae41e02-90f3-4f82-8b01-145fedb1690d",
               "usage": "analytics"
             }
           ]
         },
         {
-          "groupId": "Criteria - coverage-0",
-          "title": "Cloud coverage",
-          "tab": "Criteria - coverage",
-          "icon": "cloud_queue",
+          "groupId": "Objects-3",
+          "title": "Object Annotation",
+          "tab": "Objects",
+          "icon": "person",
           "components": [
             {
-              "input": {
-                "id": "demo_eo-metadata.ObservationContext.eo.opt.cloudCoverPercentage-numeric-bucket-Count--50",
-                "isHistogramSelectable": true,
-                "multiselectable": true,
-                "topOffsetRemoveInterval": 40,
-                "leftOffsetRemoveInterval": 18,
-                "brushHandlesHeightWeight": 0.8,
-                "yAxisStartsFromZero": true,
-                "chartType": "bars",
-                "chartTitle": "Cloud coverage",
-                "chartHeight": 100,
-                "chartWidth": 445,
-                "xAxisPosition": "bottom",
-                "descriptionPosition": "bottom",
-                "xTicks": 4,
-                "yTicks": 1,
-                "xLabels": 4,
-                "yLabels": 4,
-                "xUnit": "%",
-                "yUnit": "products",
-                "chartXLabel": "",
-                "shortYLabels": false,
-                "showXTicks": true,
-                "showYTicks": true,
-                "showXLabels": true,
-                "showYLabels": true,
-                "showHorizontalLines": true,
-                "barWeight": 0.8,
-                "dataType": "numeric",
-                "customizedCssClass": "arlas-histogram-analytics",
-                "isSmoothedCurve": false
-              },
-              "componentType": "histogram",
               "showExportCsv": true,
-              "contributorId": "demo_eo-metadata.ObservationContext.eo.opt.cloudCoverPercentage-numeric-bucket-Count--50",
-              "uuid": "3a9af5fa-ba7c-4336-8c5e-09e5f2f456a5",
-              "usage": "both"
-            },
-            {
+              "componentType": "powerbars",
               "input": {
-                "id": "demo_eo-metadata.core.temporalCoverage.begin-time-bucket-AVG-metadata.ObservationContext.eo.opt.snowCoverPercentage-50",
-                "isHistogramSelectable": true,
-                "multiselectable": true,
-                "topOffsetRemoveInterval": 40,
-                "leftOffsetRemoveInterval": 18,
-                "brushHandlesHeightWeight": 0.8,
-                "yAxisStartsFromZero": true,
-                "chartType": "bars",
-                "chartTitle": "Cloud coverage over time",
-                "chartHeight": 100,
-                "chartWidth": 445,
-                "xAxisPosition": "bottom",
-                "descriptionPosition": "bottom",
-                "xTicks": 4,
-                "yTicks": 1,
-                "xLabels": 4,
-                "yLabels": 4,
-                "xUnit": "",
-                "yUnit": "%",
-                "chartXLabel": "",
-                "shortYLabels": false,
-                "showXTicks": true,
-                "showYTicks": true,
-                "showXLabels": true,
-                "showYLabels": true,
-                "showHorizontalLines": true,
-                "barWeight": 0.8,
-                "dataType": "time",
-                "ticksDateFormat": "%d %b %Y  %H:%M",
-                "customizedCssClass": "arlas-timeline-analytics",
-                "isSmoothedCurve": false
+                "chartTitle": "Edited by",
+                "powerbarTitle": "Edited by",
+                "displayFilter": true,
+                "scrollable": true,
+                "filterOperator": {
+                  "value": "Eq",
+                  "display": true
+                },
+                "useColorService": false,
+                "useColorFromData": false,
+                "unit": "objects",
+                "chartWidth": 445
               },
-              "componentType": "histogram",
-              "showExportCsv": "",
-              "contributorId": "demo_eo-metadata.core.temporalCoverage.begin-time-bucket-AVG-metadata.ObservationContext.eo.opt.snowCoverPercentage-50",
-              "uuid": "3caa93f6-d17b-46d6-b82e-6681af39fddb",
-              "usage": "analytics"
-            }
-          ]
-        },
-        {
-          "groupId": "Criteria - coverage-1",
-          "title": "Snow coverage",
-          "tab": "Criteria - coverage",
-          "icon": "ac_unit",
-          "components": [
-            {
-              "input": {
-                "id": "demo_eo-metadata.ObservationContext.eo.opt.snowCoverPercentage-numeric-bucket-Count--50",
-                "isHistogramSelectable": true,
-                "multiselectable": true,
-                "topOffsetRemoveInterval": 40,
-                "leftOffsetRemoveInterval": 18,
-                "brushHandlesHeightWeight": 0.8,
-                "yAxisStartsFromZero": true,
-                "chartType": "bars",
-                "chartTitle": "Snow coverage",
-                "chartHeight": 100,
-                "chartWidth": 445,
-                "xAxisPosition": "bottom",
-                "descriptionPosition": "bottom",
-                "xTicks": 4,
-                "yTicks": 1,
-                "xLabels": 4,
-                "yLabels": 4,
-                "xUnit": "%",
-                "yUnit": "products",
-                "chartXLabel": "",
-                "shortYLabels": false,
-                "showXTicks": true,
-                "showYTicks": true,
-                "showXLabels": true,
-                "showYLabels": true,
-                "showHorizontalLines": true,
-                "barWeight": 0.8,
-                "dataType": "numeric",
-                "customizedCssClass": "arlas-histogram-analytics",
-                "isSmoothedCurve": false
-              },
-              "componentType": "histogram",
-              "showExportCsv": "",
-              "contributorId": "demo_eo-metadata.ObservationContext.eo.opt.snowCoverPercentage-numeric-bucket-Count--50",
-              "uuid": "30ed4cbb-aca8-4a63-848c-ddc1452cffd6",
-              "usage": "analytics"
-            },
-            {
-              "input": {
-                "id": "demo_eo-metadata.ObservationContext.phenomenonTime.begin-time-bucket-AVG-metadata.ObservationContext.eo.opt.snowCoverPercentage-50",
-                "isHistogramSelectable": true,
-                "multiselectable": true,
-                "topOffsetRemoveInterval": 40,
-                "leftOffsetRemoveInterval": 18,
-                "brushHandlesHeightWeight": 0.8,
-                "yAxisStartsFromZero": true,
-                "chartType": "bars",
-                "chartTitle": "Snow coverage over time",
-                "chartHeight": 100,
-                "chartWidth": 445,
-                "xAxisPosition": "bottom",
-                "descriptionPosition": "bottom",
-                "xTicks": 4,
-                "yTicks": 1,
-                "xLabels": 4,
-                "yLabels": 4,
-                "xUnit": "",
-                "yUnit": "%",
-                "chartXLabel": "",
-                "shortYLabels": false,
-                "showXTicks": true,
-                "showYTicks": true,
-                "showXLabels": true,
-                "showYLabels": true,
-                "showHorizontalLines": true,
-                "barWeight": 0.8,
-                "dataType": "time",
-                "ticksDateFormat": "%d %b %Y  %H:%M",
-                "customizedCssClass": "arlas-timeline-analytics",
-                "isSmoothedCurve": false
-              },
-              "componentType": "histogram",
-              "showExportCsv": "",
-              "contributorId": "demo_eo-metadata.ObservationContext.phenomenonTime.begin-time-bucket-AVG-metadata.ObservationContext.eo.opt.snowCoverPercentage-50",
-              "uuid": "763a0ccc-c691-49a6-aba0-589e29347b30",
-              "usage": "analytics"
-            }
-          ]
-        },
-        {
-          "groupId": "Advanced criteria-0",
-          "title": "Azimut",
-          "tab": "Advanced criteria",
-          "icon": "brightness_5",
-          "components": [
-            {
-              "input": {
-                "id": "demo_eo-metadata.ObservationContext.eo.acquisition.illuminationAzimuthAngle-numeric-bucket-Count--50",
-                "isHistogramSelectable": true,
-                "multiselectable": true,
-                "topOffsetRemoveInterval": 40,
-                "leftOffsetRemoveInterval": 18,
-                "brushHandlesHeightWeight": 0.8,
-                "yAxisStartsFromZero": true,
-                "chartType": "bars",
-                "chartTitle": "Azimut",
-                "chartHeight": 100,
-                "chartWidth": 445,
-                "xAxisPosition": "bottom",
-                "descriptionPosition": "bottom",
-                "xTicks": 4,
-                "yTicks": 1,
-                "xLabels": 4,
-                "yLabels": 4,
-                "xUnit": "°",
-                "yUnit": "products",
-                "chartXLabel": "",
-                "shortYLabels": false,
-                "showXTicks": true,
-                "showYTicks": true,
-                "showXLabels": true,
-                "showYLabels": true,
-                "showHorizontalLines": true,
-                "barWeight": 0.8,
-                "dataType": "numeric",
-                "customizedCssClass": "arlas-histogram-analytics",
-                "isSmoothedCurve": false
-              },
-              "componentType": "histogram",
-              "showExportCsv": true,
-              "contributorId": "demo_eo-metadata.ObservationContext.eo.acquisition.illuminationAzimuthAngle-numeric-bucket-Count--50",
-              "uuid": "93d0abae-9f15-49b0-b25a-398ad23e7e8a",
-              "usage": "analytics"
-            }
-          ]
-        },
-        {
-          "groupId": "Advanced criteria-1",
-          "title": "Incidence angle",
-          "tab": "Advanced criteria",
-          "icon": "call_missed_outgoing",
-          "components": [
-            {
-              "input": {
-                "id": "demo_eo-metadata.ObservationContext.eo.acquisition.incidenceAngle-numeric-bucket-Count--50",
-                "isHistogramSelectable": true,
-                "multiselectable": true,
-                "topOffsetRemoveInterval": 40,
-                "leftOffsetRemoveInterval": 18,
-                "brushHandlesHeightWeight": 0.8,
-                "yAxisStartsFromZero": true,
-                "chartType": "bars",
-                "chartTitle": "Incidence angle",
-                "chartHeight": 100,
-                "chartWidth": 445,
-                "xAxisPosition": "bottom",
-                "descriptionPosition": "bottom",
-                "xTicks": 4,
-                "yTicks": 1,
-                "xLabels": 4,
-                "yLabels": 4,
-                "xUnit": "°",
-                "yUnit": "products",
-                "chartXLabel": "",
-                "shortYLabels": false,
-                "showXTicks": true,
-                "showYTicks": true,
-                "showXLabels": true,
-                "showYLabels": true,
-                "showHorizontalLines": true,
-                "barWeight": 0.8,
-                "dataType": "numeric",
-                "customizedCssClass": "arlas-histogram-analytics",
-                "isSmoothedCurve": false
-              },
-              "componentType": "histogram",
-              "showExportCsv": true,
-              "contributorId": "demo_eo-metadata.ObservationContext.eo.acquisition.incidenceAngle-numeric-bucket-Count--50",
-              "uuid": "cff43fa0-4be3-4c8e-ab92-ee7a1b841feb",
-              "usage": "analytics"
-            }
-          ]
-        },
-        {
-          "groupId": "Advanced criteria-2",
-          "title": "Resolution",
-          "tab": "Advanced criteria",
-          "icon": "apps",
-          "components": [
-            {
-              "input": {
-                "id": "demo_eo-_resolution-numeric-bucket-Count--50",
-                "isHistogramSelectable": true,
-                "multiselectable": true,
-                "topOffsetRemoveInterval": 40,
-                "leftOffsetRemoveInterval": 18,
-                "brushHandlesHeightWeight": 0.8,
-                "yAxisStartsFromZero": true,
-                "chartType": "bars",
-                "chartTitle": "Resolution",
-                "chartHeight": 100,
-                "chartWidth": 445,
-                "xAxisPosition": "bottom",
-                "descriptionPosition": "bottom",
-                "xTicks": 4,
-                "yTicks": 1,
-                "xLabels": 4,
-                "yLabels": 4,
-                "xUnit": "",
-                "yUnit": "products",
-                "chartXLabel": "",
-                "shortYLabels": false,
-                "showXTicks": true,
-                "showYTicks": true,
-                "showXLabels": true,
-                "showYLabels": true,
-                "showHorizontalLines": true,
-                "barWeight": 0.8,
-                "dataType": "numeric",
-                "customizedCssClass": "arlas-histogram-analytics",
-                "isSmoothedCurve": false
-              },
-              "componentType": "histogram",
-              "showExportCsv": "",
-              "contributorId": "demo_eo-_resolution-numeric-bucket-Count--50",
-              "uuid": "66e4d748-5436-4d8a-9490-fd18640d5f59",
+              "contributorId": "demo_eo_objects-edited_by-500-Count-desc-count",
+              "uuid": "e5b2a036-60eb-4909-89a1-b5e3cc3d162c",
               "usage": "analytics"
             }
           ]
@@ -1413,123 +850,13 @@
       ],
       "filters_shortcuts": [
         {
-          "uuid": "5ce752d9-6636-402d-b388-b409302d6c5a",
-          "title": "Collections",
+          "uuid": "39e0f08c-29af-4329-b2f8-1609f2faf263",
+          "title": "Object type",
           "order": 1
-        },
-        {
-          "uuid": "3a9af5fa-ba7c-4336-8c5e-09e5f2f456a5",
-          "title": "Cloud coverage",
-          "order": 2
         }
       ],
       "colorGenerator": {
-        "keysToColors": [
-          [
-            "PLEIADES",
-            "#ec4040"
-          ],
-          [
-            "SENTINEL 2",
-            "#ff61ec"
-          ],
-          [
-            "SPOT5",
-            "#ecff4b"
-          ],
-          [
-            "SPOT6",
-            "#19ff88"
-          ],
-          [
-            "SPOT4",
-            "#7d4eff"
-          ],
-          [
-            "PLEIADES 1A",
-            "#9bc419"
-          ],
-          [
-            "SPOT 7",
-            "#1102c6"
-          ],
-          [
-            "PLEIADES 1B",
-            "#ff834b"
-          ],
-          [
-            "SPOT1",
-            "#691a3a"
-          ],
-          [
-            "SPOT 6",
-            "#0087e9"
-          ],
-          [
-            "OTHER",
-            "#9d9ca9"
-          ],
-          [
-            "s2A",
-            "#e6ff95"
-          ],
-          [
-            "s2B",
-            "#ff73ff"
-          ],
-          [
-            "PLEIADES-1A",
-            "#8a1959"
-          ],
-          [
-            "PLEIADES-1B",
-            "#d4ff97"
-          ],
-          [
-            "spot5",
-            "#ffff43"
-          ],
-          [
-            "spot4",
-            "#9c46ff"
-          ],
-          [
-            "spot1",
-            "#7a1938"
-          ],
-          [
-            "SPOT 5",
-            "#0041ff"
-          ],
-          [
-            "SPOT 4",
-            "#00b4ff"
-          ],
-          [
-            "TerraSAR-X 1",
-            "#5e5e5e"
-          ],
-          [
-            "ALOS2",
-            "#00c926"
-          ],
-          [
-            "SENTINEL 2A",
-            "#ff0094"
-          ],
-          [
-            "DRONE",
-            "#ffe300"
-          ],
-          [
-            "OPTIQUE",
-            "#ffe254"
-          ],
-          [
-            "RADAR",
-            "#ff7eed"
-          ]
-        ]
+        "keysToColors": []
       },
       "options": {
         "drag_items": true,
@@ -1542,20 +869,8 @@
         },
         "tabs": [
           {
-            "name": "Products",
-            "icon": "camera_alt",
-            "showIcon": true,
-            "showName": true
-          },
-          {
-            "name": "Criteria - coverage",
-            "icon": "cloud",
-            "showIcon": true,
-            "showName": true
-          },
-          {
-            "name": "Advanced criteria",
-            "icon": "tune",
+            "name": "Objects",
+            "icon": "emoji_transportation",
             "showIcon": true,
             "showName": true
           }
@@ -1567,7 +882,7 @@
       "url": "https://cloud.arlas.io/arlas/server",
       "max_age_cache": 120,
       "collection": {
-        "name": "demo_eo"
+        "name": "demo_eo_objects"
       }
     }
   },
@@ -1580,17 +895,40 @@
             "icon": "search"
           }
         },
-        "name": "ARLAS",
+        "name": "EO Objects",
         "units": [
           {
-            "collection": "demo_eo",
-            "unit": "products",
+            "collection": "demo_eo_objects",
+            "unit": "objects",
+            "ignored": false
+          },
+          {
+            "collection": "demo_flickr",
+            "unit": "demo_flickr",
+            "ignored": false
+          },
+          {
+            "collection": "demo_birdtracking-movebank",
+            "unit": "demo_birdtracking-movebank",
             "ignored": false
           }
         ]
       }
     }
   },
-  "extraConfigs": [],
-  "resources": {}
+  "extraConfigs": [
+    {
+      "configPath": "config.map.json",
+      "replacedAttribute": "arlas.web.components.mapgl.input.mapLayers.layers",
+      "replacer": "layers"
+    },
+    {
+      "configPath": "config.map.json",
+      "replacedAttribute": "arlas.web.components.mapgl.input.mapLayers.externalEventLayers",
+      "replacer": "external-event-layers"
+    }
+  ],
+  "resources": {
+    "previewId": "c74e30c3-d46d-11f1-8029-864b952cf0c8"
+  }
 }
