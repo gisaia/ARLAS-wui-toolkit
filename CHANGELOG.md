@@ -1,5 +1,17 @@
 # Change Log
 
+## [v28.2.1](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v28.2.1) (2026-11-02)
+
+## [v29.0.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v29.0.0) (2026-10-13)
+
+**New stuff:**
+
+- Remove the update config method according /\_describe for resultlist [\#1023](https://github.com/gisaia/ARLAS-wui-toolkit/issues/1023)
+
+**Fixed bugs:**
+
+- remove crop\_wkt from process execution as it is not handled by aias [\#1063](https://github.com/gisaia/ARLAS-wui-toolkit/issues/1063)
+
 ## [v28.2.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v28.2.0) (2026-09-10)
 
 ## [v28.1.0](https://github.com/gisaia/ARLAS-wui-toolkit/tree/v28.1.0) (2026-07-06)
