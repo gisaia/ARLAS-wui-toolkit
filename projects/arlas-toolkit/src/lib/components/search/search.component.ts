@@ -18,7 +18,7 @@
  */
 
 import { AsyncPipe } from '@angular/common';
-import { Component, Inject, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Inject, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, viewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -33,8 +33,7 @@ import { AggregationResponse } from 'arlas-api';
 import { ArlasColorService, GetCollectionDisplayNamePipe } from 'arlas-web-components';
 import { SearchContributor } from 'arlas-web-contributors';
 import { OperationEnum } from 'arlas-web-core';
-import { Observable, of, Subject, Subscription, zip } from 'rxjs';
-import { debounceTime, filter, map, mergeMap, mergeWith, startWith } from 'rxjs/operators';
+import { debounceTime, filter, map, mergeMap, mergeWith, Observable, of, startWith, Subject, Subscription, zip } from 'rxjs';
 import { ArlasCollaborativesearchService } from '../../services/collaborative-search/arlas.collaborative-search.service';
 import { ArlasConfigService } from '../../services/startup/startup.service';
 
@@ -237,7 +236,7 @@ export class SearchComponent implements OnInit, OnDestroy, OnChanges {
     FormsModule
   ]
 })
-export class SearchDialogComponent {
+export class SearchDialogComponent implements AfterViewInit {
 
   /**
    * @description Search contributor
@@ -276,6 +275,9 @@ export class SearchDialogComponent {
   public collectionsState: Map<string, boolean> = new Map();
   public collections: { label: string; checked: boolean; color: string; }[];
   public updateAutoCompleteResult = new Subject<void>();
+
+  public searchInput = viewChild<ElementRef<HTMLInputElement>>('searchInput');
+
   public constructor(
     private readonly arlasColorService: ArlasColorService,
     private readonly collaborativeService: ArlasCollaborativesearchService,
@@ -337,6 +339,10 @@ export class SearchDialogComponent {
         this.filteredSearch = noautocomplete.pipe(mergeWith(autocomplete), mergeWith(nullautocomplete), mergeWith(defaultAutocomplete));
       }
     });
+  }
+
+  public ngAfterViewInit() {
+    this.searchInput()?.nativeElement.focus();
   }
 
   public onKeyUp(event: KeyboardEvent) {
