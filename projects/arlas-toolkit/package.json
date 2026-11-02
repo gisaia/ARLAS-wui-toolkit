@@ -8,6 +8,9 @@
     "type": "git",
     "url": "https://github.com/gisaia/ARLAS-wui-toolkit.git"
   },
+  "publishConfig": {
+    "tag": "28.2.x"
+  },
   "peerDependencies": {
     "@angular/animations": "^21.2.6",
     "@angular/cdk": "^21.2.4",
