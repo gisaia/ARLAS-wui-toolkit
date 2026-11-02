@@ -37,8 +37,7 @@ import { AggregationResponse } from 'arlas-api';
 import { ArlasColorService, GetCollectionDisplayNamePipe } from 'arlas-web-components';
 import { AggregationResponseWithCollection, SearchContributor } from 'arlas-web-contributors';
 import { OperationEnum } from 'arlas-web-core';
-import { Observable, of, Subject, zip } from 'rxjs';
-import { debounceTime, filter, map, mergeMap, mergeWith, startWith } from 'rxjs/operators';
+import { debounceTime, filter, map, mergeMap, mergeWith, Observable, of, startWith, Subject, zip } from 'rxjs';
 import { ArlasCollaborativesearchService } from '../../services/collaborative-search/arlas.collaborative-search.service';
 import { ArlasConfigService } from '../../services/startup/startup.service';
 
