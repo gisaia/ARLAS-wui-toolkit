@@ -16,6 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+@use '@angular/material' as mat;
 
 
 $search-height: 30px;
@@ -33,6 +34,9 @@ $search-height: 30px;
   .search {
     margin: 0 4px;
     color: grey;
+    :hover{
+      cursor: pointer;
+    }
   }
 
   .search-text {
@@ -60,4 +64,21 @@ $search-height: 30px;
       width: 16px;
     }
   }
+}
+
+.compact-btn {
+  $size: 24px;
+  @include mat.icon-button-overrides((
+    state-layer-color: transparent,
+    ripple-color: transparent,
+    icon-size: $size,
+    state-layer-size: $size,
+    touch-target-size: $size,
+  ));
+
+  padding: 0 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
 }

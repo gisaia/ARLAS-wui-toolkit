@@ -1,5 +1,7 @@
 <div class="arlas-search-container">
-  <mat-icon class="search">search</mat-icon>
+  <button mat-icon-button class="compact-btn"  (click)="openDialog()">
+    <mat-icon class="search">search</mat-icon>
+  </button>
   <div class="search-text" [class.search-text-empty]="searchValue === searchPlaceholder" (click)="openDialog()">
     {{ searchValue }}
   </div>
